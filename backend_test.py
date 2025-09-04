@@ -433,8 +433,8 @@ class MayotteEducationTester:
     
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests")
-        print("=" * 60)
+        print("🏫 Starting Mayotte Educational App Backend Tests - Corrected Translations")
+        print("=" * 70)
         
         test_results = {}
         
@@ -442,6 +442,7 @@ class MayotteEducationTester:
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
+        test_results['corrected_translations'] = self.test_corrected_translations()
         test_results['get_words'] = self.test_get_words()
         test_results['category_filter'] = self.test_category_filtering()
         test_results['word_crud'] = self.test_word_crud_operations()
@@ -449,9 +450,9 @@ class MayotteEducationTester:
         test_results['progress'] = self.test_user_progress_tracking()
         
         # Summary
-        print("\n" + "=" * 60)
-        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY")
-        print("=" * 60)
+        print("\n" + "=" * 70)
+        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - CORRECTED TRANSLATIONS")
+        print("=" * 70)
         
         passed = sum(test_results.values())
         total = len(test_results)
@@ -463,7 +464,7 @@ class MayotteEducationTester:
         print(f"\nOverall: {passed}/{total} tests passed")
         
         if passed == total:
-            print("🎉 All backend tests passed! The Mayotte educational app backend is working correctly.")
+            print("🎉 All backend tests passed! The corrected Mayotte translations are working correctly.")
         else:
             print("⚠️ Some tests failed. Please check the detailed output above.")
         
