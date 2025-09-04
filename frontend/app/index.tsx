@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
   }, []);
 
   const playWelcomeSound = () => {
-    Speech.speak("Bariza! Bienvenue dans votre application pour apprendre le Shimaoré et le Kibouchi!", {
+    Speech.speak("Kwezi! Bienvenue dans votre application pour apprendre le Shimaoré et le Kibouchi!", {
       language: 'fr-FR',
       pitch: 1.2,
       rate: 0.9,
