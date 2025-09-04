@@ -261,10 +261,12 @@ async def init_base_content():
         {"french": "Lèvre", "shimaore": "", "kibouchi": "Soungni", "category": "corps", "difficulty": 1},
         {"french": "Peau", "shimaore": "Ngwezi", "kibouchi": "Ngwezi", "category": "corps", "difficulty": 1},
         
-        # Nourriture
+        # Nourriture (mises à jour selon le nouveau tableau)
         {"french": "Eau", "shimaore": "Madji", "kibouchi": "Rano", "category": "nourriture", "difficulty": 1},
-        {"french": "Riz", "shimaore": "Mtsigo", "kibouchi": "Vary", "category": "nourriture", "difficulty": 1},
-        {"french": "Pain", "shimaore": "Msinhou", "kibouchi": "Jagnana", "category": "nourriture", "difficulty": 1},
+        {"french": "Riz", "shimaore": "Tsohole", "kibouchi": "Vari", "category": "nourriture", "difficulty": 1},
+        {"french": "Nourriture", "shimaore": "Chaoula", "kibouchi": "Hanigni", "category": "nourriture", "difficulty": 1},
+        {"french": "Pain", "shimaore": "Dipé", "kibouchi": "Dipé", "category": "nourriture", "difficulty": 1},
+        {"french": "Gâteau", "shimaore": "Mharé", "kibouchi": "Moukari", "category": "nourriture", "difficulty": 1},
         {"french": "Banane", "shimaore": "Danassi", "kibouchi": "Fouhi", "category": "nourriture", "difficulty": 1},
         {"french": "Mangue", "shimaore": "Kouweya", "kibouchi": "Ankora", "category": "nourriture", "difficulty": 1},
         {"french": "Coco", "shimaore": "Nazi", "kibouchi": "Vounia", "category": "nourriture", "difficulty": 1},
@@ -272,11 +274,12 @@ async def init_base_content():
         {"french": "Viande", "shimaore": "Hanyama", "kibouchi": "Saloha", "category": "nourriture", "difficulty": 1},
         {"french": "Poisson", "shimaore": "Samana", "kibouchi": "Lakou", "category": "nourriture", "difficulty": 1},
         
-        # Maison
-        {"french": "Maison", "shimaore": "Nyumba", "kibouchi": "Harangagna", "category": "maison", "difficulty": 1},
-        {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavarana", "category": "maison", "difficulty": 1},
+        # Maison (mises à jour selon le nouveau tableau)
+        {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou", "category": "maison", "difficulty": 1},
+        {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavarangna", "category": "maison", "difficulty": 1},
         {"french": "Fenêtre", "shimaore": "Dirisha", "kibouchi": "Varavaragnouhou", "category": "maison", "difficulty": 1},
         {"french": "Toit", "shimaore": "Kapu", "kibouchi": "Tafo", "category": "maison", "difficulty": 1},
+        {"french": "Lit", "shimaore": "Chtrandra", "kibouchi": "Koubani", "category": "maison", "difficulty": 1},
         
         # Vêtements
         {"french": "Vêtement", "shimaore": "Nguo", "kibouchi": "Lamban", "category": "vetements", "difficulty": 1},
