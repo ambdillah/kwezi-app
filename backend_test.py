@@ -217,21 +217,36 @@ class MayotteEducationTester:
             
             # Test specific vocabulary from user's table
             test_cases = [
-                # Famille
-                {"french": "Frère", "shimaore": "Kandraou", "kibouchi": "Voulandrou", "category": "famille"},
-                {"french": "Sœur", "shimaore": "Kandrabwini", "kibouchi": "Voulahonouri", "category": "famille"},
+                # Famille (updated translations)
+                {"french": "Frère", "shimaore": "Mwanagna mtroun", "kibouchi": "Anadahi", "category": "famille"},
+                {"french": "Sœur", "shimaore": "Mwanagna mtroub", "kibouchi": "Anabavi", "category": "famille"},
                 
                 # Corps
                 {"french": "Tête", "shimaore": "Mutru", "kibouchi": "Loha", "category": "corps"},
                 {"french": "Cheveux", "shimaore": "Nngnele", "kibouchi": "Fagneva", "category": "corps"},
                 
-                # Nourriture
+                # Nourriture (updated translations)
                 {"french": "Eau", "shimaore": "Madji", "kibouchi": "Rano", "category": "nourriture"},
-                {"french": "Riz", "shimaore": "Mtsigo", "kibouchi": "Vary", "category": "nourriture"},
+                {"french": "Riz", "shimaore": "Tsohole", "kibouchi": "Vari", "category": "nourriture"},
+                {"french": "Nourriture", "shimaore": "Chaoula", "kibouchi": "Hanigni", "category": "nourriture"},
+                {"french": "Pain", "shimaore": "Dipé", "kibouchi": "Dipé", "category": "nourriture"},
                 
-                # Nature
-                {"french": "Arbre", "shimaore": "Mti", "kibouchi": "Hazo", "category": "nature"},
+                # Nature (updated translations)
+                {"french": "Arbre", "shimaore": "Mwiri", "kibouchi": "Kakazou", "category": "nature"},
                 {"french": "Soleil", "shimaore": "Djuwa", "kibouchi": "Kouva", "category": "nature"},
+                {"french": "Mer", "shimaore": "Bahari", "kibouchi": "Bahari", "category": "nature"},
+                {"french": "Plage", "shimaore": "Mtsangani", "kibouchi": "Fassigni", "category": "nature"},
+                
+                # Maison (updated translations)
+                {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou", "category": "maison"},
+                {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavarangna", "category": "maison"},
+                {"french": "Lit", "shimaore": "Chtrandra", "kibouchi": "Koubani", "category": "maison"},
+                
+                # Couleurs (updated translations)
+                {"french": "Bleu", "shimaore": "Bilé", "kibouchi": "Bilé", "category": "couleurs"},
+                {"french": "Vert", "shimaore": "Dhavou", "kibouchi": "Mayitsou", "category": "couleurs"},
+                {"french": "Noir", "shimaore": "Nzidhou", "kibouchi": "Mayintigni", "category": "couleurs"},
+                {"french": "Blanc", "shimaore": "Ndjéou", "kibouchi": "Malandi", "category": "couleurs"},
                 
                 # Special cases
                 {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "", "category": "animaux"},  # No Kibouchi
