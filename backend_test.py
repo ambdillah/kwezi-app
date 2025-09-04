@@ -252,9 +252,9 @@ class MayotteEducationTester:
                 {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "", "category": "animaux"},  # No Kibouchi
                 {"french": "Langue", "shimaore": "", "kibouchi": "Lela", "category": "corps"},  # No Shimaoré
                 
-                # Complex numbers
-                {"french": "Onze", "shimaore": "Komi na moja", "kibouchi": "Foulou Areki Ambi", "category": "nombres"},
-                {"french": "Douze", "shimaore": "Komi na mbili", "kibouchi": "Foulou Areki Rou", "category": "nombres"},
+                # Complex numbers (corrected)
+                {"french": "Onze", "shimaore": "Koumi na moja", "kibouchi": "Foulou Areki Ambi", "category": "nombres"},
+                {"french": "Douze", "shimaore": "Koumi na mbili", "kibouchi": "Foulou Aroyi Ambi", "category": "nombres"},
             ]
             
             all_correct = True
