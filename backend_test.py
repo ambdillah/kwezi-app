@@ -811,6 +811,7 @@ class MayotteEducationTester:
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
+        test_results['corrected_numbers'] = self.test_corrected_numbers_system()
         test_results['comprehensive_vocab'] = self.test_comprehensive_vocabulary_initialization()
         test_results['specific_vocab'] = self.test_specific_vocabulary_from_table()
         test_results['greeting_improvements'] = self.test_updated_greeting_improvements()
