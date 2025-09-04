@@ -11,6 +11,9 @@ export default function RootLayout() {
         <Stack.Screen name="games" />
         <Stack.Screen name="progress" />
         <Stack.Screen name="admin" />
+        <Stack.Screen name="badges" />
+        <Stack.Screen name="offline" />
+        <Stack.Screen name="export" />
       </Stack>
     </>
   );
