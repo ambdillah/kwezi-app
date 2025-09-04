@@ -637,17 +637,20 @@ class MayotteEducationTester:
     
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests - Comprehensive Vocabulary")
+        print("🏫 Starting Mayotte Educational App Backend Tests - Final Updated Vocabulary")
         print("=" * 80)
         
         test_results = {}
         
-        # Run all tests
+        # Run all tests including new vocabulary verification tests
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         test_results['comprehensive_vocab'] = self.test_comprehensive_vocabulary_initialization()
         test_results['specific_vocab'] = self.test_specific_vocabulary_from_table()
+        test_results['greeting_improvements'] = self.test_updated_greeting_improvements()
+        test_results['pronoun_additions'] = self.test_pronoun_additions()
+        test_results['verb_additions'] = self.test_new_verb_additions()
         test_results['get_words'] = self.test_get_words()
         test_results['category_filter'] = self.test_comprehensive_category_filtering()
         test_results['word_crud'] = self.test_word_crud_operations()
@@ -656,7 +659,7 @@ class MayotteEducationTester:
         
         # Summary
         print("\n" + "=" * 80)
-        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - COMPREHENSIVE VOCABULARY")
+        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - FINAL UPDATED VOCABULARY")
         print("=" * 80)
         
         passed = sum(test_results.values())
@@ -669,8 +672,10 @@ class MayotteEducationTester:
         print(f"\nOverall: {passed}/{total} tests passed")
         
         if passed == total:
-            print("🎉 All backend tests passed! The comprehensive Mayotte vocabulary is working correctly.")
-            print("✅ 80+ words across 11 categories with authentic Shimaoré and Kibouchi translations")
+            print("🎉 All backend tests passed! The final updated Mayotte vocabulary is working correctly.")
+            print("✅ Comprehensive vocabulary with authentic Shimaoré and Kibouchi translations")
+            print("✅ Updated greetings, pronouns, family terms, colors, food, house, nature, and verbs")
+            print("✅ All 13 categories properly implemented including grammaire and verbes")
         else:
             print("⚠️ Some tests failed. Please check the detailed output above.")
         
