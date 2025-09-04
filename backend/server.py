@@ -286,13 +286,19 @@ async def init_base_content():
         {"french": "Chemise", "shimaore": "Shati", "kibouchi": "Pataloha", "category": "vetements", "difficulty": 1},
         {"french": "Pantalon", "shimaore": "Suruali", "kibouchi": "Pataloha", "category": "vetements", "difficulty": 1},
         
-        # Nature
-        {"french": "Arbre", "shimaore": "Mti", "kibouchi": "Hazo", "category": "nature", "difficulty": 1},
+        # Verbes d'action
+        {"french": "Jouer", "shimaore": "Nguadza", "kibouchi": "Msoma", "category": "verbes", "difficulty": 1},
+        {"french": "Courir", "shimaore": "Wendra mbiyo", "kibouchi": "Miloumeyi", "category": "verbes", "difficulty": 1},
+        {"french": "Marcher", "shimaore": "Wendra", "kibouchi": "Mandeha", "category": "verbes", "difficulty": 1},
+        
+        # Nature (mises à jour selon le nouveau tableau)
+        {"french": "Arbre", "shimaore": "Mwiri", "kibouchi": "Kakazou", "category": "nature", "difficulty": 1},
         {"french": "Fleur", "shimaore": "Uwa", "kibouchi": "Vonindro", "category": "nature", "difficulty": 1},
         {"french": "Soleil", "shimaore": "Djuwa", "kibouchi": "Kouva", "category": "nature", "difficulty": 1},
         {"french": "Lune", "shimaore": "Mwezi", "kibouchi": "Volana", "category": "nature", "difficulty": 1},
         {"french": "Étoile", "shimaore": "Nyota", "kibouchi": "Kintana", "category": "nature", "difficulty": 1},
-        {"french": "Mer", "shimaore": "Bahari", "kibouchi": "Ranomasina", "category": "nature", "difficulty": 1},
+        {"french": "Mer", "shimaore": "Bahari", "kibouchi": "Bahari", "category": "nature", "difficulty": 1},
+        {"french": "Plage", "shimaore": "Mtsangani", "kibouchi": "Fassigni", "category": "nature", "difficulty": 1},
         {"french": "Montagne", "shimaore": "Mlima", "kibouchi": "Tendromby", "category": "nature", "difficulty": 1},
         {"french": "Pierre", "shimaore": "Jiwe", "kibouchi": "Vato", "category": "nature", "difficulty": 1},
         {"french": "Sable", "shimaore": "Mshanga", "kibouchi": "Fasika", "category": "nature", "difficulty": 1},
