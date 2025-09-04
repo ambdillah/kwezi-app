@@ -185,7 +185,7 @@ async def init_base_content():
             "category": "famille", "difficulty": 1
         },
         {
-            "french": "Bonjour", "shimaore": "Bari", "kibouchi": "Bariza", 
+            "french": "Bonjour", "shimaore": "Kwezi", "kibouchi": "Kwezi", 
             "category": "salutations", "difficulty": 1
         },
         {
@@ -193,15 +193,15 @@ async def init_base_content():
             "category": "salutations", "difficulty": 1
         },
         {
-            "french": "Rouge", "shimaore": "Mera", "kibouchi": "Mera", 
+            "french": "Rouge", "shimaore": "Nzoukoundrou", "kibouchi": "Mena", 
             "category": "couleurs", "difficulty": 1
         },
         {
-            "french": "Jaune", "shimaore": "Manjano", "kibouchi": "Manjano", 
+            "french": "Jaune", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", 
             "category": "couleurs", "difficulty": 1
         },
         {
-            "french": "Maki", "shimaore": "Maki", "kibouchi": "Maki", 
+            "french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba", 
             "category": "animaux", "difficulty": 1
         },
         {
