@@ -98,6 +98,16 @@ export default function WelcomeScreen() {
                 <Text style={[styles.buttonText, styles.whiteText]}>Mes progrès</Text>
               </LinearGradient>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.mainButton} onPress={() => router.push('/badges')}>
+              <LinearGradient
+                colors={['#9B59B6', '#8E44AD']}
+                style={styles.buttonGradient}
+              >
+                <Ionicons name="trophy" size={32} color="#fff" />
+                <Text style={[styles.buttonText, styles.whiteText]}>Mes badges</Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </View>
 
           {/* Footer avec éléments culturels */}
