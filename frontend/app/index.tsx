@@ -69,7 +69,7 @@ export default function WelcomeScreen() {
 
           {/* Boutons principaux */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.mainButton}>
+            <TouchableOpacity style={styles.mainButton} onPress={() => router.push('/learn')}>
               <LinearGradient
                 colors={['#FFD700', '#FFA500']}
                 style={styles.buttonGradient}
@@ -79,7 +79,7 @@ export default function WelcomeScreen() {
               </LinearGradient>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.mainButton}>
+            <TouchableOpacity style={styles.mainButton} onPress={() => router.push('/games')}>
               <LinearGradient
                 colors={['#32CD32', '#228B22']}
                 style={styles.buttonGradient}
@@ -89,7 +89,7 @@ export default function WelcomeScreen() {
               </LinearGradient>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.mainButton}>
+            <TouchableOpacity style={styles.mainButton} onPress={() => router.push('/progress')}>
               <LinearGradient
                 colors={['#FF6B6B', '#FF4757']}
                 style={styles.buttonGradient}
