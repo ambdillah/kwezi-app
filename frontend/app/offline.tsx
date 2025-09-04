@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-netinfo/netinfo';
+import NetInfo from '@react-native-community/netinfo';
 
 interface OfflineData {
   words: any[];
