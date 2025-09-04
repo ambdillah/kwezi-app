@@ -1,0 +1,337 @@
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import * as Speech from 'expo-speech';
+
+interface Word {
+  id: string;
+  french: string;
+  shimaore: string;
+  kibouchi: string;
+  category: string;
+  difficulty: number;
+}
+
+const CATEGORIES = [
+  { key: 'famille', name: 'Famille', icon: 'people', color: '#FF6B6B' },
+  { key: 'salutations', name: 'Salutations', icon: 'hand-left', color: '#4ECDC4' },
+  { key: 'couleurs', name: 'Couleurs', icon: 'color-palette', color: '#45B7D1' },
+  { key: 'animaux', name: 'Animaux', icon: 'paw', color: '#96CEB4' },
+  { key: 'nombres', name: 'Nombres', icon: 'calculator', color: '#FECA57' },
+];
+
+export default function LearnScreen() {
+  const [words, setWords] = useState<Word[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+
+  const fetchWords = async (category?: string) => {
+    setLoading(true);
+    try {
+      const url = category 
+        ? `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/words?category=${category}`
+        : `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/words`;
+      
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        setWords(data);
+      } else {
+        Alert.alert('Erreur', 'Problème lors du chargement des mots');
+      }
+    } catch (error) {
+      Alert.alert('Erreur', 'Connexion impossible au serveur');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchWords();
+  }, []);
+
+  const speakWord = (text: string, language: 'fr' | 'sw' = 'fr') => {
+    const lang = language === 'fr' ? 'fr-FR' : 'sw-KE'; // Approximation pour shimaoré/kibouchi
+    Speech.speak(text, {
+      language: lang,
+      pitch: 1.1,
+      rate: 0.8,
+    });
+  };
+
+  const selectCategory = (category: string) => {
+    setSelectedCategory(category);
+    fetchWords(category);
+  };
+
+  const clearCategory = () => {
+    setSelectedCategory('');
+    fetchWords();
+  };
+
+  return (
+    <LinearGradient colors={['#FFD700', '#FFA500', '#000000']} style={styles.container}>
+      <SafeAreaView style={styles.safeArea}>
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.title}>Apprendre 📚</Text>
+          <View style={styles.placeholder} />
+        </View>
+
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+          {/* Categories */}
+          <View style={styles.categoriesContainer}>
+            <Text style={styles.sectionTitle}>Choisir une catégorie 🌺</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesScroll}>
+              {CATEGORIES.map((category) => (
+                <TouchableOpacity
+                  key={category.key}
+                  style={[
+                    styles.categoryCard,
+                    { backgroundColor: category.color },
+                    selectedCategory === category.key && styles.selectedCategory,
+                  ]}
+                  onPress={() => selectCategory(category.key)}
+                >
+                  <Ionicons name={category.icon as any} size={32} color="#fff" />
+                  <Text style={styles.categoryName}>{category.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            
+            {selectedCategory && (
+              <TouchableOpacity onPress={clearCategory} style={styles.clearButton}>
+                <Text style={styles.clearButtonText}>Voir tout</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {/* Words List */}
+          <View style={styles.wordsContainer}>
+            <Text style={styles.sectionTitle}>
+              {selectedCategory 
+                ? `Mots de ${CATEGORIES.find(c => c.key === selectedCategory)?.name}` 
+                : 'Tous les mots'} ({words.length})
+            </Text>
+            
+            {loading ? (
+              <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>Chargement... 🐒</Text>
+              </View>
+            ) : (
+              words.map((word) => (
+                <View key={word.id} style={styles.wordCard}>
+                  <View style={styles.wordHeader}>
+                    <Text style={styles.frenchWord}>{word.french}</Text>
+                    <View style={styles.difficultyContainer}>
+                      {[...Array(word.difficulty)].map((_, i) => (
+                        <Ionicons key={i} name="star" size={16} color="#FFD700" />
+                      ))}
+                    </View>
+                  </View>
+                  
+                  <View style={styles.translationsContainer}>
+                    <TouchableOpacity 
+                      style={styles.translationRow}
+                      onPress={() => speakWord(word.shimaore, 'sw')}
+                    >
+                      <Text style={styles.languageLabel}>Shimaoré:</Text>
+                      <Text style={styles.translationText}>{word.shimaore}</Text>
+                      <Ionicons name="volume-high" size={20} color="#4ECDC4" />
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity 
+                      style={styles.translationRow}
+                      onPress={() => speakWord(word.kibouchi, 'sw')}
+                    >
+                      <Text style={styles.languageLabel}>Kibouchi:</Text>
+                      <Text style={styles.translationText}>{word.kibouchi}</Text>
+                      <Ionicons name="volume-high" size={20} color="#FF6B6B" />
+                    </TouchableOpacity>
+                  </View>
+                  
+                  <TouchableOpacity 
+                    style={styles.pronounceButton}
+                    onPress={() => speakWord(word.french)}
+                  >
+                    <Text style={styles.pronounceButtonText}>Écouter en français</Text>
+                    <Ionicons name="play" size={18} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 15,
+  },
+  backButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 20,
+    padding: 8,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  placeholder: {
+    width: 40,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  categoriesContainer: {
+    marginBottom: 30,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 15,
+  },
+  categoriesScroll: {
+    marginBottom: 10,
+  },
+  categoryCard: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    height: 80,
+    borderRadius: 15,
+    marginRight: 15,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  selectedCategory: {
+    borderWidth: 3,
+    borderColor: '#000',
+  },
+  categoryName: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  clearButton: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  clearButtonText: {
+    color: '#000',
+    fontWeight: '600',
+  },
+  wordsContainer: {
+    paddingBottom: 30,
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    padding: 30,
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#333',
+  },
+  wordCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 15,
+    padding: 20,
+    marginBottom: 15,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+  },
+  wordHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  frenchWord: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#333',
+    flex: 1,
+  },
+  difficultyContainer: {
+    flexDirection: 'row',
+  },
+  translationsContainer: {
+    marginBottom: 15,
+  },
+  translationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    borderRadius: 10,
+    marginBottom: 8,
+  },
+  languageLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+    width: 80,
+  },
+  translationText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    flex: 1,
+  },
+  pronounceButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#4ECDC4',
+    paddingVertical: 12,
+    borderRadius: 10,
+    gap: 8,
+  },
+  pronounceButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});
