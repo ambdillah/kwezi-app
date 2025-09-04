@@ -170,19 +170,39 @@ async def upload_image(file: UploadFile = File(...)):
 # Route pour initialiser du contenu de base
 @api_router.post("/init-base-content")
 async def init_base_content():
-    # Contenu authentique complet en shimaoré et kibouchi basé sur le tableau fourni
+    # Contenu authentique complet en shimaoré et kibouchi basé sur les tableaux fournis (version finale)
     base_words = [
+        # Corps humain  
+        {"french": "Bouche", "shimaore": "Hangno", "kibouchi": "Vava", "category": "corps", "difficulty": 1},
+        
+        # Salutations et expressions courantes
+        {"french": "Bonjour", "shimaore": "Kwezi", "kibouchi": "Kwezi", "category": "salutations", "difficulty": 1},
+        {"french": "Comment ça va", "shimaore": "Jéjé", "kibouchi": "Akori", "category": "salutations", "difficulty": 1},
+        {"french": "Ça va bien", "shimaore": "Fétré", "kibouchi": "Tsara", "category": "salutations", "difficulty": 1},
+        {"french": "Merci", "shimaore": "Marahaba", "kibouchi": "Marahaba", "category": "salutations", "difficulty": 1},
+        {"french": "Au revoir", "shimaore": "Kwaheri", "kibouchi": "Maeva", "category": "salutations", "difficulty": 1},
+        {"french": "Oui", "shimaore": "Ewa", "kibouchi": "Iya", "category": "salutations", "difficulty": 1},
+        {"french": "Non", "shimaore": "Anha", "kibouchi": "Anha", "category": "salutations", "difficulty": 1},
+        {"french": "Excuse-moi", "shimaore": "Soimahani", "kibouchi": "Soimahani", "category": "salutations", "difficulty": 1},
+        
+        # Pronoms personnels
+        {"french": "Je", "shimaore": "Wami", "kibouchi": "Zahou", "category": "grammaire", "difficulty": 1},
+        {"french": "Tu", "shimaore": "Wawe", "kibouchi": "Anaou", "category": "grammaire", "difficulty": 1},
+        {"french": "Il/Elle", "shimaore": "Wayé", "kibouchi": "Izi", "category": "grammaire", "difficulty": 1},
+        {"french": "Nous", "shimaore": "Wassi", "kibouchi": "Atsika", "category": "grammaire", "difficulty": 1},
+        {"french": "Vous", "shimaore": "Wagnou", "kibouchi": "Anarèou", "category": "grammaire", "difficulty": 1},
+        
         # Famille
         {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama", "category": "famille", "difficulty": 1},
         {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", "category": "famille", "difficulty": 1},
         {"french": "Enfant", "shimaore": "Mwana", "kibouchi": "Mwana", "category": "famille", "difficulty": 1},
-        {"french": "Frère", "shimaore": "Kandraou", "kibouchi": "Voulandrou", "category": "famille", "difficulty": 1},
-        {"french": "Sœur", "shimaore": "Kandrabwini", "kibouchi": "Voulahonouri", "category": "famille", "difficulty": 1},
-        
-        # Salutations
-        {"french": "Bonjour", "shimaore": "Kwezi", "kibouchi": "Kwezi", "category": "salutations", "difficulty": 1},
-        {"french": "Merci", "shimaore": "Marahaba", "kibouchi": "Marahaba", "category": "salutations", "difficulty": 1},
-        {"french": "Au revoir", "shimaore": "Trovi", "kibouchi": "Lokou", "category": "salutations", "difficulty": 1},
+        {"french": "Frère", "shimaore": "Mwanagna mtroun", "kibouchi": "Anadahi", "category": "famille", "difficulty": 1},
+        {"french": "Sœur", "shimaore": "Mwanagna mtroub", "kibouchi": "Anabavi", "category": "famille", "difficulty": 1},
+        {"french": "Ami", "shimaore": "Mwandzani", "kibouchi": "Mwandzani", "category": "famille", "difficulty": 1},
+        {"french": "Fille", "shimaore": "Mtroumama", "kibouchi": "Viavi", "category": "famille", "difficulty": 1},
+        {"french": "Garçon", "shimaore": "Mtroubaba", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
+        {"french": "Monsieur", "shimaore": "Mogné", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
+        {"french": "Madame", "shimaore": "Bwéni", "kibouchi": "Viavi", "category": "famille", "difficulty": 1},
         
         # Couleurs
         {"french": "Rouge", "shimaore": "Nzoukoundrou", "kibouchi": "Mena", "category": "couleurs", "difficulty": 1},
