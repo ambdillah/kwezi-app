@@ -297,12 +297,140 @@ class MayotteEducationTester:
             print(f"❌ Specific vocabulary test error: {e}")
             return False
     
-    def test_comprehensive_category_filtering(self):
-        """Test category filtering for all 11 categories with comprehensive vocabulary"""
-        print("\n=== Testing Comprehensive Category Filtering ===")
+    def test_updated_greeting_improvements(self):
+        """Test specific greeting improvements from the final table"""
+        print("\n=== Testing Updated Greeting Improvements ===")
         
         try:
-            # Test all expected categories
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            words_by_french = {word['french']: word for word in words}
+            
+            # Test specific greeting improvements
+            greeting_tests = [
+                {"french": "Comment ça va", "shimaore": "Jéjé", "kibouchi": "Akori"},
+                {"french": "Ça va bien", "shimaore": "Fétré", "kibouchi": "Tsara"},
+                {"french": "Oui", "shimaore": "Ewa", "kibouchi": "Iya"},
+                {"french": "Non", "shimaore": "Anha", "kibouchi": "Anha"},
+                {"french": "Excuse-moi", "shimaore": "Soimahani", "kibouchi": "Soimahani"}
+            ]
+            
+            all_correct = True
+            for test_case in greeting_tests:
+                french_word = test_case['french']
+                if french_word in words_by_french:
+                    word = words_by_french[french_word]
+                    if word['shimaore'] == test_case['shimaore'] and word['kibouchi'] == test_case['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        all_correct = False
+                else:
+                    print(f"❌ {french_word} not found")
+                    all_correct = False
+            
+            return all_correct
+            
+        except Exception as e:
+            print(f"❌ Greeting improvements test error: {e}")
+            return False
+    
+    def test_pronoun_additions(self):
+        """Test pronoun additions in grammaire category"""
+        print("\n=== Testing Pronoun Additions ===")
+        
+        try:
+            response = self.session.get(f"{API_BASE}/words?category=grammaire")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve grammaire words: {response.status_code}")
+                return False
+            
+            grammaire_words = response.json()
+            words_by_french = {word['french']: word for word in grammaire_words}
+            
+            # Test pronoun additions
+            pronoun_tests = [
+                {"french": "Je", "shimaore": "Wami", "kibouchi": "Zahou"},
+                {"french": "Tu", "shimaore": "Wawe", "kibouchi": "Anaou"},
+                {"french": "Il/Elle", "shimaore": "Wayé", "kibouchi": "Izi"},
+                {"french": "Nous", "shimaore": "Wassi", "kibouchi": "Atsika"},
+                {"french": "Vous", "shimaore": "Wagnou", "kibouchi": "Anarèou"}
+            ]
+            
+            print(f"Found {len(grammaire_words)} words in grammaire category")
+            
+            all_correct = True
+            for test_case in pronoun_tests:
+                french_word = test_case['french']
+                if french_word in words_by_french:
+                    word = words_by_french[french_word]
+                    if word['shimaore'] == test_case['shimaore'] and word['kibouchi'] == test_case['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        all_correct = False
+                else:
+                    print(f"❌ {french_word} not found in grammaire category")
+                    all_correct = False
+            
+            return all_correct
+            
+        except Exception as e:
+            print(f"❌ Pronoun additions test error: {e}")
+            return False
+    
+    def test_new_verb_additions(self):
+        """Test new verb additions in verbes category"""
+        print("\n=== Testing New Verb Additions ===")
+        
+        try:
+            response = self.session.get(f"{API_BASE}/words?category=verbes")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve verbes words: {response.status_code}")
+                return False
+            
+            verbes_words = response.json()
+            words_by_french = {word['french']: word for word in verbes_words}
+            
+            # Test verb additions
+            verb_tests = [
+                {"french": "Jouer", "shimaore": "Nguadza", "kibouchi": "Msoma"},
+                {"french": "Courir", "shimaore": "Wendra mbiyo", "kibouchi": "Miloumeyi"},
+                {"french": "Marcher", "shimaore": "Wendra", "kibouchi": "Mandeha"}
+            ]
+            
+            print(f"Found {len(verbes_words)} words in verbes category")
+            
+            all_correct = True
+            for test_case in verb_tests:
+                french_word = test_case['french']
+                if french_word in words_by_french:
+                    word = words_by_french[french_word]
+                    if word['shimaore'] == test_case['shimaore'] and word['kibouchi'] == test_case['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        all_correct = False
+                else:
+                    print(f"❌ {french_word} not found in verbes category")
+                    all_correct = False
+            
+            return all_correct
+            
+        except Exception as e:
+            print(f"❌ Verb additions test error: {e}")
+            return False
+    
+    def test_comprehensive_category_filtering(self):
+        """Test category filtering for all 13 categories with comprehensive vocabulary"""
+        print("\n=== Testing Comprehensive Category Filtering (13 Categories) ===")
+        
+        try:
+            # Test all expected categories including new ones
             categories_to_test = [
                 ('famille', ['Frère', 'Sœur']),
                 ('corps', ['Tête', 'Cheveux']),
@@ -314,7 +442,9 @@ class MayotteEducationTester:
                 ('couleurs', ['Rouge', 'Jaune']),
                 ('maison', ['Maison', 'Porte']),
                 ('vetements', ['Vêtement', 'Chemise']),
-                ('transport', ['Voiture', 'Bateau'])
+                ('transport', ['Voiture', 'Bateau']),
+                ('grammaire', ['Je', 'Tu', 'Il/Elle']),  # New category
+                ('verbes', ['Jouer', 'Courir', 'Marcher'])  # New category
             ]
             
             all_categories_pass = True
