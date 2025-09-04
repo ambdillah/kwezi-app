@@ -189,6 +189,18 @@ backend:
         agent: "testing"
         comment: "✅ User progress tracking fully functional. POST /api/progress creates progress entries, GET /api/progress/{user_name} retrieves user-specific progress. Tested with realistic user name 'Marie Abdou' and exercise scoring."
 
+  - task: "Corrected Mayotte language translations"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Corrected translations verified successfully. All authentic Mayotte translations confirmed: Bonjour=Kwezi/Kwezi (not Bari/Bariza), Rouge=Nzoukoundrou/Mena (not Mera/Mera), Jaune=Dzindzano/Tamoutamou (not Manjano/Manjano), Maki=Komba/Ankoumba (not Maki/Maki). POST /api/init-base-content properly resets and reinitializes with corrected data. Category filtering works correctly with authentic translations."
+
 frontend:
   - task: "Welcome Screen Testing"
     implemented: true
