@@ -170,48 +170,121 @@ async def upload_image(file: UploadFile = File(...)):
 # Route pour initialiser du contenu de base
 @api_router.post("/init-base-content")
 async def init_base_content():
-    # Contenu de base en shimaoré et kibouchi
+    # Contenu authentique complet en shimaoré et kibouchi basé sur le tableau fourni
     base_words = [
-        {
-            "french": "Maman", "shimaore": "Mama", "kibouchi": "Mama", 
-            "category": "famille", "difficulty": 1
-        },
-        {
-            "french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", 
-            "category": "famille", "difficulty": 1
-        },
-        {
-            "french": "Enfant", "shimaore": "Mwana", "kibouchi": "Mwana", 
-            "category": "famille", "difficulty": 1
-        },
-        {
-            "french": "Bonjour", "shimaore": "Kwezi", "kibouchi": "Kwezi", 
-            "category": "salutations", "difficulty": 1
-        },
-        {
-            "french": "Merci", "shimaore": "Marahaba", "kibouchi": "Marahaba", 
-            "category": "salutations", "difficulty": 1
-        },
-        {
-            "french": "Rouge", "shimaore": "Nzoukoundrou", "kibouchi": "Mena", 
-            "category": "couleurs", "difficulty": 1
-        },
-        {
-            "french": "Jaune", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", 
-            "category": "couleurs", "difficulty": 1
-        },
-        {
-            "french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba", 
-            "category": "animaux", "difficulty": 1
-        },
-        {
-            "french": "Un", "shimaore": "Moja", "kibouchi": "Raike", 
-            "category": "nombres", "difficulty": 1
-        },
-        {
-            "french": "Deux", "shimaore": "Mbili", "kibouchi": "Rou", 
-            "category": "nombres", "difficulty": 1
-        }
+        # Famille
+        {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama", "category": "famille", "difficulty": 1},
+        {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", "category": "famille", "difficulty": 1},
+        {"french": "Enfant", "shimaore": "Mwana", "kibouchi": "Mwana", "category": "famille", "difficulty": 1},
+        {"french": "Frère", "shimaore": "Kandraou", "kibouchi": "Voulandrou", "category": "famille", "difficulty": 1},
+        {"french": "Sœur", "shimaore": "Kandrabwini", "kibouchi": "Voulahonouri", "category": "famille", "difficulty": 1},
+        
+        # Salutations
+        {"french": "Bonjour", "shimaore": "Kwezi", "kibouchi": "Kwezi", "category": "salutations", "difficulty": 1},
+        {"french": "Merci", "shimaore": "Marahaba", "kibouchi": "Marahaba", "category": "salutations", "difficulty": 1},
+        {"french": "Au revoir", "shimaore": "Trovi", "kibouchi": "Lokou", "category": "salutations", "difficulty": 1},
+        
+        # Couleurs
+        {"french": "Rouge", "shimaore": "Nzoukoundrou", "kibouchi": "Mena", "category": "couleurs", "difficulty": 1},
+        {"french": "Jaune", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", "category": "couleurs", "difficulty": 1},
+        {"french": "Bleu", "shimaore": "Mbweza", "kibouchi": "Kiboua", "category": "couleurs", "difficulty": 1},
+        {"french": "Vert", "shimaore": "Kijani", "kibouchi": "Kijani houni", "category": "couleurs", "difficulty": 1},
+        {"french": "Noir", "shimaore": "Maindrau", "kibouchi": "Maindrau", "category": "couleurs", "difficulty": 1},
+        {"french": "Blanc", "shimaore": "Matso", "kibouchi": "Fanenti", "category": "couleurs", "difficulty": 1},
+        
+        # Animaux
+        {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba", "category": "animaux", "difficulty": 1},
+        {"french": "Chien", "shimaore": "Mbwea", "kibouchi": "Alika", "category": "animaux", "difficulty": 1},
+        {"french": "Chat", "shimaore": "Kati", "kibouchi": "Moukou", "category": "animaux", "difficulty": 1},
+        {"french": "Poisson", "shimaore": "Samana", "kibouchi": "Lakou", "category": "animaux", "difficulty": 1},
+        {"french": "Oiseau", "shimaore": "Ndjwani", "kibouchi": "Voromana", "category": "animaux", "difficulty": 1},
+        {"french": "Poule", "shimaore": "Kouko", "kibouchi": "Kouko", "category": "animaux", "difficulty": 1},
+        {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "", "category": "animaux", "difficulty": 1},
+        {"french": "Souris", "shimaore": "Shikwetse", "kibouchi": "Voilavou", "category": "animaux", "difficulty": 1},
+        
+        # Nombres
+        {"french": "Un", "shimaore": "Moja", "kibouchi": "Raike", "category": "nombres", "difficulty": 1},
+        {"french": "Deux", "shimaore": "Mbili", "kibouchi": "Rou", "category": "nombres", "difficulty": 1},
+        {"french": "Trois", "shimaore": "Traru", "kibouchi": "Telou", "category": "nombres", "difficulty": 1},
+        {"french": "Quatre", "shimaore": "Tsano", "kibouchi": "Nimi", "category": "nombres", "difficulty": 1},
+        {"french": "Cinq", "shimaore": "Tsano", "kibouchi": "Dimy", "category": "nombres", "difficulty": 1},
+        {"french": "Six", "shimaore": "Sita", "kibouchi": "Enmy", "category": "nombres", "difficulty": 1},
+        {"french": "Sept", "shimaore": "Saba", "kibouchi": "Fitou", "category": "nombres", "difficulty": 1},
+        {"french": "Huit", "shimaore": "Nendra", "kibouchi": "Valo", "category": "nombres", "difficulty": 1},
+        {"french": "Neuf", "shimaore": "Shendra", "kibouchi": "Sivi", "category": "nombres", "difficulty": 1},
+        {"french": "Dix", "shimaore": "Komi", "kibouchi": "Folo", "category": "nombres", "difficulty": 1},
+        {"french": "Onze", "shimaore": "Komi na moja", "kibouchi": "Foulou Areki Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Douze", "shimaore": "Komi na mbili", "kibouchi": "Foulou Areki Rou", "category": "nombres", "difficulty": 2},
+        {"french": "Treize", "shimaore": "Komi na traru", "kibouchi": "Foulou Telou Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Quatorze", "shimaore": "Komi na tsano", "kibouchi": "Foulou Nimi Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Quinze", "shimaore": "Komi na tsano", "kibouchi": "Foulou Dimy Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Seize", "shimaore": "Komi na sita", "kibouchi": "Foulou Enmy Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Dix-sept", "shimaore": "Komi na saba", "kibouchi": "Foulou Fitou Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Dix-huit", "shimaore": "Komi na nendra", "kibouchi": "Foulou Valo Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Dix-neuf", "shimaore": "Komi na shendra", "kibouchi": "Foulou Sivi Ambi", "category": "nombres", "difficulty": 2},
+        
+        # Corps humain
+        {"french": "Tête", "shimaore": "Mutru", "kibouchi": "Loha", "category": "corps", "difficulty": 1},
+        {"french": "Cheveux", "shimaore": "Nngnele", "kibouchi": "Fagneva", "category": "corps", "difficulty": 1},
+        {"french": "Œil", "shimaore": "Matso", "kibouchi": "Fanenti", "category": "corps", "difficulty": 1},
+        {"french": "Nez", "shimaore": "Poua", "kibouchi": "Horougnou", "category": "corps", "difficulty": 1},
+        {"french": "Oreille", "shimaore": "Kiyo", "kibouchi": "Soufigni", "category": "corps", "difficulty": 1},
+        {"french": "Bouche", "shimaore": "Hangno", "kibouchi": "Vava", "category": "corps", "difficulty": 1},
+        {"french": "Dent", "shimaore": "Magno", "kibouchi": "Hifi", "category": "corps", "difficulty": 1},
+        {"french": "Langue", "shimaore": "", "kibouchi": "Lela", "category": "corps", "difficulty": 1},
+        {"french": "Joue", "shimaore": "", "kibouchi": "Fifi", "category": "corps", "difficulty": 1},
+        {"french": "Front", "shimaore": "", "kibouchi": "Lahara", "category": "corps", "difficulty": 1},
+        {"french": "Dos", "shimaore": "Mengo", "kibouchi": "Vohou", "category": "corps", "difficulty": 1},
+        {"french": "Épaule", "shimaore": "", "kibouchi": "Haveyi", "category": "corps", "difficulty": 1},
+        {"french": "Hanche", "shimaore": "", "kibouchi": "Tahezagna", "category": "corps", "difficulty": 1},
+        {"french": "Fesses", "shimaore": "Shidze/Mvoumo", "kibouchi": "Fouri", "category": "corps", "difficulty": 1},
+        {"french": "Lèvre", "shimaore": "", "kibouchi": "Soungni", "category": "corps", "difficulty": 1},
+        {"french": "Peau", "shimaore": "Ngwezi", "kibouchi": "Ngwezi", "category": "corps", "difficulty": 1},
+        
+        # Nourriture
+        {"french": "Eau", "shimaore": "Madji", "kibouchi": "Rano", "category": "nourriture", "difficulty": 1},
+        {"french": "Riz", "shimaore": "Mtsigo", "kibouchi": "Vary", "category": "nourriture", "difficulty": 1},
+        {"french": "Pain", "shimaore": "Msinhou", "kibouchi": "Jagnana", "category": "nourriture", "difficulty": 1},
+        {"french": "Banane", "shimaore": "Danassi", "kibouchi": "Fouhi", "category": "nourriture", "difficulty": 1},
+        {"french": "Mangue", "shimaore": "Kouweya", "kibouchi": "Ankora", "category": "nourriture", "difficulty": 1},
+        {"french": "Coco", "shimaore": "Nazi", "kibouchi": "Vounia", "category": "nourriture", "difficulty": 1},
+        {"french": "Lait", "shimaore": "Maziwa", "kibouchi": "Roungoua", "category": "nourriture", "difficulty": 1},
+        {"french": "Viande", "shimaore": "Hanyama", "kibouchi": "Saloha", "category": "nourriture", "difficulty": 1},
+        {"french": "Poisson", "shimaore": "Samana", "kibouchi": "Lakou", "category": "nourriture", "difficulty": 1},
+        
+        # Maison
+        {"french": "Maison", "shimaore": "Nyumba", "kibouchi": "Harangagna", "category": "maison", "difficulty": 1},
+        {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavarana", "category": "maison", "difficulty": 1},
+        {"french": "Fenêtre", "shimaore": "Dirisha", "kibouchi": "Varavaragnouhou", "category": "maison", "difficulty": 1},
+        {"french": "Toit", "shimaore": "Kapu", "kibouchi": "Tafo", "category": "maison", "difficulty": 1},
+        
+        # Vêtements
+        {"french": "Vêtement", "shimaore": "Nguo", "kibouchi": "Lamban", "category": "vetements", "difficulty": 1},
+        {"french": "Chemise", "shimaore": "Shati", "kibouchi": "Pataloha", "category": "vetements", "difficulty": 1},
+        {"french": "Pantalon", "shimaore": "Suruali", "kibouchi": "Pataloha", "category": "vetements", "difficulty": 1},
+        
+        # Nature
+        {"french": "Arbre", "shimaore": "Mti", "kibouchi": "Hazo", "category": "nature", "difficulty": 1},
+        {"french": "Fleur", "shimaore": "Uwa", "kibouchi": "Vonindro", "category": "nature", "difficulty": 1},
+        {"french": "Soleil", "shimaore": "Djuwa", "kibouchi": "Kouva", "category": "nature", "difficulty": 1},
+        {"french": "Lune", "shimaore": "Mwezi", "kibouchi": "Volana", "category": "nature", "difficulty": 1},
+        {"french": "Étoile", "shimaore": "Nyota", "kibouchi": "Kintana", "category": "nature", "difficulty": 1},
+        {"french": "Mer", "shimaore": "Bahari", "kibouchi": "Ranomasina", "category": "nature", "difficulty": 1},
+        {"french": "Montagne", "shimaore": "Mlima", "kibouchi": "Tendromby", "category": "nature", "difficulty": 1},
+        {"french": "Pierre", "shimaore": "Jiwe", "kibouchi": "Vato", "category": "nature", "difficulty": 1},
+        {"french": "Sable", "shimaore": "Mshanga", "kibouchi": "Fasika", "category": "nature", "difficulty": 1},
+        
+        # Transport
+        {"french": "Voiture", "shimaore": "Galou", "kibouchi": "Tselatra", "category": "transport", "difficulty": 1},
+        {"french": "Bateau", "shimaore": "Galawa", "kibouchi": "Sambo", "category": "transport", "difficulty": 1},
+        
+        # Reptiles et autres animaux
+        {"french": "Lézard", "shimaore": "Ngwizi", "kibouchi": "Kitsatsaka", "category": "animaux", "difficulty": 2},
+        {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "category": "animaux", "difficulty": 2},
+        {"french": "Chameau", "shimaore": "Ngamia", "kibouchi": "Angamia", "category": "animaux", "difficulty": 2},
+        {"french": "Escargot", "shimaore": "Kowa", "kibouchi": "Ankora", "category": "animaux", "difficulty": 2},
+        {"french": "Hérisson", "shimaore": "Landra", "kibouchi": "Trandraka", "category": "animaux", "difficulty": 2},
+        {"french": "Ongle", "shimaore": "Kofou", "kibouchi": "Angofou", "category": "corps", "difficulty": 2}
     ]
     
     # Vérifier si le contenu existe déjà
