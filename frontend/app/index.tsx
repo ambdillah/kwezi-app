@@ -36,7 +36,7 @@ export default function WelcomeScreen() {
       >
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Karibou... 🌺</Text>
+            <Text style={styles.loadingText}>Kwezi... 🌺</Text>
             <Text style={styles.subtitleText}>Chargement de votre app Mayotte</Text>
           </View>
         </SafeAreaView>
