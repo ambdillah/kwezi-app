@@ -149,29 +149,125 @@ class MayotteEducationTester:
             print(f"❌ Get words error: {e}")
             return False
     
-    def test_category_filtering(self):
-        """Test category filtering for words"""
-        print("\n=== Testing Category Filtering ===")
+    def test_corrected_translations(self):
+        """Test that the corrected translations are properly implemented"""
+        print("\n=== Testing Corrected Translations ===")
         
         try:
-            # Test famille category
-            response = self.session.get(f"{API_BASE}/words?category=famille")
-            if response.status_code == 200:
-                famille_words = response.json()
-                print(f"✅ Retrieved {len(famille_words)} words in 'famille' category")
-                
-                # Verify all words are in famille category
-                if all(word['category'] == 'famille' for word in famille_words):
-                    print("✅ All words correctly filtered by category")
-                    if famille_words:
-                        print(f"Sample famille word: {famille_words[0]['french']} = {famille_words[0]['shimaore']}")
-                else:
-                    print("❌ Category filtering not working correctly")
-                    
-                return True
-            else:
-                print(f"❌ Category filtering failed: {response.status_code}")
+            # Get all words to verify corrected translations
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
                 return False
+            
+            words = response.json()
+            words_by_french = {word['french']: word for word in words}
+            
+            # Expected corrected translations
+            expected_translations = {
+                "Bonjour": {"shimaore": "Kwezi", "kibouchi": "Kwezi"},
+                "Rouge": {"shimaore": "Nzoukoundrou", "kibouchi": "Mena"},
+                "Jaune": {"shimaore": "Dzindzano", "kibouchi": "Tamoutamou"},
+                "Maki": {"shimaore": "Komba", "kibouchi": "Ankoumba"}
+            }
+            
+            all_correct = True
+            
+            for french_word, expected in expected_translations.items():
+                if french_word in words_by_french:
+                    word = words_by_french[french_word]
+                    actual_shimaore = word['shimaore']
+                    actual_kibouchi = word['kibouchi']
+                    expected_shimaore = expected['shimaore']
+                    expected_kibouchi = expected['kibouchi']
+                    
+                    if actual_shimaore == expected_shimaore and actual_kibouchi == expected_kibouchi:
+                        print(f"✅ {french_word}: {actual_shimaore} (Shimaoré) / {actual_kibouchi} (Kibouchi) - CORRECT")
+                    else:
+                        print(f"❌ {french_word}: Expected {expected_shimaore}/{expected_kibouchi}, got {actual_shimaore}/{actual_kibouchi}")
+                        all_correct = False
+                else:
+                    print(f"❌ {french_word} not found in database")
+                    all_correct = False
+            
+            if all_correct:
+                print("✅ All corrected translations are properly implemented!")
+            else:
+                print("❌ Some translations are still incorrect")
+            
+            return all_correct
+            
+        except Exception as e:
+            print(f"❌ Corrected translations test error: {e}")
+            return False
+    
+    def test_category_filtering(self):
+        """Test category filtering for words with corrected translations"""
+        print("\n=== Testing Category Filtering with Corrected Data ===")
+        
+        try:
+            # Test salutations category (should include "Kwezi" for Bonjour)
+            response = self.session.get(f"{API_BASE}/words?category=salutations")
+            if response.status_code == 200:
+                salutations_words = response.json()
+                print(f"✅ Retrieved {len(salutations_words)} words in 'salutations' category")
+                
+                # Look for Bonjour/Kwezi
+                bonjour_found = False
+                for word in salutations_words:
+                    if word['french'] == 'Bonjour':
+                        if word['shimaore'] == 'Kwezi' and word['kibouchi'] == 'Kwezi':
+                            print(f"✅ Found corrected Bonjour: {word['shimaore']}/{word['kibouchi']}")
+                            bonjour_found = True
+                        else:
+                            print(f"❌ Bonjour has incorrect translations: {word['shimaore']}/{word['kibouchi']}")
+                
+                if not bonjour_found:
+                    print("❌ Bonjour not found in salutations category")
+            else:
+                print(f"❌ Salutations category filtering failed: {response.status_code}")
+                return False
+            
+            # Test couleurs category (should include corrected Rouge and Jaune)
+            response = self.session.get(f"{API_BASE}/words?category=couleurs")
+            if response.status_code == 200:
+                couleurs_words = response.json()
+                print(f"✅ Retrieved {len(couleurs_words)} words in 'couleurs' category")
+                
+                # Check Rouge and Jaune
+                for word in couleurs_words:
+                    if word['french'] == 'Rouge':
+                        if word['shimaore'] == 'Nzoukoundrou' and word['kibouchi'] == 'Mena':
+                            print(f"✅ Found corrected Rouge: {word['shimaore']}/{word['kibouchi']}")
+                        else:
+                            print(f"❌ Rouge has incorrect translations: {word['shimaore']}/{word['kibouchi']}")
+                    elif word['french'] == 'Jaune':
+                        if word['shimaore'] == 'Dzindzano' and word['kibouchi'] == 'Tamoutamou':
+                            print(f"✅ Found corrected Jaune: {word['shimaore']}/{word['kibouchi']}")
+                        else:
+                            print(f"❌ Jaune has incorrect translations: {word['shimaore']}/{word['kibouchi']}")
+            else:
+                print(f"❌ Couleurs category filtering failed: {response.status_code}")
+                return False
+            
+            # Test animaux category (should include corrected Maki)
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code == 200:
+                animaux_words = response.json()
+                print(f"✅ Retrieved {len(animaux_words)} words in 'animaux' category")
+                
+                # Check Maki
+                for word in animaux_words:
+                    if word['french'] == 'Maki':
+                        if word['shimaore'] == 'Komba' and word['kibouchi'] == 'Ankoumba':
+                            print(f"✅ Found corrected Maki: {word['shimaore']}/{word['kibouchi']}")
+                        else:
+                            print(f"❌ Maki has incorrect translations: {word['shimaore']}/{word['kibouchi']}")
+            else:
+                print(f"❌ Animaux category filtering failed: {response.status_code}")
+                return False
+                
+            return True
                 
         except Exception as e:
             print(f"❌ Category filtering error: {e}")
