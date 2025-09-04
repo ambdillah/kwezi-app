@@ -271,6 +271,37 @@ export default function ProgressScreen() {
             )}
           </View>
 
+          {/* Quick Actions */}
+          <View style={styles.quickActionsContainer}>
+            <Text style={styles.sectionTitle}>Actions rapides 🚀</Text>
+            
+            <View style={styles.quickActionButtons}>
+              <TouchableOpacity 
+                style={styles.quickActionButton}
+                onPress={() => router.push('/badges')}
+              >
+                <Ionicons name="trophy" size={24} color="#9B59B6" />
+                <Text style={styles.quickActionText}>Badges</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.quickActionButton}
+                onPress={() => router.push('/offline')}
+              >
+                <Ionicons name="download" size={24} color="#4ECDC4" />
+                <Text style={styles.quickActionText}>Hors-ligne</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.quickActionButton}
+                onPress={() => router.push('/export')}
+              >
+                <Ionicons name="share" size={24} color="#45B7D1" />
+                <Text style={styles.quickActionText}>Exporter</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
           {/* Encouragement */}
           <View style={styles.encouragementContainer}>
             <Text style={styles.encouragementText}>
