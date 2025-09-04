@@ -425,6 +425,171 @@ class MayotteEducationTester:
             print(f"❌ Verb additions test error: {e}")
             return False
     
+    def test_corrected_numbers_system(self):
+        """Test the corrected numbers system 1-20 with authentic Shimaoré and Kibouchi translations"""
+        print("\n=== Testing Corrected Numbers System (1-20) ===")
+        
+        try:
+            response = self.session.get(f"{API_BASE}/words?category=nombres")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve numbers: {response.status_code}")
+                return False
+            
+            numbers = response.json()
+            numbers_by_french = {word['french']: word for word in numbers}
+            
+            print(f"Found {len(numbers)} numbers in database")
+            
+            # Test corrected numbers 1-10 (basic numbers)
+            basic_numbers = [
+                {"french": "Un", "shimaore": "Moja", "kibouchi": "Areki", "difficulty": 1},
+                {"french": "Deux", "shimaore": "Mbili", "kibouchi": "Aroyi", "difficulty": 1},
+                {"french": "Trois", "shimaore": "Trarou", "kibouchi": "Telou", "difficulty": 1},
+                {"french": "Quatre", "shimaore": "Nhé", "kibouchi": "Efatra", "difficulty": 1},
+                {"french": "Cinq", "shimaore": "Tsano", "kibouchi": "Dimi", "difficulty": 1},
+                {"french": "Six", "shimaore": "Sita", "kibouchi": "Tchouta", "difficulty": 1},
+                {"french": "Sept", "shimaore": "Saba", "kibouchi": "Fitou", "difficulty": 1},
+                {"french": "Huit", "shimaore": "Nané", "kibouchi": "Valou", "difficulty": 1},
+                {"french": "Neuf", "shimaore": "Chendra", "kibouchi": "Civi", "difficulty": 1},
+                {"french": "Dix", "shimaore": "Koumi", "kibouchi": "Foulou", "difficulty": 1}
+            ]
+            
+            # Test corrected numbers 11-19 (compound numbers)
+            compound_numbers = [
+                {"french": "Onze", "shimaore": "Koumi na moja", "kibouchi": "Foulou Areki Ambi", "difficulty": 2},
+                {"french": "Douze", "shimaore": "Koumi na mbili", "kibouchi": "Foulou Aroyi Ambi", "difficulty": 2},
+                {"french": "Treize", "shimaore": "Koumi na trarou", "kibouchi": "Foulou Telou Ambi", "difficulty": 2},
+                {"french": "Quatorze", "shimaore": "Koumi na nhé", "kibouchi": "Foulou Efatra Ambi", "difficulty": 2},
+                {"french": "Quinze", "shimaore": "Koumi na tsano", "kibouchi": "Foulou Dimi Ambi", "difficulty": 2},
+                {"french": "Seize", "shimaore": "Koumi na sita", "kibouchi": "Foulou Tchouta Ambi", "difficulty": 2},
+                {"french": "Dix-sept", "shimaore": "Koumi na saba", "kibouchi": "Foulou Fitou Ambi", "difficulty": 2},
+                {"french": "Dix-huit", "shimaore": "Koumi na nané", "kibouchi": "Foulou Valou Ambi", "difficulty": 2},
+                {"french": "Dix-neuf", "shimaore": "Koumi na chendra", "kibouchi": "Foulou Civi Ambi", "difficulty": 2}
+            ]
+            
+            # Test number 20
+            twenty = {"french": "Vingt", "shimaore": "Chirini", "kibouchi": "Arompoulou", "difficulty": 2}
+            
+            all_numbers_correct = True
+            
+            # Test basic numbers 1-10
+            print("\n--- Testing Basic Numbers (1-10) ---")
+            for test_case in basic_numbers:
+                french_word = test_case['french']
+                if french_word in numbers_by_french:
+                    word = numbers_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['difficulty'], test_case['difficulty'], 'Difficulty')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_numbers_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                else:
+                    print(f"❌ {french_word} not found in database")
+                    all_numbers_correct = False
+            
+            # Test compound numbers 11-19
+            print("\n--- Testing Compound Numbers (11-19) ---")
+            for test_case in compound_numbers:
+                french_word = test_case['french']
+                if french_word in numbers_by_french:
+                    word = numbers_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['difficulty'], test_case['difficulty'], 'Difficulty')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_numbers_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                else:
+                    print(f"❌ {french_word} not found in database")
+                    all_numbers_correct = False
+            
+            # Test number 20
+            print("\n--- Testing Number 20 ---")
+            french_word = twenty['french']
+            if french_word in numbers_by_french:
+                word = numbers_by_french[french_word]
+                
+                # Check all fields
+                checks = [
+                    (word['shimaore'], twenty['shimaore'], 'Shimaoré'),
+                    (word['kibouchi'], twenty['kibouchi'], 'Kibouchi'),
+                    (word['difficulty'], twenty['difficulty'], 'Difficulty')
+                ]
+                
+                word_correct = True
+                for actual, expected, field_name in checks:
+                    if actual != expected:
+                        print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                        word_correct = False
+                        all_numbers_correct = False
+                
+                if word_correct:
+                    print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+            else:
+                print(f"❌ {french_word} not found in database")
+                all_numbers_correct = False
+            
+            # Verify total count
+            print(f"\n--- Numbers Count Verification ---")
+            expected_count = 20  # Numbers 1-20
+            actual_count = len(numbers)
+            if actual_count >= expected_count:
+                print(f"✅ Numbers count: {actual_count} (expected at least {expected_count})")
+            else:
+                print(f"❌ Numbers count: {actual_count} (expected at least {expected_count})")
+                all_numbers_correct = False
+            
+            # Verify difficulty levels
+            print(f"\n--- Difficulty Level Verification ---")
+            difficulty_1_count = len([n for n in numbers if n['difficulty'] == 1])
+            difficulty_2_count = len([n for n in numbers if n['difficulty'] == 2])
+            print(f"Difficulty 1 (1-10): {difficulty_1_count} numbers")
+            print(f"Difficulty 2 (11-20): {difficulty_2_count} numbers")
+            
+            if difficulty_1_count >= 10 and difficulty_2_count >= 10:
+                print("✅ Difficulty levels properly assigned")
+            else:
+                print("❌ Difficulty levels not properly assigned")
+                all_numbers_correct = False
+            
+            if all_numbers_correct:
+                print("\n🎉 All corrected numbers (1-20) verified successfully!")
+                print("✅ Basic numbers 1-10 with authentic translations")
+                print("✅ Compound numbers 11-19 with proper formations")
+                print("✅ Number 20 (Vingt) added correctly")
+                print("✅ Proper difficulty levels assigned")
+            else:
+                print("\n❌ Some numbers have incorrect translations or are missing")
+            
+            return all_numbers_correct
+            
+        except Exception as e:
+            print(f"❌ Corrected numbers system test error: {e}")
+            return False
+    
     def test_comprehensive_category_filtering(self):
         """Test category filtering for all 13 categories with comprehensive vocabulary"""
         print("\n=== Testing Comprehensive Category Filtering (13 Categories) ===")
