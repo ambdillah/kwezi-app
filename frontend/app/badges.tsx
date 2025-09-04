@@ -226,7 +226,7 @@ export default function BadgesScreen() {
           <View style={styles.progressContainer}>
             <LinearGradient colors={['#4ECDC4', '#45B7D1']} style={styles.progressGradient}>
               <Text style={styles.progressTitle}>
-                Salut {userName || 'petit mahorais'}! 🌺
+                Kwezi {userName || 'petit mahorais'}! 🌺
               </Text>
               <Text style={styles.progressText}>
                 Tu as débloqué {unlockedCount} badge{unlockedCount !== 1 ? 's' : ''} sur {badges.length}
