@@ -25,6 +25,7 @@ interface Word {
 const CATEGORIES = [
   { key: 'famille', name: 'Famille', icon: 'people', color: '#FF6B6B' },
   { key: 'salutations', name: 'Salutations', icon: 'hand-left', color: '#4ECDC4' },
+  { key: 'grammaire', name: 'Grammaire', icon: 'book', color: '#FF9500' },
   { key: 'couleurs', name: 'Couleurs', icon: 'color-palette', color: '#45B7D1' },
   { key: 'animaux', name: 'Animaux', icon: 'paw', color: '#96CEB4' },
   { key: 'nombres', name: 'Nombres', icon: 'calculator', color: '#FECA57' },
@@ -34,6 +35,7 @@ const CATEGORIES = [
   { key: 'vetements', name: 'Vêtements', icon: 'shirt', color: '#E91E63' },
   { key: 'nature', name: 'Nature', icon: 'leaf', color: '#27AE60' },
   { key: 'transport', name: 'Transport', icon: 'car', color: '#3498DB' },
+  { key: 'verbes', name: 'Verbes', icon: 'walk', color: '#8E44AD' },
 ];
 
 export default function LearnScreen() {
