@@ -149,12 +149,64 @@ class MayotteEducationTester:
             print(f"❌ Get words error: {e}")
             return False
     
-    def test_corrected_translations(self):
-        """Test that the corrected translations are properly implemented"""
-        print("\n=== Testing Corrected Translations ===")
+    def test_comprehensive_vocabulary_initialization(self):
+        """Test comprehensive vocabulary initialization with 80+ words across 11 categories"""
+        print("\n=== Testing Comprehensive Vocabulary Initialization ===")
         
         try:
-            # Get all words to verify corrected translations
+            # Get all words to verify comprehensive vocabulary
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            print(f"Total words found: {len(words)}")
+            
+            # Check if we have 80+ words
+            if len(words) >= 80:
+                print(f"✅ Comprehensive vocabulary confirmed: {len(words)} words (80+ required)")
+            else:
+                print(f"❌ Insufficient vocabulary: {len(words)} words (80+ required)")
+                return False
+            
+            # Check categories
+            categories = set(word['category'] for word in words)
+            expected_categories = {
+                'famille', 'salutations', 'couleurs', 'animaux', 'nombres', 
+                'corps', 'nourriture', 'maison', 'vetements', 'nature', 'transport'
+            }
+            
+            print(f"Found categories ({len(categories)}): {sorted(categories)}")
+            print(f"Expected categories ({len(expected_categories)}): {sorted(expected_categories)}")
+            
+            if expected_categories.issubset(categories):
+                print(f"✅ All 11 expected categories found")
+            else:
+                missing = expected_categories - categories
+                print(f"❌ Missing categories: {missing}")
+                return False
+            
+            # Check difficulty levels (should be 1-2)
+            difficulties = set(word['difficulty'] for word in words)
+            print(f"Difficulty levels found: {sorted(difficulties)}")
+            if difficulties.issubset({1, 2}):
+                print("✅ Difficulty levels properly assigned (1-2)")
+            else:
+                print(f"❌ Invalid difficulty levels found: {difficulties - {1, 2}}")
+            
+            return True
+            
+        except Exception as e:
+            print(f"❌ Comprehensive vocabulary test error: {e}")
+            return False
+    
+    def test_specific_vocabulary_from_table(self):
+        """Test specific vocabulary from the user's comprehensive table"""
+        print("\n=== Testing Specific Vocabulary from User's Table ===")
+        
+        try:
+            # Get all words
             response = self.session.get(f"{API_BASE}/words")
             if response.status_code != 200:
                 print(f"❌ Could not retrieve words: {response.status_code}")
@@ -163,42 +215,71 @@ class MayotteEducationTester:
             words = response.json()
             words_by_french = {word['french']: word for word in words}
             
-            # Expected corrected translations
-            expected_translations = {
-                "Bonjour": {"shimaore": "Kwezi", "kibouchi": "Kwezi"},
-                "Rouge": {"shimaore": "Nzoukoundrou", "kibouchi": "Mena"},
-                "Jaune": {"shimaore": "Dzindzano", "kibouchi": "Tamoutamou"},
-                "Maki": {"shimaore": "Komba", "kibouchi": "Ankoumba"}
-            }
+            # Test specific vocabulary from user's table
+            test_cases = [
+                # Famille
+                {"french": "Frère", "shimaore": "Kandraou", "kibouchi": "Voulandrou", "category": "famille"},
+                {"french": "Sœur", "shimaore": "Kandrabwini", "kibouchi": "Voulahonouri", "category": "famille"},
+                
+                # Corps
+                {"french": "Tête", "shimaore": "Mutru", "kibouchi": "Loha", "category": "corps"},
+                {"french": "Cheveux", "shimaore": "Nngnele", "kibouchi": "Fagneva", "category": "corps"},
+                
+                # Nourriture
+                {"french": "Eau", "shimaore": "Madji", "kibouchi": "Rano", "category": "nourriture"},
+                {"french": "Riz", "shimaore": "Mtsigo", "kibouchi": "Vary", "category": "nourriture"},
+                
+                # Nature
+                {"french": "Arbre", "shimaore": "Mti", "kibouchi": "Hazo", "category": "nature"},
+                {"french": "Soleil", "shimaore": "Djuwa", "kibouchi": "Kouva", "category": "nature"},
+                
+                # Special cases
+                {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "", "category": "animaux"},  # No Kibouchi
+                {"french": "Langue", "shimaore": "", "kibouchi": "Lela", "category": "corps"},  # No Shimaoré
+                
+                # Complex numbers
+                {"french": "Onze", "shimaore": "Komi na moja", "kibouchi": "Foulou Areki Ambi", "category": "nombres"},
+                {"french": "Douze", "shimaore": "Komi na mbili", "kibouchi": "Foulou Areki Rou", "category": "nombres"},
+            ]
             
             all_correct = True
             
-            for french_word, expected in expected_translations.items():
+            for test_case in test_cases:
+                french_word = test_case['french']
                 if french_word in words_by_french:
                     word = words_by_french[french_word]
-                    actual_shimaore = word['shimaore']
-                    actual_kibouchi = word['kibouchi']
-                    expected_shimaore = expected['shimaore']
-                    expected_kibouchi = expected['kibouchi']
                     
-                    if actual_shimaore == expected_shimaore and actual_kibouchi == expected_kibouchi:
-                        print(f"✅ {french_word}: {actual_shimaore} (Shimaoré) / {actual_kibouchi} (Kibouchi) - CORRECT")
-                    else:
-                        print(f"❌ {french_word}: Expected {expected_shimaore}/{expected_kibouchi}, got {actual_shimaore}/{actual_kibouchi}")
-                        all_correct = False
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['category'], test_case['category'], 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_correct = False
+                    
+                    if word_correct:
+                        shimaore_display = word['shimaore'] if word['shimaore'] else "(none)"
+                        kibouchi_display = word['kibouchi'] if word['kibouchi'] else "(none)"
+                        print(f"✅ {french_word}: {shimaore_display} (Shimaoré) / {kibouchi_display} (Kibouchi) - {word['category']}")
                 else:
                     print(f"❌ {french_word} not found in database")
                     all_correct = False
             
             if all_correct:
-                print("✅ All corrected translations are properly implemented!")
+                print("✅ All specific vocabulary from user's table verified!")
             else:
-                print("❌ Some translations are still incorrect")
+                print("❌ Some vocabulary items are incorrect or missing")
             
             return all_correct
             
         except Exception as e:
-            print(f"❌ Corrected translations test error: {e}")
+            print(f"❌ Specific vocabulary test error: {e}")
             return False
     
     def test_category_filtering(self):
