@@ -75,11 +75,25 @@ class MayotteEducationTester:
             return False
     
     def test_init_base_content(self):
-        """Test educational content initialization"""
-        print("\n=== Testing Educational Content Initialization ===")
+        """Test educational content initialization with corrected translations"""
+        print("\n=== Testing Educational Content Initialization (Corrected Translations) ===")
         
         try:
-            # Initialize base content
+            # First, clear existing content by deleting all words
+            print("Clearing existing content...")
+            try:
+                words_response = self.session.get(f"{API_BASE}/words")
+                if words_response.status_code == 200:
+                    existing_words = words_response.json()
+                    for word in existing_words:
+                        delete_response = self.session.delete(f"{API_BASE}/words/{word['id']}")
+                        if delete_response.status_code != 200:
+                            print(f"Warning: Could not delete word {word['id']}")
+                    print(f"Cleared {len(existing_words)} existing words")
+            except Exception as e:
+                print(f"Note: Could not clear existing content: {e}")
+            
+            # Initialize base content with corrected translations
             response = self.session.post(f"{API_BASE}/init-base-content")
             print(f"Init base content status: {response.status_code}")
             
