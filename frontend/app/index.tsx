@@ -54,7 +54,7 @@ export default function WelcomeScreen() {
         <View style={styles.content}>
           {/* Header avec motif ylang-ylang stylisé */}
           <View style={styles.header}>
-            <Text style={styles.welcomeText}>Bariza! 🌺</Text>
+            <Text style={styles.welcomeText}>Kwezi! 🌺</Text>
             <Text style={styles.appTitle}>Apprendre le Shimaoré & Kibouchi</Text>
             <TouchableOpacity onPress={playWelcomeSound} style={styles.soundButton}>
               <Ionicons name="volume-high" size={24} color="#000" />
