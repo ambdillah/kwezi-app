@@ -189,7 +189,7 @@ backend:
         agent: "testing"
         comment: "✅ User progress tracking fully functional. POST /api/progress creates progress entries, GET /api/progress/{user_name} retrieves user-specific progress. Tested with realistic user name 'Marie Abdou' and exercise scoring."
 
-  - task: "Corrected Mayotte language translations"
+  - task: "Comprehensive Mayotte vocabulary with 80+ words"
     implemented: true
     working: true
     file: "backend/server.py"
@@ -199,7 +199,7 @@ backend:
     status_history:
       - working: true
         agent: "testing"
-        comment: "✅ Corrected translations verified successfully. All authentic Mayotte translations confirmed: Bonjour=Kwezi/Kwezi (not Bari/Bariza), Rouge=Nzoukoundrou/Mena (not Mera/Mera), Jaune=Dzindzano/Tamoutamou (not Manjano/Manjano), Maki=Komba/Ankoumba (not Maki/Maki). POST /api/init-base-content properly resets and reinitializes with corrected data. Category filtering works correctly with authentic translations."
+        comment: "✅ Comprehensive vocabulary testing PASSED (10/10 tests). Verified 90 words across 11 categories (famille, salutations, couleurs, animaux, nombres, corps, nourriture, maison, vetements, nature, transport). All specific vocabulary from user's table confirmed: Frère/Kandraou/Voulandrou, Sœur/Kandrabwini/Voulahonouri, Tête/Mutru/Loha, Cheveux/Nngnele/Fagneva, Eau/Madji/Rano, Riz/Mtsigo/Vary, Arbre/Mti/Hazo, Soleil/Djuwa/Kouva. Special cases verified: Singe=Djakwe (no Kibouchi), Langue has no Shimaoré but Lela in Kibouchi. Complex numbers confirmed: Onze=Komi na moja/Foulou Areki Ambi. Difficulty levels 1-2 properly assigned. All backend functionality remains intact with comprehensive authentic Mayotte language content."
 
 frontend:
   - task: "Welcome Screen Testing"
