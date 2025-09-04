@@ -204,13 +204,13 @@ async def init_base_content():
         {"french": "Monsieur", "shimaore": "Mogné", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
         {"french": "Madame", "shimaore": "Bwéni", "kibouchi": "Viavi", "category": "famille", "difficulty": 1},
         
-        # Couleurs
+        # Couleurs (mises à jour selon le nouveau tableau)
         {"french": "Rouge", "shimaore": "Nzoukoundrou", "kibouchi": "Mena", "category": "couleurs", "difficulty": 1},
         {"french": "Jaune", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", "category": "couleurs", "difficulty": 1},
-        {"french": "Bleu", "shimaore": "Mbweza", "kibouchi": "Kiboua", "category": "couleurs", "difficulty": 1},
-        {"french": "Vert", "shimaore": "Kijani", "kibouchi": "Kijani houni", "category": "couleurs", "difficulty": 1},
-        {"french": "Noir", "shimaore": "Maindrau", "kibouchi": "Maindrau", "category": "couleurs", "difficulty": 1},
-        {"french": "Blanc", "shimaore": "Matso", "kibouchi": "Fanenti", "category": "couleurs", "difficulty": 1},
+        {"french": "Bleu", "shimaore": "Bilé", "kibouchi": "Bilé", "category": "couleurs", "difficulty": 1},
+        {"french": "Vert", "shimaore": "Dhavou", "kibouchi": "Mayitsou", "category": "couleurs", "difficulty": 1},
+        {"french": "Noir", "shimaore": "Nzidhou", "kibouchi": "Mayintigni", "category": "couleurs", "difficulty": 1},
+        {"french": "Blanc", "shimaore": "Ndjéou", "kibouchi": "Malandi", "category": "couleurs", "difficulty": 1},
         
         # Animaux
         {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba", "category": "animaux", "difficulty": 1},
