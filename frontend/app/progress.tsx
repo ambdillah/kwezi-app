@@ -200,7 +200,7 @@ export default function ProgressScreen() {
           <View style={styles.profileCard}>
             <LinearGradient colors={[levelInfo.color, '#fff']} style={styles.profileGradient}>
               <Text style={styles.profileEmoji}>{levelInfo.emoji}</Text>
-              <Text style={styles.profileName}>Bariza {currentUser}!</Text>
+              <Text style={styles.profileName}>Kwezi {currentUser}!</Text>
               <Text style={styles.profileLevel}>Niveau: {levelInfo.level}</Text>
             </LinearGradient>
           </View>
