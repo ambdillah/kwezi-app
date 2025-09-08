@@ -800,17 +800,224 @@ class MayotteEducationTester:
             print(f"❌ User progress tracking error: {e}")
             return False
     
+    def test_extended_family_vocabulary(self):
+        """Test comprehensive extended family vocabulary initialization and translations"""
+        print("\n=== Testing Extended Family Vocabulary ===")
+        
+        try:
+            # First, test POST /api/init-base-content to initialize with extended family vocabulary
+            print("--- Testing Family Vocabulary Initialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # Test GET /api/words?category=famille to verify all new family terms
+            print("\n--- Testing Family Category Filtering ---")
+            response = self.session.get(f"{API_BASE}/words?category=famille")
+            if response.status_code != 200:
+                print(f"❌ Failed to get family words: {response.status_code}")
+                return False
+            
+            family_words = response.json()
+            family_words_by_french = {word['french']: word for word in family_words}
+            
+            print(f"Found {len(family_words)} family words")
+            
+            # Test specific extended family translations from the table
+            print("\n--- Testing Specific Extended Family Translations ---")
+            
+            # Core family
+            core_family_tests = [
+                {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama", "difficulty": 1},
+                {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", "difficulty": 1},
+                {"french": "Enfant", "shimaore": "Mwana", "kibouchi": "Mwana", "difficulty": 1}
+            ]
+            
+            # Aunts/Uncles
+            aunts_uncles_tests = [
+                {"french": "Tante", "shimaore": "Mama titi", "kibouchi": "Nindri heli", "difficulty": 1},
+                {"french": "Oncle maternel", "shimaore": "Zama", "kibouchi": "Zama", "difficulty": 2},
+                {"french": "Oncle paternel", "shimaore": "Baba titi", "kibouchi": "Baba héli", "difficulty": 2}
+            ]
+            
+            # Extended relations
+            extended_relations_tests = [
+                {"french": "Épouse oncle maternel", "shimaore": "Zena", "kibouchi": "Zena", "difficulty": 2}
+            ]
+            
+            # Age-specific siblings
+            age_specific_siblings_tests = [
+                {"french": "Petite sœur", "shimaore": "Moinagna mtroum", "kibouchi": "Zandri", "difficulty": 1},
+                {"french": "Petit frère", "shimaore": "Moinagna mtrouba", "kibouchi": "Zandri", "difficulty": 1},
+                {"french": "Grande sœur", "shimaore": "Zouki", "kibouchi": "Zoki", "difficulty": 1},
+                {"french": "Grand frère", "shimaore": "Zouki", "kibouchi": "Zoki", "difficulty": 1}
+            ]
+            
+            # General siblings
+            general_siblings_tests = [
+                {"french": "Frère", "shimaore": "Mwanagna", "kibouchi": "Anadahi", "difficulty": 1},
+                {"french": "Sœur", "shimaore": "Mwanagna", "kibouchi": "Anabavi", "difficulty": 1}
+            ]
+            
+            # Social/Gender terms
+            social_gender_tests = [
+                {"french": "Ami", "shimaore": "Mwandzani", "kibouchi": "Mwandzani", "difficulty": 1},
+                {"french": "Fille", "shimaore": "Mtroumama", "kibouchi": "Viavi", "difficulty": 1},
+                {"french": "Garçon", "shimaore": "Mtroubaba", "kibouchi": "Lalahi", "difficulty": 1},
+                {"french": "Monsieur", "shimaore": "Mogné", "kibouchi": "Lalahi", "difficulty": 1},
+                {"french": "Madame", "shimaore": "Bwéni", "kibouchi": "Viavi", "difficulty": 1}
+            ]
+            
+            # Grandparents
+            grandparents_tests = [
+                {"french": "Grand-père", "shimaore": "Bacoco", "kibouchi": "Dadayi", "difficulty": 1},
+                {"french": "Grand-mère", "shimaore": "Coco", "kibouchi": "Dadi", "difficulty": 1}
+            ]
+            
+            # Combine all family tests
+            all_family_tests = (
+                core_family_tests + aunts_uncles_tests + extended_relations_tests + 
+                age_specific_siblings_tests + general_siblings_tests + 
+                social_gender_tests + grandparents_tests
+            )
+            
+            all_correct = True
+            
+            # Test each category
+            test_categories = [
+                ("Core Family", core_family_tests),
+                ("Aunts/Uncles", aunts_uncles_tests),
+                ("Extended Relations", extended_relations_tests),
+                ("Age-Specific Siblings", age_specific_siblings_tests),
+                ("General Siblings", general_siblings_tests),
+                ("Social/Gender Terms", social_gender_tests),
+                ("Grandparents", grandparents_tests)
+            ]
+            
+            for category_name, test_cases in test_categories:
+                print(f"\n--- Testing {category_name} ---")
+                category_correct = True
+                
+                for test_case in test_cases:
+                    french_word = test_case['french']
+                    if french_word in family_words_by_french:
+                        word = family_words_by_french[french_word]
+                        
+                        # Check all fields
+                        checks = [
+                            (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                            (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                            (word['difficulty'], test_case['difficulty'], 'Difficulty')
+                        ]
+                        
+                        word_correct = True
+                        for actual, expected, field_name in checks:
+                            if actual != expected:
+                                print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                                word_correct = False
+                                category_correct = False
+                                all_correct = False
+                        
+                        if word_correct:
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                    else:
+                        print(f"❌ {french_word} not found in family category")
+                        category_correct = False
+                        all_correct = False
+                
+                if category_correct:
+                    print(f"✅ {category_name} category: All translations verified")
+                else:
+                    print(f"❌ {category_name} category: Some translations incorrect or missing")
+            
+            # Test family vocabulary count and complexity
+            print("\n--- Testing Family Vocabulary Count and Complexity ---")
+            expected_family_count = len(all_family_tests)
+            actual_family_count = len(family_words)
+            
+            if actual_family_count >= expected_family_count:
+                print(f"✅ Family vocabulary count: {actual_family_count} words (expected at least {expected_family_count})")
+            else:
+                print(f"❌ Family vocabulary count: {actual_family_count} words (expected at least {expected_family_count})")
+                all_correct = False
+            
+            # Verify difficulty levels (1 for basic family, 2 for extended relations)
+            difficulty_1_count = len([w for w in family_words if w['difficulty'] == 1])
+            difficulty_2_count = len([w for w in family_words if w['difficulty'] == 2])
+            
+            print(f"Difficulty 1 (basic family): {difficulty_1_count} words")
+            print(f"Difficulty 2 (extended relations): {difficulty_2_count} words")
+            
+            if difficulty_1_count > 0 and difficulty_2_count > 0:
+                print("✅ Difficulty levels properly assigned for family vocabulary")
+            else:
+                print("❌ Difficulty levels not properly assigned for family vocabulary")
+                all_correct = False
+            
+            # Test total vocabulary update
+            print("\n--- Testing Total Vocabulary Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total vocabulary count: {total_word_count} words")
+                
+                # Verify comprehensive coverage of Mayotte family structures
+                family_categories_found = set()
+                for word in family_words:
+                    if 'Oncle' in word['french'] or 'Tante' in word['french']:
+                        family_categories_found.add('extended_family')
+                    elif any(age_term in word['french'] for age_term in ['Petite', 'Petit', 'Grande', 'Grand']):
+                        family_categories_found.add('age_specific')
+                    elif word['french'] in ['Frère', 'Sœur']:
+                        family_categories_found.add('general_siblings')
+                    elif word['french'] in ['Maman', 'Papa', 'Enfant']:
+                        family_categories_found.add('core_family')
+                    elif word['french'] in ['Grand-père', 'Grand-mère']:
+                        family_categories_found.add('grandparents')
+                
+                expected_family_categories = {'core_family', 'extended_family', 'age_specific', 'general_siblings', 'grandparents'}
+                if expected_family_categories.issubset(family_categories_found):
+                    print("✅ Comprehensive coverage of Mayotte family structures confirmed")
+                else:
+                    missing_categories = expected_family_categories - family_categories_found
+                    print(f"❌ Missing family structure categories: {missing_categories}")
+                    all_correct = False
+            else:
+                print(f"❌ Could not retrieve total vocabulary: {response.status_code}")
+                all_correct = False
+            
+            if all_correct:
+                print("\n🎉 Extended Family Vocabulary Testing COMPLETED SUCCESSFULLY!")
+                print("✅ All extended family terms verified with authentic Shimaoré and Kibouchi translations")
+                print("✅ Comprehensive coverage of traditional Mayotte family structures")
+                print("✅ Proper difficulty levels assigned (1 for basic, 2 for extended relations)")
+                print("✅ Age-specific and relationship-specific terms properly categorized")
+            else:
+                print("\n❌ Some extended family vocabulary items are incorrect or missing")
+            
+            return all_correct
+            
+        except Exception as e:
+            print(f"❌ Extended family vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests - Final Updated Vocabulary")
+        print("🏫 Starting Mayotte Educational App Backend Tests - Extended Family Vocabulary")
         print("=" * 80)
         
         test_results = {}
         
-        # Run all tests including new vocabulary verification tests
+        # Run all tests including new extended family vocabulary test
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
+        test_results['extended_family'] = self.test_extended_family_vocabulary()
         test_results['corrected_numbers'] = self.test_corrected_numbers_system()
         test_results['comprehensive_vocab'] = self.test_comprehensive_vocabulary_initialization()
         test_results['specific_vocab'] = self.test_specific_vocabulary_from_table()
