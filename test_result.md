@@ -329,7 +329,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Corrected numbers system testing completed successfully"
+    - "Extended family vocabulary testing completed successfully"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
