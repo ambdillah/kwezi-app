@@ -1652,6 +1652,7 @@ class MayotteEducationTester:
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
+        test_results['comprehensive_updated_animals'] = self.test_comprehensive_updated_animals_section()
         test_results['complete_colors_palette'] = self.test_complete_colors_palette()
         test_results['comprehensive_grammar'] = self.test_comprehensive_grammar_vocabulary()
         test_results['extended_family'] = self.test_extended_family_vocabulary()
