@@ -185,12 +185,22 @@ async def init_base_content():
         {"french": "Non", "shimaore": "Anha", "kibouchi": "Anha", "category": "salutations", "difficulty": 1},
         {"french": "Excuse-moi", "shimaore": "Soimahani", "kibouchi": "Soimahani", "category": "salutations", "difficulty": 1},
         
+        # Grammaire complète : Pronoms personnels et possessifs
         # Pronoms personnels
         {"french": "Je", "shimaore": "Wami", "kibouchi": "Zahou", "category": "grammaire", "difficulty": 1},
-        {"french": "Tu", "shimaore": "Wawe", "kibouchi": "Anaou", "category": "grammaire", "difficulty": 1},
+        {"french": "Tu", "shimaore": "Wawé", "kibouchi": "Anaou", "category": "grammaire", "difficulty": 1},
         {"french": "Il/Elle", "shimaore": "Wayé", "kibouchi": "Izi", "category": "grammaire", "difficulty": 1},
         {"french": "Nous", "shimaore": "Wassi", "kibouchi": "Atsika", "category": "grammaire", "difficulty": 1},
-        {"french": "Vous", "shimaore": "Wagnou", "kibouchi": "Anarèou", "category": "grammaire", "difficulty": 1},
+        {"french": "Ils/Elles", "shimaore": "Wawo", "kibouchi": "Réou", "category": "grammaire", "difficulty": 1},
+        {"french": "Vous", "shimaore": "Wagnou", "kibouchi": "Anaréou", "category": "grammaire", "difficulty": 1},
+        
+        # Pronoms possessifs
+        {"french": "Le mien", "shimaore": "Yangou", "kibouchi": "Ninakahi", "category": "grammaire", "difficulty": 2},
+        {"french": "Le tien", "shimaore": "Yaho", "kibouchi": "Ninaou", "category": "grammaire", "difficulty": 2},
+        {"french": "Le sien", "shimaore": "Yahé", "kibouchi": "Ninazi", "category": "grammaire", "difficulty": 2},
+        {"french": "Le leur", "shimaore": "Yawo", "kibouchi": "Nindréou", "category": "grammaire", "difficulty": 2},
+        {"french": "Le nôtre", "shimaore": "Yatrou", "kibouchi": "Nintsika", "category": "grammaire", "difficulty": 2},
+        {"french": "Le vôtre", "shimaore": "Yagnou", "kibouchi": "Ninéyi", "category": "grammaire", "difficulty": 2},
         
         # Famille (vocabulaire familial étendu selon le tableau)
         # Parents directs
