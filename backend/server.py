@@ -297,8 +297,31 @@ async def init_base_content():
         {"french": "Perroquet", "shimaore": "Kasuku", "kibouchi": "Kararokou", "category": "animaux", "difficulty": 2},
         {"french": "Corbeau", "shimaore": "Gawa", "kibouchi": "Goika", "category": "animaux", "difficulty": 1},
         
-        # Autres animaux divers
-        {"french": "Escargot", "shimaore": "Kowa", "kibouchi": "Ankora", "category": "animaux", "difficulty": 1},
+        # Insectes et larves supplémentaires
+        {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimangidji", "category": "animaux", "difficulty": 1},
+        {"french": "Ver de terre", "shimaore": "Njengwe", "kibouchi": "Bibi fotaka", "category": "animaux", "difficulty": 1},
+        {"french": "Criquet", "shimaore": "Furudji", "kibouchi": "Kidzedza", "category": "animaux", "difficulty": 1},
+        {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Galaronga", "category": "animaux", "difficulty": 1},
+        {"french": "Scolopendre", "shimaore": "Trambwi", "kibouchi": "Trambougnou", "category": "animaux", "difficulty": 2},
+        {"french": "Frelon", "shimaore": "Chonga", "kibouchi": "Faraka", "category": "animaux", "difficulty": 1},
+        {"french": "Guêpe", "shimaore": "Yungo yungo", "kibouchi": "Fantehi", "category": "animaux", "difficulty": 1},
+        {"french": "Bourdon", "shimaore": "Madzi ya nyombe", "kibouchi": "Majaoumbi", "category": "animaux", "difficulty": 1},
+        {"french": "Puce", "shimaore": "Kunguni", "kibouchi": "Ancomgou", "category": "animaux", "difficulty": 1},
+        
+        # Poissons et animaux marins supplémentaires  
+        {"french": "Bigorno", "shimaore": "Trondro", "kibouchi": "Trondroul", "category": "animaux", "difficulty": 1},
+        
+        # Mammifères sauvages supplémentaires
+        {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Rambou", "category": "animaux", "difficulty": 2},
+        {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "category": "animaux", "difficulty": 2},
+        {"french": "Chameau", "shimaore": "Ngamia", "kibouchi": "Angamia", "category": "animaux", "difficulty": 2},
+        
+        # Bovins et caprins complémentaires
+        {"french": "Bouc", "shimaore": "Bewe", "kibouchi": "Béberou", "category": "animaux", "difficulty": 1},
+        {"french": "Taureau", "shimaore": "Kondzo", "kibouchi": "Larew", "category": "animaux", "difficulty": 1},
+        
+        # Autres animaux divers (mis à jour)
+        {"french": "Escargot", "shimaore": "Kouéya", "kibouchi": "Ancora", "category": "animaux", "difficulty": 1},
         {"french": "Rat", "shimaore": "Pouhou", "kibouchi": "Voilavou", "category": "animaux", "difficulty": 1},
         {"french": "Chauve-souris", "shimaore": "Drema", "kibouchi": "Fanihi", "category": "animaux", "difficulty": 1},
         {"french": "Lapin", "shimaore": "Sungura", "kibouchi": "Shoungoura", "category": "animaux", "difficulty": 1},
