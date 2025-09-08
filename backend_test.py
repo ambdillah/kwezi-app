@@ -1194,17 +1194,175 @@ class MayotteEducationTester:
             print(f"❌ Extended family vocabulary test error: {e}")
             return False
 
+    def test_complete_colors_palette(self):
+        """Test the complete updated colors palette in the Mayotte educational app backend"""
+        print("\n=== Testing Complete Colors Palette ===")
+        
+        try:
+            # 1. Test complete colors vocabulary initialization
+            print("--- Testing Complete Colors Vocabulary Initialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # 2. Test GET /api/words?category=couleurs to verify all 8 colors
+            print("\n--- Testing Colors Category Filtering (8 Colors) ---")
+            response = self.session.get(f"{API_BASE}/words?category=couleurs")
+            if response.status_code != 200:
+                print(f"❌ Failed to get colors: {response.status_code}")
+                return False
+            
+            colors = response.json()
+            colors_by_french = {word['french']: word for word in colors}
+            
+            print(f"Found {len(colors)} colors in database")
+            
+            # 3. Test specific color translations from the table
+            print("\n--- Testing Specific Color Translations ---")
+            color_tests = [
+                {"french": "Bleu", "shimaore": "Bilé", "kibouchi": "Bilé", "difficulty": 1},
+                {"french": "Vert", "shimaore": "Dhavou", "kibouchi": "Mayitsou", "difficulty": 1},
+                {"french": "Noir", "shimaore": "Nzidhou", "kibouchi": "Mayintigni", "difficulty": 1},
+                {"french": "Blanc", "shimaore": "Ndjéou", "kibouchi": "Malandi", "difficulty": 1},
+                {"french": "Rouge", "shimaore": "Ndzoukoundrou", "kibouchi": "Mena", "difficulty": 1},
+                {"french": "Jaune", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", "difficulty": 1},
+                {"french": "Marron", "shimaore": "Trotro", "kibouchi": "Fotafotaka", "difficulty": 1},  # NEW addition
+                {"french": "Gris", "shimaore": "Djifou", "kibouchi": "Dzofou", "difficulty": 1}  # NEW addition
+            ]
+            
+            all_colors_correct = True
+            
+            for test_case in color_tests:
+                french_word = test_case['french']
+                if french_word in colors_by_french:
+                    word = colors_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['difficulty'], test_case['difficulty'], 'Difficulty'),
+                        (word['category'], 'couleurs', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_colors_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                else:
+                    print(f"❌ {french_word} not found in colors category")
+                    all_colors_correct = False
+            
+            # 4. Test color vocabulary structure
+            print("\n--- Testing Color Vocabulary Structure ---")
+            
+            # Verify increased color vocabulary count (should be 8 colors total)
+            expected_color_count = 8
+            actual_color_count = len(colors)
+            
+            color_count_correct = True
+            if actual_color_count >= expected_color_count:
+                print(f"✅ Color vocabulary count: {actual_color_count} colors (expected {expected_color_count})")
+            else:
+                print(f"❌ Color vocabulary count: {actual_color_count} colors (expected {expected_color_count})")
+                color_count_correct = False
+                all_colors_correct = False
+            
+            # Verify all colors have difficulty level 1 (basic colors)
+            difficulty_levels_correct = True
+            for color in colors:
+                if color['difficulty'] != 1:
+                    print(f"❌ Color '{color['french']}' has incorrect difficulty: {color['difficulty']} (expected 1)")
+                    difficulty_levels_correct = False
+                    all_colors_correct = False
+            
+            if difficulty_levels_correct:
+                print("✅ All colors have difficulty level 1 (basic colors)")
+            
+            # Test that all colors are properly categorized as "couleurs"
+            category_correct = True
+            for color in colors:
+                if color['category'] != 'couleurs':
+                    print(f"❌ Color '{color['french']}' has incorrect category: {color['category']} (expected 'couleurs')")
+                    category_correct = False
+                    all_colors_correct = False
+            
+            if category_correct:
+                print("✅ All colors properly categorized as 'couleurs'")
+            
+            # 5. Test total vocabulary update
+            print("\n--- Testing Total Vocabulary Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total vocabulary count: {total_word_count} words (increased with complete color palette)")
+                
+                # Confirm comprehensive color coverage including earth tones
+                earth_tones_found = []
+                for color in colors:
+                    if color['french'] in ['Marron', 'Gris']:
+                        earth_tones_found.append(color['french'])
+                
+                if len(earth_tones_found) >= 2:
+                    print(f"✅ Earth tones confirmed: {', '.join(earth_tones_found)} (marron, gris)")
+                else:
+                    print(f"❌ Missing earth tones. Found: {', '.join(earth_tones_found)}")
+                    all_colors_correct = False
+                
+                # Verify authentic Mayotte language coverage
+                authentic_translations_verified = True
+                for color in colors:
+                    if not color['shimaore'] or not color['kibouchi']:
+                        print(f"❌ Color '{color['french']}' missing translations")
+                        authentic_translations_verified = False
+                        all_colors_correct = False
+                
+                if authentic_translations_verified:
+                    print("✅ All colors have authentic Shimaoré and Kibouchi translations")
+            else:
+                print(f"❌ Could not retrieve total vocabulary: {response.status_code}")
+                all_colors_correct = False
+            
+            if all_colors_correct:
+                print("\n🎨 COMPLETE COLORS PALETTE TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ All 8 colors verified with authentic Shimaoré and Kibouchi translations")
+                print("✅ Complete color palette covering all basic colors plus earth tones")
+                print("✅ Proper difficulty level 1 assigned to all colors")
+                print("✅ All colors properly categorized as 'couleurs'")
+                print("✅ Earth tones (Marron, Gris) successfully added")
+                print("✅ Comprehensive color coverage for educational use")
+                print("✅ Authentic translations in both Mayotte languages confirmed")
+            else:
+                print("\n❌ Some color vocabulary items are incorrect or missing")
+            
+            return all_colors_correct
+            
+        except Exception as e:
+            print(f"❌ Complete colors palette test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests - Comprehensive Grammar Section")
+        print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
         print("=" * 80)
         
         test_results = {}
         
-        # Run all tests including new comprehensive grammar vocabulary test
+        # Run all tests including new complete colors palette test
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
+        test_results['complete_colors_palette'] = self.test_complete_colors_palette()
         test_results['comprehensive_grammar'] = self.test_comprehensive_grammar_vocabulary()
         test_results['extended_family'] = self.test_extended_family_vocabulary()
         test_results['corrected_numbers'] = self.test_corrected_numbers_system()
