@@ -1196,15 +1196,16 @@ class MayotteEducationTester:
 
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests - Extended Family Vocabulary")
+        print("🏫 Starting Mayotte Educational App Backend Tests - Comprehensive Grammar Section")
         print("=" * 80)
         
         test_results = {}
         
-        # Run all tests including new extended family vocabulary test
+        # Run all tests including new comprehensive grammar vocabulary test
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
+        test_results['comprehensive_grammar'] = self.test_comprehensive_grammar_vocabulary()
         test_results['extended_family'] = self.test_extended_family_vocabulary()
         test_results['corrected_numbers'] = self.test_corrected_numbers_system()
         test_results['comprehensive_vocab'] = self.test_comprehensive_vocabulary_initialization()
@@ -1220,7 +1221,7 @@ class MayotteEducationTester:
         
         # Summary
         print("\n" + "=" * 80)
-        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - FINAL UPDATED VOCABULARY")
+        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - COMPREHENSIVE GRAMMAR SECTION")
         print("=" * 80)
         
         passed = sum(test_results.values())
@@ -1233,10 +1234,12 @@ class MayotteEducationTester:
         print(f"\nOverall: {passed}/{total} tests passed")
         
         if passed == total:
-            print("🎉 All backend tests passed! The final updated Mayotte vocabulary is working correctly.")
-            print("✅ Comprehensive vocabulary with authentic Shimaoré and Kibouchi translations")
-            print("✅ Updated greetings, pronouns, family terms, colors, food, house, nature, and verbs")
-            print("✅ All 13 categories properly implemented including grammaire and verbes")
+            print("🎉 All backend tests passed! The comprehensive grammar section is working correctly.")
+            print("✅ Complete grammar foundation with both personal and possessive pronouns")
+            print("✅ All 6 personal pronouns verified with difficulty 1")
+            print("✅ All 6 possessive pronouns verified with difficulty 2")
+            print("✅ Comprehensive grammar coverage for building complete sentences in Shimaoré and Kibouchi")
+            print("✅ All backend functionality remains intact with comprehensive grammar vocabulary")
         else:
             print("⚠️ Some tests failed. Please check the detailed output above.")
         
