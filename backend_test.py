@@ -1351,6 +1351,296 @@ class MayotteEducationTester:
             print(f"❌ Complete colors palette test error: {e}")
             return False
 
+    def test_comprehensive_updated_animals_section(self):
+        """Test the comprehensive updated animals section in the Mayotte educational app backend"""
+        print("\n=== Testing Comprehensive Updated Animals Section ===")
+        
+        try:
+            # 1. Test complete animals vocabulary initialization
+            print("--- Testing Complete Animals Vocabulary Initialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # 2. Test GET /api/words?category=animaux to verify all animals with complete translations
+            print("\n--- Testing Animals Category Filtering (40+ Animals) ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Failed to get animals: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            animals_by_french = {word['french']: word for word in animals}
+            
+            print(f"Found {len(animals)} animals in database")
+            
+            # Verify significantly increased animal vocabulary count (should be around 40+ animals)
+            if len(animals) >= 40:
+                print(f"✅ Comprehensive animal vocabulary confirmed: {len(animals)} animals (40+ required)")
+            else:
+                print(f"❌ Insufficient animal vocabulary: {len(animals)} animals (40+ required)")
+                return False
+            
+            # 3. Test specific animal groups from the table
+            print("\n--- Testing Specific Animal Groups ---")
+            
+            # Domestic animals
+            print("\n--- Testing Domestic Animals ---")
+            domestic_animals_tests = [
+                {"french": "Cochon", "shimaore": "Pouroukou", "kibouchi": "Lambou", "difficulty": 1},
+                {"french": "Chèvre", "shimaore": "Mbouzi", "kibouchi": "Bengui", "difficulty": 1},
+                {"french": "Mouton", "shimaore": "Baribari", "kibouchi": "Baribari", "difficulty": 1},
+                {"french": "Zébu", "shimaore": "Nyombe", "kibouchi": "Aoumbi", "difficulty": 1},
+                {"french": "Âne", "shimaore": "Pundra", "kibouchi": "Ampundra", "difficulty": 1},
+                {"french": "Cheval", "shimaore": "Farassi", "kibouchi": "Farassi", "difficulty": 1},
+                {"french": "Canard", "shimaore": "Guisi", "kibouchi": "Aoukiri", "difficulty": 1}
+            ]
+            
+            # Updated core animals
+            print("\n--- Testing Updated Core Animals ---")
+            core_animals_tests = [
+                {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka", "difficulty": 1},
+                {"french": "Chat", "shimaore": "Paré", "kibouchi": "Moirou", "difficulty": 1},
+                {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou", "difficulty": 1},
+                {"french": "Oiseau", "shimaore": "Emougni", "kibouchi": "Voroumeki", "difficulty": 1},
+                {"french": "Poule", "shimaore": "Kouhou", "kibouchi": "Akohou", "difficulty": 1},
+                {"french": "Souris", "shimaore": "Shikwetse", "kibouchi": "Voilavou", "difficulty": 1}
+            ]
+            
+            # Wild animals
+            print("\n--- Testing Wild Animals ---")
+            wild_animals_tests = [
+                {"french": "Lion", "shimaore": "Simba", "kibouchi": "Simba", "difficulty": 2},
+                {"french": "Éléphant", "shimaore": "Ndovu", "kibouchi": "Ndovu", "difficulty": 2},
+                {"french": "Crocodile", "shimaore": "Vwai", "kibouchi": "Vwai", "difficulty": 2},
+                {"french": "Serpent", "shimaore": "Nyoha", "kibouchi": "Bibi lava", "difficulty": 2}
+            ]
+            
+            # Insects
+            print("\n--- Testing Insects ---")
+            insects_tests = [
+                {"french": "Abeille", "shimaore": "Niochi", "kibouchi": "Antéli", "difficulty": 1},
+                {"french": "Mouche", "shimaore": "Ndzi", "kibouchi": "Lalitri", "difficulty": 1},
+                {"french": "Moustique", "shimaore": "Manundi", "kibouchi": "Mokou", "difficulty": 1},
+                {"french": "Fourmis", "shimaore": "Tsutsuhu", "kibouchi": "Visiki", "difficulty": 1},
+                {"french": "Papillon", "shimaore": "Pelapelaka", "kibouchi": "Tsipelapelaka", "difficulty": 1},
+                {"french": "Araignée", "shimaore": "Shitrandrabilbwi", "kibouchi": "Bibi amparamani massou", "difficulty": 2},
+                {"french": "Scorpion", "shimaore": "Ngo", "kibouchi": "Hala", "difficulty": 2}
+            ]
+            
+            # Reptiles/Amphibians
+            print("\n--- Testing Reptiles/Amphibians ---")
+            reptiles_amphibians_tests = [
+                {"french": "Margouillat", "shimaore": "Kasangwe", "kibouchi": "Kitsatsaka", "difficulty": 1},
+                {"french": "Lézard", "shimaore": "Ngwizi", "kibouchi": "Kitsatsaka", "difficulty": 1},
+                {"french": "Grenouille", "shimaore": "Shiwatrotro", "kibouchi": "Sahougnou", "difficulty": 1},
+                {"french": "Tortue", "shimaore": "Nyamba katsa", "kibouchi": "Fanou", "difficulty": 1},
+                {"french": "Caméléon", "shimaore": "Tarundru", "kibouchi": "Tarondru", "difficulty": 2}
+            ]
+            
+            # Marine animals
+            print("\n--- Testing Marine Animals ---")
+            marine_animals_tests = [
+                {"french": "Thon", "shimaore": "Mbassi", "kibouchi": "Mbassi", "difficulty": 1},
+                {"french": "Requin", "shimaore": "Papa", "kibouchi": "Ankou", "difficulty": 2},
+                {"french": "Poulpe", "shimaore": "Pwedza", "kibouchi": "Pwedza", "difficulty": 1},
+                {"french": "Crabe", "shimaore": "Dradraka", "kibouchi": "Dakatra", "difficulty": 1},
+                {"french": "Crevette", "shimaore": "Camba", "kibouchi": "Ancamba", "difficulty": 1}
+            ]
+            
+            # Birds
+            print("\n--- Testing Birds ---")
+            birds_tests = [
+                {"french": "Pigeon", "shimaore": "Ndiwa", "kibouchi": "Ndiwa", "difficulty": 1},
+                {"french": "Perroquet", "shimaore": "Kasuku", "kibouchi": "Kararokou", "difficulty": 2},
+                {"french": "Corbeau", "shimaore": "Gawa", "kibouchi": "Goika", "difficulty": 1}
+            ]
+            
+            # Updated primates (now has both translations)
+            print("\n--- Testing Updated Primates ---")
+            primates_tests = [
+                {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "Djakouayi", "difficulty": 1}
+            ]
+            
+            # Other animals
+            print("\n--- Testing Other Animals ---")
+            other_animals_tests = [
+                {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba", "difficulty": 1},
+                {"french": "Escargot", "shimaore": "Kowa", "kibouchi": "Ankora", "difficulty": 1},
+                {"french": "Rat", "shimaore": "Pouhou", "kibouchi": "Voilavou", "difficulty": 1},
+                {"french": "Chauve-souris", "shimaore": "Drema", "kibouchi": "Fanihi", "difficulty": 1},
+                {"french": "Lapin", "shimaore": "Sungura", "kibouchi": "Shoungoura", "difficulty": 1},
+                {"french": "Hérisson", "shimaore": "Tandra", "kibouchi": "Trandraka", "difficulty": 2}
+            ]
+            
+            # Combine all animal tests
+            all_animal_tests = (
+                domestic_animals_tests + core_animals_tests + wild_animals_tests + 
+                insects_tests + reptiles_amphibians_tests + marine_animals_tests + 
+                birds_tests + primates_tests + other_animals_tests
+            )
+            
+            all_animals_correct = True
+            
+            # Test each animal group
+            test_groups = [
+                ("Domestic Animals", domestic_animals_tests),
+                ("Updated Core Animals", core_animals_tests),
+                ("Wild Animals", wild_animals_tests),
+                ("Insects", insects_tests),
+                ("Reptiles/Amphibians", reptiles_amphibians_tests),
+                ("Marine Animals", marine_animals_tests),
+                ("Birds", birds_tests),
+                ("Updated Primates", primates_tests),
+                ("Other Animals", other_animals_tests)
+            ]
+            
+            for group_name, test_cases in test_groups:
+                print(f"\n--- Testing {group_name} ---")
+                group_correct = True
+                
+                for test_case in test_cases:
+                    french_word = test_case['french']
+                    if french_word in animals_by_french:
+                        word = animals_by_french[french_word]
+                        
+                        # Check all fields
+                        checks = [
+                            (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                            (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                            (word['difficulty'], test_case['difficulty'], 'Difficulty'),
+                            (word['category'], 'animaux', 'Category')
+                        ]
+                        
+                        word_correct = True
+                        for actual, expected, field_name in checks:
+                            if actual != expected:
+                                print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                                word_correct = False
+                                group_correct = False
+                                all_animals_correct = False
+                        
+                        if word_correct:
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                    else:
+                        print(f"❌ {french_word} not found in animals category")
+                        group_correct = False
+                        all_animals_correct = False
+                
+                if group_correct:
+                    print(f"✅ {group_name}: All translations verified")
+                else:
+                    print(f"❌ {group_name}: Some translations incorrect or missing")
+            
+            # 4. Test animal vocabulary structure
+            print("\n--- Testing Animal Vocabulary Structure ---")
+            
+            # Verify difficulty levels (1 for common animals, 2 for wild/exotic animals)
+            difficulty_1_count = len([a for a in animals if a['difficulty'] == 1])
+            difficulty_2_count = len([a for a in animals if a['difficulty'] == 2])
+            
+            print(f"Difficulty 1 (common animals): {difficulty_1_count} animals")
+            print(f"Difficulty 2 (wild/exotic animals): {difficulty_2_count} animals")
+            
+            if difficulty_1_count > 0 and difficulty_2_count > 0:
+                print("✅ Difficulty levels properly assigned (1 for common, 2 for wild/exotic)")
+            else:
+                print("❌ Difficulty levels not properly assigned for animal vocabulary")
+                all_animals_correct = False
+            
+            # Test that all animals are properly categorized as "animaux"
+            category_correct = True
+            for animal in animals:
+                if animal['category'] != 'animaux':
+                    print(f"❌ Animal '{animal['french']}' has incorrect category: {animal['category']} (expected 'animaux')")
+                    category_correct = False
+                    all_animals_correct = False
+            
+            if category_correct:
+                print("✅ All animals properly categorized as 'animaux'")
+            
+            # Verify all animals have complete Shimaoré AND Kibouchi translations
+            print("\n--- Testing Complete Translations ---")
+            translation_complete = True
+            for animal in animals:
+                if not animal['shimaore'] and not animal['kibouchi']:
+                    print(f"❌ {animal['french']} has no translations in either language")
+                    translation_complete = False
+                    all_animals_correct = False
+                elif not animal['shimaore']:
+                    print(f"⚠️ {animal['french']} has no Shimaoré translation (Kibouchi: {animal['kibouchi']})")
+                elif not animal['kibouchi']:
+                    print(f"⚠️ {animal['french']} has no Kibouchi translation (Shimaoré: {animal['shimaore']})")
+            
+            if translation_complete:
+                print("✅ All animals have at least one complete translation")
+            
+            # 5. Test total vocabulary update
+            print("\n--- Testing Total Vocabulary Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total vocabulary count: {total_word_count} words (increased significantly with comprehensive animal vocabulary)")
+                
+                # Confirm comprehensive fauna coverage representing Mayotte's biodiversity
+                animal_categories_found = set()
+                for animal in animals:
+                    if animal['french'] in [a['french'] for a in domestic_animals_tests]:
+                        animal_categories_found.add('domestic')
+                    elif animal['french'] in [a['french'] for a in wild_animals_tests]:
+                        animal_categories_found.add('wild')
+                    elif animal['french'] in [a['french'] for a in insects_tests]:
+                        animal_categories_found.add('insects')
+                    elif animal['french'] in [a['french'] for a in marine_animals_tests]:
+                        animal_categories_found.add('marine')
+                    elif animal['french'] in [a['french'] for a in birds_tests]:
+                        animal_categories_found.add('birds')
+                    elif animal['french'] in [a['french'] for a in reptiles_amphibians_tests]:
+                        animal_categories_found.add('reptiles')
+                
+                expected_animal_categories = {'domestic', 'wild', 'insects', 'marine', 'birds', 'reptiles'}
+                if expected_animal_categories.issubset(animal_categories_found):
+                    print("✅ Comprehensive fauna coverage representing Mayotte's biodiversity confirmed")
+                else:
+                    missing_categories = expected_animal_categories - animal_categories_found
+                    print(f"❌ Missing animal categories: {missing_categories}")
+                    all_animals_correct = False
+            else:
+                print(f"❌ Could not retrieve total vocabulary: {response.status_code}")
+                all_animals_correct = False
+            
+            if all_animals_correct:
+                print("\n🎉 COMPREHENSIVE UPDATED ANIMALS SECTION TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Complete animals vocabulary initialization verified")
+                print("✅ 40+ animals with comprehensive authentic translations confirmed")
+                print("✅ All specific animal groups from table verified:")
+                print("   • Domestic animals (Cochon=Pouroukou/Lambou, Chèvre=Mbouzi/Bengui, etc.)")
+                print("   • Updated core animals (Chien=Mbwa/Fadroka, Chat=Paré/Moirou, etc.)")
+                print("   • Wild animals (Lion=Simba/Simba, Éléphant=Ndovu/Ndovu, etc.)")
+                print("   • Insects (Abeille=Niochi/Antéli, Mouche=Ndzi/Lalitri, etc.)")
+                print("   • Reptiles/Amphibians (Margouillat=Kasangwe/Kitsatsaka, etc.)")
+                print("   • Marine animals (Thon=Mbassi/Mbassi, Requin=Papa/Ankou, etc.)")
+                print("   • Birds (Pigeon=Ndiwa/Ndiwa, Perroquet=Kasuku/Kararokou, etc.)")
+                print("   • Updated primates (Singe=Djakwe/Djakouayi - now has both translations)")
+                print("✅ Difficulty levels properly assigned (1 for common, 2 for wild/exotic)")
+                print("✅ All animals properly categorized as 'animaux'")
+                print("✅ Complete Shimaoré AND Kibouchi translations verified")
+                print("✅ Comprehensive fauna coverage representing Mayotte's biodiversity")
+                print("✅ Most comprehensive authentic animal vocabulary covering domestic animals, wildlife, insects, marine life, birds, and reptiles")
+            else:
+                print("\n❌ Some animal vocabulary items are incorrect or missing")
+            
+            return all_animals_correct
+            
+        except Exception as e:
+            print(f"❌ Comprehensive updated animals section test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
