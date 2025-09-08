@@ -192,17 +192,36 @@ async def init_base_content():
         {"french": "Nous", "shimaore": "Wassi", "kibouchi": "Atsika", "category": "grammaire", "difficulty": 1},
         {"french": "Vous", "shimaore": "Wagnou", "kibouchi": "Anarèou", "category": "grammaire", "difficulty": 1},
         
-        # Famille
+        # Famille (vocabulaire familial étendu selon le tableau)
+        # Parents directs
         {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama", "category": "famille", "difficulty": 1},
         {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", "category": "famille", "difficulty": 1},
         {"french": "Enfant", "shimaore": "Mwana", "kibouchi": "Mwana", "category": "famille", "difficulty": 1},
-        {"french": "Frère", "shimaore": "Mwanagna mtroun", "kibouchi": "Anadahi", "category": "famille", "difficulty": 1},
-        {"french": "Sœur", "shimaore": "Mwanagna mtroub", "kibouchi": "Anabavi", "category": "famille", "difficulty": 1},
+        
+        # Tantes et oncles
+        {"french": "Tante", "shimaore": "Mama titi", "kibouchi": "Nindri heli", "category": "famille", "difficulty": 1},
+        {"french": "Oncle maternel", "shimaore": "Zama", "kibouchi": "Zama", "category": "famille", "difficulty": 2},
+        {"french": "Oncle paternel", "shimaore": "Baba titi", "kibouchi": "Baba héli", "category": "famille", "difficulty": 2},
+        {"french": "Épouse oncle maternel", "shimaore": "Zena", "kibouchi": "Zena", "category": "famille", "difficulty": 2},
+        
+        # Frères et sœurs (avec nuances d'âge)
+        {"french": "Petite sœur", "shimaore": "Moinagna mtroum", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
+        {"french": "Petit frère", "shimaore": "Moinagna mtrouba", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
+        {"french": "Grande sœur", "shimaore": "Zouki", "kibouchi": "Zoki", "category": "famille", "difficulty": 1},
+        {"french": "Grand frère", "shimaore": "Zouki", "kibouchi": "Zoki", "category": "famille", "difficulty": 1},
+        {"french": "Frère", "shimaore": "Mwanagna", "kibouchi": "Anadahi", "category": "famille", "difficulty": 1},
+        {"french": "Sœur", "shimaore": "Mwanagna", "kibouchi": "Anabavi", "category": "famille", "difficulty": 1},
+        
+        # Relations sociales et genres
         {"french": "Ami", "shimaore": "Mwandzani", "kibouchi": "Mwandzani", "category": "famille", "difficulty": 1},
         {"french": "Fille", "shimaore": "Mtroumama", "kibouchi": "Viavi", "category": "famille", "difficulty": 1},
         {"french": "Garçon", "shimaore": "Mtroubaba", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
         {"french": "Monsieur", "shimaore": "Mogné", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
         {"french": "Madame", "shimaore": "Bwéni", "kibouchi": "Viavi", "category": "famille", "difficulty": 1},
+        
+        # Grands-parents
+        {"french": "Grand-père", "shimaore": "Bacoco", "kibouchi": "Dadayi", "category": "famille", "difficulty": 1},
+        {"french": "Grand-mère", "shimaore": "Coco", "kibouchi": "Dadi", "category": "famille", "difficulty": 1},
         
         # Couleurs (mises à jour selon le nouveau tableau)
         {"french": "Rouge", "shimaore": "Nzoukoundrou", "kibouchi": "Mena", "category": "couleurs", "difficulty": 1},
