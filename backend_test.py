@@ -800,6 +800,194 @@ class MayotteEducationTester:
             print(f"❌ User progress tracking error: {e}")
             return False
     
+    def test_comprehensive_grammar_vocabulary(self):
+        """Test comprehensive updated grammar section with complete personal and possessive pronouns"""
+        print("\n=== Testing Comprehensive Updated Grammar Section ===")
+        
+        try:
+            # 1. Test complete grammar vocabulary initialization
+            print("--- Testing Complete Grammar Vocabulary Initialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # 2. Test GET /api/words?category=grammaire to verify all pronoun types
+            print("\n--- Testing Grammar Category Filtering ---")
+            response = self.session.get(f"{API_BASE}/words?category=grammaire")
+            if response.status_code != 200:
+                print(f"❌ Failed to get grammar words: {response.status_code}")
+                return False
+            
+            grammar_words = response.json()
+            grammar_words_by_french = {word['french']: word for word in grammar_words}
+            
+            print(f"Found {len(grammar_words)} grammar words")
+            
+            # 3. Test personal pronouns from the table (difficulty 1)
+            print("\n--- Testing Personal Pronouns (Difficulty 1) ---")
+            personal_pronouns_tests = [
+                {"french": "Je", "shimaore": "Wami", "kibouchi": "Zahou", "difficulty": 1},
+                {"french": "Tu", "shimaore": "Wawé", "kibouchi": "Anaou", "difficulty": 1},  # Note the accent on Wawé
+                {"french": "Il/Elle", "shimaore": "Wayé", "kibouchi": "Izi", "difficulty": 1},
+                {"french": "Nous", "shimaore": "Wassi", "kibouchi": "Atsika", "difficulty": 1},
+                {"french": "Ils/Elles", "shimaore": "Wawo", "kibouchi": "Réou", "difficulty": 1},  # NEW addition
+                {"french": "Vous", "shimaore": "Wagnou", "kibouchi": "Anaréou", "difficulty": 1}  # corrected to Anaréou
+            ]
+            
+            personal_pronouns_correct = True
+            for test_case in personal_pronouns_tests:
+                french_word = test_case['french']
+                if french_word in grammar_words_by_french:
+                    word = grammar_words_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['difficulty'], test_case['difficulty'], 'Difficulty')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            personal_pronouns_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                else:
+                    print(f"❌ {french_word} not found in grammar category")
+                    personal_pronouns_correct = False
+            
+            # 4. Test possessive pronouns from the table (difficulty 2)
+            print("\n--- Testing Possessive Pronouns (Difficulty 2) ---")
+            possessive_pronouns_tests = [
+                {"french": "Le mien", "shimaore": "Yangou", "kibouchi": "Ninakahi", "difficulty": 2},
+                {"french": "Le tien", "shimaore": "Yaho", "kibouchi": "Ninaou", "difficulty": 2},
+                {"french": "Le sien", "shimaore": "Yahé", "kibouchi": "Ninazi", "difficulty": 2},
+                {"french": "Le leur", "shimaore": "Yawo", "kibouchi": "Nindréou", "difficulty": 2},
+                {"french": "Le nôtre", "shimaore": "Yatrou", "kibouchi": "Nintsika", "difficulty": 2},
+                {"french": "Le vôtre", "shimaore": "Yagnou", "kibouchi": "Ninéyi", "difficulty": 2}
+            ]
+            
+            possessive_pronouns_correct = True
+            for test_case in possessive_pronouns_tests:
+                french_word = test_case['french']
+                if french_word in grammar_words_by_french:
+                    word = grammar_words_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['difficulty'], test_case['difficulty'], 'Difficulty')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            possessive_pronouns_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                else:
+                    print(f"❌ {french_word} not found in grammar category")
+                    possessive_pronouns_correct = False
+            
+            # 5. Test grammar vocabulary structure
+            print("\n--- Testing Grammar Vocabulary Structure ---")
+            
+            # Verify increased grammar vocabulary count (should be 12 total: 6 personal + 6 possessive)
+            expected_grammar_count = 12
+            actual_grammar_count = len(grammar_words)
+            
+            grammar_count_correct = True
+            if actual_grammar_count >= expected_grammar_count:
+                print(f"✅ Grammar vocabulary count: {actual_grammar_count} words (expected at least {expected_grammar_count})")
+            else:
+                print(f"❌ Grammar vocabulary count: {actual_grammar_count} words (expected at least {expected_grammar_count})")
+                grammar_count_correct = False
+            
+            # Verify difficulty levels (1 for personal pronouns, 2 for possessive pronouns)
+            difficulty_1_count = len([w for w in grammar_words if w['difficulty'] == 1])
+            difficulty_2_count = len([w for w in grammar_words if w['difficulty'] == 2])
+            
+            print(f"Difficulty 1 (personal pronouns): {difficulty_1_count} words")
+            print(f"Difficulty 2 (possessive pronouns): {difficulty_2_count} words")
+            
+            difficulty_levels_correct = True
+            if difficulty_1_count >= 6 and difficulty_2_count >= 6:
+                print("✅ Difficulty levels properly assigned (1 for personal, 2 for possessive)")
+            else:
+                print("❌ Difficulty levels not properly assigned for grammar vocabulary")
+                difficulty_levels_correct = False
+            
+            # Test that all pronouns are properly categorized as "grammaire"
+            category_correct = True
+            for word in grammar_words:
+                if word['category'] != 'grammaire':
+                    print(f"❌ Word '{word['french']}' has incorrect category: {word['category']} (expected 'grammaire')")
+                    category_correct = False
+            
+            if category_correct:
+                print("✅ All pronouns properly categorized as 'grammaire'")
+            
+            # 6. Test total vocabulary update
+            print("\n--- Testing Total Vocabulary Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total vocabulary count: {total_word_count} words (increased with complete grammar vocabulary)")
+                
+                # Confirm comprehensive grammar coverage for sentence construction
+                personal_count = len([w for w in grammar_words if w['difficulty'] == 1])
+                possessive_count = len([w for w in grammar_words if w['difficulty'] == 2])
+                
+                if personal_count >= 6 and possessive_count >= 6:
+                    print("✅ Comprehensive grammar coverage confirmed for sentence construction in Shimaoré and Kibouchi")
+                else:
+                    print("❌ Insufficient grammar coverage for complete sentence construction")
+                    return False
+            else:
+                print(f"❌ Could not retrieve total vocabulary: {response.status_code}")
+                return False
+            
+            # Overall grammar test result
+            all_grammar_correct = (
+                personal_pronouns_correct and 
+                possessive_pronouns_correct and 
+                grammar_count_correct and 
+                difficulty_levels_correct and 
+                category_correct
+            )
+            
+            if all_grammar_correct:
+                print("\n🎉 COMPREHENSIVE GRAMMAR VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Complete grammar foundation with both personal and possessive pronouns")
+                print("✅ All 6 personal pronouns verified (difficulty 1)")
+                print("✅ All 6 possessive pronouns verified (difficulty 2)")
+                print("✅ Total 12 grammar words properly categorized")
+                print("✅ Comprehensive grammar coverage for building complete sentences in both Mayotte languages")
+                print("✅ Proper accent marks confirmed (Wawé, Anaréou)")
+                print("✅ NEW addition 'Ils/Elles' = 'Wawo/Réou' verified")
+                print("✅ Corrected 'Vous' = 'Wagnou/Anaréou' verified")
+            else:
+                print("\n❌ Some grammar vocabulary items are incorrect or missing")
+            
+            return all_grammar_correct
+            
+        except Exception as e:
+            print(f"❌ Comprehensive grammar vocabulary test error: {e}")
+            return False
+
     def test_extended_family_vocabulary(self):
         """Test comprehensive extended family vocabulary initialization and translations"""
         print("\n=== Testing Extended Family Vocabulary ===")
