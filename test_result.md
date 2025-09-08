@@ -341,7 +341,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Extended family vocabulary testing completed successfully"
+    - "Comprehensive updated grammar section testing completed successfully"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
