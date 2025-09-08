@@ -1868,6 +1868,7 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         test_results['comprehensive_updated_animals'] = self.test_comprehensive_updated_animals_section()
+        test_results['final_comprehensive_animals'] = self.test_final_comprehensive_animals_vocabulary()
         test_results['complete_colors_palette'] = self.test_complete_colors_palette()
         test_results['comprehensive_grammar'] = self.test_comprehensive_grammar_vocabulary()
         test_results['extended_family'] = self.test_extended_family_vocabulary()
