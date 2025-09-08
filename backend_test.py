@@ -1641,6 +1641,221 @@ class MayotteEducationTester:
             print(f"❌ Comprehensive updated animals section test error: {e}")
             return False
 
+    def test_final_comprehensive_animals_vocabulary(self):
+        """Test final comprehensive animals vocabulary with all missing animals added (60+ animals)"""
+        print("\n=== Testing Final Comprehensive Animals Vocabulary ===")
+        
+        try:
+            # 1. Test POST /api/init-base-content to initialize with all animals from the table
+            print("--- Testing Complete Animals Vocabulary Initialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # 2. Test GET /api/words?category=animaux to verify expanded animal count (60+ animals)
+            print("\n--- Testing Animals Category Filtering (60+ Animals) ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Failed to get animals: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            animals_by_french = {word['french']: word for word in animals}
+            
+            print(f"Found {len(animals)} animals in database")
+            
+            # Verify we have 60+ animals (significantly increased from previous 40+)
+            if len(animals) >= 60:
+                print(f"✅ Significantly increased animal count: {len(animals)} animals (60+ required)")
+            else:
+                print(f"❌ Insufficient animal count: {len(animals)} animals (60+ required)")
+                return False
+            
+            # 3. Test newly added animal categories from the review request
+            print("\n--- Testing Newly Added Animal Categories ---")
+            
+            # Additional Insects/Larvae
+            print("\n--- Testing Additional Insects/Larvae ---")
+            additional_insects_tests = [
+                {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimangidji", "difficulty": 1},
+                {"french": "Ver de terre", "shimaore": "Njengwe", "kibouchi": "Bibi fotaka", "difficulty": 1},
+                {"french": "Criquet", "shimaore": "Furudji", "kibouchi": "Kidzedza", "difficulty": 1},
+                {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Galaronga", "difficulty": 1},
+                {"french": "Scolopendre", "shimaore": "Trambwi", "kibouchi": "Trambougnou", "difficulty": 2},
+                {"french": "Frelon", "shimaore": "Chonga", "kibouchi": "Faraka", "difficulty": 1},
+                {"french": "Guêpe", "shimaore": "Yungo yungo", "kibouchi": "Fantehi", "difficulty": 1},
+                {"french": "Bourdon", "shimaore": "Madzi ya nyombe", "kibouchi": "Majaoumbi", "difficulty": 1},
+                {"french": "Puce", "shimaore": "Kunguni", "kibouchi": "Ancomgou", "difficulty": 1}
+            ]
+            
+            # Additional Fish
+            print("\n--- Testing Additional Fish ---")
+            additional_fish_tests = [
+                {"french": "Bigorno", "shimaore": "Trondro", "kibouchi": "Trondroul", "difficulty": 1}
+            ]
+            
+            # Additional Wild Mammals
+            print("\n--- Testing Additional Wild Mammals ---")
+            additional_wild_mammals_tests = [
+                {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Rambou", "difficulty": 2},
+                {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "difficulty": 2},
+                {"french": "Chameau", "shimaore": "Ngamia", "kibouchi": "Angamia", "difficulty": 2}
+            ]
+            
+            # Additional Bovines/Caprines
+            print("\n--- Testing Additional Bovines/Caprines ---")
+            additional_bovines_tests = [
+                {"french": "Bouc", "shimaore": "Bewe", "kibouchi": "Béberou", "difficulty": 1},
+                {"french": "Taureau", "shimaore": "Kondzo", "kibouchi": "Larew", "difficulty": 1}
+            ]
+            
+            # Updated animals (corrected translations)
+            print("\n--- Testing Updated Animals (Corrected Translations) ---")
+            updated_animals_tests = [
+                {"french": "Escargot", "shimaore": "Kouéya", "kibouchi": "Ancora", "difficulty": 1}  # corrected from Kowa/Ankora
+            ]
+            
+            # Combine all new animal tests
+            all_new_animal_tests = (
+                additional_insects_tests + additional_fish_tests + 
+                additional_wild_mammals_tests + additional_bovines_tests + 
+                updated_animals_tests
+            )
+            
+            all_new_animals_correct = True
+            
+            # Test each new animal category
+            test_categories = [
+                ("Additional Insects/Larvae", additional_insects_tests),
+                ("Additional Fish", additional_fish_tests),
+                ("Additional Wild Mammals", additional_wild_mammals_tests),
+                ("Additional Bovines/Caprines", additional_bovines_tests),
+                ("Updated Animals", updated_animals_tests)
+            ]
+            
+            for category_name, test_cases in test_categories:
+                print(f"\n--- Testing {category_name} ---")
+                category_correct = True
+                
+                for test_case in test_cases:
+                    french_word = test_case['french']
+                    if french_word in animals_by_french:
+                        word = animals_by_french[french_word]
+                        
+                        # Check all fields
+                        checks = [
+                            (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                            (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                            (word['difficulty'], test_case['difficulty'], 'Difficulty'),
+                            (word['category'], 'animaux', 'Category')
+                        ]
+                        
+                        word_correct = True
+                        for actual, expected, field_name in checks:
+                            if actual != expected:
+                                print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                                word_correct = False
+                                category_correct = False
+                                all_new_animals_correct = False
+                        
+                        if word_correct:
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                    else:
+                        print(f"❌ {french_word} not found in animals category")
+                        category_correct = False
+                        all_new_animals_correct = False
+                
+                if category_correct:
+                    print(f"✅ {category_name}: All translations verified")
+                else:
+                    print(f"❌ {category_name}: Some translations incorrect or missing")
+            
+            # 4. Test that all new animals have complete Shimaoré and Kibouchi translations
+            print("\n--- Testing Complete Translations for All Animals ---")
+            incomplete_translations = []
+            
+            for animal in animals:
+                if not animal['shimaore'] or not animal['kibouchi']:
+                    incomplete_translations.append(f"{animal['french']} (Shimaoré: '{animal['shimaore']}', Kibouchi: '{animal['kibouchi']}')")
+            
+            if not incomplete_translations:
+                print("✅ All animals have complete Shimaoré and Kibouchi translations")
+            else:
+                print(f"❌ Animals with incomplete translations: {incomplete_translations}")
+                all_new_animals_correct = False
+            
+            # 5. Test proper difficulty assignments for new animals
+            print("\n--- Testing Difficulty Assignments ---")
+            difficulty_1_count = len([a for a in animals if a['difficulty'] == 1])
+            difficulty_2_count = len([a for a in animals if a['difficulty'] == 2])
+            
+            print(f"Difficulty 1 (common animals): {difficulty_1_count} animals")
+            print(f"Difficulty 2 (wild/exotic animals): {difficulty_2_count} animals")
+            
+            if difficulty_1_count > 0 and difficulty_2_count > 0:
+                print("✅ Proper difficulty assignments confirmed")
+            else:
+                print("❌ Difficulty assignments not properly distributed")
+                all_new_animals_correct = False
+            
+            # 6. Test total vocabulary update reflects all added animals
+            print("\n--- Testing Total Vocabulary Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total vocabulary count: {total_word_count} words (reflects all added animals)")
+                
+                # Confirm comprehensive fauna collection representing complete Mayotte biodiversity
+                animal_categories_found = set()
+                for animal in animals:
+                    if any(insect in animal['french'].lower() for insect in ['chenille', 'ver', 'criquet', 'cafard', 'scolopendre', 'frelon', 'guêpe', 'bourdon', 'puce']):
+                        animal_categories_found.add('additional_insects')
+                    elif 'bigorno' in animal['french'].lower():
+                        animal_categories_found.add('additional_fish')
+                    elif any(mammal in animal['french'].lower() for mammal in ['facochère', 'renard', 'chameau']):
+                        animal_categories_found.add('additional_wild_mammals')
+                    elif any(bovine in animal['french'].lower() for bovine in ['bouc', 'taureau']):
+                        animal_categories_found.add('additional_bovines')
+                    elif 'escargot' in animal['french'].lower():
+                        animal_categories_found.add('updated_animals')
+                
+                expected_new_categories = {'additional_insects', 'additional_fish', 'additional_wild_mammals', 'additional_bovines', 'updated_animals'}
+                if expected_new_categories.issubset(animal_categories_found):
+                    print("✅ Complete Mayotte biodiversity representation confirmed")
+                else:
+                    missing_categories = expected_new_categories - animal_categories_found
+                    print(f"❌ Missing animal categories: {missing_categories}")
+                    all_new_animals_correct = False
+            else:
+                print(f"❌ Could not retrieve total vocabulary: {response.status_code}")
+                all_new_animals_correct = False
+            
+            if all_new_animals_correct:
+                print("\n🎉 FINAL COMPREHENSIVE ANIMALS VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ All missing animals from the table have been added and verified")
+                print("✅ Significantly increased animal vocabulary (60+ animals confirmed)")
+                print("✅ All new animals have complete Shimaoré and Kibouchi translations")
+                print("✅ Proper difficulty assignments for all new animals")
+                print("✅ Additional Insects/Larvae: 9 new species added")
+                print("✅ Additional Fish: Bigorno added")
+                print("✅ Additional Wild Mammals: Facochère, Renard, Chameau added")
+                print("✅ Additional Bovines/Caprines: Bouc, Taureau added")
+                print("✅ Updated animals: Escargot translation corrected")
+                print("✅ Most comprehensive fauna collection representing complete Mayotte biodiversity")
+            else:
+                print("\n❌ Some new animals are incorrect, missing, or have incomplete translations")
+            
+            return all_new_animals_correct
+            
+        except Exception as e:
+            print(f"❌ Final comprehensive animals vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
