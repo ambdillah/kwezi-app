@@ -389,7 +389,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Final comprehensive animals vocabulary testing completed successfully"
+    - "Corrected animal translations verification completed successfully"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
