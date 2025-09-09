@@ -313,7 +313,6 @@ async def init_base_content():
         
         # Mammifères sauvages supplémentaires
         {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Lambou", "category": "animaux", "difficulty": 2},
-        {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "category": "animaux", "difficulty": 2},
         {"french": "Chameau", "shimaore": "Ngamia", "kibouchi": "Angamia", "category": "animaux", "difficulty": 2},
         
         # Bovins et caprins complémentaires
