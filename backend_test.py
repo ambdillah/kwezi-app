@@ -3913,6 +3913,187 @@ class MayotteEducationTester:
             print(f"❌ Final animal corrections verification error: {e}")
             return False
 
+    def test_updated_animals_vocabulary_from_new_tableau(self):
+        """Test the updated animals vocabulary from the new tableau with specific animals"""
+        print("\n=== Testing Updated Animals Vocabulary from New Tableau ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors
+            print("--- Testing Backend Startup ---")
+            response = self.session.get(f"{BACKEND_URL}/")
+            if response.status_code != 200:
+                print(f"❌ Backend startup failed: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors")
+            
+            # 2. Test /api/words endpoint
+            print("\n--- Testing /api/words Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ /api/words endpoint failed: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"✅ /api/words endpoint working correctly ({len(all_words)} total words)")
+            
+            # 3. Test /api/words?category=animaux endpoint
+            print("\n--- Testing /api/words?category=animaux Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ /api/words?category=animaux endpoint failed: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            animals_by_french = {word['french']: word for word in animals}
+            print(f"✅ /api/words?category=animaux endpoint working correctly ({len(animals)} animals)")
+            
+            # 4. Test newly added animals from the additional tableau
+            print("\n--- Testing Newly Added Animals from Additional Tableau ---")
+            newly_added_animals = [
+                {"french": "Pigeon", "shimaore": "Ndiwa", "kibouchi": "Ndiwa"},
+                {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimanguidi"},
+                {"french": "Cheval", "shimaore": "Farassi", "kibouchi": "Farassi"},
+                {"french": "Perroquet", "shimaore": "Kasuku", "kibouchi": "Kararokou"},
+                {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Kalalowou"},
+                {"french": "Araignée", "shimaore": "Shitrandrablwibwi", "kibouchi": "Bibi ampamani massou"},
+                {"french": "Scorpion", "shimaore": "Hala", "kibouchi": "Hala"},
+                {"french": "Scolopandre", "shimaore": "Trambwi", "kibouchi": "Trambougnou"},
+                {"french": "Thon", "shimaore": "Mbassi", "kibouchi": "Mbassi"},
+                {"french": "Requin", "shimaore": "Papa", "kibouchi": "Ankou"},
+                {"french": "Poulpe", "shimaore": "Pwedza", "kibouchi": "Pwedza"},
+                {"french": "Crabe", "shimaore": "Dradraka", "kibouchi": "Dakatra"},
+                {"french": "Tortue", "shimaore": "Nyamba/Katsa", "kibouchi": "Fanou"},
+                {"french": "Éléphant", "shimaore": "Ndovu", "kibouchi": "Ndovu"},
+                {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "Djakouayi"},
+                {"french": "Souris", "shimaore": "Shikwetse", "kibouchi": "Voilavou"}
+            ]
+            
+            all_new_animals_found = True
+            for test_case in newly_added_animals:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    
+                    # Check translations
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'animaux', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_new_animals_found = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in animals list")
+                    all_new_animals_found = False
+            
+            # 5. Check that previously existing animals are still present
+            print("\n--- Testing Previously Existing Animals Still Present ---")
+            previously_existing_animals = [
+                "Chat", "Chien", "Poisson", "Oiseau", "Poule", "Maki", "Lion", 
+                "Crocodile", "Serpent", "Abeille", "Mouche", "Moustique", "Fourmis", 
+                "Papillon", "Chèvre", "Mouton", "Zébu", "Âne", "Cochon", "Lapin"
+            ]
+            
+            previously_existing_found = True
+            for animal_name in previously_existing_animals:
+                if animal_name in animals_by_french:
+                    print(f"✅ {animal_name} still present")
+                else:
+                    print(f"❌ {animal_name} missing (was previously existing)")
+                    previously_existing_found = False
+            
+            # 6. Verify total animal count has increased appropriately
+            print("\n--- Testing Total Animal Count ---")
+            expected_minimum_count = len(newly_added_animals) + len(previously_existing_animals)
+            actual_count = len(animals)
+            
+            if actual_count >= expected_minimum_count:
+                print(f"✅ Total animal count: {actual_count} (expected at least {expected_minimum_count})")
+            else:
+                print(f"❌ Total animal count: {actual_count} (expected at least {expected_minimum_count})")
+                return False
+            
+            # 7. Test for duplicate entries
+            print("\n--- Testing for Duplicate Entries ---")
+            french_names = [animal['french'] for animal in animals]
+            unique_french_names = set(french_names)
+            
+            if len(french_names) == len(unique_french_names):
+                print(f"✅ No duplicate entries found ({len(unique_french_names)} unique animals)")
+            else:
+                duplicates = []
+                seen = set()
+                for name in french_names:
+                    if name in seen:
+                        duplicates.append(name)
+                    seen.add(name)
+                print(f"❌ Duplicate entries found: {duplicates}")
+                print(f"Total entries: {len(french_names)}, Unique names: {len(unique_french_names)}")
+                return False
+            
+            # 8. Ensure all animals have proper French, Shimaoré, and Kibouchi translations
+            print("\n--- Testing Translation Completeness ---")
+            translation_complete = True
+            for animal in animals:
+                if not animal['french'] or not animal['shimaore'] or not animal['kibouchi']:
+                    print(f"❌ {animal['french']} missing translations: Shimaoré='{animal['shimaore']}', Kibouchi='{animal['kibouchi']}'")
+                    translation_complete = False
+            
+            if translation_complete:
+                print("✅ All animals have complete French, Shimaoré, and Kibouchi translations")
+            
+            # 9. Check that other categories remain intact
+            print("\n--- Testing Other Categories Remain Intact ---")
+            expected_categories = ['salutations', 'couleurs', 'nombres', 'famille', 'grammaire', 'verbes']
+            categories_intact = True
+            
+            for category in expected_categories:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    print(f"✅ Category '{category}': {len(category_words)} words")
+                else:
+                    print(f"❌ Category '{category}' not accessible")
+                    categories_intact = False
+            
+            # 10. Provide final counts
+            print("\n--- Final Counts ---")
+            print(f"Total animals: {len(animals)}")
+            print(f"Total words across all categories: {len(all_words)}")
+            
+            # Overall result
+            overall_success = (
+                all_new_animals_found and 
+                previously_existing_found and 
+                translation_complete and 
+                categories_intact and
+                len(french_names) == len(unique_french_names)  # No duplicates
+            )
+            
+            if overall_success:
+                print("\n🎉 UPDATED ANIMALS VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ All newly added animals from the tableau are present with correct translations")
+                print("✅ Previously existing animals are still present")
+                print("✅ No duplicate entries found")
+                print("✅ All animals have complete translations")
+                print("✅ Other categories remain intact")
+            else:
+                print("\n❌ Some issues found with the updated animals vocabulary")
+            
+            return overall_success
+            
+        except Exception as e:
+            print(f"❌ Updated animals vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Final Animal Corrections Verification")
