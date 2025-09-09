@@ -278,7 +278,7 @@ async def init_base_content():
         {"french": "Hérisson/Tangue", "shimaore": "Jandra", "kibouchi": "Trandraka", "category": "animaux", "difficulty": 1},
         {"french": "Corbeau", "shimaore": "Gawa", "kibouchi": "Goika", "category": "animaux", "difficulty": 1},
         {"french": "Civette", "shimaore": "Foungo", "kibouchi": "Angava", "category": "animaux", "difficulty": 1},
-        {"french": "Dauphin", "shimaore": "Camba", "kibouchi": "Fesoutrou", "category": "animaux", "difficulty": 1},
+        {"french": "Dauphin", "shimaore": "Camba", "kibouchi": "Fésoutrou", "category": "animaux", "difficulty": 1},
         {"french": "Baleine", "shimaore": "Nyanga", "kibouchi": "Fesoutrou", "category": "animaux", "difficulty": 1},
         {"french": "Crevette", "shimaore": "Kufuni", "kibouchi": "Ancongou", "category": "animaux", "difficulty": 1},
         {"french": "Frelon", "shimaore": "Chonga", "kibouchi": "Ngorou", "category": "animaux", "difficulty": 1},
