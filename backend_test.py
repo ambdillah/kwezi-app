@@ -3273,6 +3273,252 @@ class MayotteEducationTester:
             print(f"❌ Review request comprehensive vocabulary test error: {e}")
             return False
 
+    def test_updated_animals_vocabulary_new_tableau(self):
+        """Test the updated animals vocabulary from the new tableau with 44 animals"""
+        print("\n=== Testing Updated Animals Vocabulary from New Tableau (44 Animals) ===")
+        
+        try:
+            # 1. Check backend starts without syntax errors by testing basic connectivity
+            print("--- Testing Backend Startup (No Syntax Errors) ---")
+            response = self.session.get(f"{BACKEND_URL}/")
+            if response.status_code == 200:
+                print("✅ Backend starts without syntax errors")
+            else:
+                print(f"❌ Backend startup issue: {response.status_code}")
+                return False
+            
+            # 2. Test /api/words endpoint to retrieve all words
+            print("\n--- Testing /api/words Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Failed to retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"✅ Retrieved {len(all_words)} total words from backend")
+            
+            # 3. Test /api/words?category=animaux endpoint specifically for animals
+            print("\n--- Testing /api/words?category=animaux Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Failed to retrieve animals: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            animals_by_french = {word['french']: word for word in animals}
+            print(f"✅ Retrieved {len(animals)} animals from animaux category")
+            
+            # 4. Test that all 44 animals from the new tableau are present
+            print("\n--- Testing New Tableau Animals (44 Animals) ---")
+            
+            # Key animals from the review request that should be present
+            new_tableau_animals = [
+                {"french": "Abeille", "shimaore": "Niochi", "kibouchi": "Antéli"},
+                {"french": "Margouillat", "shimaore": "Kasangwe", "kibouchi": "Kitsatsaka"},
+                {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou"},
+                {"french": "Rat", "shimaore": "Pouhou", "kibouchi": "Voilavou"},
+                {"french": "Escargot", "shimaore": "Kouéya", "kibouchi": "Ancora"},
+                {"french": "Lion", "shimaore": "Simba", "kibouchi": "Simba"},
+                {"french": "Grenouille", "shimaore": "Shiwatrotro", "kibouchi": "Sahougnou"},
+                {"french": "Oiseau", "shimaore": "Gnougni", "kibouchi": "Vorougnou"},
+                {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou"},
+                {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba"},
+                {"french": "Jézard", "shimaore": "Ngwizi", "kibouchi": "Kitsatsaka"},
+                {"french": "Ranard", "shimaore": "Sabwa nyeha", "kibouchi": "Fadroka"},
+                {"french": "Hérisson/Tangue", "shimaore": "Jandra", "kibouchi": "Trandraka"},
+                {"french": "Civette", "shimaore": "Foungo", "kibouchi": "Angava"},
+                {"french": "Dauphin", "shimaore": "Camba", "kibouchi": "Fesoutrou"},
+                {"french": "Baleine", "shimaore": "Nyanga", "kibouchi": "Fesoutrou"},
+                {"french": "Cône de mer", "shimaore": "Gnamané", "kibouchi": "Kamara"},
+                {"french": "Mille pattes", "shimaore": "Nyango", "kibouchi": "Scoudafitri"},
+                # Additional animals from the current implementation
+                {"french": "Chèvre", "shimaore": "Mbouzi", "kibouchi": "Bengui"},
+                {"french": "Moustique", "shimaore": "Manundi", "kibouchi": "Mokou"},
+                {"french": "Mouche", "shimaore": "Ndzi", "kibouchi": "Lalitri"},
+                {"french": "Chauve-souris", "shimaore": "Drema", "kibouchi": "Fanihi"},
+                {"french": "Serpent", "shimaore": "Nyoha", "kibouchi": "Bibi lava"},
+                {"french": "Lapin", "shimaore": "Sungura", "kibouchi": "Shoungoura"},
+                {"french": "Mouton", "shimaore": "Baribari", "kibouchi": "Baribari"},
+                {"french": "Crocodile", "shimaore": "Vwai", "kibouchi": "Vwai"},
+                {"french": "Caméléon", "shimaore": "Tarundru", "kibouchi": "Tarondru"},
+                {"french": "Zébu", "shimaore": "Nyombe", "kibouchi": "Aoumbi"},
+                {"french": "Âne", "shimaore": "Pundra", "kibouchi": "Ampundra"},
+                {"french": "Poule", "shimaore": "Kouhou", "kibouchi": "Akohou"},
+                {"french": "Fourmis", "shimaore": "Tsutsuhu", "kibouchi": "Visiki"},
+                {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka"},
+                {"french": "Papillon", "shimaore": "Pelapelaka", "kibouchi": "Tsipelapelaka"},
+                {"french": "Ver de terre", "shimaore": "Njengwe", "kibouchi": "Bibi fotaka"},
+                {"french": "Criquet", "shimaore": "Furudji", "kibouchi": "Kidzedza"},
+                {"french": "Cochon", "shimaore": "Pouroukou", "kibouchi": "Lambou"},
+                {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Lambou"},
+                {"french": "Chameau", "shimaore": "Ngamia", "kibouchi": "Angamia"},
+                {"french": "Corbeau", "shimaore": "Gawa", "kibouchi": "Goika"},
+                {"french": "Crevette", "shimaore": "Kufuni", "kibouchi": "Ancongou"},
+                {"french": "Frelon", "shimaore": "Chonga", "kibouchi": "Ngorou"},
+                {"french": "Pou", "shimaore": "Béwé", "kibouchi": "Bébérou"},
+                {"french": "Bouc", "shimaore": "Kondzo", "kibouchi": "Dzow"},
+                {"french": "Taureau", "shimaore": "Trondro", "kibouchi": "Trondrou"},
+                {"french": "Bigorneau", "shimaore": "Komba", "kibouchi": "Mahombi"},
+                {"french": "Lambis", "shimaore": "Tsipoul", "kibouchi": "Tsimtipaka"}
+            ]
+            
+            animals_found = 0
+            animals_correct = 0
+            
+            for expected_animal in new_tableau_animals:
+                french_name = expected_animal['french']
+                if french_name in animals_by_french:
+                    animals_found += 1
+                    animal = animals_by_french[french_name]
+                    
+                    # Check translations
+                    shimaore_correct = animal['shimaore'] == expected_animal['shimaore']
+                    kibouchi_correct = animal['kibouchi'] == expected_animal['kibouchi']
+                    
+                    if shimaore_correct and kibouchi_correct:
+                        animals_correct += 1
+                        print(f"✅ {french_name}: {animal['shimaore']} / {animal['kibouchi']}")
+                    else:
+                        print(f"❌ {french_name}: Expected {expected_animal['shimaore']}/{expected_animal['kibouchi']}, got {animal['shimaore']}/{animal['kibouchi']}")
+                else:
+                    print(f"❌ {french_name} not found in animals category")
+            
+            print(f"\nAnimals found: {animals_found}/{len(new_tableau_animals)}")
+            print(f"Animals with correct translations: {animals_correct}/{len(new_tableau_animals)}")
+            
+            # 5. Verify that old animals not in the new tableau are no longer present
+            print("\n--- Testing Removal of Old Animals Not in New Tableau ---")
+            
+            # Animals that should be REMOVED according to the review request
+            old_animals_to_remove = [
+                "Éléphant", "Tortue", "Thon", "Requin", "Poulpe", "Pigeon", "Perroquet"
+            ]
+            
+            old_animals_still_present = []
+            for old_animal in old_animals_to_remove:
+                if old_animal in animals_by_french:
+                    old_animals_still_present.append(old_animal)
+                    print(f"❌ {old_animal} should be removed but is still present")
+                else:
+                    print(f"✅ {old_animal} correctly removed")
+            
+            # 6. Check that other categories are still intact
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            other_categories = ['salutations', 'couleurs', 'nombres', 'famille', 'grammaire', 'verbes']
+            categories_intact = True
+            
+            for category in other_categories:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    if len(category_words) > 0:
+                        print(f"✅ {category}: {len(category_words)} words")
+                    else:
+                        print(f"❌ {category}: No words found")
+                        categories_intact = False
+                else:
+                    print(f"❌ {category}: Failed to retrieve ({response.status_code})")
+                    categories_intact = False
+            
+            # 7. Check for duplicate entries or syntax errors
+            print("\n--- Testing for Duplicates and Data Integrity ---")
+            
+            french_names = [animal['french'] for animal in animals]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print("✅ No duplicate animals found")
+                duplicates_ok = True
+            else:
+                duplicates_ok = False
+                duplicate_count = len(french_names) - len(unique_names)
+                print(f"❌ Found {duplicate_count} duplicate animals")
+                
+                # Show duplicates
+                name_counts = {}
+                for name in french_names:
+                    name_counts[name] = name_counts.get(name, 0) + 1
+                
+                for name, count in name_counts.items():
+                    if count > 1:
+                        print(f"   • '{name}' appears {count} times")
+            
+            # 8. Verify all animals have proper structure
+            print("\n--- Testing Animal Data Structure ---")
+            
+            structure_ok = True
+            for animal in animals:
+                required_fields = ['french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                for field in required_fields:
+                    if field not in animal:
+                        print(f"❌ Animal '{animal.get('french', 'unknown')}' missing field: {field}")
+                        structure_ok = False
+                
+                if animal.get('category') != 'animaux':
+                    print(f"❌ Animal '{animal.get('french', 'unknown')}' has wrong category: {animal.get('category')}")
+                    structure_ok = False
+            
+            if structure_ok:
+                print("✅ All animals have proper data structure")
+            
+            # Overall assessment
+            print("\n--- Overall Assessment ---")
+            
+            # Check if we have at least 40+ animals as mentioned in the review
+            animals_count_ok = len(animals) >= 40
+            if animals_count_ok:
+                print(f"✅ Animal count: {len(animals)} animals (40+ required)")
+            else:
+                print(f"❌ Animal count: {len(animals)} animals (40+ required)")
+            
+            # Check if most key animals are present and correct
+            key_animals_ok = animals_correct >= (len(new_tableau_animals) * 0.9)  # 90% threshold
+            
+            # Check if old animals are properly removed
+            old_animals_ok = len(old_animals_still_present) == 0
+            
+            # Final result
+            all_tests_passed = (
+                animals_count_ok and 
+                key_animals_ok and 
+                old_animals_ok and 
+                categories_intact and 
+                duplicates_ok and 
+                structure_ok
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED ANIMALS VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors")
+                print("✅ /api/words endpoint working correctly")
+                print("✅ /api/words?category=animaux endpoint working correctly")
+                print(f"✅ {animals_correct}/{len(new_tableau_animals)} key animals from new tableau verified")
+                print("✅ Old animals properly removed")
+                print("✅ Other categories remain intact")
+                print("✅ No duplicate entries found")
+                print("✅ All animals have proper data structure")
+            else:
+                print("\n❌ Some issues found with updated animals vocabulary:")
+                if not animals_count_ok:
+                    print("   • Insufficient animal count")
+                if not key_animals_ok:
+                    print("   • Key animals missing or incorrect translations")
+                if not old_animals_ok:
+                    print("   • Old animals not properly removed")
+                if not categories_intact:
+                    print("   • Other categories affected")
+                if not duplicates_ok:
+                    print("   • Duplicate animals found")
+                if not structure_ok:
+                    print("   • Data structure issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated animals vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
