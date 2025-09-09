@@ -312,7 +312,7 @@ async def init_base_content():
         {"french": "Bigorneau", "shimaore": "Trondro", "kibouchi": "Trondrou", "category": "animaux", "difficulty": 1},
         
         # Mammifères sauvages supplémentaires
-        {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Rambou", "category": "animaux", "difficulty": 2},
+        {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Lambou", "category": "animaux", "difficulty": 2},
         {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "category": "animaux", "difficulty": 2},
         {"french": "Chameau", "shimaore": "Ngamia", "kibouchi": "Angamia", "category": "animaux", "difficulty": 2},
         
