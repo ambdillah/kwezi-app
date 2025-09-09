@@ -4283,6 +4283,200 @@ class MayotteEducationTester:
             print(f"❌ Specific animal corrections verification error: {e}")
             return False
 
+    def test_updated_nourriture_vocabulary_new_tableau(self):
+        """Test the updated food/nourriture vocabulary after complete replacement with new tableau"""
+        print("\n=== Testing Updated Nourriture Vocabulary from New Tableau ===")
+        
+        try:
+            # 1. Check if backend starts without syntax errors
+            print("--- Testing Backend Startup ---")
+            response = self.session.get(f"{BACKEND_URL}/")
+            if response.status_code != 200:
+                print(f"❌ Backend startup failed: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors")
+            
+            # 2. Test /api/words?category=nourriture endpoint
+            print("\n--- Testing /api/words?category=nourriture Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=nourriture")
+            if response.status_code != 200:
+                print(f"❌ Failed to retrieve nourriture words: {response.status_code}")
+                return False
+            
+            food_words = response.json()
+            food_words_by_french = {word['french']: word for word in food_words}
+            
+            print(f"✅ Retrieved {len(food_words)} food items from nourriture category")
+            
+            # 3. Verify specific key foods from the new tableau (16 items from review request)
+            print("\n--- Testing Specific Key Foods from New Tableau ---")
+            key_foods_tests = [
+                {"french": "Riz", "shimaore": "Tsoholé", "kibouchi": "Vari"},
+                {"french": "Eau", "shimaore": "Maji", "kibouchi": "Ranou"},
+                {"french": "Ananas", "shimaore": "Nanassi", "kibouchi": "Mananassi"},
+                {"french": "Pois d'angole", "shimaore": "Tsouzi", "kibouchi": "Ambatri"},
+                {"french": "Banane", "shimaore": "Trovi", "kibouchi": "Hountsi"},
+                {"french": "Mangue", "shimaore": "Manga", "kibouchi": "Manga"},
+                {"french": "Noix de coco", "shimaore": "Nazi", "kibouchi": "Voiniou"},
+                {"french": "Lait", "shimaore": "Dzia", "kibouchi": "Rounounou"},
+                {"french": "Viande", "shimaore": "Nhyama", "kibouchi": "Amboumati"},
+                {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou"},
+                {"french": "Brèdes", "shimaore": "Féliki", "kibouchi": "Féliki"},
+                {"french": "Patate douce", "shimaore": "Batata", "kibouchi": "Batata"},
+                {"french": "Tamarin", "shimaore": "Ouhajou", "kibouchi": "Madirou kakazou"},
+                {"french": "Vanille", "shimaore": "Lavani", "kibouchi": "Lavani"},
+                {"french": "Gingembre", "shimaore": "Sakayi", "kibouchi": "Sakéyi"},
+                {"french": "Curcuma", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou"}
+            ]
+            
+            key_foods_correct = True
+            for test_case in key_foods_tests:
+                french_word = test_case['french']
+                if french_word in food_words_by_french:
+                    word = food_words_by_french[french_word]
+                    
+                    # Check translations
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'nourriture', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            key_foods_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in nourriture category")
+                    key_foods_correct = False
+            
+            # 4. Test for complete food vocabulary from new tableau (should be around 40 items)
+            print(f"\n--- Testing Complete Food Vocabulary Count ---")
+            expected_min_count = 35  # Around 40 food items expected
+            actual_count = len(food_words)
+            
+            count_correct = True
+            if actual_count >= expected_min_count:
+                print(f"✅ Food count: {actual_count} items (expected around 40, minimum {expected_min_count})")
+            else:
+                print(f"❌ Food count: {actual_count} items (expected around 40, minimum {expected_min_count})")
+                count_correct = False
+            
+            # 5. Verify all food items have complete translations in both languages
+            print(f"\n--- Testing Complete Translations ---")
+            complete_translations = True
+            incomplete_items = []
+            
+            for word in food_words:
+                if not word['shimaore'] or not word['kibouchi']:
+                    incomplete_items.append(f"{word['french']} (Shimaoré: '{word['shimaore']}', Kibouchi: '{word['kibouchi']}')")
+                    complete_translations = False
+            
+            if complete_translations:
+                print(f"✅ All {len(food_words)} food items have complete translations in both languages")
+            else:
+                print(f"❌ {len(incomplete_items)} food items have incomplete translations:")
+                for item in incomplete_items[:5]:  # Show first 5 incomplete items
+                    print(f"  - {item}")
+                if len(incomplete_items) > 5:
+                    print(f"  ... and {len(incomplete_items) - 5} more")
+            
+            # 6. Check for duplicate entries
+            print(f"\n--- Testing for Duplicate Entries ---")
+            french_names = [word['french'] for word in food_words]
+            unique_names = set(french_names)
+            
+            duplicates_check = True
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique food items)")
+            else:
+                duplicates = []
+                for name in unique_names:
+                    count = french_names.count(name)
+                    if count > 1:
+                        duplicates.append(f"{name} ({count} times)")
+                
+                print(f"❌ {len(duplicates)} duplicate entries found:")
+                for dup in duplicates:
+                    print(f"  - {dup}")
+                duplicates_check = False
+            
+            # 7. Verify other categories remain intact
+            print(f"\n--- Testing Other Categories Remain Intact ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Failed to retrieve all words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            categories = set(word['category'] for word in all_words)
+            
+            expected_other_categories = {
+                'famille', 'couleurs', 'animaux', 'salutations', 'nombres', 
+                'corps', 'maison', 'vetements', 'nature', 'transport', 'grammaire', 'verbes'
+            }
+            
+            other_categories_intact = True
+            for category in expected_other_categories:
+                category_words = [w for w in all_words if w['category'] == category]
+                if len(category_words) > 0:
+                    print(f"✅ {category}: {len(category_words)} words")
+                else:
+                    print(f"❌ {category}: No words found")
+                    other_categories_intact = False
+            
+            # 8. Provide final counts
+            print(f"\n--- Final Vocabulary Counts ---")
+            total_words = len(all_words)
+            food_count = len(food_words)
+            
+            print(f"Total words in database: {total_words}")
+            print(f"Food items in nourriture category: {food_count}")
+            
+            # Overall test result
+            all_tests_passed = (
+                key_foods_correct and 
+                count_correct and 
+                complete_translations and 
+                duplicates_check and 
+                other_categories_intact
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED NOURRITURE VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors")
+                print("✅ /api/words?category=nourriture endpoint working correctly")
+                print(f"✅ All 16 key foods from new tableau verified with correct translations")
+                print(f"✅ Food count meets requirements: {food_count} items")
+                print("✅ All food items have complete translations in both languages")
+                print("✅ No duplicate entries found")
+                print("✅ Other categories remain intact and functional")
+                print(f"✅ Total vocabulary count: {total_words} words")
+                print(f"✅ Food vocabulary count: {food_count} items")
+            else:
+                print("\n❌ Some nourriture vocabulary tests failed")
+                if not key_foods_correct:
+                    print("❌ Key foods from tableau have incorrect translations")
+                if not count_correct:
+                    print("❌ Food count does not meet requirements")
+                if not complete_translations:
+                    print("❌ Some food items have incomplete translations")
+                if not duplicates_check:
+                    print("❌ Duplicate entries found")
+                if not other_categories_intact:
+                    print("❌ Some other categories are missing or incomplete")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated nourriture vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Specific Animal Corrections Verification")
