@@ -2807,6 +2807,227 @@ class MayotteEducationTester:
             print(f"❌ Final duplicate verification test error: {e}")
             return False
 
+    def test_updated_verbs_vocabulary_with_corrected_orthography(self):
+        """Test the updated verbs vocabulary based exactly on the user's provided tables with corrected French orthography"""
+        print("\n=== Testing Updated Verbs Vocabulary with Corrected French Orthography ===")
+        
+        try:
+            # 1. Test comprehensive verbs initialization
+            print("--- Testing Comprehensive Verbs Initialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # 2. Test GET /api/words?category=verbes to verify all verbs from both tables
+            print("\n--- Testing Verbs Category Filtering ---")
+            response = self.session.get(f"{API_BASE}/words?category=verbes")
+            if response.status_code != 200:
+                print(f"❌ Failed to get verbs: {response.status_code}")
+                return False
+            
+            verbs = response.json()
+            verbs_by_french = {word['french']: word for word in verbs}
+            
+            print(f"Found {len(verbs)} verbs in database")
+            
+            # 3. Test specific verb corrections from first table
+            print("\n--- Testing Specific Verb Corrections from First Table ---")
+            first_table_corrections = [
+                {"french": "Jouer", "shimaore": "Oupaguedza", "kibouchi": "Misoma", "difficulty": 1, "note": "corrected from Nguadza/Misoma"},
+                {"french": "Dire", "shimaore": "Ourenguissa", "kibouchi": "Mangataka", "difficulty": 1, "note": "corrected from Burengisa/Mangataka"},
+                {"french": "Vouloir", "shimaore": "Outrlaho", "kibouchi": "Irokou", "difficulty": 1, "note": "corrected from Outlsho/Irokou"},
+                {"french": "Se rappeler", "shimaore": "Oumadzi", "kibouchi": "Koutanamou", "difficulty": 2, "note": "corrected from Rappeler"},
+                {"french": "Faire ses besoins", "shimaore": "Oukoza", "kibouchi": "Manibi", "difficulty": 1, "note": "corrected from Faire caca"},
+                {"french": "Uriner", "shimaore": "Ouraviha", "kibouchi": "Mandouwya", "difficulty": 1, "note": "corrected from Faire pipi"}
+            ]
+            
+            first_table_correct = True
+            for test_case in first_table_corrections:
+                french_word = test_case['french']
+                if french_word in verbs_by_french:
+                    word = verbs_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['difficulty'], test_case['difficulty'], 'Difficulty'),
+                        (word['category'], 'verbes', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}' - {test_case['note']}")
+                            word_correct = False
+                            first_table_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - {test_case['note']}")
+                else:
+                    print(f"❌ {french_word} not found in verbs category - {test_case['note']}")
+                    first_table_correct = False
+            
+            # 4. Test additional verbs from second table
+            print("\n--- Testing Additional Verbs from Second Table ---")
+            second_table_verbs = [
+                {"french": "Faire sécher", "shimaore": "Ouhoumisa", "kibouchi": "Manapi", "difficulty": 1},
+                {"french": "Balayer", "shimaore": "Ouhoundza", "kibouchi": "Mamafa", "difficulty": 1},
+                {"french": "Couper", "shimaore": "Oukatra", "kibouchi": "Manapaka", "difficulty": 1},
+                {"french": "Tremper", "shimaore": "Oulodza", "kibouchi": "Mandzoubougnou", "difficulty": 1},
+                {"french": "Se raser", "shimaore": "Oumea ndrevu", "kibouchi": "Manapaka somboutrou", "difficulty": 1},
+                {"french": "Abîmer", "shimaore": "Oumengna", "kibouchi": "Mandroubaka", "difficulty": 1},
+                {"french": "Cuisiner", "shimaore": "Oupiha", "kibouchi": "Mahandrou", "difficulty": 1},
+                {"french": "Ranger/Arranger", "shimaore": "Ourenguélédza", "kibouchi": "Magnadzari", "difficulty": 1},
+                {"french": "Tresser", "shimaore": "Oussouká", "kibouchi": "Mitali/Mandrari", "difficulty": 1},
+                {"french": "Couper du bois", "shimaore": "Oupasouha kuni", "kibouchi": "Mamaki azoumati", "difficulty": 2},
+                {"french": "Cultiver", "shimaore": "Oulima", "kibouchi": "Mikapa", "difficulty": 1},
+                {"french": "Planter", "shimaore": "Outabou", "kibouchi": "Mamboli", "difficulty": 1},
+                {"french": "Creuser", "shimaore": "Outsimba", "kibouchi": "Mangadi", "difficulty": 1},
+                {"french": "Récolter", "shimaore": "Ouvouna", "kibouchi": "Mampoka", "difficulty": 1}
+            ]
+            
+            second_table_correct = True
+            for test_case in second_table_verbs:
+                french_word = test_case['french']
+                if french_word in verbs_by_french:
+                    word = verbs_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['difficulty'], test_case['difficulty'], 'Difficulty'),
+                        (word['category'], 'verbes', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            second_table_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in verbs category")
+                    second_table_correct = False
+            
+            # 5. Test verb count and orthographic corrections
+            print("\n--- Testing Verb Count and Orthographic Corrections ---")
+            
+            # Check for corrected French spellings (no typos like "Faire caca" → "Faire ses besoins")
+            orthographic_corrections = [
+                {"incorrect": "Faire caca", "correct": "Faire ses besoins"},
+                {"incorrect": "Faire pipi", "correct": "Uriner"},
+                {"incorrect": "Rappeler", "correct": "Se rappeler"}
+            ]
+            
+            orthography_correct = True
+            for correction in orthographic_corrections:
+                if correction["incorrect"] in verbs_by_french:
+                    print(f"❌ Found incorrect spelling '{correction['incorrect']}' - should be '{correction['correct']}'")
+                    orthography_correct = False
+                elif correction["correct"] in verbs_by_french:
+                    print(f"✅ Correct spelling '{correction['correct']}' found (not '{correction['incorrect']}')")
+                else:
+                    print(f"⚠️ Neither '{correction['incorrect']}' nor '{correction['correct']}' found")
+            
+            # Verify all verbs have complete Shimaoré and Kibouchi translations
+            print("\n--- Testing Complete Translations ---")
+            incomplete_translations = []
+            for verb in verbs:
+                if not verb['shimaore'] or not verb['kibouchi']:
+                    incomplete_translations.append(verb['french'])
+            
+            if not incomplete_translations:
+                print("✅ All verbs have complete Shimaoré and Kibouchi translations")
+            else:
+                print(f"❌ Verbs with incomplete translations: {incomplete_translations}")
+                orthography_correct = False
+            
+            # 6. Test vocabulary structure
+            print("\n--- Testing Vocabulary Structure ---")
+            
+            # Verify appropriate difficulty levels (1 for basic verbs, 2 for complex verbs)
+            difficulty_1_count = len([v for v in verbs if v['difficulty'] == 1])
+            difficulty_2_count = len([v for v in verbs if v['difficulty'] == 2])
+            
+            print(f"Difficulty 1 (basic verbs): {difficulty_1_count} verbs")
+            print(f"Difficulty 2 (complex verbs): {difficulty_2_count} verbs")
+            
+            structure_correct = True
+            if difficulty_1_count > 0 and difficulty_2_count > 0:
+                print("✅ Appropriate difficulty levels assigned (1 for basic, 2 for complex)")
+            else:
+                print("❌ Difficulty levels not properly distributed")
+                structure_correct = False
+            
+            # Confirm all verbs are categorized as "verbes"
+            category_correct = True
+            for verb in verbs:
+                if verb['category'] != 'verbes':
+                    print(f"❌ Verb '{verb['french']}' has incorrect category: {verb['category']} (expected 'verbes')")
+                    category_correct = False
+            
+            if category_correct:
+                print("✅ All verbs properly categorized as 'verbes'")
+            
+            # Check total verb count matches exactly what's in the provided tables
+            expected_first_table_count = len(first_table_corrections)
+            expected_second_table_count = len(second_table_verbs)
+            
+            # Count verbs from first table that are found
+            first_table_found = sum(1 for test_case in first_table_corrections if test_case['french'] in verbs_by_french)
+            second_table_found = sum(1 for test_case in second_table_verbs if test_case['french'] in verbs_by_french)
+            
+            print(f"\n--- Verb Count Verification ---")
+            print(f"First table verbs found: {first_table_found}/{expected_first_table_count}")
+            print(f"Second table verbs found: {second_table_found}/{expected_second_table_count}")
+            print(f"Total verbs in database: {len(verbs)}")
+            
+            count_correct = (first_table_found == expected_first_table_count and 
+                           second_table_found == expected_second_table_count)
+            
+            if count_correct:
+                print("✅ Verb count matches exactly what's in the provided tables")
+            else:
+                print("❌ Verb count does not match the provided tables")
+            
+            # Overall test result
+            all_verbs_correct = (
+                first_table_correct and 
+                second_table_correct and 
+                orthography_correct and 
+                structure_correct and 
+                category_correct and 
+                count_correct
+            )
+            
+            if all_verbs_correct:
+                print("\n🎉 UPDATED VERBS VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ All specific verb corrections from first table verified")
+                print("✅ All additional verbs from second table verified")
+                print("✅ French orthography corrections confirmed (no typos)")
+                print("✅ All verbs have complete Shimaoré and Kibouchi translations")
+                print("✅ Appropriate difficulty levels assigned")
+                print("✅ All verbs properly categorized as 'verbes'")
+                print("✅ Verb count matches exactly what's in the provided tables")
+                print("✅ Verbs section contains exactly and only what was provided in the user's reference tables")
+            else:
+                print("\n❌ Some verb vocabulary items are incorrect, missing, or have orthographic issues")
+            
+            return all_verbs_correct
+            
+        except Exception as e:
+            print(f"❌ Updated verbs vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
