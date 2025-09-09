@@ -3519,6 +3519,240 @@ class MayotteEducationTester:
             print(f"❌ Updated animals vocabulary test error: {e}")
             return False
 
+    def test_updated_corps_vocabulary_new_tableau(self):
+        """Test the updated 'Corps humain' (body parts) vocabulary from the new tableau"""
+        print("\n=== Testing Updated Corps Humain Vocabulary from New Tableau ===")
+        
+        try:
+            # 1. Check if backend starts without syntax errors by testing basic connectivity
+            print("--- Testing Backend Startup (No Syntax Errors) ---")
+            if not self.test_basic_connectivity():
+                print("❌ Backend has syntax errors or connectivity issues")
+                return False
+            print("✅ Backend starts without syntax errors")
+            
+            # 2. Test /api/words endpoint to retrieve all words
+            print("\n--- Testing /api/words Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ /api/words endpoint failed: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"✅ /api/words endpoint working correctly ({len(all_words)} total words)")
+            
+            # 3. Test /api/words?category=corps endpoint specifically for body parts
+            print("\n--- Testing /api/words?category=corps Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=corps")
+            if response.status_code != 200:
+                print(f"❌ /api/words?category=corps endpoint failed: {response.status_code}")
+                return False
+            
+            corps_words = response.json()
+            corps_words_by_french = {word['french']: word for word in corps_words}
+            print(f"✅ /api/words?category=corps endpoint working correctly ({len(corps_words)} body parts)")
+            
+            # 4. Verify all 32 body parts from the new tableau with correct translations
+            print("\n--- Testing All 32 Body Parts from New Tableau ---")
+            
+            # Expected body parts from the review request
+            expected_body_parts = [
+                {"french": "Œil", "shimaore": "Matso", "kibouchi": "Faninti"},
+                {"french": "Nez", "shimaore": "Poua", "kibouchi": "Horougnou"},
+                {"french": "Oreille", "shimaore": "Kiyo", "kibouchi": "Soufigni"},
+                {"french": "Ongle", "shimaore": "Kofou", "kibouchi": "Angofou"},
+                {"french": "Front", "shimaore": "Housso", "kibouchi": "Lahara"},
+                {"french": "Joue", "shimaore": "Savou", "kibouchi": "Fifi"},
+                {"french": "Dos", "shimaore": "Mengo", "kibouchi": "Vohou"},
+                {"french": "Épaule", "shimaore": "Béga", "kibouchi": "Haveyi"},
+                {"french": "Hanche", "shimaore": "Trenga", "kibouchi": "Tahezagna"},
+                {"french": "Fesses", "shimaore": "Shidze/Mvoumo", "kibouchi": "Fouri"},
+                {"french": "Main", "shimaore": "Mhono", "kibouchi": "Tagnana"},
+                {"french": "Tête", "shimaore": "Shitsoi", "kibouchi": "Louha"},
+                {"french": "Ventre", "shimaore": "Mimba", "kibouchi": "Kibou"},
+                {"french": "Dent", "shimaore": "Magno", "kibouchi": "Hifi"},
+                {"french": "Langue", "shimaore": "Oulimé", "kibouchi": "Léla"},
+                {"french": "Pied", "shimaore": "Mindrou", "kibouchi": "Viti"},
+                {"french": "Lèvre", "shimaore": "Dhomo", "kibouchi": "Soungni"},
+                {"french": "Peau", "shimaore": "Ngwezi", "kibouchi": "Ngwezi"},
+                {"french": "Cheveux", "shimaore": "Ngnélé", "kibouchi": "Fagnéva"},
+                {"french": "Doigts", "shimaore": "Cha", "kibouchi": "Tondrou"},
+                {"french": "Barbe", "shimaore": "Ndrévou", "kibouchi": "Somboutrou"},
+                {"french": "Vagin", "shimaore": "Ndzigni", "kibouchi": "Tingui"},
+                {"french": "Testicules", "shimaore": "Kwendzé", "kibouchi": "Vouancarou"},
+                {"french": "Pénis", "shimaore": "Mbo", "kibouchi": "Kaboudzi"},
+                {"french": "Menton", "shimaore": "Shlévou", "kibouchi": "Sokou"},
+                {"french": "Bouche", "shimaore": "Hangno", "kibouchi": "Vava"},
+                {"french": "Côtes", "shimaore": "Bavou", "kibouchi": "Mbavou"},
+                {"french": "Sourcil", "shimaore": "Tsi", "kibouchi": "Ankwéssi"},
+                {"french": "Cheville", "shimaore": "Dzitso la pwédza", "kibouchi": "Dzitso la pwédza"},
+                {"french": "Cou", "shimaore": "Tsingo", "kibouchi": "Vouzougnou"},
+                {"french": "Cils", "shimaore": "Kové", "kibouchi": "Rambou faninti"},
+                {"french": "Arrière du crâne", "shimaore": "Komoi", "kibouchi": "Kitoika"}
+            ]
+            
+            all_body_parts_correct = True
+            found_body_parts = 0
+            
+            for expected_part in expected_body_parts:
+                french_word = expected_part['french']
+                if french_word in corps_words_by_french:
+                    found_body_parts += 1
+                    word = corps_words_by_french[french_word]
+                    
+                    # Check translations
+                    checks = [
+                        (word['shimaore'], expected_part['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], expected_part['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'corps', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_body_parts_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in corps category")
+                    all_body_parts_correct = False
+            
+            print(f"\nFound {found_body_parts}/{len(expected_body_parts)} expected body parts")
+            
+            # 5. Test key body parts from review request
+            print("\n--- Testing Key Body Parts from Review Request ---")
+            key_body_parts = [
+                {"french": "Œil", "shimaore": "Matso", "kibouchi": "Faninti"},
+                {"french": "Ongle", "shimaore": "Kofou", "kibouchi": "Angofou"},
+                {"french": "Testicules", "shimaore": "Kwendzé", "kibouchi": "Vouancarou"},
+                {"french": "Cheville", "shimaore": "Dzitso la pwédza", "kibouchi": "Dzitso la pwédza"},
+                {"french": "Arrière du crâne", "shimaore": "Komoi", "kibouchi": "Kitoika"}
+            ]
+            
+            key_parts_correct = True
+            for key_part in key_body_parts:
+                french_word = key_part['french']
+                if french_word in corps_words_by_french:
+                    word = corps_words_by_french[french_word]
+                    if (word['shimaore'] == key_part['shimaore'] and 
+                        word['kibouchi'] == key_part['kibouchi']):
+                        print(f"✅ Key part {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ Key part {french_word}: Expected {key_part['shimaore']}/{key_part['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        key_parts_correct = False
+                else:
+                    print(f"❌ Key part {french_word} not found")
+                    key_parts_correct = False
+            
+            # 6. Check that old incomplete entries have been replaced
+            print("\n--- Checking for Old Incomplete Entries ---")
+            # Look for any body parts that might have incomplete or old translations
+            incomplete_entries = []
+            for word in corps_words:
+                if not word['shimaore'] or not word['kibouchi']:
+                    incomplete_entries.append(word['french'])
+            
+            if incomplete_entries:
+                print(f"❌ Found incomplete entries: {incomplete_entries}")
+                all_body_parts_correct = False
+            else:
+                print("✅ No incomplete entries found - old entries have been replaced")
+            
+            # 7. Check that other categories remain intact
+            print("\n--- Checking Other Categories Remain Intact ---")
+            other_categories = ['salutations', 'couleurs', 'nombres', 'famille', 'grammaire', 'verbes']
+            categories_intact = True
+            
+            for category in other_categories:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    if len(category_words) > 0:
+                        print(f"✅ Category '{category}': {len(category_words)} words intact")
+                    else:
+                        print(f"❌ Category '{category}': No words found")
+                        categories_intact = False
+                else:
+                    print(f"❌ Category '{category}': Failed to retrieve")
+                    categories_intact = False
+            
+            # 8. Test for duplicate entries or data integrity issues
+            print("\n--- Testing for Duplicate Entries and Data Integrity ---")
+            
+            # Check for duplicate French names in corps category
+            french_names = [word['french'] for word in corps_words]
+            duplicates = []
+            seen = set()
+            for name in french_names:
+                if name in seen:
+                    duplicates.append(name)
+                else:
+                    seen.add(name)
+            
+            if duplicates:
+                print(f"❌ Found duplicate body parts: {duplicates}")
+                all_body_parts_correct = False
+            else:
+                print("✅ No duplicate entries found in corps category")
+            
+            # Check data integrity (all required fields present)
+            integrity_issues = []
+            for word in corps_words:
+                required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                for field in required_fields:
+                    if field not in word:
+                        integrity_issues.append(f"{word['french']} missing {field}")
+            
+            if integrity_issues:
+                print(f"❌ Data integrity issues: {integrity_issues}")
+                all_body_parts_correct = False
+            else:
+                print("✅ All body parts have proper data structure")
+            
+            # 9. Check total word count
+            print("\n--- Checking Total Word Count ---")
+            total_words = len(all_words)
+            corps_count = len(corps_words)
+            print(f"Total words in database: {total_words}")
+            print(f"Body parts (corps) count: {corps_count}")
+            
+            if corps_count >= 30:  # Should have at least 30 body parts
+                print(f"✅ Corps category has sufficient vocabulary: {corps_count} body parts")
+            else:
+                print(f"❌ Corps category has insufficient vocabulary: {corps_count} body parts (expected 30+)")
+                all_body_parts_correct = False
+            
+            # Final result
+            overall_success = (
+                all_body_parts_correct and 
+                key_parts_correct and 
+                categories_intact and 
+                found_body_parts >= 30
+            )
+            
+            if overall_success:
+                print("\n🎉 UPDATED CORPS HUMAIN VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors")
+                print("✅ /api/words endpoint working correctly")
+                print("✅ /api/words?category=corps endpoint working correctly")
+                print(f"✅ All {found_body_parts} body parts from new tableau verified")
+                print("✅ Key body parts confirmed with correct translations")
+                print("✅ Old incomplete entries have been replaced")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print("✅ Corps category is working properly with comprehensive vocabulary")
+            else:
+                print("\n❌ Some issues found with the updated corps vocabulary")
+            
+            return overall_success
+            
+        except Exception as e:
+            print(f"❌ Updated corps vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
