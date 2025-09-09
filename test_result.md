@@ -471,9 +471,21 @@ metadata:
         agent: "testing"
         comment: "🎉 FINAL ANIMAL CORRECTIONS VERIFICATION COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ 'Ranard' completely removed from animals list ✅ 'Lézard' is present (formerly 'Jézard') with correct translations: Ngwizi/Kitsatsaka ✅ 'Hérisson/Tangue' has correct shimaoré 'Landra' (not 'Jandra'): Landra/Trandraka ✅ All 13 other requested corrections are in place: Dauphin (kibouchi 'Fésoutrou'), Baleine (shimaoré 'Droujou'), Crevette (shimaoré 'Camba', kibouchi 'Ancamba'), Frelon (shimaoré 'Chonga', kibouchi 'Faraka'), Guêpe (shimaoré 'Movou', kibouchi 'Fanintri'), Bourdon (shimaoré 'Voungo voungo', kibouchi 'Madjaoumbi'), Puce (shimaoré 'Ndra', kibouchi 'Howou'), Bouc (shimaoré 'Béwé', kibouchi 'Bébéroué'), Taureau (shimaoré 'Kondzo', kibouchi 'Dzow'), Bigorneau (shimaoré 'Trondro', kibouchi 'Trondrou'), Lambis (shimaoré 'Komba', kibouchi 'Mahombi'), Cône de mer (shimaoré 'Tsipoui', kibouchi 'Tsimtipaka'), Mille pattes (shimaoré 'Mjongo', kibouchi 'Ancoudavitri') ✅ /api/words?category=animaux endpoint working correctly with 50 animals ✅ All backend functionality remains intact ✅ Data integrity maintained across all categories"
 
+  - task: "Specific animal corrections verification"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 SPECIFIC ANIMAL CORRECTIONS VERIFICATION COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ Backend starts without syntax errors after the corrections ✅ /api/words?category=animaux endpoint working correctly (65 animals) ✅ Araignée: shimaoré corrected to 'Shitrandrabwibwi' (not 'Shitrandrablwibwi') - CORRECTION VERIFIED ✅ Requin: kibouchi corrected to 'Ankiou' (not 'Ankou') - CORRECTION VERIFIED ✅ All other animal entries remain intact and unchanged (Chat, Chien, Poisson, Oiseau all verified) ✅ Both specific animals have complete translations in both languages ✅ No duplicate entries introduced (65 total animals, 65 unique names) ✅ Total animal count maintained at 65 animals (within expected range) ✅ Backend API responses working correctly for both specific animals (individual retrieval tested) ✅ Bug fix verification complete - issue has been completely resolved with no regressions. The specific animal corrections have been successfully implemented and all backend functionality remains intact."
+
 test_plan:
   current_focus:
-    - "Final animal corrections verification completed successfully"
+    - "Specific animal corrections verification completed successfully"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
