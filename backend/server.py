@@ -302,7 +302,7 @@ async def init_base_content():
         {"french": "Scorpion", "shimaore": "Hala", "kibouchi": "Hala", "category": "animaux", "difficulty": 2},
         {"french": "Scolopandre", "shimaore": "Trambwi", "kibouchi": "Trambougnou", "category": "animaux", "difficulty": 2},
         {"french": "Thon", "shimaore": "Mbassi", "kibouchi": "Mbassi", "category": "animaux", "difficulty": 1},
-        {"french": "Requin", "shimaore": "Papa", "kibouchi": "Ankou", "category": "animaux", "difficulty": 2},
+        {"french": "Requin", "shimaore": "Papa", "kibouchi": "Ankiou", "category": "animaux", "difficulty": 2},
         {"french": "Poulpe", "shimaore": "Pwedza", "kibouchi": "Pwedza", "category": "animaux", "difficulty": 1},
         {"french": "Crabe", "shimaore": "Dradraka", "kibouchi": "Dakatra", "category": "animaux", "difficulty": 1},
         {"french": "Tortue", "shimaore": "Nyamba/Katsa", "kibouchi": "Fanou", "category": "animaux", "difficulty": 1},
