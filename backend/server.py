@@ -308,7 +308,7 @@ async def init_base_content():
         {"french": "Bourdon", "shimaore": "Madzi ya nyombe", "kibouchi": "Majaoumbi", "category": "animaux", "difficulty": 1},
         {"french": "Puce", "shimaore": "Kunguni", "kibouchi": "Ancomgou", "category": "animaux", "difficulty": 1},
         
-        # Poissons et animaux marins supplémentaires  
+        # Poisson marin spécifique
         {"french": "Bigorneau", "shimaore": "Trondro", "kibouchi": "Trondrou", "category": "animaux", "difficulty": 1},
         
         # Mammifères sauvages supplémentaires
