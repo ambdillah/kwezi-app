@@ -261,7 +261,7 @@ async def init_base_content():
         {"french": "Zébu", "shimaore": "Nyombe", "kibouchi": "Aoumbi", "category": "animaux", "difficulty": 1},
         {"french": "Âne", "shimaore": "Pundra", "kibouchi": "Ampundra", "category": "animaux", "difficulty": 1},
         {"french": "Cheval", "shimaore": "Farassi", "kibouchi": "Farassi", "category": "animaux", "difficulty": 1},
-        {"french": "Canard", "shimaore": "Guisi", "kibouchi": "Aoukiri", "category": "animaux", "difficulty": 1},
+        {"french": "Canard", "shimaore": "Guisi", "kibouchi": "Doukitri", "category": "animaux", "difficulty": 1},
         
         # Animaux sauvages
         {"french": "Lion", "shimaore": "Simba", "kibouchi": "Simba", "category": "animaux", "difficulty": 2},
