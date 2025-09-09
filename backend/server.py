@@ -548,7 +548,6 @@ async def init_base_content():
         {"french": "Bateau", "shimaore": "Galawa", "kibouchi": "Sambo", "category": "transport", "difficulty": 1},
         
         # Reptiles et autres animaux
-        {"french": "Lézard", "shimaore": "Ngwizi", "kibouchi": "Kitsatsaka", "category": "animaux", "difficulty": 2},
         {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "category": "animaux", "difficulty": 2},
 
         {"french": "Hérisson", "shimaore": "Landra", "kibouchi": "Trandraka", "category": "animaux", "difficulty": 2},
