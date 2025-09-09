@@ -2596,6 +2596,217 @@ class MayotteEducationTester:
             print(f"❌ Corrected animal translations and duplicate detection test error: {e}")
             return False
 
+    def test_final_duplicate_verification(self):
+        """Final verification test to confirm all duplicate animals have been completely removed"""
+        print("\n=== Final Duplicate Verification Test ===")
+        
+        try:
+            # 1. POST /api/init-base-content to reinitialize with fully deduplicated animals
+            print("--- Step 1: Reinitializing with Fully Deduplicated Animals ---")
+            
+            # First clear existing content
+            try:
+                words_response = self.session.get(f"{API_BASE}/words")
+                if words_response.status_code == 200:
+                    existing_words = words_response.json()
+                    for word in existing_words:
+                        delete_response = self.session.delete(f"{API_BASE}/words/{word['id']}")
+                    print(f"Cleared {len(existing_words)} existing words")
+            except Exception as e:
+                print(f"Note: Could not clear existing content: {e}")
+            
+            # Reinitialize content
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to reinitialize content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Content reinitialized: {result}")
+            
+            # 2. GET /api/words?category=animaux to verify final animal list
+            print("\n--- Step 2: Verifying Final Animal List ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Failed to get animals: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            print(f"Retrieved {len(animals)} animals from database")
+            
+            # 3. Confirm zero duplicates for specific animals
+            print("\n--- Step 3: Confirming Zero Duplicates for Specific Animals ---")
+            
+            # Create a dictionary to count occurrences of each French name
+            french_name_counts = {}
+            for animal in animals:
+                french_name = animal['french']
+                if french_name in french_name_counts:
+                    french_name_counts[french_name] += 1
+                else:
+                    french_name_counts[french_name] = 1
+            
+            # Check specific animals that were previously duplicated
+            critical_animals = ["Lézard", "Renard", "Chameau", "Hérisson"]
+            duplicates_found = False
+            
+            for animal_name in critical_animals:
+                if animal_name in french_name_counts:
+                    count = french_name_counts[animal_name]
+                    if count == 1:
+                        print(f"✅ {animal_name}: appears exactly 1 time (correct)")
+                    else:
+                        print(f"❌ {animal_name}: appears {count} times (should be 1)")
+                        duplicates_found = True
+                        
+                        # Show the duplicate entries
+                        duplicate_entries = [a for a in animals if a['french'] == animal_name]
+                        for i, entry in enumerate(duplicate_entries):
+                            print(f"   Duplicate {i+1}: ID={entry['id']}, Shimaoré={entry['shimaore']}, Kibouchi={entry['kibouchi']}")
+                else:
+                    print(f"❌ {animal_name}: not found in database")
+                    duplicates_found = True
+            
+            # 4. Count total entries vs unique French names
+            print("\n--- Step 4: Verifying Total Count vs Unique Names ---")
+            total_entries = len(animals)
+            unique_french_names = len(set(animal['french'] for animal in animals))
+            
+            print(f"Total animal entries: {total_entries}")
+            print(f"Unique French names: {unique_french_names}")
+            
+            if total_entries == unique_french_names:
+                print("✅ Total entries equals unique names (no duplicates)")
+                count_verification_passed = True
+            else:
+                print(f"❌ Mismatch: {total_entries} entries vs {unique_french_names} unique names ({total_entries - unique_french_names} duplicates)")
+                count_verification_passed = False
+                
+                # Show all duplicates
+                print("\n--- All Duplicate Animals Found ---")
+                for french_name, count in french_name_counts.items():
+                    if count > 1:
+                        print(f"❌ '{french_name}' appears {count} times:")
+                        duplicate_entries = [a for a in animals if a['french'] == french_name]
+                        for i, entry in enumerate(duplicate_entries):
+                            print(f"   Entry {i+1}: ID={entry['id']}")
+            
+            # 5. Verify all 7 corrected animal translations remain intact
+            print("\n--- Step 5: Verifying All 7 Corrected Animal Translations ---")
+            
+            corrected_animals = [
+                {"french": "Canard", "shimaore": "Guisi", "kibouchi": "Doukitri"},
+                {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimanguidi"},
+                {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Kalalowou"},
+                {"french": "Guêpe", "shimaore": "Vungo vungo", "kibouchi": "Fantehi"},
+                {"french": "Bigorneau", "shimaore": "Trondro", "kibouchi": "Trondrou"},
+                {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Lambou"},
+                {"french": "Hérisson", "shimaore": "Landra", "kibouchi": "Trandraka"}
+            ]
+            
+            animals_by_french = {animal['french']: animal for animal in animals}
+            corrections_verified = True
+            
+            for correction in corrected_animals:
+                french_name = correction['french']
+                if french_name in animals_by_french:
+                    animal = animals_by_french[french_name]
+                    
+                    # Check translations
+                    shimaore_correct = animal['shimaore'] == correction['shimaore']
+                    kibouchi_correct = animal['kibouchi'] == correction['kibouchi']
+                    
+                    if shimaore_correct and kibouchi_correct:
+                        print(f"✅ {french_name}: {animal['shimaore']} / {animal['kibouchi']} (correct)")
+                    else:
+                        print(f"❌ {french_name}: Expected {correction['shimaore']}/{correction['kibouchi']}, got {animal['shimaore']}/{animal['kibouchi']}")
+                        corrections_verified = False
+                else:
+                    print(f"❌ {french_name}: not found in database")
+                    corrections_verified = False
+            
+            # 6. Final comprehensive statistics
+            print("\n--- Step 6: Final Comprehensive Statistics ---")
+            
+            # Get total word count across all categories
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                
+                # Count words by category
+                category_counts = {}
+                for word in all_words:
+                    category = word['category']
+                    category_counts[category] = category_counts.get(category, 0) + 1
+                
+                print(f"✅ Final total word count: {total_word_count}")
+                print(f"✅ Final animal count: {len(animals)}")
+                print(f"✅ Categories found: {len(category_counts)}")
+                
+                # Show category breakdown
+                for category, count in sorted(category_counts.items()):
+                    print(f"   {category}: {count} words")
+                
+                # Verify data integrity
+                integrity_checks = []
+                
+                # Check that all words have required fields
+                for word in all_words:
+                    required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                    if all(field in word for field in required_fields):
+                        continue
+                    else:
+                        integrity_checks.append(f"Word '{word.get('french', 'unknown')}' missing required fields")
+                
+                if not integrity_checks:
+                    print("✅ Data integrity verified: All words have required fields")
+                    data_integrity_passed = True
+                else:
+                    print("❌ Data integrity issues found:")
+                    for issue in integrity_checks:
+                        print(f"   {issue}")
+                    data_integrity_passed = False
+                
+            else:
+                print(f"❌ Could not retrieve total word count: {response.status_code}")
+                data_integrity_passed = False
+            
+            # Final result
+            print("\n--- Final Verification Result ---")
+            
+            no_duplicates = not duplicates_found
+            all_tests_passed = (
+                no_duplicates and 
+                count_verification_passed and 
+                corrections_verified and 
+                data_integrity_passed
+            )
+            
+            if all_tests_passed:
+                print("🎉 FINAL DUPLICATE VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Zero duplicates confirmed for all critical animals")
+                print("✅ Total entries equals unique French names")
+                print("✅ All 7 corrected animal translations verified and intact")
+                print("✅ Data integrity and completeness confirmed")
+                print("✅ Deduplication is complete and all corrections are preserved")
+            else:
+                print("❌ FINAL DUPLICATE VERIFICATION FAILED!")
+                if duplicates_found:
+                    print("❌ Duplicate animals still exist and must be removed")
+                if not count_verification_passed:
+                    print("❌ Total count does not match unique names")
+                if not corrections_verified:
+                    print("❌ Some corrected translations are missing or incorrect")
+                if not data_integrity_passed:
+                    print("❌ Data integrity issues detected")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Final duplicate verification test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
