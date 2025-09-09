@@ -426,7 +426,7 @@ async def init_base_content():
         {"french": "Piment", "shimaore": "Poutou", "kibouchi": "Pilipili", "category": "nourriture", "difficulty": 1},
         {"french": "Taro", "shimaore": "Majimbi", "kibouchi": "Majimbi", "category": "nourriture", "difficulty": 1},
         {"french": "Sel", "shimaore": "Chingo", "kibouchi": "Sira", "category": "nourriture", "difficulty": 1},
-        {"french": "Poivre", "shimaore": "Bvilitivili manga", "kibouchi": "Vililwili", "category": "nourriture", "difficulty": 1},
+        {"french": "Poivre", "shimaore": "Bvilibvili manga", "kibouchi": "Vilivili", "category": "nourriture", "difficulty": 1},
         {"french": "Curcuma", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", "category": "nourriture", "difficulty": 1},
         {"french": "Cumin", "shimaore": "Massala", "kibouchi": "Massala", "category": "nourriture", "difficulty": 1},
         {"french": "Ciboulette", "shimaore": "Chouroupgnou", "kibouchi": "Doungoulou ravigni", "category": "nourriture", "difficulty": 1},
