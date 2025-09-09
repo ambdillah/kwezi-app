@@ -366,6 +366,30 @@ async def init_base_content():
         {"french": "Peau", "shimaore": "Ngwezi", "kibouchi": "Ngwezi", "category": "corps", "difficulty": 1},
         
         # Nourriture (mises à jour selon le nouveau tableau)
+        
+        # Verbes supplémentaires des tableaux 4 et 5
+        {"french": "Faire sécher", "shimaore": "Ouhoumisa", "kibouchi": "Manapi", "category": "verbes", "difficulty": 1},
+        {"french": "Balayer", "shimaore": "Ouhoundza", "kibouchi": "Mamafa", "category": "verbes", "difficulty": 1},
+        {"french": "Couper", "shimaore": "Oukatra", "kibouchi": "Manapaka", "category": "verbes", "difficulty": 1},
+        {"french": "Tremper", "shimaore": "Oulodza", "kibouchi": "Mandzoubougnou", "category": "verbes", "difficulty": 1},
+        {"french": "Se raser", "shimaore": "Oumea ndrevu", "kibouchi": "Manapaka somboutrou", "category": "verbes", "difficulty": 1},
+        {"french": "Abîmer", "shimaore": "Oumengna", "kibouchi": "Mandroubaka", "category": "verbes", "difficulty": 1},
+        {"french": "Acheter", "shimaore": "Ounounoua", "kibouchi": "Mivanga", "category": "verbes", "difficulty": 1},
+        {"french": "Griller", "shimaore": "Ouwoha", "kibouchi": "Mitonou", "category": "verbes", "difficulty": 1},
+        {"french": "Allumer", "shimaore": "Oupatsa", "kibouchi": "Mikoupatsa", "category": "verbes", "difficulty": 1},
+        {"french": "Se peigner", "shimaore": "Oupengné", "kibouchi": "Mipéngni", "category": "verbes", "difficulty": 1},
+        {"french": "Cuisiner", "shimaore": "Oupiha", "kibouchi": "Mahandrou", "category": "verbes", "difficulty": 1},
+        {"french": "Ranger/Arranger", "shimaore": "Ourenguélédza", "kibouchi": "Magnadzari", "category": "verbes", "difficulty": 1},
+        {"french": "Tresser", "shimaore": "Oussouká", "kibouchi": "Mitali/Mandrari", "category": "verbes", "difficulty": 1},
+        {"french": "Peindre", "shimaore": "Ouvaha", "kibouchi": "Magnossoutrou", "category": "verbes", "difficulty": 1},
+        {"french": "Essuyer", "shimaore": "Ouvangouha", "kibouchi": "Mamitri", "category": "verbes", "difficulty": 1},
+        {"french": "Amener/Apporter", "shimaore": "Ouvinga", "kibouchi": "Mandéyi", "category": "verbes", "difficulty": 1},
+        {"french": "Éteindre", "shimaore": "Ouzima", "kibouchi": "Mamounou", "category": "verbes", "difficulty": 1},
+        {"french": "Tuer", "shimaore": "Ouwoula", "kibouchi": "Mamounou", "category": "verbes", "difficulty": 1},
+        {"french": "Combler", "shimaore": "Oufitsiya", "kibouchi": "Mankahampi", "category": "verbes", "difficulty": 2},
+        {"french": "Cultiver", "shimaore": "Oulima", "kibouchi": "Mikapa", "category": "verbes", "difficulty": 1},
+        {"french": "Couper du bois", "shimaore": "Oupasouha kuni", "kibouchi": "Mamaki azoumati", "category": "verbes", "difficulty": 2},
+        {"french": "Cueillir", "shimaore": "Oupoua", "kibouchi": "Mampoka", "category": "verbes", "difficulty": 1}
         {"french": "Eau", "shimaore": "Madji", "kibouchi": "Rano", "category": "nourriture", "difficulty": 1},
         {"french": "Riz", "shimaore": "Tsohole", "kibouchi": "Vari", "category": "nourriture", "difficulty": 1},
         {"french": "Nourriture", "shimaore": "Chaoula", "kibouchi": "Hanigni", "category": "nourriture", "difficulty": 1},
