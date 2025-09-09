@@ -313,6 +313,21 @@ backend:
       - working: false
         agent: "testing"
         comment: "❌ CORRECTED ANIMAL TRANSLATIONS AND DUPLICATE DETECTION TESTING FAILED! While all 7 requested animal translation corrections were successfully verified (Canard=Guisi/Doukitri, Chenille=Bibimangidji/Bibimanguidi, Cafard=Kalalawi/Kalalowou, Guêpe=Vungo vungo/Fantehi, Bigorneau=Trondro/Trondrou, Facochère=Pouroukou nyeha/Lambou, Hérisson=Landra/Trandraka), CRITICAL ISSUE: 4 duplicate animals found that need to be removed: • 'Lézard' appears 2 times (IDs: 1f6f8f44-8faa-4777-91a9-0391ab023888, 6d89d5c4-7fb4-4399-9f76-346de48acec4) • 'Renard' appears 2 times (IDs: cfd0ad21-201f-4665-b431-f279404fc687, 82364189-a474-476f-8356-f169feba0694) • 'Chameau' appears 2 times (IDs: f45864dd-108a-4f1b-9cfb-6722a7990cb8, 3dd7cbf2-ad2f-4f51-8f2a-eb8c49e52f06) • 'Hérisson' appears 2 times (IDs: 77c61e28-3da6-4111-b7ee-248b9e1e7bac, a3f14855-008f-4a96-9dc3-47114c8089cb). Total animal entries: 63, Unique French names: 59 (4 duplicate entries found). ✅ All corrected animals maintain proper category and difficulty ✅ No regressions in other animal translations ✅ Backend functionality remains intact. The duplicate animals must be removed to ensure data integrity."
+      - working: false
+        agent: "testing"
+        comment: "❌ DUPLICATE REMOVAL VERIFICATION TESTING FAILED! Comprehensive testing confirmed that duplicate animals still exist and need to be removed. ✅ All 7 corrected animal translations verified and intact: Canard=Guisi/Doukitri, Chenille=Bibimangidji/Bibimanguidi, Cafard=Kalalawi/Kalalowou, Guêpe=Vungo vungo/Fantehi, Bigorneau=Trondro/Trondrou, Facochère=Pouroukou nyeha/Lambou, Hérisson=Landra/Trandraka. ❌ CRITICAL ISSUE: 4 duplicate animals still found: Lézard (2 instances: d4e7d2c1-4924-4a11-9a87-b97aea1198a3, d2111513-2718-433b-8b2b-beea6906352a), Renard (2 instances: 66e638dc-a177-477b-827e-0eddf6e84f8e, 0b7ffd93-884c-4f7d-887e-6f6b5867fd85), Chameau (2 instances: 0e9b116e-4c71-47a2-84fa-e851be67d642, a4be7c53-8095-4bf3-83b1c6ebbff18d2f), Hérisson (2 instances: 7a980aa9-2081-4c82-8aed-256a79e2b2ae, 71bad966-536b-4736-9666-0728f1ada5c0). Current count: 63 total entries, 59 unique French names. Expected final count: 59 unique animals after removing 4 duplicates. ✅ Data integrity maintained for all other aspects ✅ All animals properly categorized and have appropriate difficulty levels ✅ Backend functionality remains intact. The main agent must remove these duplicate entries to achieve proper deduplication."
+
+  - task: "Duplicate removal verification"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ DUPLICATE REMOVAL VERIFICATION FAILED! Testing confirmed that duplicate animals have NOT been successfully removed as requested. ❌ Specific duplicate removal test failed: Lézard (2 instances found, should have 1), Renard (2 instances found, should have 1), Chameau (2 instances found, should have 1), Hérisson (2 instances found, should have 1). ✅ All 7 corrected translations still intact and working correctly. ❌ Final animal count shows 63 total entries vs 59 unique French names (4 duplicate entries still exist). ❌ Expected final count of 59 unique animals not achieved. ✅ Data integrity maintained: all animals have proper translations, category assignment ('animaux'), and difficulty levels (1-2). The duplicate animals must be removed from the backend initialization to ensure proper deduplication and data integrity."
 
 frontend:
   - task: "Welcome Screen Testing"
