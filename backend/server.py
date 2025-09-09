@@ -389,7 +389,7 @@ async def init_base_content():
         {"french": "Combler", "shimaore": "Oufitsiya", "kibouchi": "Mankahampi", "category": "verbes", "difficulty": 2},
         {"french": "Cultiver", "shimaore": "Oulima", "kibouchi": "Mikapa", "category": "verbes", "difficulty": 1},
         {"french": "Couper du bois", "shimaore": "Oupasouha kuni", "kibouchi": "Mamaki azoumati", "category": "verbes", "difficulty": 2},
-        {"french": "Cueillir", "shimaore": "Oupoua", "kibouchi": "Mampoka", "category": "verbes", "difficulty": 1}
+        {"french": "Cueillir", "shimaore": "Oupoua", "kibouchi": "Mampoka", "category": "verbes", "difficulty": 1},
         {"french": "Eau", "shimaore": "Madji", "kibouchi": "Rano", "category": "nourriture", "difficulty": 1},
         {"french": "Riz", "shimaore": "Tsohole", "kibouchi": "Vari", "category": "nourriture", "difficulty": 1},
         {"french": "Nourriture", "shimaore": "Chaoula", "kibouchi": "Hanigni", "category": "nourriture", "difficulty": 1},
