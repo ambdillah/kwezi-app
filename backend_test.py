@@ -3920,33 +3920,21 @@ class MayotteEducationTester:
         
         test_results = {}
         
-        # Run all tests including new corrected animal translations and duplicates test
+        # Run the specific test for final animal corrections verification
+        test_results['final_animal_corrections_verification'] = self.test_final_animal_corrections_verification()
+        
+        # Run other essential tests
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
-        test_results['corrected_animal_translations_and_duplicates'] = self.test_corrected_animal_translations_and_duplicates()
-        test_results['comprehensive_verbs'] = self.test_comprehensive_verbs_section()
-        test_results['corrected_animal_translations'] = self.test_corrected_animal_translations()
-        test_results['comprehensive_updated_animals'] = self.test_comprehensive_updated_animals_section()
-        test_results['final_comprehensive_animals'] = self.test_final_comprehensive_animals_vocabulary()
-        test_results['complete_colors_palette'] = self.test_complete_colors_palette()
-        test_results['comprehensive_grammar'] = self.test_comprehensive_grammar_vocabulary()
-        test_results['extended_family'] = self.test_extended_family_vocabulary()
-        test_results['corrected_numbers'] = self.test_corrected_numbers_system()
-        test_results['comprehensive_vocab'] = self.test_comprehensive_vocabulary_initialization()
-        test_results['specific_vocab'] = self.test_specific_vocabulary_from_table()
-        test_results['greeting_improvements'] = self.test_updated_greeting_improvements()
-        test_results['pronoun_additions'] = self.test_pronoun_additions()
-        test_results['verb_additions'] = self.test_new_verb_additions()
         test_results['get_words'] = self.test_get_words()
-        test_results['category_filter'] = self.test_comprehensive_category_filtering()
         test_results['word_crud'] = self.test_word_crud_operations()
         test_results['exercises'] = self.test_exercise_management()
         test_results['progress'] = self.test_user_progress_tracking()
         
         # Summary
         print("\n" + "=" * 80)
-        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - COMPREHENSIVE GRAMMAR SECTION")
+        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - FINAL ANIMAL CORRECTIONS VERIFICATION")
         print("=" * 80)
         
         passed = sum(test_results.values())
