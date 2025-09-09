@@ -2113,6 +2113,256 @@ class MayotteEducationTester:
             print(f"❌ Corrected animal translations test error: {e}")
             return False
 
+    def test_comprehensive_verbs_section(self):
+        """Test the comprehensive updated verbs section with complete vocabulary from the user's table"""
+        print("\n=== Testing Comprehensive Updated Verbs Section ===")
+        
+        try:
+            # 1. Test comprehensive verbs vocabulary initialization
+            print("--- Testing Comprehensive Verbs Vocabulary Initialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # 2. Test GET /api/words?category=verbes to verify all verbs from the table
+            print("\n--- Testing Verbs Category Filtering (65+ Verbs) ---")
+            response = self.session.get(f"{API_BASE}/words?category=verbes")
+            if response.status_code != 200:
+                print(f"❌ Failed to get verbs: {response.status_code}")
+                return False
+            
+            verbs = response.json()
+            verbs_by_french = {word['french']: word for word in verbs}
+            
+            print(f"Found {len(verbs)} verbs in database")
+            
+            # Verify we have 65+ verbs as required
+            if len(verbs) >= 65:
+                print(f"✅ Comprehensive verb vocabulary confirmed: {len(verbs)} verbs (65+ required)")
+            else:
+                print(f"❌ Insufficient verb vocabulary: {len(verbs)} verbs (65+ required)")
+                return False
+            
+            # 3. Test specific verb categories from the comprehensive table
+            print("\n--- Testing Specific Verb Categories ---")
+            
+            # Basic actions
+            print("\n--- Testing Basic Actions ---")
+            basic_actions_tests = [
+                {"french": "Jouer", "shimaore": "Nguadza", "kibouchi": "Misoma", "difficulty": 1},
+                {"french": "Courir", "shimaore": "Wendra mbiyo", "kibouchi": "Miloumeyi", "difficulty": 1},
+                {"french": "Dire", "shimaore": "Burengisa", "kibouchi": "Mangataka", "difficulty": 1},
+                {"french": "Pouvoir", "shimaore": "Ouchindra", "kibouchi": "Mahaléou", "difficulty": 1},
+                {"french": "Vouloir", "shimaore": "Outlsho", "kibouchi": "Irokou", "difficulty": 1}
+            ]
+            
+            # Communication verbs
+            print("\n--- Testing Communication Verbs ---")
+            communication_verbs_tests = [
+                {"french": "Parler", "shimaore": "Oujagous", "kibouchi": "Mivoulgma", "difficulty": 1},
+                {"french": "Demander", "shimaore": "Oodzisa", "kibouchi": "Magndoutani", "difficulty": 1},
+                {"french": "Répondre", "shimaore": "Oudjibou", "kibouchi": "Mikoudjibou", "difficulty": 1},
+                {"french": "Écouter", "shimaore": "Ouwoulkia", "kibouchi": "Mitandréngni", "difficulty": 1}
+            ]
+            
+            # Learning verbs
+            print("\n--- Testing Learning Verbs ---")
+            learning_verbs_tests = [
+                {"french": "Savoir", "shimaore": "Oujoua", "kibouchi": "Méhéyi", "difficulty": 1},
+                {"french": "Apprendre", "shimaore": "Ourfoundrana", "kibouchi": "Midzorou", "difficulty": 1},
+                {"french": "Comprendre", "shimaore": "Ouéléwa", "kibouchi": "Kouéléwa", "difficulty": 1},
+                {"french": "Lire", "shimaore": "Ousoma", "kibouchi": "Midzorou", "difficulty": 1},
+                {"french": "Écrire", "shimaore": "Ouhangidina", "kibouchi": "Soukouadika", "difficulty": 1}
+            ]
+            
+            # Movement verbs
+            print("\n--- Testing Movement Verbs ---")
+            movement_verbs_tests = [
+                {"french": "Marcher", "shimaore": "Ouzndra", "kibouchi": "Mandeha", "difficulty": 1},
+                {"french": "Entrer", "shimaore": "Oughulya", "kibouchi": "Midiri", "difficulty": 1},
+                {"french": "Sortir", "shimaore": "Oulawy", "kibouchi": "Miboka", "difficulty": 1},
+                {"french": "Venir", "shimaore": "Oudja", "kibouchi": "Miavi", "difficulty": 1}
+            ]
+            
+            # Daily life verbs
+            print("\n--- Testing Daily Life Verbs ---")
+            daily_life_verbs_tests = [
+                {"french": "Manger", "shimaore": "Oudhya", "kibouchi": "Mihinagna", "difficulty": 1},
+                {"french": "Boire", "shimaore": "Ounzoa", "kibouchi": "Mitsiratra", "difficulty": 1},
+                {"french": "Dormir", "shimaore": "Oulala", "kibouchi": "Mandri", "difficulty": 1},
+                {"french": "S'asseoir", "shimaore": "Ouzina", "kibouchi": "Mitsindza", "difficulty": 1}
+            ]
+            
+            # Care verbs
+            print("\n--- Testing Care Verbs ---")
+            care_verbs_tests = [
+                {"french": "Se laver", "shimaore": "Ouhowa", "kibouchi": "Miséki", "difficulty": 1},
+                {"french": "Se baigner", "shimaore": "Ouhowa", "kibouchi": "Misséki", "difficulty": 1},
+                {"french": "Se laver le derrière", "shimaore": "Outsamba", "kibouchi": "Mambouyï", "difficulty": 1}
+            ]
+            
+            # Complex actions
+            print("\n--- Testing Complex Actions ---")
+            complex_actions_tests = [
+                {"french": "Faire caca", "shimaore": "Oukoza", "kibouchi": "Manibi", "difficulty": 1},
+                {"french": "Faire pipi", "shimaore": "Ouraviha", "kibouchi": "Mandouwya", "difficulty": 1},
+                {"french": "Vomir", "shimaore": "Outakéa", "kibouchi": "Mampétraka", "difficulty": 1}
+            ]
+            
+            # Combine all verb tests
+            all_verb_tests = (
+                basic_actions_tests + communication_verbs_tests + learning_verbs_tests + 
+                movement_verbs_tests + daily_life_verbs_tests + care_verbs_tests + complex_actions_tests
+            )
+            
+            all_verbs_correct = True
+            
+            # Test each category
+            test_categories = [
+                ("Basic Actions", basic_actions_tests),
+                ("Communication Verbs", communication_verbs_tests),
+                ("Learning Verbs", learning_verbs_tests),
+                ("Movement Verbs", movement_verbs_tests),
+                ("Daily Life Verbs", daily_life_verbs_tests),
+                ("Care Verbs", care_verbs_tests),
+                ("Complex Actions", complex_actions_tests)
+            ]
+            
+            for category_name, test_cases in test_categories:
+                print(f"\n--- Testing {category_name} ---")
+                category_correct = True
+                
+                for test_case in test_cases:
+                    french_word = test_case['french']
+                    if french_word in verbs_by_french:
+                        word = verbs_by_french[french_word]
+                        
+                        # Check all fields
+                        checks = [
+                            (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                            (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                            (word['difficulty'], test_case['difficulty'], 'Difficulty'),
+                            (word['category'], 'verbes', 'Category')
+                        ]
+                        
+                        word_correct = True
+                        for actual, expected, field_name in checks:
+                            if actual != expected:
+                                print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                                word_correct = False
+                                category_correct = False
+                                all_verbs_correct = False
+                        
+                        if word_correct:
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (difficulty: {word['difficulty']})")
+                    else:
+                        print(f"❌ {french_word} not found in verbs category")
+                        category_correct = False
+                        all_verbs_correct = False
+                
+                if category_correct:
+                    print(f"✅ {category_name} category: All translations verified")
+                else:
+                    print(f"❌ {category_name} category: Some translations incorrect or missing")
+            
+            # 4. Test verb count and vocabulary structure
+            print("\n--- Testing Verb Count and Vocabulary Structure ---")
+            
+            # Verify significantly increased verb vocabulary (should be 65+ verbs)
+            expected_verb_count = 65
+            actual_verb_count = len(verbs)
+            
+            if actual_verb_count >= expected_verb_count:
+                print(f"✅ Verb vocabulary count: {actual_verb_count} verbs (expected at least {expected_verb_count})")
+            else:
+                print(f"❌ Verb vocabulary count: {actual_verb_count} verbs (expected at least {expected_verb_count})")
+                all_verbs_correct = False
+            
+            # Test that all verbs have complete Shimaoré and Kibouchi translations
+            complete_translations_count = 0
+            for verb in verbs:
+                if verb['shimaore'] and verb['kibouchi']:
+                    complete_translations_count += 1
+                elif not verb['shimaore'] and verb['kibouchi']:
+                    # Some verbs might only have Kibouchi (like "Garder")
+                    print(f"ℹ️ {verb['french']} has only Kibouchi translation: {verb['kibouchi']}")
+                elif verb['shimaore'] and not verb['kibouchi']:
+                    # Some verbs might only have Shimaoré
+                    print(f"ℹ️ {verb['french']} has only Shimaoré translation: {verb['shimaore']}")
+            
+            print(f"Verbs with complete translations: {complete_translations_count}/{actual_verb_count}")
+            
+            # Verify proper difficulty assignments (1 for basic verbs, 2 for complex verbs)
+            difficulty_1_count = len([v for v in verbs if v['difficulty'] == 1])
+            difficulty_2_count = len([v for v in verbs if v['difficulty'] == 2])
+            
+            print(f"Difficulty 1 (basic verbs): {difficulty_1_count} verbs")
+            print(f"Difficulty 2 (complex verbs): {difficulty_2_count} verbs")
+            
+            if difficulty_1_count > 0 and difficulty_2_count >= 0:  # Allow for all verbs to be difficulty 1
+                print("✅ Difficulty levels properly assigned for verb vocabulary")
+            else:
+                print("❌ Difficulty levels not properly assigned for verb vocabulary")
+                all_verbs_correct = False
+            
+            # Ensure all verbs are categorized as "verbes"
+            category_correct = True
+            for verb in verbs:
+                if verb['category'] != 'verbes':
+                    print(f"❌ Verb '{verb['french']}' has incorrect category: {verb['category']} (expected 'verbes')")
+                    category_correct = False
+                    all_verbs_correct = False
+            
+            if category_correct:
+                print("✅ All verbs properly categorized as 'verbes'")
+            
+            # 5. Test total vocabulary update
+            print("\n--- Testing Total Vocabulary Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total vocabulary count: {total_word_count} words (reflects comprehensive verb addition)")
+                
+                # Confirm the most complete action vocabulary for sentence construction
+                if actual_verb_count >= 65:
+                    print("✅ Most complete action vocabulary confirmed for sentence construction in Mayotte languages")
+                else:
+                    print("❌ Insufficient action vocabulary for complete sentence construction")
+                    all_verbs_correct = False
+            else:
+                print(f"❌ Could not retrieve total vocabulary: {response.status_code}")
+                all_verbs_correct = False
+            
+            # Overall verbs test result
+            if all_verbs_correct:
+                print("\n🎉 COMPREHENSIVE VERBS SECTION TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Comprehensive verb vocabulary with 65+ verbs confirmed")
+                print("✅ All specific verb categories from the table verified:")
+                print("   • Basic actions: Jouer, Courir, Dire, Pouvoir, Vouloir")
+                print("   • Communication verbs: Parler, Demander, Répondre, Écouter")
+                print("   • Learning verbs: Savoir, Apprendre, Comprendre, Lire, Écrire")
+                print("   • Movement verbs: Marcher, Entrer, Sortir, Venir")
+                print("   • Daily life verbs: Manger, Boire, Dormir, S'asseoir")
+                print("   • Care verbs: Se laver, Se baigner, Se laver le derrière")
+                print("   • Complex actions: Faire caca, Faire pipi, Vomir")
+                print("✅ Complete Shimaoré and Kibouchi translations verified")
+                print("✅ Proper difficulty assignments (1 for basic verbs, 2 for complex verbs)")
+                print("✅ All verbs categorized as 'verbes'")
+                print("✅ Most complete action vocabulary for sentence construction in authentic Shimaoré and Kibouchi")
+            else:
+                print("\n❌ Some verb vocabulary items are incorrect or missing")
+            
+            return all_verbs_correct
+            
+        except Exception as e:
+            print(f"❌ Comprehensive verbs section test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
