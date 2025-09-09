@@ -280,7 +280,7 @@ async def init_base_content():
         
         # Reptiles et amphibiens
         {"french": "Margouillat", "shimaore": "Kasangwe", "kibouchi": "Kitsatsaka", "category": "animaux", "difficulty": 1},
-        {"french": "Lézard", "shimaore": "Ngwizi", "kibouchi": "Kitsatsaka", "category": "animaux", "difficulty": 1},
+
         {"french": "Grenouille", "shimaore": "Shiwatrotro", "kibouchi": "Sahougnou", "category": "animaux", "difficulty": 1},
         {"french": "Tortue", "shimaore": "Nyamba katsa", "kibouchi": "Fanou", "category": "animaux", "difficulty": 1},
         {"french": "Caméléon", "shimaore": "Tarundru", "kibouchi": "Tarondru", "category": "animaux", "difficulty": 2},
