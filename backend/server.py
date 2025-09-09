@@ -298,7 +298,7 @@ async def init_base_content():
         {"french": "Corbeau", "shimaore": "Gawa", "kibouchi": "Goika", "category": "animaux", "difficulty": 1},
         
         # Insectes et larves supplémentaires
-        {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimangidji", "category": "animaux", "difficulty": 1},
+        {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimanguidi", "category": "animaux", "difficulty": 1},
         {"french": "Ver de terre", "shimaore": "Njengwe", "kibouchi": "Bibi fotaka", "category": "animaux", "difficulty": 1},
         {"french": "Criquet", "shimaore": "Furudji", "kibouchi": "Kidzedza", "category": "animaux", "difficulty": 1},
         {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Galaronga", "category": "animaux", "difficulty": 1},
