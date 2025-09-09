@@ -4479,13 +4479,13 @@ class MayotteEducationTester:
 
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests - Specific Animal Corrections Verification")
+        print("🏫 Starting Mayotte Educational App Backend Tests - Updated Nourriture Vocabulary Testing")
         print("=" * 80)
         
         test_results = {}
         
-        # Run the specific test for animal corrections verification
-        test_results['specific_animal_corrections_verification'] = self.test_specific_animal_corrections_verification()
+        # Run the specific test for nourriture vocabulary from new tableau
+        test_results['updated_nourriture_vocabulary_new_tableau'] = self.test_updated_nourriture_vocabulary_new_tableau()
         
         # Run other essential tests
         test_results['connectivity'] = self.test_basic_connectivity()
@@ -4498,7 +4498,7 @@ class MayotteEducationTester:
         
         # Summary
         print("\n" + "=" * 80)
-        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - SPECIFIC ANIMAL CORRECTIONS VERIFICATION")
+        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - UPDATED NOURRITURE VOCABULARY TESTING")
         print("=" * 80)
         
         passed = sum(test_results.values())
@@ -4511,19 +4511,11 @@ class MayotteEducationTester:
         print(f"\nOverall: {passed}/{total} tests passed")
         
         if passed == total:
-            print("🎉 All backend tests passed! The specific animal corrections have been successfully verified.")
-            print("✅ Araignée: shimaoré corrected to 'Shitrandrabwibwi' (not 'Shitrandrablwibwi')")
-            print("✅ Requin: kibouchi corrected to 'Ankiou' (not 'Ankou')")
-            print("✅ All other animal entries remain intact and unchanged")
-            print("✅ Both animals have complete translations in both languages")
-            print("✅ No duplicate entries introduced")
-            print("✅ Total animal count maintained appropriately")
-            print("✅ Backend API responses working correctly for both specific animals")
-            print("✅ Bug fix verification complete - issue has been completely resolved with no regressions")
+            print("🎉 All backend tests passed! The updated nourriture vocabulary from new tableau has been successfully verified.")
         else:
-            print("⚠️ Some tests failed. Please check the detailed output above.")
+            print("❌ Some tests failed. Please check the detailed output above.")
         
-        return test_results
+        return passed == total
 
     def test_duplicate_removal_verification(self):
         """Test that all duplicate animals have been successfully removed"""
