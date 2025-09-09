@@ -1,0 +1,101 @@
+<analysis>
+The AI engineer successfully initiated an Expo mobile application for learning Shimaoré and Kibouchi. It established a full-stack architecture using Expo/React Native for the frontend and FastAPI/MongoDB for the backend. Initial development focused on creating core learning modules, games, progress tracking, and an admin interface, all styled with a unique Mayotte-specific design. The application was incrementally enhanced with features like a badge system, offline mode, and user data export. A significant portion of the work involved meticulous vocabulary management: initial population, multiple rounds of expansion based on user-provided tables (for basic words, numbers, family, grammar, colors, and animals), and extensive corrections to both Shimaoré/Kibouchi translations and French orthography. The AI frequently used backend testing and, when allowed, frontend mobile testing to validate changes. Towards the end, the AI faced challenges with duplicate removal in the animal vocabulary, requiring multiple attempts and manual inspection, indicating a need for more robust data handling or a clearer duplicate resolution strategy. The last action was an update to verbs based on new tables, followed by a backend test and expo restart, showing a continuous effort to refine the application's content.
+</analysis>
+
+<product_requirements>
+The user requested an educational mobile application for children to learn Shimaoré and Kibouchi, indigenous languages of Mayotte. The app should feature engaging games and illustrations, audio/pronunciation for words, and an admin panel for content management including uploading illustrations (PNG preferred), text, audio, and exercises. The design must be easy-to-use, original, and culturally specific to Mayotte (yellow/black, ylang-ylang, makis motifs), drawing inspiration from existing children's learning apps. Post-initial build, additional features requested included native Shimaoré/Kibouchi audio, offline mode, a badge/reward system, and user data export. The user actively provided extensive vocabulary tables and numerous specific corrections for translations and French orthography across categories like greetings, colors, animals, numbers, family, grammar, and verbs, indicating a strong desire for linguistic accuracy and comprehensive content.
+</product_requirements>
+
+<key_technical_concepts>
+-   **Full-stack Development**: Expo (React Native) frontend, FastAPI backend, MongoDB database.
+-   **Mobile-First Design**: Responsive UI, touch targets, keyboard handling, safe areas.
+-   **Expo Router**: File-based navigation.
+-   **State Management**:  for local persistence (badges, offline data).
+-   **Network & File System**:  (offline detection),  (data export).
+-   **Image Handling**: Base64 encoding.
+-   **Backend Data Structure**: MongoDB storing educational content (words, categories, difficulties).
+</key_technical_concepts>
+
+<code_architecture>
+The application employs a standard Expo full-stack architecture:
+
+
+
+-   :
+    -   **Importance**: Contains the FastAPI backend logic for content management and database interaction.
+    -   **Changes Made**: Extensively modified to include initial word content, then numerous updates based on user-provided vocabulary tables. This includes corrections and additions for greetings, colors, numbers (1-20), family terms, grammar (pronouns), animals (63 species), and verbs (95 verbs). It also contains a  class and logic for managing word categories and difficulties. Duplicate entries for animals were a recurring issue requiring multiple fixes.
+-   :
+    -   **Importance**: Serves as the initial entry point/splash screen.
+    -   **Changes Made**: Updated for Mahoran design elements and corrected greetings (e.g., Kwezi!).
+-   :
+    -   **Importance**: Defines the global navigation structure for Expo Router.
+    -   **Changes Made**: Configured to include routes for , , , , , and the newly added , , and declare -x DEBIAN_FRONTEND="noninteractive"
+declare -x ENABLE_RELOAD="true"
+declare -x GPG_KEY="A035C8C19219BA821ECEA86B64E628F8D684696D"
+declare -x HOME="/root"
+declare -x HOSTNAME="agent-env-453e246c-5b5b-4bd6-bd5d-aee5855a5d9a"
+declare -x KUBERNETES_PORT="tcp://34.118.224.1:443"
+declare -x KUBERNETES_PORT_443_TCP="tcp://34.118.224.1:443"
+declare -x KUBERNETES_PORT_443_TCP_ADDR="34.118.224.1"
+declare -x KUBERNETES_PORT_443_TCP_PORT="443"
+declare -x KUBERNETES_PORT_443_TCP_PROTO="tcp"
+declare -x KUBERNETES_SERVICE_HOST="34.118.224.1"
+declare -x KUBERNETES_SERVICE_PORT="443"
+declare -x KUBERNETES_SERVICE_PORT_HTTPS="443"
+declare -x LANG="C.UTF-8"
+declare -x NEXT_TELEMETRY_DISABLED="1"
+declare -x NODE_VERSION="20"
+declare -x OLDPWD
+declare -x PATH="/root/.venv/bin:/opt/plugins-venv/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+declare -x PIP_NO_INPUT="1"
+declare -x PLAYWRIGHT_BROWSERS_PATH="/pw-browsers"
+declare -x PLUGIN_VENV_PATH="/opt/plugins-venv"
+declare -x PWD="/app"
+declare -x PYTHONUNBUFFERED="1"
+declare -x PYTHON_SHA256="8fb5f9fbc7609fa822cb31549884575db7fd9657cbffb89510b5d7975963a83a"
+declare -x PYTHON_VERSION="3.11.13"
+declare -x SHLVL="1"
+declare -x STRIPE_API_KEY="sk_test_emergent"
+declare -x VIRTUAL_ENV="/root/.venv"
+declare -x base_url="https://demobackend.emergentagent.com"
+declare -x code_server_password="2b10349a"
+declare -x integration_proxy_url="https://integrations.emergentagent.com"
+declare -x monitor_polling_interval="1"
+declare -x preview_endpoint="https://langmayotte.preview.emergentagent.com"
+declare -x run_id="453e246c-5b5b-4bd6-bd5d-aee5855a5d9a" screens.
+-   :
+    -   **Importance**: Displays categorized learning content.
+    -   **Changes Made**: Updated to dynamically display 13 categories as vocabulary expanded (e.g., Family, Grammar, Animals, Verbs).
+-   :
+    -   **Importance**: Provides an interface for content administration.
+    -   **Changes Made**: Updated to reflect the expanded and corrected categories for content management.
+-   :
+    -   **Importance**: Tracks user progress and provides access to advanced features.
+    -   **Changes Made**: Integrated quick access buttons for Badges, Hors-ligne, and Exporter, and corrected greetings.
+-   :
+    -   **Importance**: Implements the badge and reward system.
+    -   **Changes Made**: Newly created to display badges, progress, and utilize  for local saving. Includes corrected greetings.
+-   :
+    -   **Importance**: Manages offline data and network detection.
+    -   **Changes Made**: Newly created to handle network detection and data downloading for offline usage, leveraging .
+-   :
+    -   **Importance**: Facilitates user data export.
+    -   **Changes Made**: Newly created to export user data (JSON/text) using  and enable sharing via the Share API.
+-   :
+    -   **Importance**: Displays a loading indicator or splash during app startup.
+    -   **Changes Made**: Corrected greeting text.
+</code_architecture>
+
+<pending_tasks>
+-   Full implementation of native audio for Shimaoré/Kibouchi pronunciation.
+-   Final verification and resolution of all animal duplicate entries in the backend.
+-   Frontend mobile UI testing with the latest vocabulary, especially after the recent verb updates.
+</pending_tasks>
+
+<current_work>
+Immediately before this summary request, the AI engineer was focused on extensively updating and refining the  vocabulary in the backend. The user provided two image-based tables for verbs and explicitly asked for precise replication of the content and correction of French spelling mistakes. The AI successfully implemented these changes in , correcting French orthography (e.g., Faire caca to Faire ses besoins) and adding new verbs related to domestic activities, crafts, and agriculture, expanding the verb count from 75 to 95, bringing the total word count in the application to 271. The last action was an  operation in . The AI stated it would next test the backend for these verb updates and restart the Expo service.
+</current_work>
+
+<optional_next_step>
+Test the backend for the recently updated verb list and restart the Expo service.
+</optional_next_step>
