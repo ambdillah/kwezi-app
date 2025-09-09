@@ -290,6 +290,18 @@ backend:
         agent: "testing"
         comment: "🎉 CORRECTED ANIMAL TRANSLATIONS TESTING COMPLETED SUCCESSFULLY! All 5 specifically requested animal corrections have been implemented and verified: ✅ Chat: Paha/Moirou (corrected from Paré/Moirou) ✅ Oiseau: Gnougni/Vorougnou (corrected from Emougni/Voroumeki) ✅ Scorpion: Hala/Hala (corrected from Ngo/Hala) ✅ Requin: Papa/Ankiou (corrected from Papa/Ankou) ✅ Taureau: Kondzo/Dzow (corrected from Kondzo/Larew) ✅ POST /api/init-base-content successfully reinitializes with corrected translations ✅ GET /api/words?category=animaux returns all 63 animals with corrections applied ✅ No regressions detected in other animal translations (Chien, Poisson, Maki, Singe all verified) ✅ Category and difficulty levels remain unchanged for corrected animals ✅ Total animal count maintained at 63 animals ✅ All animals retain at least one translation (Shimaoré or Kibouchi) ✅ Backend CRUD functionality remains intact after corrections ✅ Complete correction verification with before/after comparison confirmed. All requested animal translation corrections have been successfully implemented without affecting other vocabulary or functionality."
 
+  - task: "Comprehensive updated verbs section with complete vocabulary from the user's table"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 COMPREHENSIVE VERBS SECTION TESTING COMPLETED SUCCESSFULLY! All major objectives achieved for the most complete verb vocabulary possible. ✅ POST /api/init-base-content successfully initializes with comprehensive verb vocabulary (255 words total) ✅ GET /api/words?category=verbes returns 75 verbs (exceeds 65+ requirement) ✅ All specific verb categories from the comprehensive table verified: Basic actions (Jouer=Nguadza/Misoma, Courir=Wendra mbiyo/Miloumeyi, Dire=Burengisa/Mangataka, Pouvoir=Ouchindra/Mahaléou, Vouloir=Outlsho/Irokou), Communication verbs (Parler=Oujagous/Mivoulgma, Demander=Oodzisa/Magndoutani, Répondre=Oudjibou/Mikoudjibou, Écouter=Ouwoulkia/Mitandréngni), Learning verbs (Savoir=Oujoua/Méhéyi, Apprendre=Ourfoundrana/Midzorou, Comprendre=Ouéléwa/Kouéléwa, Lire=Ousoma/Midzorou, Écrire=Ouhangidina/Soukouadika), Movement verbs (Marcher=Ouzndra/Mandeha, Entrer=Oughulya/Midiri, Sortir=Oulawy/Miboka, Venir=Oudja/Miavi), Daily life verbs (Manger=Oudhya/Mihinagna, Boire=Ounzoa/Mitsiratra, Dormir=Oulala/Mandri, S'asseoir=Ouzina/Mitsindza), Care verbs (Se laver=Ouhowa/Miséki, Se baigner=Ouhowa/Misséki, Se laver le derrière=Outsamba/Mambouyï), Complex actions (Faire caca=Oukoza/Manibi, Faire pipi=Ouraviha/Mandouwya, Vomir=Outakéa/Mampétraka) ✅ Verb count and vocabulary structure confirmed: 75 verbs with complete Shimaoré and Kibouchi translations ✅ Proper difficulty assignments (65 basic verbs=difficulty 1, 10 complex verbs=difficulty 2) ✅ All verbs properly categorized as 'verbes' ✅ Total vocabulary increased to 255 words ✅ Most complete action vocabulary for sentence construction in authentic Shimaoré and Kibouchi confirmed. The app now has the most comprehensive verb vocabulary possible, enabling complete sentence construction and daily conversation in authentic Mayotte languages."
+
 frontend:
   - task: "Welcome Screen Testing"
     implemented: true
