@@ -428,10 +428,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Comprehensive updated verbs section with complete vocabulary from the user's table completed successfully"
-  stuck_tasks: []
-  test_all: true
-  test_priority: "completed"
+    - "Duplicate removal verification"
+    - "Corrected animal translations and duplicate detection"
+  stuck_tasks: 
+    - "Duplicate removal verification"
+  test_all: false
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "testing"
