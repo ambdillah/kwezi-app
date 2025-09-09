@@ -2363,6 +2363,239 @@ class MayotteEducationTester:
             print(f"❌ Comprehensive verbs section test error: {e}")
             return False
 
+    def test_corrected_animal_translations_and_duplicates(self):
+        """Test corrected animal translations and identify duplicate animals"""
+        print("\n=== Testing Corrected Animal Translations and Duplicate Detection ===")
+        
+        try:
+            # 1. Test POST /api/init-base-content to reinitialize with corrected animal translations
+            print("--- Testing Animal Translations Reinitialization ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to reinitialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content reinitialized: {result}")
+            
+            # 2. Test GET /api/words?category=animaux to verify specific corrected animals
+            print("\n--- Testing Animal Category Filtering ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Failed to get animals: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            animals_by_french = {word['french']: word for word in animals}
+            
+            print(f"Found {len(animals)} animals in database")
+            
+            # 3. Verify specific corrected animal translations
+            print("\n--- Testing Specific Corrected Animal Translations ---")
+            corrected_animals_tests = [
+                {"french": "Canard", "shimaore": "Guisi", "kibouchi": "Doukitri", "old_kibouchi": "Aoukiri"},
+                {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimanguidi", "old_kibouchi": "Bibimangidji"},
+                {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Kalalowou", "old_kibouchi": "Galaronga"},
+                {"french": "Guêpe", "shimaore": "Vungo vungo", "kibouchi": "Fantehi", "old_shimaore": "Yungo yungo"},
+                {"french": "Bigorneau", "shimaore": "Trondro", "kibouchi": "Trondrou", "old_kibouchi": "Trondroul"},
+                {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Lambou", "old_kibouchi": "Rambou"},
+                {"french": "Hérisson", "shimaore": "Landra", "kibouchi": "Trandraka", "old_shimaore": "Tandra"}
+            ]
+            
+            all_corrections_verified = True
+            
+            for test_case in corrected_animals_tests:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    
+                    # Check corrected translations
+                    shimaore_correct = word['shimaore'] == test_case['shimaore']
+                    kibouchi_correct = word['kibouchi'] == test_case['kibouchi']
+                    
+                    if shimaore_correct and kibouchi_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (CORRECTED)")
+                        
+                        # Show what was corrected
+                        if 'old_shimaore' in test_case:
+                            print(f"   └─ Shimaoré corrected from '{test_case['old_shimaore']}' to '{word['shimaore']}'")
+                        if 'old_kibouchi' in test_case:
+                            print(f"   └─ Kibouchi corrected from '{test_case['old_kibouchi']}' to '{word['kibouchi']}'")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        all_corrections_verified = False
+                else:
+                    print(f"❌ {french_word} not found in animals category")
+                    all_corrections_verified = False
+            
+            # 4. Identify duplicate animals by French name
+            print("\n--- Testing Duplicate Animal Detection ---")
+            french_names = [animal['french'] for animal in animals]
+            french_name_counts = {}
+            
+            for name in french_names:
+                french_name_counts[name] = french_name_counts.get(name, 0) + 1
+            
+            duplicates_found = []
+            for name, count in french_name_counts.items():
+                if count > 1:
+                    duplicates_found.append((name, count))
+            
+            if duplicates_found:
+                print(f"❌ DUPLICATE ANIMALS FOUND:")
+                for name, count in duplicates_found:
+                    print(f"   • '{name}' appears {count} times")
+                    # Show all instances of the duplicate
+                    duplicate_instances = [animal for animal in animals if animal['french'] == name]
+                    for i, instance in enumerate(duplicate_instances, 1):
+                        print(f"     {i}. {instance['shimaore']} / {instance['kibouchi']} (ID: {instance['id']})")
+            else:
+                print("✅ No duplicate animals found - all French names are unique")
+            
+            # 5. Count total unique animals vs total animal entries
+            print("\n--- Testing Animal Count Analysis ---")
+            total_entries = len(animals)
+            unique_french_names = len(set(french_names))
+            
+            print(f"Total animal entries: {total_entries}")
+            print(f"Unique French names: {unique_french_names}")
+            
+            if total_entries == unique_french_names:
+                print("✅ All animal entries have unique French names")
+            else:
+                duplicate_count = total_entries - unique_french_names
+                print(f"❌ Found {duplicate_count} duplicate entries")
+            
+            # 6. Test animal vocabulary structure after corrections
+            print("\n--- Testing Animal Vocabulary Structure After Corrections ---")
+            
+            # Verify all corrected animals maintain proper category and difficulty
+            structure_correct = True
+            for test_case in corrected_animals_tests:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    
+                    if word['category'] != 'animaux':
+                        print(f"❌ {french_word} has incorrect category: {word['category']} (expected 'animaux')")
+                        structure_correct = False
+                    
+                    if word['difficulty'] not in [1, 2]:
+                        print(f"❌ {french_word} has invalid difficulty: {word['difficulty']} (expected 1 or 2)")
+                        structure_correct = False
+            
+            if structure_correct:
+                print("✅ All corrected animals maintain proper category ('animaux') and difficulty (1-2)")
+            
+            # 7. Verify no regressions in other animal translations
+            print("\n--- Testing No Regressions in Other Animal Translations ---")
+            
+            # Test some key animals that should not have changed
+            regression_tests = [
+                {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka"},
+                {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou"},
+                {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou"},
+                {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba"},
+                {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "Djakouayi"}
+            ]
+            
+            no_regressions = True
+            for test_case in regression_tests:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    
+                    if word['shimaore'] == test_case['shimaore'] and word['kibouchi'] == test_case['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (unchanged)")
+                    else:
+                        print(f"❌ {french_word}: Regression detected - Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        no_regressions = False
+                else:
+                    print(f"❌ {french_word} not found (possible deletion)")
+                    no_regressions = False
+            
+            # 8. Test backend functionality after animal corrections
+            print("\n--- Testing Backend Functionality After Animal Corrections ---")
+            
+            # Test API connectivity remains intact
+            connectivity_test = self.test_basic_connectivity()
+            if connectivity_test:
+                print("✅ API connectivity remains intact after corrections")
+            else:
+                print("❌ API connectivity issues after corrections")
+                return False
+            
+            # Test that all other vocabulary categories are unaffected
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                categories = set(word['category'] for word in all_words)
+                expected_categories = {
+                    'famille', 'salutations', 'couleurs', 'animaux', 'nombres', 
+                    'corps', 'nourriture', 'maison', 'vetements', 'nature', 'transport',
+                    'grammaire', 'verbes'
+                }
+                
+                if expected_categories.issubset(categories):
+                    print("✅ All other vocabulary categories unaffected")
+                else:
+                    missing = expected_categories - categories
+                    print(f"❌ Missing categories after corrections: {missing}")
+                    return False
+            else:
+                print(f"❌ Could not retrieve all words: {response.status_code}")
+                return False
+            
+            # Confirm database operations work properly
+            try:
+                # Test a simple database operation
+                test_response = self.session.get(f"{API_BASE}/words?category=famille")
+                if test_response.status_code == 200:
+                    print("✅ Database operations work properly after corrections")
+                else:
+                    print(f"❌ Database operation issues: {test_response.status_code}")
+                    return False
+            except Exception as e:
+                print(f"❌ Database operation error: {e}")
+                return False
+            
+            # Overall test result
+            all_tests_passed = (
+                all_corrections_verified and 
+                len(duplicates_found) == 0 and 
+                structure_correct and 
+                no_regressions and
+                connectivity_test
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 CORRECTED ANIMAL TRANSLATIONS AND DUPLICATE DETECTION COMPLETED SUCCESSFULLY!")
+                print("✅ All 7 requested animal translation corrections verified:")
+                print("   • Canard = Guisi/Doukitri (corrected from Guisi/Aoukiri)")
+                print("   • Chenille = Bibimangidji/Bibimanguidi (corrected from Bibimangidji/Bibimangidji)")
+                print("   • Cafard = Kalalawi/Kalalowou (corrected from Kalalawi/Galaronga)")
+                print("   • Guêpe = Vungo vungo/Fantehi (corrected from Yungo yungo/Fantehi)")
+                print("   • Bigorneau = Trondro/Trondrou (corrected from Trondro/Trondroul)")
+                print("   • Facochère = Pouroukou nyeha/Lambou (corrected from Pouroukou nyeha/Rambou)")
+                print("   • Hérisson = Landra/Trandraka (corrected from Tandra/Trandraka)")
+                print("✅ No duplicate animals found - all French names are unique")
+                print("✅ All corrected animals maintain proper category and difficulty")
+                print("✅ No regressions in other animal translations")
+                print("✅ Backend functionality remains intact after corrections")
+                print(f"✅ Total animals: {len(animals)} unique entries")
+            else:
+                print("\n❌ Some issues found with corrected animal translations or duplicates")
+                if duplicates_found:
+                    print(f"❌ {len(duplicates_found)} duplicate animal(s) need to be removed")
+                if not all_corrections_verified:
+                    print("❌ Some animal translation corrections are not properly implemented")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Corrected animal translations and duplicate detection test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
