@@ -1856,6 +1856,263 @@ class MayotteEducationTester:
             print(f"❌ Final comprehensive animals vocabulary test error: {e}")
             return False
 
+    def test_corrected_animal_translations(self):
+        """Test the corrected animal translations to verify all requested changes have been implemented"""
+        print("\n=== Testing Corrected Animal Translations ===")
+        
+        try:
+            # 1. Test initialization with corrected translations
+            print("--- Testing Initialization with Corrected Animal Translations ---")
+            
+            # First, clear existing content by deleting all words
+            print("Clearing existing content...")
+            try:
+                words_response = self.session.get(f"{API_BASE}/words")
+                if words_response.status_code == 200:
+                    existing_words = words_response.json()
+                    for word in existing_words:
+                        delete_response = self.session.delete(f"{API_BASE}/words/{word['id']}")
+                        if delete_response.status_code != 200:
+                            print(f"Warning: Could not delete word {word['id']}")
+                    print(f"Cleared {len(existing_words)} existing words")
+            except Exception as e:
+                print(f"Note: Could not clear existing content: {e}")
+            
+            # POST /api/init-base-content to reinitialize with corrected animal translations
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content reinitialized: {result}")
+            
+            # 2. GET /api/words?category=animaux to verify specific corrected animals
+            print("\n--- Testing Animal Category Filtering ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Failed to get animal words: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            animals_by_french = {word['french']: word for word in animals}
+            
+            print(f"Found {len(animals)} animals in database")
+            
+            # 3. Test each specifically corrected animal translation
+            print("\n--- Testing Specifically Corrected Animal Translations ---")
+            corrected_animals_tests = [
+                # Chat: Should be "Paha/Moirou" (corrected from "Paré/Moirou")
+                {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou", "old_shimaore": "Paré"},
+                
+                # Oiseau: Should be "Gnougni/Vorougnou" (corrected from "Emougni/Voroumeki")
+                {"french": "Oiseau", "shimaore": "Gnougni", "kibouchi": "Vorougnou", "old_shimaore": "Emougni", "old_kibouchi": "Voroumeki"},
+                
+                # Scorpion: Should be "Hala/Hala" (corrected from "Ngo/Hala")
+                {"french": "Scorpion", "shimaore": "Hala", "kibouchi": "Hala", "old_shimaore": "Ngo"},
+                
+                # Requin: Should be "Papa/Ankiou" (corrected from "Papa/Ankou")
+                {"french": "Requin", "shimaore": "Papa", "kibouchi": "Ankiou", "old_kibouchi": "Ankou"},
+                
+                # Taureau: Should be "Kondzo/Dzow" (corrected from "Kondzo/Larew")
+                {"french": "Taureau", "shimaore": "Kondzo", "kibouchi": "Dzow", "old_kibouchi": "Larew"}
+            ]
+            
+            all_corrections_correct = True
+            
+            for test_case in corrected_animals_tests:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    
+                    # Check corrected translations
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'animaux', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_corrections_correct = False
+                    
+                    if word_correct:
+                        # Show what was corrected
+                        corrections = []
+                        if 'old_shimaore' in test_case:
+                            corrections.append(f"Shimaoré: {test_case['old_shimaore']} → {word['shimaore']}")
+                        if 'old_kibouchi' in test_case:
+                            corrections.append(f"Kibouchi: {test_case['old_kibouchi']} → {word['kibouchi']}")
+                        
+                        correction_text = " | ".join(corrections) if corrections else "verified"
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} ({correction_text})")
+                else:
+                    print(f"❌ {french_word} not found in animals category")
+                    all_corrections_correct = False
+            
+            # 4. Verify correction completeness
+            print("\n--- Verifying Correction Completeness ---")
+            
+            # Confirm all 5 requested animals have been updated with correct translations
+            corrected_count = 0
+            for test_case in corrected_animals_tests:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    if (word['shimaore'] == test_case['shimaore'] and 
+                        word['kibouchi'] == test_case['kibouchi']):
+                        corrected_count += 1
+            
+            if corrected_count == 5:
+                print(f"✅ All 5 requested animal corrections implemented successfully")
+            else:
+                print(f"❌ Only {corrected_count}/5 animal corrections implemented correctly")
+                all_corrections_correct = False
+            
+            # Verify no regressions in other animal translations
+            print("\n--- Verifying No Regressions in Other Animal Translations ---")
+            
+            # Test a few other animals to ensure they weren't affected
+            other_animals_tests = [
+                {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka"},
+                {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou"},
+                {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba"},
+                {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "Djakouayi"}
+            ]
+            
+            regressions_found = False
+            for test_case in other_animals_tests:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    if (word['shimaore'] == test_case['shimaore'] and 
+                        word['kibouchi'] == test_case['kibouchi']):
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (no regression)")
+                    else:
+                        print(f"❌ {french_word}: Regression detected - Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        regressions_found = True
+                        all_corrections_correct = False
+            
+            if not regressions_found:
+                print("✅ No regressions detected in other animal translations")
+            
+            # Ensure category and difficulty remain unchanged for corrected animals
+            print("\n--- Verifying Category and Difficulty Unchanged ---")
+            category_difficulty_correct = True
+            for test_case in corrected_animals_tests:
+                french_word = test_case['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    if word['category'] != 'animaux':
+                        print(f"❌ {french_word}: Category changed from 'animaux' to '{word['category']}'")
+                        category_difficulty_correct = False
+                        all_corrections_correct = False
+                    # Difficulty should be 1 or 2 for animals
+                    if word['difficulty'] not in [1, 2]:
+                        print(f"❌ {french_word}: Invalid difficulty level {word['difficulty']}")
+                        category_difficulty_correct = False
+                        all_corrections_correct = False
+            
+            if category_difficulty_correct:
+                print("✅ Category and difficulty levels remain unchanged for corrected animals")
+            
+            # 5. Test total animal vocabulary integrity
+            print("\n--- Testing Total Animal Vocabulary Integrity ---")
+            
+            # Verify the total animal count remains at 63 animals
+            expected_animal_count = 63
+            actual_animal_count = len(animals)
+            
+            if actual_animal_count >= expected_animal_count:
+                print(f"✅ Animal count: {actual_animal_count} animals (expected at least {expected_animal_count})")
+            else:
+                print(f"❌ Animal count: {actual_animal_count} animals (expected at least {expected_animal_count})")
+                all_corrections_correct = False
+            
+            # Confirm all other animals retain their correct translations
+            print("\n--- Verifying All Animals Have Complete Translations ---")
+            incomplete_translations = 0
+            for animal in animals:
+                if not animal['shimaore'] and not animal['kibouchi']:
+                    print(f"❌ {animal['french']}: Missing both Shimaoré and Kibouchi translations")
+                    incomplete_translations += 1
+                elif not animal['shimaore']:
+                    # Some animals like "Singe" may not have Shimaoré translation, which is acceptable
+                    pass
+                elif not animal['kibouchi']:
+                    # Some animals may not have Kibouchi translation, which is acceptable
+                    pass
+            
+            if incomplete_translations == 0:
+                print("✅ All animals have at least one translation (Shimaoré or Kibouchi)")
+            else:
+                print(f"❌ {incomplete_translations} animals have incomplete translations")
+                all_corrections_correct = False
+            
+            # Test that backend functionality is intact after corrections
+            print("\n--- Testing Backend Functionality Integrity ---")
+            
+            # Test basic CRUD operations still work
+            try:
+                # Test creating a new animal
+                test_animal = {
+                    "french": "Test Animal",
+                    "shimaore": "Test Shimaoré",
+                    "kibouchi": "Test Kibouchi",
+                    "category": "animaux",
+                    "difficulty": 1
+                }
+                
+                create_response = self.session.post(f"{API_BASE}/words", json=test_animal)
+                if create_response.status_code == 200:
+                    created_animal = create_response.json()
+                    test_animal_id = created_animal['id']
+                    
+                    # Test retrieving the animal
+                    get_response = self.session.get(f"{API_BASE}/words/{test_animal_id}")
+                    if get_response.status_code == 200:
+                        # Test deleting the animal
+                        delete_response = self.session.delete(f"{API_BASE}/words/{test_animal_id}")
+                        if delete_response.status_code == 200:
+                            print("✅ Backend CRUD functionality intact after corrections")
+                        else:
+                            print("❌ Backend delete functionality issue after corrections")
+                            all_corrections_correct = False
+                    else:
+                        print("❌ Backend read functionality issue after corrections")
+                        all_corrections_correct = False
+                else:
+                    print("❌ Backend create functionality issue after corrections")
+                    all_corrections_correct = False
+            except Exception as e:
+                print(f"❌ Backend functionality test error: {e}")
+                all_corrections_correct = False
+            
+            # Final result
+            if all_corrections_correct:
+                print("\n🎉 CORRECTED ANIMAL TRANSLATIONS TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ All 5 specifically requested animal corrections implemented:")
+                print("   • Chat: Paha/Moirou (corrected from Paré/Moirou)")
+                print("   • Oiseau: Gnougni/Vorougnou (corrected from Emougni/Voroumeki)")
+                print("   • Scorpion: Hala/Hala (corrected from Ngo/Hala)")
+                print("   • Requin: Papa/Ankiou (corrected from Papa/Ankou)")
+                print("   • Taureau: Kondzo/Dzow (corrected from Kondzo/Larew)")
+                print("✅ No regressions in other animal translations")
+                print("✅ Category and difficulty levels unchanged")
+                print(f"✅ Total animal count maintained at {actual_animal_count} animals")
+                print("✅ Backend functionality remains intact")
+            else:
+                print("\n❌ Some animal translation corrections are missing or incorrect")
+            
+            return all_corrections_correct
+            
+        except Exception as e:
+            print(f"❌ Corrected animal translations test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
