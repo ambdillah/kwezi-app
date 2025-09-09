@@ -3753,9 +3753,169 @@ class MayotteEducationTester:
             print(f"❌ Updated corps vocabulary test error: {e}")
             return False
 
+    def test_final_animal_corrections_verification(self):
+        """Test the final animal corrections have been applied correctly as per review request"""
+        print("\n=== Testing Final Animal Corrections Verification ===")
+        
+        try:
+            # Initialize base content first
+            print("--- Initializing Base Content ---")
+            response = self.session.post(f"{API_BASE}/init-base-content")
+            if response.status_code != 200:
+                print(f"❌ Failed to initialize base content: {response.status_code}")
+                return False
+            
+            result = response.json()
+            print(f"✅ Base content initialized: {result}")
+            
+            # Get all animals
+            print("\n--- Testing /api/words?category=animaux endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Failed to get animals: {response.status_code}")
+                return False
+            
+            animals = response.json()
+            animals_by_french = {word['french']: word for word in animals}
+            
+            print(f"Found {len(animals)} animals in database")
+            
+            # 1. Confirm "Ranard" has been completely removed from the animals list
+            print("\n--- 1. Verifying 'Ranard' Removal ---")
+            ranard_found = False
+            for animal in animals:
+                if 'Ranard' in animal['french']:
+                    print(f"❌ 'Ranard' still found in animals list: {animal}")
+                    ranard_found = True
+            
+            if not ranard_found:
+                print("✅ 'Ranard' has been completely removed from the animals list")
+            
+            # 2. Verify "Lézard" is present (formerly "Jézard")
+            print("\n--- 2. Verifying 'Lézard' Presence ---")
+            lezard_correct = False
+            if "Lézard" in animals_by_french:
+                lezard = animals_by_french["Lézard"]
+                print(f"✅ 'Lézard' found: {lezard['shimaore']} / {lezard['kibouchi']}")
+                lezard_correct = True
+            else:
+                print("❌ 'Lézard' not found in animals list")
+            
+            # Check that "Jézard" is not present
+            jezard_found = False
+            for animal in animals:
+                if 'Jézard' in animal['french']:
+                    print(f"❌ Old 'Jézard' still found: {animal}")
+                    jezard_found = True
+            
+            if not jezard_found:
+                print("✅ Old 'Jézard' has been properly replaced with 'Lézard'")
+            
+            # 3. Check "Hérisson/Tangue" has shimaoré "Landra" (not "Jandra")
+            print("\n--- 3. Verifying 'Hérisson/Tangue' Shimaoré Translation ---")
+            herisson_correct = False
+            if "Hérisson/Tangue" in animals_by_french:
+                herisson = animals_by_french["Hérisson/Tangue"]
+                if herisson['shimaore'] == "Landra":
+                    print(f"✅ 'Hérisson/Tangue' has correct shimaoré 'Landra': {herisson['shimaore']} / {herisson['kibouchi']}")
+                    herisson_correct = True
+                else:
+                    print(f"❌ 'Hérisson/Tangue' has incorrect shimaoré: Expected 'Landra', got '{herisson['shimaore']}'")
+            else:
+                print("❌ 'Hérisson/Tangue' not found in animals list")
+            
+            # 4. Verify all other requested corrections are in place
+            print("\n--- 4. Verifying All Other Requested Corrections ---")
+            
+            corrections_to_verify = [
+                {"french": "Dauphin", "shimaore": "Camba", "kibouchi": "Fésoutrou"},
+                {"french": "Baleine", "shimaore": "Droujou", "kibouchi": "Fesoutrou"},
+                {"french": "Crevette", "shimaore": "Camba", "kibouchi": "Ancamba"},
+                {"french": "Frelon", "shimaore": "Chonga", "kibouchi": "Faraka"},
+                {"french": "Guêpe", "shimaore": "Movou", "kibouchi": "Fanintri"},
+                {"french": "Bourdon", "shimaore": "Voungo voungo", "kibouchi": "Madjaoumbi"},
+                {"french": "Puce", "shimaore": "Ndra", "kibouchi": "Howou"},
+                {"french": "Bouc", "shimaore": "Béwé", "kibouchi": "Bébéroué"},
+                {"french": "Taureau", "shimaore": "Kondzo", "kibouchi": "Dzow"},
+                {"french": "Bigorneau", "shimaore": "Trondro", "kibouchi": "Trondrou"},
+                {"french": "Lambis", "shimaore": "Komba", "kibouchi": "Mahombi"},
+                {"french": "Cône de mer", "shimaore": "Tsipoui", "kibouchi": "Tsimtipaka"},
+                {"french": "Mille pattes", "shimaore": "Mjongo", "kibouchi": "Ancoudavitri"}
+            ]
+            
+            all_corrections_correct = True
+            
+            for correction in corrections_to_verify:
+                french_word = correction['french']
+                if french_word in animals_by_french:
+                    animal = animals_by_french[french_word]
+                    
+                    # Check shimaoré and kibouchi translations
+                    shimaore_correct = animal['shimaore'] == correction['shimaore']
+                    kibouchi_correct = animal['kibouchi'] == correction['kibouchi']
+                    
+                    if shimaore_correct and kibouchi_correct:
+                        print(f"✅ {french_word}: {animal['shimaore']} / {animal['kibouchi']}")
+                    else:
+                        print(f"❌ {french_word}: Expected {correction['shimaore']}/{correction['kibouchi']}, got {animal['shimaore']}/{animal['kibouchi']}")
+                        all_corrections_correct = False
+                else:
+                    print(f"❌ {french_word} not found in animals list")
+                    all_corrections_correct = False
+            
+            # 5. Final verification summary
+            print("\n--- Final Verification Summary ---")
+            
+            all_tests_passed = (
+                not ranard_found and 
+                lezard_correct and 
+                not jezard_found and 
+                herisson_correct and 
+                all_corrections_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 FINAL ANIMAL CORRECTIONS VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ 'Ranard' completely removed from animals list")
+                print("✅ 'Lézard' is present (formerly 'Jézard')")
+                print("✅ 'Hérisson/Tangue' has correct shimaoré 'Landra' (not 'Jandra')")
+                print("✅ All 13 other requested corrections are in place:")
+                print("   - Dauphin: kibouchi 'Fésoutrou'")
+                print("   - Baleine: shimaoré 'Droujou'")
+                print("   - Crevette: shimaoré 'Camba', kibouchi 'Ancamba'")
+                print("   - Frelon: shimaoré 'Chonga', kibouchi 'Faraka'")
+                print("   - Guêpe: shimaoré 'Movou', kibouchi 'Fanintri'")
+                print("   - Bourdon: shimaoré 'Voungo voungo', kibouchi 'Madjaoumbi'")
+                print("   - Puce: shimaoré 'Ndra', kibouchi 'Howou'")
+                print("   - Bouc: shimaoré 'Béwé', kibouchi 'Bébéroué'")
+                print("   - Taureau: shimaoré 'Kondzo', kibouchi 'Dzow'")
+                print("   - Bigorneau: shimaoré 'Trondro', kibouchi 'Trondrou'")
+                print("   - Lambis: shimaoré 'Komba', kibouchi 'Mahombi'")
+                print("   - Cône de mer: shimaoré 'Tsipoui', kibouchi 'Tsimtipaka'")
+                print("   - Mille pattes: shimaoré 'Mjongo', kibouchi 'Ancoudavitri'")
+                print("✅ /api/words?category=animaux endpoint working correctly")
+            else:
+                print("\n❌ Some final animal corrections are missing or incorrect")
+                if ranard_found:
+                    print("❌ 'Ranard' still present in animals list")
+                if not lezard_correct:
+                    print("❌ 'Lézard' not found or incorrect")
+                if jezard_found:
+                    print("❌ Old 'Jézard' still present")
+                if not herisson_correct:
+                    print("❌ 'Hérisson/Tangue' shimaoré not 'Landra'")
+                if not all_corrections_correct:
+                    print("❌ Some of the 13 requested corrections are missing or incorrect")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Final animal corrections verification error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests - Complete Colors Palette")
+        print("🏫 Starting Mayotte Educational App Backend Tests - Final Animal Corrections Verification")
         print("=" * 80)
         
         test_results = {}
