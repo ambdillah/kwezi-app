@@ -309,7 +309,7 @@ async def init_base_content():
         {"french": "Puce", "shimaore": "Kunguni", "kibouchi": "Ancomgou", "category": "animaux", "difficulty": 1},
         
         # Poissons et animaux marins supplémentaires  
-        {"french": "Bigorno", "shimaore": "Trondro", "kibouchi": "Trondroul", "category": "animaux", "difficulty": 1},
+        {"french": "Bigorneau", "shimaore": "Trondro", "kibouchi": "Trondrou", "category": "animaux", "difficulty": 1},
         
         # Mammifères sauvages supplémentaires
         {"french": "Facochère", "shimaore": "Pouroukou nyeha", "kibouchi": "Rambou", "category": "animaux", "difficulty": 2},
