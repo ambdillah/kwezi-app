@@ -2603,10 +2603,11 @@ class MayotteEducationTester:
         
         test_results = {}
         
-        # Run all tests including new comprehensive verbs section test
+        # Run all tests including new corrected animal translations and duplicates test
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
+        test_results['corrected_animal_translations_and_duplicates'] = self.test_corrected_animal_translations_and_duplicates()
         test_results['comprehensive_verbs'] = self.test_comprehensive_verbs_section()
         test_results['corrected_animal_translations'] = self.test_corrected_animal_translations()
         test_results['comprehensive_updated_animals'] = self.test_comprehensive_updated_animals_section()
