@@ -337,7 +337,7 @@ backend:
 
   - task: "Updated animals vocabulary testing from new tableau"
     implemented: true
-    working: false
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
@@ -346,6 +346,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "🎯 UPDATED ANIMALS VOCABULARY TESTING FROM NEW TABLEAU COMPLETED! Comprehensive testing of the updated animals vocabulary based on the review request has been performed. ✅ Backend starts without syntax errors ✅ /api/words endpoint working correctly (294 total words) ✅ /api/words?category=animaux endpoint working correctly (50 animals) ✅ All 46 key animals from new tableau verified with correct French, Shimaoré, and Kibouchi translations: Abeille=Niochi/Antéli, Margouillat=Kasangwe/Kitsatsaka, Chat=Paha/Moirou, Rat=Pouhou/Voilavou, Escargot=Kouéya/Ancora, Lion=Simba/Simba, Grenouille=Shiwatrotro/Sahougnou, Oiseau=Gnougni/Vorougnou, Poisson=Fi/Lokou, Maki=Komba/Ankoumba, Jézard=Ngwizi/Kitsatsaka, Ranard=Sabwa nyeha/Fadroka, Hérisson/Tangue=Jandra/Trandraka, Civette=Foungo/Angava, Dauphin=Camba/Fesoutrou, Baleine=Nyanga/Fesoutrou, Cône de mer=Gnamané/Kamara, Mille pattes=Nyango/Scoudafitri, and 28 additional animals ✅ Old animals properly removed: Éléphant, Tortue, Thon, Requin, Poulpe, Pigeon, Perroquet correctly absent ✅ Other categories remain intact: salutations (8), couleurs (8), nombres (20), famille (20), grammaire (12), verbes (127) ✅ Animal count exceeds requirement: 50 animals (40+ required) ✅ All animals have proper data structure ❌ MINOR ISSUE: 1 duplicate animal found ('Escargot' appears 2 times) - needs cleanup but doesn't affect core functionality. Overall: The updated animals vocabulary from the new tableau is successfully implemented with authentic Shimaoré and Kibouchi translations, meeting all major requirements from the review request."
+      - working: true
+        agent: "testing"
+        comment: "🎉 UPDATED ANIMALS VOCABULARY FROM NEW TABLEAU TESTING COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ Backend starts without syntax errors ✅ /api/words endpoint working correctly (325 total words) ✅ /api/words?category=animaux endpoint working correctly (65 animals) ✅ All 16 newly added animals from the additional tableau verified with correct French, Shimaoré, and Kibouchi translations: Pigeon=Ndiwa/Ndiwa, Chenille=Bibimangidji/Bibimanguidi, Cheval=Farassi/Farassi, Perroquet=Kasuku/Kararokou, Cafard=Kalalawi/Kalalowou, Araignée=Shitrandrablwibwi/Bibi ampamani massou, Scorpion=Hala/Hala, Scolopandre=Trambwi/Trambougnou, Thon=Mbassi/Mbassi, Requin=Papa/Ankou, Poulpe=Pwedza/Pwedza, Crabe=Dradraka/Dakatra, Tortue=Nyamba/Katsa/Fanou, Éléphant=Ndovu/Ndovu, Singe=Djakwe/Djakouayi, Souris=Shikwetse/Voilavou ✅ All 20 previously existing animals still present (no deletions) ✅ Total animal count increased appropriately: 65 animals (up from previous count) ✅ No duplicate entries found after cleanup ✅ All animals have complete French, Shimaoré, and Kibouchi translations ✅ Other categories remain intact: salutations (8), couleurs (8), nombres (20), famille (20), grammaire (12), verbes (127) ✅ Final counts: 65 total animals, 325 total words across all categories. The updated animals vocabulary from the new tableau is successfully implemented with all authentic Shimaoré and Kibouchi translations, meeting all requirements from the review request."
 
   - task: "Updated Corps humain vocabulary testing from new tableau"
     implemented: true
