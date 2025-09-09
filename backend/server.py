@@ -247,7 +247,7 @@ async def init_base_content():
         # Animaux domestiques courants
         {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba", "category": "animaux", "difficulty": 1},
         {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka", "category": "animaux", "difficulty": 1},
-        {"french": "Chat", "shimaore": "Paré", "kibouchi": "Moirou", "category": "animaux", "difficulty": 1},
+        {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou", "category": "animaux", "difficulty": 1},
         {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou", "category": "animaux", "difficulty": 1},
         {"french": "Oiseau", "shimaore": "Emougni", "kibouchi": "Voroumeki", "category": "animaux", "difficulty": 1},
         {"french": "Poule", "shimaore": "Kouhou", "kibouchi": "Akohou", "category": "animaux", "difficulty": 1},
