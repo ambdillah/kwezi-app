@@ -302,6 +302,18 @@ backend:
         agent: "testing"
         comment: "🎉 COMPREHENSIVE VERBS SECTION TESTING COMPLETED SUCCESSFULLY! All major objectives achieved for the most complete verb vocabulary possible. ✅ POST /api/init-base-content successfully initializes with comprehensive verb vocabulary (255 words total) ✅ GET /api/words?category=verbes returns 75 verbs (exceeds 65+ requirement) ✅ All specific verb categories from the comprehensive table verified: Basic actions (Jouer=Nguadza/Misoma, Courir=Wendra mbiyo/Miloumeyi, Dire=Burengisa/Mangataka, Pouvoir=Ouchindra/Mahaléou, Vouloir=Outlsho/Irokou), Communication verbs (Parler=Oujagous/Mivoulgma, Demander=Oodzisa/Magndoutani, Répondre=Oudjibou/Mikoudjibou, Écouter=Ouwoulkia/Mitandréngni), Learning verbs (Savoir=Oujoua/Méhéyi, Apprendre=Ourfoundrana/Midzorou, Comprendre=Ouéléwa/Kouéléwa, Lire=Ousoma/Midzorou, Écrire=Ouhangidina/Soukouadika), Movement verbs (Marcher=Ouzndra/Mandeha, Entrer=Oughulya/Midiri, Sortir=Oulawy/Miboka, Venir=Oudja/Miavi), Daily life verbs (Manger=Oudhya/Mihinagna, Boire=Ounzoa/Mitsiratra, Dormir=Oulala/Mandri, S'asseoir=Ouzina/Mitsindza), Care verbs (Se laver=Ouhowa/Miséki, Se baigner=Ouhowa/Misséki, Se laver le derrière=Outsamba/Mambouyï), Complex actions (Faire caca=Oukoza/Manibi, Faire pipi=Ouraviha/Mandouwya, Vomir=Outakéa/Mampétraka) ✅ Verb count and vocabulary structure confirmed: 75 verbs with complete Shimaoré and Kibouchi translations ✅ Proper difficulty assignments (65 basic verbs=difficulty 1, 10 complex verbs=difficulty 2) ✅ All verbs properly categorized as 'verbes' ✅ Total vocabulary increased to 255 words ✅ Most complete action vocabulary for sentence construction in authentic Shimaoré and Kibouchi confirmed. The app now has the most comprehensive verb vocabulary possible, enabling complete sentence construction and daily conversation in authentic Mayotte languages."
 
+  - task: "Corrected animal translations and duplicate detection"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CORRECTED ANIMAL TRANSLATIONS AND DUPLICATE DETECTION TESTING FAILED! While all 7 requested animal translation corrections were successfully verified (Canard=Guisi/Doukitri, Chenille=Bibimangidji/Bibimanguidi, Cafard=Kalalawi/Kalalowou, Guêpe=Vungo vungo/Fantehi, Bigorneau=Trondro/Trondrou, Facochère=Pouroukou nyeha/Lambou, Hérisson=Landra/Trandraka), CRITICAL ISSUE: 4 duplicate animals found that need to be removed: • 'Lézard' appears 2 times (IDs: 1f6f8f44-8faa-4777-91a9-0391ab023888, 6d89d5c4-7fb4-4399-9f76-346de48acec4) • 'Renard' appears 2 times (IDs: cfd0ad21-201f-4665-b431-f279404fc687, 82364189-a474-476f-8356-f169feba0694) • 'Chameau' appears 2 times (IDs: f45864dd-108a-4f1b-9cfb-6722a7990cb8, 3dd7cbf2-ad2f-4f51-8f2a-eb8c49e52f06) • 'Hérisson' appears 2 times (IDs: 77c61e28-3da6-4111-b7ee-248b9e1e7bac, a3f14855-008f-4a96-9dc3-47114c8089cb). Total animal entries: 63, Unique French names: 59 (4 duplicate entries found). ✅ All corrected animals maintain proper category and difficulty ✅ No regressions in other animal translations ✅ Backend functionality remains intact. The duplicate animals must be removed to ensure data integrity."
+
 frontend:
   - task: "Welcome Screen Testing"
     implemented: true
