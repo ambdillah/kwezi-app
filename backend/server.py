@@ -318,7 +318,7 @@ async def init_base_content():
         
         # Bovins et caprins complémentaires
         {"french": "Bouc", "shimaore": "Bewe", "kibouchi": "Béberou", "category": "animaux", "difficulty": 1},
-        {"french": "Taureau", "shimaore": "Kondzo", "kibouchi": "Larew", "category": "animaux", "difficulty": 1},
+        {"french": "Taureau", "shimaore": "Kondzo", "kibouchi": "Dzow", "category": "animaux", "difficulty": 1},
         
         # Autres animaux divers (mis à jour)
         {"french": "Escargot", "shimaore": "Kouéya", "kibouchi": "Ancora", "category": "animaux", "difficulty": 1},
