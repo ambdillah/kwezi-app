@@ -276,7 +276,7 @@ async def init_base_content():
         {"french": "Fourmis", "shimaore": "Tsutsuhu", "kibouchi": "Visiki", "category": "animaux", "difficulty": 1},
         {"french": "Papillon", "shimaore": "Pelapelaka", "kibouchi": "Tsipelapelaka", "category": "animaux", "difficulty": 1},
         {"french": "Araignée", "shimaore": "Shitrandrabilbwi", "kibouchi": "Bibi amparamani massou", "category": "animaux", "difficulty": 2},
-        {"french": "Scorpion", "shimaore": "Ngo", "kibouchi": "Hala", "category": "animaux", "difficulty": 2},
+        {"french": "Scorpion", "shimaore": "Hala", "kibouchi": "Hala", "category": "animaux", "difficulty": 2},
         
         # Reptiles et amphibiens
         {"french": "Margouillat", "shimaore": "Kasangwe", "kibouchi": "Kitsatsaka", "category": "animaux", "difficulty": 1},
