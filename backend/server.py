@@ -292,6 +292,24 @@ async def init_base_content():
         {"french": "Cône de mer", "shimaore": "Tsipoui", "kibouchi": "Tsimtipaka", "category": "animaux", "difficulty": 1},
         {"french": "Mille pattes", "shimaore": "Mjongo", "kibouchi": "Ancoudavitri", "category": "animaux", "difficulty": 1},
         
+        # Animaux supplémentaires du nouveau tableau
+        {"french": "Pigeon", "shimaore": "Ndiwa", "kibouchi": "Ndiwa", "category": "animaux", "difficulty": 1},
+        {"french": "Chenille", "shimaore": "Bibimangidji", "kibouchi": "Bibimanguidi", "category": "animaux", "difficulty": 1},
+        {"french": "Cheval", "shimaore": "Farassi", "kibouchi": "Farassi", "category": "animaux", "difficulty": 1},
+        {"french": "Perroquet", "shimaore": "Kasuku", "kibouchi": "Kararokou", "category": "animaux", "difficulty": 2},
+        {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Kalalowou", "category": "animaux", "difficulty": 1},
+        {"french": "Araignée", "shimaore": "Shitrandrablwibwi", "kibouchi": "Bibi ampamani massou", "category": "animaux", "difficulty": 2},
+        {"french": "Scorpion", "shimaore": "Hala", "kibouchi": "Hala", "category": "animaux", "difficulty": 2},
+        {"french": "Scolopandre", "shimaore": "Trambwi", "kibouchi": "Trambougnou", "category": "animaux", "difficulty": 2},
+        {"french": "Thon", "shimaore": "Mbassi", "kibouchi": "Mbassi", "category": "animaux", "difficulty": 1},
+        {"french": "Requin", "shimaore": "Papa", "kibouchi": "Ankou", "category": "animaux", "difficulty": 2},
+        {"french": "Poulpe", "shimaore": "Pwedza", "kibouchi": "Pwedza", "category": "animaux", "difficulty": 1},
+        {"french": "Crabe", "shimaore": "Dradraka", "kibouchi": "Dakatra", "category": "animaux", "difficulty": 1},
+        {"french": "Tortue", "shimaore": "Nyamba/Katsa", "kibouchi": "Fanou", "category": "animaux", "difficulty": 1},
+        {"french": "Éléphant", "shimaore": "Ndovu", "kibouchi": "Ndovu", "category": "animaux", "difficulty": 2},
+        {"french": "Singe", "shimaore": "Djakwe", "kibouchi": "Djakouayi", "category": "animaux", "difficulty": 1},
+        {"french": "Souris", "shimaore": "Shikwetse", "kibouchi": "Voilavou", "category": "animaux", "difficulty": 1},
+        
         # Nombres (corrigés selon le tableau final)
         {"french": "Un", "shimaore": "Moja", "kibouchi": "Areki", "category": "nombres", "difficulty": 1},
         {"french": "Deux", "shimaore": "Mbili", "kibouchi": "Aroyi", "category": "nombres", "difficulty": 1},
