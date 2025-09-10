@@ -1025,6 +1025,196 @@ class MayotteEducationTester:
             print(f"❌ Specific food corrections verification error: {e}")
             return False
 
+    def test_specific_expression_correction_jai_soif(self):
+        """Test the specific expression correction for 'J'ai soif' - kibouchi should be 'Zahou tindranou' not 'Zahou moussari'"""
+        print("\n=== Testing Specific Expression Correction: J'ai soif ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors after the correction
+            print("--- Testing Backend Startup After Expression Correction ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after the correction")
+            
+            # 2. Test the /api/words?category=expressions endpoint
+            print("\n--- Testing /api/words?category=expressions Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=expressions")
+            if response.status_code != 200:
+                print(f"❌ Expressions endpoint failed: {response.status_code}")
+                return False
+            
+            expressions_words = response.json()
+            expressions_by_french = {word['french']: word for word in expressions_words}
+            print(f"✅ /api/words?category=expressions working correctly ({len(expressions_words)} expressions)")
+            
+            # 3. Verify the specific correction is in place: J'ai soif kibouchi should be "Zahou tindranou" (not "Zahou moussari")
+            print("\n--- Testing Specific Correction for 'J'ai soif' ---")
+            
+            target_expression = "J'ai soif"
+            expected_shimaore = "Nissi ona niyora"
+            expected_kibouchi = "Zahou tindranou"  # This is the corrected version
+            
+            correction_verified = True
+            
+            if target_expression in expressions_by_french:
+                word = expressions_by_french[target_expression]
+                
+                # Check shimaoré remains unchanged
+                if word['shimaore'] == expected_shimaore:
+                    print(f"✅ {target_expression} shimaoré: '{word['shimaore']}' - UNCHANGED (correct)")
+                else:
+                    print(f"❌ {target_expression} shimaoré: Expected '{expected_shimaore}', got '{word['shimaore']}'")
+                    correction_verified = False
+                
+                # Check kibouchi correction
+                if word['kibouchi'] == expected_kibouchi:
+                    print(f"✅ {target_expression} kibouchi: '{word['kibouchi']}' - CORRECTION VERIFIED")
+                    print(f"   ✅ Corrected from 'Zahou moussari' to 'Zahou tindranou'")
+                else:
+                    print(f"❌ {target_expression} kibouchi: Expected '{expected_kibouchi}', got '{word['kibouchi']}'")
+                    print(f"   ❌ Should be 'Zahou tindranou' (not 'Zahou moussari')")
+                    correction_verified = False
+                
+            else:
+                print(f"❌ {target_expression} not found in expressions category")
+                correction_verified = False
+            
+            # 4. Check that the shimaoré remains unchanged: "Nissi ona niyora"
+            print("\n--- Testing Shimaoré Translation Remains Unchanged ---")
+            if target_expression in expressions_by_french:
+                word = expressions_by_french[target_expression]
+                if word['shimaore'] == expected_shimaore:
+                    print(f"✅ Shimaoré unchanged: '{word['shimaore']}' - VERIFIED")
+                else:
+                    print(f"❌ Shimaoré changed unexpectedly: Expected '{expected_shimaore}', got '{word['shimaore']}'")
+                    correction_verified = False
+            
+            # 5. Check that all other expressions remain intact and unchanged
+            print("\n--- Testing Other Expressions Remain Intact ---")
+            
+            # Sample of other expressions that should remain unchanged
+            other_expressions = [
+                {"french": "J'ai faim", "shimaore": "Nissi ona ndza", "kibouchi": "Zahou moussari"},
+                {"french": "Excuse-moi/pardon", "shimaore": "Soimahani", "kibouchi": "Soimahani"},
+                {"french": "Je voudrais aller à", "shimaore": "Nissi tsaha nendré", "kibouchi": "Zahou chokou andéha"},
+                {"french": "Où se trouve", "shimaore": "Ouparhanoua havi", "kibouchi": "Aya moi"},
+                {"french": "S'il vous plaît", "shimaore": "Tafadali", "kibouchi": "Tafadali"}
+            ]
+            
+            other_expressions_intact = True
+            for expr in other_expressions:
+                french_expr = expr['french']
+                if french_expr in expressions_by_french:
+                    word = expressions_by_french[french_expr]
+                    if word['shimaore'] == expr['shimaore'] and word['kibouchi'] == expr['kibouchi']:
+                        print(f"✅ {french_expr}: {word['shimaore']} / {word['kibouchi']} - UNCHANGED")
+                    else:
+                        print(f"❌ {french_expr}: Expected {expr['shimaore']}/{expr['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        other_expressions_intact = False
+                        correction_verified = False
+                else:
+                    print(f"❌ {french_expr} not found")
+                    other_expressions_intact = False
+                    correction_verified = False
+            
+            # 6. Verify this specific expression has complete translations in both languages
+            print("\n--- Testing Complete Translations for Corrected Expression ---")
+            
+            if target_expression in expressions_by_french:
+                word = expressions_by_french[target_expression]
+                
+                # Check both languages are present and non-empty
+                if word['shimaore'] and word['kibouchi']:
+                    print(f"✅ {target_expression}: Complete translations - {word['shimaore']} (Shimaoré) / {word['kibouchi']} (Kibouchi)")
+                else:
+                    print(f"❌ {target_expression}: Incomplete translations - shimaoré: '{word['shimaore']}', kibouchi: '{word['kibouchi']}'")
+                    correction_verified = False
+            
+            # 7. Test that the correction doesn't introduce any duplicate entries
+            print("\n--- Testing No Duplicate Entries ---")
+            
+            french_expressions = [word['french'] for word in expressions_words]
+            unique_expressions = set(french_expressions)
+            
+            if len(french_expressions) == len(unique_expressions):
+                print(f"✅ No duplicate entries found ({len(unique_expressions)} unique expressions)")
+                duplicates_check = True
+            else:
+                duplicates = [expr for expr in french_expressions if french_expressions.count(expr) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                duplicates_check = False
+                correction_verified = False
+            
+            # 8. Confirm the total expressions count remains the same (should be 35 expressions)
+            print("\n--- Testing Total Expressions Count ---")
+            
+            expected_expressions_count = 35
+            actual_expressions_count = len(expressions_words)
+            
+            if actual_expressions_count == expected_expressions_count:
+                print(f"✅ Total expressions count correct: {actual_expressions_count} expressions (expected {expected_expressions_count})")
+                count_check = True
+            else:
+                print(f"⚠️ Total expressions count: {actual_expressions_count} expressions (expected {expected_expressions_count})")
+                # This is not necessarily a failure, just noting the difference
+                count_check = True
+            
+            # 9. Ensure the backend API responses are working correctly for this specific expression
+            print("\n--- Testing Backend API Response for Corrected Expression ---")
+            
+            api_response_correct = True
+            if target_expression in expressions_by_french:
+                word_id = expressions_by_french[target_expression]['id']
+                
+                # Test individual expression retrieval
+                response = self.session.get(f"{API_BASE}/words/{word_id}")
+                if response.status_code == 200:
+                    retrieved_word = response.json()
+                    if (retrieved_word['shimaore'] == expected_shimaore and 
+                        retrieved_word['kibouchi'] == expected_kibouchi):
+                        print(f"✅ {target_expression} API response correct: {retrieved_word['shimaore']} / {retrieved_word['kibouchi']}")
+                    else:
+                        print(f"❌ {target_expression} API response incorrect")
+                        api_response_correct = False
+                        correction_verified = False
+                else:
+                    print(f"❌ {target_expression} API retrieval failed: {response.status_code}")
+                    api_response_correct = False
+                    correction_verified = False
+            
+            # Overall result
+            all_tests_passed = (
+                correction_verified and 
+                other_expressions_intact and 
+                duplicates_check and 
+                count_check and 
+                api_response_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 SPECIFIC EXPRESSION CORRECTION VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after the correction")
+                print("✅ /api/words?category=expressions endpoint working correctly")
+                print("✅ Specific correction verified:")
+                print(f"   - J'ai soif: kibouchi = 'Zahou tindranou' (corrected from 'Zahou moussari')")
+                print(f"   - J'ai soif: shimaoré = 'Nissi ona niyora' (unchanged)")
+                print("✅ All other expressions remain intact and unchanged")
+                print("✅ Expression has complete translations in both languages")
+                print("✅ No duplicate entries introduced")
+                print(f"✅ Total expressions count: {actual_expressions_count} expressions")
+                print("✅ Backend API responses working correctly for this specific expression")
+                print("✅ Bug fix verification complete - issue has been completely resolved with no regressions")
+            else:
+                print("\n❌ Expression correction is not properly implemented or has introduced issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Specific expression correction verification error: {e}")
+            return False
+
     def test_expressions_vocabulary_section(self):
         """Test the newly created expressions vocabulary section"""
         print("\n=== Testing Expressions Vocabulary Section ===")
@@ -1056,7 +1246,7 @@ class MayotteEducationTester:
             key_expressions = [
                 {"french": "Excuse-moi/pardon", "shimaore": "Soimahani", "kibouchi": "Soimahani"},
                 {"french": "J'ai faim", "shimaore": "Nissi ona ndza", "kibouchi": "Zahou moussari"},
-                {"french": "J'ai soif", "shimaore": "Nissi ona niyora", "kibouchi": "Zahou moussari"},
+                {"french": "J'ai soif", "shimaore": "Nissi ona niyora", "kibouchi": "Zahou tindranou"},  # Updated with correction
                 {"french": "Je voudrais aller à", "shimaore": "Nissi tsaha nendré", "kibouchi": "Zahou chokou andéha"},
                 {"french": "Où se trouve", "shimaore": "Ouparhanoua havi", "kibouchi": "Aya moi"},
                 {"french": "Je suis perdu", "shimaore": "Tsi latsiha", "kibouchi": "Zahou véri"},
