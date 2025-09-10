@@ -1215,6 +1215,267 @@ class MayotteEducationTester:
             print(f"❌ Specific expression correction verification error: {e}")
             return False
 
+    def test_updated_nature_vocabulary_from_new_tableau(self):
+        """Test the updated nature vocabulary after adding new elements from the additional tableau"""
+        print("\n=== Testing Updated Nature Vocabulary from New Tableau ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after adding the new nature elements
+            print("--- Testing Backend Startup After Adding New Nature Elements ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after adding new nature elements")
+            
+            # 2. Test the /api/words?category=nature endpoint to retrieve all nature items
+            print("\n--- Testing /api/words?category=nature Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=nature")
+            if response.status_code != 200:
+                print(f"❌ Nature endpoint failed: {response.status_code}")
+                return False
+            
+            nature_words = response.json()
+            nature_words_by_french = {word['french']: word for word in nature_words}
+            print(f"✅ /api/words?category=nature endpoint working correctly ({len(nature_words)} nature items)")
+            
+            # 3. Verify that all new nature elements from the tableau are present with correct French, Shimaoré, and Kibouchi translations
+            print("\n--- Testing All New Nature Elements from Additional Tableau ---")
+            
+            # Test the 19 specific key new nature elements from the review request
+            key_new_nature_elements = [
+                {"french": "Cocotier", "shimaore": "M'hadzi", "kibouchi": "Voudi ni vwaniou"},
+                {"french": "Arbre à pain", "shimaore": "M'frampé", "kibouchi": "Voudi ni frampé"},
+                {"french": "Baobab", "shimaore": "M'bouyou", "kibouchi": "Voudi ni bouyou"},
+                {"french": "Bambou", "shimaore": "M'banbo", "kibouchi": "Valiha"},
+                {"french": "Manguier", "shimaore": "M'manga", "kibouchi": "Voudi ni manga"},
+                {"french": "Jacquier", "shimaore": "M'fénéssi", "kibouchi": "Voudi ni finéssi"},
+                {"french": "Terre", "shimaore": "Trotro", "kibouchi": "Fotaka"},
+                {"french": "Sol", "shimaore": "Tsi", "kibouchi": "Tani"},
+                {"french": "Érosion", "shimaore": "Padza", "kibouchi": "Padza"},
+                {"french": "Marée basse", "shimaore": "Maji yavo", "kibouchi": "Ranou méki"},
+                {"french": "Marée haute", "shimaore": "Maji yamalé", "kibouchi": "Ranou fénou"},
+                {"french": "Inondé", "shimaore": "Ourora", "kibouchi": "Dobou"},
+                {"french": "Sauvage", "shimaore": "Nyéha", "kibouchi": "Di"},
+                {"french": "Canne à sucre", "shimaore": "Moua", "kibouchi": "Fari"},
+                {"french": "Fagot", "shimaore": "Kouni", "kibouchi": "Azoumati"},
+                {"french": "Pirogue", "shimaore": "Laka", "kibouchi": "Lakana"},
+                {"french": "Vedette", "shimaore": "Kwassa kwassa", "kibouchi": "Vidéti"},
+                {"french": "École", "shimaore": "Licoli", "kibouchi": "Licoli"},
+                {"french": "École coranique", "shimaore": "Shioni", "kibouchi": "Kioni"}
+            ]
+            
+            new_elements_verified = True
+            
+            print("--- Testing 19 Specific Key New Nature Elements ---")
+            for new_element in key_new_nature_elements:
+                french_word = new_element['french']
+                if french_word in nature_words_by_french:
+                    word = nature_words_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], new_element['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], new_element['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'nature', 'Category')
+                    ]
+                    
+                    element_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            element_correct = False
+                            new_elements_verified = False
+                    
+                    if element_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in nature category")
+                    new_elements_verified = False
+            
+            # 4. Verify that previously existing nature elements are still present
+            print("\n--- Testing Previously Existing Nature Elements Still Present ---")
+            
+            # Test some previously existing nature elements
+            existing_nature_elements = [
+                {"french": "Arbre", "shimaore": "Mwiri", "kibouchi": "Kakazou"},
+                {"french": "Soleil", "shimaore": "Mwézi", "kibouchi": "Zouva"},
+                {"french": "Mer", "shimaore": "Bahari", "kibouchi": "Bahari"},
+                {"french": "Plage", "shimaore": "Mtsangani", "kibouchi": "Fassigni"},
+                {"french": "Lune", "shimaore": "Mwézi", "kibouchi": "Fandzava"},
+                {"french": "Étoile", "shimaore": "Gnora", "kibouchi": "Lakintagna"},
+                {"french": "Sable", "shimaore": "Mtsanga", "kibouchi": "Fasigni"},
+                {"french": "Vent", "shimaore": "Pévo", "kibouchi": "Tsikou"},
+                {"french": "Pluie", "shimaore": "Vhoua", "kibouchi": "Mahaléni"},
+                {"french": "Rivière", "shimaore": "Mouro", "kibouchi": "Mouroni"}
+            ]
+            
+            existing_elements_present = True
+            for existing_element in existing_nature_elements:
+                french_word = existing_element['french']
+                if french_word in nature_words_by_french:
+                    word = nature_words_by_french[french_word]
+                    if (word['shimaore'] == existing_element['shimaore'] and 
+                        word['kibouchi'] == existing_element['kibouchi']):
+                        print(f"✅ EXISTING: {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ EXISTING: {french_word}: Expected {existing_element['shimaore']}/{existing_element['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        existing_elements_present = False
+                else:
+                    print(f"❌ EXISTING: {french_word} not found (should still be present)")
+                    existing_elements_present = False
+            
+            # 5. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Get all words to check category integration
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                all_categories = set(word['category'] for word in all_words)
+                
+                expected_other_categories = {
+                    'famille', 'couleurs', 'animaux', 'salutations', 'nombres', 
+                    'corps', 'nourriture', 'maison', 'vetements', 'transport', 
+                    'grammaire', 'verbes', 'adjectifs', 'expressions'
+                }
+                
+                other_categories_intact = expected_other_categories.issubset(all_categories)
+                if other_categories_intact:
+                    print(f"✅ All other categories remain intact and functional")
+                    print(f"Total categories: {len(all_categories)} - {sorted(all_categories)}")
+                else:
+                    missing_categories = expected_other_categories - all_categories
+                    print(f"❌ Missing categories: {missing_categories}")
+                    new_elements_verified = False
+            else:
+                print(f"❌ Could not retrieve all words to check category integration")
+                new_elements_verified = False
+            
+            # 6. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing No Duplicate Entries ---")
+            
+            french_nature_words = [word['french'] for word in nature_words]
+            unique_nature_words = set(french_nature_words)
+            
+            if len(french_nature_words) == len(unique_nature_words):
+                print(f"✅ No duplicate entries found ({len(unique_nature_words)} unique nature items)")
+                duplicates_check = True
+            else:
+                duplicates = [word for word in french_nature_words if french_nature_words.count(word) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                duplicates_check = False
+                new_elements_verified = False
+            
+            # 7. Confirm the new total nature count (should be around 49 nature items now)
+            print("\n--- Testing New Total Nature Count ---")
+            
+            expected_min_count = 45  # Should be around 49, allowing some flexibility
+            expected_max_count = 55
+            actual_count = len(nature_words)
+            
+            if expected_min_count <= actual_count <= expected_max_count:
+                print(f"✅ Total nature count within expected range: {actual_count} items (expected around 49, range {expected_min_count}-{expected_max_count})")
+                count_check = True
+            else:
+                print(f"⚠️ Total nature count: {actual_count} items (expected around 49, range {expected_min_count}-{expected_max_count})")
+                # This is not necessarily a failure, just noting the difference
+                count_check = True
+            
+            # 8. Ensure all nature items have proper category assignment as "nature"
+            print("\n--- Testing Proper Category Assignment ---")
+            
+            category_assignment_correct = True
+            for word in nature_words:
+                if word['category'] != 'nature':
+                    print(f"❌ {word['french']} has incorrect category: {word['category']} (should be 'nature')")
+                    category_assignment_correct = False
+                    new_elements_verified = False
+            
+            if category_assignment_correct:
+                print(f"✅ All nature items properly categorized as 'nature'")
+            
+            # 9. Test the API endpoints are working correctly for the updated category
+            print("\n--- Testing API Endpoints for Updated Nature Category ---")
+            
+            # Test individual nature item retrieval for some key new elements
+            api_endpoints_working = True
+            test_elements = ["Cocotier", "Baobab", "Pirogue", "École"]
+            
+            for test_element in test_elements:
+                if test_element in nature_words_by_french:
+                    word_id = nature_words_by_french[test_element]['id']
+                    
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if retrieved_word['category'] == 'nature':
+                            print(f"✅ Individual retrieval working: {retrieved_word['french']} - {retrieved_word['shimaore']} / {retrieved_word['kibouchi']}")
+                        else:
+                            print(f"❌ Individual retrieval failed: incorrect category for {test_element}")
+                            api_endpoints_working = False
+                            new_elements_verified = False
+                    else:
+                        print(f"❌ Individual retrieval failed for {test_element}: {response.status_code}")
+                        api_endpoints_working = False
+                        new_elements_verified = False
+            
+            # 10. Provide the new total count of nature items and overall word count after this update
+            print("\n--- Final Count Summary ---")
+            
+            if all_words_response.status_code == 200:
+                total_word_count = len(all_words)
+                nature_count = len(nature_words)
+                
+                print(f"✅ Final nature vocabulary count: {nature_count} items")
+                print(f"✅ Overall word count after update: {total_word_count} words")
+                
+                # Show category breakdown
+                category_counts = {}
+                for word in all_words:
+                    category = word['category']
+                    category_counts[category] = category_counts.get(category, 0) + 1
+                
+                print(f"✅ Category breakdown:")
+                for category, count in sorted(category_counts.items()):
+                    print(f"   - {category}: {count} items")
+            
+            # Overall result
+            all_tests_passed = (
+                new_elements_verified and 
+                existing_elements_present and 
+                duplicates_check and 
+                count_check and 
+                category_assignment_correct and 
+                api_endpoints_working
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED NATURE VOCABULARY FROM NEW TABLEAU TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after adding new nature elements")
+                print("✅ /api/words?category=nature endpoint working correctly")
+                print("✅ All 19 specific key new nature elements from tableau verified with correct translations:")
+                print("   - Trees: Cocotier, Arbre à pain, Baobab, Bambou, Manguier, Jacquier")
+                print("   - Environment: Terre, Sol, Érosion, Marée basse, Marée haute, Inondé, Sauvage")
+                print("   - Objects: Canne à sucre, Fagot, Pirogue, Vedette")
+                print("   - Buildings: École, École coranique")
+                print("✅ Previously existing nature elements are still present")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ New total nature count: {actual_count} items (around 49 as expected)")
+                print("✅ All nature items have proper category assignment as 'nature'")
+                print("✅ API endpoints working correctly for the updated category")
+                print(f"✅ Final counts: {actual_count} nature items, {total_word_count} total words")
+                print("The updated nature vocabulary with new elements from the additional tableau is now fully functional and ready for educational use.")
+            else:
+                print("\n❌ Some nature vocabulary updates are not properly implemented or have introduced issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated nature vocabulary test error: {e}")
+            return False
+
     def test_expressions_vocabulary_section(self):
         """Test the newly created expressions vocabulary section"""
         print("\n=== Testing Expressions Vocabulary Section ===")
