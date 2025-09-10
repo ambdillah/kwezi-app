@@ -7499,8 +7499,8 @@ class MayotteEducationTester:
         print("🚗 MAYOTTE EDUCATIONAL APP - UPDATED TRANSPORT VOCABULARY TEST 🚗")
         print("=" * 70)
         
-        # Run the specific updated nature vocabulary test as requested in review
-        print("Running updated nature vocabulary test to verify new elements from additional tableau...")
+        # Run the specific updated transport vocabulary test as requested in review
+        print("Running updated transport vocabulary test to verify new elements from new tableau...")
         
         test_results = {}
         
@@ -7509,12 +7509,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main updated nature vocabulary test
-        test_results['updated_nature_vocabulary'] = self.test_updated_nature_vocabulary_from_new_tableau()
+        # Main updated transport vocabulary test
+        test_results['updated_transport_vocabulary'] = self.test_updated_transport_vocabulary_from_new_tableau()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🌺 UPDATED NATURE VOCABULARY TEST RESULTS 🌺")
+        print("🚗 UPDATED TRANSPORT VOCABULARY TEST RESULTS 🚗")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -7526,17 +7526,17 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('updated_nature_vocabulary', False):
-            print("🎉 UPDATED NATURE VOCABULARY TEST PASSED!")
-            print("✅ Backend starts without syntax errors after adding new nature elements")
-            print("✅ All 19 new nature elements from tableau verified with correct translations")
-            print("✅ Previously existing nature elements still present")
+        if test_results.get('updated_transport_vocabulary', False):
+            print("🎉 UPDATED TRANSPORT VOCABULARY TEST PASSED!")
+            print("✅ Backend starts without syntax errors after updating transport section")
+            print("✅ All 7 transport elements from tableau verified with correct translations")
+            print("✅ Old transport elements (Voiture, Bateau) have been replaced")
             print("✅ Other categories remain intact and functional")
             print("✅ No duplicate entries or data integrity issues")
             print("✅ API endpoints working correctly for the updated category")
-            print("The updated nature vocabulary with new elements from the additional tableau is ready for educational use.")
+            print("The updated transport vocabulary with new elements from the new tableau is ready for educational use.")
         else:
-            print("❌ Updated nature vocabulary test failed. Please review the issues above.")
+            print("❌ Updated transport vocabulary test failed. Please review the issues above.")
         
         return passed == total
 
