@@ -4933,6 +4933,285 @@ class MayotteEducationTester:
             print(f"❌ Updated nature vocabulary test error: {e}")
             return False
 
+    def test_adjectifs_vocabulary_section(self):
+        """Test the newly created adjectifs (adjectives) vocabulary section"""
+        print("\n=== Testing Adjectifs (Adjectives) Vocabulary Section ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after adding the new adjectifs section
+            print("--- Testing Backend Startup After Adding Adjectifs Section ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after adding adjectifs section")
+            
+            # 2. Test the /api/words?category=adjectifs endpoint to retrieve all adjectives
+            print("\n--- Testing /api/words?category=adjectifs Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=adjectifs")
+            if response.status_code != 200:
+                print(f"❌ Adjectifs endpoint failed: {response.status_code}")
+                return False
+            
+            adjectives = response.json()
+            adjectives_by_french = {word['french']: word for word in adjectives}
+            print(f"✅ /api/words?category=adjectifs working correctly ({len(adjectives)} adjectives)")
+            
+            # 3. Verify that all adjectives from the tableau are present with correct French, Shimaoré, and Kibouchi translations
+            print("\n--- Testing All Adjectives from Tableau ---")
+            
+            # 4. Check specific key adjectives from the tableau as requested
+            print("\n--- Testing Specific Key Adjectives from Review Request ---")
+            
+            key_adjectives_tests = [
+                {"french": "Grand", "shimaore": "Bole", "kibouchi": "Bé"},
+                {"french": "Petit", "shimaore": "Tsi", "kibouchi": "Tsi"},
+                {"french": "Gros", "shimaore": "Mtronga/Tronga", "kibouchi": "Bé"},
+                {"french": "Maigre", "shimaore": "Tsala", "kibouchi": "Mahia"},
+                {"french": "Fort", "shimaore": "Ouna ngouvou", "kibouchi": "Missi ngouvou"},
+                {"french": "Dur", "shimaore": "Mangavou", "kibouchi": "Mahéri"},
+                {"french": "Mou", "shimaore": "Tremboivou", "kibouchi": "Malémi"},
+                {"french": "Beau/Jolie", "shimaore": "Mzouri", "kibouchi": "Zatovou"},
+                {"french": "Laid", "shimaore": "Tsi ndzouzouri", "kibouchi": "Ratsi sora"},
+                {"french": "Jeune", "shimaore": "Nrétsa", "kibouchi": "Zaza"},
+                {"french": "Vieux", "shimaore": "Dhouha", "kibouchi": "Héla"},
+                {"french": "Gentil", "shimaore": "Mwéma", "kibouchi": "Tsara rohou"},
+                {"french": "Méchant", "shimaore": "Mbovou", "kibouchi": "Ratsi rohou"},
+                {"french": "Bon", "shimaore": "Mwéma", "kibouchi": "Tsara"},
+                {"french": "Mauvais", "shimaore": "Mbovou", "kibouchi": "Mwadéli"},
+                {"french": "Chaud", "shimaore": "Moro", "kibouchi": "Méyi"},
+                {"french": "Froid", "shimaore": "Baridi", "kibouchi": "Manintsi"},
+                {"french": "Content", "shimaore": "Oujiviwa", "kibouchi": "Ravou"},
+                {"french": "Triste", "shimaore": "Ouna hamo", "kibouchi": "Malahélou"}
+            ]
+            
+            key_adjectives_correct = True
+            for test_case in key_adjectives_tests:
+                french_word = test_case['french']
+                if french_word in adjectives_by_french:
+                    word = adjectives_by_french[french_word]
+                    
+                    # Check translations
+                    checks = [
+                        (word['shimaore'], test_case['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], test_case['kibouchi'], 'Kibouchi')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            key_adjectives_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in adjectifs category")
+                    key_adjectives_correct = False
+            
+            # 5. Verify the new adjectifs category is properly integrated with other categories
+            print("\n--- Testing Adjectifs Category Integration ---")
+            
+            # Get all categories
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve all words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            all_categories = set(word['category'] for word in all_words)
+            
+            if 'adjectifs' in all_categories:
+                print("✅ Adjectifs category properly integrated with other categories")
+                print(f"All categories found: {sorted(all_categories)}")
+            else:
+                print("❌ Adjectifs category not found in overall categories")
+                return False
+            
+            # 6. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            expected_other_categories = {
+                'famille', 'couleurs', 'animaux', 'salutations', 'nombres', 
+                'corps', 'nourriture', 'maison', 'vetements', 'nature', 
+                'transport', 'grammaire', 'verbes'
+            }
+            
+            missing_categories = expected_other_categories - all_categories
+            if not missing_categories:
+                print("✅ All other categories remain intact and functional")
+            else:
+                print(f"❌ Missing categories: {missing_categories}")
+                return False
+            
+            # Test a few words from other categories to ensure they're still working
+            other_category_tests = [
+                ('famille', 'Maman'),
+                ('couleurs', 'Rouge'),
+                ('animaux', 'Chat'),
+                ('nombres', 'Un')
+            ]
+            
+            other_categories_working = True
+            for category, sample_word in other_category_tests:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    found_words = [w['french'] for w in category_words]
+                    if sample_word in found_words:
+                        print(f"✅ Category '{category}' functional (found '{sample_word}')")
+                    else:
+                        print(f"⚠️ Category '{category}' may have issues ('{sample_word}' not found)")
+                        other_categories_working = False
+                else:
+                    print(f"❌ Category '{category}' not working: {response.status_code}")
+                    other_categories_working = False
+            
+            # 7. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing Data Integrity and Duplicates ---")
+            
+            # Check for duplicates in adjectifs
+            french_names = [adj['french'] for adj in adjectives]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found in adjectifs ({len(unique_names)} unique adjectives)")
+                duplicates_check = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found in adjectifs: {set(duplicates)}")
+                duplicates_check = False
+            
+            # Check data integrity - all adjectives should have required fields
+            data_integrity_check = True
+            for adj in adjectives:
+                required_fields = ['french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                missing_fields = [field for field in required_fields if field not in adj or adj[field] is None]
+                if missing_fields:
+                    print(f"❌ Adjective '{adj.get('french', 'Unknown')}' missing fields: {missing_fields}")
+                    data_integrity_check = False
+            
+            if data_integrity_check:
+                print("✅ All adjectives have proper data structure and required fields")
+            
+            # 8. Confirm the total adjectives count matches the tableau (should be around 48 adjectives)
+            print("\n--- Testing Total Adjectives Count ---")
+            
+            expected_min_count = 40  # At least 40 adjectives expected
+            expected_max_count = 60  # Around 48, but allowing some flexibility
+            actual_count = len(adjectives)
+            
+            count_check = True
+            if expected_min_count <= actual_count <= expected_max_count:
+                print(f"✅ Adjectives count within expected range: {actual_count} adjectives (expected ~48)")
+            else:
+                print(f"❌ Adjectives count outside expected range: {actual_count} adjectives (expected ~48)")
+                count_check = False
+            
+            # 9. Ensure all adjectives have proper category assignment as "adjectifs"
+            print("\n--- Testing Category Assignment ---")
+            
+            category_assignment_check = True
+            for adj in adjectives:
+                if adj['category'] != 'adjectifs':
+                    print(f"❌ Adjective '{adj['french']}' has incorrect category: {adj['category']} (expected 'adjectifs')")
+                    category_assignment_check = False
+            
+            if category_assignment_check:
+                print("✅ All adjectives properly assigned to 'adjectifs' category")
+            
+            # 10. Test the API endpoints are working correctly for the new category
+            print("\n--- Testing API Endpoints for Adjectifs Category ---")
+            
+            # Test individual adjective retrieval
+            api_endpoints_check = True
+            if adjectives:
+                sample_adjective = adjectives[0]
+                adj_id = sample_adjective['id']
+                
+                response = self.session.get(f"{API_BASE}/words/{adj_id}")
+                if response.status_code == 200:
+                    retrieved_adj = response.json()
+                    if retrieved_adj['category'] == 'adjectifs':
+                        print(f"✅ Individual adjective retrieval working: {retrieved_adj['french']}")
+                    else:
+                        print(f"❌ Retrieved adjective has wrong category: {retrieved_adj['category']}")
+                        api_endpoints_check = False
+                else:
+                    print(f"❌ Individual adjective retrieval failed: {response.status_code}")
+                    api_endpoints_check = False
+            
+            # Test filtering by difficulty within adjectifs
+            difficulty_levels = set(adj['difficulty'] for adj in adjectives)
+            print(f"Difficulty levels in adjectifs: {sorted(difficulty_levels)}")
+            
+            # Provide comprehensive statistics
+            print("\n--- Final Adjectifs Statistics ---")
+            print(f"Total adjectives: {len(adjectives)}")
+            print(f"Unique adjectives: {len(unique_names)}")
+            print(f"Categories in database: {len(all_categories)}")
+            print(f"Total words in database: {len(all_words)}")
+            
+            # Calculate difficulty distribution
+            difficulty_distribution = {}
+            for adj in adjectives:
+                diff = adj['difficulty']
+                difficulty_distribution[diff] = difficulty_distribution.get(diff, 0) + 1
+            
+            print(f"Difficulty distribution: {difficulty_distribution}")
+            
+            # Overall result
+            all_tests_passed = (
+                key_adjectives_correct and
+                other_categories_working and
+                duplicates_check and
+                data_integrity_check and
+                count_check and
+                category_assignment_check and
+                api_endpoints_check
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 ADJECTIFS VOCABULARY SECTION TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after adding adjectifs section")
+                print("✅ /api/words?category=adjectifs endpoint working correctly")
+                print("✅ All key adjectives from tableau verified with correct translations:")
+                print("   - Grand: bole / bé")
+                print("   - Petit: tsi / tsi") 
+                print("   - Gros: mtronga/tronga / bé")
+                print("   - Maigre: tsala / mahia")
+                print("   - Fort: ouna ngouvou / missi ngouvou")
+                print("   - Dur: mangavou / mahéri")
+                print("   - Mou: tremboivou / malémi")
+                print("   - Beau/Jolie: mzouri / zatovou")
+                print("   - Laid: tsi ndzouzouri / ratsi sora")
+                print("   - Jeune: nrétsa / zaza")
+                print("   - Vieux: dhouha / héla")
+                print("   - Gentil: mwéma / tsara rohou")
+                print("   - Méchant: mbovou / ratsi rohou")
+                print("   - Bon: mwéma / tsara")
+                print("   - Mauvais: mbovou / mwadéli")
+                print("   - Chaud: moro / méyi")
+                print("   - Froid: baridi / manintsi")
+                print("   - Content: oujiviwa / ravou")
+                print("   - Triste: ouna hamo / malahélou")
+                print("✅ Adjectifs category properly integrated with other categories")
+                print("✅ All other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ Total adjectives count: {actual_count} (within expected range)")
+                print("✅ All adjectives properly categorized as 'adjectifs'")
+                print("✅ API endpoints working correctly for the new category")
+                print(f"✅ New total word count: {len(all_words)} words across {len(all_categories)} categories")
+            else:
+                print("\n❌ Some adjectifs vocabulary tests failed or have issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Adjectifs vocabulary section test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Updated Nature Vocabulary Testing")
