@@ -4935,13 +4935,13 @@ class MayotteEducationTester:
 
     def run_all_tests(self):
         """Run all tests and return summary"""
-        print("🏫 Starting Mayotte Educational App Backend Tests - Updated Nourriture Vocabulary Testing")
+        print("🏫 Starting Mayotte Educational App Backend Tests - Updated Nature Vocabulary Testing")
         print("=" * 80)
         
         test_results = {}
         
-        # Run the specific test for nourriture vocabulary from new tableau
-        test_results['updated_nourriture_vocabulary_new_tableau'] = self.test_updated_nourriture_vocabulary_new_tableau()
+        # Run the specific test for nature vocabulary from new tableau
+        test_results['updated_nature_vocabulary_new_tableau'] = self.test_updated_nature_vocabulary_new_tableau()
         
         # Run other essential tests
         test_results['connectivity'] = self.test_basic_connectivity()
@@ -4954,7 +4954,7 @@ class MayotteEducationTester:
         
         # Summary
         print("\n" + "=" * 80)
-        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - UPDATED NOURRITURE VOCABULARY TESTING")
+        print("🏫 MAYOTTE EDUCATIONAL APP TEST SUMMARY - UPDATED NATURE VOCABULARY TESTING")
         print("=" * 80)
         
         passed = sum(test_results.values())
@@ -4967,7 +4967,7 @@ class MayotteEducationTester:
         print(f"\nOverall: {passed}/{total} tests passed")
         
         if passed == total:
-            print("🎉 All backend tests passed! The updated nourriture vocabulary from new tableau has been successfully verified.")
+            print("🎉 All backend tests passed! The updated nature vocabulary from new tableau has been successfully verified.")
         else:
             print("❌ Some tests failed. Please check the detailed output above.")
         
