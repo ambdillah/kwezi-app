@@ -655,7 +655,7 @@ async def init_base_content():
         # Expressions (petites formules pratiques pour touristes et conversation)
         {"french": "Excuse-moi/pardon", "shimaore": "Soimahani", "kibouchi": "Soimahani", "category": "expressions", "difficulty": 1},
         {"french": "J'ai faim", "shimaore": "Nissi ona ndza", "kibouchi": "Zahou moussari", "category": "expressions", "difficulty": 1},
-        {"french": "J'ai soif", "shimaore": "Nissi ona niyora", "kibouchi": "Zahou moussari", "category": "expressions", "difficulty": 1},
+        {"french": "J'ai soif", "shimaore": "Nissi ona niyora", "kibouchi": "Zahou tindranou", "category": "expressions", "difficulty": 1},
         {"french": "Je voudrais aller à", "shimaore": "Nissi tsaha nendré", "kibouchi": "Zahou chokou andéha", "category": "expressions", "difficulty": 1},
         {"french": "J'arrive de", "shimaore": "Tsi lawa", "kibouchi": "Zahou boka", "category": "expressions", "difficulty": 1},
         {"french": "Je peux avoir des toilettes", "shimaore": "Tnissi miya mraba", "kibouchi": "Zahou mangataka mraba", "category": "expressions", "difficulty": 1},
