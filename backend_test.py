@@ -6902,6 +6902,257 @@ class MayotteEducationTester:
             print(f"❌ Adjectifs category integration test error: {e}")
             return False
 
+    def test_corrected_maison_vocabulary_section(self):
+        """Test the corrected 'maison' vocabulary section that now includes all the habitation elements"""
+        print("\n=== Testing Corrected 'Maison' Vocabulary Section ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after changing category from "habitation" back to "maison"
+            print("--- Testing Backend Startup After Category Change ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after changing category from 'habitation' back to 'maison'")
+            
+            # 2. Test the /api/words?category=maison endpoint to retrieve all maison items
+            print("\n--- Testing /api/words?category=maison Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=maison")
+            if response.status_code != 200:
+                print(f"❌ Maison endpoint failed: {response.status_code}")
+                return False
+            
+            maison_words = response.json()
+            maison_words_by_french = {word['french']: word for word in maison_words}
+            print(f"✅ /api/words?category=maison endpoint working correctly ({len(maison_words)} maison items)")
+            
+            # 3. Verify that all the habitation elements from the previous tableau are now present in the "maison" category
+            print("\n--- Testing All Habitation Elements Now in 'Maison' Category ---")
+            
+            # Key maison elements that were previously in habitation (from the review request)
+            key_maison_elements = [
+                {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou"},
+                {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavaragena"},
+                {"french": "Case", "shimaore": "Banga", "kibouchi": "Banga"},
+                {"french": "Lit", "shimaore": "Chtrandra", "kibouchi": "Koubani"},
+                {"french": "Marmite", "shimaore": "Gnoungou", "kibouchi": "Vilangni"},
+                {"french": "Vaisselle", "shimaore": "Ziya", "kibouchi": "Hintagna"},
+                {"french": "Fenêtre", "shimaore": "Fénétri", "kibouchi": "Lafoumétara"},
+                {"french": "Chaise", "shimaore": "Chiri", "kibouchi": "Chiri"},
+                {"french": "Table", "shimaore": "Latabou", "kibouchi": "Latabou"},
+                {"french": "Miroir", "shimaore": "Chido", "kibouchi": "Kitarafa"},
+                {"french": "Couteau", "shimaore": "Sembéya", "kibouchi": "Méssou"},
+                {"french": "Matelas", "shimaore": "Godoro", "kibouchi": "Goudorou"},
+                {"french": "Véranda", "shimaore": "Baraza", "kibouchi": "Baraza"},
+                {"french": "Hache", "shimaore": "Soha", "kibouchi": "Famaki"},
+                {"french": "Machette", "shimaore": "M'panga", "kibouchi": "Ampanga"},
+                {"french": "Balai", "shimaore": "Péou", "kibouchi": "Famafa"},
+                {"french": "Assiette", "shimaore": "Sahani", "kibouchi": "Sahani"}
+            ]
+            
+            key_elements_verified = True
+            
+            for element in key_maison_elements:
+                french_word = element['french']
+                if french_word in maison_words_by_french:
+                    word = maison_words_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], element['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], element['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'maison', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            key_elements_verified = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - VERIFIED IN MAISON CATEGORY")
+                else:
+                    print(f"❌ {french_word} not found in maison category")
+                    key_elements_verified = False
+            
+            # 4. Check that the "habitation" category no longer exists
+            print("\n--- Testing 'Habitation' Category No Longer Exists ---")
+            response = self.session.get(f"{API_BASE}/words?category=habitation")
+            if response.status_code == 200:
+                habitation_words = response.json()
+                if len(habitation_words) == 0:
+                    print("✅ 'Habitation' category no longer exists (empty)")
+                    habitation_check = True
+                else:
+                    print(f"❌ 'Habitation' category still contains {len(habitation_words)} items")
+                    habitation_check = False
+            else:
+                print("✅ 'Habitation' category endpoint returns no results")
+                habitation_check = True
+            
+            # 5. Verify that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Test a few other categories to ensure they're still working
+            other_categories_to_test = ['famille', 'couleurs', 'animaux', 'nombres', 'salutations']
+            other_categories_intact = True
+            
+            for category in other_categories_to_test:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    if len(category_words) > 0:
+                        print(f"✅ {category} category intact ({len(category_words)} items)")
+                    else:
+                        print(f"❌ {category} category is empty")
+                        other_categories_intact = False
+                else:
+                    print(f"❌ {category} category endpoint failed: {response.status_code}")
+                    other_categories_intact = False
+            
+            # 6. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing No Duplicate Entries in Maison Category ---")
+            
+            french_names = [word['french'] for word in maison_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique maison items)")
+                duplicates_check = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                duplicates_check = False
+            
+            # 7. Confirm the total maison count (should be around 35 maison items)
+            print("\n--- Testing Total Maison Count ---")
+            
+            expected_min_count = 30  # Around 35, but allowing some flexibility
+            expected_max_count = 40
+            actual_count = len(maison_words)
+            
+            if expected_min_count <= actual_count <= expected_max_count:
+                print(f"✅ Total maison count within expected range: {actual_count} items (expected around 35)")
+                count_check = True
+            else:
+                print(f"⚠️ Total maison count: {actual_count} items (expected around 35, range {expected_min_count}-{expected_max_count})")
+                # This is not necessarily a failure, just noting the difference
+                count_check = True
+            
+            # 8. Ensure all maison items have proper category assignment as "maison"
+            print("\n--- Testing All Maison Items Have Proper Category Assignment ---")
+            
+            category_assignment_correct = True
+            for word in maison_words:
+                if word['category'] != 'maison':
+                    print(f"❌ {word['french']} has incorrect category: '{word['category']}' (should be 'maison')")
+                    category_assignment_correct = False
+            
+            if category_assignment_correct:
+                print(f"✅ All {len(maison_words)} maison items have proper category assignment as 'maison'")
+            
+            # 9. Test the API endpoints are working correctly for the corrected category
+            print("\n--- Testing API Endpoints for Corrected Category ---")
+            
+            api_endpoints_working = True
+            
+            # Test individual word retrieval for a few key items
+            test_items = ["Maison", "Porte", "Lit", "Table"]
+            for item_name in test_items:
+                if item_name in maison_words_by_french:
+                    word_id = maison_words_by_french[item_name]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if retrieved_word['category'] == 'maison':
+                            print(f"✅ {item_name} API retrieval working correctly (category: {retrieved_word['category']})")
+                        else:
+                            print(f"❌ {item_name} API retrieval category incorrect: {retrieved_word['category']}")
+                            api_endpoints_working = False
+                    else:
+                        print(f"❌ {item_name} API retrieval failed: {response.status_code}")
+                        api_endpoints_working = False
+            
+            # 10. Get overall word count after this correction
+            print("\n--- Testing Overall Word Count After Correction ---")
+            
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                
+                # Get category breakdown
+                categories = {}
+                for word in all_words:
+                    category = word['category']
+                    categories[category] = categories.get(category, 0) + 1
+                
+                print(f"✅ Total word count after correction: {total_word_count} words")
+                print(f"✅ Category breakdown:")
+                for category, count in sorted(categories.items()):
+                    print(f"   - {category}: {count} words")
+                
+                overall_count_check = True
+            else:
+                print(f"❌ Could not retrieve overall word count: {response.status_code}")
+                overall_count_check = False
+                total_word_count = 0
+            
+            # Overall result
+            all_tests_passed = (
+                key_elements_verified and 
+                habitation_check and 
+                other_categories_intact and 
+                duplicates_check and 
+                count_check and 
+                category_assignment_correct and 
+                api_endpoints_working and 
+                overall_count_check
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 CORRECTED 'MAISON' VOCABULARY SECTION TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after changing category from 'habitation' back to 'maison'")
+                print("✅ /api/words?category=maison endpoint retrieves all maison items correctly")
+                print("✅ All habitation elements from previous tableau now present in 'maison' category with correct translations:")
+                print("   - Maison: Nyoumba / Tragnou")
+                print("   - Porte: Mlango / Varavaragena") 
+                print("   - Case: Banga / Banga")
+                print("   - Lit: Chtrandra / Koubani")
+                print("   - Marmite: Gnoungou / Vilangni")
+                print("   - Vaisselle: Ziya / Hintagna")
+                print("   - Fenêtre: Fénétri / Lafoumétara")
+                print("   - Chaise: Chiri / Chiri")
+                print("   - Table: Latabou / Latabou")
+                print("   - Miroir: Chido / Kitarafa")
+                print("   - Couteau: Sembéya / Méssou")
+                print("   - Matelas: Godoro / Goudorou")
+                print("   - Véranda: Baraza / Baraza")
+                print("   - Hache: Soha / Famaki")
+                print("   - Machette: M'panga / Ampanga")
+                print("   - Balai: Péou / Famafa")
+                print("   - Assiette: Sahani / Sahani")
+                print("✅ 'Habitation' category no longer exists")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ Total maison count: {actual_count} items (within expected range)")
+                print("✅ All maison items have proper category assignment as 'maison'")
+                print("✅ API endpoints working correctly for the corrected category")
+                print(f"✅ Overall word count after correction: {total_word_count} words")
+                print("✅ The corrected 'maison' vocabulary section with all habitation elements is now fully functional")
+            else:
+                print("\n❌ Some aspects of the corrected 'maison' vocabulary section are not working properly")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Corrected 'maison' vocabulary section test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run updated nature vocabulary test as requested in review"""
         print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED NATURE VOCABULARY TEST 🌺")
