@@ -8118,12 +8118,12 @@ if __name__ == "__main__":
     
     tester = MayotteEducationTester()
     
-    # Run specific test for the habitation vocabulary section
+    # Run specific test for the vetements vocabulary section
     tests = [
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("Updated Habitation Vocabulary Section", tester.test_updated_habitation_vocabulary_section)
+        ("Updated Vetements Vocabulary from New Tableau", tester.test_updated_vetements_vocabulary_from_new_tableau)
     ]
     
     passed = 0
