@@ -632,7 +632,7 @@ async def init_base_content():
         {"french": "Inutile", "shimaore": "Kassina mana", "kibouchi": "Tsissi fotouni", "category": "adjectifs", "difficulty": 1},
         {"french": "Faux", "shimaore": "Trambo", "kibouchi": "Vandi", "category": "adjectifs", "difficulty": 1},
         {"french": "Vrai", "shimaore": "Kwéli", "kibouchi": "Ankitigni", "category": "adjectifs", "difficulty": 1},
-        {"french": "Ouvert", "shimaore": "Ouboua", "kibouchi": "Miblyangna", "category": "adjectifs", "difficulty": 1},
+        {"french": "Ouvert", "shimaore": "Ouboua", "kibouchi": "Mibiyangna", "category": "adjectifs", "difficulty": 1},
         {"french": "Fermé", "shimaore": "Oubala", "kibouchi": "Migadra", "category": "adjectifs", "difficulty": 1},
         {"french": "Content", "shimaore": "Oujiviwa", "kibouchi": "Ravou", "category": "adjectifs", "difficulty": 1},
         {"french": "Triste", "shimaore": "Ouna hamo", "kibouchi": "Malahélou", "category": "adjectifs", "difficulty": 1},
