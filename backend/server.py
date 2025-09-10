@@ -202,6 +202,17 @@ async def init_base_content():
         {"french": "Le nôtre", "shimaore": "Yatrou", "kibouchi": "Nintsika", "category": "grammaire", "difficulty": 2},
         {"french": "Le vôtre", "shimaore": "Yagnou", "kibouchi": "Ninéyi", "category": "grammaire", "difficulty": 2},
         
+        # Métiers et professions (complément grammaire)
+        {"french": "Professeur", "shimaore": "Foundi", "kibouchi": "Foundi", "category": "grammaire", "difficulty": 1},
+        {"french": "Guide spirituel", "shimaore": "Cadhi", "kibouchi": "Cadhi", "category": "grammaire", "difficulty": 1},
+        {"french": "Imam", "shimaore": "Imamou", "kibouchi": "Imamou", "category": "grammaire", "difficulty": 1},
+        {"french": "Voisin", "shimaore": "Djirani", "kibouchi": "Djirani", "category": "grammaire", "difficulty": 1},
+        {"french": "Maire", "shimaore": "Mera", "kibouchi": "Mera", "category": "grammaire", "difficulty": 1},
+        {"french": "Élu", "shimaore": "Dhoimana", "kibouchi": "Dhoimana", "category": "grammaire", "difficulty": 1},
+        {"french": "Pêcheur", "shimaore": "Mlozi", "kibouchi": "Ampamintagna", "category": "grammaire", "difficulty": 1},
+        {"french": "Agriculteur", "shimaore": "Mlimizi", "kibouchi": "Ampikapa", "category": "grammaire", "difficulty": 1},
+        {"french": "Éleveur", "shimaore": "Mtsounga", "kibouchi": "Ampitsounga", "category": "grammaire", "difficulty": 1},
+        
         # Famille (vocabulaire familial étendu selon le tableau)
         # Parents directs
         {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama", "category": "famille", "difficulty": 1},
