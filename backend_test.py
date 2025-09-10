@@ -1215,6 +1215,101 @@ class MayotteEducationTester:
             print(f"❌ Specific expression correction verification error: {e}")
             return False
 
+    def test_category_change_habitation_to_maison(self):
+        """Test the category change from 'habitation' to 'maison' after backend restart"""
+        print("\n=== Testing Category Change: Habitation → Maison ===")
+        
+        try:
+            # 1. Test /api/words?category=maison endpoint - should return ~35 items
+            print("--- Testing /api/words?category=maison Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=maison")
+            if response.status_code != 200:
+                print(f"❌ Maison endpoint failed: {response.status_code}")
+                return False
+            
+            maison_words = response.json()
+            maison_count = len(maison_words)
+            print(f"✅ /api/words?category=maison working correctly ({maison_count} items)")
+            
+            # Check if we have approximately 35 items
+            if maison_count >= 30:  # Allow some flexibility
+                print(f"✅ Maison category has sufficient items: {maison_count} (expected ~35)")
+            else:
+                print(f"❌ Maison category has insufficient items: {maison_count} (expected ~35)")
+                return False
+            
+            # 2. Test /api/words?category=habitation endpoint - should return 0 items
+            print("\n--- Testing /api/words?category=habitation Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=habitation")
+            if response.status_code != 200:
+                print(f"❌ Habitation endpoint failed: {response.status_code}")
+                return False
+            
+            habitation_words = response.json()
+            habitation_count = len(habitation_words)
+            print(f"✅ /api/words?category=habitation working correctly ({habitation_count} items)")
+            
+            if habitation_count == 0:
+                print("✅ Habitation category is empty (0 items) - category change successful")
+            else:
+                print(f"❌ Habitation category still has items: {habitation_count} (expected 0)")
+                return False
+            
+            # 3. Check a few key items are in maison category: Maison, Porte, Lit, Table
+            print("\n--- Testing Key Items in Maison Category ---")
+            maison_words_by_french = {word['french']: word for word in maison_words}
+            
+            key_items = ["Maison", "Porte", "Lit", "Table"]
+            key_items_found = True
+            
+            for item in key_items:
+                if item in maison_words_by_french:
+                    word = maison_words_by_french[item]
+                    print(f"✅ {item}: {word['shimaore']} / {word['kibouchi']} - Found in maison category")
+                else:
+                    print(f"❌ {item}: Not found in maison category")
+                    key_items_found = False
+            
+            if not key_items_found:
+                print("❌ Some key items are missing from maison category")
+                return False
+            
+            # 4. Verify category field is "maison" for all house-related items
+            print("\n--- Verifying Category Field for All House-Related Items ---")
+            category_verification = True
+            
+            for word in maison_words:
+                if word['category'] != 'maison':
+                    print(f"❌ {word['french']}: Category is '{word['category']}' (should be 'maison')")
+                    category_verification = False
+            
+            if category_verification:
+                print(f"✅ All {maison_count} items have correct category field: 'maison'")
+            else:
+                print("❌ Some items have incorrect category field")
+                return False
+            
+            # 5. Provide total maison count and confirm the correction was successful
+            print("\n--- Final Verification Summary ---")
+            print(f"✅ Total maison category count: {maison_count} items")
+            print(f"✅ Total habitation category count: {habitation_count} items")
+            print("✅ Category change from 'habitation' to 'maison' completed successfully")
+            
+            # Show some sample items from maison category
+            print("\n--- Sample Maison Category Items ---")
+            sample_items = maison_words[:5]  # Show first 5 items
+            for item in sample_items:
+                print(f"   {item['french']}: {item['shimaore']} / {item['kibouchi']}")
+            
+            if maison_count > 5:
+                print(f"   ... and {maison_count - 5} more items")
+            
+            return True
+            
+        except Exception as e:
+            print(f"❌ Category change verification error: {e}")
+            return False
+
     def test_updated_grammaire_vocabulary_with_professions(self):
         """Test the updated grammaire vocabulary section after adding professions/jobs from the new tableau"""
         print("\n=== Testing Updated Grammaire Vocabulary with Professions ===")
