@@ -6352,14 +6352,50 @@ class MayotteEducationTester:
             return False
 
 if __name__ == "__main__":
-    tester = MayotteEducationTester()
-    # Run only the adjectifs verification test as requested
-    print("🌺 MAYOTTE EDUCATIONAL APP - ADJECTIFS CATEGORY VERIFICATION 🌺")
-    print("=" * 70)
+    print("🌺 Starting Mayotte Educational App Backend Testing 🌺")
+    print("=" * 60)
     
-    if tester.test_adjectifs_category_verification():
-        print("\n🎉 ADJECTIFS CATEGORY VERIFICATION PASSED!")
-        print("Backend is ready for frontend integration.")
+    tester = MayotteEducationTester()
+    
+    # Run specific test for the expression correction
+    tests = [
+        ("Basic API Connectivity", tester.test_basic_connectivity),
+        ("MongoDB Connection", tester.test_mongodb_connection),
+        ("Educational Content Initialization", tester.test_init_base_content),
+        ("Specific Expression Correction: J'ai soif", tester.test_specific_expression_correction_jai_soif)
+    ]
+    
+    passed = 0
+    failed = 0
+    
+    for test_name, test_func in tests:
+        print(f"\n{'='*60}")
+        print(f"Running: {test_name}")
+        print('='*60)
+        
+        try:
+            if test_func():
+                print(f"✅ {test_name} PASSED")
+                passed += 1
+            else:
+                print(f"❌ {test_name} FAILED")
+                failed += 1
+        except Exception as e:
+            print(f"❌ {test_name} ERROR: {e}")
+            failed += 1
+    
+    # Final summary
+    print(f"\n{'='*60}")
+    print("🌺 MAYOTTE EDUCATIONAL APP BACKEND TEST SUMMARY 🌺")
+    print(f"{'='*60}")
+    print(f"✅ Tests Passed: {passed}")
+    print(f"❌ Tests Failed: {failed}")
+    print(f"📊 Total Tests: {passed + failed}")
+    
+    if failed == 0:
+        print("\n🎉 ALL TESTS PASSED! Expression correction verified successfully! 🎉")
+        print("🌺 J'ai soif correction: kibouchi = 'Zahou tindranou' (not 'Zahou moussari') 🌺")
     else:
-        print("\n❌ ADJECTIFS CATEGORY VERIFICATION FAILED!")
-        print("Please check the issues above.")
+        print(f"\n⚠️ {failed} test(s) failed. Please review and fix issues.")
+    
+    print(f"{'='*60}")
