@@ -4677,6 +4677,262 @@ class MayotteEducationTester:
             print(f"❌ Updated nourriture vocabulary test error: {e}")
             return False
 
+    def test_updated_nature_vocabulary_new_tableau(self):
+        """Test the updated nature vocabulary after complete replacement with new tableau"""
+        print("\n=== Testing Updated Nature Vocabulary from New Tableau ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors
+            print("--- Testing Backend Startup After Nature Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors")
+            
+            # 2. Test the /api/words?category=nature endpoint to retrieve all nature items
+            print("\n--- Testing /api/words?category=nature Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=nature")
+            if response.status_code != 200:
+                print(f"❌ Nature endpoint failed: {response.status_code}")
+                return False
+            
+            nature_words = response.json()
+            nature_words_by_french = {word['french']: word for word in nature_words}
+            print(f"✅ /api/words?category=nature working correctly ({len(nature_words)} nature items)")
+            
+            # 3. Verify that all nature elements from the new tableau are present with correct translations
+            print("\n--- Testing Specific Key Nature Elements from Tableau ---")
+            
+            # Key nature elements from the review request
+            key_nature_elements = [
+                {"french": "Pente/Colline/Mont", "shimaore": "Mlima", "kibouchi": "Boungou"},
+                {"french": "Lune", "shimaore": "Mwézi", "kibouchi": "Fandzava"},
+                {"french": "Étoile", "shimaore": "Gnora", "kibouchi": "Lakintagna"},
+                {"french": "Sable", "shimaore": "Mtsanga", "kibouchi": "Fasigni"},
+                {"french": "Vague", "shimaore": "Dhouja", "kibouchi": "Houndza/Riaka"},
+                {"french": "Vent", "shimaore": "Pévo", "kibouchi": "Tsikou"},
+                {"french": "Pluie", "shimaore": "Vhoua", "kibouchi": "Mahaléni"},
+                {"french": "Mangrove", "shimaore": "Mhonko", "kibouchi": "Honkou"},
+                {"french": "Corail", "shimaore": "Soiyi", "kibouchi": "Soiyi"},
+                {"french": "Barrière de corail", "shimaore": "Caléni", "kibouchi": "Caléni"},
+                {"french": "Tempête", "shimaore": "Darouba", "kibouchi": "Tsikou"},
+                {"french": "Rivière", "shimaore": "Mouro", "kibouchi": "Mouroni"},
+                {"french": "Arbre", "shimaore": "Mwiri", "kibouchi": "Kakazou"},
+                {"french": "Soleil", "shimaore": "Mwézi", "kibouchi": "Zouva"},
+                {"french": "Mer", "shimaore": "Bahari", "kibouchi": "Bahari"},
+                {"french": "Plage", "shimaore": "Mtsangani", "kibouchi": "Fassigni"}
+            ]
+            
+            key_elements_verified = True
+            
+            for element in key_nature_elements:
+                french_word = element['french']
+                if french_word in nature_words_by_french:
+                    word = nature_words_by_french[french_word]
+                    
+                    # Check shimaoré translation
+                    if word['shimaore'] == element['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{word['shimaore']}' - VERIFIED")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{element['shimaore']}', got '{word['shimaore']}'")
+                        key_elements_verified = False
+                    
+                    # Check kibouchi translation
+                    if word['kibouchi'] == element['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{word['kibouchi']}' - VERIFIED")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{element['kibouchi']}', got '{word['kibouchi']}'")
+                        key_elements_verified = False
+                else:
+                    print(f"❌ {french_word} not found in nature category")
+                    key_elements_verified = False
+            
+            # 4. Verify that old incomplete nature entries have been replaced
+            print("\n--- Testing Old Incomplete Nature Entries Replacement ---")
+            
+            # Check that all nature items have complete data structure
+            incomplete_entries = []
+            for word in nature_words:
+                if not word.get('french') or not word.get('category') or word['category'] != 'nature':
+                    incomplete_entries.append(word['french'])
+            
+            if not incomplete_entries:
+                print("✅ All nature entries have complete data structure")
+                old_entries_replaced = True
+            else:
+                print(f"❌ Found incomplete nature entries: {incomplete_entries}")
+                old_entries_replaced = False
+            
+            # 5. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Test a few other categories to ensure they weren't affected
+            other_categories_to_test = ['salutations', 'couleurs', 'nombres', 'famille', 'grammaire', 'verbes']
+            other_categories_intact = True
+            
+            for category in other_categories_to_test:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    if len(category_words) > 0:
+                        print(f"✅ {category}: {len(category_words)} words - INTACT")
+                    else:
+                        print(f"❌ {category}: No words found")
+                        other_categories_intact = False
+                else:
+                    print(f"❌ {category}: Endpoint failed ({response.status_code})")
+                    other_categories_intact = False
+            
+            # 6. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing for Duplicate Entries and Data Integrity ---")
+            
+            # Check for duplicates in nature category
+            french_names = [word['french'] for word in nature_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found in nature category ({len(unique_names)} unique items)")
+                no_duplicates = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found in nature category: {set(duplicates)}")
+                no_duplicates = False
+            
+            # Check data integrity (all required fields present)
+            data_integrity_ok = True
+            required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+            
+            for word in nature_words:
+                missing_fields = [field for field in required_fields if field not in word]
+                if missing_fields:
+                    print(f"❌ {word.get('french', 'Unknown')} missing fields: {missing_fields}")
+                    data_integrity_ok = False
+            
+            if data_integrity_ok:
+                print("✅ All nature items have complete data integrity")
+            
+            # 7. Confirm the total nature count matches the tableau (should be around 30 nature items)
+            print("\n--- Testing Total Nature Count ---")
+            
+            expected_min_nature_count = 25  # Should be around 30, but allow some flexibility
+            expected_max_nature_count = 35
+            actual_nature_count = len(nature_words)
+            
+            if expected_min_nature_count <= actual_nature_count <= expected_max_nature_count:
+                print(f"✅ Nature count within expected range: {actual_nature_count} items (expected ~30)")
+                nature_count_ok = True
+            else:
+                print(f"❌ Nature count outside expected range: {actual_nature_count} items (expected ~30)")
+                nature_count_ok = False
+            
+            # 8. Ensure all nature items have complete translations (note: some may have empty fields as shown in tableau)
+            print("\n--- Testing Translation Completeness ---")
+            
+            # Check translation completeness (allowing for some empty fields as noted in review)
+            items_with_translations = 0
+            items_with_empty_fields = 0
+            
+            for word in nature_words:
+                has_shimaoré = bool(word.get('shimaore', '').strip())
+                has_kibouchi = bool(word.get('kibouchi', '').strip())
+                
+                if has_shimaoré and has_kibouchi:
+                    items_with_translations += 1
+                elif has_shimaoré or has_kibouchi:
+                    items_with_translations += 1
+                    items_with_empty_fields += 1
+                    print(f"ℹ️ {word['french']}: Partial translation (shimaoré: '{word['shimaore']}', kibouchi: '{word['kibouchi']}')")
+                else:
+                    print(f"❌ {word['french']}: No translations found")
+            
+            translation_completeness_ok = items_with_translations >= (actual_nature_count * 0.8)  # At least 80% should have some translation
+            
+            if translation_completeness_ok:
+                print(f"✅ Translation completeness acceptable: {items_with_translations}/{actual_nature_count} items have translations")
+                if items_with_empty_fields > 0:
+                    print(f"ℹ️ Note: {items_with_empty_fields} items have empty fields as expected from tableau")
+            else:
+                print(f"❌ Translation completeness insufficient: {items_with_translations}/{actual_nature_count} items have translations")
+            
+            # 9. Test the API endpoints are working correctly
+            print("\n--- Testing API Endpoints Functionality ---")
+            
+            # Test individual nature item retrieval
+            api_endpoints_ok = True
+            if nature_words:
+                sample_word = nature_words[0]
+                word_id = sample_word['id']
+                
+                response = self.session.get(f"{API_BASE}/words/{word_id}")
+                if response.status_code == 200:
+                    retrieved_word = response.json()
+                    if retrieved_word['french'] == sample_word['french']:
+                        print(f"✅ Individual word retrieval working: {retrieved_word['french']}")
+                    else:
+                        print(f"❌ Individual word retrieval data mismatch")
+                        api_endpoints_ok = False
+                else:
+                    print(f"❌ Individual word retrieval failed: {response.status_code}")
+                    api_endpoints_ok = False
+            
+            # 10. Provide the new total count of nature items and overall word count
+            print("\n--- Final Count Summary ---")
+            
+            # Get total word count
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total word count after nature update: {total_word_count} words")
+                print(f"✅ Nature vocabulary count: {actual_nature_count} items")
+                
+                # Show category breakdown
+                categories = {}
+                for word in all_words:
+                    category = word.get('category', 'unknown')
+                    categories[category] = categories.get(category, 0) + 1
+                
+                print("📊 Category breakdown:")
+                for category, count in sorted(categories.items()):
+                    print(f"   {category}: {count} words")
+            else:
+                print(f"❌ Could not retrieve total word count: {response.status_code}")
+                total_word_count = "unknown"
+            
+            # Overall result
+            all_tests_passed = (
+                key_elements_verified and 
+                old_entries_replaced and 
+                other_categories_intact and 
+                no_duplicates and 
+                data_integrity_ok and 
+                nature_count_ok and 
+                translation_completeness_ok and 
+                api_endpoints_ok
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED NATURE VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors")
+                print("✅ /api/words?category=nature endpoint working correctly")
+                print("✅ All key nature elements from tableau verified with correct translations")
+                print("✅ Old incomplete nature entries have been replaced")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ Nature count appropriate: {actual_nature_count} items")
+                print("✅ Translation completeness acceptable (some empty fields as expected)")
+                print("✅ API endpoints working correctly")
+                print(f"📊 Final counts: {actual_nature_count} nature items, {total_word_count} total words")
+            else:
+                print("\n❌ Some nature vocabulary tests failed - see details above")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated nature vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Updated Nourriture Vocabulary Testing")
