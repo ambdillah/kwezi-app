@@ -6955,8 +6955,8 @@ if __name__ == "__main__":
     print(f"📊 Total Tests: {passed + failed}")
     
     if failed == 0:
-        print("\n🎉 ALL TESTS PASSED! Expression correction verified successfully! 🎉")
-        print("🌺 J'ai soif correction: kibouchi = 'Zahou tindranou' (not 'Zahou moussari') 🌺")
+        print("\n🎉 ALL TESTS PASSED! Habitation vocabulary section verified successfully! 🎉")
+        print("🌺 Habitation vocabulary replaces old 'maison' category with complete translations 🌺")
     else:
         print(f"\n⚠️ {failed} test(s) failed. Please review and fix issues.")
     
