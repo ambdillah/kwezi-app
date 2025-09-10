@@ -581,7 +581,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Specific expression correction for J'ai soif completed successfully - kibouchi corrected to 'Zahou tindranou'"
+    - "Updated nature vocabulary testing from new tableau completed successfully - all 19 new nature elements verified with correct translations"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
