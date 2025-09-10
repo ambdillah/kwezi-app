@@ -575,7 +575,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Expressions vocabulary section testing completed successfully - all 35 expressions verified"
+    - "Specific expression correction for J'ai soif completed successfully - kibouchi corrected to 'Zahou tindranou'"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
