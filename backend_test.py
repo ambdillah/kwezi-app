@@ -1025,6 +1025,243 @@ class MayotteEducationTester:
             print(f"❌ Specific food corrections verification error: {e}")
             return False
 
+    def test_expressions_vocabulary_section(self):
+        """Test the newly created expressions vocabulary section"""
+        print("\n=== Testing Expressions Vocabulary Section ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after adding the new expressions section
+            print("--- Testing Backend Startup After Adding Expressions Section ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after adding expressions section")
+            
+            # 2. Test the /api/words?category=expressions endpoint to retrieve all expressions
+            print("\n--- Testing /api/words?category=expressions Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=expressions")
+            if response.status_code != 200:
+                print(f"❌ Expressions endpoint failed: {response.status_code}")
+                return False
+            
+            expressions_words = response.json()
+            expressions_by_french = {word['french']: word for word in expressions_words}
+            print(f"✅ /api/words?category=expressions working correctly ({len(expressions_words)} expressions)")
+            
+            # 3. Verify that all expressions from the tourist formulas tableau are present with correct translations
+            print("\n--- Testing Tourist Formulas from Tableau ---")
+            
+            # Key expressions from the tourist formulas tableau as specified in the review request
+            key_expressions = [
+                {"french": "Excuse-moi/pardon", "shimaore": "Soimahani", "kibouchi": "Soimahani"},
+                {"french": "J'ai faim", "shimaore": "Nissi ona ndza", "kibouchi": "Zahou moussari"},
+                {"french": "J'ai soif", "shimaore": "Nissi ona niyora", "kibouchi": "Zahou moussari"},
+                {"french": "Je voudrais aller à", "shimaore": "Nissi tsaha nendré", "kibouchi": "Zahou chokou andéha"},
+                {"french": "Où se trouve", "shimaore": "Ouparhanoua havi", "kibouchi": "Aya moi"},
+                {"french": "Je suis perdu", "shimaore": "Tsi latsiha", "kibouchi": "Zahou véri"},
+                {"french": "Combien ça coûte ?", "shimaore": "Kissajé", "kibouchi": "Hotri inou moi"},
+                {"french": "S'il vous plaît", "shimaore": "Tafadali", "kibouchi": "Tafadali"},
+                {"french": "À gauche", "shimaore": "Potroni", "kibouchi": "Kipotrou"},
+                {"french": "À droite", "shimaore": "Houméni", "kibouchi": "Finana"},
+                {"french": "Appelez la police !", "shimaore": "Hira sirikali", "kibouchi": "Kahiya sirikali"},
+                {"french": "J'ai besoin d'un médecin", "shimaore": "Ntsha douktera", "kibouchi": "Zahou mila douktera"}
+            ]
+            
+            key_expressions_verified = True
+            
+            print("--- Testing Specific Key Expressions from Review Request ---")
+            for expression in key_expressions:
+                french_expr = expression['french']
+                if french_expr in expressions_by_french:
+                    word = expressions_by_french[french_expr]
+                    
+                    # Check shimaoré translation
+                    if word['shimaore'] == expression['shimaore']:
+                        print(f"✅ {french_expr} shimaoré: '{word['shimaore']}' - VERIFIED")
+                    else:
+                        print(f"❌ {french_expr} shimaoré: Expected '{expression['shimaore']}', got '{word['shimaore']}'")
+                        key_expressions_verified = False
+                    
+                    # Check kibouchi translation
+                    if word['kibouchi'] == expression['kibouchi']:
+                        print(f"✅ {french_expr} kibouchi: '{word['kibouchi']}' - VERIFIED")
+                    else:
+                        print(f"❌ {french_expr} kibouchi: Expected '{expression['kibouchi']}', got '{word['kibouchi']}'")
+                        key_expressions_verified = False
+                else:
+                    print(f"❌ {french_expr} not found in expressions category")
+                    key_expressions_verified = False
+            
+            # 4. Verify the new expressions category is properly integrated with other categories
+            print("\n--- Testing Category Integration ---")
+            
+            # Get all words to check category integration
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve all words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            categories = set(word['category'] for word in all_words)
+            
+            if 'expressions' in categories:
+                print("✅ Expressions category properly integrated with other categories")
+                print(f"All categories found: {sorted(categories)}")
+            else:
+                print("❌ Expressions category not found in overall word list")
+                key_expressions_verified = False
+            
+            # 5. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            expected_other_categories = {
+                'famille', 'salutations', 'couleurs', 'animaux', 'nombres', 
+                'corps', 'nourriture', 'maison', 'vetements', 'nature', 
+                'transport', 'grammaire', 'verbes', 'adjectifs'
+            }
+            
+            missing_categories = expected_other_categories - categories
+            if not missing_categories:
+                print("✅ All other categories remain intact and functional")
+            else:
+                print(f"❌ Missing categories: {missing_categories}")
+                key_expressions_verified = False
+            
+            # 6. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing Data Integrity and Duplicates ---")
+            
+            # Check for duplicates in expressions category
+            french_expressions = [word['french'] for word in expressions_words]
+            unique_expressions = set(french_expressions)
+            
+            if len(french_expressions) == len(unique_expressions):
+                print(f"✅ No duplicate entries found in expressions ({len(unique_expressions)} unique expressions)")
+                duplicates_check = True
+            else:
+                duplicates = [expr for expr in french_expressions if french_expressions.count(expr) > 1]
+                print(f"❌ Duplicate expressions found: {set(duplicates)}")
+                duplicates_check = False
+                key_expressions_verified = False
+            
+            # Check data integrity - all expressions should have required fields
+            data_integrity_check = True
+            for expression in expressions_words:
+                required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                missing_fields = [field for field in required_fields if field not in expression or expression[field] is None]
+                
+                if missing_fields:
+                    print(f"❌ {expression.get('french', 'Unknown')} missing fields: {missing_fields}")
+                    data_integrity_check = False
+                    key_expressions_verified = False
+            
+            if data_integrity_check:
+                print("✅ All expressions have proper data structure with required fields")
+            
+            # 7. Confirm the total expressions count matches the tableau (should be around 35 expressions)
+            print("\n--- Testing Total Expressions Count ---")
+            
+            expected_min_expressions = 30  # At least 30 expressions expected
+            expected_max_expressions = 40  # Around 35, so up to 40 is reasonable
+            actual_expressions_count = len(expressions_words)
+            
+            if expected_min_expressions <= actual_expressions_count <= expected_max_expressions:
+                print(f"✅ Total expressions count within expected range: {actual_expressions_count} expressions (expected ~35)")
+                count_check = True
+            else:
+                print(f"❌ Total expressions count outside expected range: {actual_expressions_count} expressions (expected ~35)")
+                count_check = False
+                key_expressions_verified = False
+            
+            # 8. Ensure all expressions have proper category assignment as "expressions"
+            print("\n--- Testing Category Assignment ---")
+            
+            category_assignment_check = True
+            for expression in expressions_words:
+                if expression['category'] != 'expressions':
+                    print(f"❌ {expression['french']} has incorrect category: '{expression['category']}' (should be 'expressions')")
+                    category_assignment_check = False
+                    key_expressions_verified = False
+            
+            if category_assignment_check:
+                print(f"✅ All {len(expressions_words)} expressions properly categorized as 'expressions'")
+            
+            # 9. Test the API endpoints are working correctly for the new category
+            print("\n--- Testing API Endpoints for Expressions Category ---")
+            
+            # Test individual expression retrieval
+            api_endpoints_check = True
+            if expressions_words:
+                # Test retrieving a specific expression
+                sample_expression = expressions_words[0]
+                response = self.session.get(f"{API_BASE}/words/{sample_expression['id']}")
+                if response.status_code == 200:
+                    retrieved_expression = response.json()
+                    if retrieved_expression['category'] == 'expressions':
+                        print(f"✅ Individual expression retrieval working: {retrieved_expression['french']}")
+                    else:
+                        print(f"❌ Individual expression retrieval returned wrong category")
+                        api_endpoints_check = False
+                        key_expressions_verified = False
+                else:
+                    print(f"❌ Individual expression retrieval failed: {response.status_code}")
+                    api_endpoints_check = False
+                    key_expressions_verified = False
+            
+            # 10. Provide the new total count of expressions and overall word count
+            print("\n--- Testing Final Counts ---")
+            
+            total_words = len(all_words)
+            expressions_count = len(expressions_words)
+            
+            print(f"📊 FINAL COUNTS:")
+            print(f"   - Total expressions: {expressions_count}")
+            print(f"   - Total words across all categories: {total_words}")
+            print(f"   - Total categories: {len(categories)}")
+            
+            # Overall result
+            all_tests_passed = (
+                key_expressions_verified and 
+                duplicates_check and 
+                data_integrity_check and 
+                count_check and 
+                category_assignment_check and 
+                api_endpoints_check
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 EXPRESSIONS VOCABULARY SECTION TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after adding expressions section")
+                print("✅ /api/words?category=expressions endpoint working correctly")
+                print("✅ All expressions from tourist formulas tableau verified with correct translations:")
+                print("   - Excuse-moi/pardon: soimahani / soimahani")
+                print("   - J'ai faim: nissi ona ndza / zahou moussari")
+                print("   - J'ai soif: nissi ona niyora / zahou moussari")
+                print("   - Je voudrais aller à: nissi tsaha nendré / zahou chokou andéha")
+                print("   - Où se trouve: ouparhanoua havi / aya moi")
+                print("   - Je suis perdu: tsi latsiha / zahou véri")
+                print("   - Combien ça coûte ?: kissajé / hotri inou moi")
+                print("   - S'il vous plaît: tafadali / tafadali")
+                print("   - À gauche: potroni / kipotrou")
+                print("   - À droite: houméni / finana")
+                print("   - Appelez la police !: hira sirikali / kahiya sirikali")
+                print("   - J'ai besoin d'un médecin: ntsha douktera / zahou mila douktera")
+                print("✅ Expressions category properly integrated with other categories")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ Total expressions count matches expectations: {expressions_count} expressions")
+                print("✅ All expressions properly categorized as 'expressions'")
+                print("✅ API endpoints working correctly for the new category")
+                print(f"✅ New total counts: {expressions_count} expressions, {total_words} total words")
+            else:
+                print("\n❌ Some expressions vocabulary tests failed or have issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Expressions vocabulary section test error: {e}")
+            return False
+
     def test_comprehensive_category_filtering(self):
         """Test category filtering for all 13 categories with comprehensive vocabulary"""
         print("\n=== Testing Comprehensive Category Filtering (13 Categories) ===")
