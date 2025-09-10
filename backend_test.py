@@ -1215,6 +1215,324 @@ class MayotteEducationTester:
             print(f"❌ Specific expression correction verification error: {e}")
             return False
 
+    def test_updated_grammaire_vocabulary_with_professions(self):
+        """Test the updated grammaire vocabulary section after adding professions/jobs from the new tableau"""
+        print("\n=== Testing Updated Grammaire Vocabulary with Professions ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after adding professions to grammaire section
+            print("--- Testing Backend Startup After Adding Professions to Grammaire ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after adding professions to grammaire section")
+            
+            # 2. Test the /api/words?category=grammaire endpoint to retrieve all grammaire items
+            print("\n--- Testing /api/words?category=grammaire Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=grammaire")
+            if response.status_code != 200:
+                print(f"❌ Grammaire endpoint failed: {response.status_code}")
+                return False
+            
+            grammaire_words = response.json()
+            grammaire_by_french = {word['french']: word for word in grammaire_words}
+            print(f"✅ /api/words?category=grammaire endpoint working correctly ({len(grammaire_words)} grammaire items)")
+            
+            # 3. Verify that all new profession elements from the tableau are present with correct translations
+            print("\n--- Testing New Profession Elements from Tableau ---")
+            
+            # Test specific key profession elements from the tableau
+            profession_tests = [
+                {"french": "Professeur", "shimaore": "Foundi", "kibouchi": "Foundi"},
+                {"french": "Guide spirituel", "shimaore": "Cadhi", "kibouchi": "Cadhi"},
+                {"french": "Imam", "shimaore": "Imamou", "kibouchi": "Imamou"},
+                {"french": "Voisin", "shimaore": "Djirani", "kibouchi": "Djirani"},
+                {"french": "Maire", "shimaore": "Mera", "kibouchi": "Mera"},
+                {"french": "Élu", "shimaore": "Dhoimana", "kibouchi": "Dhoimana"},
+                {"french": "Pêcheur", "shimaore": "Mlozi", "kibouchi": "Ampamintagna"},
+                {"french": "Agriculteur", "shimaore": "Mlimizi", "kibouchi": "Ampikapa"},
+                {"french": "Éleveur", "shimaore": "Mtsounga", "kibouchi": "Ampitsounga"}
+            ]
+            
+            professions_verified = True
+            
+            for profession in profession_tests:
+                french_word = profession['french']
+                if french_word in grammaire_by_french:
+                    word = grammaire_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], profession['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], profession['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'grammaire', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            professions_verified = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - VERIFIED")
+                else:
+                    print(f"❌ {french_word} not found in grammaire category")
+                    professions_verified = False
+            
+            # 4. Check specific key profession elements from the tableau (detailed verification)
+            print("\n--- Testing Specific Key Profession Elements ---")
+            
+            key_professions = [
+                ("Professeur", "foundi", "foundi"),
+                ("Guide spirituel", "cadhi", "cadhi"),
+                ("Imam", "imamou", "imamou"),
+                ("Voisin", "djirani", "djirani"),
+                ("Maire", "mera", "mera"),
+                ("Élu", "dhoimana", "dhoimana"),
+                ("Pêcheur", "mlozi", "ampamintagna"),
+                ("Agriculteur", "mlimizi", "ampikapa"),
+                ("Éleveur", "mtsounga", "ampitsounga")
+            ]
+            
+            key_professions_verified = True
+            
+            for french, expected_shimaore, expected_kibouchi in key_professions:
+                if french in grammaire_by_french:
+                    word = grammaire_by_french[french]
+                    
+                    # Case-insensitive comparison for the expected values
+                    actual_shimaore = word['shimaore'].lower()
+                    actual_kibouchi = word['kibouchi'].lower()
+                    
+                    if actual_shimaore == expected_shimaore.lower() and actual_kibouchi == expected_kibouchi.lower():
+                        print(f"✅ {french}: {word['shimaore']} / {word['kibouchi']} - KEY PROFESSION VERIFIED")
+                    else:
+                        print(f"❌ {french}: Expected {expected_shimaore}/{expected_kibouchi}, got {word['shimaore']}/{word['kibouchi']}")
+                        key_professions_verified = False
+                else:
+                    print(f"❌ {french} not found in grammaire category")
+                    key_professions_verified = False
+            
+            # 5. Verify that previously existing grammaire elements (pronouns, possessives) are still present
+            print("\n--- Testing Previously Existing Grammaire Elements ---")
+            
+            # Test personal pronouns
+            personal_pronouns = [
+                {"french": "Je", "shimaore": "Wami", "kibouchi": "Zahou"},
+                {"french": "Tu", "shimaore": "Wawé", "kibouchi": "Anaou"},
+                {"french": "Il/Elle", "shimaore": "Wayé", "kibouchi": "Izi"},
+                {"french": "Nous", "shimaore": "Wassi", "kibouchi": "Atsika"},
+                {"french": "Ils/Elles", "shimaore": "Wawo", "kibouchi": "Réou"},
+                {"french": "Vous", "shimaore": "Wagnou", "kibouchi": "Anaréou"}
+            ]
+            
+            # Test possessive pronouns
+            possessive_pronouns = [
+                {"french": "Le mien", "shimaore": "Yangou", "kibouchi": "Ninakahi"},
+                {"french": "Le tien", "shimaore": "Yaho", "kibouchi": "Ninaou"},
+                {"french": "Le sien", "shimaore": "Yahé", "kibouchi": "Ninazi"},
+                {"french": "Le leur", "shimaore": "Yawo", "kibouchi": "Nindréou"},
+                {"french": "Le nôtre", "shimaore": "Yatrou", "kibouchi": "Nintsika"},
+                {"french": "Le vôtre", "shimaore": "Yagnou", "kibouchi": "Ninéyi"}
+            ]
+            
+            existing_elements_verified = True
+            
+            print("\n--- Testing Personal Pronouns ---")
+            for pronoun in personal_pronouns:
+                french_word = pronoun['french']
+                if french_word in grammaire_by_french:
+                    word = grammaire_by_french[french_word]
+                    if word['shimaore'] == pronoun['shimaore'] and word['kibouchi'] == pronoun['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - PERSONAL PRONOUN PRESERVED")
+                    else:
+                        print(f"❌ {french_word}: Expected {pronoun['shimaore']}/{pronoun['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        existing_elements_verified = False
+                else:
+                    print(f"❌ {french_word} not found in grammaire category")
+                    existing_elements_verified = False
+            
+            print("\n--- Testing Possessive Pronouns ---")
+            for pronoun in possessive_pronouns:
+                french_word = pronoun['french']
+                if french_word in grammaire_by_french:
+                    word = grammaire_by_french[french_word]
+                    if word['shimaore'] == pronoun['shimaore'] and word['kibouchi'] == pronoun['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - POSSESSIVE PRONOUN PRESERVED")
+                    else:
+                        print(f"❌ {french_word}: Expected {pronoun['shimaore']}/{pronoun['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        existing_elements_verified = False
+                else:
+                    print(f"❌ {french_word} not found in grammaire category")
+                    existing_elements_verified = False
+            
+            # 6. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Get all words to check other categories
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code != 200:
+                print(f"❌ Could not retrieve all words: {all_words_response.status_code}")
+                return False
+            
+            all_words = all_words_response.json()
+            all_categories = set(word['category'] for word in all_words)
+            
+            expected_other_categories = {
+                'famille', 'couleurs', 'animaux', 'salutations', 'nombres', 
+                'corps', 'nourriture', 'vetements', 'nature', 'verbes'
+            }
+            
+            other_categories_intact = True
+            for category in expected_other_categories:
+                if category in all_categories:
+                    category_words = [w for w in all_words if w['category'] == category]
+                    print(f"✅ {category}: {len(category_words)} words - CATEGORY INTACT")
+                else:
+                    print(f"❌ {category}: Category missing")
+                    other_categories_intact = False
+            
+            # 7. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing for Duplicate Entries and Data Integrity ---")
+            
+            # Check for duplicates in grammaire category
+            french_names = [word['french'] for word in grammaire_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found in grammaire ({len(unique_names)} unique items)")
+                duplicates_check = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found in grammaire: {set(duplicates)}")
+                duplicates_check = False
+            
+            # Check data integrity - all grammaire items should have required fields
+            data_integrity_check = True
+            for word in grammaire_words:
+                required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                missing_fields = [field for field in required_fields if field not in word or word[field] is None]
+                if missing_fields:
+                    print(f"❌ {word.get('french', 'Unknown')}: Missing fields {missing_fields}")
+                    data_integrity_check = False
+            
+            if data_integrity_check:
+                print("✅ All grammaire items have proper data structure")
+            
+            # 8. Confirm the new total grammaire count (should be around 21 grammaire items now)
+            print("\n--- Testing New Total Grammaire Count ---")
+            
+            expected_grammaire_count = 21  # 6 personal + 6 possessive + 9 professions
+            actual_grammaire_count = len(grammaire_words)
+            
+            if actual_grammaire_count >= expected_grammaire_count:
+                print(f"✅ Grammaire count meets expectation: {actual_grammaire_count} items (expected around {expected_grammaire_count})")
+                count_check = True
+            else:
+                print(f"❌ Grammaire count below expectation: {actual_grammaire_count} items (expected around {expected_grammaire_count})")
+                count_check = False
+            
+            # Detailed breakdown
+            personal_count = len([w for w in grammaire_words if w['french'] in [p['french'] for p in personal_pronouns]])
+            possessive_count = len([w for w in grammaire_words if w['french'] in [p['french'] for p in possessive_pronouns]])
+            profession_count = len([w for w in grammaire_words if w['french'] in [p['french'] for p in profession_tests]])
+            
+            print(f"   - Personal pronouns: {personal_count}/6")
+            print(f"   - Possessive pronouns: {possessive_count}/6")
+            print(f"   - Professions: {profession_count}/9")
+            print(f"   - Total: {actual_grammaire_count} grammaire items")
+            
+            # 9. Ensure all grammaire items have proper category assignment as "grammaire"
+            print("\n--- Testing Proper Category Assignment ---")
+            
+            category_assignment_check = True
+            for word in grammaire_words:
+                if word['category'] != 'grammaire':
+                    print(f"❌ {word['french']}: Wrong category '{word['category']}' (should be 'grammaire')")
+                    category_assignment_check = False
+            
+            if category_assignment_check:
+                print(f"✅ All {len(grammaire_words)} grammaire items have proper category assignment as 'grammaire'")
+            
+            # 10. Test the API endpoints are working correctly for the updated category
+            print("\n--- Testing API Endpoints for Updated Category ---")
+            
+            api_endpoints_check = True
+            
+            # Test individual word retrieval for a few key items
+            test_items = ["Professeur", "Je", "Le mien"]  # One from each subcategory
+            
+            for item in test_items:
+                if item in grammaire_by_french:
+                    word_id = grammaire_by_french[item]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if retrieved_word['category'] == 'grammaire':
+                            print(f"✅ {item} API retrieval working correctly")
+                        else:
+                            print(f"❌ {item} API retrieval category mismatch")
+                            api_endpoints_check = False
+                    else:
+                        print(f"❌ {item} API retrieval failed: {response.status_code}")
+                        api_endpoints_check = False
+            
+            # Provide the new total count of grammaire items and overall word count
+            print("\n--- Final Count Summary ---")
+            
+            total_words = len(all_words)
+            print(f"✅ New total grammaire items: {actual_grammaire_count}")
+            print(f"✅ Overall word count: {total_words}")
+            
+            # Overall result
+            all_tests_passed = (
+                professions_verified and 
+                key_professions_verified and
+                existing_elements_verified and 
+                other_categories_intact and 
+                duplicates_check and 
+                data_integrity_check and
+                count_check and 
+                category_assignment_check and 
+                api_endpoints_check
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED GRAMMAIRE VOCABULARY WITH PROFESSIONS TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after adding professions to grammaire section")
+                print("✅ /api/words?category=grammaire endpoint retrieves all grammaire items correctly")
+                print("✅ All new profession elements from tableau present with correct French, Shimaoré, and Kibouchi translations")
+                print("✅ All 9 specific key profession elements verified:")
+                print("   - Professeur: foundi / foundi")
+                print("   - Guide spirituel: cadhi / cadhi")
+                print("   - Imam: imamou / imamou")
+                print("   - Voisin: djirani / djirani")
+                print("   - Maire: mera / mera")
+                print("   - Élu: dhoimana / dhoimana")
+                print("   - Pêcheur: mlozi / ampamintagna")
+                print("   - Agriculteur: mlimizi / ampikapa")
+                print("   - Éleveur: mtsounga / ampitsounga")
+                print("✅ Previously existing grammaire elements (pronouns, possessives) still present")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ New total grammaire count: {actual_grammaire_count} items (around 21 as expected)")
+                print("✅ All grammaire items have proper category assignment as 'grammaire'")
+                print("✅ API endpoints working correctly for updated category")
+                print(f"✅ Final counts: {actual_grammaire_count} grammaire items, {total_words} total words")
+            else:
+                print("\n❌ Some aspects of the updated grammaire vocabulary with professions are not working correctly")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated grammaire vocabulary with professions test error: {e}")
+            return False
+
     def test_updated_habitation_vocabulary_section(self):
         """Test the newly updated habitation vocabulary section that replaces the old 'maison' section"""
         print("\n=== Testing Updated Habitation Vocabulary Section ===")
