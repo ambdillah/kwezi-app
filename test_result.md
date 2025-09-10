@@ -579,6 +579,18 @@ metadata:
         agent: "testing"
         comment: "🎉 SPECIFIC EXPRESSION CORRECTION VERIFICATION COMPLETED SUCCESSFULLY! All 9 requirements from the review request have been verified and confirmed: ✅ 1. Backend starts without syntax errors after the correction ✅ 2. /api/words?category=expressions endpoint working correctly (35 expressions) ✅ 3. Specific correction verified: J'ai soif kibouchi = 'Zahou tindranou' (corrected from 'Zahou moussari') ✅ 4. Shimaoré remains unchanged: 'Nissi ona niyora' ✅ 5. All other expressions remain intact and unchanged (J'ai faim, Excuse-moi/pardon, Je voudrais aller à, Où se trouve, S'il vous plaît all verified) ✅ 6. Expression has complete translations in both languages ✅ 7. No duplicate entries introduced (35 unique expressions) ✅ 8. Total expressions count maintained at 35 expressions ✅ 9. Backend API responses working correctly for this specific expression (individual retrieval tested) ✅ Bug fix verification complete - issue has been completely resolved with no regressions. The specific expression correction for 'J'ai soif' has been successfully implemented and all backend functionality remains intact."
 
+  - task: "Category change verification from habitation to maison"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 CATEGORY CHANGE VERIFICATION COMPLETED SUCCESSFULLY! Quick verification test after backend restart confirmed the category change from 'habitation' to 'maison' worked perfectly. ✅ /api/words?category=maison endpoint returns exactly 35 items (as expected) ✅ /api/words?category=habitation endpoint returns 0 items (category successfully removed) ✅ All key items verified in maison category: Maison=Nyoumba/Tragnou, Porte=Mlango/Varavaragena, Lit=Chtrandra/Koubani, Table=Latabou/Latabou ✅ All 35 house-related items have correct category field set to 'maison' ✅ Total maison count: 35 items ✅ Total habitation count: 0 items ✅ Category rename correction was completely successful - all house/home vocabulary properly moved from 'habitation' to 'maison' category. The backend restart successfully applied the category change and all house-related vocabulary is now correctly categorized under 'maison' as requested."
+
   - task: "Updated habitation vocabulary section testing"
     implemented: true
     working: true
