@@ -27,7 +27,7 @@ interface Word {
 }
 
 const CATEGORIES = [
-  'famille', 'salutations', 'grammaire', 'couleurs', 'animaux', 'nombres', 'corps', 'nourriture', 'habitation', 'vetements', 'nature', 'transport', 'verbes', 'adjectifs', 'expressions'
+  'famille', 'salutations', 'grammaire', 'couleurs', 'animaux', 'nombres', 'corps', 'nourriture', 'maison', 'vetements', 'nature', 'transport', 'verbes', 'adjectifs', 'expressions'
 ];
 
 export default function AdminScreen() {
