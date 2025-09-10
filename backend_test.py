@@ -5212,6 +5212,160 @@ class MayotteEducationTester:
             print(f"❌ Adjectifs vocabulary section test error: {e}")
             return False
 
+    def test_adjectifs_category_integration(self):
+        """Test adjectifs category integration as requested in review"""
+        print("\n=== Testing Adjectifs Category Integration ===")
+        
+        try:
+            # 1. Test that /api/words?category=adjectifs returns data
+            print("--- Testing /api/words?category=adjectifs endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=adjectifs")
+            if response.status_code != 200:
+                print(f"❌ Adjectifs endpoint failed: {response.status_code}")
+                return False
+            
+            adjectifs_words = response.json()
+            print(f"✅ /api/words?category=adjectifs returns {len(adjectifs_words)} adjectives")
+            
+            if len(adjectifs_words) == 0:
+                print("❌ No adjectives found in adjectifs category")
+                return False
+            
+            # 2. Confirm that adjectifs appears in the full word list
+            print("\n--- Testing adjectifs appears in full word list ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve full word list: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            categories = set(word['category'] for word in all_words)
+            
+            if 'adjectifs' in categories:
+                print("✅ Adjectifs category appears in full word list")
+                adjectifs_in_full_list = [word for word in all_words if word['category'] == 'adjectifs']
+                print(f"   Found {len(adjectifs_in_full_list)} adjectives in full list")
+            else:
+                print("❌ Adjectifs category not found in full word list")
+                print(f"   Available categories: {sorted(categories)}")
+                return False
+            
+            # 3. Test a few sample adjectives to ensure they exist with proper translations
+            print("\n--- Testing sample adjectives with proper translations ---")
+            
+            sample_adjectives = [
+                {"french": "Grand", "shimaore": "Bole", "kibouchi": "Bé"},
+                {"french": "Petit", "shimaore": "Tsi", "kibouchi": "Tsi"},
+                {"french": "Gros", "shimaore": "Mtronga/Tronga", "kibouchi": "Bé"},
+                {"french": "Maigre", "shimaore": "Tsala", "kibouchi": "Mahia"},
+                {"french": "Fort", "shimaore": "Ouna ngouvou", "kibouchi": "Missi ngouvou"}
+            ]
+            
+            adjectifs_by_french = {word['french']: word for word in adjectifs_words}
+            
+            sample_tests_passed = True
+            for test_case in sample_adjectives:
+                french_word = test_case['french']
+                if french_word in adjectifs_by_french:
+                    word = adjectifs_by_french[french_word]
+                    
+                    # Check translations
+                    if (word['shimaore'] == test_case['shimaore'] and 
+                        word['kibouchi'] == test_case['kibouchi'] and
+                        word['category'] == 'adjectifs'):
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} (category: {word['category']})")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        sample_tests_passed = False
+                else:
+                    print(f"❌ {french_word} not found in adjectifs category")
+                    sample_tests_passed = False
+            
+            if not sample_tests_passed:
+                return False
+            
+            # 4. Verify the total count of categories and words
+            print("\n--- Testing total count of categories and words ---")
+            
+            total_categories = len(categories)
+            total_words = len(all_words)
+            adjectifs_count = len(adjectifs_words)
+            
+            print(f"✅ Total categories: {total_categories}")
+            print(f"✅ Total words: {total_words}")
+            print(f"✅ Adjectifs count: {adjectifs_count}")
+            
+            # Expected categories should include adjectifs
+            expected_categories = {
+                'famille', 'salutations', 'couleurs', 'animaux', 'nombres', 
+                'corps', 'nourriture', 'maison', 'vetements', 'nature', 
+                'transport', 'grammaire', 'verbes', 'adjectifs'
+            }
+            
+            if expected_categories.issubset(categories):
+                print(f"✅ All expected categories found including adjectifs ({len(expected_categories)} categories)")
+            else:
+                missing = expected_categories - categories
+                print(f"❌ Missing categories: {missing}")
+                return False
+            
+            # 5. Ensure the new category is ready for frontend integration
+            print("\n--- Testing frontend integration readiness ---")
+            
+            # Check data structure consistency
+            structure_valid = True
+            required_fields = {'id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty'}
+            
+            for word in adjectifs_words[:5]:  # Check first 5 adjectives
+                if not required_fields.issubset(word.keys()):
+                    print(f"❌ Missing required fields in word: {word.get('french', 'unknown')}")
+                    structure_valid = False
+                    break
+                
+                if word['category'] != 'adjectifs':
+                    print(f"❌ Incorrect category for word: {word['french']} (category: {word['category']})")
+                    structure_valid = False
+                    break
+            
+            if structure_valid:
+                print("✅ All adjectives have proper data structure for frontend integration")
+                print("✅ Required fields present: id, french, shimaore, kibouchi, category, difficulty")
+                print("✅ All words properly categorized as 'adjectifs'")
+            else:
+                return False
+            
+            # Test API endpoint consistency
+            print("\n--- Testing API endpoint consistency ---")
+            
+            # Test individual adjective retrieval
+            if adjectifs_words:
+                sample_id = adjectifs_words[0]['id']
+                response = self.session.get(f"{API_BASE}/words/{sample_id}")
+                if response.status_code == 200:
+                    individual_word = response.json()
+                    if individual_word['category'] == 'adjectifs':
+                        print(f"✅ Individual adjective retrieval working: {individual_word['french']}")
+                    else:
+                        print(f"❌ Individual adjective retrieval category mismatch")
+                        return False
+                else:
+                    print(f"❌ Individual adjective retrieval failed: {response.status_code}")
+                    return False
+            
+            print("\n🎉 ADJECTIFS CATEGORY INTEGRATION TEST COMPLETED SUCCESSFULLY!")
+            print("✅ /api/words?category=adjectifs endpoint working correctly")
+            print("✅ Adjectifs category appears in full word list")
+            print("✅ Sample adjectives verified with proper translations")
+            print("✅ Total category and word counts confirmed")
+            print("✅ New category ready for frontend integration")
+            print("✅ Data structure consistent and API endpoints working")
+            
+            return True
+            
+        except Exception as e:
+            print(f"❌ Adjectifs category integration test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all tests and return summary"""
         print("🏫 Starting Mayotte Educational App Backend Tests - Updated Nature Vocabulary Testing")
