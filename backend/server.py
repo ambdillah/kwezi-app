@@ -645,7 +645,7 @@ async def init_base_content():
         {"french": "Honteux", "shimaore": "Ouona haya", "kibouchi": "Mampihingnatra", "category": "adjectifs", "difficulty": 1},
         {"french": "Surpris", "shimaore": "Oumarouha", "kibouchi": "Téhitri", "category": "adjectifs", "difficulty": 1},
         {"french": "Satisfait", "shimaore": "Oufourahi", "kibouchi": "Ravou", "category": "adjectifs", "difficulty": 1},
-        {"french": "Long", "shimaore": "Driié", "kibouchi": "Hapou", "category": "adjectifs", "difficulty": 1},
+        {"french": "Long", "shimaore": "Drilé", "kibouchi": "Hapou", "category": "adjectifs", "difficulty": 1},
         {"french": "Court", "shimaore": "Coutri", "kibouchi": "Fohiki", "category": "adjectifs", "difficulty": 1},
         
         # Transport
