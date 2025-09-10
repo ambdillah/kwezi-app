@@ -1215,6 +1215,301 @@ class MayotteEducationTester:
             print(f"❌ Specific expression correction verification error: {e}")
             return False
 
+    def test_updated_habitation_vocabulary_section(self):
+        """Test the newly updated habitation vocabulary section that replaces the old 'maison' section"""
+        print("\n=== Testing Updated Habitation Vocabulary Section ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after updating to habitation section
+            print("--- Testing Backend Startup After Habitation Section Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after updating to habitation section")
+            
+            # 2. Test the /api/words?category=habitation endpoint to retrieve all habitation items
+            print("\n--- Testing /api/words?category=habitation Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=habitation")
+            if response.status_code != 200:
+                print(f"❌ Habitation endpoint failed: {response.status_code}")
+                return False
+            
+            habitation_words = response.json()
+            habitation_words_by_french = {word['french']: word for word in habitation_words}
+            print(f"✅ /api/words?category=habitation endpoint working correctly ({len(habitation_words)} habitation items)")
+            
+            # 3. Verify that all habitation elements from the tableau are present with correct French, Shimaoré, and Kibouchi translations
+            print("\n--- Testing All Habitation Elements from Tableau ---")
+            
+            # 4. Check specific key habitation elements from the tableau (24 items listed in review request)
+            key_habitation_elements = [
+                {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou"},
+                {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavaragena"},
+                {"french": "Case", "shimaore": "Banga", "kibouchi": "Banga"},
+                {"french": "Lit", "shimaore": "Chtrandra", "kibouchi": "Koubani"},
+                {"french": "Marmite", "shimaore": "Gnoungou", "kibouchi": "Vilangni"},
+                {"french": "Vaisselle", "shimaore": "Ziya", "kibouchi": "Hintagna"},
+                {"french": "Bol", "shimaore": "Bacouli", "kibouchi": "Bacouli"},
+                {"french": "Cuillère", "shimaore": "Soutrou", "kibouchi": "Sotrou"},
+                {"french": "Fenêtre", "shimaore": "Fénétri", "kibouchi": "Lafoumétara"},
+                {"french": "Chaise", "shimaore": "Chiri", "kibouchi": "Chiri"},
+                {"french": "Table", "shimaore": "Latabou", "kibouchi": "Latabou"},
+                {"french": "Miroir", "shimaore": "Chido", "kibouchi": "Kitarafa"},
+                {"french": "Cour", "shimaore": "Lacourou", "kibouchi": "Lacourou"},
+                {"french": "Toilette", "shimaore": "Mraba", "kibouchi": "Mraba"},
+                {"french": "Couteau", "shimaore": "Sembéya", "kibouchi": "Méssou"},
+                {"french": "Matelas", "shimaore": "Godoro", "kibouchi": "Goudorou"},
+                {"french": "Oreiller", "shimaore": "Mtsao", "kibouchi": "Hondagna"},
+                {"french": "Véranda", "shimaore": "Baraza", "kibouchi": "Baraza"},
+                {"french": "Toiture", "shimaore": "Outro", "kibouchi": "Vovougnou"},
+                {"french": "Ampoule", "shimaore": "Lalampou", "kibouchi": "Lalampou"},
+                {"french": "Hache", "shimaore": "Soha", "kibouchi": "Famaki"},
+                {"french": "Machette", "shimaore": "M'panga", "kibouchi": "Ampanga"},
+                {"french": "Balai", "shimaore": "Péou", "kibouchi": "Famafa"},
+                {"french": "Mortier", "shimaore": "Chino", "kibouchi": "Légnou"},
+                {"french": "Assiette", "shimaore": "Sahani", "kibouchi": "Sahani"}
+            ]
+            
+            all_key_elements_correct = True
+            
+            for element in key_habitation_elements:
+                french_word = element['french']
+                if french_word in habitation_words_by_french:
+                    word = habitation_words_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], element['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], element['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'habitation', 'Category')
+                    ]
+                    
+                    element_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            element_correct = False
+                            all_key_elements_correct = False
+                    
+                    if element_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - VERIFIED")
+                else:
+                    print(f"❌ {french_word} not found in habitation category")
+                    all_key_elements_correct = False
+            
+            # 5. Verify that the old "maison" category no longer exists (replaced by "habitation")
+            print("\n--- Testing Old 'Maison' Category No Longer Exists ---")
+            response = self.session.get(f"{API_BASE}/words?category=maison")
+            if response.status_code == 200:
+                maison_words = response.json()
+                if len(maison_words) == 0:
+                    print("✅ Old 'maison' category no longer exists (replaced by 'habitation')")
+                    maison_category_removed = True
+                else:
+                    print(f"❌ Old 'maison' category still exists with {len(maison_words)} items")
+                    maison_category_removed = False
+            else:
+                print("✅ Old 'maison' category no longer exists (endpoint returns no data)")
+                maison_category_removed = True
+            
+            # 6. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Get all words to check categories
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve all words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            categories = set(word['category'] for word in all_words)
+            
+            expected_other_categories = {
+                'famille', 'salutations', 'couleurs', 'animaux', 'nombres', 
+                'corps', 'nourriture', 'vetements', 'nature', 'transport',
+                'grammaire', 'verbes', 'adjectifs', 'expressions'
+            }
+            
+            print(f"Found categories: {sorted(categories)}")
+            
+            # Check that habitation is present and maison is not
+            if 'habitation' in categories:
+                print("✅ 'habitation' category is present")
+                habitation_present = True
+            else:
+                print("❌ 'habitation' category is missing")
+                habitation_present = False
+            
+            if 'maison' not in categories:
+                print("✅ 'maison' category is not present (correctly replaced)")
+                maison_not_present = True
+            else:
+                print("❌ 'maison' category is still present (should be replaced)")
+                maison_not_present = False
+            
+            # Check other categories are intact
+            other_categories_intact = True
+            for category in expected_other_categories:
+                if category in categories:
+                    category_response = self.session.get(f"{API_BASE}/words?category={category}")
+                    if category_response.status_code == 200:
+                        category_words = category_response.json()
+                        if len(category_words) > 0:
+                            print(f"✅ {category} category intact ({len(category_words)} items)")
+                        else:
+                            print(f"⚠️ {category} category empty")
+                    else:
+                        print(f"❌ {category} category endpoint failed")
+                        other_categories_intact = False
+                else:
+                    print(f"⚠️ {category} category not found")
+            
+            # 7. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing for Duplicate Entries and Data Integrity ---")
+            
+            french_names = [word['french'] for word in habitation_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique habitation items)")
+                no_duplicates = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                no_duplicates = False
+            
+            # Check data integrity - all items should have required fields
+            data_integrity_ok = True
+            for word in habitation_words:
+                required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category']
+                missing_fields = [field for field in required_fields if not word.get(field)]
+                if missing_fields:
+                    print(f"❌ {word.get('french', 'Unknown')} missing fields: {missing_fields}")
+                    data_integrity_ok = False
+            
+            if data_integrity_ok:
+                print("✅ All habitation items have proper data structure")
+            
+            # 8. Confirm the total habitation count matches the tableau (should be around 33 habitation items)
+            print("\n--- Testing Total Habitation Count ---")
+            
+            expected_habitation_count_min = 30  # Around 33, allowing some flexibility
+            expected_habitation_count_max = 40
+            actual_habitation_count = len(habitation_words)
+            
+            if expected_habitation_count_min <= actual_habitation_count <= expected_habitation_count_max:
+                print(f"✅ Total habitation count within expected range: {actual_habitation_count} items (expected around 33)")
+                count_check = True
+            else:
+                print(f"❌ Total habitation count outside expected range: {actual_habitation_count} items (expected around 33)")
+                count_check = False
+            
+            # 9. Ensure all habitation items have proper category assignment as "habitation"
+            print("\n--- Testing All Items Have Proper Category Assignment ---")
+            
+            category_assignment_correct = True
+            for word in habitation_words:
+                if word['category'] != 'habitation':
+                    print(f"❌ {word['french']} has incorrect category: {word['category']} (should be 'habitation')")
+                    category_assignment_correct = False
+            
+            if category_assignment_correct:
+                print(f"✅ All {len(habitation_words)} habitation items have proper category assignment as 'habitation'")
+            
+            # 10. Test the API endpoints are working correctly for the new category
+            print("\n--- Testing API Endpoints for New Category ---")
+            
+            # Test individual item retrieval
+            api_endpoints_working = True
+            if habitation_words:
+                sample_word = habitation_words[0]
+                word_id = sample_word['id']
+                
+                response = self.session.get(f"{API_BASE}/words/{word_id}")
+                if response.status_code == 200:
+                    retrieved_word = response.json()
+                    if retrieved_word['category'] == 'habitation':
+                        print(f"✅ Individual habitation item retrieval working: {retrieved_word['french']}")
+                    else:
+                        print(f"❌ Individual retrieval returned wrong category: {retrieved_word['category']}")
+                        api_endpoints_working = False
+                else:
+                    print(f"❌ Individual habitation item retrieval failed: {response.status_code}")
+                    api_endpoints_working = False
+            
+            # Provide the new total count of habitation items and overall word count
+            print("\n--- Final Count Summary ---")
+            
+            total_words = len(all_words)
+            habitation_count = len(habitation_words)
+            
+            print(f"📊 FINAL COUNTS:")
+            print(f"   • Total habitation items: {habitation_count}")
+            print(f"   • Total words across all categories: {total_words}")
+            print(f"   • Categories found: {len(categories)} ({', '.join(sorted(categories))})")
+            
+            # Overall result
+            all_tests_passed = (
+                all_key_elements_correct and
+                maison_category_removed and
+                habitation_present and
+                maison_not_present and
+                other_categories_intact and
+                no_duplicates and
+                data_integrity_ok and
+                count_check and
+                category_assignment_correct and
+                api_endpoints_working
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED HABITATION VOCABULARY SECTION TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after updating to habitation section")
+                print("✅ /api/words?category=habitation endpoint retrieves all habitation items correctly")
+                print("✅ All habitation elements from tableau present with correct French, Shimaoré, and Kibouchi translations")
+                print("✅ All 25 specific key habitation elements verified:")
+                print("   - Maison: Nyoumba / Tragnou")
+                print("   - Porte: Mlango / Varavaragena")
+                print("   - Case: Banga / Banga")
+                print("   - Lit: Chtrandra / Koubani")
+                print("   - Marmite: Gnoungou / Vilangni")
+                print("   - Vaisselle: Ziya / Hintagna")
+                print("   - Bol: Bacouli / Bacouli")
+                print("   - Cuillère: Soutrou / Sotrou")
+                print("   - Fenêtre: Fénétri / Lafoumétara")
+                print("   - Chaise: Chiri / Chiri")
+                print("   - Table: Latabou / Latabou")
+                print("   - Miroir: Chido / Kitarafa")
+                print("   - Cour: Lacourou / Lacourou")
+                print("   - Toilette: Mraba / Mraba")
+                print("   - Couteau: Sembéya / Méssou")
+                print("   - Matelas: Godoro / Goudorou")
+                print("   - Oreiller: Mtsao / Hondagna")
+                print("   - Véranda: Baraza / Baraza")
+                print("   - Toiture: Outro / Vovougnou")
+                print("   - Ampoule: Lalampou / Lalampou")
+                print("   - Hache: Soha / Famaki")
+                print("   - Machette: M'panga / Ampanga")
+                print("   - Balai: Péou / Famafa")
+                print("   - Mortier: Chino / Légnou")
+                print("   - Assiette: Sahani / Sahani")
+                print("✅ Old 'maison' category no longer exists (replaced by 'habitation')")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ Total habitation count matches expectations: {habitation_count} items (around 33 expected)")
+                print("✅ All habitation items have proper category assignment as 'habitation'")
+                print("✅ API endpoints working correctly for the new category")
+                print(f"📊 FINAL COUNTS: {habitation_count} habitation items, {total_words} total words")
+            else:
+                print("\n❌ Some habitation vocabulary tests failed or have issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated habitation vocabulary section test error: {e}")
+            return False
+
     def test_updated_nature_vocabulary_from_new_tableau(self):
         """Test the updated nature vocabulary after adding new elements from the additional tableau"""
         print("\n=== Testing Updated Nature Vocabulary from New Tableau ===")
