@@ -31,7 +31,7 @@ const CATEGORIES = [
   { key: 'nombres', name: 'Nombres', icon: 'calculator', color: '#FECA57' },
   { key: 'corps', name: 'Corps humain', icon: 'body', color: '#E67E22' },
   { key: 'nourriture', name: 'Nourriture', icon: 'restaurant', color: '#9B59B6' },
-  { key: 'maison', name: 'Maison', icon: 'home', color: '#16A085' },
+  { key: 'habitation', name: 'Habitation', icon: 'home', color: '#16A085' },
   { key: 'vetements', name: 'Vêtements', icon: 'shirt', color: '#E91E63' },
   { key: 'nature', name: 'Nature', icon: 'leaf', color: '#27AE60' },
   { key: 'transport', name: 'Transport', icon: 'car', color: '#3498DB' },
