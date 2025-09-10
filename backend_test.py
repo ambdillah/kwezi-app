@@ -8154,8 +8154,8 @@ if __name__ == "__main__":
     print(f"📊 Total Tests: {passed + failed}")
     
     if failed == 0:
-        print("\n🎉 ALL TESTS PASSED! Habitation vocabulary section verified successfully! 🎉")
-        print("🌺 Habitation vocabulary replaces old 'maison' category with complete translations 🌺")
+        print("\n🎉 ALL TESTS PASSED! Vetements vocabulary section verified successfully! 🎉")
+        print("🌺 Vetements vocabulary updated with complete authentic translations 🌺")
     else:
         print(f"\n⚠️ {failed} test(s) failed. Please review and fix issues.")
     
