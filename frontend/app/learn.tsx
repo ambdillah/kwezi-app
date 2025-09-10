@@ -37,6 +37,7 @@ const CATEGORIES = [
   { key: 'transport', name: 'Transport', icon: 'car', color: '#3498DB' },
   { key: 'verbes', name: 'Verbes', icon: 'walk', color: '#8E44AD' },
   { key: 'adjectifs', name: 'Adjectifs', icon: 'text', color: '#F39C12' },
+  { key: 'expressions', name: 'Expressions', icon: 'chatbubbles', color: '#FF6347' },
 ];
 
 export default function LearnScreen() {
