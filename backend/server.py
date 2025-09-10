@@ -594,6 +594,27 @@ async def init_base_content():
         {"french": "Branche", "shimaore": "", "kibouchi": "Trahi", "category": "nature", "difficulty": 1},
         {"french": "Tornade", "shimaore": "Ouzimouyi", "kibouchi": "", "category": "nature", "difficulty": 1},
         
+        # Nouveaux éléments nature du tableau supplémentaire
+        {"french": "Cocotier", "shimaore": "M'hadzi", "kibouchi": "Voudi ni vwaniou", "category": "nature", "difficulty": 1},
+        {"french": "Arbre à pain", "shimaore": "M'frampé", "kibouchi": "Voudi ni frampé", "category": "nature", "difficulty": 1},
+        {"french": "Baobab", "shimaore": "M'bouyou", "kibouchi": "Voudi ni bouyou", "category": "nature", "difficulty": 1},
+        {"french": "Bambou", "shimaore": "M'banbo", "kibouchi": "Valiha", "category": "nature", "difficulty": 1},
+        {"french": "Manguier", "shimaore": "M'manga", "kibouchi": "Voudi ni manga", "category": "nature", "difficulty": 1},
+        {"french": "Jacquier", "shimaore": "M'fénéssi", "kibouchi": "Voudi ni finéssi", "category": "nature", "difficulty": 1},
+        {"french": "Terre", "shimaore": "Trotro", "kibouchi": "Fotaka", "category": "nature", "difficulty": 1},
+        {"french": "Sol", "shimaore": "Tsi", "kibouchi": "Tani", "category": "nature", "difficulty": 1},
+        {"french": "Érosion", "shimaore": "Padza", "kibouchi": "Padza", "category": "nature", "difficulty": 1},
+        {"french": "Marée basse", "shimaore": "Maji yavo", "kibouchi": "Ranou méki", "category": "nature", "difficulty": 1},
+        {"french": "Marée haute", "shimaore": "Maji yamalé", "kibouchi": "Ranou fénou", "category": "nature", "difficulty": 1},
+        {"french": "Inondé", "shimaore": "Ourora", "kibouchi": "Dobou", "category": "nature", "difficulty": 1},
+        {"french": "Sauvage", "shimaore": "Nyéha", "kibouchi": "Di", "category": "nature", "difficulty": 1},
+        {"french": "Canne à sucre", "shimaore": "Moua", "kibouchi": "Fari", "category": "nature", "difficulty": 1},
+        {"french": "Fagot", "shimaore": "Kouni", "kibouchi": "Azoumati", "category": "nature", "difficulty": 1},
+        {"french": "Pirogue", "shimaore": "Laka", "kibouchi": "Lakana", "category": "nature", "difficulty": 1},
+        {"french": "Vedette", "shimaore": "Kwassa kwassa", "kibouchi": "Vidéti", "category": "nature", "difficulty": 1},
+        {"french": "École", "shimaore": "Licoli", "kibouchi": "Licoli", "category": "nature", "difficulty": 1},
+        {"french": "École coranique", "shimaore": "Shioni", "kibouchi": "Kioni", "category": "nature", "difficulty": 1},
+        
         # Adjectifs (nouvelle section complète selon le tableau)
         {"french": "Grand", "shimaore": "Bolé", "kibouchi": "Bé", "category": "adjectifs", "difficulty": 1},
         {"french": "Petit", "shimaore": "Titi", "kibouchi": "Héli", "category": "adjectifs", "difficulty": 1},
