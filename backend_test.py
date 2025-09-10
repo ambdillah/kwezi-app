@@ -1215,6 +1215,295 @@ class MayotteEducationTester:
             print(f"❌ Specific expression correction verification error: {e}")
             return False
 
+    def test_updated_vetements_vocabulary_from_new_tableau(self):
+        """Test the updated vetements (clothing) vocabulary section after replacing with the new tableau"""
+        print("\n=== Testing Updated Vetements Vocabulary from New Tableau ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after updating vetements section
+            print("--- Testing Backend Startup After Vetements Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after updating vetements section")
+            
+            # 2. Test the /api/words?category=vetements endpoint to retrieve all clothing items
+            print("\n--- Testing /api/words?category=vetements Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=vetements")
+            if response.status_code != 200:
+                print(f"❌ Vetements endpoint failed: {response.status_code}")
+                return False
+            
+            vetements_words = response.json()
+            vetements_by_french = {word['french']: word for word in vetements_words}
+            print(f"✅ /api/words?category=vetements endpoint working correctly ({len(vetements_words)} clothing items)")
+            
+            # 3. Verify that all vetements elements from the tableau are present with correct French, Shimaoré, and Kibouchi translations
+            print("\n--- Testing All Vetements Elements from New Tableau ---")
+            
+            # Expected vetements from the new tableau (16 items as specified in review request)
+            expected_vetements = [
+                {"french": "Vêtement", "shimaore": "Ngouwô", "kibouchi": "Ankandzou"},
+                {"french": "Salouva", "shimaore": "Salouva", "kibouchi": "Slouvagna"},
+                {"french": "Chemise", "shimaore": "Chimizi", "kibouchi": "Chimizi"},
+                {"french": "Pantalon", "shimaore": "Sourouali", "kibouchi": "Sourouali"},
+                {"french": "Short", "shimaore": "Kaliso", "kibouchi": "Kaliso"},
+                {"french": "Sous vêtement", "shimaore": "Silipou", "kibouchi": "Silipou"},
+                {"french": "Chapeau", "shimaore": "Kofia", "kibouchi": "Koufia"},
+                {"french": "Kamiss/Boubou", "shimaore": "Candzou bolé", "kibouchi": "Ancandzou bé"},
+                {"french": "Haut de salouva", "shimaore": "Body", "kibouchi": "Body"},
+                {"french": "T shirt", "shimaore": "Kandzou", "kibouchi": "Kandzou"},
+                {"french": "Chaussures", "shimaore": "Kabwa", "kibouchi": "Kabwa"},
+                {"french": "Baskets/Sneakers", "shimaore": "Magochi", "kibouchi": "Magochi"},
+                {"french": "Tongs", "shimaore": "Sapatri", "kibouchi": "Kabwa sapatri"},
+                {"french": "Jupe", "shimaore": "Jipo", "kibouchi": "Jipou"},
+                {"french": "Robe", "shimaore": "Robo", "kibouchi": "Robou"},
+                {"french": "Voile", "shimaore": "Kichali", "kibouchi": "Kichali"}
+            ]
+            
+            all_vetements_correct = True
+            
+            for expected_item in expected_vetements:
+                french_word = expected_item['french']
+                if french_word in vetements_by_french:
+                    word = vetements_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], expected_item['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], expected_item['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'vetements', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            all_vetements_correct = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - VERIFIED")
+                else:
+                    print(f"❌ {french_word} not found in vetements category")
+                    all_vetements_correct = False
+            
+            # 4. Check specific key vetements elements from the tableau (as mentioned in review request)
+            print("\n--- Testing Specific Key Vetements Elements ---")
+            
+            key_vetements_tests = [
+                {"french": "Vêtement", "shimaore": "Ngouwô", "kibouchi": "Ankandzou"},
+                {"french": "Salouva", "shimaore": "Salouva", "kibouchi": "Slouvagna"},
+                {"french": "Chemise", "shimaore": "Chimizi", "kibouchi": "Chimizi"},
+                {"french": "Pantalon", "shimaore": "Sourouali", "kibouchi": "Sourouali"},
+                {"french": "Short", "shimaore": "Kaliso", "kibouchi": "Kaliso"},
+                {"french": "Sous vêtement", "shimaore": "Silipou", "kibouchi": "Silipou"},
+                {"french": "Chapeau", "shimaore": "Kofia", "kibouchi": "Koufia"},
+                {"french": "Kamiss/Boubou", "shimaore": "Candzou bolé", "kibouchi": "Ancandzou bé"},
+                {"french": "Haut de salouva", "shimaore": "Body", "kibouchi": "Body"},
+                {"french": "T shirt", "shimaore": "Kandzou", "kibouchi": "Kandzou"},
+                {"french": "Chaussures", "shimaore": "Kabwa", "kibouchi": "Kabwa"},
+                {"french": "Baskets/Sneakers", "shimaore": "Magochi", "kibouchi": "Magochi"},
+                {"french": "Tongs", "shimaore": "Sapatri", "kibouchi": "Kabwa sapatri"},
+                {"french": "Jupe", "shimaore": "Jipo", "kibouchi": "Jipou"},
+                {"french": "Robe", "shimaore": "Robo", "kibouchi": "Robou"},
+                {"french": "Voile", "shimaore": "Kichali", "kibouchi": "Kichali"}
+            ]
+            
+            key_items_correct = True
+            for test_case in key_vetements_tests:
+                french_word = test_case['french']
+                if french_word in vetements_by_french:
+                    word = vetements_by_french[french_word]
+                    if (word['shimaore'] == test_case['shimaore'] and 
+                        word['kibouchi'] == test_case['kibouchi']):
+                        print(f"✅ KEY ITEM {french_word}: {word['shimaore']} / {word['kibouchi']} - VERIFIED")
+                    else:
+                        print(f"❌ KEY ITEM {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        key_items_correct = False
+                        all_vetements_correct = False
+                else:
+                    print(f"❌ KEY ITEM {french_word} not found")
+                    key_items_correct = False
+                    all_vetements_correct = False
+            
+            # 5. Verify that old vetements elements have been replaced/updated
+            print("\n--- Testing Old Vetements Elements Replacement ---")
+            
+            # Check that we don't have any unexpected old items (this would depend on what was there before)
+            # For now, we'll just verify that all current items match the expected tableau
+            if len(vetements_words) == len(expected_vetements):
+                print(f"✅ Old vetements elements properly replaced (exact count match: {len(vetements_words)} items)")
+            else:
+                print(f"⚠️ Vetements count: {len(vetements_words)} items (expected exactly {len(expected_vetements)} from tableau)")
+            
+            # 6. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Get all words to check other categories
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                categories = set(word['category'] for word in all_words)
+                
+                # Expected categories (should include vetements and others)
+                expected_other_categories = {
+                    'salutations', 'couleurs', 'nombres', 'famille', 'grammaire', 
+                    'animaux', 'corps', 'nourriture', 'maison', 'nature', 'verbes'
+                }
+                
+                categories_intact = True
+                for category in expected_other_categories:
+                    if category in categories:
+                        cat_response = self.session.get(f"{API_BASE}/words?category={category}")
+                        if cat_response.status_code == 200:
+                            cat_words = cat_response.json()
+                            print(f"✅ {category} category intact ({len(cat_words)} items)")
+                        else:
+                            print(f"❌ {category} category endpoint failed")
+                            categories_intact = False
+                    else:
+                        print(f"❌ {category} category missing")
+                        categories_intact = False
+                
+                if not categories_intact:
+                    all_vetements_correct = False
+            else:
+                print("❌ Could not retrieve all words to check other categories")
+                all_vetements_correct = False
+            
+            # 7. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing for Duplicate Entries and Data Integrity ---")
+            
+            french_names = [word['french'] for word in vetements_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique vetements items)")
+                duplicates_check = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                duplicates_check = False
+                all_vetements_correct = False
+            
+            # Check data integrity - all items should have required fields
+            data_integrity_ok = True
+            for word in vetements_words:
+                required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category']
+                missing_fields = [field for field in required_fields if not word.get(field)]
+                if missing_fields:
+                    print(f"❌ {word.get('french', 'Unknown')} missing fields: {missing_fields}")
+                    data_integrity_ok = False
+                    all_vetements_correct = False
+            
+            if data_integrity_ok:
+                print("✅ All vetements items have proper data structure")
+            
+            # 8. Confirm the new total vetements count (should be 16 clothing items)
+            print("\n--- Testing New Total Vetements Count ---")
+            
+            expected_vetements_count = 16
+            actual_vetements_count = len(vetements_words)
+            
+            if actual_vetements_count == expected_vetements_count:
+                print(f"✅ New total vetements count correct: {actual_vetements_count} items (expected {expected_vetements_count})")
+                count_check = True
+            else:
+                print(f"❌ New total vetements count incorrect: {actual_vetements_count} items (expected {expected_vetements_count})")
+                count_check = False
+                all_vetements_correct = False
+            
+            # 9. Ensure all vetements items have proper category assignment as "vetements"
+            print("\n--- Testing Proper Category Assignment ---")
+            
+            category_assignment_ok = True
+            for word in vetements_words:
+                if word['category'] != 'vetements':
+                    print(f"❌ {word['french']} has incorrect category: '{word['category']}' (should be 'vetements')")
+                    category_assignment_ok = False
+                    all_vetements_correct = False
+            
+            if category_assignment_ok:
+                print(f"✅ All {len(vetements_words)} vetements items have proper category assignment as 'vetements'")
+            
+            # 10. Test the API endpoints are working correctly for the updated category
+            print("\n--- Testing API Endpoints for Updated Category ---")
+            
+            api_endpoints_ok = True
+            
+            # Test individual item retrieval for a few key items
+            test_items = ["Vêtement", "Salouva", "Chaussures", "Voile"]
+            for item_name in test_items:
+                if item_name in vetements_by_french:
+                    word_id = vetements_by_french[item_name]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if retrieved_word['category'] == 'vetements':
+                            print(f"✅ {item_name} API endpoint working correctly")
+                        else:
+                            print(f"❌ {item_name} API endpoint returned wrong category")
+                            api_endpoints_ok = False
+                            all_vetements_correct = False
+                    else:
+                        print(f"❌ {item_name} API retrieval failed: {response.status_code}")
+                        api_endpoints_ok = False
+                        all_vetements_correct = False
+            
+            # Get total word count for final reporting
+            print("\n--- Final Word Count Reporting ---")
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Total word count after vetements update: {total_word_count} words")
+                print(f"✅ Vetements category: {actual_vetements_count} items")
+            else:
+                print("❌ Could not retrieve total word count")
+            
+            # Overall result
+            if all_vetements_correct:
+                print("\n🎉 UPDATED VETEMENTS VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after updating vetements section")
+                print("✅ /api/words?category=vetements endpoint working correctly")
+                print("✅ All vetements elements from tableau present with correct translations")
+                print("✅ All 16 specific key vetements elements verified:")
+                print("   - Vêtement: ngouwô / ankandzou")
+                print("   - Salouva: salouva / slouvagna")
+                print("   - Chemise: chimizi / chimizi")
+                print("   - Pantalon: sourouali / sourouali")
+                print("   - Short: kaliso / kaliso")
+                print("   - Sous vêtement: silipou / silipou")
+                print("   - Chapeau: kofia / koufia")
+                print("   - Kamiss/Boubou: candzou bolé / ancandzou bé")
+                print("   - Haut de salouva: body / body")
+                print("   - T shirt: kandzou / kandzou")
+                print("   - Chaussures: kabwa / kabwa")
+                print("   - Baskets/Sneakers: magochi / magochi")
+                print("   - Tongs: sapatri / kabwa sapatri")
+                print("   - Jupe: jipo / jipou")
+                print("   - Robe: robo / robou")
+                print("   - Voile: kichali / kichali")
+                print("✅ Old vetements elements have been replaced/updated")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ New total vetements count confirmed: {actual_vetements_count} clothing items")
+                print("✅ All vetements items have proper category assignment as 'vetements'")
+                print("✅ API endpoints working correctly for the updated category")
+                print(f"✅ Overall word count: {total_word_count} words")
+            else:
+                print("\n❌ Some vetements vocabulary items are incorrect, missing, or have issues")
+            
+            return all_vetements_correct
+            
+        except Exception as e:
+            print(f"❌ Updated vetements vocabulary test error: {e}")
+            return False
+
     def test_category_change_habitation_to_maison(self):
         """Test the category change from 'habitation' to 'maison' after backend restart"""
         print("\n=== Testing Category Change: Habitation → Maison ===")
