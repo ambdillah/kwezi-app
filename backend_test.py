@@ -5440,6 +5440,110 @@ class MayotteEducationTester:
             print(f"❌ Duplicate removal verification test error: {e}")
             return False
 
+    def test_adjectifs_category_verification(self):
+        """Quick verification test for the adjectifs category as requested"""
+        print("\n=== Quick Verification Test for Adjectifs Category ===")
+        
+        try:
+            # 1. Test if /api/words?category=adjectifs endpoint works
+            print("--- Testing /api/words?category=adjectifs Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=adjectifs")
+            if response.status_code != 200:
+                print(f"❌ Adjectifs endpoint failed: {response.status_code}")
+                return False
+            
+            adjectifs_words = response.json()
+            print(f"✅ /api/words?category=adjectifs endpoint working correctly")
+            print(f"Found {len(adjectifs_words)} adjectives")
+            
+            # 2. Check if adjectifs category appears in the overall words list
+            print("\n--- Testing Adjectifs Category in Overall Words List ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve overall words list: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            categories = set(word['category'] for word in all_words)
+            
+            if 'adjectifs' in categories:
+                print("✅ Adjectifs category appears in the overall words list")
+            else:
+                print("❌ Adjectifs category NOT found in overall words list")
+                print(f"Available categories: {sorted(categories)}")
+                return False
+            
+            # 3. Get a count of adjectifs to confirm they exist
+            print("\n--- Testing Adjectifs Count ---")
+            adjectifs_count = len([word for word in all_words if word['category'] == 'adjectifs'])
+            
+            if adjectifs_count > 0:
+                print(f"✅ Adjectifs count confirmed: {adjectifs_count} adjectives exist")
+            else:
+                print("❌ No adjectifs found in the database")
+                return False
+            
+            # 4. Test that the category is properly accessible via API
+            print("\n--- Testing Category API Accessibility ---")
+            
+            # Verify some sample adjectives exist and have proper structure
+            if adjectifs_words:
+                sample_adjective = adjectifs_words[0]
+                required_fields = {'french', 'shimaore', 'kibouchi', 'category', 'difficulty'}
+                
+                if required_fields.issubset(sample_adjective.keys()):
+                    print("✅ Adjectives have proper data structure")
+                    print(f"Sample adjective: {sample_adjective['french']} = {sample_adjective['shimaore']} (Shimaoré) / {sample_adjective['kibouchi']} (Kibouchi)")
+                    print(f"Category: {sample_adjective['category']}, Difficulty: {sample_adjective['difficulty']}")
+                else:
+                    print(f"❌ Adjectives missing required fields: {required_fields - sample_adjective.keys()}")
+                    return False
+                
+                # Test a few more samples to ensure consistency
+                print("\n--- Sample Adjectives ---")
+                for i, adj in enumerate(adjectifs_words[:5]):  # Show first 5 adjectives
+                    shimaore_display = adj['shimaore'] if adj['shimaore'] else "(none)"
+                    kibouchi_display = adj['kibouchi'] if adj['kibouchi'] else "(none)"
+                    print(f"  {i+1}. {adj['french']}: {shimaore_display} / {kibouchi_display}")
+            else:
+                print("❌ No adjectives returned from API")
+                return False
+            
+            # 5. Verify category consistency
+            print("\n--- Testing Category Consistency ---")
+            category_consistent = True
+            for word in adjectifs_words:
+                if word['category'] != 'adjectifs':
+                    print(f"❌ Inconsistent category for word '{word['french']}': {word['category']}")
+                    category_consistent = False
+            
+            if category_consistent:
+                print("✅ All words in adjectifs category have consistent category assignment")
+            else:
+                return False
+            
+            print(f"\n🎉 ADJECTIFS CATEGORY VERIFICATION COMPLETED SUCCESSFULLY!")
+            print(f"✅ /api/words?category=adjectifs endpoint works ({len(adjectifs_words)} adjectives)")
+            print(f"✅ Adjectifs category appears in overall words list")
+            print(f"✅ {adjectifs_count} adjectives confirmed to exist")
+            print(f"✅ Category is properly accessible via API with correct data structure")
+            print(f"✅ Backend side is working correctly for adjectifs category")
+            
+            return True
+            
+        except Exception as e:
+            print(f"❌ Adjectifs category verification error: {e}")
+            return False
+
 if __name__ == "__main__":
     tester = MayotteEducationTester()
-    results = tester.run_all_tests()
+    # Run only the adjectifs verification test as requested
+    print("🌺 MAYOTTE EDUCATIONAL APP - ADJECTIFS CATEGORY VERIFICATION 🌺")
+    print("=" * 70)
+    
+    if tester.test_adjectifs_category_verification():
+        print("\n🎉 ADJECTIFS CATEGORY VERIFICATION PASSED!")
+        print("Backend is ready for frontend integration.")
+    else:
+        print("\n❌ ADJECTIFS CATEGORY VERIFICATION FAILED!")
+        print("Please check the issues above.")
