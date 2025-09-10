@@ -6919,12 +6919,12 @@ if __name__ == "__main__":
     
     tester = MayotteEducationTester()
     
-    # Run specific test for the expression correction
+    # Run specific test for the habitation vocabulary section
     tests = [
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("Specific Expression Correction: J'ai soif", tester.test_specific_expression_correction_jai_soif)
+        ("Updated Habitation Vocabulary Section", tester.test_updated_habitation_vocabulary_section)
     ]
     
     passed = 0
