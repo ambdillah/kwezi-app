@@ -639,7 +639,7 @@ async def init_base_content():
         {"french": "Fatigué", "shimaore": "Ouléméwa", "kibouchi": "Vaha", "category": "adjectifs", "difficulty": 1},
         {"french": "En colère", "shimaore": "Hadabou", "kibouchi": "Méloukou", "category": "adjectifs", "difficulty": 1},
         {"french": "Fâché", "shimaore": "Ouja hassira", "kibouchi": "Méloukou", "category": "adjectifs", "difficulty": 1},
-        {"french": "Amoureux", "shimaore": "Ouvengza", "kibouchi": "Mitiya", "category": "adjectifs", "difficulty": 1},
+        {"french": "Amoureux", "shimaore": "Ouvendza", "kibouchi": "Mitiya", "category": "adjectifs", "difficulty": 1},
         {"french": "Inquiet", "shimaore": "Ouna hamo", "kibouchi": "Miyefitri", "category": "adjectifs", "difficulty": 1},
         {"french": "Fier", "shimaore": "Oujiviwa", "kibouchi": "Ravou", "category": "adjectifs", "difficulty": 1},
         {"french": "Honteux", "shimaore": "Ouona haya", "kibouchi": "Nampéihingatra", "category": "adjectifs", "difficulty": 1},
