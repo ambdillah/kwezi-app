@@ -595,7 +595,7 @@ async def init_base_content():
         {"french": "Tornade", "shimaore": "Ouzimouyi", "kibouchi": "", "category": "nature", "difficulty": 1},
         
         # Adjectifs (nouvelle section complète selon le tableau)
-        {"french": "Grand", "shimaore": "Bole", "kibouchi": "Bé", "category": "adjectifs", "difficulty": 1},
+        {"french": "Grand", "shimaore": "Bolé", "kibouchi": "Bé", "category": "adjectifs", "difficulty": 1},
         {"french": "Petit", "shimaore": "Titi", "kibouchi": "Héli", "category": "adjectifs", "difficulty": 1},
         {"french": "Gros", "shimaore": "Mtronga/Tronga", "kibouchi": "Bé", "category": "adjectifs", "difficulty": 1},
         {"french": "Maigre", "shimaore": "Tsala", "kibouchi": "Mahia", "category": "adjectifs", "difficulty": 1},
