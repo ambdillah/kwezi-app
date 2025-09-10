@@ -561,6 +561,18 @@ metadata:
         agent: "testing"
         comment: "🎉 EXPRESSIONS VOCABULARY SECTION TESTING COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ Backend starts without syntax errors after adding expressions section ✅ /api/words?category=expressions endpoint working correctly (35 expressions) ✅ All expressions from tourist formulas tableau verified with correct French, Shimaoré, and Kibouchi translations ✅ All 12 specific key expressions from review request confirmed: Excuse-moi/pardon=Soimahani/Soimahani, J'ai faim=Nissi ona ndza/Zahou moussari, J'ai soif=Nissi ona niyora/Zahou moussari, Je voudrais aller à=Nissi tsaha nendré/Zahou chokou andéha, Où se trouve=Ouparhanoua havi/Aya moi, Je suis perdu=Tsi latsiha/Zahou véri, Combien ça coûte ?=Kissajé/Hotri inou moi, S'il vous plaît=Tafadali/Tafadali, À gauche=Potroni/Kipotrou, À droite=Houméni/Finana, Appelez la police !=Hira sirikali/Kahiya sirikali, J'ai besoin d'un médecin=Ntsha douktera/Zahou mila douktera ✅ Expressions category properly integrated with other categories (15 total categories) ✅ Other categories remain intact and functional ✅ No duplicate entries or data integrity issues (35 unique expressions) ✅ Total expressions count matches expectations: 35 expressions (within 30-40 range) ✅ All expressions properly categorized as 'expressions' ✅ API endpoints working correctly for the new category ✅ Individual expression retrieval tested and working ✅ Final counts: 35 expressions, 462 total words across 15 categories. The newly created expressions vocabulary section with comprehensive tourist formulas is now fully functional and ready for educational use."
 
+  - task: "Specific expression correction for J'ai soif"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 SPECIFIC EXPRESSION CORRECTION VERIFICATION COMPLETED SUCCESSFULLY! All 9 requirements from the review request have been verified and confirmed: ✅ 1. Backend starts without syntax errors after the correction ✅ 2. /api/words?category=expressions endpoint working correctly (35 expressions) ✅ 3. Specific correction verified: J'ai soif kibouchi = 'Zahou tindranou' (corrected from 'Zahou moussari') ✅ 4. Shimaoré remains unchanged: 'Nissi ona niyora' ✅ 5. All other expressions remain intact and unchanged (J'ai faim, Excuse-moi/pardon, Je voudrais aller à, Où se trouve, S'il vous plaît all verified) ✅ 6. Expression has complete translations in both languages ✅ 7. No duplicate entries introduced (35 unique expressions) ✅ 8. Total expressions count maintained at 35 expressions ✅ 9. Backend API responses working correctly for this specific expression (individual retrieval tested) ✅ Bug fix verification complete - issue has been completely resolved with no regressions. The specific expression correction for 'J'ai soif' has been successfully implemented and all backend functionality remains intact."
+
 test_plan:
   current_focus:
     - "Expressions vocabulary section testing completed successfully - all 35 expressions verified"
