@@ -36,6 +36,7 @@ const CATEGORIES = [
   { key: 'nature', name: 'Nature', icon: 'leaf', color: '#27AE60' },
   { key: 'transport', name: 'Transport', icon: 'car', color: '#3498DB' },
   { key: 'verbes', name: 'Verbes', icon: 'walk', color: '#8E44AD' },
+  { key: 'adjectifs', name: 'Adjectifs', icon: 'text', color: '#F39C12' },
 ];
 
 export default function LearnScreen() {
