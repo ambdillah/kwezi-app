@@ -6290,26 +6290,27 @@ class MayotteEducationTester:
             return False
 
     def run_all_tests(self):
-        """Run focused adjectifs integration test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - ADJECTIFS INTEGRATION TEST 🌺")
-        print("=" * 60)
+        """Run updated nature vocabulary test as requested in review"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED NATURE VOCABULARY TEST 🌺")
+        print("=" * 70)
         
-        # Run the specific adjectifs integration test as requested in review
-        print("Running final integration test to verify adjectifs section is fully working...")
+        # Run the specific updated nature vocabulary test as requested in review
+        print("Running updated nature vocabulary test to verify new elements from additional tableau...")
         
         test_results = {}
         
         # Essential connectivity tests first
         test_results['connectivity'] = self.test_basic_connectivity()
         test_results['mongodb'] = self.test_mongodb_connection()
+        test_results['init_content'] = self.test_init_base_content()
         
-        # Main adjectifs integration test
-        test_results['adjectifs_integration'] = self.test_adjectifs_category_integration()
+        # Main updated nature vocabulary test
+        test_results['updated_nature_vocabulary'] = self.test_updated_nature_vocabulary_from_new_tableau()
         
         # Summary
-        print(f"\n{'='*60}")
-        print("🌺 ADJECTIFS INTEGRATION TEST RESULTS 🌺")
-        print(f"{'='*60}")
+        print(f"\n{'='*70}")
+        print("🌺 UPDATED NATURE VOCABULARY TEST RESULTS 🌺")
+        print(f"{'='*70}")
         
         passed = sum(test_results.values())
         total = len(test_results)
@@ -6320,12 +6321,17 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('adjectifs_integration', False):
-            print("🎉 ADJECTIFS INTEGRATION TEST PASSED!")
-            print("✅ The adjectifs section is fully working and ready for frontend integration")
-            print("✅ User should now be able to see adjectifs in the menus")
+        if test_results.get('updated_nature_vocabulary', False):
+            print("🎉 UPDATED NATURE VOCABULARY TEST PASSED!")
+            print("✅ Backend starts without syntax errors after adding new nature elements")
+            print("✅ All 19 new nature elements from tableau verified with correct translations")
+            print("✅ Previously existing nature elements still present")
+            print("✅ Other categories remain intact and functional")
+            print("✅ No duplicate entries or data integrity issues")
+            print("✅ API endpoints working correctly for the updated category")
+            print("The updated nature vocabulary with new elements from the additional tableau is ready for educational use.")
         else:
-            print("❌ Adjectifs integration test failed. Please review the issues above.")
+            print("❌ Updated nature vocabulary test failed. Please review the issues above.")
         
         return passed == total
 
