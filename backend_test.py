@@ -590,6 +590,241 @@ class MayotteEducationTester:
             print(f"❌ Corrected numbers system test error: {e}")
             return False
     
+    def test_specific_adjective_corrections_verification(self):
+        """Test the specific adjective corrections that were just made"""
+        print("\n=== Testing Specific Adjective Corrections Verification ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors after corrections
+            print("--- Testing Backend Startup After Corrections ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after corrections")
+            
+            # 2. Test the /api/words?category=adjectifs endpoint
+            print("\n--- Testing /api/words?category=adjectifs Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=adjectifs")
+            if response.status_code != 200:
+                print(f"❌ Adjectifs endpoint failed: {response.status_code}")
+                return False
+            
+            adjective_words = response.json()
+            adjective_words_by_french = {word['french']: word for word in adjective_words}
+            print(f"✅ /api/words?category=adjectifs working correctly ({len(adjective_words)} adjectives)")
+            
+            # 3. Verify the specific corrections are in place
+            print("\n--- Testing Specific Adjective Corrections ---")
+            
+            # Test specific corrections mentioned in review request
+            specific_corrections = [
+                {
+                    "french": "En colère", 
+                    "shimaore": "Hadabou", 
+                    "kibouchi": "Méloukou",
+                    "note": "shimaoré should be 'Hadabou' (not 'Ouja hassira')"
+                },
+                {
+                    "french": "Faux", 
+                    "shimaore": "Trambo", 
+                    "kibouchi": "Vandi",
+                    "note": "shimaoré should be 'Trambo' (not 'Trampé') and kibouchi should be 'Vandi'"
+                },
+                {
+                    "french": "Ouvert", 
+                    "shimaore": "Ouboua", 
+                    "kibouchi": "Mibiyangna",
+                    "note": "shimaoré should be 'Ouboua' and kibouchi should be 'Mibiyangna' (not 'Miblyangna')"
+                },
+                {
+                    "french": "Amoureux", 
+                    "shimaore": "Ouvendza", 
+                    "kibouchi": "Mitiya",
+                    "note": "shimaoré should be 'Ouvendza' (not 'Ouvengza')"
+                },
+                {
+                    "french": "Honteux", 
+                    "shimaore": "Ouona haya", 
+                    "kibouchi": "Mampihingnatra",
+                    "note": "kibouchi should be 'Mampihingnatra' (not 'Nampéihingatra')"
+                },
+                {
+                    "french": "Long", 
+                    "shimaore": "Drilé", 
+                    "kibouchi": "Hapou",
+                    "note": "shimaoré should be 'Drilé' (not 'Driié')"
+                },
+                {
+                    "french": "Petit", 
+                    "shimaore": "Titi", 
+                    "kibouchi": "Héli",
+                    "note": "shimaoré should be 'Titi' (not 'Tsi') and kibouchi should be 'Héli' (not 'Tsi')"
+                },
+                {
+                    "french": "Grand", 
+                    "shimaore": "Bolé", 
+                    "kibouchi": "Bé",
+                    "note": "shimaoré should be 'Bolé' (not 'Bole')"
+                }
+            ]
+            
+            corrections_verified = True
+            
+            for correction in specific_corrections:
+                french_word = correction['french']
+                if french_word in adjective_words_by_french:
+                    word = adjective_words_by_french[french_word]
+                    
+                    # Check shimaoré correction
+                    if word['shimaore'] == correction['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{word['shimaore']}' - CORRECTION VERIFIED")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{correction['shimaore']}', got '{word['shimaore']}'")
+                        corrections_verified = False
+                    
+                    # Check kibouchi correction
+                    if word['kibouchi'] == correction['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{word['kibouchi']}' - CORRECTION VERIFIED")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{correction['kibouchi']}', got '{word['kibouchi']}'")
+                        corrections_verified = False
+                    
+                    print(f"   Note: {correction['note']}")
+                else:
+                    print(f"❌ {french_word} not found in adjectifs category")
+                    corrections_verified = False
+            
+            # 4. Check that all other adjective entries remain intact and unchanged
+            print("\n--- Testing Other Adjective Entries Remain Intact ---")
+            
+            # Sample of other adjective items that should remain unchanged
+            other_adjective_items = [
+                {"french": "Beau/Jolie", "shimaore": "Mzouri", "kibouchi": "Zatovou"},
+                {"french": "Bon", "shimaore": "Mwéma", "kibouchi": "Tsara"},
+                {"french": "Chaud", "shimaore": "Moro", "kibouchi": "Méyi"},
+                {"french": "Froid", "shimaore": "Baridi", "kibouchi": "Manintsi"},
+                {"french": "Jeune", "shimaore": "Nrétsa", "kibouchi": "Zaza"}
+            ]
+            
+            other_items_intact = True
+            for item in other_adjective_items:
+                french_word = item['french']
+                if french_word in adjective_words_by_french:
+                    word = adjective_words_by_french[french_word]
+                    if word['shimaore'] == item['shimaore'] and word['kibouchi'] == item['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - UNCHANGED")
+                    else:
+                        print(f"❌ {french_word}: Expected {item['shimaore']}/{item['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        other_items_intact = False
+                else:
+                    print(f"❌ {french_word} not found")
+                    other_items_intact = False
+            
+            # 5. Verify these specific adjectives have complete translations in both languages
+            print("\n--- Testing Complete Translations for Corrected Items ---")
+            
+            complete_translations = True
+            for correction in specific_corrections:
+                french_word = correction['french']
+                if french_word in adjective_words_by_french:
+                    word = adjective_words_by_french[french_word]
+                    
+                    # Check both languages are present and non-empty
+                    if word['shimaore'] and word['kibouchi']:
+                        print(f"✅ {french_word}: Complete translations - {word['shimaore']} (Shimaoré) / {word['kibouchi']} (Kibouchi)")
+                    else:
+                        print(f"❌ {french_word}: Incomplete translations - shimaoré: '{word['shimaore']}', kibouchi: '{word['kibouchi']}'")
+                        complete_translations = False
+            
+            # 6. Test that corrections don't introduce duplicate entries
+            print("\n--- Testing No Duplicate Entries ---")
+            
+            french_names = [word['french'] for word in adjective_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique adjectives)")
+                duplicates_check = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                duplicates_check = False
+            
+            # 7. Confirm the total adjective count remains the same (should be 52 adjectives)
+            print("\n--- Testing Total Adjective Count ---")
+            
+            expected_adjective_count = 52
+            actual_adjective_count = len(adjective_words)
+            
+            if actual_adjective_count == expected_adjective_count:
+                print(f"✅ Total adjective count correct: {actual_adjective_count} items (expected {expected_adjective_count})")
+                count_check = True
+            else:
+                print(f"❌ Total adjective count incorrect: {actual_adjective_count} items (expected {expected_adjective_count})")
+                count_check = False
+            
+            # 8. Ensure backend API responses are working correctly for these specific adjectives
+            print("\n--- Testing Individual API Responses for Corrected Adjectives ---")
+            
+            api_responses_correct = True
+            for correction in specific_corrections:
+                french_word = correction['french']
+                if french_word in adjective_words_by_french:
+                    word_id = adjective_words_by_french[french_word]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if (retrieved_word['shimaore'] == correction['shimaore'] and 
+                            retrieved_word['kibouchi'] == correction['kibouchi']):
+                            print(f"✅ {french_word} API response correct: {retrieved_word['shimaore']} / {retrieved_word['kibouchi']}")
+                        else:
+                            print(f"❌ {french_word} API response incorrect")
+                            api_responses_correct = False
+                    else:
+                        print(f"❌ {french_word} API retrieval failed: {response.status_code}")
+                        api_responses_correct = False
+            
+            # Overall result
+            all_tests_passed = (
+                corrections_verified and 
+                other_items_intact and 
+                complete_translations and 
+                duplicates_check and 
+                count_check and 
+                api_responses_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 SPECIFIC ADJECTIVE CORRECTIONS VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after corrections")
+                print("✅ /api/words?category=adjectifs endpoint working correctly")
+                print("✅ All specific corrections verified:")
+                print("   - En colère: shimaoré = 'Hadabou' (corrected)")
+                print("   - Faux: shimaoré = 'Trambo', kibouchi = 'Vandi' (corrected)")
+                print("   - Ouvert: shimaoré = 'Ouboua', kibouchi = 'Mibiyangna' (corrected)")
+                print("   - Amoureux: shimaoré = 'Ouvendza' (corrected)")
+                print("   - Honteux: kibouchi = 'Mampihingnatra' (corrected)")
+                print("   - Long: shimaoré = 'Drilé' (corrected)")
+                print("   - Petit: shimaoré = 'Titi', kibouchi = 'Héli' (corrected)")
+                print("   - Grand: shimaoré = 'Bolé' (corrected)")
+                print("✅ All other adjective entries remain intact and unchanged")
+                print("✅ All corrected items have complete translations in both languages")
+                print("✅ No duplicate entries introduced")
+                print(f"✅ Total adjective count maintained at {actual_adjective_count} items")
+                print("✅ Backend API responses working correctly for corrected adjectives")
+                print("✅ Bug fix verification complete - issue has been completely resolved with no regressions")
+            else:
+                print("\n❌ Some adjective corrections are not properly implemented or have introduced issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Specific adjective corrections verification error: {e}")
+            return False
+
     def test_specific_food_corrections_verification(self):
         """Test the specific food corrections that were just made"""
         print("\n=== Testing Specific Food Corrections Verification ===")
