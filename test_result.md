@@ -563,7 +563,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Specific adjective corrections verification completed successfully - all 8 corrections verified"
+    - "Expressions vocabulary section testing completed successfully - all 35 expressions verified"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
