@@ -7248,9 +7248,255 @@ class MayotteEducationTester:
             print(f"❌ Corrected 'maison' vocabulary section test error: {e}")
             return False
 
+    def test_updated_transport_vocabulary_from_new_tableau(self):
+        """Test the updated transport vocabulary section after replacing with the new tableau"""
+        print("\n=== Testing Updated Transport Vocabulary from New Tableau ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after updating transport section
+            print("--- Testing Backend Startup After Transport Update ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after updating transport section")
+            
+            # 2. Test the /api/words?category=transport endpoint to retrieve all transport items
+            print("\n--- Testing /api/words?category=transport Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=transport")
+            if response.status_code != 200:
+                print(f"❌ Transport endpoint failed: {response.status_code}")
+                return False
+            
+            transport_words = response.json()
+            transport_words_by_french = {word['french']: word for word in transport_words}
+            print(f"✅ /api/words?category=transport endpoint working correctly ({len(transport_words)} transport items)")
+            
+            # 3. Verify that all transport elements from the tableau are present with correct French, Shimaoré, and Kibouchi translations
+            print("\n--- Testing All Transport Elements from New Tableau ---")
+            
+            # Key transport elements from the new tableau (from review request)
+            key_transport_elements = [
+                {"french": "Taxis", "shimaore": "Taxi", "kibouchi": "Taxi"},
+                {"french": "Motos", "shimaore": "Monto", "kibouchi": "Monto"},
+                {"french": "Vélos", "shimaore": "Bicyclèti", "kibouchi": "Bicyclèti"},
+                {"french": "Barge", "shimaore": "Markabou", "kibouchi": "Markabou"},
+                {"french": "Vedettes", "shimaore": "Kwassa kwassa", "kibouchi": "Vidéti"},
+                {"french": "Pirogue", "shimaore": "Laka", "kibouchi": "Lakana"},
+                {"french": "Avion", "shimaore": "Ndrègué", "kibouchi": "Roplani"}
+            ]
+            
+            transport_elements_verified = True
+            
+            for element in key_transport_elements:
+                french_word = element['french']
+                if french_word in transport_words_by_french:
+                    word = transport_words_by_french[french_word]
+                    
+                    # Check all fields
+                    checks = [
+                        (word['shimaore'], element['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], element['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'transport', 'Category')
+                    ]
+                    
+                    word_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_word} {field_name}: Expected '{expected}', got '{actual}'")
+                            word_correct = False
+                            transport_elements_verified = False
+                    
+                    if word_correct:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - VERIFIED")
+                else:
+                    print(f"❌ {french_word} not found in transport category")
+                    transport_elements_verified = False
+            
+            # 4. Check specific key transport elements from the tableau (from review request)
+            print("\n--- Testing Specific Key Transport Elements ---")
+            
+            specific_elements_to_check = [
+                {"french": "Taxis", "shimaore": "Taxi", "kibouchi": "Taxi"},
+                {"french": "Motos", "shimaore": "Monto", "kibouchi": "Monto"},
+                {"french": "Vélos", "shimaore": "Bicyclèti", "kibouchi": "Bicyclèti"},
+                {"french": "Barge", "shimaore": "Markabou", "kibouchi": "Markabou"},
+                {"french": "Vedettes", "shimaore": "Kwassa kwassa", "kibouchi": "Vidéti"},
+                {"french": "Pirogue", "shimaore": "Laka", "kibouchi": "Lakana"},
+                {"french": "Avion", "shimaore": "Ndrègué", "kibouchi": "Roplani"}
+            ]
+            
+            specific_elements_verified = True
+            
+            for element in specific_elements_to_check:
+                french_word = element['french']
+                if french_word in transport_words_by_french:
+                    word = transport_words_by_french[french_word]
+                    if (word['shimaore'] == element['shimaore'] and 
+                        word['kibouchi'] == element['kibouchi']):
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - SPECIFIC ELEMENT VERIFIED")
+                    else:
+                        print(f"❌ {french_word}: Expected {element['shimaore']}/{element['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        specific_elements_verified = False
+                else:
+                    print(f"❌ {french_word} not found")
+                    specific_elements_verified = False
+            
+            # 5. Verify that old transport elements (Voiture, Bateau) have been replaced
+            print("\n--- Testing Old Transport Elements Have Been Replaced ---")
+            
+            old_transport_elements = ["Voiture", "Bateau"]
+            old_elements_removed = True
+            
+            for old_element in old_transport_elements:
+                if old_element in transport_words_by_french:
+                    print(f"❌ Old transport element '{old_element}' still present (should be removed)")
+                    old_elements_removed = False
+                else:
+                    print(f"✅ Old transport element '{old_element}' successfully removed")
+            
+            # 6. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Test a few other categories to ensure they're still working
+            other_categories_to_test = ['famille', 'couleurs', 'animaux', 'nombres', 'salutations']
+            other_categories_intact = True
+            
+            for category in other_categories_to_test:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    if len(category_words) > 0:
+                        print(f"✅ {category} category intact ({len(category_words)} items)")
+                    else:
+                        print(f"⚠️ {category} category empty")
+                        other_categories_intact = False
+                else:
+                    print(f"❌ {category} category endpoint failed: {response.status_code}")
+                    other_categories_intact = False
+            
+            # 7. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing No Duplicate Entries ---")
+            
+            french_names = [word['french'] for word in transport_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique transport items)")
+                duplicates_check = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                duplicates_check = False
+            
+            # 8. Confirm the new total transport count (should be 7 transport items)
+            print("\n--- Testing New Total Transport Count ---")
+            
+            expected_transport_count = 7
+            actual_transport_count = len(transport_words)
+            
+            if actual_transport_count == expected_transport_count:
+                print(f"✅ Transport count correct: {actual_transport_count} items (expected {expected_transport_count})")
+                count_check = True
+            else:
+                print(f"❌ Transport count incorrect: {actual_transport_count} items (expected {expected_transport_count})")
+                count_check = False
+            
+            # 9. Ensure all transport items have proper category assignment as "transport"
+            print("\n--- Testing Proper Category Assignment ---")
+            
+            category_assignment_correct = True
+            for word in transport_words:
+                if word['category'] != 'transport':
+                    print(f"❌ {word['french']} has incorrect category: {word['category']} (should be 'transport')")
+                    category_assignment_correct = False
+            
+            if category_assignment_correct:
+                print(f"✅ All {len(transport_words)} transport items have proper category assignment as 'transport'")
+            
+            # 10. Test the API endpoints are working correctly for the updated category
+            print("\n--- Testing API Endpoints for Updated Category ---")
+            
+            api_endpoints_working = True
+            
+            # Test individual transport item retrieval
+            for element in key_transport_elements[:3]:  # Test first 3 items
+                french_word = element['french']
+                if french_word in transport_words_by_french:
+                    word_id = transport_words_by_french[french_word]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if (retrieved_word['shimaore'] == element['shimaore'] and 
+                            retrieved_word['kibouchi'] == element['kibouchi'] and
+                            retrieved_word['category'] == 'transport'):
+                            print(f"✅ {french_word} API endpoint working correctly")
+                        else:
+                            print(f"❌ {french_word} API endpoint returns incorrect data")
+                            api_endpoints_working = False
+                    else:
+                        print(f"❌ {french_word} API retrieval failed: {response.status_code}")
+                        api_endpoints_working = False
+            
+            # Get overall word count after transport update
+            print("\n--- Testing Overall Word Count ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_word_count = len(all_words)
+                print(f"✅ Overall word count after transport update: {total_word_count} words")
+                overall_count_check = True
+            else:
+                print(f"❌ Could not retrieve overall word count: {response.status_code}")
+                overall_count_check = False
+            
+            # Overall result
+            all_tests_passed = (
+                transport_elements_verified and 
+                specific_elements_verified and 
+                old_elements_removed and 
+                other_categories_intact and 
+                duplicates_check and 
+                count_check and 
+                category_assignment_correct and 
+                api_endpoints_working and 
+                overall_count_check
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED TRANSPORT VOCABULARY FROM NEW TABLEAU TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after updating transport section")
+                print("✅ /api/words?category=transport endpoint retrieves all transport items correctly")
+                print("✅ All transport elements from tableau present with correct French, Shimaoré, and Kibouchi translations:")
+                print("   - Taxis: taxi / taxi")
+                print("   - Motos: monto / monto") 
+                print("   - Vélos: bicyclèti / bicyclèti")
+                print("   - Barge: markabou / markabou")
+                print("   - Vedettes: kwassa kwassa / vidéti")
+                print("   - Pirogue: laka / lakana")
+                print("   - Avion: ndrègué / roplani")
+                print("✅ Old transport elements (Voiture, Bateau) have been replaced")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ New total transport count: {actual_transport_count} transport items (as expected)")
+                print("✅ All transport items have proper category assignment as 'transport'")
+                print("✅ API endpoints working correctly for the updated category")
+                print(f"✅ Overall word count after transport update: {total_word_count} words")
+                print("✅ The updated transport vocabulary section with the new tableau is now fully functional")
+            else:
+                print("\n❌ Some aspects of the updated transport vocabulary are not working properly")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated transport vocabulary test error: {e}")
+            return False
+
     def run_all_tests(self):
-        """Run updated nature vocabulary test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED NATURE VOCABULARY TEST 🌺")
+        """Run updated transport vocabulary test as requested in review"""
+        print("🚗 MAYOTTE EDUCATIONAL APP - UPDATED TRANSPORT VOCABULARY TEST 🚗")
         print("=" * 70)
         
         # Run the specific updated nature vocabulary test as requested in review
