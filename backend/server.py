@@ -482,10 +482,23 @@ async def init_base_content():
         {"french": "Mortier", "shimaore": "Chino", "kibouchi": "Légnou", "category": "maison", "difficulty": 1},
         {"french": "Assiette", "shimaore": "Sahani", "kibouchi": "Sahani", "category": "maison", "difficulty": 1},
         
-        # Vêtements
-        {"french": "Vêtement", "shimaore": "Nguo", "kibouchi": "Lamban", "category": "vetements", "difficulty": 1},
-        {"french": "Chemise", "shimaore": "Shati", "kibouchi": "Pataloha", "category": "vetements", "difficulty": 1},
-        {"french": "Pantalon", "shimaore": "Suruali", "kibouchi": "Pataloha", "category": "vetements", "difficulty": 1},
+        # Vêtements (section complète selon le nouveau tableau)
+        {"french": "Vêtement", "shimaore": "Ngouwô", "kibouchi": "Ankandzou", "category": "vetements", "difficulty": 1},
+        {"french": "Salouva", "shimaore": "Salouva", "kibouchi": "Slouvagna", "category": "vetements", "difficulty": 1},
+        {"french": "Chemise", "shimaore": "Chimizi", "kibouchi": "Chimizi", "category": "vetements", "difficulty": 1},
+        {"french": "Pantalon", "shimaore": "Sourouali", "kibouchi": "Sourouali", "category": "vetements", "difficulty": 1},
+        {"french": "Short", "shimaore": "Kaliso", "kibouchi": "Kaliso", "category": "vetements", "difficulty": 1},
+        {"french": "Sous vêtement", "shimaore": "Silipou", "kibouchi": "Silipou", "category": "vetements", "difficulty": 1},
+        {"french": "Chapeau", "shimaore": "Kofia", "kibouchi": "Koufia", "category": "vetements", "difficulty": 1},
+        {"french": "Kamiss/Boubou", "shimaore": "Candzou bolé", "kibouchi": "Ancandzou bé", "category": "vetements", "difficulty": 1},
+        {"french": "Haut de salouva", "shimaore": "Body", "kibouchi": "Body", "category": "vetements", "difficulty": 1},
+        {"french": "T shirt", "shimaore": "Kandzou", "kibouchi": "Kandzou", "category": "vetements", "difficulty": 1},
+        {"french": "Chaussures", "shimaore": "Kabwa", "kibouchi": "Kabwa", "category": "vetements", "difficulty": 1},
+        {"french": "Baskets/Sneakers", "shimaore": "Magochi", "kibouchi": "Magochi", "category": "vetements", "difficulty": 1},
+        {"french": "Tongs", "shimaore": "Sapatri", "kibouchi": "Kabwa sapatri", "category": "vetements", "difficulty": 1},
+        {"french": "Jupe", "shimaore": "Jipo", "kibouchi": "Jipou", "category": "vetements", "difficulty": 1},
+        {"french": "Robe", "shimaore": "Robo", "kibouchi": "Robou", "category": "vetements", "difficulty": 1},
+        {"french": "Voile", "shimaore": "Kichali", "kibouchi": "Kichali", "category": "vetements", "difficulty": 1},
         
         # Verbes d'action complets (basés exactement sur les 5 tableaux fournis)
         # Tableau 1 - Verbes fondamentaux
