@@ -710,9 +710,14 @@ async def init_base_content():
         {"french": "Long", "shimaore": "Drilé", "kibouchi": "Hapou", "category": "adjectifs", "difficulty": 1},
         {"french": "Court", "shimaore": "Coutri", "kibouchi": "Fohiki", "category": "adjectifs", "difficulty": 1},
         
-        # Transport
-        {"french": "Voiture", "shimaore": "Galou", "kibouchi": "Tselatra", "category": "transport", "difficulty": 1},
-        {"french": "Bateau", "shimaore": "Galawa", "kibouchi": "Sambo", "category": "transport", "difficulty": 1},
+        # Transport (section complète selon le nouveau tableau)
+        {"french": "Taxis", "shimaore": "Taxi", "kibouchi": "Taxi", "category": "transport", "difficulty": 1},
+        {"french": "Motos", "shimaore": "Monto", "kibouchi": "Monto", "category": "transport", "difficulty": 1},
+        {"french": "Vélos", "shimaore": "Bicyclèti", "kibouchi": "Bicyclèti", "category": "transport", "difficulty": 1},
+        {"french": "Barge", "shimaore": "Markabou", "kibouchi": "Markabou", "category": "transport", "difficulty": 1},
+        {"french": "Vedettes", "shimaore": "Kwassa kwassa", "kibouchi": "Vidéti", "category": "transport", "difficulty": 1},
+        {"french": "Pirogue", "shimaore": "Laka", "kibouchi": "Lakana", "category": "transport", "difficulty": 1},
+        {"french": "Avion", "shimaore": "Ndrègué", "kibouchi": "Roplani", "category": "transport", "difficulty": 1},
         
         # Expressions (petites formules pratiques pour touristes et conversation)
         {"french": "Excuse-moi/pardon", "shimaore": "Soimahani", "kibouchi": "Soimahani", "category": "expressions", "difficulty": 1},
