@@ -769,6 +769,17 @@ async def init_base_content():
         {"french": "Je ne me sens pas bien", "shimaore": "Tsissi fétré", "kibouchi": "Za maharengni nafoussoukou moidéli", "category": "expressions", "difficulty": 2},
         {"french": "Au milieu", "shimaore": "Hari", "kibouchi": "Angnivou", "category": "expressions", "difficulty": 1},
         
+        # Nouvelles expressions sociales et culturelles
+        {"french": "Respect", "shimaore": "Mastaha", "kibouchi": "Mastaha", "category": "expressions", "difficulty": 1},
+        {"french": "Quelqu'un de fiable", "shimaore": "Mwaminifou", "kibouchi": "Mwaminifou", "category": "expressions", "difficulty": 1},
+        {"french": "Secret", "shimaore": "Siri", "kibouchi": "Siri", "category": "expressions", "difficulty": 1},
+        {"french": "Joie", "shimaore": "Fouraha", "kibouchi": "Aravouangna", "category": "expressions", "difficulty": 1},
+        {"french": "Avoir la haine", "shimaore": "Outoukiwa", "kibouchi": "Marari rohou", "category": "expressions", "difficulty": 1},
+        {"french": "Convivialité", "shimaore": "Ouvoimoja", "kibouchi": "Ouvoimoja", "category": "expressions", "difficulty": 1},
+        {"french": "Entre aide", "shimaore": "Oussayidiyana", "kibouchi": "Moussada", "category": "expressions", "difficulty": 1},
+        {"french": "Faire crédit", "shimaore": "Oukopa", "kibouchi": "Midéni", "category": "expressions", "difficulty": 1},
+        {"french": "Nounou", "shimaore": "Mlézi", "kibouchi": "Mlézi", "category": "expressions", "difficulty": 1},
+        
         # Reptiles et autres animaux
         {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "category": "animaux", "difficulty": 2},
 
