@@ -8406,12 +8406,12 @@ if __name__ == "__main__":
     
     tester = MayotteEducationTester()
     
-    # Run specific test for the vetements vocabulary section
+    # Run specific test for the expressions vocabulary section
     tests = [
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("Updated Vetements Vocabulary from New Tableau", tester.test_updated_vetements_vocabulary_from_new_tableau)
+        ("Updated Expressions Vocabulary After Adding 9 New Expressions", tester.test_updated_expressions_vocabulary_after_adding_9_new_expressions)
     ]
     
     passed = 0
@@ -8442,8 +8442,8 @@ if __name__ == "__main__":
     print(f"📊 Total Tests: {passed + failed}")
     
     if failed == 0:
-        print("\n🎉 ALL TESTS PASSED! Vetements vocabulary section verified successfully! 🎉")
-        print("🌺 Vetements vocabulary updated with complete authentic translations 🌺")
+        print("\n🎉 ALL TESTS PASSED! Expressions vocabulary section verified successfully! 🎉")
+        print("🌺 Expressions vocabulary updated with 9 new social and cultural expressions 🌺")
     else:
         print(f"\n⚠️ {failed} test(s) failed. Please review and fix issues.")
     
