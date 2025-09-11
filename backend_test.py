@@ -1215,6 +1215,293 @@ class MayotteEducationTester:
             print(f"❌ Specific expression correction verification error: {e}")
             return False
 
+    def test_updated_expressions_vocabulary_after_adding_9_new_expressions(self):
+        """Test the updated expressions vocabulary after adding 9 new social and cultural expressions"""
+        print("\n=== Testing Updated Expressions Vocabulary After Adding 9 New Expressions ===")
+        
+        try:
+            # 1. Check if the backend starts without any syntax errors after adding new expressions
+            print("--- Testing Backend Startup After Adding New Expressions ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after adding new expressions")
+            
+            # 2. Test the /api/words?category=expressions endpoint to retrieve all expression items
+            print("\n--- Testing /api/words?category=expressions Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=expressions")
+            if response.status_code != 200:
+                print(f"❌ Expressions endpoint failed: {response.status_code}")
+                return False
+            
+            expressions_words = response.json()
+            expressions_by_french = {word['french']: word for word in expressions_words}
+            print(f"✅ /api/words?category=expressions endpoint working correctly ({len(expressions_words)} expressions)")
+            
+            # 3. Verify that all 9 new expressions are present with correct French, Shimaoré, and Kibouchi translations
+            print("\n--- Testing 9 New Social and Cultural Expressions ---")
+            
+            # The 9 new expressions that should be added
+            new_expressions = [
+                {"french": "Respect", "shimaore": "mastaha", "kibouchi": "mastaha"},
+                {"french": "Quelqu'un de fiable", "shimaore": "mwaminifou", "kibouchi": "mwaminifou"},
+                {"french": "Secret", "shimaore": "siri", "kibouchi": "siri"},
+                {"french": "Joie", "shimaore": "fouraha", "kibouchi": "aravouangna"},
+                {"french": "Avoir la haine", "shimaore": "outoukiwa", "kibouchi": "marari rohou"},
+                {"french": "Convivialité", "shimaore": "ouvoimoja", "kibouchi": "ouvoimoja"},
+                {"french": "Entre aide", "shimaore": "oussayidiyana", "kibouchi": "moussada"},
+                {"french": "Faire crédit", "shimaore": "oukopa", "kibouchi": "midéni"},
+                {"french": "Nounou", "shimaore": "mlézi", "kibouchi": "mlézi"}
+            ]
+            
+            new_expressions_verified = True
+            
+            for expr in new_expressions:
+                french_expr = expr['french']
+                if french_expr in expressions_by_french:
+                    word = expressions_by_french[french_expr]
+                    
+                    # Check all translations
+                    checks = [
+                        (word['shimaore'], expr['shimaore'], 'Shimaoré'),
+                        (word['kibouchi'], expr['kibouchi'], 'Kibouchi'),
+                        (word['category'], 'expressions', 'Category')
+                    ]
+                    
+                    expr_correct = True
+                    for actual, expected, field_name in checks:
+                        if actual != expected:
+                            print(f"❌ {french_expr} {field_name}: Expected '{expected}', got '{actual}'")
+                            expr_correct = False
+                            new_expressions_verified = False
+                    
+                    if expr_correct:
+                        print(f"✅ {french_expr}: {word['shimaore']} / {word['kibouchi']} - NEW EXPRESSION VERIFIED")
+                else:
+                    print(f"❌ {french_expr} not found in expressions category")
+                    new_expressions_verified = False
+            
+            # 4. Check the specific new expressions added (verification of the exact ones mentioned)
+            print("\n--- Verifying Specific New Expressions Details ---")
+            
+            specific_checks = [
+                ("Respect", "mastaha", "mastaha"),
+                ("Quelqu'un de fiable", "mwaminifou", "mwaminifou"),
+                ("Secret", "siri", "siri"),
+                ("Joie", "fouraha", "aravouangna"),
+                ("Avoir la haine", "outoukiwa", "marari rohou"),
+                ("Convivialité", "ouvoimoja", "ouvoimoja"),
+                ("Entre aide", "oussayidiyana", "moussada"),
+                ("Faire crédit", "oukopa", "midéni"),
+                ("Nounou", "mlézi", "mlézi")
+            ]
+            
+            for french, expected_shimaore, expected_kibouchi in specific_checks:
+                if french in expressions_by_french:
+                    word = expressions_by_french[french]
+                    if word['shimaore'] == expected_shimaore and word['kibouchi'] == expected_kibouchi:
+                        print(f"✅ {french}: {expected_shimaore} / {expected_kibouchi} - SPECIFIC VERIFICATION PASSED")
+                    else:
+                        print(f"❌ {french}: Expected {expected_shimaore}/{expected_kibouchi}, got {word['shimaore']}/{word['kibouchi']}")
+                        new_expressions_verified = False
+                else:
+                    print(f"❌ {french} not found")
+                    new_expressions_verified = False
+            
+            # 5. Verify that all previously existing expressions are still present
+            print("\n--- Testing Previously Existing Expressions Still Present ---")
+            
+            # Sample of expressions that should still be present from before
+            existing_expressions = [
+                {"french": "Excuse-moi/pardon", "shimaore": "Soimahani", "kibouchi": "Soimahani"},
+                {"french": "J'ai faim", "shimaore": "Nissi ona ndza", "kibouchi": "Zahou moussari"},
+                {"french": "J'ai soif", "shimaore": "Nissi ona niyora", "kibouchi": "Zahou tindranou"},
+                {"french": "Je voudrais aller à", "shimaore": "Nissi tsaha nendré", "kibouchi": "Zahou chokou andéha"},
+                {"french": "Où se trouve", "shimaore": "Ouparhanoua havi", "kibouchi": "Aya moi"},
+                {"french": "Je suis perdu", "shimaore": "Tsi latsiha", "kibouchi": "Zahou véri"},
+                {"french": "Combien ça coûte ?", "shimaore": "Kissajé", "kibouchi": "Hotri inou moi"},
+                {"french": "S'il vous plaît", "shimaore": "Tafadali", "kibouchi": "Tafadali"},
+                {"french": "À gauche", "shimaore": "Potroni", "kibouchi": "Kipotrou"},
+                {"french": "À droite", "shimaore": "Houméni", "kibouchi": "Finana"},
+                {"french": "Appelez la police !", "shimaore": "Hira sirikali", "kibouchi": "Kahiya sirikali"},
+                {"french": "J'ai besoin d'un médecin", "shimaore": "Ntsha douktera", "kibouchi": "Zahou mila douktera"}
+            ]
+            
+            existing_expressions_intact = True
+            for expr in existing_expressions:
+                french_expr = expr['french']
+                if french_expr in expressions_by_french:
+                    word = expressions_by_french[french_expr]
+                    if word['shimaore'] == expr['shimaore'] and word['kibouchi'] == expr['kibouchi']:
+                        print(f"✅ {french_expr}: Still present - {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ {french_expr}: Translation changed - Expected {expr['shimaore']}/{expr['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        existing_expressions_intact = False
+                else:
+                    print(f"❌ {french_expr} missing from expressions")
+                    existing_expressions_intact = False
+            
+            # 6. Check that other categories remain intact and functional
+            print("\n--- Testing Other Categories Remain Intact ---")
+            
+            # Get all words to check categories
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code != 200:
+                print(f"❌ Could not retrieve all words: {all_words_response.status_code}")
+                return False
+            
+            all_words = all_words_response.json()
+            categories = set(word['category'] for word in all_words)
+            
+            expected_categories = {
+                'expressions', 'famille', 'salutations', 'couleurs', 'animaux', 'nombres', 
+                'corps', 'nourriture', 'maison', 'vetements', 'nature', 'grammaire', 
+                'verbes', 'adjectifs', 'transport'
+            }
+            
+            print(f"Found categories ({len(categories)}): {sorted(categories)}")
+            
+            categories_intact = True
+            if expected_categories.issubset(categories):
+                print("✅ All expected categories still present")
+            else:
+                missing = expected_categories - categories
+                print(f"❌ Missing categories: {missing}")
+                categories_intact = False
+            
+            # 7. Test for any duplicate entries or data integrity issues
+            print("\n--- Testing No Duplicate Entries or Data Integrity Issues ---")
+            
+            french_expressions = [word['french'] for word in expressions_words]
+            unique_expressions = set(french_expressions)
+            
+            duplicates_check = True
+            if len(french_expressions) == len(unique_expressions):
+                print(f"✅ No duplicate entries found ({len(unique_expressions)} unique expressions)")
+            else:
+                duplicates = [expr for expr in french_expressions if french_expressions.count(expr) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                duplicates_check = False
+            
+            # Check data integrity - all expressions should have required fields
+            data_integrity_check = True
+            for word in expressions_words:
+                required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category']
+                missing_fields = [field for field in required_fields if field not in word or not word[field]]
+                if missing_fields:
+                    print(f"❌ {word.get('french', 'Unknown')} missing fields: {missing_fields}")
+                    data_integrity_check = False
+            
+            if data_integrity_check:
+                print("✅ All expressions have proper data structure")
+            
+            # 8. Confirm the new total expressions count (should be 44 expressions now - 35 + 9)
+            print("\n--- Testing New Total Expressions Count ---")
+            
+            expected_total_expressions = 44  # 35 existing + 9 new
+            actual_expressions_count = len(expressions_words)
+            
+            count_check = True
+            if actual_expressions_count == expected_total_expressions:
+                print(f"✅ Total expressions count correct: {actual_expressions_count} expressions (expected {expected_total_expressions})")
+            else:
+                print(f"⚠️ Total expressions count: {actual_expressions_count} expressions (expected {expected_total_expressions})")
+                # Check if it's at least the minimum expected
+                if actual_expressions_count >= expected_total_expressions:
+                    print(f"✅ Count meets or exceeds expectation")
+                else:
+                    print(f"❌ Count below expectation")
+                    count_check = False
+            
+            # 9. Ensure all expressions items have proper category assignment as "expressions"
+            print("\n--- Testing Proper Category Assignment ---")
+            
+            category_assignment_check = True
+            for word in expressions_words:
+                if word['category'] != 'expressions':
+                    print(f"❌ {word['french']} has wrong category: {word['category']} (should be 'expressions')")
+                    category_assignment_check = False
+            
+            if category_assignment_check:
+                print(f"✅ All {len(expressions_words)} expressions properly categorized as 'expressions'")
+            
+            # 10. Test the API endpoints are working correctly for the updated category
+            print("\n--- Testing API Endpoints Work Correctly ---")
+            
+            api_endpoints_check = True
+            
+            # Test individual expression retrieval for a few new expressions
+            test_expressions = ["Respect", "Joie", "Secret"]
+            for expr_name in test_expressions:
+                if expr_name in expressions_by_french:
+                    word_id = expressions_by_french[expr_name]['id']
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if retrieved_word['french'] == expr_name and retrieved_word['category'] == 'expressions':
+                            print(f"✅ {expr_name} individual API retrieval working")
+                        else:
+                            print(f"❌ {expr_name} individual API retrieval data incorrect")
+                            api_endpoints_check = False
+                    else:
+                        print(f"❌ {expr_name} individual API retrieval failed: {response.status_code}")
+                        api_endpoints_check = False
+            
+            # Provide the new total count of expressions and overall word count
+            print("\n--- Final Count Summary ---")
+            
+            total_words = len(all_words)
+            expressions_count = len(expressions_words)
+            
+            print(f"📊 FINAL COUNTS:")
+            print(f"   - Total expressions: {expressions_count}")
+            print(f"   - Total words across all categories: {total_words}")
+            print(f"   - Categories: {len(categories)}")
+            
+            # Overall result
+            all_tests_passed = (
+                new_expressions_verified and 
+                existing_expressions_intact and 
+                categories_intact and 
+                duplicates_check and 
+                data_integrity_check and 
+                count_check and 
+                category_assignment_check and 
+                api_endpoints_check
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED EXPRESSIONS VOCABULARY TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after adding new expressions")
+                print("✅ /api/words?category=expressions endpoint retrieves all expression items")
+                print("✅ All 9 new expressions present with correct French, Shimaoré, and Kibouchi translations:")
+                print("   - Respect: mastaha / mastaha")
+                print("   - Quelqu'un de fiable: mwaminifou / mwaminifou")
+                print("   - Secret: siri / siri")
+                print("   - Joie: fouraha / aravouangna")
+                print("   - Avoir la haine: outoukiwa / marari rohou")
+                print("   - Convivialité: ouvoimoja / ouvoimoja")
+                print("   - Entre aide: oussayidiyana / moussada")
+                print("   - Faire crédit: oukopa / midéni")
+                print("   - Nounou: mlézi / mlézi")
+                print("✅ All previously existing expressions still present")
+                print("✅ Other categories remain intact and functional")
+                print("✅ No duplicate entries or data integrity issues")
+                print(f"✅ New total expressions count: {expressions_count} expressions")
+                print(f"✅ Overall word count: {total_words} words")
+                print("✅ All expressions items have proper category assignment as 'expressions'")
+                print("✅ API endpoints working correctly for updated category")
+                print("✅ The updated expressions vocabulary with 9 new social and cultural expressions is fully functional")
+            else:
+                print("\n❌ Some issues found with the updated expressions vocabulary")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated expressions vocabulary test error: {e}")
+            return False
+
     def test_updated_vetements_vocabulary_from_new_tableau(self):
         """Test the updated vetements (clothing) vocabulary section after replacing with the new tableau"""
         print("\n=== Testing Updated Vetements Vocabulary from New Tableau ===")
