@@ -8071,12 +8071,12 @@ class MayotteEducationTester:
             return False
 
     def run_all_tests(self):
-        """Run updated transport vocabulary test as requested in review"""
-        print("🚗 MAYOTTE EDUCATIONAL APP - UPDATED TRANSPORT VOCABULARY TEST 🚗")
+        """Run updated expressions vocabulary test as requested in review"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED EXPRESSIONS VOCABULARY TEST 🌺")
         print("=" * 70)
         
-        # Run the specific updated transport vocabulary test as requested in review
-        print("Running updated transport vocabulary test to verify new elements from new tableau...")
+        # Run the specific updated expressions vocabulary test as requested in review
+        print("Running updated expressions vocabulary test to verify 9 new social and cultural expressions...")
         
         test_results = {}
         
@@ -8085,12 +8085,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main updated transport vocabulary test
-        test_results['updated_transport_vocabulary'] = self.test_updated_transport_vocabulary_from_new_tableau()
+        # Main updated expressions vocabulary test
+        test_results['updated_expressions_vocabulary'] = self.test_updated_expressions_vocabulary_after_adding_9_new_expressions()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🚗 UPDATED TRANSPORT VOCABULARY TEST RESULTS 🚗")
+        print("🌺 UPDATED EXPRESSIONS VOCABULARY TEST RESULTS 🌺")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -8102,17 +8102,18 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('updated_transport_vocabulary', False):
-            print("🎉 UPDATED TRANSPORT VOCABULARY TEST PASSED!")
-            print("✅ Backend starts without syntax errors after updating transport section")
-            print("✅ All 7 transport elements from tableau verified with correct translations")
-            print("✅ Old transport elements (Voiture, Bateau) have been replaced")
+        if test_results.get('updated_expressions_vocabulary', False):
+            print("🎉 UPDATED EXPRESSIONS VOCABULARY TEST PASSED!")
+            print("✅ Backend starts without syntax errors after adding new expressions")
+            print("✅ All 9 new social and cultural expressions verified with correct translations")
+            print("✅ Previously existing expressions still present")
             print("✅ Other categories remain intact and functional")
             print("✅ No duplicate entries or data integrity issues")
+            print("✅ New total expressions count: 44 expressions (35 + 9)")
             print("✅ API endpoints working correctly for the updated category")
-            print("The updated transport vocabulary with new elements from the new tableau is ready for educational use.")
+            print("The updated expressions vocabulary with 9 new social and cultural expressions is ready for educational use.")
         else:
-            print("❌ Updated transport vocabulary test failed. Please review the issues above.")
+            print("❌ Updated expressions vocabulary test failed. Please review the issues above.")
         
         return passed == total
 
