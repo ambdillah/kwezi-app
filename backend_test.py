@@ -1286,15 +1286,15 @@ class MayotteEducationTester:
             print("\n--- Verifying Specific New Expressions Details ---")
             
             specific_checks = [
-                ("Respect", "mastaha", "mastaha"),
-                ("Quelqu'un de fiable", "mwaminifou", "mwaminifou"),
-                ("Secret", "siri", "siri"),
-                ("Joie", "fouraha", "aravouangna"),
-                ("Avoir la haine", "outoukiwa", "marari rohou"),
-                ("Convivialité", "ouvoimoja", "ouvoimoja"),
-                ("Entre aide", "oussayidiyana", "moussada"),
-                ("Faire crédit", "oukopa", "midéni"),
-                ("Nounou", "mlézi", "mlézi")
+                ("Respect", "Mastaha", "Mastaha"),
+                ("Quelqu'un de fiable", "Mwaminifou", "Mwaminifou"),
+                ("Secret", "Siri", "Siri"),
+                ("Joie", "Fouraha", "Aravouangna"),
+                ("Avoir la haine", "Outoukiwa", "Marari rohou"),
+                ("Convivialité", "Ouvoimoja", "Ouvoimoja"),
+                ("Entre aide", "Oussayidiyana", "Moussada"),
+                ("Faire crédit", "Oukopa", "Midéni"),
+                ("Nounou", "Mlézi", "Mlézi")
             ]
             
             for french, expected_shimaore, expected_kibouchi in specific_checks:
