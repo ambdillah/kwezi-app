@@ -615,6 +615,7 @@ async def init_base_content():
         {"french": "Creuser", "shimaore": "Outsimba", "kibouchi": "Mangadi", "category": "verbes", "difficulty": 1},
         {"french": "Récolter", "shimaore": "Ouvouna", "kibouchi": "Mampouka", "category": "verbes", "difficulty": 1},
         {"french": "Bouger", "shimaore": "Outsengueléya", "kibouchi": "Mitéki", "category": "verbes", "difficulty": 1},
+        {"french": "Arnaquer", "shimaore": "Ouravi", "kibouchi": "Mangalatra", "category": "verbes", "difficulty": 1},
         
         # Nature (mise à jour complète selon le nouveau tableau)
         {"french": "Pente/Colline/Mont", "shimaore": "Mlima", "kibouchi": "Boungou", "category": "nature", "difficulty": 1},
