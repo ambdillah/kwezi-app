@@ -228,7 +228,7 @@ async def init_base_content():
         # Frères et sœurs (avec nuances d'âge)
         {"french": "Petite sœur", "shimaore": "Moinagna mtroum", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
         {"french": "Petit frère", "shimaore": "Moinagna mtrouba", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
-        {"french": "Grande sœur", "shimaore": "Zouki", "kibouchi": "Zoki", "category": "famille", "difficulty": 1},
+        {"french": "Grande sœur", "shimaore": "Zouki mtroumché", "kibouchi": "Zoki viavi", "category": "famille", "difficulty": 1},
         {"french": "Grand frère", "shimaore": "Zouki", "kibouchi": "Zoki", "category": "famille", "difficulty": 1},
         {"french": "Frère", "shimaore": "Mwanagna", "kibouchi": "Anadahi", "category": "famille", "difficulty": 1},
         {"french": "Sœur", "shimaore": "Mwanagna", "kibouchi": "Anabavi", "category": "famille", "difficulty": 1},
