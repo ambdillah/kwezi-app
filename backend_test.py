@@ -8250,9 +8250,13 @@ class MayotteEducationTester:
         """Run updated expressions vocabulary test as requested in review"""
         print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED EXPRESSIONS VOCABULARY TEST 🌺")
         print("=" * 70)
+    def run_all_tests(self):
+        """Run final comprehensive vocabulary corrections test as requested in review"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - FINAL VOCABULARY CORRECTIONS TEST 🌺")
+        print("=" * 70)
         
-        # Run the specific updated expressions vocabulary test as requested in review
-        print("Running updated expressions vocabulary test to verify 9 new social and cultural expressions...")
+        # Run the specific final vocabulary corrections test as requested in review
+        print("Running final comprehensive vocabulary corrections test...")
         
         test_results = {}
         
@@ -8261,12 +8265,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main updated expressions vocabulary test
-        test_results['updated_expressions_vocabulary'] = self.test_updated_expressions_vocabulary_after_adding_9_new_expressions()
+        # Main final vocabulary corrections test
+        test_results['final_vocabulary_corrections'] = self.test_final_vocabulary_corrections_comprehensive()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🌺 UPDATED EXPRESSIONS VOCABULARY TEST RESULTS 🌺")
+        print("🌺 FINAL VOCABULARY CORRECTIONS TEST RESULTS 🌺")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -8278,18 +8282,18 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('updated_expressions_vocabulary', False):
-            print("🎉 UPDATED EXPRESSIONS VOCABULARY TEST PASSED!")
-            print("✅ Backend starts without syntax errors after adding new expressions")
-            print("✅ All 9 new social and cultural expressions verified with correct translations")
-            print("✅ Previously existing expressions still present")
-            print("✅ Other categories remain intact and functional")
-            print("✅ No duplicate entries or data integrity issues")
-            print("✅ New total expressions count: 44 expressions (35 + 9)")
-            print("✅ API endpoints working correctly for the updated category")
-            print("The updated expressions vocabulary with 9 new social and cultural expressions is ready for educational use.")
+        if test_results.get('final_vocabulary_corrections', False):
+            print("🎉 FINAL VOCABULARY CORRECTIONS TEST PASSED!")
+            print("✅ Backend starts without errors after all corrections")
+            print("✅ Nature section corrections verified")
+            print("✅ Animaux section corrections verified")
+            print("✅ Famille section corrections verified")
+            print("✅ API endpoints working correctly")
+            print("✅ No duplicate entries found")
+            print("✅ Final word counts provided")
+            print("The final comprehensive vocabulary corrections are now complete and verified.")
         else:
-            print("❌ Updated expressions vocabulary test failed. Please review the issues above.")
+            print("❌ Final vocabulary corrections test failed. Please review the issues above.")
         
         return passed == total
 
