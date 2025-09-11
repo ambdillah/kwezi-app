@@ -1244,15 +1244,15 @@ class MayotteEducationTester:
             
             # The 9 new expressions that should be added
             new_expressions = [
-                {"french": "Respect", "shimaore": "mastaha", "kibouchi": "mastaha"},
-                {"french": "Quelqu'un de fiable", "shimaore": "mwaminifou", "kibouchi": "mwaminifou"},
-                {"french": "Secret", "shimaore": "siri", "kibouchi": "siri"},
-                {"french": "Joie", "shimaore": "fouraha", "kibouchi": "aravouangna"},
-                {"french": "Avoir la haine", "shimaore": "outoukiwa", "kibouchi": "marari rohou"},
-                {"french": "Convivialité", "shimaore": "ouvoimoja", "kibouchi": "ouvoimoja"},
-                {"french": "Entre aide", "shimaore": "oussayidiyana", "kibouchi": "moussada"},
-                {"french": "Faire crédit", "shimaore": "oukopa", "kibouchi": "midéni"},
-                {"french": "Nounou", "shimaore": "mlézi", "kibouchi": "mlézi"}
+                {"french": "Respect", "shimaore": "Mastaha", "kibouchi": "Mastaha"},
+                {"french": "Quelqu'un de fiable", "shimaore": "Mwaminifou", "kibouchi": "Mwaminifou"},
+                {"french": "Secret", "shimaore": "Siri", "kibouchi": "Siri"},
+                {"french": "Joie", "shimaore": "Fouraha", "kibouchi": "Aravouangna"},
+                {"french": "Avoir la haine", "shimaore": "Outoukiwa", "kibouchi": "Marari rohou"},
+                {"french": "Convivialité", "shimaore": "Ouvoimoja", "kibouchi": "Ouvoimoja"},
+                {"french": "Entre aide", "shimaore": "Oussayidiyana", "kibouchi": "Moussada"},
+                {"french": "Faire crédit", "shimaore": "Oukopa", "kibouchi": "Midéni"},
+                {"french": "Nounou", "shimaore": "Mlézi", "kibouchi": "Mlézi"}
             ]
             
             new_expressions_verified = True
