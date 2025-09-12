@@ -9011,6 +9011,208 @@ class MayotteEducationTester:
             print(f"❌ Updated nature vocabulary corrections test error: {e}")
             return False
 
+    def test_tradition_menu_visibility_and_expression_corrections(self):
+        """Test tradition menu visibility issue and expression corrections as per review request"""
+        print("\n=== Testing Tradition Menu Visibility and Expression Corrections ===")
+        
+        try:
+            # 1. Backend status - Ensure backend is running properly after restart
+            print("--- Testing Backend Status After Restart ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend not running properly: {response.status_code}")
+                return False
+            print("✅ Backend is running properly after restart")
+            
+            # 2. Test /api/words?category=tradition endpoint works
+            print("\n--- Testing /api/words?category=tradition Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=tradition")
+            print(f"Tradition endpoint status: {response.status_code}")
+            
+            if response.status_code == 200:
+                tradition_words = response.json()
+                print(f"✅ /api/words?category=tradition endpoint works ({len(tradition_words)} tradition elements)")
+                
+                if len(tradition_words) > 0:
+                    print("✅ Tradition elements are present")
+                    # Show sample tradition elements
+                    for i, word in enumerate(tradition_words[:3]):
+                        print(f"   Sample {i+1}: {word['french']} = {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print("❌ No tradition elements found - this explains why tradition menu is not visible")
+                    return False
+            else:
+                print(f"❌ /api/words?category=tradition endpoint failed: {response.status_code}")
+                print("❌ This explains why tradition menu is not visible")
+                return False
+            
+            # 3. Verify tradition category exists in word list
+            print("\n--- Testing Tradition Category in Overall Word List ---")
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code != 200:
+                print(f"❌ Could not retrieve all words: {all_words_response.status_code}")
+                return False
+            
+            all_words = all_words_response.json()
+            categories = set(word['category'] for word in all_words)
+            
+            if 'tradition' in categories:
+                print("✅ Tradition category exists in word list")
+                print(f"All available categories: {sorted(categories)}")
+            else:
+                print("❌ Tradition category NOT found in word list")
+                print(f"Available categories: {sorted(categories)}")
+                print("❌ This is why tradition menu is not visible - category doesn't exist")
+                return False
+            
+            # 4. Expression corrections verification
+            print("\n--- Testing Expression Corrections ---")
+            
+            # Get expressions category
+            expressions_response = self.session.get(f"{API_BASE}/words?category=expressions")
+            if expressions_response.status_code != 200:
+                print(f"❌ Could not retrieve expressions: {expressions_response.status_code}")
+                return False
+            
+            expressions = expressions_response.json()
+            expressions_by_french = {word['french']: word for word in expressions}
+            
+            print(f"Found {len(expressions)} expressions")
+            
+            # Test specific expression corrections from review request
+            expression_corrections = [
+                {
+                    "french": "Je peux avoir des toilettes",
+                    "expected_shimaore": "Nissi miya mraba",
+                    "incorrect_shimaore": "Tnissi miya mraba",
+                    "note": "shimaoré should be 'Nissi miya mraba' (not 'Tnissi miya mraba')"
+                },
+                {
+                    "french": "Je n'ai pas compris",
+                    "expected_shimaore": "Tsa éléwa",
+                    "note": "new addition with shimaoré 'Tsa éléwa'"
+                }
+            ]
+            
+            corrections_verified = True
+            
+            for correction in expression_corrections:
+                french_expr = correction['french']
+                if french_expr in expressions_by_french:
+                    word = expressions_by_french[french_expr]
+                    
+                    if 'expected_shimaore' in correction:
+                        if word['shimaore'] == correction['expected_shimaore']:
+                            print(f"✅ {french_expr}: shimaoré = '{word['shimaore']}' - CORRECTION VERIFIED")
+                        else:
+                            print(f"❌ {french_expr}: Expected shimaoré '{correction['expected_shimaore']}', got '{word['shimaore']}'")
+                            corrections_verified = False
+                    
+                    print(f"   Full translation: {word['shimaore']} (Shimaoré) / {word['kibouchi']} (Kibouchi)")
+                    print(f"   Note: {correction['note']}")
+                else:
+                    print(f"❌ {french_expr} not found in expressions")
+                    corrections_verified = False
+            
+            # 5. Frontend integration check - verify all categories are available
+            print("\n--- Testing Frontend Integration - Category Availability ---")
+            
+            # Check that tradition is among available categories
+            expected_categories = ['tradition', 'expressions', 'famille', 'couleurs', 'animaux', 'salutations', 'nombres']
+            available_categories = list(categories)
+            
+            missing_categories = []
+            for cat in expected_categories:
+                if cat not in available_categories:
+                    missing_categories.append(cat)
+            
+            if not missing_categories:
+                print("✅ All expected categories including tradition are available")
+                print(f"Available categories for frontend: {sorted(available_categories)}")
+            else:
+                print(f"❌ Missing categories: {missing_categories}")
+                print("❌ This explains frontend integration issues")
+                corrections_verified = False
+            
+            # 6. Test that frontend can retrieve tradition data
+            print("\n--- Testing Frontend Data Retrieval for Tradition ---")
+            
+            # Simulate frontend request for tradition data
+            tradition_data_response = self.session.get(f"{API_BASE}/words?category=tradition")
+            if tradition_data_response.status_code == 200:
+                tradition_data = tradition_data_response.json()
+                if len(tradition_data) > 0:
+                    print(f"✅ Frontend can retrieve tradition data ({len(tradition_data)} items)")
+                    # Show data structure for frontend
+                    sample_item = tradition_data[0]
+                    required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                    if all(field in sample_item for field in required_fields):
+                        print("✅ Tradition data has all required fields for frontend")
+                    else:
+                        print("❌ Tradition data missing required fields")
+                        corrections_verified = False
+                else:
+                    print("❌ Frontend cannot retrieve tradition data - empty response")
+                    corrections_verified = False
+            else:
+                print(f"❌ Frontend cannot retrieve tradition data - API error: {tradition_data_response.status_code}")
+                corrections_verified = False
+            
+            # 7. Troubleshooting information
+            print("\n--- Troubleshooting Information ---")
+            
+            if 'tradition' not in categories:
+                print("🔧 TROUBLESHOOTING: Tradition menu not visible because:")
+                print("   - Tradition category does not exist in the database")
+                print("   - Backend needs to initialize tradition vocabulary")
+                print("   - Suggestion: Run POST /api/init-base-content to add tradition data")
+            elif len(tradition_words) == 0:
+                print("🔧 TROUBLESHOOTING: Tradition menu not visible because:")
+                print("   - Tradition category exists but has no words")
+                print("   - Backend initialization may have failed")
+                print("   - Suggestion: Check backend logs and re-initialize content")
+            else:
+                print("✅ Tradition data appears to be properly configured")
+                print("🔧 If tradition menu still not visible, try:")
+                print("   - Clear frontend cache")
+                print("   - Restart frontend service")
+                print("   - Check frontend category filtering logic")
+            
+            # Overall result
+            all_tests_passed = (
+                response.status_code == 200 and
+                'tradition' in categories and
+                len(tradition_words) > 0 and
+                corrections_verified
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 TRADITION MENU VISIBILITY AND EXPRESSION CORRECTIONS TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend is running properly after restart")
+                print("✅ /api/words?category=tradition endpoint works")
+                print("✅ Tradition elements are present and accessible")
+                print("✅ Tradition category exists in word list")
+                print("✅ Expression corrections verified:")
+                print("   - 'Je peux avoir des toilettes': shimaoré = 'Nissi miya mraba' (corrected)")
+                print("   - 'Je n'ai pas compris': new addition with shimaoré 'Tsa éléwa'")
+                print("✅ All categories including tradition are available for frontend")
+                print("✅ Frontend can retrieve tradition data successfully")
+                print("✅ Tradition menu should now be visible in the frontend")
+            else:
+                print("\n❌ Issues found that explain why tradition menu is not visible")
+                if 'tradition' not in categories:
+                    print("❌ CRITICAL: Tradition category does not exist")
+                if len(tradition_words) == 0:
+                    print("❌ CRITICAL: No tradition words found")
+                if not corrections_verified:
+                    print("❌ Expression corrections not properly implemented")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Tradition menu visibility and expression corrections test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run updated expressions vocabulary test as requested in review"""
         print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED EXPRESSIONS VOCABULARY TEST 🌺")
