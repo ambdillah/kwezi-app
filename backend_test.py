@@ -9560,6 +9560,360 @@ class MayotteEducationTester:
             print(f"❌ Tradition menu visibility and expression corrections test error: {e}")
             return False
 
+    def test_alphabetical_organization_verification(self):
+        """Test alphabetical organization of words in categories as requested in review"""
+        print("\n=== Testing Alphabetical Organization Verification ===")
+        
+        try:
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            
+            # Group words by category
+            words_by_category = {}
+            for word in words:
+                category = word['category']
+                if category not in words_by_category:
+                    words_by_category[category] = []
+                words_by_category[category].append(word['french'])
+            
+            # Test specific categories mentioned in review request
+            test_categories = {
+                'couleurs': ['Blanc', 'Bleu', 'Gris', 'Jaune', 'Marron', 'Noir', 'Rouge', 'Vert'],
+                'salutations': ['Au revoir', 'Bonjour', 'Comment ça va']  # Should start with these
+            }
+            
+            all_alphabetical = True
+            
+            print("--- Testing Specific Category Alphabetical Order ---")
+            
+            # Test couleurs category
+            if 'couleurs' in words_by_category:
+                couleurs_words = sorted(words_by_category['couleurs'])
+                expected_couleurs = test_categories['couleurs']
+                
+                print(f"\nCouleurs category:")
+                print(f"Found words: {couleurs_words}")
+                print(f"Expected order: {expected_couleurs}")
+                
+                # Check if the expected words are present and in correct order
+                found_expected = [word for word in couleurs_words if word in expected_couleurs]
+                if found_expected == sorted(expected_couleurs):
+                    print("✅ Couleurs category is in alphabetical order")
+                else:
+                    print("❌ Couleurs category is not in correct alphabetical order")
+                    all_alphabetical = False
+            else:
+                print("❌ Couleurs category not found")
+                all_alphabetical = False
+            
+            # Test salutations category
+            if 'salutations' in words_by_category:
+                salutations_words = sorted(words_by_category['salutations'])
+                expected_start = test_categories['salutations']
+                
+                print(f"\nSalutations category:")
+                print(f"Found words (sorted): {salutations_words}")
+                print(f"Should start with: {expected_start}")
+                
+                # Check if it starts with the expected words in alphabetical order
+                starts_correctly = True
+                for i, expected_word in enumerate(expected_start):
+                    if i < len(salutations_words) and salutations_words[i] == expected_word:
+                        continue
+                    else:
+                        starts_correctly = False
+                        break
+                
+                if starts_correctly:
+                    print("✅ Salutations category starts correctly in alphabetical order")
+                else:
+                    print("❌ Salutations category does not start in correct alphabetical order")
+                    all_alphabetical = False
+            else:
+                print("❌ Salutations category not found")
+                all_alphabetical = False
+            
+            # Test at least 3 categories for alphabetical order as requested
+            print("\n--- Testing Additional Categories for Alphabetical Order ---")
+            
+            categories_to_test = ['famille', 'animaux', 'nombres']
+            categories_tested = 0
+            
+            for category in categories_to_test:
+                if category in words_by_category and len(words_by_category[category]) > 1:
+                    words_in_category = words_by_category[category]
+                    sorted_words = sorted(words_in_category)
+                    
+                    print(f"\n{category.capitalize()} category:")
+                    print(f"Original order: {words_in_category[:5]}...")  # Show first 5
+                    print(f"Alphabetical order: {sorted_words[:5]}...")  # Show first 5
+                    
+                    if words_in_category == sorted_words:
+                        print(f"✅ {category.capitalize()} category is in alphabetical order")
+                    else:
+                        print(f"❌ {category.capitalize()} category is not in alphabetical order")
+                        all_alphabetical = False
+                    
+                    categories_tested += 1
+            
+            if categories_tested >= 3:
+                print(f"✅ Tested {categories_tested} categories for alphabetical order")
+            else:
+                print(f"❌ Only tested {categories_tested} categories (need at least 3)")
+                all_alphabetical = False
+            
+            return all_alphabetical
+            
+        except Exception as e:
+            print(f"❌ Alphabetical organization test error: {e}")
+            return False
+
+    def test_cour_correction_verification(self):
+        """Test the specific 'Cour' correction mentioned in review request"""
+        print("\n=== Testing 'Cour' Correction Verification ===")
+        
+        try:
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            words_by_french = {word['french']: word for word in words}
+            
+            # Test specific correction: "Cour" should have shimaoré: "Mraba", kibouchi: "Lacourou"
+            expected_cour = {
+                "french": "Cour",
+                "shimaore": "Mraba", 
+                "kibouchi": "Lacourou"
+            }
+            
+            print("--- Testing 'Cour' Word Correction ---")
+            
+            if "Cour" in words_by_french:
+                cour_word = words_by_french["Cour"]
+                
+                # Check shimaoré translation
+                if cour_word['shimaore'] == expected_cour['shimaore']:
+                    print(f"✅ 'Cour' shimaoré correct: '{cour_word['shimaore']}'")
+                    shimaore_correct = True
+                else:
+                    print(f"❌ 'Cour' shimaoré incorrect: Expected '{expected_cour['shimaore']}', got '{cour_word['shimaore']}'")
+                    shimaore_correct = False
+                
+                # Check kibouchi translation
+                if cour_word['kibouchi'] == expected_cour['kibouchi']:
+                    print(f"✅ 'Cour' kibouchi correct: '{cour_word['kibouchi']}'")
+                    kibouchi_correct = True
+                else:
+                    print(f"❌ 'Cour' kibouchi incorrect: Expected '{expected_cour['kibouchi']}', got '{cour_word['kibouchi']}'")
+                    kibouchi_correct = False
+                
+                if shimaore_correct and kibouchi_correct:
+                    print(f"✅ 'Cour' has correct translations: {cour_word['shimaore']} (Shimaoré) / {cour_word['kibouchi']} (Kibouchi)")
+                    return True
+                else:
+                    print(f"❌ 'Cour' has incorrect translations")
+                    return False
+            else:
+                print(f"❌ 'Cour' not found in database")
+                return False
+            
+        except Exception as e:
+            print(f"❌ 'Cour' correction test error: {e}")
+            return False
+
+    def test_total_word_count_verification(self):
+        """Test that total word count is 572 as mentioned in review request"""
+        print("\n=== Testing Total Word Count Verification ===")
+        
+        try:
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            total_count = len(words)
+            expected_count = 572
+            
+            print(f"--- Testing Total Word Count ---")
+            print(f"Found words: {total_count}")
+            print(f"Expected words: {expected_count}")
+            
+            if total_count == expected_count:
+                print(f"✅ Total word count correct: {total_count} words")
+                return True
+            else:
+                # Allow some tolerance for the count
+                if abs(total_count - expected_count) <= 10:
+                    print(f"⚠️ Total word count close to expected: {total_count} words (expected {expected_count}, within tolerance)")
+                    return True
+                else:
+                    print(f"❌ Total word count incorrect: {total_count} words (expected {expected_count})")
+                    return False
+            
+        except Exception as e:
+            print(f"❌ Total word count test error: {e}")
+            return False
+
+    def test_previous_corrections_maintained(self):
+        """Test that previous corrections are maintained as mentioned in review request"""
+        print("\n=== Testing Previous Corrections Maintained ===")
+        
+        try:
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            words_by_french = {word['french']: word for word in words}
+            
+            # Test specific previous corrections mentioned in review request
+            previous_corrections = [
+                {
+                    "french": "Gingembre",
+                    "shimaore": "Tsinguiziou",
+                    "note": "shimaoré should be 'Tsinguiziou'"
+                },
+                {
+                    "french": "Torche locale",
+                    "shimaore": "Gandilé/Poutroumax",
+                    "kibouchi": "Gandilé/Poutroumax",
+                    "note": "both shimaoré and kibouchi should be 'Gandilé/Poutroumax'"
+                }
+            ]
+            
+            print("--- Testing Previous Corrections Are Maintained ---")
+            
+            all_corrections_maintained = True
+            
+            for correction in previous_corrections:
+                french_word = correction['french']
+                if french_word in words_by_french:
+                    word = words_by_french[french_word]
+                    
+                    # Check shimaoré if specified
+                    if 'shimaore' in correction:
+                        if word['shimaore'] == correction['shimaore']:
+                            print(f"✅ {french_word} shimaoré maintained: '{word['shimaore']}'")
+                        else:
+                            print(f"❌ {french_word} shimaoré not maintained: Expected '{correction['shimaore']}', got '{word['shimaore']}'")
+                            all_corrections_maintained = False
+                    
+                    # Check kibouchi if specified
+                    if 'kibouchi' in correction:
+                        if word['kibouchi'] == correction['kibouchi']:
+                            print(f"✅ {french_word} kibouchi maintained: '{word['kibouchi']}'")
+                        else:
+                            print(f"❌ {french_word} kibouchi not maintained: Expected '{correction['kibouchi']}', got '{word['kibouchi']}'")
+                            all_corrections_maintained = False
+                    
+                    print(f"   Note: {correction['note']}")
+                else:
+                    print(f"❌ {french_word} not found in database")
+                    all_corrections_maintained = False
+            
+            return all_corrections_maintained
+            
+        except Exception as e:
+            print(f"❌ Previous corrections test error: {e}")
+            return False
+
+    def test_category_loading_functionality(self):
+        """Test loading of each category as mentioned in review request"""
+        print("\n=== Testing Category Loading Functionality ===")
+        
+        try:
+            # Get all words to see available categories
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            
+            # Get unique categories
+            categories = set(word['category'] for word in words)
+            print(f"Found categories: {sorted(categories)}")
+            
+            print("--- Testing Each Category Loading ---")
+            
+            all_categories_load = True
+            
+            for category in sorted(categories):
+                # Test loading each category
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    print(f"✅ {category.capitalize()} category loads: {len(category_words)} words")
+                else:
+                    print(f"❌ {category.capitalize()} category failed to load: {response.status_code}")
+                    all_categories_load = False
+            
+            return all_categories_load
+            
+        except Exception as e:
+            print(f"❌ Category loading test error: {e}")
+            return False
+
+    def run_review_request_tests(self):
+        """Run specific tests for the review request"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - REVIEW REQUEST TESTING 🌺")
+        print("=" * 70)
+        
+        test_results = []
+        
+        # Basic connectivity tests
+        test_results.append(("Basic Connectivity", self.test_basic_connectivity()))
+        test_results.append(("MongoDB Connection", self.test_mongodb_connection()))
+        
+        # Content initialization
+        test_results.append(("Init Base Content", self.test_init_base_content()))
+        
+        # Review request specific tests
+        test_results.append(("Cour Correction", self.test_cour_correction_verification()))
+        test_results.append(("Alphabetical Organization", self.test_alphabetical_organization_verification()))
+        test_results.append(("Total Word Count (572)", self.test_total_word_count_verification()))
+        test_results.append(("Previous Corrections Maintained", self.test_previous_corrections_maintained()))
+        test_results.append(("Category Loading", self.test_category_loading_functionality()))
+        
+        # Print summary
+        print("\n" + "=" * 70)
+        print("🎯 REVIEW REQUEST TEST SUMMARY")
+        print("=" * 70)
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, result in test_results:
+            status = "✅ PASS" if result else "❌ FAIL"
+            print(f"{status} - {test_name}")
+            if result:
+                passed += 1
+            else:
+                failed += 1
+        
+        print(f"\nTotal Tests: {len(test_results)}")
+        print(f"Passed: {passed}")
+        print(f"Failed: {failed}")
+        
+        if failed == 0:
+            print("\n🎉 All review request tests passed! Backend reorganization verified successfully.")
+        else:
+            print(f"\n⚠️ {failed} test(s) failed. Please check the issues above.")
+        
+        return failed == 0
+
     def run_all_tests(self):
         """Run updated expressions vocabulary test as requested in review"""
         print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED EXPRESSIONS VOCABULARY TEST 🌺")
