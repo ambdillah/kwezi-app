@@ -1241,6 +1241,137 @@ class MayotteEducationTester:
             print(f"❌ Specific food corrections verification error: {e}")
             return False
 
+    def test_specific_corrections_verification(self):
+        """Test the specific corrections mentioned in the review request"""
+        print("\n=== Testing Specific Corrections Verification ===")
+        
+        try:
+            # 1. Test Gingembre correction in nourriture category
+            print("--- Testing Gingembre Correction ---")
+            response = self.session.get(f"{API_BASE}/words?category=nourriture")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve nourriture words: {response.status_code}")
+                return False
+            
+            nourriture_words = response.json()
+            nourriture_words_by_french = {word['french']: word for word in nourriture_words}
+            
+            gingembre_correct = False
+            if "Gingembre" in nourriture_words_by_french:
+                gingembre = nourriture_words_by_french["Gingembre"]
+                expected_shimaore = "Tsinguiziou"
+                
+                if gingembre['shimaore'] == expected_shimaore:
+                    print(f"✅ Gingembre shimaoré correction verified: '{gingembre['shimaore']}' (was 'Sakayi')")
+                    gingembre_correct = True
+                else:
+                    print(f"❌ Gingembre shimaoré incorrect: Expected '{expected_shimaore}', got '{gingembre['shimaore']}'")
+            else:
+                print("❌ Gingembre not found in nourriture category")
+            
+            # 2. Test Torche locale correction in maison category
+            print("\n--- Testing Torche locale Correction ---")
+            response = self.session.get(f"{API_BASE}/words?category=maison")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve maison words: {response.status_code}")
+                return False
+            
+            maison_words = response.json()
+            maison_words_by_french = {word['french']: word for word in maison_words}
+            
+            torche_correct = False
+            if "Torche locale" in maison_words_by_french:
+                torche = maison_words_by_french["Torche locale"]
+                expected_translation = "Gandilé/Poutroumax"
+                
+                if (torche['shimaore'] == expected_translation and 
+                    torche['kibouchi'] == expected_translation):
+                    print(f"✅ Torche locale correction verified: '{torche['shimaore']}' (Shimaoré) / '{torche['kibouchi']}' (Kibouchi)")
+                    torche_correct = True
+                else:
+                    print(f"❌ Torche locale incorrect: Expected '{expected_translation}' for both languages")
+                    print(f"   Got shimaoré: '{torche['shimaore']}', kibouchi: '{torche['kibouchi']}'")
+            else:
+                print("❌ Torche locale not found in maison category")
+            
+            # 3. Test Cour duplicate removal in maison category
+            print("\n--- Testing Cour Duplicate Removal ---")
+            
+            cour_entries = [word for word in maison_words if word['french'] == 'Cour']
+            cour_duplicate_removed = False
+            
+            if len(cour_entries) == 1:
+                print(f"✅ Only one 'Cour' entry found in maison category (duplicate removed)")
+                cour_duplicate_removed = True
+                
+                # Verify the remaining entry has correct translations
+                cour = cour_entries[0]
+                print(f"   Cour translations: {cour['shimaore']} (Shimaoré) / {cour['kibouchi']} (Kibouchi)")
+            elif len(cour_entries) == 0:
+                print("❌ No 'Cour' entry found in maison category")
+            else:
+                print(f"❌ Multiple 'Cour' entries still exist: {len(cour_entries)} entries found")
+                for i, entry in enumerate(cour_entries):
+                    print(f"   Entry {i+1}: {entry['shimaore']} / {entry['kibouchi']} (ID: {entry['id']})")
+            
+            # 4. Test overall backend functionality
+            print("\n--- Testing Overall Backend Functionality ---")
+            
+            # Test that all API endpoints are still working
+            endpoints_working = True
+            
+            # Test basic word retrieval
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                print(f"✅ GET /api/words working: {len(all_words)} total words")
+            else:
+                print(f"❌ GET /api/words failed: {response.status_code}")
+                endpoints_working = False
+            
+            # Test category filtering
+            test_categories = ['nourriture', 'maison', 'famille', 'couleurs']
+            for category in test_categories:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    print(f"✅ GET /api/words?category={category} working: {len(category_words)} words")
+                else:
+                    print(f"❌ GET /api/words?category={category} failed: {response.status_code}")
+                    endpoints_working = False
+            
+            # Overall result
+            all_corrections_verified = (
+                gingembre_correct and 
+                torche_correct and 
+                cour_duplicate_removed and 
+                endpoints_working
+            )
+            
+            if all_corrections_verified:
+                print("\n🎉 SPECIFIC CORRECTIONS VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Gingembre shimaoré corrected to 'Tsinguiziou' (from 'Sakayi')")
+                print("✅ Torche locale translations corrected to 'Gandilé/Poutroumax' for both languages")
+                print("✅ Cour duplicate removed - only one entry remains in maison category")
+                print("✅ All backend API endpoints working correctly without errors")
+                print("✅ Database corrections have been successfully applied and verified")
+            else:
+                print("\n❌ Some corrections are not properly implemented:")
+                if not gingembre_correct:
+                    print("❌ Gingembre correction not applied")
+                if not torche_correct:
+                    print("❌ Torche locale correction not applied")
+                if not cour_duplicate_removed:
+                    print("❌ Cour duplicate not removed")
+                if not endpoints_working:
+                    print("❌ Backend API endpoints have issues")
+            
+            return all_corrections_verified
+            
+        except Exception as e:
+            print(f"❌ Specific corrections verification error: {e}")
+            return False
+
     def test_tradition_vocabulary_section(self):
         """Test the newly created tradition vocabulary section with all cultural elements from the tableau"""
         print("\n=== Testing Tradition Vocabulary Section ===")
