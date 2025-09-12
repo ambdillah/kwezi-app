@@ -452,7 +452,7 @@ async def init_base_content():
         {"french": "Lit", "shimaore": "Chtrandra", "kibouchi": "Koubani", "category": "maison", "difficulty": 1},
         {"french": "Marmite", "shimaore": "Gnoungou", "kibouchi": "Vilangni", "category": "maison", "difficulty": 1},
         {"french": "Vaisselle", "shimaore": "Ziya", "kibouchi": "Hintagna", "category": "maison", "difficulty": 1},
-        {"french": "Bol", "shimaore": "Bacouli", "kibouchi": "Bacouli", "category": "maison", "difficulty": 1},
+        {"french": "Bol", "shimaore": "Chicombé", "kibouchi": "Bacouli", "category": "maison", "difficulty": 1},
         {"french": "Cuillère", "shimaore": "Soutrou", "kibouchi": "Sotrou", "category": "maison", "difficulty": 1},
         {"french": "Fenêtre", "shimaore": "Fénétri", "kibouchi": "Lafoumétara", "category": "maison", "difficulty": 1},
         {"french": "Chaise", "shimaore": "Chiri", "kibouchi": "Chiri", "category": "maison", "difficulty": 1},
