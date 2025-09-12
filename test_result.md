@@ -579,6 +579,18 @@ metadata:
         agent: "testing"
         comment: "🎉 SPECIFIC EXPRESSION CORRECTION VERIFICATION COMPLETED SUCCESSFULLY! All 9 requirements from the review request have been verified and confirmed: ✅ 1. Backend starts without syntax errors after the correction ✅ 2. /api/words?category=expressions endpoint working correctly (35 expressions) ✅ 3. Specific correction verified: J'ai soif kibouchi = 'Zahou tindranou' (corrected from 'Zahou moussari') ✅ 4. Shimaoré remains unchanged: 'Nissi ona niyora' ✅ 5. All other expressions remain intact and unchanged (J'ai faim, Excuse-moi/pardon, Je voudrais aller à, Où se trouve, S'il vous plaît all verified) ✅ 6. Expression has complete translations in both languages ✅ 7. No duplicate entries introduced (35 unique expressions) ✅ 8. Total expressions count maintained at 35 expressions ✅ 9. Backend API responses working correctly for this specific expression (individual retrieval tested) ✅ Bug fix verification complete - issue has been completely resolved with no regressions. The specific expression correction for 'J'ai soif' has been successfully implemented and all backend functionality remains intact."
 
+  - task: "Final comprehensive vocabulary corrections and updates"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "🎯 FINAL COMPREHENSIVE VOCABULARY CORRECTIONS TESTING COMPLETED! Major corrections verified but duplicate cleanup needed. ✅ Backend starts without errors after all corrections ✅ Maison section corrections verified: Bol: chicombé / bacouli, Toilette: mrabani / mraba (corrected from mraba/mraba) ✅ Nourriture section corrections verified: Noix de coco: nadzi / voiniou (corrected from nazi), Papaye: papaya / poipoiya (new addition), Ciboulette: chouroungou ya mani / doungoulou ravigni, Nourriture: choula / hanigni (corrected from chaoula), Riz non décortiqué: mélé / vari tsivoidissa (new addition) ✅ API functionality tests passed for /api/words?category=maison (43 items) and /api/words?category=nourriture (43 items) ✅ Word counts per category verified: maison: 43 words, nourriture: 43 words, animaux: 65 words, famille: 20 words, couleurs: 8 words, nombres: 20 words ✅ Data integrity verified - all words have proper structure ✅ Total vocabulary: 558 words across 15 categories ❌ CRITICAL ISSUE: 32 duplicate entries found that need cleanup including: Allumer (2x), Couper du bois (2x), Entrer (2x), Peindre (2x), Faire sécher (2x), Amener/Apporter (2x), Mur (2x), Cueillir (2x), Acheter (2x), Éteindre (2x), Clôture (2x), Abîmer (2x), Essuyer (2x), Combler (2x), Pirogue (2x), Toilette (2x), Couper (2x), Ranger/Arranger (2x), Balayer (2x), Cultiver (2x), Tremper (2x), Se raser (2x), Tresser (2x), Poisson (2x), Ongle (2x), Bouche (2x), Tuer (2x), Cuisiner (2x), Griller (2x), Bol (2x), Jouer (2x), Se peigner (2x). All specific corrections from review request are properly implemented, but duplicate cleanup is required for data integrity."
+
   - task: "Updated maison vocabulary testing from new tableau"
     implemented: true
     working: true
