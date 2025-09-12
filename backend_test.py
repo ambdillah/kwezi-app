@@ -8528,6 +8528,272 @@ class MayotteEducationTester:
             print(f"❌ Updated maison vocabulary test error: {e}")
             return False
 
+    def test_updated_nature_vocabulary_corrections_from_tableau(self):
+        """Test the updated nature vocabulary section after applying all corrections from the new tableau"""
+        print("\n=== Testing Updated Nature Vocabulary Corrections from Tableau ===")
+        
+        try:
+            # 1. Test backend startup without errors after all nature corrections
+            print("--- Testing Backend Startup After Nature Corrections ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without errors after all nature corrections")
+            
+            # 2. Test /api/words?category=nature endpoint
+            print("\n--- Testing /api/words?category=nature Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=nature")
+            if response.status_code != 200:
+                print(f"❌ Nature endpoint failed: {response.status_code}")
+                return False
+            
+            nature_words = response.json()
+            nature_words_by_french = {word['french']: word for word in nature_words}
+            print(f"✅ /api/words?category=nature endpoint working correctly ({len(nature_words)} nature items)")
+            
+            # 3. Test specific nature corrections from tableau
+            print("\n--- Testing Specific Nature Corrections from Tableau ---")
+            
+            # Test specific corrections mentioned in review request
+            specific_corrections = [
+                {
+                    "french": "Herbe", 
+                    "shimaore": "Malavou", 
+                    "kibouchi": "Haitri",
+                    "note": "corrected from malavou/hayitri"
+                },
+                {
+                    "french": "Soleil", 
+                    "shimaore": "Jouwa", 
+                    "kibouchi": "Zouva",
+                    "note": "corrected from mwézi/zouva"
+                },
+                {
+                    "french": "Feuille", 
+                    "shimaore": "Mawoini", 
+                    "kibouchi": "Hayitri",
+                    "note": "already corrected previously"
+                },
+                {
+                    "french": "Branche", 
+                    "shimaore": "Trahi", 
+                    "kibouchi": "Trahi",
+                    "note": "corrected from empty/trahi"
+                },
+                {
+                    "french": "Tornade", 
+                    "shimaore": "Ouzimouyi", 
+                    "kibouchi": "Tsikou soulaimana",
+                    "note": "corrected from ouzimouyi/empty"
+                },
+                {
+                    "french": "Cocotier", 
+                    "shimaore": "M'nadzi", 
+                    "kibouchi": "Voudi ni vwaniou",
+                    "note": "corrected from m'hadzi"
+                },
+                {
+                    "french": "Terre", 
+                    "shimaore": "Chivandré ya tsi", 
+                    "kibouchi": "Fotaka",
+                    "note": "corrected from trotro/fotaka"
+                },
+                {
+                    "french": "Platier", 
+                    "shimaore": "Kalé", 
+                    "kibouchi": "Kaléni",
+                    "note": "already corrected previously"
+                },
+                {
+                    "french": "Canne à sucre", 
+                    "shimaore": "Mouwoi", 
+                    "kibouchi": "Fari",
+                    "note": "corrected from mouwa/fari"
+                },
+                {
+                    "french": "École coranique", 
+                    "shimaore": "Shioni", 
+                    "kibouchi": "Kioni",
+                    "note": "should already exist"
+                }
+            ]
+            
+            corrections_verified = True
+            
+            for correction in specific_corrections:
+                french_word = correction['french']
+                if french_word in nature_words_by_french:
+                    word = nature_words_by_french[french_word]
+                    
+                    # Check shimaoré correction
+                    if word['shimaore'] == correction['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{word['shimaore']}' - CORRECTION VERIFIED")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{correction['shimaore']}', got '{word['shimaore']}'")
+                        corrections_verified = False
+                    
+                    # Check kibouchi correction
+                    if word['kibouchi'] == correction['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{word['kibouchi']}' - CORRECTION VERIFIED")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{correction['kibouchi']}', got '{word['kibouchi']}'")
+                        corrections_verified = False
+                    
+                    print(f"   Note: {correction['note']}")
+                else:
+                    print(f"❌ {french_word} not found in nature category")
+                    corrections_verified = False
+            
+            # 4. Test API functionality - verify total nature word count
+            print("\n--- Testing Total Nature Word Count ---")
+            
+            total_nature_count = len(nature_words)
+            print(f"Total nature words found: {total_nature_count}")
+            
+            # Expect at least 30+ nature words based on previous tests
+            if total_nature_count >= 30:
+                print(f"✅ Nature word count adequate: {total_nature_count} words (30+ expected)")
+                count_check = True
+            else:
+                print(f"❌ Insufficient nature words: {total_nature_count} words (30+ expected)")
+                count_check = False
+                corrections_verified = False
+            
+            # 5. Check data integrity - all corrections applied successfully
+            print("\n--- Testing Data Integrity ---")
+            
+            # Verify no missing translations
+            missing_translations = []
+            for word in nature_words:
+                if not word['shimaore'] or not word['kibouchi']:
+                    missing_translations.append(word['french'])
+            
+            if not missing_translations:
+                print("✅ No missing translations found")
+                translations_complete = True
+            else:
+                print(f"❌ Missing translations found for: {missing_translations}")
+                translations_complete = False
+                corrections_verified = False
+            
+            # Verify proper category assignment as "nature"
+            wrong_category = []
+            for word in nature_words:
+                if word['category'] != 'nature':
+                    wrong_category.append(f"{word['french']} ({word['category']})")
+            
+            if not wrong_category:
+                print("✅ All words properly categorized as 'nature'")
+                category_check = True
+            else:
+                print(f"❌ Wrong category assignments: {wrong_category}")
+                category_check = False
+                corrections_verified = False
+            
+            # 6. Verify overall word counts
+            print("\n--- Testing Overall Word Counts ---")
+            
+            # Get total words across all categories
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code == 200:
+                all_words = response.json()
+                total_words = len(all_words)
+                
+                # Count words by category
+                categories = {}
+                for word in all_words:
+                    cat = word['category']
+                    categories[cat] = categories.get(cat, 0) + 1
+                
+                print(f"Total words across all categories: {total_words}")
+                print("Words by category:")
+                for cat, count in sorted(categories.items()):
+                    print(f"  {cat}: {count} words")
+                
+                # Verify nature category is present and has reasonable count
+                if 'nature' in categories and categories['nature'] >= 30:
+                    print(f"✅ Nature category properly integrated: {categories['nature']} words")
+                    integration_check = True
+                else:
+                    print(f"❌ Nature category integration issue: {categories.get('nature', 0)} words")
+                    integration_check = False
+                    corrections_verified = False
+            else:
+                print(f"❌ Could not retrieve overall word counts: {response.status_code}")
+                integration_check = False
+                corrections_verified = False
+            
+            # 7. Test individual API responses for corrected nature words
+            print("\n--- Testing Individual API Responses for Corrected Nature Words ---")
+            
+            api_responses_correct = True
+            sample_corrections = specific_corrections[:3]  # Test first 3 for efficiency
+            
+            for correction in sample_corrections:
+                french_word = correction['french']
+                if french_word in nature_words_by_french:
+                    word_id = nature_words_by_french[french_word]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if (retrieved_word['shimaore'] == correction['shimaore'] and 
+                            retrieved_word['kibouchi'] == correction['kibouchi']):
+                            print(f"✅ {french_word} API response correct: {retrieved_word['shimaore']} / {retrieved_word['kibouchi']}")
+                        else:
+                            print(f"❌ {french_word} API response incorrect")
+                            api_responses_correct = False
+                            corrections_verified = False
+                    else:
+                        print(f"❌ {french_word} API retrieval failed: {response.status_code}")
+                        api_responses_correct = False
+                        corrections_verified = False
+            
+            # Overall result
+            all_tests_passed = (
+                corrections_verified and 
+                count_check and 
+                translations_complete and 
+                category_check and 
+                integration_check and 
+                api_responses_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED NATURE VOCABULARY CORRECTIONS TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Backend startup without errors after all nature corrections")
+                print("✅ Nature section corrections from tableau verified:")
+                print("   - Herbe: malavou / haitri (corrected)")
+                print("   - Soleil: jouwa / zouva (corrected)")
+                print("   - Feuille: mawoini / hayitri (already corrected)")
+                print("   - Branche: trahi / trahi (corrected)")
+                print("   - Tornade: ouzimouyi / tsikou soulaimana (corrected)")
+                print("   - Cocotier: m'nadzi / voudi ni vwaniou (corrected)")
+                print("   - Terre: chivandré ya tsi / fotaka (corrected)")
+                print("   - Platier: kalé / kaléni (already corrected)")
+                print("   - Canne à sucre: mouwoi / fari (corrected)")
+                print("   - École coranique: shioni / kioni (verified)")
+                print("✅ API functionality tests passed:")
+                print(f"   - /api/words?category=nature endpoint working ({total_nature_count} words)")
+                print(f"   - Total nature word count verified: {total_nature_count} words")
+                print("   - Data integrity confirmed")
+                print("✅ Comprehensive verification completed:")
+                print("   - All corrections applied successfully")
+                print("   - No missing translations")
+                print("   - Proper category assignment as 'nature'")
+                print(f"   - Overall word counts verified: {total_words} total words")
+                print("✅ All nature corrections from the new tableau are now fully functional")
+            else:
+                print("\n❌ Some nature vocabulary corrections are not properly implemented or have issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated nature vocabulary corrections test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run updated expressions vocabulary test as requested in review"""
         print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED EXPRESSIONS VOCABULARY TEST 🌺")
