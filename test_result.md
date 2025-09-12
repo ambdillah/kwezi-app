@@ -675,6 +675,18 @@ metadata:
         agent: "testing"
         comment: "🎉 UPDATED NATURE VOCABULARY CORRECTIONS TESTING COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ Backend starts without errors after all nature corrections ✅ /api/words?category=nature endpoint working correctly (49 nature items) ✅ All 10 specific nature corrections from tableau verified: Herbe: malavou/haitri (corrected from malavou/hayitri), Soleil: jouwa/zouva (corrected from mwézi/zouva), Feuille: mawoini/hayitri (already corrected previously), Branche: trahi/trahi (corrected from empty/trahi), Tornade: ouzimouyi/tsikou soulaimana (corrected from ouzimouyi/empty), Cocotier: m'nadzi/voudi ni vwaniou (corrected from m'hadzi), Terre: chivandré ya tsi/fotaka (corrected from trotro/fotaka), Plateau: kalé/kaléni (already corrected previously - was Platier in request), Canne à sucre: mouwoi/fari (corrected from mouwa/fari), École coranique: shioni/kioni (verified existing) ✅ API functionality tests passed: Total nature word count verified (49 words), Data integrity confirmed ✅ Comprehensive verification completed: All corrections applied successfully, No missing translations, Proper category assignment as 'nature', Overall word counts verified (558 total words) ✅ All nature corrections from the new tableau are now fully functional and ready for educational use."
 
+  - task: "Tradition menu visibility and expression corrections verification"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "🔍 TRADITION MENU VISIBILITY AND EXPRESSION CORRECTIONS TESTING COMPLETED! Backend analysis reveals mixed results. ✅ Backend is running properly after restart (200 status) ✅ /api/words?category=tradition endpoint works correctly (16 tradition elements) ✅ Tradition elements are present and accessible: Mariage=Haroussi/Haroussi, Chant mariage traditionnel=Mlélézi/Mlélézi, Petit mariage=Mafounguidzo/Mafounguidzo, Grand mariage=Manzaraka/Manzaraka, etc. ✅ Tradition category exists in word list (confirmed in 16 total categories) ✅ All categories including tradition are available for frontend: adjectifs, animaux, corps, couleurs, expressions, famille, grammaire, maison, nature, nombres, nourriture, salutations, tradition, transport, verbes, vetements ✅ Frontend can retrieve tradition data successfully (16 items with all required fields) ✅ Total vocabulary: 574 words across 16 categories ❌ EXPRESSION CORRECTIONS NOT IMPLEMENTED: 'Je peux avoir des toilettes' still has incorrect shimaoré 'Tnissi miya mraba' (should be 'Nissi miya mraba') ❌ MISSING EXPRESSION: 'Je n'ai pas compris' with shimaoré 'Tsa éléwa' not found in expressions (44 expressions total) ✅ TRADITION MENU SHOULD BE VISIBLE: All backend requirements met for tradition menu visibility. If tradition menu still not visible in frontend, issue is likely: frontend cache needs clearing, frontend service needs restart, or frontend category filtering logic needs checking. The tradition category is fully functional on backend side with 16 authentic cultural elements."
+
 test_plan:
   current_focus: []
   stuck_tasks: []
