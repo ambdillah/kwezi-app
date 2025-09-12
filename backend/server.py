@@ -460,7 +460,7 @@ async def init_base_content():
         {"french": "Chaise", "shimaore": "Chiri", "kibouchi": "Chiri", "category": "maison", "difficulty": 1},
         {"french": "Table", "shimaore": "Latabou", "kibouchi": "Latabou", "category": "maison", "difficulty": 1},
         {"french": "Miroir", "shimaore": "Chido", "kibouchi": "Kitarafa", "category": "maison", "difficulty": 1},
-        {"french": "Cour", "shimaore": "Lacourou", "kibouchi": "Lacourou", "category": "maison", "difficulty": 1},
+        {"french": "Cour", "shimaore": "Mraba", "kibouchi": "Lacourou", "category": "maison", "difficulty": 1},
         {"french": "Clôture", "shimaore": "Mraba", "kibouchi": "Mraba", "category": "maison", "difficulty": 1},
         {"french": "Toilette", "shimaore": "Mrabani", "kibouchi": "Mraba", "category": "maison", "difficulty": 1},
         {"french": "Louche", "shimaore": "Paou", "kibouchi": "Pow", "category": "maison", "difficulty": 1},
