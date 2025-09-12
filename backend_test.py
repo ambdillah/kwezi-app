@@ -11221,17 +11221,17 @@ class MayotteEducationTester:
             return False
 
 if __name__ == "__main__":
-    print("🌺 Starting Mayotte Educational App Specific Corrections Testing 🌺")
+    print("🌺 Starting Mayotte Educational App Verbs Duplicate Removal Testing 🌺")
     print("=" * 80)
     
     tester = MayotteEducationTester()
     
-    # Run focused test for specific corrections as requested in review
+    # Run focused test for verbs duplicate removal as requested in review
     tests = [
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("Specific Corrections Verification", tester.test_specific_corrections_verification)
+        ("Verbs Duplicate Removal Verification", tester.test_verbs_duplicate_removal_verification)
     ]
     
     passed = 0
