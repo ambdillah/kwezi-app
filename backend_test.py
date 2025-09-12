@@ -11590,22 +11590,18 @@ class MayotteEducationTester:
             return False
 
 if __name__ == "__main__":
-    print("🎯 Starting Specific Corrections Verification Testing 🎯")
-    print("Testing the three specific corrections requested in the review:")
-    print("1. Intelligent (adjectifs) - shimaoré correction")
-    print("2. Nerveux (adjectifs) - shimaoré and kibouchi corrections")
-    print("3. Je n'ai pas compris (expressions) - shimaoré and kibouchi corrections")
+    print("🎯 Starting Numbers Reorganization Testing 🎯")
+    print("Testing the reorganization of the 'nombres' section as requested in the review:")
+    print("1. Numbers 1-20 organized in logical order (Un, Deux, Trois...Vingt)")
+    print("2. Other categories remain alphabetically organized")
+    print("3. Global functionality maintained")
+    print("4. Previous corrections preserved")
     print("=" * 80)
     
     tester = MayotteEducationTester()
     
-    # Run focused test for specific corrections as requested in review
-    tests = [
-        ("Basic API Connectivity", tester.test_basic_connectivity),
-        ("MongoDB Connection", tester.test_mongodb_connection),
-        ("Educational Content Initialization", tester.test_init_base_content),
-        ("Specific Corrections Verification", tester.test_specific_corrections_verification)
-    ]
+    # Run the numbers reorganization test
+    success = tester.run_all_tests()
     
     passed = 0
     failed = 0
