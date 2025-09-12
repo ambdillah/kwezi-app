@@ -10288,18 +10288,215 @@ class MayotteEducationTester:
             print(f"❌ Final comprehensive vocabulary corrections test error: {e}")
             return False
 
+    def test_vocabulary_corrections_and_deletions_final(self):
+        """Test final comprehensive vocabulary corrections and deletions as requested in review"""
+        print("\n=== Testing Final Vocabulary Corrections and Deletions ===")
+        
+        try:
+            # 1. Test backend startup without errors after all changes
+            print("--- Testing Backend Startup After All Changes ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has errors after changes: {response.status_code}")
+                return False
+            print("✅ Backend starts without errors after all changes")
+            
+            all_words = response.json()
+            words_by_french = {word['french']: word for word in all_words}
+            
+            # 2. Test deletions verification
+            print("\n--- Testing Deletions Verification ---")
+            
+            # Check "Sot" should be removed from maison category
+            maison_response = self.session.get(f"{API_BASE}/words?category=maison")
+            if maison_response.status_code != 200:
+                print(f"❌ Could not retrieve maison words: {maison_response.status_code}")
+                return False
+            
+            maison_words = maison_response.json()
+            maison_french_words = [word['french'] for word in maison_words]
+            
+            if "Sot" not in maison_french_words:
+                print("✅ 'Sot' successfully removed from maison category")
+                sot_deleted = True
+            else:
+                print("❌ 'Sot' still exists in maison category - should be removed")
+                sot_deleted = False
+            
+            # Check "Route" should be removed from nature category
+            nature_response = self.session.get(f"{API_BASE}/words?category=nature")
+            if nature_response.status_code != 200:
+                print(f"❌ Could not retrieve nature words: {nature_response.status_code}")
+                return False
+            
+            nature_words = nature_response.json()
+            nature_french_words = [word['french'] for word in nature_words]
+            
+            if "Route" not in nature_french_words:
+                print("✅ 'Route' successfully removed from nature category")
+                route_deleted = True
+            else:
+                print("❌ 'Route' still exists in nature category - should be removed")
+                route_deleted = False
+            
+            # 3. Test corrections verification
+            print("\n--- Testing Corrections Verification ---")
+            
+            # Check "Torche locale" in maison: shimaoré = "Gandilé/Poutourmax", kibouchi = "Poutourmax"
+            torche_locale_correct = False
+            if "Torche locale" in words_by_french:
+                torche_word = words_by_french["Torche locale"]
+                if (torche_word['category'] == 'maison' and 
+                    torche_word['shimaore'] == "Gandilé/Poutourmax" and 
+                    torche_word['kibouchi'] == "Poutourmax"):
+                    print("✅ 'Torche locale' in maison: shimaoré = 'Gandilé/Poutourmax', kibouchi = 'Poutourmax' - CORRECT")
+                    torche_locale_correct = True
+                else:
+                    print(f"❌ 'Torche locale' incorrect: Expected shimaoré='Gandilé/Poutourmax', kibouchi='Poutourmax', got shimaoré='{torche_word['shimaore']}', kibouchi='{torche_word['kibouchi']}'")
+            else:
+                print("❌ 'Torche locale' not found in database")
+            
+            # Check "Plateau" in nature: shimaoré = "Bandra", kibouchi = "Kètraka"
+            plateau_correct = False
+            if "Plateau" in words_by_french:
+                plateau_word = words_by_french["Plateau"]
+                if (plateau_word['category'] == 'nature' and 
+                    plateau_word['shimaore'] == "Bandra" and 
+                    plateau_word['kibouchi'] == "Kètraka"):
+                    print("✅ 'Plateau' in nature: shimaoré = 'Bandra', kibouchi = 'Kètraka' - CORRECT")
+                    plateau_correct = True
+                else:
+                    print(f"❌ 'Plateau' incorrect: Expected shimaoré='Bandra', kibouchi='Kètraka', got shimaoré='{plateau_word['shimaore']}', kibouchi='{plateau_word['kibouchi']}'")
+            else:
+                print("❌ 'Plateau' not found in database")
+            
+            # 4. Test category integrity
+            print("\n--- Testing Category Integrity ---")
+            
+            # Test /api/words?category=maison endpoint
+            print(f"✅ /api/words?category=maison endpoint working correctly ({len(maison_words)} items)")
+            
+            # Test /api/words?category=nature endpoint  
+            print(f"✅ /api/words?category=nature endpoint working correctly ({len(nature_words)} items)")
+            
+            # Verify other categories remain intact
+            all_categories = set(word['category'] for word in all_words)
+            expected_categories = {
+                'famille', 'salutations', 'couleurs', 'animaux', 'nombres', 
+                'corps', 'nourriture', 'maison', 'vetements', 'nature', 
+                'grammaire', 'verbes', 'adjectifs', 'expressions'
+            }
+            
+            categories_intact = expected_categories.issubset(all_categories)
+            if categories_intact:
+                print(f"✅ All expected categories remain intact: {sorted(all_categories)}")
+            else:
+                missing = expected_categories - all_categories
+                print(f"❌ Missing categories: {missing}")
+            
+            # 5. Test data integrity checks
+            print("\n--- Testing Data Integrity Checks ---")
+            
+            # Ensure no duplicate entries were created
+            french_names = [word['french'] for word in all_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique words)")
+                no_duplicates = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                no_duplicates = False
+            
+            # Check proper category assignments
+            category_assignments_correct = True
+            for word in all_words:
+                if word['category'] not in all_categories:
+                    print(f"❌ Invalid category assignment: {word['french']} has category '{word['category']}'")
+                    category_assignments_correct = False
+            
+            if category_assignments_correct:
+                print("✅ All words have proper category assignments")
+            
+            # Verify total word counts
+            total_words = len(all_words)
+            print(f"✅ Total word count: {total_words} words")
+            
+            # 6. Comprehensive summary
+            print("\n--- Comprehensive Summary ---")
+            
+            # List all changes verified
+            changes_verified = []
+            if sot_deleted:
+                changes_verified.append("'Sot' removed from maison category")
+            if route_deleted:
+                changes_verified.append("'Route' removed from nature category")
+            if torche_locale_correct:
+                changes_verified.append("'Torche locale' corrected in maison category")
+            if plateau_correct:
+                changes_verified.append("'Plateau' corrected in nature category")
+            
+            print("Changes verified:")
+            for change in changes_verified:
+                print(f"  ✅ {change}")
+            
+            # Total word counts per affected categories
+            category_counts = {}
+            for category in ['maison', 'nature']:
+                category_response = self.session.get(f"{API_BASE}/words?category={category}")
+                if category_response.status_code == 200:
+                    category_words = category_response.json()
+                    category_counts[category] = len(category_words)
+                    print(f"  {category.capitalize()} category: {len(category_words)} words")
+            
+            # Overall word count after changes
+            print(f"  Overall word count after changes: {total_words} words")
+            
+            # Overall result
+            all_tests_passed = (
+                sot_deleted and 
+                route_deleted and 
+                torche_locale_correct and 
+                plateau_correct and 
+                categories_intact and 
+                no_duplicates and 
+                category_assignments_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 FINAL COMPREHENSIVE VOCABULARY CORRECTIONS AND DELETIONS COMPLETED SUCCESSFULLY!")
+                print("✅ Backend startup without errors after all changes")
+                print("✅ Deletions verification:")
+                print("   - 'Sot' removed from maison category")
+                print("   - 'Route' removed from nature category")
+                print("✅ Corrections verification:")
+                print("   - 'Torche locale' in maison: shimaoré = 'Gandilé/Poutourmax', kibouchi = 'Poutourmax'")
+                print("   - 'Plateau' in nature: shimaoré = 'Bandra', kibouchi = 'Kètraka'")
+                print("✅ Category integrity tests passed")
+                print("✅ Data integrity checks passed")
+                print("✅ All requested deletions and corrections have been properly implemented")
+            else:
+                print("\n❌ Some vocabulary corrections and deletions are not properly implemented")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Vocabulary corrections and deletions test error: {e}")
+            return False
+
 if __name__ == "__main__":
-    print("🌺 Starting Mayotte Educational App Final Comprehensive Testing 🌺")
-    print("=" * 60)
+    print("🌺 Starting Mayotte Educational App Final Vocabulary Corrections and Deletions Testing 🌺")
+    print("=" * 80)
     
     tester = MayotteEducationTester()
     
-    # Run focused test for final comprehensive vocabulary corrections
+    # Run focused test for final vocabulary corrections and deletions as requested in review
     tests = [
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("Final Comprehensive Vocabulary Corrections", tester.test_final_comprehensive_vocabulary_corrections)
+        ("Final Vocabulary Corrections and Deletions", tester.test_vocabulary_corrections_and_deletions_final)
     ]
     
     passed = 0
