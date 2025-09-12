@@ -1242,6 +1242,287 @@ class MayotteEducationTester:
             return False
 
 
+    def test_new_food_words_addition_verification(self):
+        """Test the addition of two new words in the 'nourriture' section: Crevettes and Langouste"""
+        print("\n=== Testing New Food Words Addition Verification ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors
+            print("--- Testing Backend Startup After Adding New Words ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after adding new words")
+            
+            # 2. Test the /api/words?category=nourriture endpoint
+            print("\n--- Testing /api/words?category=nourriture Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=nourriture")
+            if response.status_code != 200:
+                print(f"❌ Nourriture endpoint failed: {response.status_code}")
+                return False
+            
+            food_words = response.json()
+            food_words_by_french = {word['french']: word for word in food_words}
+            print(f"✅ /api/words?category=nourriture working correctly ({len(food_words)} food items)")
+            
+            # 3. Verify the two new words are added with correct translations
+            print("\n--- Testing New Words Added: Crevettes and Langouste ---")
+            
+            # Test the two specific new words from the review request
+            new_words = [
+                {
+                    "french": "Crevettes", 
+                    "shimaore": "Camba", 
+                    "kibouchi": "Ancamba",
+                    "category": "nourriture",
+                    "note": "Crevettes (plural) in food section"
+                },
+                {
+                    "french": "Langouste", 
+                    "shimaore": "Camba diva", 
+                    "kibouchi": "Ancamba diva",
+                    "category": "nourriture",
+                    "note": "Langouste in food section"
+                }
+            ]
+            
+            new_words_verified = True
+            
+            for new_word in new_words:
+                french_word = new_word['french']
+                if french_word in food_words_by_french:
+                    word = food_words_by_french[french_word]
+                    
+                    # Check shimaoré translation
+                    if word['shimaore'] == new_word['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{word['shimaore']}' - CORRECT")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{new_word['shimaore']}', got '{word['shimaore']}'")
+                        new_words_verified = False
+                    
+                    # Check kibouchi translation
+                    if word['kibouchi'] == new_word['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{word['kibouchi']}' - CORRECT")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{new_word['kibouchi']}', got '{word['kibouchi']}'")
+                        new_words_verified = False
+                    
+                    # Check category
+                    if word['category'] == new_word['category']:
+                        print(f"✅ {french_word} category: '{word['category']}' - CORRECT")
+                    else:
+                        print(f"❌ {french_word} category: Expected '{new_word['category']}', got '{word['category']}'")
+                        new_words_verified = False
+                    
+                    print(f"   Note: {new_word['note']}")
+                else:
+                    print(f"❌ {french_word} not found in food category")
+                    new_words_verified = False
+            
+            # 4. Test alphabetical organization in food section
+            print("\n--- Testing Alphabetical Organization in Food Section ---")
+            
+            # Get all French words in food section and check if they're alphabetically ordered
+            french_food_words = [word['french'] for word in food_words]
+            sorted_french_words = sorted(french_food_words, key=str.lower)
+            
+            alphabetical_correct = True
+            if french_food_words == sorted_french_words:
+                print("✅ Food words are correctly organized in alphabetical order")
+                
+                # Check specific placement of new words
+                crevettes_index = french_food_words.index("Crevettes") if "Crevettes" in french_food_words else -1
+                langouste_index = french_food_words.index("Langouste") if "Langouste" in french_food_words else -1
+                
+                if crevettes_index != -1 and langouste_index != -1:
+                    print(f"✅ 'Crevettes' positioned at index {crevettes_index}")
+                    print(f"✅ 'Langouste' positioned at index {langouste_index}")
+                    
+                    # Verify they are in correct alphabetical positions
+                    if crevettes_index < langouste_index:  # C comes before L
+                        print("✅ New words are correctly positioned relative to each other")
+                    else:
+                        print("❌ New words are not correctly positioned relative to each other")
+                        alphabetical_correct = False
+                else:
+                    print("❌ Could not find positions of new words")
+                    alphabetical_correct = False
+            else:
+                print("❌ Food words are not in alphabetical order")
+                print(f"Current order: {french_food_words[:10]}...")  # Show first 10
+                print(f"Expected order: {sorted_french_words[:10]}...")  # Show first 10
+                alphabetical_correct = False
+            
+            # 5. Test total word count (should be 550 words: 548 + 2 new)
+            print("\n--- Testing Total Word Count (Should be 550) ---")
+            
+            # Get all words from all categories
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                total_word_count = len(all_words)
+                expected_total = 550
+                
+                if total_word_count == expected_total:
+                    print(f"✅ Total word count correct: {total_word_count} words (expected {expected_total})")
+                    total_count_correct = True
+                else:
+                    print(f"❌ Total word count: {total_word_count} words (expected {expected_total})")
+                    total_count_correct = False
+            else:
+                print(f"❌ Could not retrieve all words: {all_words_response.status_code}")
+                total_count_correct = False
+            
+            # 6. Test food section count (should be 45 words: 43 + 2 new)
+            print("\n--- Testing Food Section Count (Should be 45) ---")
+            
+            expected_food_count = 45
+            actual_food_count = len(food_words)
+            
+            if actual_food_count == expected_food_count:
+                print(f"✅ Food section count correct: {actual_food_count} words (expected {expected_food_count})")
+                food_count_correct = True
+            else:
+                print(f"❌ Food section count: {actual_food_count} words (expected {expected_food_count})")
+                food_count_correct = False
+            
+            # 7. Test difference with animals section (Crevette vs Crevettes)
+            print("\n--- Testing Difference with Animals Section (Crevette vs Crevettes) ---")
+            
+            # Get animals section
+            animals_response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if animals_response.status_code == 200:
+                animals_words = animals_response.json()
+                animals_by_french = {word['french']: word for word in animals_words}
+                
+                # Check if "Crevette" (singular) exists in animals
+                crevette_in_animals = "Crevette" in animals_by_french
+                crevettes_in_food = "Crevettes" in food_words_by_french
+                
+                if crevette_in_animals and crevettes_in_food:
+                    print("✅ 'Crevette' (singular) found in animals section")
+                    print("✅ 'Crevettes' (plural) found in food section")
+                    print("✅ Proper distinction between singular (animals) and plural (food)")
+                    
+                    # Show the difference
+                    crevette_animal = animals_by_french["Crevette"]
+                    crevettes_food = food_words_by_french["Crevettes"]
+                    
+                    print(f"   Animals - Crevette: {crevette_animal['shimaore']} / {crevette_animal['kibouchi']}")
+                    print(f"   Food - Crevettes: {crevettes_food['shimaore']} / {crevettes_food['kibouchi']}")
+                    
+                    distinction_correct = True
+                elif not crevette_in_animals:
+                    print("❌ 'Crevette' (singular) not found in animals section")
+                    distinction_correct = False
+                elif not crevettes_in_food:
+                    print("❌ 'Crevettes' (plural) not found in food section")
+                    distinction_correct = False
+                else:
+                    distinction_correct = False
+            else:
+                print(f"❌ Could not retrieve animals section: {animals_response.status_code}")
+                distinction_correct = False
+            
+            # 8. Test that all API endpoints respond correctly
+            print("\n--- Testing All API Endpoints Respond Correctly ---")
+            
+            api_endpoints_working = True
+            
+            # Test individual word retrieval for new words
+            for new_word in new_words:
+                french_word = new_word['french']
+                if french_word in food_words_by_french:
+                    word_id = food_words_by_french[french_word]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if (retrieved_word['shimaore'] == new_word['shimaore'] and 
+                            retrieved_word['kibouchi'] == new_word['kibouchi']):
+                            print(f"✅ {french_word} API response correct: {retrieved_word['shimaore']} / {retrieved_word['kibouchi']}")
+                        else:
+                            print(f"❌ {french_word} API response incorrect")
+                            api_endpoints_working = False
+                    else:
+                        print(f"❌ {french_word} API retrieval failed: {response.status_code}")
+                        api_endpoints_working = False
+            
+            # 9. Test that new entries are accessible via API
+            print("\n--- Testing New Entries Are Accessible via API ---")
+            
+            new_entries_accessible = True
+            
+            # Test that we can search for the new words
+            for new_word in new_words:
+                french_word = new_word['french']
+                
+                # Test category filtering includes new words
+                if french_word in food_words_by_french:
+                    print(f"✅ {french_word} accessible via category filtering")
+                else:
+                    print(f"❌ {french_word} not accessible via category filtering")
+                    new_entries_accessible = False
+                
+                # Test individual word access
+                if french_word in food_words_by_french:
+                    word_id = food_words_by_french[french_word]['id']
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        print(f"✅ {french_word} accessible via individual API call")
+                    else:
+                        print(f"❌ {french_word} not accessible via individual API call")
+                        new_entries_accessible = False
+            
+            # Overall result
+            all_tests_passed = (
+                new_words_verified and 
+                alphabetical_correct and 
+                total_count_correct and 
+                food_count_correct and 
+                distinction_correct and 
+                api_endpoints_working and 
+                new_entries_accessible
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 NEW FOOD WORDS ADDITION VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend works correctly after adding new words")
+                print("✅ Two new words verified in food section:")
+                print("   - Crevettes: shimaoré 'Camba', kibouchi 'Ancamba'")
+                print("   - Langouste: shimaoré 'Camba diva', kibouchi 'Ancamba diva'")
+                print("✅ New words are correctly placed in alphabetical order")
+                print(f"✅ Total word count is now 550 words (548 + 2 new)")
+                print(f"✅ Food section now contains 45 words (43 + 2 new)")
+                print("✅ Proper distinction between 'Crevette' (singular, animals) and 'Crevettes' (plural, food)")
+                print("✅ All API endpoints respond correctly")
+                print("✅ New entries are accessible via API")
+                print("✅ Global functionality confirmed - backend and all endpoints working")
+            else:
+                print("\n❌ Some aspects of the new food words addition are not working correctly")
+                if not new_words_verified:
+                    print("❌ New words not found or have incorrect translations")
+                if not alphabetical_correct:
+                    print("❌ Alphabetical organization is incorrect")
+                if not total_count_correct:
+                    print("❌ Total word count is not 550")
+                if not food_count_correct:
+                    print("❌ Food section count is not 45")
+                if not distinction_correct:
+                    print("❌ No proper distinction between singular/plural crevette")
+                if not api_endpoints_working:
+                    print("❌ API endpoints have issues")
+                if not new_entries_accessible:
+                    print("❌ New entries are not properly accessible")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ New food words addition verification error: {e}")
+            return False
+
     def test_numbers_reorganization_verification(self):
         """Test the reorganization of the 'nombres' section from 1-20 in logical order"""
         print("\n=== Testing Numbers Reorganization Verification ===")
