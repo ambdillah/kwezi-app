@@ -10819,12 +10819,12 @@ class MayotteEducationTester:
         return failed == 0
 
     def run_all_tests(self):
-        """Run numbers reorganization test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - NUMBERS REORGANIZATION TEST 🌺")
+        """Run new food words addition test as requested in review"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - NEW FOOD WORDS ADDITION TEST 🌺")
         print("=" * 70)
         
-        # Run the specific numbers reorganization test as requested in review
-        print("Running numbers reorganization verification test...")
+        # Run the specific new food words addition test as requested in review
+        print("Running new food words addition verification test...")
         
         test_results = {}
         
@@ -10833,12 +10833,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main numbers reorganization test
-        test_results['numbers_reorganization'] = self.test_numbers_reorganization_verification()
+        # Main new food words addition test
+        test_results['new_food_words'] = self.test_new_food_words_addition_verification()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🌺 NUMBERS REORGANIZATION TEST RESULTS 🌺")
+        print("🌺 NEW FOOD WORDS ADDITION TEST RESULTS 🌺")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -10850,18 +10850,20 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('numbers_reorganization', False):
-            print("🎉 NUMBERS REORGANIZATION TEST PASSED!")
-            print("✅ Numbers 1-20 organized in logical order")
-            print("✅ Other categories remain alphabetically organized")
+        if test_results.get('new_food_words', False):
+            print("🎉 NEW FOOD WORDS ADDITION TEST PASSED!")
+            print("✅ Two new words added to food section:")
+            print("   - Crevettes: shimaoré 'Camba', kibouchi 'Ancamba'")
+            print("   - Langouste: shimaoré 'Camba diva', kibouchi 'Ancamba diva'")
+            print("✅ New words correctly placed in alphabetical order")
+            print("✅ Total word count is now 550 words (548 + 2 new)")
+            print("✅ Food section now contains 45 words (43 + 2 new)")
+            print("✅ Proper distinction between 'Crevette' (animals) and 'Crevettes' (food)")
+            print("✅ All API endpoints respond correctly")
             print("✅ Global functionality working correctly")
-            print("✅ Total word count maintained around 548")
-            print("✅ 'nombres' category contains exactly 20 numbers")
-            print("✅ Previous corrections maintained")
-            print("✅ Duplicate verbs removed")
-            print("The numbers reorganization has been successfully completed and verified.")
+            print("The new food words addition has been successfully completed and verified.")
         else:
-            print("❌ Numbers reorganization test failed. Please review the issues above.")
+            print("❌ New food words addition test failed. Please review the issues above.")
         
         return passed == total
 
