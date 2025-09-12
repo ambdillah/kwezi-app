@@ -658,7 +658,7 @@ async def init_base_content():
         {"french": "Rue/Route", "shimaore": "Paré", "kibouchi": "Paré", "category": "nature", "difficulty": 1},
         {"french": "Bananier", "shimaore": "Trindri", "kibouchi": "Voudini hountsi", "category": "nature", "difficulty": 1},
         {"french": "Feuille", "shimaore": "Mawoini", "kibouchi": "Hayitri", "category": "nature", "difficulty": 1},
-        {"french": "Branche", "shimaore": "", "kibouchi": "Trahi", "category": "nature", "difficulty": 1},
+        {"french": "Branche", "shimaore": "Trahi", "kibouchi": "Trahi", "category": "nature", "difficulty": 1},
         {"french": "Tornade", "shimaore": "Ouzimouyi", "kibouchi": "", "category": "nature", "difficulty": 1},
         
         # Nouveaux éléments nature du tableau supplémentaire
