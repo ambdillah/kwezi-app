@@ -11262,8 +11262,8 @@ if __name__ == "__main__":
     print(f"📊 Total Tests: {passed + failed}")
     
     if failed == 0:
-        print("\n🎉 ALL TESTS PASSED! Final comprehensive vocabulary corrections verified successfully! 🎉")
-        print("🌺 All vocabulary corrections and updates from review request confirmed 🌺")
+        print("\n🎉 ALL TESTS PASSED! Verbs duplicate removal verification completed successfully! 🎉")
+        print("🌺 All duplicate verbs have been successfully removed from the verbs section 🌺")
     else:
         print(f"\n⚠️ {failed} test(s) failed. Please review and fix issues.")
     
