@@ -405,7 +405,7 @@ async def init_base_content():
         # Nourriture (mise à jour complète selon le nouveau tableau)
         {"french": "Riz", "shimaore": "Tsoholé", "kibouchi": "Vari", "category": "nourriture", "difficulty": 1},
         {"french": "Eau", "shimaore": "Maji", "kibouchi": "Ranou", "category": "nourriture", "difficulty": 1},
-        {"french": "Nourriture", "shimaore": "Chaoula", "kibouchi": "Hanigni", "category": "nourriture", "difficulty": 1},
+        {"french": "Nourriture", "shimaore": "Choula", "kibouchi": "Hanigni", "category": "nourriture", "difficulty": 1},
         {"french": "Ananas", "shimaore": "Nanassi", "kibouchi": "Mananassi", "category": "nourriture", "difficulty": 1},
         {"french": "Pois d'angole", "shimaore": "Tsouzi", "kibouchi": "Ambatri", "category": "nourriture", "difficulty": 1},
         {"french": "Banane", "shimaore": "Trovi", "kibouchi": "Hountsi", "category": "nourriture", "difficulty": 1},
