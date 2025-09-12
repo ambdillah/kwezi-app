@@ -10538,16 +10538,12 @@ class MayotteEducationTester:
         return failed == 0
 
     def run_all_tests(self):
-        """Run updated expressions vocabulary test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - UPDATED EXPRESSIONS VOCABULARY TEST 🌺")
-        print("=" * 70)
-    def run_all_tests(self):
-        """Run final comprehensive vocabulary corrections test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - FINAL VOCABULARY CORRECTIONS TEST 🌺")
+        """Run numbers reorganization test as requested in review"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - NUMBERS REORGANIZATION TEST 🌺")
         print("=" * 70)
         
-        # Run the specific final vocabulary corrections test as requested in review
-        print("Running final comprehensive vocabulary corrections test...")
+        # Run the specific numbers reorganization test as requested in review
+        print("Running numbers reorganization verification test...")
         
         test_results = {}
         
@@ -10556,12 +10552,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main final vocabulary corrections test
-        test_results['final_vocabulary_corrections'] = self.test_final_vocabulary_corrections_comprehensive()
+        # Main numbers reorganization test
+        test_results['numbers_reorganization'] = self.test_numbers_reorganization_verification()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🌺 FINAL VOCABULARY CORRECTIONS TEST RESULTS 🌺")
+        print("🌺 NUMBERS REORGANIZATION TEST RESULTS 🌺")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -10573,18 +10569,18 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('final_vocabulary_corrections', False):
-            print("🎉 FINAL VOCABULARY CORRECTIONS TEST PASSED!")
-            print("✅ Backend starts without errors after all corrections")
-            print("✅ Nature section corrections verified")
-            print("✅ Animaux section corrections verified")
-            print("✅ Famille section corrections verified")
-            print("✅ API endpoints working correctly")
-            print("✅ No duplicate entries found")
-            print("✅ Final word counts provided")
-            print("The final comprehensive vocabulary corrections are now complete and verified.")
+        if test_results.get('numbers_reorganization', False):
+            print("🎉 NUMBERS REORGANIZATION TEST PASSED!")
+            print("✅ Numbers 1-20 organized in logical order")
+            print("✅ Other categories remain alphabetically organized")
+            print("✅ Global functionality working correctly")
+            print("✅ Total word count maintained around 548")
+            print("✅ 'nombres' category contains exactly 20 numbers")
+            print("✅ Previous corrections maintained")
+            print("✅ Duplicate verbs removed")
+            print("The numbers reorganization has been successfully completed and verified.")
         else:
-            print("❌ Final vocabulary corrections test failed. Please review the issues above.")
+            print("❌ Numbers reorganization test failed. Please review the issues above.")
         
         return passed == total
 
