@@ -761,6 +761,7 @@ async def init_base_content():
         {"french": "J'ai mal", "shimaore": "Nissi kodza", "kibouchi": "Zahou marari", "category": "expressions", "difficulty": 1},
         {"french": "Pouvez-vous m'aider ?", "shimaore": "Ni sayidié vanou", "kibouchi": "Zahou mangataka moussada", "category": "expressions", "difficulty": 1},
         {"french": "J'ai compris", "shimaore": "Tsi helewa", "kibouchi": "Zahou kouéléwa", "category": "expressions", "difficulty": 1},
+        {"french": "Je n'ai pas compris", "shimaore": "Tsa éléwa", "kibouchi": "Zahou tsa kouéléwa", "category": "expressions", "difficulty": 1},
         {"french": "Je ne peux pas", "shimaore": "Tsi chindri", "kibouchi": "Zahou tsi mahaléou", "category": "expressions", "difficulty": 1},
         {"french": "Montre moi", "shimaore": "Néssédzyéyé", "kibouchi": "Ampizaha zahou", "category": "expressions", "difficulty": 1},
         {"french": "S'il vous plaît", "shimaore": "Tafadali", "kibouchi": "Tafadali", "category": "expressions", "difficulty": 1},
