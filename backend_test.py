@@ -11603,37 +11603,15 @@ if __name__ == "__main__":
     # Run the numbers reorganization test
     success = tester.run_all_tests()
     
-    passed = 0
-    failed = 0
-    
-    for test_name, test_func in tests:
-        print(f"\n{'='*60}")
-        print(f"Running: {test_name}")
-        print('='*60)
-        
-        try:
-            if test_func():
-                print(f"✅ {test_name} PASSED")
-                passed += 1
-            else:
-                print(f"❌ {test_name} FAILED")
-                failed += 1
-        except Exception as e:
-            print(f"❌ {test_name} ERROR: {e}")
-            failed += 1
-    
     # Final summary
     print(f"\n{'='*60}")
-    print("🎯 SPECIFIC CORRECTIONS VERIFICATION TEST SUMMARY 🎯")
+    print("🎯 NUMBERS REORGANIZATION TEST SUMMARY 🎯")
     print(f"{'='*60}")
-    print(f"✅ Tests Passed: {passed}")
-    print(f"❌ Tests Failed: {failed}")
-    print(f"📊 Total Tests: {passed + failed}")
     
-    if failed == 0:
-        print("\n🎉 ALL TESTS PASSED! Specific corrections verification completed successfully! 🎉")
-        print("🎯 All three requested corrections have been successfully verified 🎯")
+    if success:
+        print("\n🎉 ALL TESTS PASSED! Numbers reorganization verification completed successfully! 🎉")
+        print("🎯 The reorganization of the 'nombres' section has been successfully verified 🎯")
     else:
-        print(f"\n⚠️ {failed} test(s) failed. Please review and fix issues.")
+        print(f"\n⚠️ Some tests failed. Please review and fix issues.")
     
     print(f"{'='*60}")
