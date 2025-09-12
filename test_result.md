@@ -663,6 +663,18 @@ metadata:
         agent: "testing"
         comment: "🎉 ANIMAL VOCABULARY CORRECTIONS AND DUPLICATE DETECTION COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ All 7 specific corrections verified and applied correctly: Fourmis kibouchi='Vitsiki' (not 'Visiki'), Corbeau shimaoré='Gawa/Kwayi' (not 'Gawa'), Civette shimaoré='Founga' (not 'Foungo'), Dauphin shimaoré='Moungoumé' (not 'Camba'), Lambis shimaoré='Kombé' (not 'Komba'), Cône de mer shimaoré='Kwitsi' (not 'Tsipoui'), Cheval shimaoré='Poundra' (not 'Farassi') ✅ Backend starts without errors after corrections ✅ All category endpoints work correctly (animaux: 65 words, famille: 20, couleurs: 8, nombres: 20, salutations: 8) ✅ Total word count: 556 words across all categories ✅ Data integrity maintained - all corrected animals have proper structure and category assignment ❌ CRITICAL FINDING: 32 duplicate entries found across categories that need cleanup: 'Bouche' (2x in corps), 'Poisson' (animaux+nourriture), 'Ongle' (2x in corps), multiple verbs duplicated (Faire sécher, Balayer, Couper, Tremper, Se raser, Abîmer, Acheter, Griller, Allumer, Se peigner, Cuisiner, Ranger/Arranger, Tresser, Peindre, Essuyer, Amener/Apporter, Éteindre, Tuer, Combler, Cultiver, Couper du bois, Cueillir, Jouer, Entrer), maison category duplicates (Bol, Clôture, Toilette, Mur), and cross-category duplicates (Pirogue in nature+transport). Complete list of duplicate IDs provided for removal. ✅ API functionality working correctly for all tested endpoints ✅ All 7 animal corrections successfully implemented and verified"
 
+  - task: "Updated nature vocabulary corrections from new tableau"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 UPDATED NATURE VOCABULARY CORRECTIONS TESTING COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ Backend starts without errors after all nature corrections ✅ /api/words?category=nature endpoint working correctly (49 nature items) ✅ All 10 specific nature corrections from tableau verified: Herbe: malavou/haitri (corrected from malavou/hayitri), Soleil: jouwa/zouva (corrected from mwézi/zouva), Feuille: mawoini/hayitri (already corrected previously), Branche: trahi/trahi (corrected from empty/trahi), Tornade: ouzimouyi/tsikou soulaimana (corrected from ouzimouyi/empty), Cocotier: m'nadzi/voudi ni vwaniou (corrected from m'hadzi), Terre: chivandré ya tsi/fotaka (corrected from trotro/fotaka), Plateau: kalé/kaléni (already corrected previously - was Platier in request), Canne à sucre: mouwoi/fari (corrected from mouwa/fari), École coranique: shioni/kioni (verified existing) ✅ API functionality tests passed: Total nature word count verified (49 words), Data integrity confirmed ✅ Comprehensive verification completed: All corrections applied successfully, No missing translations, Proper category assignment as 'nature', Overall word counts verified (558 total words) ✅ All nature corrections from the new tableau are now fully functional and ready for educational use."
+
 test_plan:
   current_focus: []
   stuck_tasks: []
