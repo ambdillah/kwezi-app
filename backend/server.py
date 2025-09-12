@@ -170,7 +170,7 @@ async def upload_image(file: UploadFile = File(...)):
 # Route pour initialiser du contenu de base
 @api_router.post("/init-base-content")
 async def init_base_content():
-    # Contenu authentique complet en shimaoré et kibouchi basé sur les tableaux fournis (version finale organisée alphabétiquement)
+    # Contenu authentique complet en shimaoré et kibouchi basé sur les tableaux fournis (version finale organisée alphabétiquement sauf nombres)
     base_words = [
         # Salutations et expressions courantes
         {"french": "Au revoir", "shimaore": "Kwaheri", "kibouchi": "Maeva", "category": "salutations", "difficulty": 1},
@@ -304,26 +304,26 @@ async def init_base_content():
         {"french": "Âne", "shimaore": "Pundra", "kibouchi": "Ampundra", "category": "animaux", "difficulty": 1},
         {"french": "Éléphant", "shimaore": "Ndovu", "kibouchi": "Ndovu", "category": "animaux", "difficulty": 2},
 
-        # Nombres (corrigés)
-        {"french": "Cinq", "shimaore": "Tsano", "kibouchi": "Dimi", "category": "nombres", "difficulty": 1},
+        # Nombres (organisés de 1 à 20)
+        {"french": "Un", "shimaore": "Moja", "kibouchi": "Areki", "category": "nombres", "difficulty": 1},
         {"french": "Deux", "shimaore": "Mbili", "kibouchi": "Aroyi", "category": "nombres", "difficulty": 1},
-        {"french": "Dix", "shimaore": "Koumi", "kibouchi": "Foulou", "category": "nombres", "difficulty": 1},
-        {"french": "Dix-huit", "shimaore": "Koumi na nané", "kibouchi": "Foulou Valou Ambi", "category": "nombres", "difficulty": 2},
-        {"french": "Dix-neuf", "shimaore": "Koumi na chendra", "kibouchi": "Foulou Civi Ambi", "category": "nombres", "difficulty": 2},
-        {"french": "Dix-sept", "shimaore": "Koumi na saba", "kibouchi": "Foulou Fitou Ambi", "category": "nombres", "difficulty": 2},
-        {"french": "Douze", "shimaore": "Koumi na mbili", "kibouchi": "Foulou Aroyi Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Trois", "shimaore": "Trarou", "kibouchi": "Telou", "category": "nombres", "difficulty": 1},
+        {"french": "Quatre", "shimaore": "Nhé", "kibouchi": "Efatra", "category": "nombres", "difficulty": 1},
+        {"french": "Cinq", "shimaore": "Tsano", "kibouchi": "Dimi", "category": "nombres", "difficulty": 1},
+        {"french": "Six", "shimaore": "Sita", "kibouchi": "Tchouta", "category": "nombres", "difficulty": 1},
+        {"french": "Sept", "shimaore": "Saba", "kibouchi": "Fitou", "category": "nombres", "difficulty": 1},
         {"french": "Huit", "shimaore": "Nané", "kibouchi": "Valou", "category": "nombres", "difficulty": 1},
         {"french": "Neuf", "shimaore": "Chendra", "kibouchi": "Civi", "category": "nombres", "difficulty": 1},
+        {"french": "Dix", "shimaore": "Koumi", "kibouchi": "Foulou", "category": "nombres", "difficulty": 1},
         {"french": "Onze", "shimaore": "Koumi na moja", "kibouchi": "Foulou Areki Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Douze", "shimaore": "Koumi na mbili", "kibouchi": "Foulou Aroyi Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Treize", "shimaore": "Koumi na trarou", "kibouchi": "Foulou Telou Ambi", "category": "nombres", "difficulty": 2},
         {"french": "Quatorze", "shimaore": "Koumi na nhé", "kibouchi": "Foulou Efatra Ambi", "category": "nombres", "difficulty": 2},
-        {"french": "Quatre", "shimaore": "Nhé", "kibouchi": "Efatra", "category": "nombres", "difficulty": 1},
         {"french": "Quinze", "shimaore": "Koumi na tsano", "kibouchi": "Foulou Dimi Ambi", "category": "nombres", "difficulty": 2},
         {"french": "Seize", "shimaore": "Koumi na sita", "kibouchi": "Foulou Tchouta Ambi", "category": "nombres", "difficulty": 2},
-        {"french": "Sept", "shimaore": "Saba", "kibouchi": "Fitou", "category": "nombres", "difficulty": 1},
-        {"french": "Six", "shimaore": "Sita", "kibouchi": "Tchouta", "category": "nombres", "difficulty": 1},
-        {"french": "Treize", "shimaore": "Koumi na trarou", "kibouchi": "Foulou Telou Ambi", "category": "nombres", "difficulty": 2},
-        {"french": "Trois", "shimaore": "Trarou", "kibouchi": "Telou", "category": "nombres", "difficulty": 1},
-        {"french": "Un", "shimaore": "Moja", "kibouchi": "Areki", "category": "nombres", "difficulty": 1},
+        {"french": "Dix-sept", "shimaore": "Koumi na saba", "kibouchi": "Foulou Fitou Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Dix-huit", "shimaore": "Koumi na nané", "kibouchi": "Foulou Valou Ambi", "category": "nombres", "difficulty": 2},
+        {"french": "Dix-neuf", "shimaore": "Koumi na chendra", "kibouchi": "Foulou Civi Ambi", "category": "nombres", "difficulty": 2},
         {"french": "Vingt", "shimaore": "Chirini", "kibouchi": "Arompoulou", "category": "nombres", "difficulty": 2},
 
         # Corps humain (mise à jour complète)
