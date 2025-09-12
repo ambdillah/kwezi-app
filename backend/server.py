@@ -306,7 +306,7 @@ async def init_base_content():
         # Animaux supplémentaires du nouveau tableau
         {"french": "Pigeon", "shimaore": "Ndiwa", "kibouchi": "Ndiwa", "category": "animaux", "difficulty": 1},
         {"french": "Chenille", "shimaore": "Bazi", "kibouchi": "Bibimanguidi", "category": "animaux", "difficulty": 1},
-        {"french": "Cheval", "shimaore": "Farassi", "kibouchi": "Farassi", "category": "animaux", "difficulty": 1},
+        {"french": "Cheval", "shimaore": "Poundra", "kibouchi": "Farassi", "category": "animaux", "difficulty": 1},
         {"french": "Perroquet", "shimaore": "Kasuku", "kibouchi": "Kararokou", "category": "animaux", "difficulty": 2},
         {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Kalalowou", "category": "animaux", "difficulty": 1},
         {"french": "Araignée", "shimaore": "Shitrandrabwibwi", "kibouchi": "Bibi ampamani massou", "category": "animaux", "difficulty": 2},
