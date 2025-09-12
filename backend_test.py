@@ -1493,129 +1493,220 @@ class MayotteEducationTester:
             return False
 
     def test_specific_corrections_verification(self):
-        """Test the specific corrections mentioned in the review request"""
+        """Test the three specific corrections requested in the review"""
         print("\n=== Testing Specific Corrections Verification ===")
         
         try:
-            # 1. Test Gingembre correction in nourriture category
-            print("--- Testing Gingembre Correction ---")
-            response = self.session.get(f"{API_BASE}/words?category=nourriture")
-            if response.status_code != 200:
-                print(f"❌ Could not retrieve nourriture words: {response.status_code}")
-                return False
-            
-            nourriture_words = response.json()
-            nourriture_words_by_french = {word['french']: word for word in nourriture_words}
-            
-            gingembre_correct = False
-            if "Gingembre" in nourriture_words_by_french:
-                gingembre = nourriture_words_by_french["Gingembre"]
-                expected_shimaore = "Tsinguiziou"
-                
-                if gingembre['shimaore'] == expected_shimaore:
-                    print(f"✅ Gingembre shimaoré correction verified: '{gingembre['shimaore']}' (was 'Sakayi')")
-                    gingembre_correct = True
-                else:
-                    print(f"❌ Gingembre shimaoré incorrect: Expected '{expected_shimaore}', got '{gingembre['shimaore']}'")
-            else:
-                print("❌ Gingembre not found in nourriture category")
-            
-            # 2. Test Torche locale correction in maison category
-            print("\n--- Testing Torche locale Correction ---")
-            response = self.session.get(f"{API_BASE}/words?category=maison")
-            if response.status_code != 200:
-                print(f"❌ Could not retrieve maison words: {response.status_code}")
-                return False
-            
-            maison_words = response.json()
-            maison_words_by_french = {word['french']: word for word in maison_words}
-            
-            torche_correct = False
-            if "Torche locale" in maison_words_by_french:
-                torche = maison_words_by_french["Torche locale"]
-                expected_translation = "Gandilé/Poutroumax"
-                
-                if (torche['shimaore'] == expected_translation and 
-                    torche['kibouchi'] == expected_translation):
-                    print(f"✅ Torche locale correction verified: '{torche['shimaore']}' (Shimaoré) / '{torche['kibouchi']}' (Kibouchi)")
-                    torche_correct = True
-                else:
-                    print(f"❌ Torche locale incorrect: Expected '{expected_translation}' for both languages")
-                    print(f"   Got shimaoré: '{torche['shimaore']}', kibouchi: '{torche['kibouchi']}'")
-            else:
-                print("❌ Torche locale not found in maison category")
-            
-            # 3. Test Cour duplicate removal in maison category
-            print("\n--- Testing Cour Duplicate Removal ---")
-            
-            cour_entries = [word for word in maison_words if word['french'] == 'Cour']
-            cour_duplicate_removed = False
-            
-            if len(cour_entries) == 1:
-                print(f"✅ Only one 'Cour' entry found in maison category (duplicate removed)")
-                cour_duplicate_removed = True
-                
-                # Verify the remaining entry has correct translations
-                cour = cour_entries[0]
-                print(f"   Cour translations: {cour['shimaore']} (Shimaoré) / {cour['kibouchi']} (Kibouchi)")
-            elif len(cour_entries) == 0:
-                print("❌ No 'Cour' entry found in maison category")
-            else:
-                print(f"❌ Multiple 'Cour' entries still exist: {len(cour_entries)} entries found")
-                for i, entry in enumerate(cour_entries):
-                    print(f"   Entry {i+1}: {entry['shimaore']} / {entry['kibouchi']} (ID: {entry['id']})")
-            
-            # 4. Test overall backend functionality
-            print("\n--- Testing Overall Backend Functionality ---")
-            
-            # Test that all API endpoints are still working
-            endpoints_working = True
-            
-            # Test basic word retrieval
+            # 1. Test backend starts without syntax errors after corrections
+            print("--- Testing Backend Startup After Corrections ---")
             response = self.session.get(f"{API_BASE}/words")
-            if response.status_code == 200:
-                all_words = response.json()
-                print(f"✅ GET /api/words working: {len(all_words)} total words")
-            else:
-                print(f"❌ GET /api/words failed: {response.status_code}")
-                endpoints_working = False
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after corrections")
             
-            # Test category filtering
-            test_categories = ['nourriture', 'maison', 'famille', 'couleurs']
-            for category in test_categories:
-                response = self.session.get(f"{API_BASE}/words?category={category}")
-                if response.status_code == 200:
-                    category_words = response.json()
-                    print(f"✅ GET /api/words?category={category} working: {len(category_words)} words")
+            # 2. Test the specific corrections for "Intelligent" in adjectifs category
+            print("\n--- Testing 'Intelligent' Correction in Adjectifs Category ---")
+            response = self.session.get(f"{API_BASE}/words?category=adjectifs")
+            if response.status_code != 200:
+                print(f"❌ Adjectifs endpoint failed: {response.status_code}")
+                return False
+            
+            adjective_words = response.json()
+            adjective_words_by_french = {word['french']: word for word in adjective_words}
+            print(f"✅ /api/words?category=adjectifs working correctly ({len(adjective_words)} adjectives)")
+            
+            intelligent_correct = False
+            if "Intelligent" in adjective_words_by_french:
+                intelligent_word = adjective_words_by_french["Intelligent"]
+                
+                # Check shimaoré correction (should be "Mstanrabou" instead of empty "")
+                if intelligent_word['shimaore'] == "Mstanrabou":
+                    print(f"✅ Intelligent shimaoré: '{intelligent_word['shimaore']}' - CORRECTION VERIFIED (was empty)")
+                    shimaore_correct = True
                 else:
-                    print(f"❌ GET /api/words?category={category} failed: {response.status_code}")
-                    endpoints_working = False
+                    print(f"❌ Intelligent shimaoré: Expected 'Mstanrabou', got '{intelligent_word['shimaore']}'")
+                    shimaore_correct = False
+                
+                # Check kibouchi remains unchanged ("Trara louha")
+                if intelligent_word['kibouchi'] == "Trara louha":
+                    print(f"✅ Intelligent kibouchi: '{intelligent_word['kibouchi']}' - UNCHANGED (correct)")
+                    kibouchi_correct = True
+                else:
+                    print(f"❌ Intelligent kibouchi: Expected 'Trara louha', got '{intelligent_word['kibouchi']}'")
+                    kibouchi_correct = False
+                
+                intelligent_correct = shimaore_correct and kibouchi_correct
+            else:
+                print(f"❌ 'Intelligent' not found in adjectifs category")
+            
+            # 3. Test the specific corrections for "Nerveux" in adjectifs category
+            print("\n--- Testing 'Nerveux' Correction in Adjectifs Category ---")
+            
+            nerveux_correct = False
+            if "Nerveux" in adjective_words_by_french:
+                nerveux_word = adjective_words_by_french["Nerveux"]
+                
+                # Check shimaoré correction (should be "Oussikitiha" instead of "Hadjarou")
+                if nerveux_word['shimaore'] == "Oussikitiha":
+                    print(f"✅ Nerveux shimaoré: '{nerveux_word['shimaore']}' - CORRECTION VERIFIED (was 'Hadjarou')")
+                    shimaore_correct = True
+                else:
+                    print(f"❌ Nerveux shimaoré: Expected 'Oussikitiha', got '{nerveux_word['shimaore']}'")
+                    shimaore_correct = False
+                
+                # Check kibouchi correction (should be "Téhi tèhitri" instead of "Tsipi téhitri")
+                if nerveux_word['kibouchi'] == "Téhi tèhitri":
+                    print(f"✅ Nerveux kibouchi: '{nerveux_word['kibouchi']}' - CORRECTION VERIFIED (was 'Tsipi téhitri')")
+                    kibouchi_correct = True
+                else:
+                    print(f"❌ Nerveux kibouchi: Expected 'Téhi tèhitri', got '{nerveux_word['kibouchi']}'")
+                    kibouchi_correct = False
+                
+                nerveux_correct = shimaore_correct and kibouchi_correct
+            else:
+                print(f"❌ 'Nerveux' not found in adjectifs category")
+            
+            # 4. Test the specific corrections for "Je n'ai pas compris" in expressions category
+            print("\n--- Testing 'Je n'ai pas compris' Correction in Expressions Category ---")
+            response = self.session.get(f"{API_BASE}/words?category=expressions")
+            if response.status_code != 200:
+                print(f"❌ Expressions endpoint failed: {response.status_code}")
+                return False
+            
+            expression_words = response.json()
+            expression_words_by_french = {word['french']: word for word in expression_words}
+            print(f"✅ /api/words?category=expressions working correctly ({len(expression_words)} expressions)")
+            
+            je_nai_pas_compris_correct = False
+            if "Je n'ai pas compris" in expression_words_by_french:
+                expression_word = expression_words_by_french["Je n'ai pas compris"]
+                
+                # Check shimaoré correction (should be "Zahou tsi kouéléwa" instead of "Tsa éléwa")
+                if expression_word['shimaore'] == "Zahou tsi kouéléwa":
+                    print(f"✅ Je n'ai pas compris shimaoré: '{expression_word['shimaore']}' - CORRECTION VERIFIED (was 'Tsa éléwa')")
+                    shimaore_correct = True
+                else:
+                    print(f"❌ Je n'ai pas compris shimaoré: Expected 'Zahou tsi kouéléwa', got '{expression_word['shimaore']}'")
+                    shimaore_correct = False
+                
+                # Check kibouchi correction (should be "Zahou tsi kouéléwa" instead of "Zahou tsa kouéléwa")
+                if expression_word['kibouchi'] == "Zahou tsi kouéléwa":
+                    print(f"✅ Je n'ai pas compris kibouchi: '{expression_word['kibouchi']}' - CORRECTION VERIFIED (was 'Zahou tsa kouéléwa')")
+                    kibouchi_correct = True
+                else:
+                    print(f"❌ Je n'ai pas compris kibouchi: Expected 'Zahou tsi kouéléwa', got '{expression_word['kibouchi']}'")
+                    kibouchi_correct = False
+                
+                je_nai_pas_compris_correct = shimaore_correct and kibouchi_correct
+            else:
+                print(f"❌ 'Je n'ai pas compris' not found in expressions category")
+            
+            # 5. Test that backend functionality remains intact
+            print("\n--- Testing Backend Functionality Remains Intact ---")
+            
+            # Test basic CRUD operations still work
+            try:
+                # Test creating a new word
+                test_word = {
+                    "french": "Test Word",
+                    "shimaore": "Test Shimaoré",
+                    "kibouchi": "Test Kibouchi",
+                    "category": "test",
+                    "difficulty": 1
+                }
+                
+                create_response = self.session.post(f"{API_BASE}/words", json=test_word)
+                if create_response.status_code == 200:
+                    created_word = create_response.json()
+                    print(f"✅ Backend CRUD operations working (create)")
+                    
+                    # Clean up - delete the test word
+                    delete_response = self.session.delete(f"{API_BASE}/words/{created_word['id']}")
+                    if delete_response.status_code == 200:
+                        print(f"✅ Backend CRUD operations working (delete)")
+                        backend_functional = True
+                    else:
+                        print(f"⚠️ Could not delete test word (not critical)")
+                        backend_functional = True
+                else:
+                    print(f"❌ Backend CRUD operations not working: {create_response.status_code}")
+                    backend_functional = False
+                    
+            except Exception as e:
+                print(f"❌ Backend functionality test error: {e}")
+                backend_functional = False
+            
+            # 6. Test that no regressions were introduced
+            print("\n--- Testing No Regressions Introduced ---")
+            
+            # Get total word count
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                total_word_count = len(all_words)
+                
+                # Check if total word count is reasonable (should be around 548 as mentioned in review)
+                if total_word_count >= 500:
+                    print(f"✅ Total word count maintained: {total_word_count} words (expected around 548)")
+                    word_count_ok = True
+                else:
+                    print(f"❌ Total word count too low: {total_word_count} words (expected around 548)")
+                    word_count_ok = False
+                
+                # Check categories are still intact
+                categories = set(word['category'] for word in all_words)
+                expected_categories = {
+                    'adjectifs', 'expressions', 'famille', 'couleurs', 'animaux', 
+                    'salutations', 'nombres', 'corps', 'nourriture', 'maison', 
+                    'vetements', 'nature', 'verbes', 'grammaire'
+                }
+                
+                if expected_categories.issubset(categories):
+                    print(f"✅ All expected categories present: {len(categories)} categories found")
+                    categories_ok = True
+                else:
+                    missing = expected_categories - categories
+                    print(f"❌ Missing categories: {missing}")
+                    categories_ok = False
+                
+                no_regressions = word_count_ok and categories_ok
+            else:
+                print(f"❌ Could not retrieve all words for regression testing: {all_words_response.status_code}")
+                no_regressions = False
             
             # Overall result
             all_corrections_verified = (
-                gingembre_correct and 
-                torche_correct and 
-                cour_duplicate_removed and 
-                endpoints_working
+                intelligent_correct and 
+                nerveux_correct and 
+                je_nai_pas_compris_correct and 
+                backend_functional and 
+                no_regressions
             )
             
             if all_corrections_verified:
                 print("\n🎉 SPECIFIC CORRECTIONS VERIFICATION COMPLETED SUCCESSFULLY!")
-                print("✅ Gingembre shimaoré corrected to 'Tsinguiziou' (from 'Sakayi')")
-                print("✅ Torche locale translations corrected to 'Gandilé/Poutroumax' for both languages")
-                print("✅ Cour duplicate removed - only one entry remains in maison category")
-                print("✅ All backend API endpoints working correctly without errors")
-                print("✅ Database corrections have been successfully applied and verified")
+                print("✅ Backend starts without syntax errors after corrections")
+                print("✅ All three specific corrections verified:")
+                print("   1. Intelligent (adjectifs): shimaoré = 'Mstanrabou' ✓ (corrected from empty), kibouchi = 'Trara louha' ✓ (unchanged)")
+                print("   2. Nerveux (adjectifs): shimaoré = 'Oussikitiha' ✓ (corrected from 'Hadjarou'), kibouchi = 'Téhi tèhitri' ✓ (corrected from 'Tsipi téhitri')")
+                print("   3. Je n'ai pas compris (expressions): shimaoré = 'Zahou tsi kouéléwa' ✓ (corrected from 'Tsa éléwa'), kibouchi = 'Zahou tsi kouéléwa' ✓ (corrected from 'Zahou tsa kouéléwa')")
+                print("✅ Backend functionality remains intact after modifications")
+                print("✅ API endpoints for adjectifs and expressions categories working correctly")
+                print("✅ No regressions introduced - all categories and word count maintained")
+                print(f"✅ Total vocabulary verified: {total_word_count} words across {len(categories)} categories")
             else:
-                print("\n❌ Some corrections are not properly implemented:")
-                if not gingembre_correct:
-                    print("❌ Gingembre correction not applied")
-                if not torche_correct:
-                    print("❌ Torche locale correction not applied")
-                if not cour_duplicate_removed:
-                    print("❌ Cour duplicate not removed")
-                if not endpoints_working:
-                    print("❌ Backend API endpoints have issues")
+                print("\n❌ Some specific corrections are not properly implemented or have introduced issues")
+                if not intelligent_correct:
+                    print("❌ 'Intelligent' correction not properly implemented")
+                if not nerveux_correct:
+                    print("❌ 'Nerveux' correction not properly implemented")
+                if not je_nai_pas_compris_correct:
+                    print("❌ 'Je n'ai pas compris' correction not properly implemented")
+                if not backend_functional:
+                    print("❌ Backend functionality has been compromised")
+                if not no_regressions:
+                    print("❌ Regressions detected in word count or categories")
             
             return all_corrections_verified
             
