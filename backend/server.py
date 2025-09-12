@@ -751,7 +751,7 @@ async def init_base_content():
         {"french": "J'ai soif", "shimaore": "Nissi ona niyora", "kibouchi": "Zahou tindranou", "category": "expressions", "difficulty": 1},
         {"french": "Je voudrais aller à", "shimaore": "Nissi tsaha nendré", "kibouchi": "Zahou chokou andéha", "category": "expressions", "difficulty": 1},
         {"french": "J'arrive de", "shimaore": "Tsi lawa", "kibouchi": "Zahou boka", "category": "expressions", "difficulty": 1},
-        {"french": "Je peux avoir des toilettes", "shimaore": "Tnissi miya mraba", "kibouchi": "Zahou mangataka mraba", "category": "expressions", "difficulty": 1},
+        {"french": "Je peux avoir des toilettes", "shimaore": "Nissi miya mraba", "kibouchi": "Zahou mangataka mraba", "category": "expressions", "difficulty": 1},
         {"french": "Je veux manger", "shimaore": "Nissi miya chaoula", "kibouchi": "Zahou mila ihinagna", "category": "expressions", "difficulty": 1},
         {"french": "Où se trouve", "shimaore": "Ouparhanoua havi", "kibouchi": "Aya moi", "category": "expressions", "difficulty": 1},
         {"french": "Où sommes nous", "shimaore": "Ra havi", "kibouchi": "Atsika yétou aya", "category": "expressions", "difficulty": 1},
