@@ -300,7 +300,7 @@ async def init_base_content():
         {"french": "Taureau", "shimaore": "Kondzo", "kibouchi": "Dzow", "category": "animaux", "difficulty": 1},
         {"french": "Bigorneau", "shimaore": "Trondro", "kibouchi": "Trondrou", "category": "animaux", "difficulty": 1},
         {"french": "Lambis", "shimaore": "Kombé", "kibouchi": "Mahombi", "category": "animaux", "difficulty": 1},
-        {"french": "Cône de mer", "shimaore": "Tsipoui", "kibouchi": "Tsimtipaka", "category": "animaux", "difficulty": 1},
+        {"french": "Cône de mer", "shimaore": "Kwitsi", "kibouchi": "Tsimtipaka", "category": "animaux", "difficulty": 1},
         {"french": "Mille pattes", "shimaore": "Mjongo", "kibouchi": "Ancoudavitri", "category": "animaux", "difficulty": 1},
         
         # Animaux supplémentaires du nouveau tableau
