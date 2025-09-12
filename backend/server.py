@@ -668,7 +668,7 @@ async def init_base_content():
         {"french": "Bambou", "shimaore": "M'banbo", "kibouchi": "Valiha", "category": "nature", "difficulty": 1},
         {"french": "Manguier", "shimaore": "M'manga", "kibouchi": "Voudi ni manga", "category": "nature", "difficulty": 1},
         {"french": "Jacquier", "shimaore": "M'fénéssi", "kibouchi": "Voudi ni finéssi", "category": "nature", "difficulty": 1},
-        {"french": "Terre", "shimaore": "Trotro", "kibouchi": "Fotaka", "category": "nature", "difficulty": 1},
+        {"french": "Terre", "shimaore": "Chivandré ya tsi", "kibouchi": "Fotaka", "category": "nature", "difficulty": 1},
         {"french": "Sol", "shimaore": "Tsi", "kibouchi": "Tani", "category": "nature", "difficulty": 1},
         {"french": "Érosion", "shimaore": "Padza", "kibouchi": "Padza", "category": "nature", "difficulty": 1},
         {"french": "Marée basse", "shimaore": "Maji yavo", "kibouchi": "Ranou méki", "category": "nature", "difficulty": 1},
