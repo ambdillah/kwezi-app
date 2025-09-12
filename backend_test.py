@@ -11873,27 +11873,30 @@ class MayotteEducationTester:
             return False
 
 if __name__ == "__main__":
-    print("🎯 Starting Numbers Reorganization Testing 🎯")
-    print("Testing the reorganization of the 'nombres' section as requested in the review:")
-    print("1. Numbers 1-20 organized in logical order (Un, Deux, Trois...Vingt)")
-    print("2. Other categories remain alphabetically organized")
-    print("3. Global functionality maintained")
-    print("4. Previous corrections preserved")
+    print("🎯 Starting New Food Words Addition Testing 🎯")
+    print("Testing the addition of two new words in the 'nourriture' section as requested in the review:")
+    print("1. 'Crevettes': shimaoré 'Camba', kibouchi 'Ancamba'")
+    print("2. 'Langouste': shimaoré 'Camba diva', kibouchi 'Ancamba diva'")
+    print("3. Alphabetical organization verification")
+    print("4. Total word count verification (550 words)")
+    print("5. Food section count verification (45 words)")
+    print("6. Distinction between 'Crevette' (animals) and 'Crevettes' (food)")
+    print("7. Global functionality verification")
     print("=" * 80)
     
     tester = MayotteEducationTester()
     
-    # Run the numbers reorganization test
+    # Run the new food words addition test
     success = tester.run_all_tests()
     
     # Final summary
     print(f"\n{'='*60}")
-    print("🎯 NUMBERS REORGANIZATION TEST SUMMARY 🎯")
+    print("🎯 NEW FOOD WORDS ADDITION TEST SUMMARY 🎯")
     print(f"{'='*60}")
     
     if success:
-        print("\n🎉 ALL TESTS PASSED! Numbers reorganization verification completed successfully! 🎉")
-        print("🎯 The reorganization of the 'nombres' section has been successfully verified 🎯")
+        print("\n🎉 ALL TESTS PASSED! New food words addition verification completed successfully! 🎉")
+        print("🎯 The addition of 'Crevettes' and 'Langouste' to the food section has been successfully verified 🎯")
     else:
         print(f"\n⚠️ Some tests failed. Please review and fix issues.")
     
