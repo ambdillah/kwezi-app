@@ -662,7 +662,7 @@ async def init_base_content():
         {"french": "Tornade", "shimaore": "Ouzimouyi", "kibouchi": "Tsikou soulaimana", "category": "nature", "difficulty": 1},
         
         # Nouveaux éléments nature du tableau supplémentaire
-        {"french": "Cocotier", "shimaore": "M'hadzi", "kibouchi": "Voudi ni vwaniou", "category": "nature", "difficulty": 1},
+        {"french": "Cocotier", "shimaore": "M'nadzi", "kibouchi": "Voudi ni vwaniou", "category": "nature", "difficulty": 1},
         {"french": "Arbre à pain", "shimaore": "M'frampé", "kibouchi": "Voudi ni frampé", "category": "nature", "difficulty": 1},
         {"french": "Baobab", "shimaore": "M'bouyou", "kibouchi": "Voudi ni bouyou", "category": "nature", "difficulty": 1},
         {"french": "Bambou", "shimaore": "M'banbo", "kibouchi": "Valiha", "category": "nature", "difficulty": 1},
