@@ -639,6 +639,18 @@ metadata:
         agent: "testing"
         comment: "🎉 UPDATED EXPRESSIONS VOCABULARY TESTING COMPLETED SUCCESSFULLY! All 10 requirements from the review request have been verified and confirmed: ✅ 1. Backend starts without syntax errors after adding new expressions ✅ 2. /api/words?category=expressions endpoint retrieves all expression items (44 expressions) ✅ 3. All 9 new expressions present with correct French, Shimaoré, and Kibouchi translations ✅ 4. All 9 specific new expressions verified: Respect=Mastaha/Mastaha, Quelqu'un de fiable=Mwaminifou/Mwaminifou, Secret=Siri/Siri, Joie=Fouraha/Aravouangna, Avoir la haine=Outoukiwa/Marari rohou, Convivialité=Ouvoimoja/Ouvoimoja, Entre aide=Oussayidiyana/Moussada, Faire crédit=Oukopa/Midéni, Nounou=Mlézi/Mlézi ✅ 5. All previously existing expressions still present (12 key expressions verified) ✅ 6. Other categories remain intact and functional (15 categories total) ✅ 7. No duplicate entries or data integrity issues (44 unique expressions) ✅ 8. New total expressions count confirmed: 44 expressions (35 + 9) ✅ 9. All expressions items have proper category assignment as 'expressions' ✅ 10. API endpoints working correctly for updated category (individual retrieval tested) ✅ Final counts provided: 44 expressions, 547 total words across 15 categories. The updated expressions vocabulary with 9 new social and cultural expressions is fully functional and ready for educational use."
 
+  - task: "Animal vocabulary corrections and duplicate detection"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 ANIMAL VOCABULARY CORRECTIONS AND DUPLICATE DETECTION COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ All 7 specific corrections verified and applied correctly: Fourmis kibouchi='Vitsiki' (not 'Visiki'), Corbeau shimaoré='Gawa/Kwayi' (not 'Gawa'), Civette shimaoré='Founga' (not 'Foungo'), Dauphin shimaoré='Moungoumé' (not 'Camba'), Lambis shimaoré='Kombé' (not 'Komba'), Cône de mer shimaoré='Kwitsi' (not 'Tsipoui'), Cheval shimaoré='Poundra' (not 'Farassi') ✅ Backend starts without errors after corrections ✅ All category endpoints work correctly (animaux: 65 words, famille: 20, couleurs: 8, nombres: 20, salutations: 8) ✅ Total word count: 556 words across all categories ✅ Data integrity maintained - all corrected animals have proper structure and category assignment ❌ CRITICAL FINDING: 32 duplicate entries found across categories that need cleanup: 'Bouche' (2x in corps), 'Poisson' (animaux+nourriture), 'Ongle' (2x in corps), multiple verbs duplicated (Faire sécher, Balayer, Couper, Tremper, Se raser, Abîmer, Acheter, Griller, Allumer, Se peigner, Cuisiner, Ranger/Arranger, Tresser, Peindre, Essuyer, Amener/Apporter, Éteindre, Tuer, Combler, Cultiver, Couper du bois, Cueillir, Jouer, Entrer), maison category duplicates (Bol, Clôture, Toilette, Mur), and cross-category duplicates (Pirogue in nature+transport). Complete list of duplicate IDs provided for removal. ✅ API functionality working correctly for all tested endpoints ✅ All 7 animal corrections successfully implemented and verified"
+
 test_plan:
   current_focus: []
   stuck_tasks: []
