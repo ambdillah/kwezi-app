@@ -491,7 +491,7 @@ async def init_base_content():
         {"french": "Seau", "shimaore": "Siyo", "kibouchi": "Siyo", "category": "maison", "difficulty": 1},
         {"french": "Mur", "shimaore": "Péssi", "kibouchi": "Riba", "category": "maison", "difficulty": 1},
         {"french": "Fondation", "shimaore": "Houra", "kibouchi": "Koura", "category": "maison", "difficulty": 1},
-        {"french": "Torche locale", "shimaore": "Gandilé/Poutroumav", "kibouchi": "Gandili/Poutroumav", "category": "maison", "difficulty": 1},
+        {"french": "Torche locale", "shimaore": "Gandilé/Poutourmax", "kibouchi": "Poutourmax", "category": "maison", "difficulty": 1},
         
         # Vêtements (section complète selon le nouveau tableau)
         {"french": "Vêtement", "shimaore": "Ngouwô", "kibouchi": "Ankandzou", "category": "vetements", "difficulty": 1},
