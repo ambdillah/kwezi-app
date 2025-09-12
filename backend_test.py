@@ -1263,6 +1263,7 @@ class MayotteEducationTester:
             
             adjective_words = response.json()
             adjective_words_by_french = {word['french']: word for word in adjective_words}
+            print(f"✅ /api/words?category=adjectifs working correctly ({len(adjective_words)} adjectives)")
             
             intelligent_correct = False
             if "Intelligent" in adjective_words_by_french:
@@ -1270,7 +1271,7 @@ class MayotteEducationTester:
                 
                 # Check shimaoré correction (should be "Mstanrabou" instead of empty "")
                 if intelligent_word['shimaore'] == "Mstanrabou":
-                    print(f"✅ Intelligent shimaoré: '{intelligent_word['shimaore']}' - CORRECTION VERIFIED")
+                    print(f"✅ Intelligent shimaoré: '{intelligent_word['shimaore']}' - CORRECTION VERIFIED (was empty)")
                     shimaore_correct = True
                 else:
                     print(f"❌ Intelligent shimaoré: Expected 'Mstanrabou', got '{intelligent_word['shimaore']}'")
@@ -1297,7 +1298,7 @@ class MayotteEducationTester:
                 
                 # Check shimaoré correction (should be "Oussikitiha" instead of "Hadjarou")
                 if nerveux_word['shimaore'] == "Oussikitiha":
-                    print(f"✅ Nerveux shimaoré: '{nerveux_word['shimaore']}' - CORRECTION VERIFIED")
+                    print(f"✅ Nerveux shimaoré: '{nerveux_word['shimaore']}' - CORRECTION VERIFIED (was 'Hadjarou')")
                     shimaore_correct = True
                 else:
                     print(f"❌ Nerveux shimaoré: Expected 'Oussikitiha', got '{nerveux_word['shimaore']}'")
@@ -1305,7 +1306,7 @@ class MayotteEducationTester:
                 
                 # Check kibouchi correction (should be "Téhi tèhitri" instead of "Tsipi téhitri")
                 if nerveux_word['kibouchi'] == "Téhi tèhitri":
-                    print(f"✅ Nerveux kibouchi: '{nerveux_word['kibouchi']}' - CORRECTION VERIFIED")
+                    print(f"✅ Nerveux kibouchi: '{nerveux_word['kibouchi']}' - CORRECTION VERIFIED (was 'Tsipi téhitri')")
                     kibouchi_correct = True
                 else:
                     print(f"❌ Nerveux kibouchi: Expected 'Téhi tèhitri', got '{nerveux_word['kibouchi']}'")
@@ -1324,6 +1325,7 @@ class MayotteEducationTester:
             
             expression_words = response.json()
             expression_words_by_french = {word['french']: word for word in expression_words}
+            print(f"✅ /api/words?category=expressions working correctly ({len(expression_words)} expressions)")
             
             je_nai_pas_compris_correct = False
             if "Je n'ai pas compris" in expression_words_by_french:
@@ -1331,7 +1333,7 @@ class MayotteEducationTester:
                 
                 # Check shimaoré correction (should be "Zahou tsi kouéléwa" instead of "Tsa éléwa")
                 if expression_word['shimaore'] == "Zahou tsi kouéléwa":
-                    print(f"✅ Je n'ai pas compris shimaoré: '{expression_word['shimaore']}' - CORRECTION VERIFIED")
+                    print(f"✅ Je n'ai pas compris shimaoré: '{expression_word['shimaore']}' - CORRECTION VERIFIED (was 'Tsa éléwa')")
                     shimaore_correct = True
                 else:
                     print(f"❌ Je n'ai pas compris shimaoré: Expected 'Zahou tsi kouéléwa', got '{expression_word['shimaore']}'")
@@ -1339,7 +1341,7 @@ class MayotteEducationTester:
                 
                 # Check kibouchi correction (should be "Zahou tsi kouéléwa" instead of "Zahou tsa kouéléwa")
                 if expression_word['kibouchi'] == "Zahou tsi kouéléwa":
-                    print(f"✅ Je n'ai pas compris kibouchi: '{expression_word['kibouchi']}' - CORRECTION VERIFIED")
+                    print(f"✅ Je n'ai pas compris kibouchi: '{expression_word['kibouchi']}' - CORRECTION VERIFIED (was 'Zahou tsa kouéléwa')")
                     kibouchi_correct = True
                 else:
                     print(f"❌ Je n'ai pas compris kibouchi: Expected 'Zahou tsi kouéléwa', got '{expression_word['kibouchi']}'")
@@ -1395,7 +1397,7 @@ class MayotteEducationTester:
                 
                 # Check if total word count is reasonable (should be around 548 as mentioned in review)
                 if total_word_count >= 500:
-                    print(f"✅ Total word count reasonable: {total_word_count} words (expected around 548)")
+                    print(f"✅ Total word count maintained: {total_word_count} words (expected around 548)")
                     word_count_ok = True
                 else:
                     print(f"❌ Total word count too low: {total_word_count} words (expected around 548)")
@@ -1435,9 +1437,9 @@ class MayotteEducationTester:
                 print("\n🎉 SPECIFIC CORRECTIONS VERIFICATION COMPLETED SUCCESSFULLY!")
                 print("✅ Backend starts without syntax errors after corrections")
                 print("✅ All three specific corrections verified:")
-                print("   1. Intelligent (adjectifs): shimaoré = 'Mstanrabou' (corrected from empty), kibouchi = 'Trara louha' (unchanged)")
-                print("   2. Nerveux (adjectifs): shimaoré = 'Oussikitiha' (corrected from 'Hadjarou'), kibouchi = 'Téhi tèhitri' (corrected from 'Tsipi téhitri')")
-                print("   3. Je n'ai pas compris (expressions): shimaoré = 'Zahou tsi kouéléwa' (corrected from 'Tsa éléwa'), kibouchi = 'Zahou tsi kouéléwa' (corrected from 'Zahou tsa kouéléwa')")
+                print("   1. Intelligent (adjectifs): shimaoré = 'Mstanrabou' ✓ (corrected from empty), kibouchi = 'Trara louha' ✓ (unchanged)")
+                print("   2. Nerveux (adjectifs): shimaoré = 'Oussikitiha' ✓ (corrected from 'Hadjarou'), kibouchi = 'Téhi tèhitri' ✓ (corrected from 'Tsipi téhitri')")
+                print("   3. Je n'ai pas compris (expressions): shimaoré = 'Zahou tsi kouéléwa' ✓ (corrected from 'Tsa éléwa'), kibouchi = 'Zahou tsi kouéléwa' ✓ (corrected from 'Zahou tsa kouéléwa')")
                 print("✅ Backend functionality remains intact after modifications")
                 print("✅ API endpoints for adjectifs and expressions categories working correctly")
                 print("✅ No regressions introduced - all categories and word count maintained")
