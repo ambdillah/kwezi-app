@@ -8862,18 +8862,300 @@ class MayotteEducationTester:
             print(f"❌ Adjectifs category verification error: {e}")
             return False
 
+    def test_animal_vocabulary_corrections_and_duplicates(self):
+        """Test all 7 animal vocabulary corrections and identify duplicate entries"""
+        print("\n=== Testing Animal Vocabulary Corrections and Duplicate Detection ===")
+        
+        try:
+            # 1. Test backend starts without errors after corrections
+            print("--- Testing Backend Startup After Animal Corrections ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after corrections")
+            
+            # 2. Get all animal words
+            print("\n--- Testing Animal Category Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Animals endpoint failed: {response.status_code}")
+                return False
+            
+            animal_words = response.json()
+            animals_by_french = {word['french']: word for word in animal_words}
+            print(f"✅ /api/words?category=animaux working correctly ({len(animal_words)} animals)")
+            
+            # 3. Verify all 7 specific corrections are applied correctly
+            print("\n--- Testing All 7 Specific Animal Corrections ---")
+            
+            # The 7 corrections from the review request
+            required_corrections = [
+                {
+                    "french": "Fourmis", 
+                    "shimaore": "Tsoussou", 
+                    "kibouchi": "Vitsiki",
+                    "note": "kibouchi should be 'Vitsiki' (not 'Visiki')"
+                },
+                {
+                    "french": "Corbeau", 
+                    "shimaore": "Gawa/Kwayi", 
+                    "kibouchi": "Goika",
+                    "note": "shimaoré should be 'Gawa/Kwayi' (not 'Gawa')"
+                },
+                {
+                    "french": "Civette", 
+                    "shimaore": "Founga", 
+                    "kibouchi": "Angava",
+                    "note": "shimaoré should be 'Founga' (not 'Foungo')"
+                },
+                {
+                    "french": "Dauphin", 
+                    "shimaore": "Moungoumé", 
+                    "kibouchi": "Fésoutrou",
+                    "note": "shimaoré should be 'Moungoumé' (not 'Camba')"
+                },
+                {
+                    "french": "Lambis", 
+                    "shimaore": "Kombé", 
+                    "kibouchi": "Mahombi",
+                    "note": "shimaoré should be 'Kombé' (not 'Komba')"
+                },
+                {
+                    "french": "Cône de mer", 
+                    "shimaore": "Kwitsi", 
+                    "kibouchi": "Tsimtipaka",
+                    "note": "shimaoré should be 'Kwitsi' (not 'Tsipoui')"
+                },
+                {
+                    "french": "Cheval", 
+                    "shimaore": "Poundra", 
+                    "kibouchi": "Farassi",
+                    "note": "shimaoré should be 'Poundra' (not 'Farassi')"
+                }
+            ]
+            
+            corrections_verified = True
+            corrections_found = 0
+            
+            for correction in required_corrections:
+                french_word = correction['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    corrections_found += 1
+                    
+                    # Check shimaoré correction
+                    if word['shimaore'] == correction['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{word['shimaore']}' - CORRECTION VERIFIED")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{correction['shimaore']}', got '{word['shimaore']}'")
+                        corrections_verified = False
+                    
+                    # Check kibouchi correction
+                    if word['kibouchi'] == correction['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{word['kibouchi']}' - CORRECTION VERIFIED")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{correction['kibouchi']}', got '{word['kibouchi']}'")
+                        corrections_verified = False
+                    
+                    print(f"   Note: {correction['note']}")
+                else:
+                    print(f"❌ {french_word} not found in animals category")
+                    corrections_verified = False
+            
+            print(f"\n--- Corrections Summary ---")
+            print(f"Required corrections: 7")
+            print(f"Corrections found: {corrections_found}")
+            print(f"All corrections verified: {'✅ YES' if corrections_verified and corrections_found == 7 else '❌ NO'}")
+            
+            # 4. Identify and document all duplicate entries
+            print("\n--- Identifying Duplicate Entries ---")
+            
+            # Check for duplicates within animals category
+            french_names = [word['french'] for word in animal_words]
+            french_name_counts = {}
+            for name in french_names:
+                french_name_counts[name] = french_name_counts.get(name, 0) + 1
+            
+            duplicates_in_animals = []
+            for name, count in french_name_counts.items():
+                if count > 1:
+                    # Get all instances with their IDs
+                    instances = [word for word in animal_words if word['french'] == name]
+                    duplicate_info = {
+                        'french': name,
+                        'count': count,
+                        'instances': [{'id': inst['id'], 'shimaore': inst['shimaore'], 'kibouchi': inst['kibouchi']} for inst in instances]
+                    }
+                    duplicates_in_animals.append(duplicate_info)
+            
+            # Check for duplicates across all categories
+            print("\n--- Checking for Duplicates Across All Categories ---")
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                
+                # Group by French word across all categories
+                all_french_names = [word['french'] for word in all_words]
+                all_name_counts = {}
+                for name in all_french_names:
+                    all_name_counts[name] = all_name_counts.get(name, 0) + 1
+                
+                cross_category_duplicates = []
+                for name, count in all_name_counts.items():
+                    if count > 1:
+                        # Get all instances across categories
+                        instances = [word for word in all_words if word['french'] == name]
+                        categories = list(set([inst['category'] for inst in instances]))
+                        
+                        # Only report if it's actually across different categories or multiple in same category
+                        if len(categories) > 1 or count > 1:
+                            duplicate_info = {
+                                'french': name,
+                                'total_count': count,
+                                'categories': categories,
+                                'instances': [{'id': inst['id'], 'category': inst['category'], 'shimaore': inst['shimaore'], 'kibouchi': inst['kibouchi']} for inst in instances]
+                            }
+                            cross_category_duplicates.append(duplicate_info)
+            
+            # Report duplicate findings
+            print("\n--- Duplicate Entries Report ---")
+            
+            if duplicates_in_animals:
+                print(f"❌ DUPLICATES FOUND IN ANIMALS CATEGORY: {len(duplicates_in_animals)} duplicate entries")
+                for dup in duplicates_in_animals:
+                    print(f"   • '{dup['french']}' appears {dup['count']} times:")
+                    for instance in dup['instances']:
+                        print(f"     - ID: {instance['id']} | {instance['shimaore']} / {instance['kibouchi']}")
+            else:
+                print("✅ No duplicates found within animals category")
+            
+            if cross_category_duplicates:
+                print(f"\n❌ DUPLICATES FOUND ACROSS CATEGORIES: {len(cross_category_duplicates)} duplicate entries")
+                for dup in cross_category_duplicates:
+                    if len(dup['categories']) > 1:
+                        print(f"   • '{dup['french']}' appears in {len(dup['categories'])} categories: {dup['categories']}")
+                    else:
+                        print(f"   • '{dup['french']}' appears {dup['total_count']} times in {dup['categories'][0]} category")
+                    for instance in dup['instances']:
+                        print(f"     - ID: {instance['id']} | Category: {instance['category']} | {instance['shimaore']} / {instance['kibouchi']}")
+            else:
+                print("✅ No duplicates found across categories")
+            
+            # 5. Test API functionality
+            print("\n--- Testing API Functionality ---")
+            
+            # Test category endpoints work correctly
+            categories_to_test = ['animaux', 'famille', 'couleurs', 'nombres', 'salutations']
+            api_functionality_ok = True
+            
+            for category in categories_to_test:
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    words = response.json()
+                    print(f"✅ {category} endpoint: {len(words)} words")
+                else:
+                    print(f"❌ {category} endpoint failed: {response.status_code}")
+                    api_functionality_ok = False
+            
+            # Test total word counts
+            total_words = len(all_words) if 'all_words' in locals() else 0
+            print(f"✅ Total words in database: {total_words}")
+            
+            # 6. Verify data integrity
+            print("\n--- Data Integrity Check ---")
+            
+            data_integrity_ok = True
+            
+            # Check that all corrected animals have proper structure
+            for correction in required_corrections:
+                french_word = correction['french']
+                if french_word in animals_by_french:
+                    word = animals_by_french[french_word]
+                    
+                    # Check required fields
+                    required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                    missing_fields = [field for field in required_fields if field not in word or word[field] is None]
+                    
+                    if missing_fields:
+                        print(f"❌ {french_word} missing fields: {missing_fields}")
+                        data_integrity_ok = False
+                    else:
+                        print(f"✅ {french_word} has all required fields")
+                    
+                    # Check category is correct
+                    if word['category'] != 'animaux':
+                        print(f"❌ {french_word} has wrong category: {word['category']}")
+                        data_integrity_ok = False
+            
+            # Overall assessment
+            print("\n--- Overall Assessment ---")
+            
+            has_duplicates = len(duplicates_in_animals) > 0 or len(cross_category_duplicates) > 0
+            
+            overall_success = (
+                corrections_verified and 
+                corrections_found == 7 and 
+                api_functionality_ok and 
+                data_integrity_ok
+            )
+            
+            if overall_success and not has_duplicates:
+                print("🎉 ANIMAL VOCABULARY CORRECTIONS AND DUPLICATE DETECTION COMPLETED SUCCESSFULLY!")
+                print("✅ All 7 corrections verified and applied correctly")
+                print("✅ No duplicate entries found")
+                print("✅ Backend API functionality working correctly")
+                print("✅ Data integrity maintained")
+            elif overall_success and has_duplicates:
+                print("⚠️ ANIMAL VOCABULARY CORRECTIONS COMPLETED WITH DUPLICATES FOUND!")
+                print("✅ All 7 corrections verified and applied correctly")
+                print("❌ Duplicate entries found that need cleanup")
+                print("✅ Backend API functionality working correctly")
+                print("✅ Data integrity maintained")
+            else:
+                print("❌ ANIMAL VOCABULARY CORRECTIONS AND DUPLICATE DETECTION FAILED!")
+                if not corrections_verified or corrections_found != 7:
+                    print("❌ Some corrections are missing or incorrect")
+                if not api_functionality_ok:
+                    print("❌ API functionality issues detected")
+                if not data_integrity_ok:
+                    print("❌ Data integrity issues detected")
+            
+            # Prepare comprehensive summary for main agent
+            summary_data = {
+                'corrections_verified': corrections_verified,
+                'corrections_found': corrections_found,
+                'total_corrections_required': 7,
+                'duplicates_in_animals': duplicates_in_animals,
+                'cross_category_duplicates': cross_category_duplicates,
+                'total_animals': len(animal_words),
+                'total_words': total_words,
+                'api_functionality_ok': api_functionality_ok,
+                'data_integrity_ok': data_integrity_ok,
+                'has_duplicates': has_duplicates
+            }
+            
+            # Store summary for final report
+            self.animal_corrections_summary = summary_data
+            
+            return overall_success
+            
+        except Exception as e:
+            print(f"❌ Animal vocabulary corrections and duplicate detection error: {e}")
+            return False
+
 if __name__ == "__main__":
     print("🌺 Starting Mayotte Educational App Backend Testing 🌺")
     print("=" * 60)
     
     tester = MayotteEducationTester()
     
-    # Run specific test for the expressions vocabulary section
+    # Run specific test for animal vocabulary corrections and duplicate detection
     tests = [
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("Updated Expressions Vocabulary After Adding 9 New Expressions", tester.test_updated_expressions_vocabulary_after_adding_9_new_expressions)
+        ("Animal Vocabulary Corrections & Duplicate Detection", tester.test_animal_vocabulary_corrections_and_duplicates)
     ]
     
     passed = 0
@@ -8904,8 +9186,8 @@ if __name__ == "__main__":
     print(f"📊 Total Tests: {passed + failed}")
     
     if failed == 0:
-        print("\n🎉 ALL TESTS PASSED! Expressions vocabulary section verified successfully! 🎉")
-        print("🌺 Expressions vocabulary updated with 9 new social and cultural expressions 🌺")
+        print("\n🎉 ALL TESTS PASSED! Animal vocabulary corrections and duplicate detection verified successfully! 🎉")
+        print("🌺 All 7 animal corrections applied and duplicate entries identified 🌺")
     else:
         print(f"\n⚠️ {failed} test(s) failed. Please review and fix issues.")
     
