@@ -708,6 +708,8 @@ test_plan:
 agent_communication:
   - agent: "testing"
     message: "Comprehensive backend testing completed successfully. All 8 backend test categories passed (8/8). The Mayotte educational app backend is fully functional with proper Shimaoré and Kibouchi language support, CRUD operations, exercise management, and user progress tracking. Backend is ready for production use."
+  - agent: "testing"
+    message: "Quick verification test for 'Cours' to 'Cour' correction completed successfully. The main correction objective has been achieved: 'Cours' (with s) has been removed from database and 'Cour' (without s) now exists with correct shimaoré 'Mraba' and kibouchi 'Lacourou' translations. Backend functionality remains intact. Minor duplicate entry noted but doesn't affect core functionality."
   - agent: "main"
     message: "Frontend implementation completed. All screens implemented: Welcome screen with Mayotte branding and audio, Learning module with category filtering and TTS, Games module with word-matching game, Progress screen with user profiles and statistics, Admin interface for content management. Ready for comprehensive mobile testing on 390x844 viewport."
   - agent: "testing"
