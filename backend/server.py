@@ -444,6 +444,7 @@ async def init_base_content():
         {"french": "Gingembre", "shimaore": "Sakayi", "kibouchi": "Sakéyi", "category": "nourriture", "difficulty": 1},
         {"french": "Vanille", "shimaore": "Lavani", "kibouchi": "Lavani", "category": "nourriture", "difficulty": 1},
         {"french": "Tamarin", "shimaore": "Ouhajou", "kibouchi": "Madirou kakazou", "category": "nourriture", "difficulty": 1},
+        {"french": "Papaye", "shimaore": "Papaya", "kibouchi": "Poipoiya", "category": "nourriture", "difficulty": 1},
         
         # Maison (section complète selon le tableau habitation)
         {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou", "category": "maison", "difficulty": 1},
