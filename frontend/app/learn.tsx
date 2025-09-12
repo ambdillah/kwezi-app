@@ -38,6 +38,7 @@ const CATEGORIES = [
   { key: 'verbes', name: 'Verbes', icon: 'walk', color: '#8E44AD' },
   { key: 'adjectifs', name: 'Adjectifs', icon: 'text', color: '#F39C12' },
   { key: 'expressions', name: 'Expressions', icon: 'chatbubbles', color: '#FF6347' },
+  { key: 'tradition', name: 'Tradition', icon: 'musical-notes', color: '#D63384' },
 ];
 
 export default function LearnScreen() {
