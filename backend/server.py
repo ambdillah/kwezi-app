@@ -645,7 +645,7 @@ async def init_base_content():
         {"french": "Nuage", "shimaore": "Wingou", "kibouchi": "Vingou", "category": "nature", "difficulty": 1},
         {"french": "Campagne/Forêt", "shimaore": "Malayouni", "kibouchi": "Atihala", "category": "nature", "difficulty": 1},
         {"french": "Caillou/Pierre/Rocher", "shimaore": "Bwé", "kibouchi": "Vatou", "category": "nature", "difficulty": 1},
-        {"french": "Plateau", "shimaore": "Kalé", "kibouchi": "Kaléni", "category": "nature", "difficulty": 1},
+        {"french": "Plateau", "shimaore": "Bandra", "kibouchi": "Kètraka", "category": "nature", "difficulty": 1},
         {"french": "Route", "shimaore": "Parré", "kibouchi": "Parré", "category": "nature", "difficulty": 1},
         {"french": "Chemin/Sentier/Parcours", "shimaore": "Ndzia", "kibouchi": "Lalagna", "category": "nature", "difficulty": 1},
         {"french": "Herbe", "shimaore": "Malavou", "kibouchi": "Haitri", "category": "nature", "difficulty": 1},
