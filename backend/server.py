@@ -442,7 +442,7 @@ async def init_base_content():
         {"french": "Curcuma", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", "category": "nourriture", "difficulty": 1},
         {"french": "Cumin", "shimaore": "Massala", "kibouchi": "Massala", "category": "nourriture", "difficulty": 1},
         {"french": "Ciboulette", "shimaore": "Chouroungou ya mani", "kibouchi": "Doungoulou ravigni", "category": "nourriture", "difficulty": 1},
-        {"french": "Gingembre", "shimaore": "Sakayi", "kibouchi": "Sakéyi", "category": "nourriture", "difficulty": 1},
+        {"french": "Gingembre", "shimaore": "Tsinguiziou", "kibouchi": "Sakéyi", "category": "nourriture", "difficulty": 1},
         {"french": "Vanille", "shimaore": "Lavani", "kibouchi": "Lavani", "category": "nourriture", "difficulty": 1},
         {"french": "Tamarin", "shimaore": "Ouhajou", "kibouchi": "Madirou kakazou", "category": "nourriture", "difficulty": 1},
         {"french": "Papaye", "shimaore": "Papaya", "kibouchi": "Poipoiya", "category": "nourriture", "difficulty": 1},
