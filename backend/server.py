@@ -486,7 +486,7 @@ async def init_base_content():
         
         # Nouveaux éléments maison du tableau supplémentaire
         {"french": "Bol", "shimaore": "Chicombé", "kibouchi": "Bacouli", "category": "maison", "difficulty": 1},
-        {"french": "Cours", "shimaore": "Mraba", "kibouchi": "Lacourou", "category": "maison", "difficulty": 1},
+        {"french": "Cour", "shimaore": "Mraba", "kibouchi": "Lacourou", "category": "maison", "difficulty": 1},
         {"french": "Clôture", "shimaore": "Vala", "kibouchi": "Vala", "category": "maison", "difficulty": 1},
         {"french": "Toilette", "shimaore": "Mrabani", "kibouchi": "Mraba", "category": "maison", "difficulty": 1},
         {"french": "Seau", "shimaore": "Siyo", "kibouchi": "Siyo", "category": "maison", "difficulty": 1},
