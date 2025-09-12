@@ -412,7 +412,7 @@ async def init_base_content():
         {"french": "Pain", "shimaore": "Dipé", "kibouchi": "Dipé", "category": "nourriture", "difficulty": 1},
         {"french": "Gâteau", "shimaore": "Mharé", "kibouchi": "Moukari", "category": "nourriture", "difficulty": 1},
         {"french": "Mangue", "shimaore": "Manga", "kibouchi": "Manga", "category": "nourriture", "difficulty": 1},
-        {"french": "Noix de coco", "shimaore": "Nazi", "kibouchi": "Voiniou", "category": "nourriture", "difficulty": 1},
+        {"french": "Noix de coco", "shimaore": "Nadzi", "kibouchi": "Voiniou", "category": "nourriture", "difficulty": 1},
         {"french": "Noix de coco fraîche", "shimaore": "Chijavou", "kibouchi": "Kidjavou", "category": "nourriture", "difficulty": 1},
         {"french": "Lait", "shimaore": "Dzia", "kibouchi": "Rounounou", "category": "nourriture", "difficulty": 1},
         {"french": "Viande", "shimaore": "Nhyama", "kibouchi": "Amboumati", "category": "nourriture", "difficulty": 1},
