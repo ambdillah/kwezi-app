@@ -404,6 +404,7 @@ async def init_base_content():
         {"french": "Cueillir", "shimaore": "Oupoua", "kibouchi": "Mampoka", "category": "verbes", "difficulty": 1},
         # Nourriture (mise à jour complète selon le nouveau tableau)
         {"french": "Riz", "shimaore": "Tsoholé", "kibouchi": "Vari", "category": "nourriture", "difficulty": 1},
+        {"french": "Riz non décortiqué", "shimaore": "Mélé", "kibouchi": "Vari tsivoidissa", "category": "nourriture", "difficulty": 1},
         {"french": "Eau", "shimaore": "Maji", "kibouchi": "Ranou", "category": "nourriture", "difficulty": 1},
         {"french": "Nourriture", "shimaore": "Choula", "kibouchi": "Hanigni", "category": "nourriture", "difficulty": 1},
         {"french": "Ananas", "shimaore": "Nanassi", "kibouchi": "Mananassi", "category": "nourriture", "difficulty": 1},
