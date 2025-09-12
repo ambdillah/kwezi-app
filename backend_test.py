@@ -1241,6 +1241,256 @@ class MayotteEducationTester:
             print(f"❌ Specific food corrections verification error: {e}")
             return False
 
+    def test_verbs_duplicate_removal_verification(self):
+        """Test that duplicate removal in the verbs section has been done correctly"""
+        print("\n=== Testing Verbs Duplicate Removal Verification ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors
+            print("--- Testing Backend Startup After Duplicate Removal ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after duplicate removal")
+            
+            # 2. Get all words to check total count
+            print("\n--- Testing Total Word Count (Should be 548) ---")
+            all_words = response.json()
+            total_words = len(all_words)
+            expected_total = 548  # 572 - 24 duplicates removed
+            
+            if total_words == expected_total:
+                print(f"✅ Total word count correct: {total_words} words (expected {expected_total})")
+                total_count_correct = True
+            else:
+                print(f"❌ Total word count incorrect: {total_words} words (expected {expected_total})")
+                total_count_correct = False
+            
+            # 3. Get verbs and check for duplicates
+            print("\n--- Testing Verbs Category for Duplicates ---")
+            response = self.session.get(f"{API_BASE}/words?category=verbes")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve verbs: {response.status_code}")
+                return False
+            
+            verbs = response.json()
+            print(f"Found {len(verbs)} verbs in database")
+            
+            # 4. Check for exactly 104 unique verbs
+            print("\n--- Testing Unique Verbs Count (Should be 104) ---")
+            expected_unique_verbs = 104
+            actual_unique_verbs = len(verbs)
+            
+            if actual_unique_verbs == expected_unique_verbs:
+                print(f"✅ Unique verbs count correct: {actual_unique_verbs} verbs (expected {expected_unique_verbs})")
+                unique_count_correct = True
+            else:
+                print(f"❌ Unique verbs count incorrect: {actual_unique_verbs} verbs (expected {expected_unique_verbs})")
+                unique_count_correct = False
+            
+            # 5. Check for specific duplicates that should have been removed
+            print("\n--- Testing Specific Duplicate Removal ---")
+            
+            # List of 24 verbs that were duplicated and should now have only ONE occurrence
+            duplicated_verbs = [
+                "Abîmer", "Acheter", "Allumer", "Amener/Apporter", "Balayer", "Combler", 
+                "Couper", "Couper du bois", "Cueillir", "Cuisiner", "Cultiver", "Entrer", 
+                "Essuyer", "Faire sécher", "Griller", "Jouer", "Peindre", "Ranger/Arranger", 
+                "Se peigner", "Se raser", "Tremper", "Tresser", "Tuer", "Éteindre"
+            ]
+            
+            verbs_by_french = {}
+            for verb in verbs:
+                french_word = verb['french']
+                if french_word in verbs_by_french:
+                    verbs_by_french[french_word].append(verb)
+                else:
+                    verbs_by_french[french_word] = [verb]
+            
+            duplicates_removed = True
+            for verb_name in duplicated_verbs:
+                if verb_name in verbs_by_french:
+                    count = len(verbs_by_french[verb_name])
+                    if count == 1:
+                        print(f"✅ {verb_name}: 1 occurrence (duplicate removed)")
+                    else:
+                        print(f"❌ {verb_name}: {count} occurrences (should be 1)")
+                        duplicates_removed = False
+                else:
+                    print(f"❌ {verb_name}: not found in verbs")
+                    duplicates_removed = False
+            
+            # 6. Check alphabetical organization
+            print("\n--- Testing Alphabetical Organization ---")
+            
+            french_names = [verb['french'] for verb in verbs]
+            sorted_names = sorted(french_names, key=str.lower)
+            
+            if french_names == sorted_names:
+                print("✅ Verbs are organized alphabetically")
+                alphabetical_correct = True
+            else:
+                print("❌ Verbs are not organized alphabetically")
+                # Show first few differences
+                for i, (actual, expected) in enumerate(zip(french_names[:10], sorted_names[:10])):
+                    if actual != expected:
+                        print(f"   Position {i+1}: Got '{actual}', expected '{expected}'")
+                alphabetical_correct = False
+            
+            # 7. Test all API endpoints for regressions
+            print("\n--- Testing API Endpoints for Regressions ---")
+            
+            endpoints_working = True
+            
+            # Test basic endpoints
+            test_endpoints = [
+                ("/words", "All words"),
+                ("/words?category=verbes", "Verbs category"),
+                ("/words?category=famille", "Family category"),
+                ("/words?category=couleurs", "Colors category"),
+                ("/exercises", "Exercises")
+            ]
+            
+            for endpoint, description in test_endpoints:
+                try:
+                    response = self.session.get(f"{API_BASE}{endpoint}")
+                    if response.status_code == 200:
+                        print(f"✅ {description} endpoint working")
+                    else:
+                        print(f"❌ {description} endpoint failed: {response.status_code}")
+                        endpoints_working = False
+                except Exception as e:
+                    print(f"❌ {description} endpoint error: {e}")
+                    endpoints_working = False
+            
+            # 8. Test previous corrections are maintained
+            print("\n--- Testing Previous Corrections Maintained ---")
+            
+            # Check for specific previous corrections
+            previous_corrections = [
+                {"french": "Gingembre", "category": "nourriture", "shimaore": "Tsinguiziou", "kibouchi": "Sakéyi"},
+                {"french": "Torche locale", "category": "maison", "shimaore": "Gandilé/Poutroumax", "kibouchi": "Gandilé/Poutroumax"},
+                {"french": "Cour", "category": "maison", "shimaore": "Mraba", "kibouchi": "Lacourou"}
+            ]
+            
+            corrections_maintained = True
+            for correction in previous_corrections:
+                # Get words from the specific category
+                response = self.session.get(f"{API_BASE}/words?category={correction['category']}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    words_by_french = {word['french']: word for word in category_words}
+                    
+                    if correction['french'] in words_by_french:
+                        word = words_by_french[correction['french']]
+                        if (word['shimaore'] == correction['shimaore'] and 
+                            word['kibouchi'] == correction['kibouchi']):
+                            print(f"✅ {correction['french']}: Previous correction maintained")
+                        else:
+                            print(f"❌ {correction['french']}: Previous correction lost")
+                            corrections_maintained = False
+                    else:
+                        print(f"❌ {correction['french']}: Not found in {correction['category']} category")
+                        corrections_maintained = False
+                else:
+                    print(f"❌ Could not check {correction['category']} category")
+                    corrections_maintained = False
+            
+            # 9. Test CRUD operations still work
+            print("\n--- Testing CRUD Operations Still Work ---")
+            
+            crud_working = True
+            try:
+                # Test creating a new word
+                test_word = {
+                    "french": "Test Verb",
+                    "shimaore": "Test Shimaoré",
+                    "kibouchi": "Test Kibouchi",
+                    "category": "verbes",
+                    "difficulty": 1
+                }
+                
+                create_response = self.session.post(f"{API_BASE}/words", json=test_word)
+                if create_response.status_code == 200:
+                    created_word = create_response.json()
+                    print(f"✅ Can still create new verbs")
+                    
+                    # Test updating the word
+                    updated_word = test_word.copy()
+                    updated_word['shimaore'] = "Updated Shimaoré"
+                    
+                    update_response = self.session.put(f"{API_BASE}/words/{created_word['id']}", json=updated_word)
+                    if update_response.status_code == 200:
+                        print(f"✅ Can still update verbs")
+                    else:
+                        print(f"❌ Cannot update verbs: {update_response.status_code}")
+                        crud_working = False
+                    
+                    # Test deleting the word
+                    delete_response = self.session.delete(f"{API_BASE}/words/{created_word['id']}")
+                    if delete_response.status_code == 200:
+                        print(f"✅ Can still delete verbs")
+                    else:
+                        print(f"❌ Cannot delete verbs: {delete_response.status_code}")
+                        crud_working = False
+                else:
+                    print(f"❌ Cannot create new verbs: {create_response.status_code}")
+                    crud_working = False
+                    
+            except Exception as e:
+                print(f"❌ CRUD operations test error: {e}")
+                crud_working = False
+            
+            # Overall result
+            all_tests_passed = (
+                total_count_correct and 
+                unique_count_correct and 
+                duplicates_removed and 
+                alphabetical_correct and 
+                endpoints_working and 
+                corrections_maintained and 
+                crud_working
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 VERBS DUPLICATE REMOVAL VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors")
+                print(f"✅ Total word count correct: {total_words} words (572 - 24 duplicates = 548)")
+                print(f"✅ Exactly {actual_unique_verbs} unique verbs in 'verbes' category")
+                print("✅ All 24 specific duplicated verbs now have only ONE occurrence:")
+                print("   - Abîmer, Acheter, Allumer, Amener/Apporter, Balayer, Combler")
+                print("   - Couper, Couper du bois, Cueillir, Cuisiner, Cultiver, Entrer")
+                print("   - Essuyer, Faire sécher, Griller, Jouer, Peindre, Ranger/Arranger")
+                print("   - Se peigner, Se raser, Tremper, Tresser, Tuer, Éteindre")
+                print("✅ Verbs remain organized alphabetically")
+                print("✅ All API endpoints working correctly (no regressions)")
+                print("✅ Previous corrections maintained (Gingembre, Torche locale, Cour)")
+                print("✅ CRUD operations still functional")
+                print("✅ Duplicate removal in verbs section completed successfully!")
+            else:
+                print("\n❌ Verbs duplicate removal verification failed")
+                if not total_count_correct:
+                    print(f"❌ Total word count is {total_words}, expected 548")
+                if not unique_count_correct:
+                    print(f"❌ Unique verbs count is {actual_unique_verbs}, expected 104")
+                if not duplicates_removed:
+                    print("❌ Some duplicated verbs still have multiple occurrences")
+                if not alphabetical_correct:
+                    print("❌ Verbs are not organized alphabetically")
+                if not endpoints_working:
+                    print("❌ Some API endpoints have regressions")
+                if not corrections_maintained:
+                    print("❌ Some previous corrections were lost")
+                if not crud_working:
+                    print("❌ CRUD operations are not working")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Verbs duplicate removal verification error: {e}")
+            return False
+
     def test_specific_corrections_verification(self):
         """Test the specific corrections mentioned in the review request"""
         print("\n=== Testing Specific Corrections Verification ===")
