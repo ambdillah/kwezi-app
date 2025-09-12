@@ -793,6 +793,24 @@ async def init_base_content():
         {"french": "Faire crédit", "shimaore": "Oukopa", "kibouchi": "Midéni", "category": "expressions", "difficulty": 1},
         {"french": "Nounou", "shimaore": "Mlézi", "kibouchi": "Mlézi", "category": "expressions", "difficulty": 1},
         
+        # Tradition (nouvelle section culture et tradition mahoraise)
+        {"french": "Mariage", "shimaore": "Haroussi", "kibouchi": "Haroussi", "category": "tradition", "difficulty": 1},
+        {"french": "Chant mariage traditionnel", "shimaore": "Mlélézi", "kibouchi": "Mlélézi", "category": "tradition", "difficulty": 2},
+        {"french": "Petit mariage", "shimaore": "Mafounguidzo", "kibouchi": "Mafounguidzo", "category": "tradition", "difficulty": 2},
+        {"french": "Grand mariage", "shimaore": "Manzaraka", "kibouchi": "Manzaraka", "category": "tradition", "difficulty": 2},
+        {"french": "Chant religieux homme", "shimaore": "Moulidi/Dahira/Dinahou", "kibouchi": "Moulidi/Dahira/Dinahou", "category": "tradition", "difficulty": 2},
+        {"french": "Chant religieux mixte", "shimaore": "Shengué/Madilis", "kibouchi": "Maoulida shengué/Madilis", "category": "tradition", "difficulty": 2},
+        {"french": "Chant religieux femme", "shimaore": "Déba", "kibouchi": "Déba", "category": "tradition", "difficulty": 2},
+        {"french": "Danse traditionnelle mixte", "shimaore": "Shigoma", "kibouchi": "Shigoma", "category": "tradition", "difficulty": 1},
+        {"french": "Danse traditionnelle femme", "shimaore": "Mbiwi/Wadhaha", "kibouchi": "Mbiwi/Wadhaha", "category": "tradition", "difficulty": 1},
+        {"french": "Chant traditionnelle", "shimaore": "Mgodro", "kibouchi": "Mgodro", "category": "tradition", "difficulty": 1},
+        {"french": "Barbecue traditionnelle", "shimaore": "Voulé", "kibouchi": "Voulé", "category": "tradition", "difficulty": 1},
+        {"french": "Tamtam bœuf", "shimaore": "Ngoma ya nyombé", "kibouchi": "Vala naoumbi", "category": "tradition", "difficulty": 2},
+        {"french": "Cérémonie", "shimaore": "Shouhouli", "kibouchi": "Shouhouli", "category": "tradition", "difficulty": 1},
+        {"french": "Boxe traditionnelle", "shimaore": "Mrengué", "kibouchi": "Mouringui", "category": "tradition", "difficulty": 1},
+        {"french": "Camper", "shimaore": "Tobé", "kibouchi": "Mitobi", "category": "tradition", "difficulty": 1},
+        {"french": "Rite de la pluie", "shimaore": "Mgourou", "kibouchi": "Mgourou", "category": "tradition", "difficulty": 2},
+        
         # Reptiles et autres animaux
         {"french": "Renard", "shimaore": "Mbwa nyeha", "kibouchi": "Fandroka", "category": "animaux", "difficulty": 2},
 
