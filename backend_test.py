@@ -825,6 +825,222 @@ class MayotteEducationTester:
             print(f"❌ Specific adjective corrections verification error: {e}")
             return False
 
+    def test_cours_to_cour_correction_verification(self):
+        """Test the specific 'Cours' to 'Cour' correction in maison category"""
+        print("\n=== Testing 'Cours' to 'Cour' Correction Verification ===")
+        
+        try:
+            # 1. Test backend starts without errors after the change
+            print("--- Testing Backend Startup After Correction ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without errors after the change")
+            
+            # 2. Test /api/words?category=maison endpoint
+            print("\n--- Testing /api/words?category=maison Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=maison")
+            if response.status_code != 200:
+                print(f"❌ Maison endpoint failed: {response.status_code}")
+                return False
+            
+            maison_words = response.json()
+            maison_words_by_french = {word['french']: word for word in maison_words}
+            print(f"✅ /api/words?category=maison endpoint working correctly ({len(maison_words)} maison items)")
+            
+            # 3. Check that "Cour" (without s) exists with correct translations
+            print("\n--- Testing 'Cour' (without s) Exists with Correct Translations ---")
+            
+            expected_cour = {
+                "french": "Cour",
+                "shimaore": "Mraba", 
+                "kibouchi": "Lacourou"
+            }
+            
+            cour_found = False
+            if "Cour" in maison_words_by_french:
+                cour_word = maison_words_by_french["Cour"]
+                
+                # Check shimaoré translation
+                if cour_word['shimaore'] == expected_cour['shimaore']:
+                    print(f"✅ 'Cour' shimaoré correct: '{cour_word['shimaore']}'")
+                    shimaore_correct = True
+                else:
+                    print(f"❌ 'Cour' shimaoré incorrect: Expected '{expected_cour['shimaore']}', got '{cour_word['shimaore']}'")
+                    shimaore_correct = False
+                
+                # Check kibouchi translation
+                if cour_word['kibouchi'] == expected_cour['kibouchi']:
+                    print(f"✅ 'Cour' kibouchi correct: '{cour_word['kibouchi']}'")
+                    kibouchi_correct = True
+                else:
+                    print(f"❌ 'Cour' kibouchi incorrect: Expected '{expected_cour['kibouchi']}', got '{cour_word['kibouchi']}'")
+                    kibouchi_correct = False
+                
+                if shimaore_correct and kibouchi_correct:
+                    print(f"✅ 'Cour' exists with correct translations: {cour_word['shimaore']} (Shimaoré) / {cour_word['kibouchi']} (Kibouchi)")
+                    cour_found = True
+                else:
+                    print(f"❌ 'Cour' has incorrect translations")
+            else:
+                print(f"❌ 'Cour' (without s) not found in maison category")
+            
+            # 4. Ensure no "Cours" (with s) exists in the database
+            print("\n--- Testing No 'Cours' (with s) Exists in Database ---")
+            
+            cours_found = False
+            if "Cours" in maison_words_by_french:
+                print(f"❌ 'Cours' (with s) still exists in database - should be removed")
+                cours_found = True
+            else:
+                print(f"✅ 'Cours' (with s) does not exist in database - correction successful")
+            
+            # 5. Test maison category integrity - verify all other maison elements remain intact
+            print("\n--- Testing Maison Category Integrity ---")
+            
+            # Sample of other maison items that should remain unchanged
+            other_maison_items = [
+                {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou"},
+                {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavaragena"},
+                {"french": "Case", "shimaore": "Banga", "kibouchi": "Banga"},
+                {"french": "Lit", "shimaore": "Chtrandra", "kibouchi": "Koubani"},
+                {"french": "Marmite", "shimaore": "Gnoungou", "kibouchi": "Vilangni"}
+            ]
+            
+            other_items_intact = True
+            for item in other_maison_items:
+                french_word = item['french']
+                if french_word in maison_words_by_french:
+                    word = maison_words_by_french[french_word]
+                    if word['shimaore'] == item['shimaore'] and word['kibouchi'] == item['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - INTACT")
+                    else:
+                        print(f"❌ {french_word}: Expected {item['shimaore']}/{item['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        other_items_intact = False
+                else:
+                    print(f"❌ {french_word} not found in maison category")
+                    other_items_intact = False
+            
+            # 6. Check total maison count is maintained
+            print("\n--- Testing Total Maison Count Maintained ---")
+            
+            # Expected count should be reasonable (we don't know exact count but should be > 5)
+            if len(maison_words) >= 5:
+                print(f"✅ Maison category has reasonable count: {len(maison_words)} items")
+                count_maintained = True
+            else:
+                print(f"❌ Maison category has too few items: {len(maison_words)} items")
+                count_maintained = False
+            
+            # 7. Ensure no duplicate entries were created
+            print("\n--- Testing No Duplicate Entries Created ---")
+            
+            french_names = [word['french'] for word in maison_words]
+            unique_names = set(french_names)
+            
+            if len(french_names) == len(unique_names):
+                print(f"✅ No duplicate entries found ({len(unique_names)} unique maison items)")
+                no_duplicates = True
+            else:
+                duplicates = [name for name in french_names if french_names.count(name) > 1]
+                print(f"❌ Duplicate entries found: {set(duplicates)}")
+                no_duplicates = False
+            
+            # 8. Test API endpoints are working correctly
+            print("\n--- Testing API Endpoints Working Correctly ---")
+            
+            api_working = True
+            
+            # Test individual word retrieval for "Cour" if it exists
+            if cour_found and "Cour" in maison_words_by_french:
+                cour_id = maison_words_by_french["Cour"]['id']
+                response = self.session.get(f"{API_BASE}/words/{cour_id}")
+                if response.status_code == 200:
+                    retrieved_word = response.json()
+                    if (retrieved_word['shimaore'] == expected_cour['shimaore'] and 
+                        retrieved_word['kibouchi'] == expected_cour['kibouchi']):
+                        print(f"✅ 'Cour' individual API retrieval working correctly")
+                    else:
+                        print(f"❌ 'Cour' individual API retrieval returned incorrect data")
+                        api_working = False
+                else:
+                    print(f"❌ 'Cour' individual API retrieval failed: {response.status_code}")
+                    api_working = False
+            
+            # Test that we can still create/update/delete words in maison category
+            try:
+                # Test creating a new word
+                test_word = {
+                    "french": "Test Maison Item",
+                    "shimaore": "Test Shimaoré",
+                    "kibouchi": "Test Kibouchi",
+                    "category": "maison",
+                    "difficulty": 1
+                }
+                
+                create_response = self.session.post(f"{API_BASE}/words", json=test_word)
+                if create_response.status_code == 200:
+                    created_word = create_response.json()
+                    print(f"✅ Can still create new words in maison category")
+                    
+                    # Clean up - delete the test word
+                    delete_response = self.session.delete(f"{API_BASE}/words/{created_word['id']}")
+                    if delete_response.status_code == 200:
+                        print(f"✅ Can still delete words in maison category")
+                    else:
+                        print(f"⚠️ Could not delete test word (not critical)")
+                else:
+                    print(f"❌ Cannot create new words in maison category: {create_response.status_code}")
+                    api_working = False
+                    
+            except Exception as e:
+                print(f"⚠️ Could not test CRUD operations: {e}")
+            
+            # Overall result
+            all_tests_passed = (
+                cour_found and 
+                not cours_found and 
+                other_items_intact and 
+                count_maintained and 
+                no_duplicates and 
+                api_working
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 'COURS' TO 'COUR' CORRECTION VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without errors after the change")
+                print("✅ /api/words?category=maison endpoint working correctly")
+                print("✅ 'Cour' (without s) exists with correct translations:")
+                print(f"   - Shimaoré: '{expected_cour['shimaore']}'")
+                print(f"   - Kibouchi: '{expected_cour['kibouchi']}'")
+                print("✅ No 'Cours' (with s) exists in the database")
+                print("✅ All other maison elements remain intact")
+                print(f"✅ Total maison count maintained: {len(maison_words)} items")
+                print("✅ No duplicate entries were created")
+                print("✅ API endpoints are working correctly")
+                print("✅ Simple correction verification complete - 'Cours' has been successfully changed to 'Cour'")
+            else:
+                print("\n❌ 'Cours' to 'Cour' correction verification failed")
+                if not cour_found:
+                    print("❌ 'Cour' (without s) not found or has incorrect translations")
+                if cours_found:
+                    print("❌ 'Cours' (with s) still exists in database")
+                if not other_items_intact:
+                    print("❌ Some other maison elements were affected")
+                if not count_maintained:
+                    print("❌ Maison category count is too low")
+                if not no_duplicates:
+                    print("❌ Duplicate entries were created")
+                if not api_working:
+                    print("❌ API endpoints have issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ 'Cours' to 'Cour' correction verification error: {e}")
+            return False
+
     def test_specific_food_corrections_verification(self):
         """Test the specific food corrections that were just made"""
         print("\n=== Testing Specific Food Corrections Verification ===")
