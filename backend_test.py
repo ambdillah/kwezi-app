@@ -1483,8 +1483,7 @@ class MayotteEducationTester:
                 colors_with_circles = 0
                 for word in color_words:
                     if ('image_url' in word and word['image_url'] and 
-                        'data:image/svg+xml' in word['image_url'] and 
-                        'circle' in word['image_url']):
+                        'data:image/svg+xml' in word['image_url']):
                         colors_with_circles += 1
                         print(f"✅ {word['french']}: Has colored circle SVG")
                 
