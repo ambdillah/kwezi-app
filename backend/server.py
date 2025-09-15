@@ -34,6 +34,7 @@ class Word(BaseModel):
     kibouchi: str
     category: str  # famille, couleurs, animaux, salutations, nombres
     image_base64: Optional[str] = None
+    image_url: Optional[str] = None
     audio_url: Optional[str] = None
     difficulty: int = Field(default=1, ge=1, le=3)
     created_at: datetime = Field(default_factory=datetime.utcnow)
