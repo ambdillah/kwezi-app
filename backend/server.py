@@ -45,6 +45,7 @@ class WordCreate(BaseModel):
     kibouchi: str
     category: str
     image_base64: Optional[str] = None
+    image_url: Optional[str] = None
     difficulty: int = Field(default=1, ge=1, le=3)
 
 class Exercise(BaseModel):
