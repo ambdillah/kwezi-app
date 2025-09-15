@@ -1242,6 +1242,364 @@ class MayotteEducationTester:
             return False
 
 
+    def test_image_addition_verification(self):
+        """Test the addition of images to vocabulary words for children's memorization"""
+        print("\n=== Testing Image Addition Verification ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors after image additions
+            print("--- Testing Backend Startup After Image Additions ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after image additions")
+            
+            all_words = response.json()
+            print(f"Total words in database: {len(all_words)}")
+            
+            # 2. Test that 23 words have received images as specified
+            print("\n--- Testing 23 Words Have Received Images ---")
+            
+            # Expected words with images based on review request
+            expected_images = {
+                # Colors (8) - All colors with colored SVG circles
+                "couleurs": ["Blanc", "Bleu", "Gris", "Jaune", "Marron", "Noir", "Rouge", "Vert"],
+                # Animals (5) - Chat, Chien, Oiseau, Poisson, Éléphant
+                "animaux": ["Chat", "Chien", "Oiseau", "Poisson", "Éléphant"],
+                # Numbers (3) - Un, Deux, Trois with numerical representations
+                "nombres": ["Un", "Deux", "Trois"],
+                # Body (2) - Main, Pied
+                "corps": ["Main", "Pied"],
+                # House (3) - Chaise, Lit, Table
+                "maison": ["Chaise", "Lit", "Table"],
+                # Family (1) - Enfant
+                "famille": ["Enfant"],
+                # Nature (1) - École
+                "nature": ["École"]
+            }
+            
+            words_with_images = 0
+            category_results = {}
+            
+            for category, expected_words in expected_images.items():
+                print(f"\n--- Testing {category.upper()} Category Images ---")
+                
+                # Get words for this category
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code != 200:
+                    print(f"❌ Could not retrieve {category} words: {response.status_code}")
+                    category_results[category] = False
+                    continue
+                
+                category_words = response.json()
+                words_by_french = {word['french']: word for word in category_words}
+                
+                category_success = True
+                category_images_found = 0
+                
+                for expected_word in expected_words:
+                    if expected_word in words_by_french:
+                        word = words_by_french[expected_word]
+                        
+                        # Check if word has image_url field and it's not empty
+                        if 'image_url' in word and word['image_url']:
+                            print(f"✅ {expected_word}: Has image - {word['image_url'][:50]}...")
+                            words_with_images += 1
+                            category_images_found += 1
+                        else:
+                            print(f"❌ {expected_word}: Missing image_url or empty")
+                            category_success = False
+                    else:
+                        print(f"❌ {expected_word}: Word not found in {category} category")
+                        category_success = False
+                
+                print(f"Category {category}: {category_images_found}/{len(expected_words)} words have images")
+                category_results[category] = category_success
+            
+            print(f"\n--- Image Addition Summary ---")
+            print(f"Total words with images found: {words_with_images}/23")
+            
+            if words_with_images == 23:
+                print("✅ All 23 expected words have images")
+                images_count_correct = True
+            else:
+                print(f"❌ Expected 23 words with images, found {words_with_images}")
+                images_count_correct = False
+            
+            # 3. Test data structure - verify image_url field presence and validity
+            print("\n--- Testing Data Structure for Images ---")
+            
+            words_with_image_field = [word for word in all_words if 'image_url' in word and word['image_url']]
+            words_without_image_field = [word for word in all_words if 'image_url' not in word or not word['image_url']]
+            
+            print(f"Words with image_url field: {len(words_with_image_field)}")
+            print(f"Words without image_url field: {len(words_without_image_field)}")
+            
+            # Check that image URLs are valid (either data: URLs or http/https URLs)
+            valid_image_urls = True
+            for word in words_with_image_field:
+                image_url = word['image_url']
+                if not (image_url.startswith('data:image/') or 
+                       image_url.startswith('http://') or 
+                       image_url.startswith('https://')):
+                    print(f"❌ {word['french']}: Invalid image URL format - {image_url[:50]}...")
+                    valid_image_urls = False
+            
+            if valid_image_urls:
+                print("✅ All image URLs have valid formats")
+            else:
+                print("❌ Some image URLs have invalid formats")
+            
+            # 4. Test different types of images
+            print("\n--- Testing Different Types of Images ---")
+            
+            # Test SVG inline images (colors and numbers)
+            svg_images_found = 0
+            external_images_found = 0
+            
+            for word in words_with_image_field:
+                if word['image_url'].startswith('data:image/svg+xml'):
+                    svg_images_found += 1
+                elif word['image_url'].startswith('http'):
+                    external_images_found += 1
+            
+            print(f"SVG inline images found: {svg_images_found}")
+            print(f"External image URLs found: {external_images_found}")
+            
+            # Colors should have SVG images
+            colors_with_svg = 0
+            response = self.session.get(f"{API_BASE}/words?category=couleurs")
+            if response.status_code == 200:
+                color_words = response.json()
+                for word in color_words:
+                    if 'image_url' in word and word['image_url'] and word['image_url'].startswith('data:image/svg+xml'):
+                        colors_with_svg += 1
+            
+            print(f"Colors with SVG images: {colors_with_svg}/8")
+            
+            # Numbers should have SVG images
+            numbers_with_svg = 0
+            response = self.session.get(f"{API_BASE}/words?category=nombres")
+            if response.status_code == 200:
+                number_words = response.json()
+                for word in number_words:
+                    if (word['french'] in ["Un", "Deux", "Trois"] and 
+                        'image_url' in word and word['image_url'] and 
+                        word['image_url'].startswith('data:image/svg+xml')):
+                        numbers_with_svg += 1
+            
+            print(f"Numbers (Un, Deux, Trois) with SVG images: {numbers_with_svg}/3")
+            
+            # 5. Test global functionality
+            print("\n--- Testing Global Functionality ---")
+            
+            # Test that backend works correctly with new data
+            try:
+                # Test all endpoints still respond
+                endpoints_working = True
+                
+                test_endpoints = [
+                    f"{API_BASE}/words",
+                    f"{API_BASE}/words?category=couleurs",
+                    f"{API_BASE}/words?category=animaux",
+                    f"{API_BASE}/words?category=nombres"
+                ]
+                
+                for endpoint in test_endpoints:
+                    response = self.session.get(endpoint)
+                    if response.status_code != 200:
+                        print(f"❌ Endpoint {endpoint} failed: {response.status_code}")
+                        endpoints_working = False
+                    else:
+                        print(f"✅ Endpoint {endpoint} working")
+                
+                # Test total word count (should be around 542 as mentioned)
+                total_words = len(all_words)
+                if total_words >= 500:  # Allow some flexibility
+                    print(f"✅ Total word count reasonable: {total_words} words")
+                    word_count_ok = True
+                else:
+                    print(f"❌ Total word count too low: {total_words} words (expected ~542)")
+                    word_count_ok = False
+                
+                # Test CRUD operations still work
+                crud_working = True
+                try:
+                    # Test creating a word with image
+                    test_word = {
+                        "french": "Test Image Word",
+                        "shimaore": "Test Shimaoré",
+                        "kibouchi": "Test Kibouchi",
+                        "category": "test",
+                        "image_url": "https://example.com/test.jpg",
+                        "difficulty": 1
+                    }
+                    
+                    create_response = self.session.post(f"{API_BASE}/words", json=test_word)
+                    if create_response.status_code == 200:
+                        created_word = create_response.json()
+                        print("✅ Can create words with image_url field")
+                        
+                        # Test retrieving the word
+                        get_response = self.session.get(f"{API_BASE}/words/{created_word['id']}")
+                        if get_response.status_code == 200:
+                            retrieved_word = get_response.json()
+                            if retrieved_word['image_url'] == test_word['image_url']:
+                                print("✅ Image URL preserved in CRUD operations")
+                            else:
+                                print("❌ Image URL not preserved in CRUD operations")
+                                crud_working = False
+                        
+                        # Clean up
+                        delete_response = self.session.delete(f"{API_BASE}/words/{created_word['id']}")
+                        if delete_response.status_code == 200:
+                            print("✅ CRUD operations working with images")
+                        else:
+                            print("❌ Could not delete test word")
+                            crud_working = False
+                    else:
+                        print(f"❌ Could not create test word: {create_response.status_code}")
+                        crud_working = False
+                        
+                except Exception as e:
+                    print(f"❌ CRUD operations test failed: {e}")
+                    crud_working = False
+                
+            except Exception as e:
+                print(f"❌ Global functionality test failed: {e}")
+                endpoints_working = False
+                word_count_ok = False
+                crud_working = False
+            
+            # 6. Test specific categories in detail
+            print("\n--- Testing Specific Categories in Detail ---")
+            
+            # Test /api/words?category=couleurs for colored circles
+            print("Testing couleurs category for colored circles:")
+            response = self.session.get(f"{API_BASE}/words?category=couleurs")
+            if response.status_code == 200:
+                color_words = response.json()
+                colors_with_circles = 0
+                for word in color_words:
+                    if ('image_url' in word and word['image_url'] and 
+                        'data:image/svg+xml' in word['image_url'] and 
+                        'circle' in word['image_url']):
+                        colors_with_circles += 1
+                        print(f"✅ {word['french']}: Has colored circle SVG")
+                
+                print(f"Colors with circle SVGs: {colors_with_circles}/{len(color_words)}")
+                colors_test_ok = colors_with_circles >= 8
+            else:
+                print("❌ Could not test couleurs category")
+                colors_test_ok = False
+            
+            # Test /api/words?category=animaux for animal images
+            print("\nTesting animaux category for animal images:")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code == 200:
+                animal_words = response.json()
+                animals_with_images = 0
+                expected_animals = ["Chat", "Chien", "Oiseau", "Poisson", "Éléphant"]
+                
+                for word in animal_words:
+                    if (word['french'] in expected_animals and 
+                        'image_url' in word and word['image_url']):
+                        animals_with_images += 1
+                        print(f"✅ {word['french']}: Has image - {word['image_url'][:50]}...")
+                
+                print(f"Expected animals with images: {animals_with_images}/5")
+                animals_test_ok = animals_with_images >= 5
+            else:
+                print("❌ Could not test animaux category")
+                animals_test_ok = False
+            
+            # Test /api/words?category=nombres for number representations
+            print("\nTesting nombres category for number representations:")
+            response = self.session.get(f"{API_BASE}/words?category=nombres")
+            if response.status_code == 200:
+                number_words = response.json()
+                numbers_with_images = 0
+                expected_numbers = ["Un", "Deux", "Trois"]
+                
+                for word in number_words:
+                    if (word['french'] in expected_numbers and 
+                        'image_url' in word and word['image_url'] and
+                        'data:image/svg+xml' in word['image_url']):
+                        numbers_with_images += 1
+                        print(f"✅ {word['french']}: Has number SVG")
+                
+                print(f"Numbers with SVG representations: {numbers_with_images}/3")
+                numbers_test_ok = numbers_with_images >= 3
+            else:
+                print("❌ Could not test nombres category")
+                numbers_test_ok = False
+            
+            # Overall result
+            all_tests_passed = (
+                images_count_correct and
+                valid_image_urls and
+                all(category_results.values()) and
+                endpoints_working and
+                word_count_ok and
+                crud_working and
+                colors_test_ok and
+                animals_test_ok and
+                numbers_test_ok
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 IMAGE ADDITION VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after image additions")
+                print("✅ All 23 expected words have received images:")
+                print("   - Colors (8): All colors with colored SVG circles")
+                print("   - Animals (5): Chat, Chien, Oiseau, Poisson, Éléphant")
+                print("   - Numbers (3): Un, Deux, Trois with numerical representations")
+                print("   - Body (2): Main, Pied")
+                print("   - House (3): Chaise, Lit, Table")
+                print("   - Family (1): Enfant")
+                print("   - Nature (1): École")
+                print("✅ Data structure verified: image_url field present and valid")
+                print("✅ Different image types confirmed:")
+                print(f"   - SVG inline images: {svg_images_found}")
+                print(f"   - External image URLs: {external_images_found}")
+                print("✅ Global functionality maintained:")
+                print("   - All API endpoints respond correctly")
+                print(f"   - Total word count: {total_words} words")
+                print("   - CRUD operations work with images")
+                print("✅ Specific categories tested in detail:")
+                print(f"   - Colors with circle SVGs: {colors_with_circles}")
+                print(f"   - Animals with images: {animals_with_images}")
+                print(f"   - Numbers with SVG representations: {numbers_with_images}")
+                print("✅ Image addition for children's memorization successfully implemented!")
+            else:
+                print("\n❌ Image addition verification failed")
+                if not images_count_correct:
+                    print(f"❌ Expected 23 words with images, found {words_with_images}")
+                if not valid_image_urls:
+                    print("❌ Some image URLs have invalid formats")
+                if not all(category_results.values()):
+                    failed_categories = [cat for cat, result in category_results.items() if not result]
+                    print(f"❌ Failed categories: {failed_categories}")
+                if not endpoints_working:
+                    print("❌ Some API endpoints are not working")
+                if not word_count_ok:
+                    print("❌ Total word count is too low")
+                if not crud_working:
+                    print("❌ CRUD operations have issues")
+                if not colors_test_ok:
+                    print("❌ Colors category test failed")
+                if not animals_test_ok:
+                    print("❌ Animals category test failed")
+                if not numbers_test_ok:
+                    print("❌ Numbers category test failed")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Image addition verification error: {e}")
+            return False
+
     def test_duplicate_removal_verification(self):
         """Test the removal of ALL duplicates in all sections as requested in the review"""
         print("\n=== Testing Duplicate Removal Verification ===")
