@@ -11153,12 +11153,12 @@ class MayotteEducationTester:
         return failed == 0
 
     def run_all_tests(self):
-        """Run new food words addition test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - NEW FOOD WORDS ADDITION TEST 🌺")
+        """Run duplicate removal verification test as requested in review"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - DUPLICATE REMOVAL VERIFICATION TEST 🌺")
         print("=" * 70)
         
-        # Run the specific new food words addition test as requested in review
-        print("Running new food words addition verification test...")
+        # Run the specific duplicate removal verification test as requested in review
+        print("Running duplicate removal verification test...")
         
         test_results = {}
         
@@ -11167,12 +11167,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main new food words addition test
-        test_results['new_food_words'] = self.test_new_food_words_addition_verification()
+        # Main duplicate removal verification test
+        test_results['duplicate_removal'] = self.test_duplicate_removal_verification()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🌺 NEW FOOD WORDS ADDITION TEST RESULTS 🌺")
+        print("🌺 DUPLICATE REMOVAL VERIFICATION TEST RESULTS 🌺")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -11184,20 +11184,29 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('new_food_words', False):
-            print("🎉 NEW FOOD WORDS ADDITION TEST PASSED!")
-            print("✅ Two new words added to food section:")
-            print("   - Crevettes: shimaoré 'Camba', kibouchi 'Ancamba'")
-            print("   - Langouste: shimaoré 'Camba diva', kibouchi 'Ancamba diva'")
-            print("✅ New words correctly placed in alphabetical order")
-            print("✅ Total word count is now 550 words (548 + 2 new)")
-            print("✅ Food section now contains 45 words (43 + 2 new)")
-            print("✅ Proper distinction between 'Crevette' (animals) and 'Crevettes' (food)")
-            print("✅ All API endpoints respond correctly")
-            print("✅ Global functionality working correctly")
-            print("The new food words addition has been successfully completed and verified.")
+        if test_results.get('duplicate_removal', False):
+            print("🎉 DUPLICATE REMOVAL VERIFICATION TEST PASSED!")
+            print("✅ All 8 identified duplicates have been removed:")
+            print("   - Poisson (kept in animaux, removed from nourriture)")
+            print("   - Bouche (kept in corps, duplicate removed)")
+            print("   - Ongle (kept in corps, duplicate removed)")
+            print("   - Bol (kept in maison, duplicate removed)")
+            print("   - Clôture (kept in maison with translation Mraba/Mraba)")
+            print("   - Mur (kept in maison with translation Houra/Riba)")
+            print("   - Toilette (kept in maison, duplicate removed)")
+            print("   - Pirogue (kept in nature, removed from transport)")
+            print("✅ New total word count: 542 words (550 - 8 duplicates removed)")
+            print("✅ Word counts by category verified:")
+            print("   - salutations: 8, grammaire: 21, famille: 20, couleurs: 8")
+            print("   - animaux: 65, nombres: 20, corps: 32, nourriture: 44")
+            print("   - maison: 37, vetements: 16, verbes: 104, nature: 48")
+            print("   - adjectifs: 52, expressions: 45, transport: 6, tradition: 16")
+            print("✅ Organization maintained (numbers 1-20 in order, others alphabetical)")
+            print("✅ All backend functionality working correctly")
+            print("✅ Previous corrections maintained")
+            print("The complete deduplication has been successfully verified.")
         else:
-            print("❌ New food words addition test failed. Please review the issues above.")
+            print("❌ Duplicate removal verification test failed. Please review the issues above.")
         
         return passed == total
 
