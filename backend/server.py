@@ -170,7 +170,7 @@ async def upload_image(file: UploadFile = File(...)):
 # Route pour initialiser du contenu de base
 @api_router.post("/init-base-content")
 async def init_base_content():
-    # Contenu authentique complet en shimaoré et kibouchi basé sur les tableaux fournis (version finale organisée alphabétiquement sauf nombres)
+    # Contenu authentique complet en shimaoré et kibouchi basé sur les tableaux fournis (version finale sans doublons)
     base_words = [
         # Salutations et expressions courantes
         {"french": "Au revoir", "shimaore": "Kwaheri", "kibouchi": "Maeva", "category": "salutations", "difficulty": 1},
@@ -330,7 +330,6 @@ async def init_base_content():
         {"french": "Arrière du crâne", "shimaore": "Komoi", "kibouchi": "Kitoika", "category": "corps", "difficulty": 1},
         {"french": "Barbe", "shimaore": "Ndrévou", "kibouchi": "Somboutrou", "category": "corps", "difficulty": 1},
         {"french": "Bouche", "shimaore": "Hangno", "kibouchi": "Vava", "category": "corps", "difficulty": 1},
-        {"french": "Bouche", "shimaore": "Hangno", "kibouchi": "Vava", "category": "corps", "difficulty": 1},
         {"french": "Cheveux", "shimaore": "Ngnélé", "kibouchi": "Fagnéva", "category": "corps", "difficulty": 1},
         {"french": "Cheville", "shimaore": "Dzitso la pwédza", "kibouchi": "Dzitso la pwédza", "category": "corps", "difficulty": 1},
         {"french": "Cils", "shimaore": "Kové", "kibouchi": "Rambou faninti", "category": "corps", "difficulty": 1},
@@ -349,7 +348,6 @@ async def init_base_content():
         {"french": "Menton", "shimaore": "Shlévou", "kibouchi": "Sokou", "category": "corps", "difficulty": 1},
         {"french": "Nez", "shimaore": "Poua", "kibouchi": "Horougnou", "category": "corps", "difficulty": 1},
         {"french": "Ongle", "shimaore": "Kofou", "kibouchi": "Angofou", "category": "corps", "difficulty": 1},
-        {"french": "Ongle", "shimaore": "Kofou", "kibouchi": "Angofou", "category": "corps", "difficulty": 2},
         {"french": "Oreille", "shimaore": "Kiyo", "kibouchi": "Soufigni", "category": "corps", "difficulty": 1},
         {"french": "Peau", "shimaore": "Ngwezi", "kibouchi": "Ngwezi", "category": "corps", "difficulty": 1},
         {"french": "Pied", "shimaore": "Mindrou", "kibouchi": "Viti", "category": "corps", "difficulty": 1},
@@ -395,7 +393,6 @@ async def init_base_content():
         {"french": "Patate douce", "shimaore": "Batata", "kibouchi": "Batata", "category": "nourriture", "difficulty": 1},
         {"french": "Piment", "shimaore": "Poutou", "kibouchi": "Pilipili", "category": "nourriture", "difficulty": 1},
         {"french": "Pois d'angole", "shimaore": "Tsouzi", "kibouchi": "Ambatri", "category": "nourriture", "difficulty": 1},
-        {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou", "category": "nourriture", "difficulty": 1},
         {"french": "Poivre", "shimaore": "Bvilibvili manga", "kibouchi": "Vilivili", "category": "nourriture", "difficulty": 1},
         {"french": "Poulet", "shimaore": "Bawa", "kibouchi": "Mabawa", "category": "nourriture", "difficulty": 1},
         {"french": "Riz", "shimaore": "Tsoholé", "kibouchi": "Vari", "category": "nourriture", "difficulty": 1},
@@ -414,13 +411,11 @@ async def init_base_content():
         {"french": "Assiette", "shimaore": "Sahani", "kibouchi": "Sahani", "category": "maison", "difficulty": 1},
         {"french": "Balai", "shimaore": "Péou", "kibouchi": "Famafa", "category": "maison", "difficulty": 1},
         {"french": "Bol", "shimaore": "Chicombé", "kibouchi": "Bacouli", "category": "maison", "difficulty": 1},
-        {"french": "Bol", "shimaore": "Chicombé", "kibouchi": "Bacouli", "category": "maison", "difficulty": 1},
         {"french": "Buffet", "shimaore": "Biffé", "kibouchi": "Biffé", "category": "maison", "difficulty": 1},
         {"french": "Cartable/Malette", "shimaore": "Mkoba", "kibouchi": "Mkoba", "category": "maison", "difficulty": 1},
         {"french": "Case", "shimaore": "Banga", "kibouchi": "Banga", "category": "maison", "difficulty": 1},
         {"french": "Chaise", "shimaore": "Chiri", "kibouchi": "Chiri", "category": "maison", "difficulty": 1},
         {"french": "Clôture", "shimaore": "Mraba", "kibouchi": "Mraba", "category": "maison", "difficulty": 1},
-        {"french": "Clôture", "shimaore": "Vala", "kibouchi": "Vala", "category": "maison", "difficulty": 1},
         {"french": "Coupe coupe", "shimaore": "Chombo", "kibouchi": "Chombou", "category": "maison", "difficulty": 1},
         {"french": "Cour", "shimaore": "Mraba", "kibouchi": "Lacourou", "category": "maison", "difficulty": 1},
         {"french": "Couteau", "shimaore": "Sembéya", "kibouchi": "Méssou", "category": "maison", "difficulty": 1},
@@ -438,13 +433,11 @@ async def init_base_content():
         {"french": "Miroir", "shimaore": "Chido", "kibouchi": "Kitarafa", "category": "maison", "difficulty": 1},
         {"french": "Mortier", "shimaore": "Chino", "kibouchi": "Légnou", "category": "maison", "difficulty": 1},
         {"french": "Mur", "shimaore": "Houra", "kibouchi": "Riba", "category": "maison", "difficulty": 1},
-        {"french": "Mur", "shimaore": "Péssi", "kibouchi": "Riba", "category": "maison", "difficulty": 1},
         {"french": "Oreiller", "shimaore": "Mtsao", "kibouchi": "Hondagna", "category": "maison", "difficulty": 1},
         {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavaragena", "category": "maison", "difficulty": 1},
         {"french": "Sac", "shimaore": "Gouni", "kibouchi": "Gouni", "category": "maison", "difficulty": 1},
         {"french": "Seau", "shimaore": "Siyo", "kibouchi": "Siyo", "category": "maison", "difficulty": 1},
         {"french": "Table", "shimaore": "Latabou", "kibouchi": "Latabou", "category": "maison", "difficulty": 1},
-        {"french": "Toilette", "shimaore": "Mrabani", "kibouchi": "Mraba", "category": "maison", "difficulty": 1},
         {"french": "Toilette", "shimaore": "Mrabani", "kibouchi": "Mraba", "category": "maison", "difficulty": 1},
         {"french": "Toiture", "shimaore": "Outro", "kibouchi": "Vovougnou", "category": "maison", "difficulty": 1},
         {"french": "Torche", "shimaore": "Gandilé", "kibouchi": "Gandili", "category": "maison", "difficulty": 1},
@@ -731,7 +724,6 @@ async def init_base_content():
         {"french": "Avion", "shimaore": "Ndrègué", "kibouchi": "Roplani", "category": "transport", "difficulty": 1},
         {"french": "Barge", "shimaore": "Markabou", "kibouchi": "Markabou", "category": "transport", "difficulty": 1},
         {"french": "Motos", "shimaore": "Monto", "kibouchi": "Monto", "category": "transport", "difficulty": 1},
-        {"french": "Pirogue", "shimaore": "Laka", "kibouchi": "Lakana", "category": "transport", "difficulty": 1},
         {"french": "Taxis", "shimaore": "Taxi", "kibouchi": "Taxi", "category": "transport", "difficulty": 1},
         {"french": "Vedettes", "shimaore": "Kwassa kwassa", "kibouchi": "Vidéti", "category": "transport", "difficulty": 1},
         {"french": "Vélos", "shimaore": "Bicyclèti", "kibouchi": "Bicyclèti", "category": "transport", "difficulty": 1},
