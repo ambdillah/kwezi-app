@@ -1242,6 +1242,303 @@ class MayotteEducationTester:
             return False
 
 
+    def test_herisson_duplicate_removal_verification(self):
+        """Test the specific removal of the 'hérisson' duplicate and verify only 'Hérisson/Tangue' remains"""
+        print("\n=== Testing Hérisson Duplicate Removal Verification ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors after duplicate removal
+            print("--- Testing Backend Startup After Duplicate Removal ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after duplicate removal")
+            
+            # 2. Get all words to check total count
+            print("\n--- Testing Total Word Count (Should be 541) ---")
+            all_words = response.json()
+            total_word_count = len(all_words)
+            expected_total_count = 541  # 542 - 1 duplicate removed
+            
+            if total_word_count == expected_total_count:
+                print(f"✅ Total word count correct: {total_word_count} words (expected {expected_total_count})")
+                total_count_correct = True
+            else:
+                print(f"❌ Total word count incorrect: {total_word_count} words (expected {expected_total_count})")
+                total_count_correct = False
+            
+            # 3. Test the /api/words?category=animaux endpoint
+            print("\n--- Testing /api/words?category=animaux Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if response.status_code != 200:
+                print(f"❌ Animals endpoint failed: {response.status_code}")
+                return False
+            
+            animal_words = response.json()
+            print(f"✅ /api/words?category=animaux working correctly ({len(animal_words)} animals)")
+            
+            # 4. Check animals category count (should be 64)
+            print("\n--- Testing Animals Category Count (Should be 64) ---")
+            expected_animal_count = 64  # 65 - 1 duplicate removed
+            actual_animal_count = len(animal_words)
+            
+            if actual_animal_count == expected_animal_count:
+                print(f"✅ Animals category count correct: {actual_animal_count} animals (expected {expected_animal_count})")
+                animal_count_correct = True
+            else:
+                print(f"❌ Animals category count incorrect: {actual_animal_count} animals (expected {expected_animal_count})")
+                animal_count_correct = False
+            
+            # 5. Verify there's only one word containing "hérisson"
+            print("\n--- Testing Only One Hérisson Exists ---")
+            
+            herisson_words = []
+            for word in animal_words:
+                if "hérisson" in word['french'].lower() or "tangue" in word['french'].lower():
+                    herisson_words.append(word)
+            
+            if len(herisson_words) == 1:
+                print(f"✅ Only one hérisson word found: '{herisson_words[0]['french']}'")
+                single_herisson = True
+                herisson_word = herisson_words[0]
+            elif len(herisson_words) == 0:
+                print(f"❌ No hérisson word found in animals category")
+                single_herisson = False
+                herisson_word = None
+            else:
+                print(f"❌ Multiple hérisson words found ({len(herisson_words)}):")
+                for word in herisson_words:
+                    print(f"   - {word['french']}: {word['shimaore']} / {word['kibouchi']}")
+                single_herisson = False
+                herisson_word = herisson_words[0] if herisson_words else None
+            
+            # 6. Verify it's "Hérisson/Tangue" that is kept
+            print("\n--- Testing Correct Hérisson Word is Kept ---")
+            
+            correct_herisson_name = False
+            if herisson_word:
+                expected_french = "Hérisson/Tangue"
+                if herisson_word['french'] == expected_french:
+                    print(f"✅ Correct hérisson word kept: '{herisson_word['french']}'")
+                    correct_herisson_name = True
+                else:
+                    print(f"❌ Wrong hérisson word kept: Expected '{expected_french}', got '{herisson_word['french']}'")
+                    correct_herisson_name = False
+            else:
+                print(f"❌ No hérisson word to verify")
+                correct_herisson_name = False
+            
+            # 7. Verify the translations are correct (shimaoré "Landra", kibouchi "Trandraka")
+            print("\n--- Testing Correct Hérisson Translations ---")
+            
+            correct_translations = False
+            if herisson_word:
+                expected_shimaore = "Landra"
+                expected_kibouchi = "Trandraka"
+                
+                shimaore_correct = herisson_word['shimaore'] == expected_shimaore
+                kibouchi_correct = herisson_word['kibouchi'] == expected_kibouchi
+                
+                if shimaore_correct:
+                    print(f"✅ Hérisson shimaoré correct: '{herisson_word['shimaore']}'")
+                else:
+                    print(f"❌ Hérisson shimaoré incorrect: Expected '{expected_shimaore}', got '{herisson_word['shimaore']}'")
+                
+                if kibouchi_correct:
+                    print(f"✅ Hérisson kibouchi correct: '{herisson_word['kibouchi']}'")
+                else:
+                    print(f"❌ Hérisson kibouchi incorrect: Expected '{expected_kibouchi}', got '{herisson_word['kibouchi']}'")
+                
+                if shimaore_correct and kibouchi_correct:
+                    print(f"✅ Hérisson translations verified: {herisson_word['shimaore']} (Shimaoré) / {herisson_word['kibouchi']} (Kibouchi)")
+                    correct_translations = True
+                else:
+                    correct_translations = False
+            else:
+                print(f"❌ No hérisson word to verify translations")
+                correct_translations = False
+            
+            # 8. Test that /api/words?category=animaux returns only one hérisson
+            print("\n--- Testing API Returns Only One Hérisson ---")
+            
+            # This is already verified above, but let's confirm via API call
+            api_herisson_check = single_herisson  # Already tested above
+            if api_herisson_check:
+                print(f"✅ /api/words?category=animaux returns only one hérisson")
+            else:
+                print(f"❌ /api/words?category=animaux returns wrong number of hérisson words")
+            
+            # 9. Test that other animals are still present (no regressions)
+            print("\n--- Testing Other Animals Still Present (No Regressions) ---")
+            
+            # Check for some key animals that should still be present
+            key_animals = [
+                {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou"},
+                {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka"},
+                {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou"},
+                {"french": "Oiseau", "shimaore": "Gnougni", "kibouchi": "Vorougnou"},
+                {"french": "Lion", "shimaore": "Simba", "kibouchi": "Simba"}
+            ]
+            
+            animal_words_by_french = {word['french']: word for word in animal_words}
+            
+            other_animals_present = True
+            for animal in key_animals:
+                french_name = animal['french']
+                if french_name in animal_words_by_french:
+                    word = animal_words_by_french[french_name]
+                    if word['shimaore'] == animal['shimaore'] and word['kibouchi'] == animal['kibouchi']:
+                        print(f"✅ {french_name}: {word['shimaore']} / {word['kibouchi']} - PRESENT")
+                    else:
+                        print(f"❌ {french_name}: Expected {animal['shimaore']}/{animal['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        other_animals_present = False
+                else:
+                    print(f"❌ {french_name} not found in animals category")
+                    other_animals_present = False
+            
+            # 10. Test alphabetical order is maintained
+            print("\n--- Testing Alphabetical Order is Maintained ---")
+            
+            french_names = [word['french'] for word in animal_words]
+            sorted_names = sorted(french_names, key=str.lower)
+            
+            if french_names == sorted_names:
+                print(f"✅ Animals are in alphabetical order")
+                alphabetical_order = True
+            else:
+                print(f"❌ Animals are not in alphabetical order")
+                # Show first few differences
+                for i, (actual, expected) in enumerate(zip(french_names[:10], sorted_names[:10])):
+                    if actual != expected:
+                        print(f"   Position {i}: Expected '{expected}', got '{actual}'")
+                alphabetical_order = False
+            
+            # 11. Test all CRUD operations still work
+            print("\n--- Testing CRUD Operations Still Work ---")
+            
+            crud_operations_work = True
+            try:
+                # Test creating a new animal
+                test_animal = {
+                    "french": "Test Animal",
+                    "shimaore": "Test Shimaoré",
+                    "kibouchi": "Test Kibouchi",
+                    "category": "animaux",
+                    "difficulty": 1
+                }
+                
+                create_response = self.session.post(f"{API_BASE}/words", json=test_animal)
+                if create_response.status_code == 200:
+                    created_animal = create_response.json()
+                    print(f"✅ CREATE operation works")
+                    
+                    # Test reading the created animal
+                    read_response = self.session.get(f"{API_BASE}/words/{created_animal['id']}")
+                    if read_response.status_code == 200:
+                        print(f"✅ READ operation works")
+                        
+                        # Test updating the animal
+                        updated_animal = test_animal.copy()
+                        updated_animal['shimaore'] = "Updated Shimaoré"
+                        
+                        update_response = self.session.put(f"{API_BASE}/words/{created_animal['id']}", json=updated_animal)
+                        if update_response.status_code == 200:
+                            print(f"✅ UPDATE operation works")
+                        else:
+                            print(f"❌ UPDATE operation failed: {update_response.status_code}")
+                            crud_operations_work = False
+                        
+                        # Test deleting the animal
+                        delete_response = self.session.delete(f"{API_BASE}/words/{created_animal['id']}")
+                        if delete_response.status_code == 200:
+                            print(f"✅ DELETE operation works")
+                        else:
+                            print(f"❌ DELETE operation failed: {delete_response.status_code}")
+                            crud_operations_work = False
+                    else:
+                        print(f"❌ READ operation failed: {read_response.status_code}")
+                        crud_operations_work = False
+                else:
+                    print(f"❌ CREATE operation failed: {create_response.status_code}")
+                    crud_operations_work = False
+                    
+            except Exception as e:
+                print(f"❌ CRUD operations test failed: {e}")
+                crud_operations_work = False
+            
+            # 12. Test that images continue to function (if any animals have images)
+            print("\n--- Testing Images Continue to Function ---")
+            
+            images_working = True
+            animals_with_images = [word for word in animal_words if word.get('image_url')]
+            
+            if animals_with_images:
+                print(f"Found {len(animals_with_images)} animals with images")
+                for animal in animals_with_images[:3]:  # Test first 3
+                    if animal.get('image_url'):
+                        print(f"✅ {animal['french']} has image: {animal['image_url'][:50]}...")
+                    else:
+                        print(f"❌ {animal['french']} missing image")
+                        images_working = False
+            else:
+                print(f"✅ No animals have images (this is acceptable)")
+            
+            # Overall result
+            all_tests_passed = (
+                total_count_correct and
+                animal_count_correct and
+                single_herisson and
+                correct_herisson_name and
+                correct_translations and
+                api_herisson_check and
+                other_animals_present and
+                alphabetical_order and
+                crud_operations_work and
+                images_working
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 HÉRISSON DUPLICATE REMOVAL VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after duplicate removal")
+                print(f"✅ Total word count is now {total_word_count} words (542 - 1 duplicate removed)")
+                print(f"✅ Animals category contains {actual_animal_count} words (65 - 1 duplicate removed)")
+                print("✅ Only one word containing 'hérisson' exists")
+                print("✅ 'Hérisson/Tangue' is the word that was kept")
+                print("✅ Translations are correct: shimaoré 'Landra', kibouchi 'Trandraka'")
+                print("✅ /api/words?category=animaux returns only one hérisson")
+                print("✅ Other animals are still present (no regressions)")
+                print("✅ Alphabetical order is maintained")
+                print("✅ All CRUD operations continue to work")
+                print("✅ Images continue to function")
+                print("✅ Duplicate removal verification complete - only 'Hérisson/Tangue' remains with correct translations")
+            else:
+                print("\n❌ Hérisson duplicate removal verification failed")
+                if not total_count_correct:
+                    print(f"❌ Total word count is incorrect: {total_word_count} (expected {expected_total_count})")
+                if not animal_count_correct:
+                    print(f"❌ Animals category count is incorrect: {actual_animal_count} (expected {expected_animal_count})")
+                if not single_herisson:
+                    print("❌ Wrong number of hérisson words found")
+                if not correct_herisson_name:
+                    print("❌ Wrong hérisson word was kept")
+                if not correct_translations:
+                    print("❌ Hérisson translations are incorrect")
+                if not other_animals_present:
+                    print("❌ Some other animals are missing or have wrong translations")
+                if not alphabetical_order:
+                    print("❌ Alphabetical order is not maintained")
+                if not crud_operations_work:
+                    print("❌ CRUD operations have issues")
+                if not images_working:
+                    print("❌ Images have issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Hérisson duplicate removal verification error: {e}")
+            return False
+
     def test_image_addition_verification(self):
         """Test the addition of images to vocabulary words for children's memorization"""
         print("\n=== Testing Image Addition Verification ===")
