@@ -20,6 +20,7 @@ interface Word {
   kibouchi: string;
   category: string;
   difficulty: number;
+  image_url?: string;
 }
 
 const CATEGORIES = [
