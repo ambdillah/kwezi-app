@@ -333,6 +333,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 8,
     backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  wordImageInner: {
+    width: '100%',
+    height: '100%',
   },
   frenchWord: {
     fontSize: 22,
