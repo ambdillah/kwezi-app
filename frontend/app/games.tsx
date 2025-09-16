@@ -321,12 +321,201 @@ export default function GamesScreen() {
     );
   };
 
-  const renderMemoryGame = () => (
-    <View style={styles.gameContainer}>
-      <Text style={styles.gameTitle}>Jeu de mémoire 🌺</Text>
-      <Text style={styles.comingSoon}>Bientôt disponible! En cours de développement...</Text>
-    </View>
-  );
+  // États pour le jeu de mémoire
+  const [memoryCards, setMemoryCards] = useState<any[]>([]);
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
+  const [canFlip, setCanFlip] = useState(true);
+  const [memoryScore, setMemoryScore] = useState(0);
+  const [moves, setMoves] = useState(0);
+
+  // Créer les paires de cartes pour le jeu de mémoire
+  const createMemoryCards = (words: Word[]) => {
+    // Sélectionner 6 mots aléatoirement
+    const selectedWords = words.sort(() => Math.random() - 0.5).slice(0, 6);
+    
+    const cards: any[] = [];
+    
+    selectedWords.forEach((word, index) => {
+      // Choisir aléatoirement entre shimaoré et kibouchi
+      const useShimaore = Math.random() > 0.5;
+      const translation = useShimaore ? word.shimaore : word.kibouchi;
+      const language = useShimaore ? 'shimaoré' : 'kibouchi';
+      
+      // Carte française
+      cards.push({
+        id: index * 2,
+        text: word.french,
+        type: 'french',
+        pairId: index,
+        word: word
+      });
+      
+      // Carte traduction
+      cards.push({
+        id: index * 2 + 1,
+        text: translation,
+        type: 'translation',
+        language: language,
+        pairId: index,
+        word: word
+      });
+    });
+    
+    // Mélanger les cartes
+    return cards.sort(() => Math.random() - 0.5);
+  };
+
+  // Initialiser le jeu de mémoire
+  const initMemoryGame = () => {
+    const cards = createMemoryCards(words);
+    setMemoryCards(cards);
+    setFlippedCards([]);
+    setMatchedPairs([]);
+    setCanFlip(true);
+    setMemoryScore(0);
+    setMoves(0);
+  };
+
+  // Gérer le clic sur une carte
+  const handleCardFlip = (cardId: number) => {
+    if (!canFlip || flippedCards.includes(cardId) || matchedPairs.includes(cardId)) {
+      return;
+    }
+
+    const newFlippedCards = [...flippedCards, cardId];
+    setFlippedCards(newFlippedCards);
+
+    if (newFlippedCards.length === 2) {
+      setCanFlip(false);
+      setMoves(prev => prev + 1);
+      
+      const [firstCardId, secondCardId] = newFlippedCards;
+      const firstCard = memoryCards.find(card => card.id === firstCardId);
+      const secondCard = memoryCards.find(card => card.id === secondCardId);
+      
+      // Vérifier si c'est une paire
+      if (firstCard.pairId === secondCard.pairId) {
+        // Paire trouvée !
+        setTimeout(() => {
+          setMatchedPairs(prev => [...prev, firstCardId, secondCardId]);
+          setFlippedCards([]);
+          setCanFlip(true);
+          setMemoryScore(prev => prev + (moves === 0 ? 30 : 20));
+          
+          // Prononcer les deux mots
+          Speech.speak(`${firstCard.text}. ${secondCard.text}`, { 
+            language: 'fr-FR', 
+            pitch: 1.2 
+          });
+          
+          // Vérifier si le jeu est terminé
+          if (matchedPairs.length + 2 === memoryCards.length) {
+            setTimeout(() => {
+              const finalScore = memoryScore + (moves === 0 ? 30 : 20);
+              const bonus = moves <= 8 ? 50 : 0;
+              setMemoryScore(finalScore + bonus);
+              
+              Speech.speak(`Bravo! Jeu terminé avec ${finalScore + bonus} points!`, { 
+                language: 'fr-FR', 
+                pitch: 1.3 
+              });
+              
+              Alert.alert(
+                '🌺 Félicitations!', 
+                `Tu as terminé en ${moves + 1} coups!\nScore final: ${finalScore + bonus} points!` +
+                (bonus > 0 ? '\n🏆 Bonus rapidité: +50 points!' : ''),
+                [{ text: 'Rejouer', onPress: initMemoryGame }]
+              );
+            }, 1000);
+          }
+        }, 1000);
+      } else {
+        // Pas une paire
+        setTimeout(() => {
+          setFlippedCards([]);
+          setCanFlip(true);
+          Speech.speak('Oups, essaie encore!', { language: 'fr-FR' });
+        }, 1500);
+      }
+    }
+  };
+
+  const renderMemoryGame = () => {
+    if (memoryCards.length === 0) {
+      return (
+        <View style={styles.gameContainer}>
+          <View style={styles.gameHeader}>
+            <Text style={styles.gameTitle}>Mémoire des fleurs 🌺</Text>
+            <TouchableOpacity 
+              style={styles.startMemoryButton}
+              onPress={initMemoryGame}
+            >
+              <Text style={styles.startButtonText}>Commencer le jeu</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.gameContainer}>
+        <View style={styles.gameHeader}>
+          <Text style={styles.gameTitle}>Mémoire des fleurs 🌺</Text>
+          <View style={styles.memoryStats}>
+            <Text style={styles.scoreText}>Score: {memoryScore}</Text>
+            <Text style={styles.movesText}>Coups: {moves}</Text>
+          </View>
+        </View>
+        
+        <View style={styles.memoryGrid}>
+          {memoryCards.map((card) => (
+            <TouchableOpacity
+              key={card.id}
+              style={[
+                styles.memoryCard,
+                flippedCards.includes(card.id) && styles.memoryCardFlipped,
+                matchedPairs.includes(card.id) && styles.memoryCardMatched
+              ]}
+              onPress={() => handleCardFlip(card.id)}
+              disabled={!canFlip && !flippedCards.includes(card.id)}
+            >
+              {flippedCards.includes(card.id) || matchedPairs.includes(card.id) ? (
+                <View style={styles.memoryCardContent}>
+                  <Text style={[
+                    styles.memoryCardText,
+                    card.type === 'french' ? styles.frenchCardText : styles.translationCardText
+                  ]}>
+                    {card.text}
+                  </Text>
+                  {card.type === 'translation' && (
+                    <Text style={styles.languageLabel}>
+                      {card.language}
+                    </Text>
+                  )}
+                  {matchedPairs.includes(card.id) && (
+                    <Text style={styles.flowerEmoji}>🌺</Text>
+                  )}
+                </View>
+              ) : (
+                <View style={styles.memoryCardBack}>
+                  <Text style={styles.cardBackEmoji}>🌸</Text>
+                  <Text style={styles.cardBackText}>ylang-ylang</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+        
+        <TouchableOpacity 
+          style={styles.restartButton}
+          onPress={initMemoryGame}
+        >
+          <Text style={styles.restartButtonText}>🌺 Nouvelle partie</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   const renderQuizGame = () => (
     <View style={styles.gameContainer}>
