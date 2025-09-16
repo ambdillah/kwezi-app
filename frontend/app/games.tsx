@@ -1247,4 +1247,117 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
   },
+
+  // Styles pour le Quiz Mayotte
+  quizDescription: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 30,
+    paddingHorizontal: 20,
+    lineHeight: 24,
+  },
+  startQuizButton: {
+    backgroundColor: '#45B7D1',
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 25,
+    marginTop: 10,
+  },
+  quizProgress: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  quizCard: {
+    backgroundColor: 'white',
+    margin: 15,
+    padding: 20,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  categoryBadge: {
+    backgroundColor: '#FFE135', // Couleur jaune de Mayotte
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+    marginBottom: 15,
+  },
+  categoryText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#8B4513',
+    textTransform: 'uppercase',
+  },
+  quizQuestion: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2C3E50',
+    marginBottom: 20,
+    lineHeight: 26,
+    textAlign: 'center',
+  },
+  quizOptionsContainer: {
+    marginBottom: 20,
+  },
+  quizOptionButton: {
+    backgroundColor: '#F8F9FA',
+    padding: 16,
+    marginVertical: 6,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#E9ECEF',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  correctQuizOption: {
+    backgroundColor: '#D4F8D4',
+    borderColor: '#4CAF50',
+  },
+  wrongQuizOption: {
+    backgroundColor: '#FFE6E6',
+    borderColor: '#F44336',
+  },
+  disabledQuizOption: {
+    opacity: 0.8,
+  },
+  quizOptionText: {
+    fontSize: 16,
+    color: '#495057',
+    fontWeight: '500',
+    flex: 1,
+  },
+  correctQuizOptionText: {
+    color: '#2E7D32',
+    fontWeight: 'bold',
+  },
+  wrongQuizOptionText: {
+    color: '#C62828',
+    fontWeight: 'bold',
+  },
+  quizExplanation: {
+    backgroundColor: '#F0F8FF',
+    padding: 15,
+    borderRadius: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#45B7D1',
+  },
+  explanationTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#2C3E50',
+    marginBottom: 8,
+  },
+  explanationText: {
+    fontSize: 14,
+    color: '#5A6C7D',
+    lineHeight: 20,
+  },
 });
