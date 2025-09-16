@@ -12870,30 +12870,31 @@ class MayotteEducationTester:
             return False
 
 if __name__ == "__main__":
-    print("🎯 Starting New Food Words Addition Testing 🎯")
-    print("Testing the addition of two new words in the 'nourriture' section as requested in the review:")
-    print("1. 'Crevettes': shimaoré 'Camba', kibouchi 'Ancamba'")
-    print("2. 'Langouste': shimaoré 'Camba diva', kibouchi 'Ancamba diva'")
-    print("3. Alphabetical organization verification")
-    print("4. Total word count verification (550 words)")
-    print("5. Food section count verification (45 words)")
-    print("6. Distinction between 'Crevette' (animals) and 'Crevettes' (food)")
-    print("7. Global functionality verification")
+    print("🎯 Starting Hérisson Duplicate Removal Testing 🎯")
+    print("Testing the removal of the 'hérisson' duplicate as requested in the review:")
+    print("1. Verify only one word containing 'hérisson' remains")
+    print("2. Verify it's 'Hérisson/Tangue' that is kept")
+    print("3. Verify translations: shimaoré 'Landra', kibouchi 'Trandraka'")
+    print("4. Verify total word count is now 541 (542 - 1 duplicate removed)")
+    print("5. Verify animals category has 64 words (65 - 1 duplicate removed)")
+    print("6. Verify backend functionality and API endpoints work")
+    print("7. Verify no regressions in other animals")
+    print("8. Verify alphabetical order is maintained")
     print("=" * 80)
     
     tester = MayotteEducationTester()
     
-    # Run the new food words addition test
-    success = tester.run_all_tests()
+    # Run the hérisson duplicate removal test
+    success = tester.test_herisson_duplicate_removal_verification()
     
     # Final summary
     print(f"\n{'='*60}")
-    print("🎯 NEW FOOD WORDS ADDITION TEST SUMMARY 🎯")
+    print("🎯 HÉRISSON DUPLICATE REMOVAL TEST SUMMARY 🎯")
     print(f"{'='*60}")
     
     if success:
-        print("\n🎉 ALL TESTS PASSED! New food words addition verification completed successfully! 🎉")
-        print("🎯 The addition of 'Crevettes' and 'Langouste' to the food section has been successfully verified 🎯")
+        print("\n🎉 ALL TESTS PASSED! Hérisson duplicate removal verification completed successfully! 🎉")
+        print("🎯 Only 'Hérisson/Tangue' remains with correct translations (shimaoré 'Landra', kibouchi 'Trandraka') 🎯")
     else:
         print(f"\n⚠️ Some tests failed. Please review and fix issues.")
     
