@@ -226,7 +226,7 @@ async def init_base_content():
         {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", "category": "famille", "difficulty": 1},
         {"french": "Petit frère", "shimaore": "Moinagna mtrouba", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
         {"french": "Petite sœur", "shimaore": "Moinagna mtroum", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
-        {"french": "Sœur", "shimaore": "Mwanagna mtroumama", "kibouchi": "Anabavi", "category": "famille", "difficulty": 1},
+        {"french": "Sœur", "shimaore": "Mwanagna mtroumama", "kibouchi": "Anabavi", "category": "famille", "audio_url": "https://customer-assets.emergentagent.com/job_mayotalk/artifacts/c1v1dt3h_Anabavi.m4a", "difficulty": 1},
         {"french": "Tante", "shimaore": "Mama titi", "kibouchi": "Nindri heli", "category": "famille", "difficulty": 1},
         {"french": "Épouse oncle maternel", "shimaore": "Zena", "kibouchi": "Zena", "category": "famille", "difficulty": 2},
 
