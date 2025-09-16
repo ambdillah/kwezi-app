@@ -593,4 +593,74 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 50,
   },
+  // Nouveaux styles pour le jeu de questions
+  questionContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  questionCounter: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+    textAlign: 'center',
+    marginBottom: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    alignSelf: 'center',
+  },
+  questionCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 15,
+    padding: 20,
+  },
+  questionText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  correctOption: {
+    backgroundColor: '#E8F5E8',
+    borderColor: '#4CAF50',
+  },
+  wrongOption: {
+    backgroundColor: '#FFEBEE',
+    borderColor: '#F44336',
+  },
+  disabledOption: {
+    opacity: 0.8,
+  },
+  correctOptionText: {
+    color: '#2E7D32',
+  },
+  wrongOptionText: {
+    color: '#C62828',
+  },
+  resultContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    borderRadius: 10,
+  },
+  resultText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  correctText: {
+    color: '#4CAF50',
+  },
+  wrongText: {
+    color: '#F44336',
+  },
+  correctAnswerText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
 });
