@@ -874,6 +874,125 @@ const styles = StyleSheet.create({
   wrongText: {
     color: '#F44336',
   },
+
+  // Styles pour le jeu de mémoire (Mémoire des fleurs)
+  startMemoryButton: {
+    backgroundColor: '#4ECDC4',
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 25,
+    marginTop: 20,
+  },
+  startButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  memoryStats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  movesText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#666',
+  },
+  memoryGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  memoryCard: {
+    width: 140,
+    height: 100,
+    margin: 8,
+    borderRadius: 15,
+    backgroundColor: '#FFF8DC', // Couleur ylang-ylang (jaune clair)
+    borderWidth: 3,
+    borderColor: '#FFD700', // Bordure dorée
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  memoryCardFlipped: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#4ECDC4',
+  },
+  memoryCardMatched: {
+    backgroundColor: '#E8F8F5',
+    borderColor: '#4ECDC4',
+    borderWidth: 4,
+  },
+  memoryCardContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
+  memoryCardText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  frenchCardText: {
+    color: '#2C3E50',
+    fontSize: 18,
+  },
+  translationCardText: {
+    color: '#8E44AD',
+    fontSize: 16,
+  },
+  languageLabel: {
+    fontSize: 12,
+    color: '#7F8C8D',
+    fontStyle: 'italic',
+    marginTop: 2,
+  },
+  flowerEmoji: {
+    fontSize: 20,
+    position: 'absolute',
+    top: 5,
+    right: 8,
+  },
+  memoryCardBack: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  cardBackEmoji: {
+    fontSize: 24,
+    marginBottom: 5,
+  },
+  cardBackText: {
+    fontSize: 12,
+    color: '#B8860B',
+    fontStyle: 'italic',
+    textAlign: 'center',
+  },
+  restartButton: {
+    backgroundColor: '#E74C3C',
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    borderRadius: 20,
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  restartButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   correctAnswerText: {
     fontSize: 16,
     color: '#666',
