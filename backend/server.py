@@ -210,6 +210,7 @@ async def init_base_content():
         # Famille (vocabulaire familial étendu)
         {"french": "Ami", "shimaore": "Mwandzani", "kibouchi": "Mwandzani", "category": "famille", "difficulty": 1},
         {"french": "Enfant", "shimaore": "Mwana", "kibouchi": "Mwana", "category": "famille", "image_url": "https://images.unsplash.com/photo-1625923780302-53edca7b85f5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMGFuaW1hbHN8ZW58MHx8fHwxNzU3OTQ5NTAxfDA&ixlib=rb-4.1.0&q=85", "difficulty": 1},
+        {"french": "Famille", "shimaore": "Mdjamaza", "kibouchi": "Havagna", "category": "famille", "difficulty": 1},
         {"french": "Fille", "shimaore": "Mtroumama", "kibouchi": "Viavi", "category": "famille", "difficulty": 1},
         {"french": "Frère", "shimaore": "Mwanagna mtroubaba", "kibouchi": "Anadahi", "category": "famille", "difficulty": 1},
         {"french": "Garçon", "shimaore": "Mtroubaba", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
