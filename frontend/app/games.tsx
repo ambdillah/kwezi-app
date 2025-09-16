@@ -753,9 +753,9 @@ export default function GamesScreen() {
     if (!quizStarted) {
       return (
         <View style={styles.gameContainer}>
-          <View style={styles.gameHeader}>
-            <Text style={styles.gameTitle}>Quiz Mayotte 🏝️</Text>
-            <Text style={styles.quizDescription}>
+          <View style={styles.quizStartScreen}>
+            <Text style={styles.quizStartTitle}>Quiz Mayotte 🏝️</Text>
+            <Text style={styles.quizStartDescription}>
               Teste tes connaissances sur les langues et la culture de Mayotte !
             </Text>
             <TouchableOpacity 
