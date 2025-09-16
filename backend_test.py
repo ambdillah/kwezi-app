@@ -1242,6 +1242,323 @@ class MayotteEducationTester:
             return False
 
 
+    def test_petit_mariage_to_fiancailles_replacement_verification(self):
+        """Test the replacement of 'Petit mariage' with 'Fiançailles' in tradition category"""
+        print("\n=== Testing 'Petit mariage' to 'Fiançailles' Replacement Verification ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors after replacement
+            print("--- Testing Backend Startup After Replacement ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after replacement")
+            
+            # 2. Test /api/words?category=tradition endpoint
+            print("\n--- Testing /api/words?category=tradition Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=tradition")
+            if response.status_code != 200:
+                print(f"❌ Tradition endpoint failed: {response.status_code}")
+                return False
+            
+            tradition_words = response.json()
+            tradition_words_by_french = {word['french']: word for word in tradition_words}
+            print(f"✅ /api/words?category=tradition endpoint working correctly ({len(tradition_words)} tradition items)")
+            
+            # 3. Verify that "Petit mariage" no longer exists in the database
+            print("\n--- Testing 'Petit mariage' No Longer Exists ---")
+            
+            petit_mariage_found = False
+            if "Petit mariage" in tradition_words_by_french:
+                print(f"❌ 'Petit mariage' still exists in tradition category - should be removed")
+                petit_mariage_found = True
+            else:
+                print(f"✅ 'Petit mariage' does not exist in tradition category - replacement successful")
+            
+            # Also check in all words to make sure it's completely removed
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                all_words_by_french = {word['french']: word for word in all_words}
+                
+                if "Petit mariage" in all_words_by_french:
+                    print(f"❌ 'Petit mariage' still exists in database - should be completely removed")
+                    petit_mariage_found = True
+                else:
+                    print(f"✅ 'Petit mariage' completely removed from entire database")
+            
+            # 4. Verify that "Fiançailles" exists in tradition category with correct translations
+            print("\n--- Testing 'Fiançailles' Exists with Correct Translations ---")
+            
+            expected_fiancailles = {
+                "french": "Fiançailles",
+                "shimaore": "Mafounguidzo", 
+                "kibouchi": "Mafounguidzo",
+                "category": "tradition",
+                "difficulty": 2
+            }
+            
+            fiancailles_found = False
+            fiancailles_correct = False
+            
+            if "Fiançailles" in tradition_words_by_french:
+                fiancailles_word = tradition_words_by_french["Fiançailles"]
+                
+                # Check all required fields
+                checks = [
+                    (fiancailles_word['shimaore'], expected_fiancailles['shimaore'], 'Shimaoré'),
+                    (fiancailles_word['kibouchi'], expected_fiancailles['kibouchi'], 'Kibouchi'),
+                    (fiancailles_word['category'], expected_fiancailles['category'], 'Category'),
+                    (fiancailles_word['difficulty'], expected_fiancailles['difficulty'], 'Difficulty')
+                ]
+                
+                all_fields_correct = True
+                for actual, expected, field_name in checks:
+                    if actual == expected:
+                        print(f"✅ 'Fiançailles' {field_name}: '{actual}' - CORRECT")
+                    else:
+                        print(f"❌ 'Fiançailles' {field_name}: Expected '{expected}', got '{actual}'")
+                        all_fields_correct = False
+                
+                if all_fields_correct:
+                    print(f"✅ 'Fiançailles' exists with all correct translations and properties")
+                    fiancailles_found = True
+                    fiancailles_correct = True
+                else:
+                    print(f"❌ 'Fiançailles' has incorrect translations or properties")
+                    fiancailles_found = True
+                    fiancailles_correct = False
+            else:
+                print(f"❌ 'Fiançailles' not found in tradition category")
+            
+            # 5. Verify translations are preserved: shimaoré "Mafounguidzo", kibouchi "Mafounguidzo"
+            print("\n--- Testing Specific Translation Preservation ---")
+            
+            if fiancailles_found and fiancailles_correct:
+                fiancailles_word = tradition_words_by_french["Fiançailles"]
+                if (fiancailles_word['shimaore'] == "Mafounguidzo" and 
+                    fiancailles_word['kibouchi'] == "Mafounguidzo"):
+                    print(f"✅ Translations preserved correctly:")
+                    print(f"   - Shimaoré: '{fiancailles_word['shimaore']}'")
+                    print(f"   - Kibouchi: '{fiancailles_word['kibouchi']}'")
+                    translations_preserved = True
+                else:
+                    print(f"❌ Translations not preserved correctly")
+                    translations_preserved = False
+            else:
+                translations_preserved = False
+            
+            # 6. Verify difficulty is maintained at 2 stars
+            print("\n--- Testing Difficulty Level Maintained ---")
+            
+            difficulty_maintained = False
+            if fiancailles_found:
+                fiancailles_word = tradition_words_by_french["Fiançailles"]
+                if fiancailles_word['difficulty'] == 2:
+                    print(f"✅ Difficulty maintained at 2 stars")
+                    difficulty_maintained = True
+                else:
+                    print(f"❌ Difficulty incorrect: Expected 2, got {fiancailles_word['difficulty']}")
+            
+            # 7. Verify "Fiançailles" appears in results and alphabetical order is respected
+            print("\n--- Testing Alphabetical Order in Tradition Category ---")
+            
+            tradition_french_names = [word['french'] for word in tradition_words]
+            sorted_names = sorted(tradition_french_names, key=str.lower)
+            
+            if tradition_french_names == sorted_names:
+                print(f"✅ Alphabetical order maintained in tradition category")
+                alphabetical_order = True
+                
+                # Check specific position of Fiançailles
+                if "Fiançailles" in tradition_french_names:
+                    fiancailles_position = tradition_french_names.index("Fiançailles") + 1
+                    print(f"✅ 'Fiançailles' appears at position {fiancailles_position} in alphabetical order")
+                else:
+                    print(f"❌ 'Fiançailles' not found in tradition list")
+                    alphabetical_order = False
+            else:
+                print(f"❌ Alphabetical order not maintained in tradition category")
+                print(f"Current order: {tradition_french_names}")
+                print(f"Expected order: {sorted_names}")
+                alphabetical_order = False
+            
+            # 8. Verify total word count remains 541 words
+            print("\n--- Testing Total Word Count Remains 541 ---")
+            
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                total_word_count = len(all_words)
+                
+                if total_word_count == 541:
+                    print(f"✅ Total word count maintained at 541 words")
+                    word_count_correct = True
+                else:
+                    print(f"❌ Total word count incorrect: {total_word_count} (expected 541)")
+                    word_count_correct = False
+            else:
+                print(f"❌ Could not retrieve total word count")
+                word_count_correct = False
+            
+            # 9. Confirm tradition category contains 16 words
+            print("\n--- Testing Tradition Category Contains 16 Words ---")
+            
+            tradition_count = len(tradition_words)
+            if tradition_count == 16:
+                print(f"✅ Tradition category contains 16 words")
+                tradition_count_correct = True
+            else:
+                print(f"❌ Tradition category count incorrect: {tradition_count} (expected 16)")
+                tradition_count_correct = False
+            
+            # 10. Test search functionality for "Fiançailles" works
+            print("\n--- Testing Search for 'Fiançailles' Works ---")
+            
+            # Search in all words for Fiançailles
+            fiancailles_search_works = False
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                fiancailles_in_all = [word for word in all_words if word['french'].lower() == 'fiançailles']
+                
+                if len(fiancailles_in_all) == 1:
+                    print(f"✅ Search for 'Fiançailles' returns exactly 1 result")
+                    fiancailles_search_works = True
+                elif len(fiancailles_in_all) == 0:
+                    print(f"❌ Search for 'Fiançailles' returns no results")
+                else:
+                    print(f"❌ Search for 'Fiançailles' returns {len(fiancailles_in_all)} results (expected 1)")
+            
+            # 11. Test search for "Petit mariage" returns nothing
+            print("\n--- Testing Search for 'Petit mariage' Returns Nothing ---")
+            
+            petit_mariage_search_empty = False
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                petit_mariage_in_all = [word for word in all_words if word['french'].lower() == 'petit mariage']
+                
+                if len(petit_mariage_in_all) == 0:
+                    print(f"✅ Search for 'Petit mariage' returns no results")
+                    petit_mariage_search_empty = True
+                else:
+                    print(f"❌ Search for 'Petit mariage' returns {len(petit_mariage_in_all)} results (expected 0)")
+            
+            # 12. Test backend functionality globally
+            print("\n--- Testing Global Backend Functionality ---")
+            
+            # Test CRUD operations still work
+            global_functionality_works = True
+            
+            try:
+                # Test creating a new word
+                test_word = {
+                    "french": "Test Tradition Item",
+                    "shimaore": "Test Shimaoré",
+                    "kibouchi": "Test Kibouchi",
+                    "category": "tradition",
+                    "difficulty": 1
+                }
+                
+                create_response = self.session.post(f"{API_BASE}/words", json=test_word)
+                if create_response.status_code == 200:
+                    created_word = create_response.json()
+                    print(f"✅ Can still create new words in tradition category")
+                    
+                    # Test updating the word
+                    update_data = {
+                        "french": "Updated Test Item",
+                        "shimaore": "Updated Shimaoré",
+                        "kibouchi": "Updated Kibouchi",
+                        "category": "tradition",
+                        "difficulty": 2
+                    }
+                    
+                    update_response = self.session.put(f"{API_BASE}/words/{created_word['id']}", json=update_data)
+                    if update_response.status_code == 200:
+                        print(f"✅ Can still update words in tradition category")
+                    else:
+                        print(f"❌ Cannot update words: {update_response.status_code}")
+                        global_functionality_works = False
+                    
+                    # Clean up - delete the test word
+                    delete_response = self.session.delete(f"{API_BASE}/words/{created_word['id']}")
+                    if delete_response.status_code == 200:
+                        print(f"✅ Can still delete words in tradition category")
+                    else:
+                        print(f"❌ Cannot delete words: {delete_response.status_code}")
+                        global_functionality_works = False
+                else:
+                    print(f"❌ Cannot create new words: {create_response.status_code}")
+                    global_functionality_works = False
+                    
+            except Exception as e:
+                print(f"❌ Global functionality test failed: {e}")
+                global_functionality_works = False
+            
+            # Overall result
+            all_tests_passed = (
+                not petit_mariage_found and 
+                fiancailles_found and 
+                fiancailles_correct and
+                translations_preserved and
+                difficulty_maintained and
+                alphabetical_order and
+                word_count_correct and
+                tradition_count_correct and
+                fiancailles_search_works and
+                petit_mariage_search_empty and
+                global_functionality_works
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 'PETIT MARIAGE' TO 'FIANÇAILLES' REPLACEMENT VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after replacement")
+                print("✅ /api/words?category=tradition endpoint working correctly")
+                print("✅ 'Petit mariage' completely removed from database")
+                print("✅ 'Fiançailles' exists in tradition category with correct properties:")
+                print("   - Shimaoré: 'Mafounguidzo'")
+                print("   - Kibouchi: 'Mafounguidzo'")
+                print("   - Difficulty: 2 stars")
+                print("✅ Translations preserved correctly")
+                print("✅ Alphabetical order maintained in tradition category")
+                print("✅ Total word count maintained at 541 words")
+                print("✅ Tradition category contains 16 words")
+                print("✅ Search for 'Fiançailles' works correctly")
+                print("✅ Search for 'Petit mariage' returns no results")
+                print("✅ Global backend functionality remains intact")
+                print("✅ Replacement verification complete - 'Petit mariage' has been successfully replaced with 'Fiançailles'")
+            else:
+                print("\n❌ 'Petit mariage' to 'Fiançailles' replacement verification failed")
+                if petit_mariage_found:
+                    print("❌ 'Petit mariage' still exists in database")
+                if not fiancailles_found:
+                    print("❌ 'Fiançailles' not found in tradition category")
+                if not fiancailles_correct:
+                    print("❌ 'Fiançailles' has incorrect translations or properties")
+                if not translations_preserved:
+                    print("❌ Translations not preserved correctly")
+                if not difficulty_maintained:
+                    print("❌ Difficulty level not maintained")
+                if not alphabetical_order:
+                    print("❌ Alphabetical order not maintained")
+                if not word_count_correct:
+                    print("❌ Total word count incorrect")
+                if not tradition_count_correct:
+                    print("❌ Tradition category count incorrect")
+                if not fiancailles_search_works:
+                    print("❌ Search for 'Fiançailles' not working")
+                if not petit_mariage_search_empty:
+                    print("❌ Search for 'Petit mariage' still returns results")
+                if not global_functionality_works:
+                    print("❌ Global backend functionality has issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ 'Petit mariage' to 'Fiançailles' replacement verification error: {e}")
+            return False
+
     def test_herisson_duplicate_removal_verification(self):
         """Test the specific removal of the 'hérisson' duplicate and verify only 'Hérisson/Tangue' remains"""
         print("\n=== Testing Hérisson Duplicate Removal Verification ===")
