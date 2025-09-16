@@ -517,12 +517,260 @@ export default function GamesScreen() {
     );
   };
 
-  const renderQuizGame = () => (
-    <View style={styles.gameContainer}>
-      <Text style={styles.gameTitle}>Quiz Mayotte 🏝️</Text>
-      <Text style={styles.comingSoon}>Bientôt disponible! En cours de développement...</Text>
-    </View>
-  );
+  // États pour le quiz Mayotte
+  const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+  const [quizScore, setQuizScore] = useState(0);
+  const [selectedQuizAnswer, setSelectedQuizAnswer] = useState<string | null>(null);
+  const [showQuizResult, setShowQuizResult] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
+
+  // Questions du quiz Mayotte
+  const createQuizQuestions = (words: Word[]) => {
+    const quizData = [
+      // Questions sur les langues
+      {
+        question: "Quelle est la langue principale parlée à Mayotte avec le français ?",
+        options: ["Shimaoré", "Créole", "Swahili", "Malgache"],
+        correct: "Shimaoré",
+        explanation: "Le shimaoré est la langue locale principale de Mayotte, parlée par la majorité de la population.",
+        category: "langue"
+      },
+      {
+        question: "Comment dit-on 'Bonjour' en shimaoré ?",
+        options: ["Kwezi", "Salama", "Jambo", "Bonjour"],
+        correct: "Kwezi",
+        explanation: "Kwezi est la façon de dire 'Bonjour' en shimaoré, la langue de Mayotte.",
+        category: "langue"
+      },
+      {
+        question: "Le kibouchi est parlé principalement dans quelle partie de Mayotte ?",
+        options: ["Petite-Terre", "Grande-Terre", "Partout", "Mamoudzou"],
+        correct: "Petite-Terre",
+        explanation: "Le kibouchi est traditionnellement parlé surtout à Petite-Terre (Pamandzi).",
+        category: "géographie"
+      },
+      {
+        question: "Quelle est la fleur emblématique de Mayotte ?",
+        options: ["Ylang-ylang", "Hibiscus", "Frangipane", "Bougainvillier"],
+        correct: "Ylang-ylang",
+        explanation: "L'ylang-ylang est la fleur emblématique de Mayotte, utilisée en parfumerie.",
+        category: "culture"
+      },
+      {
+        question: "Comment dit-on 'Merci' en shimaoré ?",
+        options: ["Marahaba", "Asante", "Merci", "Chukran"],
+        correct: "Marahaba",
+        explanation: "Marahaba est l'expression pour dire 'Merci' en shimaoré.",
+        category: "langue"
+      },
+      {
+        question: "Quel animal est le symbole de Mayotte ?",
+        options: ["Maki", "Tortue", "Dauphin", "Requin"],
+        correct: "Maki",
+        explanation: "Le maki est l'animal emblématique de Mayotte, un lémurien endémique des Comores.",
+        category: "culture"
+      },
+      {
+        question: "Mayotte fait partie de quel archipel ?",
+        options: ["Comores", "Seychelles", "Mascareignes", "Maldives"],
+        correct: "Comores",
+        explanation: "Mayotte fait géographiquement partie de l'archipel des Comores dans l'océan Indien.",
+        category: "géographie"
+      },
+      {
+        question: "Comment dit-on 'Eau' en shimaoré ?",
+        options: ["Maji", "Ranou", "Dlo", "Eau"],
+        correct: "Maji",
+        explanation: "Maji signifie 'eau' en shimaoré.",
+        category: "langue"
+      },
+      {
+        question: "Quelle est la danse traditionnelle de Mayotte ?",
+        options: ["Shigoma", "Sega", "Maloya", "Quadrille"],
+        correct: "Shigoma",
+        explanation: "Le shigoma est une danse traditionnelle importante de Mayotte.",
+        category: "tradition"
+      },
+      {
+        question: "Le lagon de Mayotte est l'un des plus grands du monde ?",
+        options: ["Vrai", "Faux", "Seulement en hiver", "Uniquement la nuit"],
+        correct: "Vrai",
+        explanation: "Mayotte possède effectivement l'un des plus grands lagons fermés au monde.",
+        category: "géographie"
+      }
+    ];
+
+    // Ajouter des questions dynamiques basées sur le vocabulaire
+    const vocabularyQuestions = words.slice(0, 5).map(word => ({
+      question: `Comment dit-on "${word.french}" en shimaoré ?`,
+      options: [
+        word.shimaore,
+        words[Math.floor(Math.random() * words.length)].shimaore,
+        words[Math.floor(Math.random() * words.length)].shimaore,
+        words[Math.floor(Math.random() * words.length)].shimaore
+      ].filter((option, index, arr) => arr.indexOf(option) === index).slice(0, 4),
+      correct: word.shimaore,
+      explanation: `"${word.french}" se dit "${word.shimaore}" en shimaoré.`,
+      category: "vocabulaire"
+    }));
+
+    // Mélanger et prendre 10 questions
+    const allQuestions = [...quizData, ...vocabularyQuestions];
+    return allQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
+  };
+
+  // Initialiser le quiz
+  const startQuiz = () => {
+    const questions = createQuizQuestions(words);
+    setQuizQuestions(questions);
+    setCurrentQuizIndex(0);
+    setQuizScore(0);
+    setSelectedQuizAnswer(null);
+    setShowQuizResult(false);
+    setQuizStarted(true);
+  };
+
+  // Gérer la réponse du quiz
+  const handleQuizAnswer = (selectedAnswer: string) => {
+    const currentQuestion = quizQuestions[currentQuizIndex];
+    setSelectedQuizAnswer(selectedAnswer);
+    setShowQuizResult(true);
+
+    const isCorrect = selectedAnswer === currentQuestion.correct;
+    if (isCorrect) {
+      setQuizScore(prev => prev + 10);
+      Speech.speak('Bravo! Bonne réponse!', { language: 'fr-FR', pitch: 1.3 });
+    } else {
+      Speech.speak('Oups! Mauvaise réponse.', { language: 'fr-FR' });
+    }
+
+    // Passer à la question suivante après 3 secondes
+    setTimeout(() => {
+      if (currentQuizIndex + 1 < quizQuestions.length) {
+        setCurrentQuizIndex(prev => prev + 1);
+        setSelectedQuizAnswer(null);
+        setShowQuizResult(false);
+      } else {
+        // Fin du quiz
+        setTimeout(() => {
+          const finalScore = quizScore + (isCorrect ? 10 : 0);
+          let message = '';
+          if (finalScore >= 80) {
+            message = `Excellent! Tu es un expert de Mayotte avec ${finalScore} points!`;
+          } else if (finalScore >= 60) {
+            message = `Très bien! Tu connais bien Mayotte avec ${finalScore} points!`;
+          } else {
+            message = `Continue à apprendre! Tu as ${finalScore} points. N'abandonne pas!`;
+          }
+          
+          Speech.speak(message, { language: 'fr-FR', pitch: 1.2 });
+          Alert.alert(
+            '🏝️ Quiz Mayotte terminé!',
+            message,
+            [
+              { text: 'Rejouer', onPress: startQuiz },
+              { text: 'Retour', onPress: () => setQuizStarted(false) }
+            ]
+          );
+        }, 1000);
+      }
+    }, 3000);
+  };
+
+  const renderQuizGame = () => {
+    if (!quizStarted) {
+      return (
+        <View style={styles.gameContainer}>
+          <View style={styles.gameHeader}>
+            <Text style={styles.gameTitle}>Quiz Mayotte 🏝️</Text>
+            <Text style={styles.quizDescription}>
+              Teste tes connaissances sur les langues et la culture de Mayotte !
+            </Text>
+            <TouchableOpacity 
+              style={styles.startQuizButton}
+              onPress={startQuiz}
+            >
+              <Text style={styles.startButtonText}>🌺 Commencer le quiz</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+
+    if (quizQuestions.length === 0) {
+      return (
+        <View style={styles.gameContainer}>
+          <Text style={styles.gameTitle}>Chargement du quiz...</Text>
+        </View>
+      );
+    }
+
+    const currentQuestion = quizQuestions[currentQuizIndex];
+
+    return (
+      <View style={styles.gameContainer}>
+        <View style={styles.gameHeader}>
+          <Text style={styles.gameTitle}>Quiz Mayotte 🏝️</Text>
+          <View style={styles.quizProgress}>
+            <Text style={styles.questionCounter}>
+              Question {currentQuizIndex + 1} / {quizQuestions.length}
+            </Text>
+            <Text style={styles.scoreText}>Score: {quizScore}</Text>
+          </View>
+        </View>
+
+        <View style={styles.quizCard}>
+          <View style={styles.categoryBadge}>
+            <Text style={styles.categoryText}>{currentQuestion.category}</Text>
+          </View>
+          
+          <Text style={styles.quizQuestion}>{currentQuestion.question}</Text>
+          
+          <View style={styles.quizOptionsContainer}>
+            {currentQuestion.options.map((option: string, index: number) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.quizOptionButton,
+                  showQuizResult && option === currentQuestion.correct && styles.correctQuizOption,
+                  showQuizResult && selectedQuizAnswer === option && option !== currentQuestion.correct && styles.wrongQuizOption,
+                  showQuizResult && styles.disabledQuizOption
+                ]}
+                onPress={() => !showQuizResult && handleQuizAnswer(option)}
+                disabled={showQuizResult}
+              >
+                <Text style={[
+                  styles.quizOptionText,
+                  showQuizResult && option === currentQuestion.correct && styles.correctQuizOptionText,
+                  showQuizResult && selectedQuizAnswer === option && option !== currentQuestion.correct && styles.wrongQuizOptionText
+                ]}>
+                  {option}
+                </Text>
+                {showQuizResult && option === currentQuestion.correct && (
+                  <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
+                )}
+                {showQuizResult && selectedQuizAnswer === option && option !== currentQuestion.correct && (
+                  <Ionicons name="close-circle" size={24} color="#F44336" />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {showQuizResult && (
+            <View style={styles.quizExplanation}>
+              <Text style={styles.explanationTitle}>
+                {selectedQuizAnswer === currentQuestion.correct ? '🎉 Bravo!' : '📚 À retenir :'}
+              </Text>
+              <Text style={styles.explanationText}>
+                {currentQuestion.explanation}
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+    );
+  };
 
   const renderBuildSentenceGame = () => (
     <View style={styles.gameContainer}>
