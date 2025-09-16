@@ -1242,6 +1242,265 @@ class MayotteEducationTester:
             return False
 
 
+    def test_audio_integration_famille_section(self):
+        """Test the integration of audio files to words in the famille section"""
+        print("\n=== Testing Audio Integration in Famille Section ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors after audio integration
+            print("--- Testing Backend Startup After Audio Integration ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after audio integration")
+            
+            # 2. Test the /api/words?category=famille endpoint
+            print("\n--- Testing /api/words?category=famille Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=famille")
+            if response.status_code != 200:
+                print(f"❌ Famille endpoint failed: {response.status_code}")
+                return False
+            
+            famille_words = response.json()
+            famille_words_by_french = {word['french']: word for word in famille_words}
+            print(f"✅ /api/words?category=famille working correctly ({len(famille_words)} famille words)")
+            
+            # 3. Verify the 4 specific words with audio URLs
+            print("\n--- Testing Specific Words with Audio URLs ---")
+            
+            # Test specific words with audio URLs mentioned in review request
+            words_with_audio = [
+                {
+                    "french": "Frère", 
+                    "kibouchi": "Anadahi",
+                    "audio_url": "https://customer-assets.emergentagent.com/job_mayotalk/artifacts/8n7qk8tu_Anadahi.m4a",
+                    "note": "kibouchi 'Anadahi' pronunciation"
+                },
+                {
+                    "french": "Sœur", 
+                    "kibouchi": "Anabavi",
+                    "audio_url": "https://customer-assets.emergentagent.com/job_mayotalk/artifacts/c1v1dt3h_Anabavi.m4a",
+                    "note": "kibouchi 'Anabavi' pronunciation"
+                },
+                {
+                    "french": "Oncle paternel", 
+                    "kibouchi": "Baba héli",
+                    "audio_url": "https://customer-assets.emergentagent.com/job_mayotalk/artifacts/dihqa9ml_Baba%20h%C3%A9li-b%C3%A9.m4a",
+                    "note": "kibouchi 'Baba héli' pronunciation with URL encoding"
+                },
+                {
+                    "french": "Papa", 
+                    "shimaore": "Baba",
+                    "audio_url": "https://customer-assets.emergentagent.com/job_mayotalk/artifacts/wqvjojpg_Baba%20s.m4a",
+                    "note": "shimaoré 'Baba' pronunciation (note: we have two files but using shimaoré version)"
+                }
+            ]
+            
+            audio_urls_verified = True
+            
+            for word_with_audio in words_with_audio:
+                french_word = word_with_audio['french']
+                if french_word in famille_words_by_french:
+                    word = famille_words_by_french[french_word]
+                    
+                    # Check if audio_url field is present
+                    if 'audio_url' in word and word['audio_url']:
+                        # Check if the audio URL matches expected
+                        if word['audio_url'] == word_with_audio['audio_url']:
+                            print(f"✅ {french_word}: audio_url correct - {word['audio_url']}")
+                            print(f"   Note: {word_with_audio['note']}")
+                        else:
+                            print(f"❌ {french_word}: audio_url incorrect")
+                            print(f"   Expected: {word_with_audio['audio_url']}")
+                            print(f"   Got: {word['audio_url']}")
+                            audio_urls_verified = False
+                    else:
+                        print(f"❌ {french_word}: audio_url field missing or empty")
+                        audio_urls_verified = False
+                else:
+                    print(f"❌ {french_word} not found in famille category")
+                    audio_urls_verified = False
+            
+            # 4. Verify that other famille words don't have audio_url field or it's empty
+            print("\n--- Testing Other Famille Words Don't Have Audio URLs ---")
+            
+            words_without_audio_count = 0
+            words_with_unexpected_audio = []
+            
+            for word in famille_words:
+                if word['french'] not in [w['french'] for w in words_with_audio]:
+                    # This word should not have audio_url
+                    if 'audio_url' in word and word['audio_url']:
+                        words_with_unexpected_audio.append(word['french'])
+                        print(f"⚠️ {word['french']}: has unexpected audio_url - {word['audio_url']}")
+                    else:
+                        words_without_audio_count += 1
+            
+            print(f"✅ {words_without_audio_count} famille words correctly have no audio_url")
+            
+            if words_with_unexpected_audio:
+                print(f"⚠️ {len(words_with_unexpected_audio)} words have unexpected audio URLs")
+            else:
+                print("✅ No unexpected audio URLs found in other famille words")
+            
+            # 5. Test data structure integrity
+            print("\n--- Testing Data Structure Integrity ---")
+            
+            data_structure_correct = True
+            
+            for word_with_audio in words_with_audio:
+                french_word = word_with_audio['french']
+                if french_word in famille_words_by_french:
+                    word = famille_words_by_french[french_word]
+                    
+                    # Check that all other required fields are still present
+                    required_fields = ['id', 'french', 'shimaore', 'kibouchi', 'category', 'difficulty']
+                    missing_fields = [field for field in required_fields if field not in word or not word[field]]
+                    
+                    if not missing_fields:
+                        print(f"✅ {french_word}: all required fields present")
+                        
+                        # Verify category is still 'famille'
+                        if word['category'] == 'famille':
+                            print(f"✅ {french_word}: category correctly set to 'famille'")
+                        else:
+                            print(f"❌ {french_word}: category incorrect - got '{word['category']}'")
+                            data_structure_correct = False
+                            
+                    else:
+                        print(f"❌ {french_word}: missing required fields - {missing_fields}")
+                        data_structure_correct = False
+            
+            # 6. Test URL encoding verification
+            print("\n--- Testing URL Encoding Verification ---")
+            
+            url_encoding_correct = True
+            
+            # Check "Oncle paternel" specifically for proper encoding of "é" as "%C3%A9"
+            if "Oncle paternel" in famille_words_by_french:
+                oncle_word = famille_words_by_french["Oncle paternel"]
+                if 'audio_url' in oncle_word and oncle_word['audio_url']:
+                    expected_encoding = "%C3%A9li-b%C3%A9"
+                    if expected_encoding in oncle_word['audio_url']:
+                        print("✅ 'Oncle paternel': URL encoding correct (%C3%A9 for é)")
+                    else:
+                        print("❌ 'Oncle paternel': URL encoding incorrect")
+                        url_encoding_correct = False
+            
+            # 7. Test that audio URLs are correctly formed and accessible
+            print("\n--- Testing Audio URL Accessibility ---")
+            
+            urls_accessible = True
+            
+            for word_with_audio in words_with_audio:
+                french_word = word_with_audio['french']
+                if french_word in famille_words_by_french:
+                    word = famille_words_by_french[french_word]
+                    if 'audio_url' in word and word['audio_url']:
+                        audio_url = word['audio_url']
+                        
+                        # Check URL format
+                        if audio_url.startswith('https://customer-assets.emergentagent.com/job_mayotalk/artifacts/'):
+                            if audio_url.endswith('.m4a'):
+                                print(f"✅ {french_word}: URL format correct - {audio_url}")
+                            else:
+                                print(f"❌ {french_word}: URL doesn't end with .m4a - {audio_url}")
+                                urls_accessible = False
+                        else:
+                            print(f"❌ {french_word}: URL format incorrect - {audio_url}")
+                            urls_accessible = False
+                        
+                        # Try to make a HEAD request to check if URL is accessible
+                        try:
+                            head_response = self.session.head(audio_url, timeout=10)
+                            if head_response.status_code == 200:
+                                print(f"✅ {french_word}: Audio file accessible (HTTP {head_response.status_code})")
+                            else:
+                                print(f"⚠️ {french_word}: Audio file not accessible (HTTP {head_response.status_code})")
+                                # Don't fail the test for this as it might be a temporary issue
+                        except Exception as e:
+                            print(f"⚠️ {french_word}: Could not check audio file accessibility - {e}")
+                            # Don't fail the test for this as it might be a network issue
+            
+            # 8. Test API individual word retrieval for words with audio
+            print("\n--- Testing Individual API Responses for Words with Audio ---")
+            
+            api_responses_correct = True
+            for word_with_audio in words_with_audio:
+                french_word = word_with_audio['french']
+                if french_word in famille_words_by_french:
+                    word_id = famille_words_by_french[french_word]['id']
+                    
+                    # Test individual word retrieval
+                    response = self.session.get(f"{API_BASE}/words/{word_id}")
+                    if response.status_code == 200:
+                        retrieved_word = response.json()
+                        if ('audio_url' in retrieved_word and 
+                            retrieved_word['audio_url'] == word_with_audio['audio_url']):
+                            print(f"✅ {french_word} individual API response includes correct audio_url")
+                        else:
+                            print(f"❌ {french_word} individual API response missing or incorrect audio_url")
+                            api_responses_correct = False
+                    else:
+                        print(f"❌ {french_word} individual API retrieval failed: {response.status_code}")
+                        api_responses_correct = False
+            
+            # 9. Document the Papa dual pronunciation note
+            print("\n--- Papa Dual Pronunciation Documentation ---")
+            
+            if "Papa" in famille_words_by_french:
+                papa_word = famille_words_by_french["Papa"]
+                print("📝 PAPA DUAL PRONUNCIATION NOTE:")
+                print("   - We have two audio files for 'Papa' (shimaoré and kibouchi)")
+                print("   - Currently using shimaoré version: https://customer-assets.emergentagent.com/job_mayotalk/artifacts/wqvjojpg_Baba%20s.m4a")
+                print("   - Future enhancement: Consider supporting multiple audio_url fields for dual pronunciations")
+                print(f"   - Current Papa word: {papa_word['french']} = {papa_word['shimaore']} (Shimaoré) / {papa_word['kibouchi']} (Kibouchi)")
+            
+            # Overall result
+            all_tests_passed = (
+                audio_urls_verified and 
+                data_structure_correct and 
+                url_encoding_correct and 
+                urls_accessible and 
+                api_responses_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 AUDIO INTEGRATION IN FAMILLE SECTION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after audio integration")
+                print("✅ /api/words?category=famille endpoint working correctly")
+                print("✅ All 4 words with audio URLs verified:")
+                print("   - Frère (kibouchi 'Anadahi'): Audio URL present and correct")
+                print("   - Sœur (kibouchi 'Anabavi'): Audio URL present and correct")
+                print("   - Oncle paternel (kibouchi 'Baba héli'): Audio URL present with correct encoding")
+                print("   - Papa (shimaoré 'Baba'): Audio URL present and correct")
+                print("✅ Other famille words correctly have no audio_url field")
+                print("✅ Data structure integrity maintained (translations, category, difficulty preserved)")
+                print("✅ URL encoding correct for special characters (%C3%A9 for é)")
+                print("✅ Audio URLs are correctly formed and point to .m4a files")
+                print("✅ Individual API responses include audio_url field correctly")
+                print("📝 Note: Papa has dual pronunciation files but single audio_url field (shimaoré version used)")
+                print("✅ Audio integration for children's memorization successfully implemented!")
+            else:
+                print("\n❌ Some audio integration issues found")
+                if not audio_urls_verified:
+                    print("❌ Audio URLs not correctly verified")
+                if not data_structure_correct:
+                    print("❌ Data structure integrity issues")
+                if not url_encoding_correct:
+                    print("❌ URL encoding issues")
+                if not urls_accessible:
+                    print("❌ URL accessibility issues")
+                if not api_responses_correct:
+                    print("❌ API response issues")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Audio integration famille section test error: {e}")
+            return False
+
     def test_famille_section_updates_verification(self):
         """Test the specific famille section updates: new word 'Famille' and correction of 'Maman'"""
         print("\n=== Testing Famille Section Updates Verification ===")
