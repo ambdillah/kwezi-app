@@ -222,7 +222,7 @@ async def init_base_content():
         {"french": "Maman", "shimaore": "Mama", "kibouchi": "Baba", "category": "famille", "difficulty": 1},
         {"french": "Monsieur", "shimaore": "Mogné", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
         {"french": "Oncle maternel", "shimaore": "Zama", "kibouchi": "Zama", "category": "famille", "difficulty": 2},
-        {"french": "Oncle paternel", "shimaore": "Baba titi", "kibouchi": "Baba héli", "category": "famille", "difficulty": 2},
+        {"french": "Oncle paternel", "shimaore": "Baba titi", "kibouchi": "Baba héli", "category": "famille", "audio_url": "https://customer-assets.emergentagent.com/job_mayotalk/artifacts/dihqa9ml_Baba%20h%C3%A9li-b%C3%A9.m4a", "difficulty": 2},
         {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", "category": "famille", "difficulty": 1},
         {"french": "Petit frère", "shimaore": "Moinagna mtrouba", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
         {"french": "Petite sœur", "shimaore": "Moinagna mtroum", "kibouchi": "Zandri", "category": "famille", "difficulty": 1},
