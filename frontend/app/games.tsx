@@ -602,21 +602,21 @@ export default function GamesScreen() {
       // Nouvelles questions basées sur l'image fournie
       {
         question: "Quelle est la capitale de Mayotte ?",
-        options: ["Mamoudzou", "Dzaoudzi", "Koungou", "Sada"],
+        options: ["Dzaoudzi", "Sada", "Mamoudzou", "Koungou"],
         correct: "Mamoudzou",
         explanation: "Mamoudzou est la capitale administrative et économique de Mayotte.",
         category: "géographie"
       },
       {
         question: "Comment s'appelle le lagon qui entoure Mayotte ?",
-        options: ["Lagon de Mayotte", "Lagon de Zanzibar", "Lagon de Madagascar", "Lagon des Comores"],
+        options: ["Lagon de Zanzibar", "Lagon de Mayotte", "Lagon des Comores", "Lagon de Madagascar"],
         correct: "Lagon de Mayotte",
         explanation: "Le lagon de Mayotte est l'un des plus grands et beaux lagons fermés du monde, avec une barrière de corail presque complète.",
         category: "géographie"
       },
       {
         question: "Quelle fête religieuse est la plus célébrée à Mayotte ?",
-        options: ["Le Ramadan", "Noël", "Pâques", "Diwali"],
+        options: ["Noël", "Le Ramadan", "Diwali", "Pâques"],
         correct: "Le Ramadan",
         explanation: "La majorité de la population mahoraise est musulmane, et le Ramadan est une période très importante.",
         category: "culture"
