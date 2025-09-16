@@ -211,44 +211,90 @@ export default function GamesScreen() {
     }
   };
 
-  const renderMatchGame = () => (
-    <View style={styles.gameContainer}>
-      <View style={styles.gameHeader}>
-        <Text style={styles.gameTitle}>Associer les mots 🐒</Text>
-        <Text style={styles.scoreText}>Score: {score}</Text>
-      </View>
-      
-      <ScrollView style={styles.gameContent}>
-        {gameWords.map((word) => (
-          <View key={word.id} style={styles.matchCard}>
+  const renderMatchGame = () => {
+    if (!currentQuestion) {
+      return (
+        <View style={styles.gameContainer}>
+          <Text style={styles.gameTitle}>Chargement...</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.gameContainer}>
+        <View style={styles.gameHeader}>
+          <Text style={styles.gameTitle}>Associer les mots 🐒</Text>
+          <Text style={styles.scoreText}>Score: {score}</Text>
+        </View>
+        
+        <View style={styles.questionContainer}>
+          <Text style={styles.questionCounter}>
+            Question {currentQuestionIndex + 1} / {questionsGenerated.length}
+          </Text>
+          
+          <View style={styles.questionCard}>
             <TouchableOpacity 
               style={styles.frenchCard}
-              onPress={() => Speech.speak(word.french, { language: 'fr-FR' })}
+              onPress={() => Speech.speak(currentQuestion.french, { language: 'fr-FR' })}
             >
-              <Text style={styles.frenchText}>{word.french}</Text>
+              <Text style={styles.frenchText}>{currentQuestion.french}</Text>
               <Ionicons name="volume-high" size={20} color="#4ECDC4" />
             </TouchableOpacity>
             
+            <Text style={styles.questionText}>
+              Comment dit-on en {currentQuestion.languageLabel} ?
+            </Text>
+            
             <View style={styles.optionsContainer}>
-              <TouchableOpacity 
-                style={styles.optionButton}
-                onPress={() => checkMatch(word.french, word.shimaore, 'shimaore')}
-              >
-                <Text style={styles.optionText}>Shimaoré: {word.shimaore}</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.optionButton}
-                onPress={() => checkMatch(word.french, word.kibouchi, 'kibouchi')}
-              >
-                <Text style={styles.optionText}>Kibouchi: {word.kibouchi}</Text>
-              </TouchableOpacity>
+              {currentQuestion.options.map((option: any, index: number) => (
+                <TouchableOpacity 
+                  key={index}
+                  style={[
+                    styles.optionButton,
+                    showResult && option.isCorrect && styles.correctOption,
+                    showResult && selectedAnswer === option.text && !option.isCorrect && styles.wrongOption,
+                    showResult && styles.disabledOption
+                  ]}
+                  onPress={() => !showResult && checkAnswer(option)}
+                  disabled={showResult}
+                >
+                  <Text style={[
+                    styles.optionText,
+                    showResult && option.isCorrect && styles.correctOptionText,
+                    showResult && selectedAnswer === option.text && !option.isCorrect && styles.wrongOptionText
+                  ]}>
+                    {option.text}
+                  </Text>
+                  {showResult && option.isCorrect && (
+                    <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
+                  )}
+                  {showResult && selectedAnswer === option.text && !option.isCorrect && (
+                    <Ionicons name="close-circle" size={24} color="#F44336" />
+                  )}
+                </TouchableOpacity>
+              ))}
             </View>
+            
+            {showResult && (
+              <View style={styles.resultContainer}>
+                <Text style={[
+                  styles.resultText,
+                  isCorrect ? styles.correctText : styles.wrongText
+                ]}>
+                  {isCorrect ? '🎉 Bravo!' : '❌ Oups!'}
+                </Text>
+                {!isCorrect && (
+                  <Text style={styles.correctAnswerText}>
+                    La bonne réponse était: {currentQuestion.correctAnswer}
+                  </Text>
+                )}
+              </View>
+            )}
           </View>
-        ))}
-      </ScrollView>
-    </View>
-  );
+        </View>
+      </View>
+    );
+  };
 
   const renderMemoryGame = () => (
     <View style={styles.gameContainer}>
