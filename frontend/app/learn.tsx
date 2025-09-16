@@ -150,11 +150,24 @@ export default function LearnScreen() {
                   <View style={styles.wordHeader}>
                     <View style={styles.frenchWordContainer}>
                       {word.image_url && (
-                        <Image 
-                          source={{ uri: word.image_url }} 
-                          style={styles.wordImage} 
-                          resizeMode="contain"
-                        />
+                        <View 
+                          style={[
+                            styles.wordImage,
+                            { 
+                              backgroundColor: '#f0f0f0',
+                              ...(word.image_url.startsWith('data:image/svg') 
+                                ? {} 
+                                : { borderWidth: 1, borderColor: '#ddd' })
+                            }
+                          ]}
+                        >
+                          <Image 
+                            source={{ uri: word.image_url }} 
+                            style={styles.wordImageInner} 
+                            resizeMode="contain"
+                            onError={(e) => console.log('Image load error:', e)}
+                          />
+                        </View>
                       )}
                       <Text style={styles.frenchWord}>{word.french}</Text>
                     </View>
