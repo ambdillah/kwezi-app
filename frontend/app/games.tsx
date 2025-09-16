@@ -1320,6 +1320,28 @@ const styles = StyleSheet.create({
   },
 
   // Styles pour le Quiz Mayotte
+  quizStartScreen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  quizStartTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#2C3E50',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  quizStartDescription: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 40,
+    paddingHorizontal: 10,
+    lineHeight: 24,
+    maxWidth: 320,
+  },
   quizDescription: {
     fontSize: 16,
     color: '#666',
@@ -1330,10 +1352,11 @@ const styles = StyleSheet.create({
   },
   startQuizButton: {
     backgroundColor: '#45B7D1',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
     borderRadius: 25,
-    marginTop: 10,
+    minWidth: 250,
+    alignItems: 'center',
   },
   quizProgress: {
     flexDirection: 'row',
