@@ -219,7 +219,7 @@ async def init_base_content():
         {"french": "Grand-père", "shimaore": "Bacoco", "kibouchi": "Dadayi", "category": "famille", "difficulty": 1},
         {"french": "Grande sœur", "shimaore": "Zouki mtroumché", "kibouchi": "Zoki viavi", "category": "famille", "difficulty": 1},
         {"french": "Madame", "shimaore": "Bwéni", "kibouchi": "Viavi", "category": "famille", "difficulty": 1},
-        {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama", "category": "famille", "difficulty": 1},
+        {"french": "Maman", "shimaore": "Mama", "kibouchi": "Baba", "category": "famille", "difficulty": 1},
         {"french": "Monsieur", "shimaore": "Mogné", "kibouchi": "Lalahi", "category": "famille", "difficulty": 1},
         {"french": "Oncle maternel", "shimaore": "Zama", "kibouchi": "Zama", "category": "famille", "difficulty": 2},
         {"french": "Oncle paternel", "shimaore": "Baba titi", "kibouchi": "Baba héli", "category": "famille", "difficulty": 2},
