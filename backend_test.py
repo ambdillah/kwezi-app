@@ -13441,36 +13441,37 @@ class MayotteEducationTester:
             return False
 
 if __name__ == "__main__":
-    print("🎯 Starting 'Petit mariage' to 'Fiançailles' Replacement Testing 🎯")
-    print("Testing the replacement of 'Petit mariage' with 'Fiançailles' as requested in the review:")
-    print("1. Verify 'Petit mariage' no longer exists in the database")
-    print("2. Verify 'Fiançailles' exists in tradition category")
-    print("3. Verify translations preserved: shimaoré 'Mafounguidzo', kibouchi 'Mafounguidzo'")
-    print("4. Verify difficulty maintained at 2 stars")
-    print("5. Test /api/words?category=tradition endpoint")
-    print("6. Verify 'Fiançailles' appears in results and alphabetical order respected")
-    print("7. Verify total word count remains 541 words")
-    print("8. Confirm tradition category contains 16 words")
-    print("9. Test backend functionality globally")
-    print("10. Test search functionality for both terms")
+    print("🌺 Starting Famille Section Updates Testing 🌺")
+    print("Testing the famille section updates as requested in the review:")
+    print("1. Verify new word 'Famille' added with correct translations")
+    print("2. Verify 'Famille' positioned alphabetically between 'Enfant' and 'Fille'")
+    print("3. Verify 'Maman' correction: Kibouchi changed from 'Mama' to 'Baba'")
+    print("4. Verify 'Papa' has correct translations: Shimaoré 'Baba', Kibouchi 'Baba'")
+    print("5. Verify famille section now contains 21 words (20 + 1 new)")
+    print("6. Verify alphabetical order maintained in famille section")
+    print("7. Verify total word count is now 542 (541 + 1 new)")
+    print("8. Test /api/words?category=famille endpoint")
+    print("9. Test global backend functionality")
     print("=" * 80)
     
     tester = MayotteEducationTester()
     
-    # Run the replacement verification test
-    success = tester.test_petit_mariage_to_fiancailles_replacement_verification()
+    # Run all tests including the famille section updates
+    success = tester.run_all_tests()
     
     # Final summary
     print(f"\n{'='*60}")
-    print("🎯 'PETIT MARIAGE' TO 'FIANÇAILLES' REPLACEMENT TEST SUMMARY 🎯")
+    print("🌺 FAMILLE SECTION UPDATES TEST SUMMARY 🌺")
     print(f"{'='*60}")
     
     if success:
-        print("\n🎉 ALL TESTS PASSED! 'Petit mariage' to 'Fiançailles' replacement verification completed successfully! 🎉")
-        print("🎯 'Petit mariage' successfully replaced with 'Fiançailles' in tradition category 🎯")
-        print("✅ Translations preserved: shimaoré 'Mafounguidzo', kibouchi 'Mafounguidzo'")
-        print("✅ Difficulty maintained at 2 stars")
-        print("✅ Total word count: 541 words, Tradition category: 16 words")
+        print("\n🎉 ALL TESTS PASSED! Famille section updates verification completed successfully! 🎉")
+        print("🌺 New word 'Famille' successfully added to famille section 🌺")
+        print("✅ 'Famille': Shimaoré 'Mdjamaza', Kibouchi 'Havagna'")
+        print("✅ 'Maman' correction: Kibouchi changed from 'Mama' to 'Baba'")
+        print("✅ 'Papa' verification: Shimaoré 'Baba', Kibouchi 'Baba'")
+        print("✅ Famille section: 21 words, Total: 542 words")
+        print("✅ Alphabetical order maintained")
     else:
         print(f"\n⚠️ Some tests failed. Please review and fix issues.")
     
