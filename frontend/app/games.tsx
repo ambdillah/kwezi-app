@@ -658,14 +658,14 @@ export default function GamesScreen() {
       },
       {
         question: "Comment dit-on 'Au revoir' en shimaoré ?",
-        options: ["Lala hanou", "Kwezi", "Marahaba", "Asalama"],
+        options: ["Kwezi", "Asalama", "Lala hanou", "Marahaba"],
         correct: "Lala hanou",
         explanation: "Lala hanou est l'expression pour dire 'Au revoir' en shimaoré.",
         category: "langue"
       },
       {
         question: "Quelle est la monnaie utilisée à Mayotte ?",
-        options: ["L'euro", "Le franc CFA", "Le franc comorien", "Le dollar"],
+        options: ["Le franc CFA", "Le dollar", "L'euro", "Le franc comorien"],
         correct: "L'euro",
         explanation: "Depuis que Mayotte est département français, la monnaie officielle est l'euro.",
         category: "économie"
