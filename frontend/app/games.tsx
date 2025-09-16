@@ -644,9 +644,9 @@ export default function GamesScreen() {
       },
       {
         question: "Quelle langue est également parlée dans certaines familles mahoraises ?",
-        options: ["L'arabe", "Le créole réunionnais", "Le malgache", "Le swahili"],
-        correct: "L'arabe",
-        explanation: "L'arabe est parlé dans les familles d'origine comorienne et enseigné dans les écoles coraniques.",
+        options: ["Le créole réunionnais", "Le swahili", "Le malgache", "L'arabe"],
+        correct: "Le malgache",
+        explanation: "Le malgache est parlé dans certaines familles mahoraises, en raison des liens historiques avec Madagascar.",
         category: "langue"
       },
       {
