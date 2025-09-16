@@ -12380,12 +12380,12 @@ class MayotteEducationTester:
         return failed == 0
 
     def run_all_tests(self):
-        """Run duplicate removal verification test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - DUPLICATE REMOVAL VERIFICATION TEST 🌺")
+        """Run famille section updates verification test as requested in review"""
+        print("🌺 MAYOTTE EDUCATIONAL APP - FAMILLE SECTION UPDATES VERIFICATION TEST 🌺")
         print("=" * 70)
         
-        # Run the specific duplicate removal verification test as requested in review
-        print("Running duplicate removal verification test...")
+        # Run the specific famille section updates verification test as requested in review
+        print("Running famille section updates verification test...")
         
         test_results = {}
         
@@ -12394,12 +12394,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main duplicate removal verification test
-        test_results['duplicate_removal'] = self.test_duplicate_removal_verification()
+        # Main famille section updates verification test
+        test_results['famille_updates'] = self.test_famille_section_updates_verification()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🌺 DUPLICATE REMOVAL VERIFICATION TEST RESULTS 🌺")
+        print("🌺 FAMILLE SECTION UPDATES VERIFICATION TEST RESULTS 🌺")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -12411,29 +12411,27 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('duplicate_removal', False):
-            print("🎉 DUPLICATE REMOVAL VERIFICATION TEST PASSED!")
-            print("✅ All 8 identified duplicates have been removed:")
-            print("   - Poisson (kept in animaux, removed from nourriture)")
-            print("   - Bouche (kept in corps, duplicate removed)")
-            print("   - Ongle (kept in corps, duplicate removed)")
-            print("   - Bol (kept in maison, duplicate removed)")
-            print("   - Clôture (kept in maison with translation Mraba/Mraba)")
-            print("   - Mur (kept in maison with translation Houra/Riba)")
-            print("   - Toilette (kept in maison, duplicate removed)")
-            print("   - Pirogue (kept in nature, removed from transport)")
-            print("✅ New total word count: 542 words (550 - 8 duplicates removed)")
-            print("✅ Word counts by category verified:")
-            print("   - salutations: 8, grammaire: 21, famille: 20, couleurs: 8")
-            print("   - animaux: 65, nombres: 20, corps: 32, nourriture: 44")
-            print("   - maison: 37, vetements: 16, verbes: 104, nature: 48")
-            print("   - adjectifs: 52, expressions: 45, transport: 6, tradition: 16")
-            print("✅ Organization maintained (numbers 1-20 in order, others alphabetical)")
+        if test_results.get('famille_updates', False):
+            print("🎉 FAMILLE SECTION UPDATES VERIFICATION TEST PASSED!")
+            print("✅ New word 'Famille' successfully added:")
+            print("   - French: 'Famille'")
+            print("   - Shimaoré: 'Mdjamaza'")
+            print("   - Kibouchi: 'Havagna'")
+            print("   - Correctly positioned alphabetically between 'Enfant' and 'Fille'")
+            print("✅ 'Maman' correction successfully verified:")
+            print("   - Shimaoré: 'Mama' (unchanged)")
+            print("   - Kibouchi: 'Baba' (corrected from 'Mama' to 'Baba')")
+            print("✅ 'Papa' verification confirmed:")
+            print("   - Shimaoré: 'Baba'")
+            print("   - Kibouchi: 'Baba'")
+            print("✅ Famille section now contains 21 words (20 + 1 new)")
+            print("✅ Alphabetical order maintained in famille section")
+            print("✅ Total word count now 542 words (541 + 1 new)")
+            print("✅ All other famille words remain intact")
             print("✅ All backend functionality working correctly")
-            print("✅ Previous corrections maintained")
-            print("The complete deduplication has been successfully verified.")
+            print("The famille section updates have been successfully verified.")
         else:
-            print("❌ Duplicate removal verification test failed. Please review the issues above.")
+            print("❌ Famille section updates verification test failed. Please review the issues above.")
         
         return passed == total
 
