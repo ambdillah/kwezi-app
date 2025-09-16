@@ -386,6 +386,18 @@ backend:
         agent: "testing"
         comment: "🎉 IMAGE ADDITION VERIFICATION COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ Backend starts without syntax errors after image additions ✅ All 23 expected words have received images: Colors (8): All colors with colored SVG circles - Blanc, Bleu, Gris, Jaune, Marron, Noir, Rouge, Vert; Animals (5): Chat, Chien, Oiseau, Poisson, Éléphant with external image URLs; Numbers (3): Un, Deux, Trois with numerical SVG representations; Body (2): Main, Pied with external images; House (3): Chaise, Lit, Table with external images; Family (1): Enfant with external image; Nature (1): École with external image ✅ Data structure verified: image_url field present and valid for all 23 words, 519 words without images correctly have no image_url field ✅ Different image types confirmed: 11 SVG inline images (colors and numbers), 12 external image URLs (animals, body, house, family, nature) ✅ Global functionality maintained: All API endpoints respond correctly, Total word count: 542 words, CRUD operations work with images, Image URLs preserved in database operations ✅ Specific categories tested in detail: Colors with circle SVGs: 8/8, Animals with images: 5/5, Numbers with SVG representations: 3/3 ✅ Image addition for children's memorization successfully implemented with proper data structure and functionality!"
 
+  - task: "Hérisson duplicate removal verification"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 HÉRISSON DUPLICATE REMOVAL VERIFICATION COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ Backend starts without syntax errors after duplicate removal ✅ Total word count is now 541 words (542 - 1 duplicate removed) ✅ Animals category contains 64 words (65 - 1 duplicate removed) ✅ Only one word containing 'hérisson' exists: 'Hérisson/Tangue' ✅ Correct hérisson word kept with proper translations: shimaoré 'Landra', kibouchi 'Trandraka' ✅ /api/words?category=animaux returns only one hérisson entry ✅ Other animals remain present with no regressions (Chat, Chien, Poisson, Oiseau, Lion all verified) ✅ Alphabetical order is maintained in animals category ✅ All CRUD operations continue to work correctly ✅ Images continue to function properly ✅ Backend functionality and API endpoints working correctly ✅ Duplicate removal verification complete - only 'Hérisson/Tangue' remains with correct translations as requested. The duplicate 'Hérisson' entry has been successfully removed from the database, ensuring data integrity and unique vocabulary entries."
+
 frontend:
   - task: "Welcome Screen Testing"
     implemented: true
