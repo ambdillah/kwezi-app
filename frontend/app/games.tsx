@@ -102,6 +102,11 @@ export default function GamesScreen() {
     setScore(0);
     setSelectedWords([]);
     
+    // Pour le jeu "match-words", générer les questions
+    if (gameId === 'match-words') {
+      generateAllQuestions(shuffled);
+    }
+    
     Speech.speak("C'est parti pour le jeu! Bonne chance!", {
       language: 'fr-FR',
       pitch: 1.2,
