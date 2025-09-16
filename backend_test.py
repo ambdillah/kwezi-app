@@ -12639,12 +12639,12 @@ class MayotteEducationTester:
         return failed == 0
 
     def run_all_tests(self):
-        """Run famille section updates verification test as requested in review"""
-        print("🌺 MAYOTTE EDUCATIONAL APP - FAMILLE SECTION UPDATES VERIFICATION TEST 🌺")
+        """Run audio integration verification test for famille section as requested in review"""
+        print("🎵 MAYOTTE EDUCATIONAL APP - AUDIO INTEGRATION VERIFICATION TEST 🎵")
         print("=" * 70)
         
-        # Run the specific famille section updates verification test as requested in review
-        print("Running famille section updates verification test...")
+        # Run the specific audio integration verification test as requested in review
+        print("Running audio integration verification test for famille section...")
         
         test_results = {}
         
@@ -12653,12 +12653,12 @@ class MayotteEducationTester:
         test_results['mongodb'] = self.test_mongodb_connection()
         test_results['init_content'] = self.test_init_base_content()
         
-        # Main famille section updates verification test
-        test_results['famille_updates'] = self.test_famille_section_updates_verification()
+        # Main audio integration verification test
+        test_results['audio_integration'] = self.test_audio_integration_famille_section()
         
         # Summary
         print(f"\n{'='*70}")
-        print("🌺 FAMILLE SECTION UPDATES VERIFICATION TEST RESULTS 🌺")
+        print("🎵 AUDIO INTEGRATION VERIFICATION TEST RESULTS 🎵")
         print(f"{'='*70}")
         
         passed = sum(test_results.values())
@@ -12670,27 +12670,28 @@ class MayotteEducationTester:
         
         print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
         
-        if test_results.get('famille_updates', False):
-            print("🎉 FAMILLE SECTION UPDATES VERIFICATION TEST PASSED!")
-            print("✅ New word 'Famille' successfully added:")
-            print("   - French: 'Famille'")
-            print("   - Shimaoré: 'Mdjamaza'")
-            print("   - Kibouchi: 'Havagna'")
-            print("   - Correctly positioned alphabetically between 'Enfant' and 'Fille'")
-            print("✅ 'Maman' correction successfully verified:")
-            print("   - Shimaoré: 'Mama' (unchanged)")
-            print("   - Kibouchi: 'Baba' (corrected from 'Mama' to 'Baba')")
-            print("✅ 'Papa' verification confirmed:")
-            print("   - Shimaoré: 'Baba'")
-            print("   - Kibouchi: 'Baba'")
-            print("✅ Famille section now contains 21 words (20 + 1 new)")
-            print("✅ Alphabetical order maintained in famille section")
-            print("✅ Total word count now 542 words (541 + 1 new)")
-            print("✅ All other famille words remain intact")
-            print("✅ All backend functionality working correctly")
-            print("The famille section updates have been successfully verified.")
+        if test_results.get('audio_integration', False):
+            print("🎉 AUDIO INTEGRATION VERIFICATION TEST PASSED!")
+            print("✅ Audio URLs successfully added to 4 famille words:")
+            print("   - Frère (kibouchi 'Anadahi'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/8n7qk8tu_Anadahi.m4a")
+            print("   - Sœur (kibouchi 'Anabavi'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/c1v1dt3h_Anabavi.m4a")
+            print("   - Oncle paternel (kibouchi 'Baba héli'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/dihqa9ml_Baba%20h%C3%A9li-b%C3%A9.m4a")
+            print("   - Papa (shimaoré 'Baba'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/wqvjojpg_Baba%20s.m4a")
+            print("✅ Data structure integrity maintained:")
+            print("   - audio_url field present in API responses for words with audio")
+            print("   - URLs correctly formed and accessible")
+            print("   - Only words with audio have audio_url field")
+            print("✅ API functionality verified:")
+            print("   - /api/words?category=famille returns words with audio URLs")
+            print("   - Other famille words correctly have no audio_url field")
+            print("   - All translations, categories, and difficulty levels preserved")
+            print("✅ URL encoding correct:")
+            print("   - Special characters properly encoded (%C3%A9 for é)")
+            print("   - All URLs point to correct .m4a audio files")
+            print("📝 Note: Papa has dual pronunciation files but uses shimaoré version")
+            print("The audio integration for famille section has been successfully verified.")
         else:
-            print("❌ Famille section updates verification test failed. Please review the issues above.")
+            print("❌ Audio integration verification test failed. Please review the issues above.")
         
         return passed == total
 
