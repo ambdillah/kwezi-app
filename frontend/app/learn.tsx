@@ -148,7 +148,16 @@ export default function LearnScreen() {
               words.map((word) => (
                 <View key={word.id} style={styles.wordCard}>
                   <View style={styles.wordHeader}>
-                    <Text style={styles.frenchWord}>{word.french}</Text>
+                    <View style={styles.frenchWordContainer}>
+                      {word.image_url && (
+                        <Image 
+                          source={{ uri: word.image_url }} 
+                          style={styles.wordImage} 
+                          resizeMode="contain"
+                        />
+                      )}
+                      <Text style={styles.frenchWord}>{word.french}</Text>
+                    </View>
                     <View style={styles.difficultyContainer}>
                       {[...Array(word.difficulty)].map((_, i) => (
                         <Ionicons key={i} name="star" size={16} color="#FFD700" />
