@@ -1242,6 +1242,262 @@ class MayotteEducationTester:
             return False
 
 
+    def test_famille_section_updates_verification(self):
+        """Test the specific famille section updates: new word 'Famille' and correction of 'Maman'"""
+        print("\n=== Testing Famille Section Updates Verification ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors after updates
+            print("--- Testing Backend Startup After Updates ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors after updates")
+            
+            # 2. Test the /api/words?category=famille endpoint
+            print("\n--- Testing /api/words?category=famille Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=famille")
+            if response.status_code != 200:
+                print(f"❌ Famille endpoint failed: {response.status_code}")
+                return False
+            
+            famille_words = response.json()
+            famille_words_by_french = {word['french']: word for word in famille_words}
+            print(f"✅ /api/words?category=famille working correctly ({len(famille_words)} famille words)")
+            
+            # 3. Test nouveau mot "Famille" ajouté
+            print("\n--- Testing New Word 'Famille' Added ---")
+            
+            expected_famille = {
+                "french": "Famille",
+                "shimaore": "Mdjamaza", 
+                "kibouchi": "Havagna"
+            }
+            
+            famille_word_found = False
+            if "Famille" in famille_words_by_french:
+                famille_word = famille_words_by_french["Famille"]
+                
+                # Check shimaoré translation
+                if famille_word['shimaore'] == expected_famille['shimaore']:
+                    print(f"✅ 'Famille' shimaoré correct: '{famille_word['shimaore']}'")
+                    shimaore_correct = True
+                else:
+                    print(f"❌ 'Famille' shimaoré incorrect: Expected '{expected_famille['shimaore']}', got '{famille_word['shimaore']}'")
+                    shimaore_correct = False
+                
+                # Check kibouchi translation
+                if famille_word['kibouchi'] == expected_famille['kibouchi']:
+                    print(f"✅ 'Famille' kibouchi correct: '{famille_word['kibouchi']}'")
+                    kibouchi_correct = True
+                else:
+                    print(f"❌ 'Famille' kibouchi incorrect: Expected '{expected_famille['kibouchi']}', got '{famille_word['kibouchi']}'")
+                    kibouchi_correct = False
+                
+                if shimaore_correct and kibouchi_correct:
+                    print(f"✅ 'Famille' exists with correct translations: {famille_word['shimaore']} (Shimaoré) / {famille_word['kibouchi']} (Kibouchi)")
+                    famille_word_found = True
+                else:
+                    print(f"❌ 'Famille' has incorrect translations")
+            else:
+                print(f"❌ 'Famille' not found in famille category")
+            
+            # 4. Test correction de "Maman"
+            print("\n--- Testing 'Maman' Correction ---")
+            
+            expected_maman = {
+                "french": "Maman",
+                "shimaore": "Mama",  # unchanged
+                "kibouchi": "Baba"   # corrected from "Mama" to "Baba"
+            }
+            
+            maman_correct = False
+            if "Maman" in famille_words_by_french:
+                maman_word = famille_words_by_french["Maman"]
+                
+                # Check shimaoré translation (should be unchanged)
+                if maman_word['shimaore'] == expected_maman['shimaore']:
+                    print(f"✅ 'Maman' shimaoré correct (unchanged): '{maman_word['shimaore']}'")
+                    shimaore_correct = True
+                else:
+                    print(f"❌ 'Maman' shimaoré incorrect: Expected '{expected_maman['shimaore']}', got '{maman_word['shimaore']}'")
+                    shimaore_correct = False
+                
+                # Check kibouchi translation (should be corrected)
+                if maman_word['kibouchi'] == expected_maman['kibouchi']:
+                    print(f"✅ 'Maman' kibouchi corrected: '{maman_word['kibouchi']}' (corrected from 'Mama' to 'Baba')")
+                    kibouchi_correct = True
+                else:
+                    print(f"❌ 'Maman' kibouchi incorrect: Expected '{expected_maman['kibouchi']}', got '{maman_word['kibouchi']}'")
+                    kibouchi_correct = False
+                
+                if shimaore_correct and kibouchi_correct:
+                    print(f"✅ 'Maman' has correct translations: {maman_word['shimaore']} (Shimaoré) / {maman_word['kibouchi']} (Kibouchi)")
+                    maman_correct = True
+                else:
+                    print(f"❌ 'Maman' has incorrect translations")
+            else:
+                print(f"❌ 'Maman' not found in famille category")
+            
+            # 5. Test vérification de "Papa"
+            print("\n--- Testing 'Papa' Verification ---")
+            
+            expected_papa = {
+                "french": "Papa",
+                "shimaore": "Baba",
+                "kibouchi": "Baba"
+            }
+            
+            papa_correct = False
+            if "Papa" in famille_words_by_french:
+                papa_word = famille_words_by_french["Papa"]
+                
+                # Check both translations
+                if (papa_word['shimaore'] == expected_papa['shimaore'] and 
+                    papa_word['kibouchi'] == expected_papa['kibouchi']):
+                    print(f"✅ 'Papa' has correct translations: {papa_word['shimaore']} (Shimaoré) / {papa_word['kibouchi']} (Kibouchi)")
+                    papa_correct = True
+                else:
+                    print(f"❌ 'Papa' incorrect: Expected {expected_papa['shimaore']}/{expected_papa['kibouchi']}, got {papa_word['shimaore']}/{papa_word['kibouchi']}")
+            else:
+                print(f"❌ 'Papa' not found in famille category")
+            
+            # 6. Test nombre total de mots famille (should be 21 words: 20 + 1 new)
+            print("\n--- Testing Total Famille Words Count ---")
+            
+            expected_famille_count = 21  # 20 + 1 new word "Famille"
+            actual_famille_count = len(famille_words)
+            
+            if actual_famille_count == expected_famille_count:
+                print(f"✅ Famille section contains correct number of words: {actual_famille_count} (expected {expected_famille_count})")
+                count_correct = True
+            else:
+                print(f"❌ Famille section word count incorrect: {actual_famille_count} (expected {expected_famille_count})")
+                count_correct = False
+            
+            # 7. Test ordre alphabétique maintenu - "Famille" between "Enfant" and "Fille"
+            print("\n--- Testing Alphabetical Order Maintained ---")
+            
+            # Get famille words sorted by French name
+            famille_words_sorted = sorted(famille_words, key=lambda x: x['french'])
+            french_names_sorted = [word['french'] for word in famille_words_sorted]
+            
+            print(f"Famille words in alphabetical order: {french_names_sorted}")
+            
+            # Find positions
+            enfant_pos = french_names_sorted.index("Enfant") if "Enfant" in french_names_sorted else -1
+            famille_pos = french_names_sorted.index("Famille") if "Famille" in french_names_sorted else -1
+            fille_pos = french_names_sorted.index("Fille") if "Fille" in french_names_sorted else -1
+            
+            alphabetical_correct = False
+            if enfant_pos != -1 and famille_pos != -1 and fille_pos != -1:
+                if enfant_pos < famille_pos < fille_pos:
+                    print(f"✅ 'Famille' correctly positioned between 'Enfant' (pos {enfant_pos}) and 'Fille' (pos {fille_pos}) at position {famille_pos}")
+                    alphabetical_correct = True
+                else:
+                    print(f"❌ 'Famille' not correctly positioned: Enfant pos {enfant_pos}, Famille pos {famille_pos}, Fille pos {fille_pos}")
+            else:
+                print(f"❌ Could not verify alphabetical order - missing words: Enfant={enfant_pos}, Famille={famille_pos}, Fille={fille_pos}")
+            
+            # 8. Test fonctionnalité globale - total word count should be 542 (541 + 1 new)
+            print("\n--- Testing Global Functionality ---")
+            
+            # Get all words
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                expected_total_count = 542  # 541 + 1 new word
+                actual_total_count = len(all_words)
+                
+                if actual_total_count == expected_total_count:
+                    print(f"✅ Total word count correct: {actual_total_count} (expected {expected_total_count})")
+                    global_count_correct = True
+                else:
+                    print(f"❌ Total word count incorrect: {actual_total_count} (expected {expected_total_count})")
+                    global_count_correct = False
+            else:
+                print(f"❌ Could not retrieve all words for global count verification")
+                global_count_correct = False
+            
+            # 9. Test that other famille words remain intact
+            print("\n--- Testing Other Famille Words Remain Intact ---")
+            
+            # Sample of other famille words that should remain unchanged
+            other_famille_words = [
+                {"french": "Enfant", "shimaore": "Mwana", "kibouchi": "Mwana"},
+                {"french": "Fille", "shimaore": "Mtroumama", "kibouchi": "Viavi"},
+                {"french": "Garçon", "shimaore": "Mtroubaba", "kibouchi": "Lalahi"},
+                {"french": "Grand-mère", "shimaore": "Coco", "kibouchi": "Dadi"},
+                {"french": "Grand-père", "shimaore": "Bacoco", "kibouchi": "Dadayi"}
+            ]
+            
+            other_words_intact = True
+            for word_test in other_famille_words:
+                french_word = word_test['french']
+                if french_word in famille_words_by_french:
+                    word = famille_words_by_french[french_word]
+                    if word['shimaore'] == word_test['shimaore'] and word['kibouchi'] == word_test['kibouchi']:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - INTACT")
+                    else:
+                        print(f"❌ {french_word}: Expected {word_test['shimaore']}/{word_test['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        other_words_intact = False
+                else:
+                    print(f"❌ {french_word} not found in famille category")
+                    other_words_intact = False
+            
+            # Overall result
+            all_tests_passed = (
+                famille_word_found and 
+                maman_correct and 
+                papa_correct and 
+                count_correct and 
+                alphabetical_correct and 
+                global_count_correct and 
+                other_words_intact
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 FAMILLE SECTION UPDATES VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors after updates")
+                print("✅ /api/words?category=famille endpoint working correctly")
+                print("✅ New word 'Famille' added with correct translations:")
+                print(f"   - Shimaoré: '{expected_famille['shimaore']}'")
+                print(f"   - Kibouchi: '{expected_famille['kibouchi']}'")
+                print("✅ 'Maman' correction verified:")
+                print(f"   - Shimaoré: '{expected_maman['shimaore']}' (unchanged)")
+                print(f"   - Kibouchi: '{expected_maman['kibouchi']}' (corrected from 'Mama' to 'Baba')")
+                print("✅ 'Papa' verification confirmed:")
+                print(f"   - Shimaoré: '{expected_papa['shimaore']}'")
+                print(f"   - Kibouchi: '{expected_papa['kibouchi']}'")
+                print(f"✅ Famille section contains correct number of words: {actual_famille_count} (20 + 1 new)")
+                print("✅ Alphabetical order maintained - 'Famille' correctly positioned between 'Enfant' and 'Fille'")
+                print(f"✅ Global word count correct: {actual_total_count} words (541 + 1 new)")
+                print("✅ All other famille words remain intact")
+                print("✅ All requirements from review request successfully verified!")
+            else:
+                print("\n❌ Some famille section updates are not properly implemented")
+                if not famille_word_found:
+                    print("❌ New word 'Famille' not found or has incorrect translations")
+                if not maman_correct:
+                    print("❌ 'Maman' correction not properly implemented")
+                if not papa_correct:
+                    print("❌ 'Papa' verification failed")
+                if not count_correct:
+                    print("❌ Famille section word count is incorrect")
+                if not alphabetical_correct:
+                    print("❌ Alphabetical order not maintained")
+                if not global_count_correct:
+                    print("❌ Global word count is incorrect")
+                if not other_words_intact:
+                    print("❌ Some other famille words were affected")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Famille section updates verification error: {e}")
+            return False
+
     def test_petit_mariage_to_fiancailles_replacement_verification(self):
         """Test the replacement of 'Petit mariage' with 'Fiançailles' in tradition category"""
         print("\n=== Testing 'Petit mariage' to 'Fiançailles' Replacement Verification ===")
