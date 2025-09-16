@@ -13187,31 +13187,36 @@ class MayotteEducationTester:
             return False
 
 if __name__ == "__main__":
-    print("🎯 Starting Hérisson Duplicate Removal Testing 🎯")
-    print("Testing the removal of the 'hérisson' duplicate as requested in the review:")
-    print("1. Verify only one word containing 'hérisson' remains")
-    print("2. Verify it's 'Hérisson/Tangue' that is kept")
-    print("3. Verify translations: shimaoré 'Landra', kibouchi 'Trandraka'")
-    print("4. Verify total word count is now 541 (542 - 1 duplicate removed)")
-    print("5. Verify animals category has 64 words (65 - 1 duplicate removed)")
-    print("6. Verify backend functionality and API endpoints work")
-    print("7. Verify no regressions in other animals")
-    print("8. Verify alphabetical order is maintained")
+    print("🎯 Starting 'Petit mariage' to 'Fiançailles' Replacement Testing 🎯")
+    print("Testing the replacement of 'Petit mariage' with 'Fiançailles' as requested in the review:")
+    print("1. Verify 'Petit mariage' no longer exists in the database")
+    print("2. Verify 'Fiançailles' exists in tradition category")
+    print("3. Verify translations preserved: shimaoré 'Mafounguidzo', kibouchi 'Mafounguidzo'")
+    print("4. Verify difficulty maintained at 2 stars")
+    print("5. Test /api/words?category=tradition endpoint")
+    print("6. Verify 'Fiançailles' appears in results and alphabetical order respected")
+    print("7. Verify total word count remains 541 words")
+    print("8. Confirm tradition category contains 16 words")
+    print("9. Test backend functionality globally")
+    print("10. Test search functionality for both terms")
     print("=" * 80)
     
     tester = MayotteEducationTester()
     
-    # Run the hérisson duplicate removal test
-    success = tester.test_herisson_duplicate_removal_verification()
+    # Run the replacement verification test
+    success = tester.test_petit_mariage_to_fiancailles_replacement_verification()
     
     # Final summary
     print(f"\n{'='*60}")
-    print("🎯 HÉRISSON DUPLICATE REMOVAL TEST SUMMARY 🎯")
+    print("🎯 'PETIT MARIAGE' TO 'FIANÇAILLES' REPLACEMENT TEST SUMMARY 🎯")
     print(f"{'='*60}")
     
     if success:
-        print("\n🎉 ALL TESTS PASSED! Hérisson duplicate removal verification completed successfully! 🎉")
-        print("🎯 Only 'Hérisson/Tangue' remains with correct translations (shimaoré 'Landra', kibouchi 'Trandraka') 🎯")
+        print("\n🎉 ALL TESTS PASSED! 'Petit mariage' to 'Fiançailles' replacement verification completed successfully! 🎉")
+        print("🎯 'Petit mariage' successfully replaced with 'Fiançailles' in tradition category 🎯")
+        print("✅ Translations preserved: shimaoré 'Mafounguidzo', kibouchi 'Mafounguidzo'")
+        print("✅ Difficulty maintained at 2 stars")
+        print("✅ Total word count: 541 words, Tradition category: 16 words")
     else:
         print(f"\n⚠️ Some tests failed. Please review and fix issues.")
     
