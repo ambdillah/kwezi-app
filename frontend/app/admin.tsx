@@ -24,6 +24,7 @@ interface Word {
   category: string;
   difficulty: number;
   image_base64?: string;
+  image_url?: string;
 }
 
 const CATEGORIES = [
