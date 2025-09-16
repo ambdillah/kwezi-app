@@ -741,12 +741,11 @@ async def init_base_content():
         {"french": "Cérémonie", "shimaore": "Shouhouli", "kibouchi": "Shouhouli", "category": "tradition", "difficulty": 1},
         {"french": "Danse traditionnelle femme", "shimaore": "Mbiwi/Wadhaha", "kibouchi": "Mbiwi/Wadhaha", "category": "tradition", "difficulty": 1},
         {"french": "Danse traditionnelle mixte", "shimaore": "Shigoma", "kibouchi": "Shigoma", "category": "tradition", "difficulty": 1},
+        {"french": "Fiançailles", "shimaore": "Mafounguidzo", "kibouchi": "Mafounguidzo", "category": "tradition", "difficulty": 2},
         {"french": "Grand mariage", "shimaore": "Manzaraka", "kibouchi": "Manzaraka", "category": "tradition", "difficulty": 2},
         {"french": "Mariage", "shimaore": "Haroussi", "kibouchi": "Haroussi", "category": "tradition", "difficulty": 1},
-        {"french": "Fiançailles", "shimaore": "Mafounguidzo", "kibouchi": "Mafounguidzo", "category": "tradition", "difficulty": 2},
         {"french": "Rite de la pluie", "shimaore": "Mgourou", "kibouchi": "Mgourou", "category": "tradition", "difficulty": 2},
         {"french": "Tamtam bœuf", "shimaore": "Ngoma ya nyombé", "kibouchi": "Vala naoumbi", "category": "tradition", "difficulty": 2}
-
     ]
     
     # Vérifier si le contenu existe déjà
