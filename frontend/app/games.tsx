@@ -136,8 +136,33 @@ export default function GamesScreen() {
     const correctTranslation = currentWord[selectedLanguage];
     
     // Choisir une mauvaise traduction d'un autre mot dans la même langue
-    const wrongWord = otherWords[Math.floor(Math.random() * otherWords.length)];
-    const wrongTranslation = wrongWord[selectedLanguage];
+    // S'assurer que la mauvaise traduction est vraiment différente de la bonne
+    let wrongTranslation = '';
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    do {
+      const wrongWord = otherWords[Math.floor(Math.random() * otherWords.length)];
+      wrongTranslation = wrongWord[selectedLanguage];
+      attempts++;
+    } while (
+      wrongTranslation === correctTranslation && 
+      attempts < maxAttempts
+    );
+    
+    // Si après plusieurs tentatives on n'a pas trouvé de traduction différente,
+    // essayer avec l'autre langue pour créer une fausse option évidente
+    if (wrongTranslation === correctTranslation) {
+      const otherLanguage = selectedLanguage === 'shimaore' ? 'kibouchi' : 'shimaore';
+      const randomWrongWord = otherWords[Math.floor(Math.random() * otherWords.length)];
+      wrongTranslation = randomWrongWord[otherLanguage];
+    }
+    
+    // Vérification finale : s'assurer qu'on a bien une traduction différente
+    if (wrongTranslation === correctTranslation) {
+      // En dernier recours, utiliser une traduction inventée évidente
+      wrongTranslation = selectedLanguage === 'shimaore' ? 'Traduction inventée' : 'Fausse traduction';
+    }
     
     // Mélanger les positions
     const options = [
