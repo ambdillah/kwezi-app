@@ -545,28 +545,28 @@ export default function GamesScreen() {
       },
       {
         question: "Le kibouchi est parlé principalement dans quelle partie de Mayotte ?",
-        options: ["Petite-Terre", "Grande-Terre", "Partout", "Mamoudzou"],
+        options: ["Petite-Terre", "Mamoudzou", "Grande-Terre", "Partout"],
         correct: "Grande-Terre",
         explanation: "Le kibouchi est traditionnellement parlé surtout à Grande-Terre (ouangani, chirongui, acoua etc).",
         category: "géographie"
       },
       {
         question: "Quelle est la fleur emblématique de Mayotte ?",
-        options: ["Ylang-ylang", "Hibiscus", "Frangipane", "Bougainvillier"],
+        options: ["Hibiscus", "Ylang-ylang", "Frangipane", "Bougainvillier"],
         correct: "Ylang-ylang",
         explanation: "L'ylang-ylang est la fleur emblématique de Mayotte, utilisée en parfumerie.",
         category: "culture"
       },
       {
         question: "Comment dit-on 'Merci' en shimaoré ?",
-        options: ["Marahaba", "Asante", "Merci", "Chukran"],
+        options: ["Asante", "Chukran", "Marahaba", "Merci"],
         correct: "Marahaba",
         explanation: "Marahaba est l'expression pour dire 'Merci' en shimaoré.",
         category: "langue"
       },
       {
         question: "Quel animal est le symbole de Mayotte ?",
-        options: ["Maki", "Tortue", "Dauphin", "Requin"],
+        options: ["Tortue", "Dauphin", "Maki", "Requin"],
         correct: "Maki",
         explanation: "Le maki est l'animal emblématique de Mayotte, un lémurien endémique des Comores.",
         category: "culture"
