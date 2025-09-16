@@ -531,14 +531,14 @@ export default function GamesScreen() {
       // Questions sur les langues
       {
         question: "Quelle est la langue principale parlée à Mayotte avec le français ?",
-        options: ["Shimaoré", "Créole", "Swahili", "Malgache"],
+        options: ["Créole", "Shimaoré", "Swahili", "Malgache"],
         correct: "Shimaoré",
         explanation: "Le shimaoré est la langue locale principale de Mayotte, parlée par la majorité de la population.",
         category: "langue"
       },
       {
         question: "Comment dit-on 'Bonjour' en shimaoré ?",
-        options: ["Kwezi", "Salama", "Jambo", "Bonjour"],
+        options: ["Salama", "Jambo", "Kwezi", "Bonjour"],
         correct: "Kwezi",
         explanation: "Kwezi est la façon de dire 'Bonjour' en shimaoré, la langue de Mayotte.",
         category: "langue"
