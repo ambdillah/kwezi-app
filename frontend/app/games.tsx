@@ -546,8 +546,8 @@ export default function GamesScreen() {
       {
         question: "Le kibouchi est parlé principalement dans quelle partie de Mayotte ?",
         options: ["Petite-Terre", "Grande-Terre", "Partout", "Mamoudzou"],
-        correct: "Petite-Terre",
-        explanation: "Le kibouchi est traditionnellement parlé surtout à Petite-Terre (Pamandzi).",
+        correct: "Grande-Terre",
+        explanation: "Le kibouchi est traditionnellement parlé surtout à Grande-Terre (ouangani, chirongui, acoua etc).",
         category: "géographie"
       },
       {
