@@ -598,6 +598,77 @@ export default function GamesScreen() {
         correct: "Vrai",
         explanation: "Mayotte possède effectivement l'un des plus grands lagons fermés au monde.",
         category: "géographie"
+      },
+      // Nouvelles questions basées sur l'image fournie
+      {
+        question: "Quelle est la capitale de Mayotte ?",
+        options: ["Mamoudzou", "Dzaoudzi", "Koungou", "Sada"],
+        correct: "Mamoudzou",
+        explanation: "Mamoudzou est la capitale administrative et économique de Mayotte.",
+        category: "géographie"
+      },
+      {
+        question: "Comment s'appelle le lagon qui entoure Mayotte ?",
+        options: ["Lagon de Mayotte", "Lagon de Zanzibar", "Lagon de Madagascar", "Lagon des Comores"],
+        correct: "Lagon de Mayotte",
+        explanation: "Le lagon de Mayotte est l'un des plus grands et beaux lagons fermés du monde, avec une barrière de corail presque complète.",
+        category: "géographie"
+      },
+      {
+        question: "Quelle fête religieuse est la plus célébrée à Mayotte ?",
+        options: ["Le Ramadan", "Noël", "Pâques", "Diwali"],
+        correct: "Le Ramadan",
+        explanation: "La majorité de la population mahoraise est musulmane, et le Ramadan est une période très importante.",
+        category: "culture"
+      },
+      {
+        question: "Quel animal marin emblématique peut être observé à Mayotte ?",
+        options: ["La tortue marine", "Le dauphin", "Le crocodile", "Le manchot"],
+        correct: "La tortue marine",
+        explanation: "Mayotte est célèbre pour ses plages où viennent pondre les tortues marines.",
+        category: "nature"
+      },
+      {
+        question: "Quel est le plat traditionnel à base de manioc et de coco ?",
+        options: ["Le mataba", "Le rougail", "Le couscous", "Le mafé"],
+        correct: "Le mataba",
+        explanation: "Le mataba est préparé avec des feuilles de manioc pilées, cuites avec du lait de coco.",
+        category: "cuisine"
+      },
+      {
+        question: "Quelle boisson locale se prépare avec du sucre de canne et des fruits ?",
+        options: ["Le punch mahorais", "Le café glacé", "Le thé vert", "Le bissap"],
+        correct: "Le punch mahorais",
+        explanation: "Le punch mahorais est une boisson festive préparée avec du rhum ou sans alcool pour les enfants, aromatisée aux fruits tropicaux.",
+        category: "cuisine"
+      },
+      {
+        question: "Quelle langue est également parlée dans certaines familles mahoraises ?",
+        options: ["L'arabe", "Le créole réunionnais", "Le malgache", "Le swahili"],
+        correct: "L'arabe",
+        explanation: "L'arabe est parlé dans les familles d'origine comorienne et enseigné dans les écoles coraniques.",
+        category: "langue"
+      },
+      {
+        question: "Quel est le statut administratif de Mayotte ?",
+        options: ["Département français", "Territoire d'outre-mer", "Collectivité", "Région autonome"],
+        correct: "Département français",
+        explanation: "Mayotte est devenue le 101ème département français en 2011.",
+        category: "politique"
+      },
+      {
+        question: "Comment dit-on 'Au revoir' en shimaoré ?",
+        options: ["Lala hanou", "Kwezi", "Marahaba", "Asalama"],
+        correct: "Lala hanou",
+        explanation: "Lala hanou est l'expression pour dire 'Au revoir' en shimaoré.",
+        category: "langue"
+      },
+      {
+        question: "Quelle est la monnaie utilisée à Mayotte ?",
+        options: ["L'euro", "Le franc CFA", "Le franc comorien", "Le dollar"],
+        correct: "L'euro",
+        explanation: "Depuis que Mayotte est département français, la monnaie officielle est l'euro.",
+        category: "économie"
       }
     ];
 
