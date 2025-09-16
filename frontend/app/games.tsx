@@ -108,26 +108,101 @@ export default function GamesScreen() {
     });
   };
 
-  const checkMatch = (french: string, translation: string, language: 'shimaore' | 'kibouchi') => {
-    const word = gameWords.find(w => w.french === french);
-    if (word && word[language] === translation) {
+  // États pour le nouveau jeu de traduction
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState<any>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [questionsGenerated, setQuestionsGenerated] = useState<any[]>([]);
+
+  // Générer une question de traduction
+  const generateQuestion = (words: Word[], questionIndex: number) => {
+    if (questionIndex >= words.length) return null;
+    
+    const currentWord = words[questionIndex];
+    const otherWords = words.filter(w => w.id !== currentWord.id);
+    
+    // Choisir aléatoirement entre shimaoré et kibouchi
+    const languages = ['shimaore', 'kibouchi'] as const;
+    const selectedLanguage = languages[Math.floor(Math.random() * languages.length)];
+    
+    // Obtenir la bonne traduction
+    const correctTranslation = currentWord[selectedLanguage];
+    
+    // Choisir une mauvaise traduction d'un autre mot dans la même langue
+    const wrongWord = otherWords[Math.floor(Math.random() * otherWords.length)];
+    const wrongTranslation = wrongWord[selectedLanguage];
+    
+    // Mélanger les positions
+    const options = [
+      { text: correctTranslation, isCorrect: true },
+      { text: wrongTranslation, isCorrect: false }
+    ];
+    
+    // Mélanger l'ordre des options
+    const shuffledOptions = Math.random() > 0.5 ? options : [options[1], options[0]];
+    
+    return {
+      french: currentWord.french,
+      language: selectedLanguage,
+      languageLabel: selectedLanguage === 'shimaore' ? 'Shimaoré' : 'Kibouchi',
+      options: shuffledOptions,
+      correctAnswer: correctTranslation
+    };
+  };
+
+  // Générer toutes les questions au début du jeu
+  const generateAllQuestions = (words: Word[]) => {
+    const questions = [];
+    const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+    
+    for (let i = 0; i < Math.min(10, shuffledWords.length); i++) {
+      const question = generateQuestion(shuffledWords, i);
+      if (question) questions.push(question);
+    }
+    
+    setQuestionsGenerated(questions);
+    setCurrentQuestion(questions[0]);
+    setCurrentQuestionIndex(0);
+  };
+
+  const checkAnswer = (selectedOption: any) => {
+    setSelectedAnswer(selectedOption.text);
+    setIsCorrect(selectedOption.isCorrect);
+    setShowResult(true);
+    
+    if (selectedOption.isCorrect) {
       setScore(prev => prev + 10);
       Speech.speak('Bravo! Très bien!', { language: 'fr-FR', pitch: 1.3 });
-      
-      // Retirer le mot trouvé
-      setGameWords(prev => prev.filter(w => w.french !== french));
-      
-      if (gameWords.length === 1) {
-        setTimeout(() => {
-          Alert.alert(
-            'Félicitations! 🎉',
-            `Tu as terminé avec ${score + 10} points!`,
-            [{ text: 'Nouveau jeu', onPress: () => startGame(currentGame!) }]
-          );
-        }, 500);
-      }
     } else {
-      Speech.speak('Oups! Essaie encore.', { language: 'fr-FR' });
+      Speech.speak('Oups! Ce n\'est pas la bonne réponse.', { language: 'fr-FR' });
+    }
+    
+    // Passer à la question suivante après 2 secondes
+    setTimeout(() => {
+      nextQuestion();
+    }, 2000);
+  };
+
+  const nextQuestion = () => {
+    setShowResult(false);
+    setSelectedAnswer(null);
+    
+    if (currentQuestionIndex + 1 < questionsGenerated.length) {
+      const nextIndex = currentQuestionIndex + 1;
+      setCurrentQuestionIndex(nextIndex);
+      setCurrentQuestion(questionsGenerated[nextIndex]);
+    } else {
+      // Fin du jeu
+      setTimeout(() => {
+        Speech.speak(`Félicitations! Tu as terminé avec ${score} points!`, { 
+          language: 'fr-FR', 
+          pitch: 1.2 
+        });
+        Alert.alert('🎉 Jeu terminé!', `Tu as obtenu ${score} points sur ${questionsGenerated.length * 10} possibles!`);
+        setGameStarted(false);
+      }, 500);
     }
   };
 
