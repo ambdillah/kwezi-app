@@ -22,6 +22,8 @@ interface Word {
   shimaore: string;
   kibouchi: string;
   category: string;
+  difficulty?: number;
+  image_url?: string;
 }
 
 interface GameCard {
