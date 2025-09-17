@@ -13709,6 +13709,9 @@ class MayotteEducationTester:
         test_results.append(("New Verb Additions", self.test_new_verb_additions()))
         test_results.append(("Corrected Numbers System", self.test_corrected_numbers_system()))
         
+        # MAIN TEST FOR REVIEW REQUEST - NATURE SECTION
+        test_results.append(("🎯 NATURE SECTION SPECIFIC VERIFICATION", self.test_nature_section_specific_verification()))
+        
         # MAIN TEST FOR REVIEW REQUEST
         test_results.append(("🎯 AUTHENTIC TRANSLATIONS RESTORATION", self.test_authentic_translations_restoration_verification()))
         
