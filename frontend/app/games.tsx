@@ -786,11 +786,18 @@ export default function GamesScreen() {
       <View style={styles.gameContainer}>
         <View style={styles.gameHeader}>
           <Text style={styles.gameTitle}>Quiz Mayotte 🏝️</Text>
-          <View style={styles.quizProgress}>
-            <Text style={styles.questionCounter}>
-              Question {currentQuizIndex + 1} / {quizQuestions.length}
+        </View>
+        
+        <View style={styles.quizProgressBar}>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Question</Text>
+            <Text style={styles.progressValue}>
+              {currentQuizIndex + 1} / {quizQuestions.length}
             </Text>
-            <Text style={styles.scoreText}>Score: {quizScore}</Text>
+          </View>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Score</Text>
+            <Text style={styles.progressValue}>{quizScore}</Text>
           </View>
         </View>
 
