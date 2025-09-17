@@ -206,20 +206,30 @@ export default function LearnScreen() {
                   <View style={styles.translationsContainer}>
                     <TouchableOpacity 
                       style={styles.translationRow}
-                      onPress={() => speakWord(word.shimaore, 'shimaore')}
+                      onPress={() => speakWord(word.shimaore, 'shimaore', word.french)}
                     >
                       <Text style={styles.languageLabel}>Shimaoré:</Text>
                       <Text style={styles.translationText}>{word.shimaore}</Text>
-                      <Ionicons name="volume-high" size={20} color="#4ECDC4" />
+                      <View style={styles.audioButtonContainer}>
+                        {hasAuthenticAudio(word.french, 'shimaore') && (
+                          <Ionicons name="musical-notes" size={12} color="#FFD700" />
+                        )}
+                        <Ionicons name="volume-high" size={20} color="#4ECDC4" />
+                      </View>
                     </TouchableOpacity>
                     
                     <TouchableOpacity 
                       style={styles.translationRow}
-                      onPress={() => speakWord(word.kibouchi, 'kibouchi')}
+                      onPress={() => speakWord(word.kibouchi, 'kibouchi', word.french)}
                     >
                       <Text style={styles.languageLabel}>Kibouchi:</Text>
                       <Text style={styles.translationText}>{word.kibouchi}</Text>
-                      <Ionicons name="volume-high" size={20} color="#FF6B6B" />
+                      <View style={styles.audioButtonContainer}>
+                        {hasAuthenticAudio(word.french, 'kibouchi') && (
+                          <Ionicons name="musical-notes" size={12} color="#FFD700" />
+                        )}
+                        <Ionicons name="volume-high" size={20} color="#FF6B6B" />
+                      </View>
                     </TouchableOpacity>
                   </View>
                   
