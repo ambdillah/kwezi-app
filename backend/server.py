@@ -654,6 +654,28 @@ async def get_word(word_id: str):
     except:
         raise HTTPException(status_code=400, detail="Invalid word ID")
 
+@app.get("/api/sentences")
+async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 10):
+    """Récupère les phrases pour le jeu 'construire des phrases'"""
+    try:
+        # Construire le filtre
+        filter_query = {}
+        if difficulty:
+            filter_query["difficulty"] = difficulty
+        if tense:
+            filter_query["tense"] = tense
+        
+        # Récupérer les phrases
+        sentences = list(sentences_collection.find(filter_query).limit(limit))
+        
+        # Convertir ObjectId en string
+        for sentence in sentences:
+            sentence["_id"] = str(sentence["_id"])
+        
+        return sentences
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/words")
 async def create_word(word: WordCreate):
     """Create a new word"""
