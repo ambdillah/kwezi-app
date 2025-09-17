@@ -562,13 +562,6 @@ export default function GamesScreen() {
         category: "langue"
       },
       {
-        question: "Comment dit-on 'Bonjour' en shimaoré ?",
-        options: ["Salama", "Jambo", "Kwezi", "Bonjour"],
-        correct: "Kwezi",
-        explanation: "Kwezi est la façon de dire 'Bonjour' en shimaoré, la langue de Mayotte.",
-        category: "langue"
-      },
-      {
         question: "Le kibouchi est parlé principalement dans quelle partie de Mayotte ?",
         options: ["Petite-Terre", "Mamoudzou", "Grande-Terre", "Partout"],
         correct: "Grande-Terre",
