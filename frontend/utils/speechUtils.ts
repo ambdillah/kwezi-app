@@ -10,9 +10,13 @@ import { Alert } from 'react-native';
 export type SupportedLanguage = 'fr' | 'shimaore' | 'kibouchi';
 
 export interface Word {
+  id: string;
   french: string;
   shimaore: string;
   kibouchi: string;
+  category: string;
+  difficulty?: number;
+  image_url?: string;
 }
 
 /**
