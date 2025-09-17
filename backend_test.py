@@ -17064,7 +17064,7 @@ def main():
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("Specific Corrections from User Table", tester.test_specific_corrections_from_user_table),
+        ("DATABASE RECOVERY VERIFICATION", tester.test_database_recovery_verification),
     ]
     
     for test_name, test_func in priority_tests:
