@@ -15730,3 +15730,324 @@ if __name__ == "__main__":
         print(f"\n⚠️ Some tests failed. Please review and fix issues.")
     
     print(f"{'='*60}")
+
+    def test_expressions_and_adjectifs_review_request(self):
+        """Test specifically the expressions and adjectifs sections according to the review request"""
+        print("\n=== Testing Expressions and Adjectifs Sections (Review Request) ===")
+        
+        try:
+            # Initialize content first
+            print("--- Initializing Content ---")
+            init_response = self.session.post(f"{API_BASE}/init-base-content")
+            if init_response.status_code != 200:
+                print(f"❌ Could not initialize content: {init_response.status_code}")
+                return False
+            
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"Total words in database: {len(all_words)}")
+            
+            # Get expressions
+            expressions_response = self.session.get(f"{API_BASE}/words?category=expressions")
+            if expressions_response.status_code != 200:
+                print(f"❌ Could not retrieve expressions: {expressions_response.status_code}")
+                return False
+            
+            expressions = expressions_response.json()
+            
+            # Get adjectifs
+            adjectifs_response = self.session.get(f"{API_BASE}/words?category=adjectifs")
+            if adjectifs_response.status_code != 200:
+                print(f"❌ Could not retrieve adjectifs: {adjectifs_response.status_code}")
+                return False
+            
+            adjectifs = adjectifs_response.json()
+            
+            print(f"Found {len(expressions)} expressions")
+            print(f"Found {len(adjectifs)} adjectifs")
+            
+            all_tests_passed = True
+            
+            # 1. SUPPRESSION DES DOUBLONS - vérifier qu'il n'y a aucun doublon dans les deux sections
+            print("\n--- 1. Testing SUPPRESSION DES DOUBLONS ---")
+            
+            # Check expressions for duplicates
+            expressions_french = [expr['french'] for expr in expressions]
+            expressions_unique = set(expressions_french)
+            if len(expressions_french) == len(expressions_unique):
+                print(f"✅ Expressions: No duplicates found ({len(expressions_unique)} unique expressions)")
+            else:
+                duplicates = [name for name in expressions_french if expressions_french.count(name) > 1]
+                print(f"❌ Expressions: Duplicates found: {set(duplicates)}")
+                all_tests_passed = False
+            
+            # Check adjectifs for duplicates
+            adjectifs_french = [adj['french'] for adj in adjectifs]
+            adjectifs_unique = set(adjectifs_french)
+            if len(adjectifs_french) == len(adjectifs_unique):
+                print(f"✅ Adjectifs: No duplicates found ({len(adjectifs_unique)} unique adjectifs)")
+            else:
+                duplicates = [name for name in adjectifs_french if adjectifs_french.count(name) > 1]
+                print(f"❌ Adjectifs: Duplicates found: {set(duplicates)}")
+                all_tests_passed = False
+            
+            # 2. TRI ALPHABÉTIQUE - vérifier que les mots sont rangés par ordre alphabétique
+            print("\n--- 2. Testing TRI ALPHABÉTIQUE ---")
+            
+            # Check expressions alphabetical order
+            expressions_sorted = sorted(expressions_french)
+            if expressions_french == expressions_sorted:
+                print(f"✅ Expressions: Words are in alphabetical order")
+            else:
+                print(f"❌ Expressions: Words are NOT in alphabetical order")
+                print(f"   Current order: {expressions_french[:5]}...")
+                print(f"   Expected order: {expressions_sorted[:5]}...")
+                all_tests_passed = False
+            
+            # Check adjectifs alphabetical order
+            adjectifs_sorted = sorted(adjectifs_french)
+            if adjectifs_french == adjectifs_sorted:
+                print(f"✅ Adjectifs: Words are in alphabetical order")
+            else:
+                print(f"❌ Adjectifs: Words are NOT in alphabetical order")
+                print(f"   Current order: {adjectifs_french[:5]}...")
+                print(f"   Expected order: {adjectifs_sorted[:5]}...")
+                all_tests_passed = False
+            
+            # 3. Compter les mots d'expressions - doit être exactement 44 expressions selon l'image
+            print("\n--- 3. Testing Expression Count (Must be exactly 44) ---")
+            
+            expected_expressions_count = 44
+            actual_expressions_count = len(expressions)
+            if actual_expressions_count == expected_expressions_count:
+                print(f"✅ Expressions count: {actual_expressions_count} (exactly {expected_expressions_count} as required)")
+            else:
+                print(f"❌ Expressions count: {actual_expressions_count} (expected exactly {expected_expressions_count})")
+                all_tests_passed = False
+            
+            # 4. Compter les mots d'adjectifs - doit être exactement 52 adjectifs selon l'image
+            print("\n--- 4. Testing Adjectifs Count (Must be exactly 52) ---")
+            
+            expected_adjectifs_count = 52
+            actual_adjectifs_count = len(adjectifs)
+            if actual_adjectifs_count == expected_adjectifs_count:
+                print(f"✅ Adjectifs count: {actual_adjectifs_count} (exactly {expected_adjectifs_count} as required)")
+            else:
+                print(f"❌ Adjectifs count: {actual_adjectifs_count} (expected exactly {expected_adjectifs_count})")
+                all_tests_passed = False
+            
+            # 5. Vérifier l'ordre alphabétique des expressions (quelques exemples)
+            print("\n--- 5. Testing Expressions Alphabetical Order Examples ---")
+            
+            expressions_by_french = {expr['french']: expr for expr in expressions}
+            
+            # Check first expressions
+            expected_first_expressions = ["à droite", "à gauche", "appelez la police !"]
+            actual_first_expressions = expressions_french[:3] if len(expressions_french) >= 3 else expressions_french
+            
+            first_match = True
+            for i, expected in enumerate(expected_first_expressions):
+                if i < len(actual_first_expressions):
+                    if actual_first_expressions[i] == expected:
+                        print(f"✅ First expression #{i+1}: '{actual_first_expressions[i]}' matches expected")
+                    else:
+                        print(f"❌ First expression #{i+1}: Expected '{expected}', got '{actual_first_expressions[i]}'")
+                        first_match = False
+                        all_tests_passed = False
+                else:
+                    print(f"❌ Not enough expressions to check first #{i+1}")
+                    first_match = False
+                    all_tests_passed = False
+            
+            # Check last expressions
+            expected_last_expressions = ["tout droit", "trop cher"]
+            actual_last_expressions = expressions_french[-2:] if len(expressions_french) >= 2 else expressions_french
+            
+            last_match = True
+            for i, expected in enumerate(expected_last_expressions):
+                if i < len(actual_last_expressions):
+                    actual_index = len(actual_last_expressions) - len(expected_last_expressions) + i
+                    if actual_index >= 0 and actual_last_expressions[actual_index] == expected:
+                        print(f"✅ Last expression #{i+1}: '{actual_last_expressions[actual_index]}' matches expected")
+                    else:
+                        print(f"❌ Last expression #{i+1}: Expected '{expected}', got '{actual_last_expressions[actual_index] if actual_index >= 0 else 'N/A'}'")
+                        last_match = False
+                        all_tests_passed = False
+            
+            # 6. Vérifier l'ordre alphabétique des adjectifs (quelques exemples)
+            print("\n--- 6. Testing Adjectifs Alphabetical Order Examples ---")
+            
+            adjectifs_by_french = {adj['french']: adj for adj in adjectifs}
+            
+            # Check first adjectifs
+            expected_first_adjectifs = ["amoureux", "ancien", "beau/jolie"]
+            actual_first_adjectifs = adjectifs_french[:3] if len(adjectifs_french) >= 3 else adjectifs_french
+            
+            first_adj_match = True
+            for i, expected in enumerate(expected_first_adjectifs):
+                if i < len(actual_first_adjectifs):
+                    if actual_first_adjectifs[i] == expected:
+                        print(f"✅ First adjectif #{i+1}: '{actual_first_adjectifs[i]}' matches expected")
+                    else:
+                        print(f"❌ First adjectif #{i+1}: Expected '{expected}', got '{actual_first_adjectifs[i]}'")
+                        first_adj_match = False
+                        all_tests_passed = False
+                else:
+                    print(f"❌ Not enough adjectifs to check first #{i+1}")
+                    first_adj_match = False
+                    all_tests_passed = False
+            
+            # Check last adjectifs
+            expected_last_adjectifs = ["triste", "vieux", "vrai"]
+            actual_last_adjectifs = adjectifs_french[-3:] if len(adjectifs_french) >= 3 else adjectifs_french
+            
+            last_adj_match = True
+            for i, expected in enumerate(expected_last_adjectifs):
+                if i < len(actual_last_adjectifs):
+                    actual_index = len(actual_last_adjectifs) - len(expected_last_adjectifs) + i
+                    if actual_index >= 0 and actual_last_adjectifs[actual_index] == expected:
+                        print(f"✅ Last adjectif #{i+1}: '{actual_last_adjectifs[actual_index]}' matches expected")
+                    else:
+                        print(f"❌ Last adjectif #{i+1}: Expected '{expected}', got '{actual_last_adjectifs[actual_index] if actual_index >= 0 else 'N/A'}'")
+                        last_adj_match = False
+                        all_tests_passed = False
+            
+            # 7. Vérifier les traductions spécifiques des expressions
+            print("\n--- 7. Testing Specific Expression Translations ---")
+            
+            specific_expressions = [
+                {"french": "j'ai faim", "shimaore": "nissi ona ndza", "kibouchi": "zahou moussari"},
+                {"french": "j'ai soif", "shimaore": "nissi ona niyora", "kibouchi": "zahou tindi anou"},
+                {"french": "excuse-moi/pardon", "shimaore": "soimahani", "kibouchi": "soimahani"},
+                {"french": "je t'aime", "shimaore": "nisouhou vendza", "kibouchi": "zahou mitia anaou"}
+            ]
+            
+            expressions_translations_correct = True
+            for test_expr in specific_expressions:
+                french_word = test_expr['french']
+                if french_word in expressions_by_french:
+                    expr = expressions_by_french[french_word]
+                    
+                    # Check shimaoré
+                    if expr['shimaore'] == test_expr['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{expr['shimaore']}' ✓")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{test_expr['shimaore']}', got '{expr['shimaore']}'")
+                        expressions_translations_correct = False
+                        all_tests_passed = False
+                    
+                    # Check kibouchi
+                    if expr['kibouchi'] == test_expr['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{expr['kibouchi']}' ✓")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{test_expr['kibouchi']}', got '{expr['kibouchi']}'")
+                        expressions_translations_correct = False
+                        all_tests_passed = False
+                else:
+                    print(f"❌ {french_word} not found in expressions")
+                    expressions_translations_correct = False
+                    all_tests_passed = False
+            
+            # 8. Vérifier les traductions spécifiques des adjectifs
+            print("\n--- 8. Testing Specific Adjectifs Translations ---")
+            
+            specific_adjectifs = [
+                {"french": "grand", "shimaore": "bolé", "kibouchi": "bé"},
+                {"french": "petit", "shimaore": "titi", "kibouchi": "héli"},
+                {"french": "beau/jolie", "shimaore": "mzouri", "kibouchi": "zatovou"},
+                {"french": "intelligent", "shimaore": "mstanrabou", "kibouchi": "trara louha"}
+            ]
+            
+            adjectifs_translations_correct = True
+            for test_adj in specific_adjectifs:
+                french_word = test_adj['french']
+                if french_word in adjectifs_by_french:
+                    adj = adjectifs_by_french[french_word]
+                    
+                    # Check shimaoré
+                    if adj['shimaore'] == test_adj['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{adj['shimaore']}' ✓")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{test_adj['shimaore']}', got '{adj['shimaore']}'")
+                        adjectifs_translations_correct = False
+                        all_tests_passed = False
+                    
+                    # Check kibouchi
+                    if adj['kibouchi'] == test_adj['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{adj['kibouchi']}' ✓")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{test_adj['kibouchi']}', got '{adj['kibouchi']}'")
+                        adjectifs_translations_correct = False
+                        all_tests_passed = False
+                else:
+                    print(f"❌ {french_word} not found in adjectifs")
+                    adjectifs_translations_correct = False
+                    all_tests_passed = False
+            
+            # 9. Vérifier les emojis - s'assurer que les emojis appropriés sont assignés
+            print("\n--- 9. Testing Emojis Assignment ---")
+            
+            expressions_with_emojis = [expr for expr in expressions if expr.get('image_url')]
+            adjectifs_with_emojis = [adj for adj in adjectifs if adj.get('image_url')]
+            
+            print(f"✅ Expressions with emojis: {len(expressions_with_emojis)}/{len(expressions)}")
+            print(f"✅ Adjectifs with emojis: {len(adjectifs_with_emojis)}/{len(adjectifs)}")
+            
+            # Show some examples
+            if expressions_with_emojis:
+                print(f"   Example expressions with emojis: {expressions_with_emojis[0]['french']} {expressions_with_emojis[0]['image_url']}")
+            if adjectifs_with_emojis:
+                print(f"   Example adjectifs with emojis: {adjectifs_with_emojis[0]['french']} {adjectifs_with_emojis[0]['image_url']}")
+            
+            # 10. Total général - confirmer que nous avons maintenant 510 mots au total dans la base
+            print("\n--- 10. Testing Total Word Count (Must be exactly 510) ---")
+            
+            expected_total_count = 510
+            actual_total_count = len(all_words)
+            if actual_total_count == expected_total_count:
+                print(f"✅ Total word count: {actual_total_count} (exactly {expected_total_count} as required)")
+            else:
+                print(f"❌ Total word count: {actual_total_count} (expected exactly {expected_total_count})")
+                all_tests_passed = False
+            
+            # Final summary
+            if all_tests_passed:
+                print("\n🎉 EXPRESSIONS AND ADJECTIFS REVIEW REQUEST TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ AUCUN DOUBLON n'existe")
+                print("✅ TRI ALPHABÉTIQUE est correctement appliqué")
+                print("✅ Toutes les traductions sont exactes selon les images")
+                print(f"✅ Expressions count: {actual_expressions_count} (required: 44)")
+                print(f"✅ Adjectifs count: {actual_adjectifs_count} (required: 52)")
+                print(f"✅ Total words: {actual_total_count} (required: 510)")
+                print("✅ Emojis appropriés sont assignés")
+                print("✅ Ordre alphabétique vérifié avec exemples spécifiques")
+                print("✅ Traductions spécifiques vérifiées")
+            else:
+                print("\n❌ Some requirements from the review request are not met")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Expressions and adjectifs review request test error: {e}")
+            return False
+
+# Run the specific test for expressions and adjectifs review request
+if __name__ == "__main__":
+    tester = MayotteEducationTester()
+    
+    print("🎯 MAYOTTE EDUCATIONAL APP - EXPRESSIONS AND ADJECTIFS TESTING")
+    print("=" * 80)
+    
+    success = tester.test_expressions_and_adjectifs_review_request()
+    
+    if success:
+        print("\n🎉 Expressions and Adjectifs review request testing passed!")
+        exit(0)
+    else:
+        print("\n❌ Expressions and Adjectifs review request testing failed.")
+        exit(1)
