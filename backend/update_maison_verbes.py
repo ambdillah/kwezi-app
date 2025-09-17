@@ -97,7 +97,6 @@ def update_maison_verbes():
         {"french": "écouter", "shimaore": "ouvoulikia", "kibouchi": "miréyergni", "category": "verbes", "image_url": "👂", "difficulty": 1},
         {"french": "apprendre", "shimaore": "oufoundriha", "kibouchi": "midzorou", "category": "verbes", "image_url": "📚", "difficulty": 1},
         {"french": "comprendre", "shimaore": "ouéléwa", "kibouchi": "mikoutan", "category": "verbes", "image_url": "💡", "difficulty": 1},
-        {"french": "jouer", "shimaore": "oungadza", "kibouchi": "mitsoma", "category": "verbes", "image_url": "⚽", "difficulty": 1},
         {"french": "marcher", "shimaore": "ouendra", "kibouchi": "mandeha", "category": "verbes", "image_url": "🚶", "difficulty": 1},
         {"french": "entrer", "shimaore": "ounguiya", "kibouchi": "mididri", "category": "verbes", "image_url": "🚪", "difficulty": 1},
         {"french": "sortir", "shimaore": "ouhawa", "kibouchi": "miboka", "category": "verbes", "image_url": "🚪", "difficulty": 1},
