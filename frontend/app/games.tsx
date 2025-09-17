@@ -477,9 +477,22 @@ export default function GamesScreen() {
       <View style={styles.gameContainer}>
         <View style={styles.gameHeader}>
           <Text style={styles.gameTitle}>Mémoire des fleurs 🌺</Text>
-          <View style={styles.memoryStats}>
-            <Text style={styles.scoreText}>Score: {memoryScore}</Text>
-            <Text style={styles.movesText}>Coups: {moves}</Text>
+        </View>
+        
+        <View style={styles.gameProgressBar}>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Score</Text>
+            <Text style={styles.progressValue}>{memoryScore}</Text>
+          </View>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Coups</Text>
+            <Text style={styles.progressValue}>{moves}</Text>
+          </View>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Paires</Text>
+            <Text style={styles.progressValue}>
+              {matchedPairs.length / 2} / {memoryCards.length / 2}
+            </Text>
           </View>
         </View>
         
