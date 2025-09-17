@@ -590,13 +590,6 @@ export default function GamesScreen() {
         category: "géographie"
       },
       {
-        question: "Comment dit-on 'Eau' en shimaoré ?",
-        options: ["Maji", "Ranou", "Dlo", "Eau"],
-        correct: "Maji",
-        explanation: "Maji signifie 'eau' en shimaoré.",
-        category: "langue"
-      },
-      {
         question: "Quelle est la danse traditionnelle de Mayotte ?",
         options: ["Shigoma", "Sega", "Maloya", "Quadrille"],
         correct: "Shigoma",
