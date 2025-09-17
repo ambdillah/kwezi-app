@@ -257,15 +257,19 @@ class ConjugationEngine:
     
     def conjugate_french(self, verb_fr, pronoun, tense='present'):
         """Conjugue un verbe français correctement"""
-        # Normaliser le verbe français (minuscule)
-        verb_normalized = verb_fr.lower()
-        
-        if tense in self.french_conjugation and pronoun in self.french_conjugation[tense]:
-            if verb_normalized in self.french_conjugation[tense][pronoun]:
-                return self.french_conjugation[tense][pronoun][verb_normalized]
-        
-        # Conjugaison par défaut si pas trouvée
-        return f"{pronoun} {verb_normalized}"
+        # Utiliser le conjugateur automatique français
+        try:
+            return self.french_conjugator.conjugate_verb(verb_fr, pronoun, tense)
+        except Exception as e:
+            # Fallback vers l'ancienne méthode si erreur
+            verb_normalized = verb_fr.lower()
+            
+            if tense in self.french_conjugation and pronoun in self.french_conjugation[tense]:
+                if verb_normalized in self.french_conjugation[tense][pronoun]:
+                    return self.french_conjugation[tense][pronoun][verb_normalized]
+            
+            # Conjugaison par défaut si pas trouvée
+            return f"{pronoun} {verb_normalized}"
     
     def create_sentence(self, subject_fr, verb_fr, verb_shimaore, verb_kibouchi, object_fr=None, object_shimaore=None, object_kibouchi=None, tense='present'):
         """Crée une phrase complète en français, shimaoré et kibouchi"""
