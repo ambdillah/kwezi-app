@@ -27,6 +27,9 @@ class ConjugationEngine:
     """Moteur de conjugaison pour shimaoré, kibouchi et français"""
     
     def __init__(self):
+        # Initialiser le conjugateur français automatique
+        self.french_conjugator = FrenchConjugator()
+        
         # Règles de conjugaison française
         self.french_conjugation = {
             'present': {
