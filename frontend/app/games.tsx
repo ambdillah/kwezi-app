@@ -576,13 +576,6 @@ export default function GamesScreen() {
         category: "culture"
       },
       {
-        question: "Comment dit-on 'Merci' en shimaoré ?",
-        options: ["Asante", "Chukran", "Marahaba", "Merci"],
-        correct: "Marahaba",
-        explanation: "Marahaba est l'expression pour dire 'Merci' en shimaoré.",
-        category: "langue"
-      },
-      {
         question: "Quel animal est le symbole de Mayotte ?",
         options: ["Tortue", "Dauphin", "Maki", "Requin"],
         correct: "Maki",
