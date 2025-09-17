@@ -1010,7 +1010,15 @@ export default function GamesScreen() {
 
         {/* Phrase française à traduire */}
         <View style={styles.sentenceTarget}>
-          <Text style={styles.sentenceTargetLabel}>Phrase à traduire :</Text>
+          <View style={styles.sentenceTargetHeader}>
+            <Text style={styles.sentenceTargetLabel}>Phrase à traduire :</Text>
+            <TouchableOpacity 
+              style={styles.sentenceAudioButton}
+              onPress={() => speakConjugatedSentence(currentSentence.french, currentSentence.tense as any, 'fr')}
+            >
+              <Ionicons name="volume-high" size={20} color="#4ECDC4" />
+            </TouchableOpacity>
+          </View>
           <Text style={styles.sentenceTargetText}>{currentSentence.french}</Text>
         </View>
 
