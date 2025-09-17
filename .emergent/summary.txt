@@ -1,18 +1,27 @@
 <analysis>
-The AI engineer iteratively built and refined an Expo mobile application for learning Shimaoré and Kibouchi. Initial efforts established a full-stack architecture and core learning modules. Much of the work involved meticulous content management, primarily through user-provided vocabulary tables for various categories (animals, body parts, food, nature, adjectives, expressions, house, transport, clothing, tradition). The AI consistently updated the backend (), often replacing entire sections or adding new entries, and then integrated new categories into the frontend navigation (, ). Recurring challenges included duplicate data entries in the backend and frontend display issues (like a missing tradition menu, which required troubleshooting to resolve a Metro bundler  flag). The AI also handled an Expo SDK compatibility issue, downgrading to the latest stable version. The work demonstrates a pattern of rapid iteration, detailed content correction, and persistent debugging to meet precise user specifications.
+The AI engineer's work in this trajectory primarily focused on refining the user interface of two learning games (Quiz Mayotte and Mémoire des fleurs) and revamping the visual representation of vocabulary items in the backend. The initial phase involved troubleshooting and fixing layout issues on mobile screens for Quiz Mayotte, which included adjusting Flexbox properties and text sizes. This iterative process involved inspecting code, taking screenshots for verification, and restarting the frontend multiple times to ensure changes propagated. A similar approach was then applied to Mémoire des fleurs, successfully resolving identical layout problems. Finally, the user requested a shift from external image URLs to emojis for vocabulary representation, which the AI implemented in the backend by updating  with appropriate emojis for various word categories. The work concluded with these emoji replacements being made and the intent to test them.
 </analysis>
 
 <product_requirements>
-The user requested an educational mobile application for children to learn Shimaoré and Kibouchi, languages of Mayotte. The app needs engaging games, illustrations, audio/pronunciation for words, and an admin panel for content management. Design must be user-friendly, original, and culturally specific to Mayotte (yellow/black, ylang-ylang, makis motifs). Key features added post-initial build include offline mode, a badge/reward system, and user data export. The primary ongoing request is the continuous update and refinement of vocabulary across numerous categories. This involves adding new words, correcting Shimaoré/Kibouchi translations, rectifying French orthography, and managing word categories based on detailed tables provided by the user. The goal is linguistic accuracy and comprehensive content.
+The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, the languages of Mayotte, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The primary ongoing need is the continuous refinement of vocabulary, including adding words, correcting translations, rectifying French orthography, and managing categories. Earlier work included implementing alphabetical/numerical sorting and developing three interactive games: a translation quiz, a memory game, and a cultural quiz. Image and native audio pronunciation integration were also requested.
+
+In this trajectory, specific requests included:
+1.  **UI Fix for Quiz Mayotte**: The Quiz Mayotte game's start screen (title, description, and Commencer button) did not fit correctly on phone screens and was misaligned. The request was to re-arrange elements for proper display.
+2.  **UI Fix for Mémoire des fleurs**: Similar to Quiz Mayotte, the Mémoire des fleurs game's start screen elements (title, description, button) were misaligned and did not fit well on mobile screens, specifically the button being offset. The request was to apply similar layout optimizations.
+3.  **Content Visualization Change**: Replace existing image URLs for vocabulary words with small, pretty symbols (emojis) in various categories like maison, plage, foret, etc., to enhance visual coherence and efficiency.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-stack Development**: Expo (React Native) frontend, FastAPI backend, MongoDB database.
+-   **Full-stack Development**: Expo (React Native) frontend, FastAPI backend, MongoDB.
 -   **Expo Router**: File-based navigation.
--   **Content Management**: Dynamic vocabulary categories stored in MongoDB via FastAPI.
--   **Frontend State**:  for local data persistence.
--   **Build Process**: Metro bundler (Expo's JavaScript bundler).
--   **Troubleshooting**: Diagnosis of build/caching issues.
+-   **React Native Styling**: , Flexbox for layout, , .
+-   **Content Management**: Dynamic vocabulary data managed via FastAPI and MongoDB.
+-   **Media Integration**: Transition from image URLs to direct emoji representation in backend data.
+-   **Troubleshooting**: Frontend restarts ([04:52:39] Starting project at /app), backend                          STOPPING  
+code-server                      RUNNING   pid 33, uptime 0:00:06
+expo                             STOPPED   Sep 17 04:52 AM
+mongodb                          RUNNING   pid 39, uptime 0:00:06
+supervisor>  for service management.
 </key_technical_concepts>
 
 <code_architecture>
@@ -21,51 +30,34 @@ The application follows a standard Expo full-stack architecture:
 
 
 -   :
-    -   **Importance**: Central to the application's data and logic, handling all content definitions and API endpoints.
-    -   **Changes Made**: Heavily modified throughout the trajectory. It was initially populated with base vocabulary (greetings, colors, numbers, family, grammar, verbs, animals). Subsequent changes involved:
-        -   Replacing and correcting the  list multiple times, fixing duplicates (e.g., Escargot), and adding new species (totaling 65 animals).
-        -   Replacing and correcting the  section (32 parts).
-        -   Replacing and correcting the  section (43 items).
-        -   Replacing and correcting the  section (49 elements).
-        -   Creating and correcting a new  section (52 adjectives).
-        -   Creating and correcting a new  section (44 expressions).
-        -   Adding professions to the  section (21 elements).
-        -   Renaming, reverting, replacing, and adding to the  section (now 42 elements after deletions).
-        -   Replacing and correcting the  section (7 items).
-        -   Replacing and correcting the  section (16 items).
-        -   Creating a new  section (16 cultural elements).
-        -   Adding specific verbs and correcting others (128 verbs in total).
-        -   Numerous orthographical corrections for Shimaoré, Kibouchi, and French.
+    -   **Importance**: Handles all data and API logic, serving vocabulary content.
+    -   **Changes Made**: Previously updated to include  and  fields. In this trajectory, the  values for 23 specific words across various categories (Couleurs, Animaux, Nombres, Corps, Maison, Nature) were updated from image URLs to appropriate Unicode emojis (e.g., Maison now uses 🏠, Plage uses 🏖️).
 -   :
-    -   **Importance**: Defines the categories displayed in the main learning screen.
-    -   **Changes Made**: Updated to dynamically include newly added categories: , , . The  category was also re-integrated after being temporarily replaced by .
+    -   **Importance**: Contains the logic and UI for all interactive learning games, including Quiz Mayotte and Mémoire des fleurs.
+    -   **Changes Made**: Extensively modified to optimize the start screens for both Quiz Mayotte and Mémoire des fleurs for mobile display. New , , , ,  styles were added, replacing problematic  layouts. Similar styles (, , etc.) were introduced for Mémoire des fleurs to center content, adjust font sizes, and make buttons more accessible.
 -   :
-    -   **Importance**: Provides an interface for content administration, which depends on the defined categories.
-    -   **Changes Made**: Similar to , updated to include , , and  in its category list. The  category was also re-integrated.
+    -   **Importance**: Manages frontend dependencies and Expo SDK version.
+    -   **Changes Made**: No direct changes were noted in this trajectory, but it defines the environment.
 -   :
-    -   **Importance**: Manages project dependencies and SDK versions for the Expo frontend.
-    -   **Changes Made**: Modified to attempt an upgrade to Expo SDK 54, then reverted and optimized for the latest stable version, Expo SDK 53.0.22, along with compatible React Native and Expo Router versions.
+    -   **Importance**: Holds environment variables for Expo.
+    -   **Changes Made**: No direct changes were made to the variables, but it's critical for environment configuration.
 -   :
-    -   **Importance**: Contains environment variables crucial for Expo's operation.
-    -   **Changes Made**: Briefly inspected for a  flag which was identified as causing bundling issues; the flag was removed to ensure proper frontend reloading.
+    -   **Importance**: TypeScript configuration for the frontend.
+    -   **Changes Made**: No direct changes were noted in this trajectory.
 </code_architecture>
 
 <pending_tasks>
--   Full implementation of native audio for Shimaoré/Kibouchi pronunciation.
--   Resolution of all identified duplicate entries in the backend (e.g., in Corps humain, Verbes, Maison, Poisson, Pirogue).
--   User-reported bug:  during a verb correction (Chat 453).
--   Frontend mobile UI testing to verify all recent vocabulary updates and corrections across all categories.
+-   Implement frontend UI for audio playback to enable children to listen to word pronunciations.
+-   Develop and integrate a personal word mastery system (e.g., clickable stars/colors).
+-   Implement full support for multiple audio pronunciations per word (e.g., Shimaoré and Kibouchi for Papa).
+-   Extend image/icon coverage to a broader range of vocabulary words across all categories (now with emojis).
+-   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features and content updates, specifically for the newly added emojis.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was engaged in a series of content corrections and deletions based on explicit user requests. Specifically, the following actions were performed:
-1.  **Deletion of sot**: The French word sot was removed from the  section in .
-2.  **Correction of torche locale**: The entry for torche locale in the  section was updated with new Shimaoré (gandilé/poutourmax) and Kibouchi (poutourmax) translations.
-3.  **Correction of plateau**: The entry for plateau in the  section was updated with new Shimaoré (bandra) and Kibouchi (kètraka) translations.
-4.  **Deletion of route**: The French word route was removed from the  section.
-After each of these edits, the AI restarted the backend service. The trajectory concludes immediately after the backend restart following the deletion of route from the  section, without a final backend test summary for these specific changes or a frontend restart/test. The overall application currently contains 575 words across 16 categories.
+Immediately prior to this summary, the AI engineer successfully implemented the user's request to replace image URLs with emojis for vocabulary words in the backend. This involved updating the  file to change the  field for 23 specific words across multiple categories (e.g., Couleurs, Animaux, Nombres, Corps, Maison, Nature) to direct Unicode emojis. For example, the  for Maison was changed to 🏠, for Plage to 🏖️, and for Forêt to 🌳. The  tool was used to efficiently apply these changes. This modification enhances visual consistency and reduces the need for external image assets. The AI has completed the backend update and is now in a state to test these changes on the frontend to ensure the emojis are displayed correctly.
 </current_work>
 
 <optional_next_step>
-Perform a backend test to verify the latest corrections and deletions in the maison and nature sections.
+Test the frontend display of the newly integrated emojis in the vocabulary sections.
 </optional_next_step>
