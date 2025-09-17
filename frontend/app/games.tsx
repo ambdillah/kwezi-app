@@ -1336,11 +1336,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   cardBackEmoji: {
-    fontSize: 24,
-    marginBottom: 5,
+    fontSize: 18,
+    marginBottom: 2,
   },
   cardBackText: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#B8860B',
     fontStyle: 'italic',
     textAlign: 'center',
