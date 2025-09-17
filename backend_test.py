@@ -14640,6 +14640,9 @@ class MayotteEducationTester:
         test_results.append(("Exercise Management", self.test_exercise_management()))
         test_results.append(("User Progress Tracking", self.test_user_progress()))
         
+        # MAIN TEST FOR REVIEW REQUEST - MAISON AND VERBES SECTIONS
+        test_results.append(("🎯 REVIEW REQUEST: Maison and Verbes Sections", self.test_maison_verbes_sections_review_request()))
+        
         # MAIN TEST FOR REVIEW REQUEST - PRIORITY TEST
         test_results.append(("🎯 REVIEW REQUEST: Famille, Couleurs, Nourriture", self.test_review_request_famille_couleurs_nourriture()))
         
