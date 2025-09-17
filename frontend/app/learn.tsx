@@ -238,7 +238,7 @@ export default function LearnScreen() {
                   <View style={styles.translationsContainer}>
                     <TouchableOpacity 
                       style={styles.translationRow}
-                      onPress={() => speakWord(word.shimaore, 'sw')}
+                      onPress={() => speakWord(word.shimaore, 'shimaore')}
                     >
                       <Text style={styles.languageLabel}>Shimaoré:</Text>
                       <Text style={styles.translationText}>{word.shimaore}</Text>
@@ -247,7 +247,7 @@ export default function LearnScreen() {
                     
                     <TouchableOpacity 
                       style={styles.translationRow}
-                      onPress={() => speakWord(word.kibouchi, 'sw')}
+                      onPress={() => speakWord(word.kibouchi, 'kibouchi')}
                     >
                       <Text style={styles.languageLabel}>Kibouchi:</Text>
                       <Text style={styles.translationText}>{word.kibouchi}</Text>
