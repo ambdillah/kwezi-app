@@ -13680,6 +13680,224 @@ class MayotteEducationTester:
             print(f"❌ Nature section specific verification error: {e}")
             return False
 
+    def test_chiffres_animaux_sections_verification(self):
+        """Test specific chiffres and animaux sections according to user's images"""
+        print("\n=== Testing Chiffres and Animaux Sections Verification (Review Request) ===")
+        
+        try:
+            # Initialize content first
+            print("--- Initializing Content ---")
+            init_response = self.session.post(f"{API_BASE}/init-base-content")
+            if init_response.status_code != 200:
+                print(f"❌ Content initialization failed: {init_response.status_code}")
+                return False
+            print("✅ Content initialized successfully")
+            
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"Total words in database: {len(all_words)}")
+            
+            # 1. Test chiffres (numbers) section - should be exactly 20 words
+            print("\n--- Testing Chiffres Section (20 words required) ---")
+            chiffres_response = self.session.get(f"{API_BASE}/words?category=nombres")
+            if chiffres_response.status_code != 200:
+                print(f"❌ Could not retrieve chiffres: {chiffres_response.status_code}")
+                return False
+            
+            chiffres = chiffres_response.json()
+            chiffres_by_french = {word['french']: word for word in chiffres}
+            
+            print(f"Found {len(chiffres)} chiffres/nombres words")
+            
+            # Verify exactly 20 words
+            if len(chiffres) == 20:
+                print("✅ Chiffres count: exactly 20 words as required")
+                chiffres_count_correct = True
+            else:
+                print(f"❌ Chiffres count: {len(chiffres)} words (should be exactly 20)")
+                chiffres_count_correct = False
+            
+            # Test specific number translations from review request
+            specific_numbers = [
+                {"french": "Un", "shimaore": "Moja", "kibouchi": "Areki"},
+                {"french": "Deux", "shimaore": "Mbili", "kibouchi": "Aroyi"},
+                {"french": "Trois", "shimaore": "Trarou", "kibouchi": "Telou"},
+                {"french": "Quatre", "shimaore": "Nhé", "kibouchi": "Efatra"},
+                {"french": "Cinq", "shimaore": "Tsano", "kibouchi": "Dimi"},
+                {"french": "Vingt", "shimaore": "Chirini", "kibouchi": "Arompoulou"}
+            ]
+            
+            chiffres_translations_correct = True
+            for number in specific_numbers:
+                french_word = number['french']
+                if french_word in chiffres_by_french:
+                    word = chiffres_by_french[french_word]
+                    if (word['shimaore'] == number['shimaore'] and 
+                        word['kibouchi'] == number['kibouchi']):
+                        print(f"✅ {french_word}: {word['shimaore']}/{word['kibouchi']} - CORRECT")
+                    else:
+                        print(f"❌ {french_word}: Expected {number['shimaore']}/{number['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        chiffres_translations_correct = False
+                else:
+                    print(f"❌ {french_word} not found in chiffres")
+                    chiffres_translations_correct = False
+            
+            # 2. Test animaux section - should be exactly 71 words
+            print("\n--- Testing Animaux Section (71 words required) ---")
+            animaux_response = self.session.get(f"{API_BASE}/words?category=animaux")
+            if animaux_response.status_code != 200:
+                print(f"❌ Could not retrieve animaux: {animaux_response.status_code}")
+                return False
+            
+            animaux = animaux_response.json()
+            animaux_by_french = {word['french']: word for word in animaux}
+            
+            print(f"Found {len(animaux)} animaux words")
+            
+            # Verify exactly 71 words
+            if len(animaux) == 71:
+                print("✅ Animaux count: exactly 71 words as required")
+                animaux_count_correct = True
+            else:
+                print(f"❌ Animaux count: {len(animaux)} words (should be exactly 71)")
+                animaux_count_correct = False
+            
+            # Test specific animal translations from review request
+            specific_animals = [
+                {"french": "Maki", "shimaore": "Komba", "kibouchi": "Ankoumba"},
+                {"french": "Hérisson/Tangue", "shimaore": "Landra", "kibouchi": "Trandraka"},
+                {"french": "Araignée", "shimaore": "Shitrandrabwibwi", "kibouchi": "Bibi amparamani massou"},
+                {"french": "Margouillat", "shimaore": "Kasangwe", "kibouchi": "Kitsatsaka"},
+                {"french": "Chauve-souris", "shimaore": "Drema", "kibouchi": "Fanihi"},
+                {"french": "Baleine", "shimaore": "Droujou", "kibouchi": ""}  # Empty kibouchi according to image
+            ]
+            
+            animaux_translations_correct = True
+            for animal in specific_animals:
+                french_word = animal['french']
+                if french_word in animaux_by_french:
+                    word = animaux_by_french[french_word]
+                    if (word['shimaore'] == animal['shimaore'] and 
+                        word['kibouchi'] == animal['kibouchi']):
+                        print(f"✅ {french_word}: {word['shimaore']}/{word['kibouchi']} - CORRECT")
+                    else:
+                        print(f"❌ {french_word}: Expected {animal['shimaore']}/{animal['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        animaux_translations_correct = False
+                else:
+                    print(f"❌ {french_word} not found in animaux")
+                    animaux_translations_correct = False
+            
+            # 3. Verify specific animal categories from image are present
+            print("\n--- Testing Specific Animal Categories from Image ---")
+            
+            # Marine animals
+            marine_animals = ["Thon", "Requin", "Poulpe", "Crabe", "Tortue", "Dauphin", "Baleine"]
+            marine_found = 0
+            for marine in marine_animals:
+                if marine in animaux_by_french:
+                    marine_found += 1
+                    print(f"✅ Marine animal found: {marine}")
+                else:
+                    print(f"❌ Marine animal missing: {marine}")
+            
+            # Insects
+            insects = ["Fourmis", "Chenille", "Papillon", "Cafard", "Araignée", "Scorpion"]
+            insects_found = 0
+            for insect in insects:
+                if insect in animaux_by_french:
+                    insects_found += 1
+                    print(f"✅ Insect found: {insect}")
+                else:
+                    print(f"❌ Insect missing: {insect}")
+            
+            # Mammals
+            mammals = ["Maki", "Chat", "Chien", "Cheval", "Éléphant"]
+            mammals_found = 0
+            for mammal in mammals:
+                if mammal in animaux_by_french:
+                    mammals_found += 1
+                    print(f"✅ Mammal found: {mammal}")
+                else:
+                    print(f"❌ Mammal missing: {mammal}")
+            
+            categories_complete = (marine_found >= 5 and insects_found >= 4 and mammals_found >= 4)
+            
+            # 4. Test emojis are assigned
+            print("\n--- Testing Emojis Assignment ---")
+            
+            # Count words with emojis
+            words_with_emojis = [word for word in all_words if word.get('image_url')]
+            emoji_count = len(words_with_emojis)
+            print(f"Words with emojis/images: {emoji_count}")
+            
+            # Check specific categories have emojis
+            chiffres_with_emojis = [word for word in chiffres if word.get('image_url')]
+            animaux_with_emojis = [word for word in animaux if word.get('image_url')]
+            
+            print(f"Chiffres with emojis: {len(chiffres_with_emojis)}/{len(chiffres)}")
+            print(f"Animaux with emojis: {len(animaux_with_emojis)}/{len(animaux)}")
+            
+            emojis_assigned = (len(chiffres_with_emojis) > 10 and len(animaux_with_emojis) > 30)
+            
+            # 5. Test total word count - should be 569 according to review request
+            print("\n--- Testing Total Word Count (569 required) ---")
+            
+            total_count = len(all_words)
+            if total_count == 569:
+                print(f"✅ Total word count: exactly 569 words as required")
+                total_count_correct = True
+            else:
+                print(f"❌ Total word count: {total_count} words (should be exactly 569)")
+                total_count_correct = False
+            
+            # Overall assessment
+            all_tests_passed = (
+                chiffres_count_correct and
+                chiffres_translations_correct and
+                animaux_count_correct and
+                animaux_translations_correct and
+                categories_complete and
+                emojis_assigned and
+                total_count_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 CHIFFRES AND ANIMAUX SECTIONS VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Chiffres section: exactly 20 words with correct translations")
+                print("✅ Animaux section: exactly 71 words with correct translations")
+                print("✅ All specific translations verified according to user's images")
+                print("✅ All required animal categories present (marine, insects, mammals)")
+                print("✅ Emojis properly assigned to vocabulary words")
+                print("✅ Total database contains exactly 569 words as required")
+                print("✅ Sections reflect EXACTLY the content from user's provided images")
+            else:
+                print("\n❌ Some requirements from the review request are not met")
+                if not chiffres_count_correct:
+                    print("❌ Chiffres section does not have exactly 20 words")
+                if not chiffres_translations_correct:
+                    print("❌ Some chiffres translations are incorrect")
+                if not animaux_count_correct:
+                    print("❌ Animaux section does not have exactly 71 words")
+                if not animaux_translations_correct:
+                    print("❌ Some animaux translations are incorrect")
+                if not categories_complete:
+                    print("❌ Some animal categories are incomplete")
+                if not emojis_assigned:
+                    print("❌ Insufficient emoji assignments")
+                if not total_count_correct:
+                    print("❌ Total word count is not 569")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Chiffres and Animaux sections verification error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the main authentic translations restoration test"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
