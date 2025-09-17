@@ -464,4 +464,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
   },
+  audioButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
 });
