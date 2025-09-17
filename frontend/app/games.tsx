@@ -265,9 +265,6 @@ export default function GamesScreen() {
         </View>
         
         <View style={styles.questionContainer}>
-          <Text style={styles.questionCounter}>
-            Question {currentQuestionIndex + 1} / {questionsGenerated.length}
-          </Text>
           
           <View style={styles.questionCard}>
             <TouchableOpacity 
