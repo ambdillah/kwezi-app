@@ -13898,6 +13898,221 @@ class MayotteEducationTester:
             print(f"❌ Chiffres and Animaux sections verification error: {e}")
             return False
 
+    def test_specific_sections_review_request(self):
+        """Test specific sections (corps, salutations, grammaire) according to review request"""
+        print("\n=== Testing Specific Sections According to Review Request ===")
+        
+        try:
+            # Initialize content first
+            print("--- Initializing Content ---")
+            init_response = self.session.post(f"{API_BASE}/init-base-content")
+            if init_response.status_code != 200:
+                print(f"❌ Content initialization failed: {init_response.status_code}")
+                return False
+            
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"Total words in database: {len(all_words)}")
+            
+            # Test 1: Word count verification
+            print("\n--- Testing Word Count Verification ---")
+            
+            # Get words by category
+            corps_words = [w for w in all_words if w['category'] == 'corps']
+            salutations_words = [w for w in all_words if w['category'] == 'salutations']
+            grammaire_words = [w for w in all_words if w['category'] == 'grammaire']
+            
+            print(f"Corps words found: {len(corps_words)}")
+            print(f"Salutations words found: {len(salutations_words)}")
+            print(f"Grammaire words found: {len(grammaire_words)}")
+            
+            # Check exact counts according to review request
+            corps_count_correct = len(corps_words) == 32
+            salutations_count_correct = len(salutations_words) == 8
+            grammaire_count_correct = len(grammaire_words) == 21
+            
+            if corps_count_correct:
+                print("✅ Corps section: exactly 32 words")
+            else:
+                print(f"❌ Corps section: {len(corps_words)} words (expected exactly 32)")
+            
+            if salutations_count_correct:
+                print("✅ Salutations section: exactly 8 words")
+            else:
+                print(f"❌ Salutations section: {len(salutations_words)} words (expected exactly 8)")
+            
+            if grammaire_count_correct:
+                print("✅ Grammaire section: exactly 21 words")
+            else:
+                print(f"❌ Grammaire section: {len(grammaire_words)} words (expected exactly 21)")
+            
+            # Test 2: Specific translation verification for corps
+            print("\n--- Testing Specific Corps Translations ---")
+            
+            corps_by_french = {w['french'].lower(): w for w in corps_words}
+            
+            corps_tests = [
+                {"french": "œil", "shimaore": "matso", "kibouchi": "faninti"},
+                {"french": "nez", "shimaore": "poua", "kibouchi": "horougnou"},
+                {"french": "oreille", "shimaore": "kiyo", "kibouchi": "soufigni"},
+                {"french": "main", "shimaore": "mhono", "kibouchi": "tanagna"},
+                {"french": "pied", "shimaore": "mindrou", "kibouchi": "viti"},
+                {"french": "cheveux", "shimaore": "gnélé", "kibouchi": "fagneya"}
+            ]
+            
+            corps_translations_correct = True
+            for test in corps_tests:
+                french_key = test['french']
+                if french_key in corps_by_french:
+                    word = corps_by_french[french_key]
+                    shimaore_match = word['shimaore'].lower() == test['shimaore'].lower()
+                    kibouchi_match = word['kibouchi'].lower() == test['kibouchi'].lower()
+                    
+                    if shimaore_match and kibouchi_match:
+                        print(f"✅ {test['french']}: {word['shimaore']}/{word['kibouchi']}")
+                    else:
+                        print(f"❌ {test['french']}: Expected {test['shimaore']}/{test['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        corps_translations_correct = False
+                else:
+                    print(f"❌ {test['french']} not found in corps section")
+                    corps_translations_correct = False
+            
+            # Test 3: Specific translation verification for salutations
+            print("\n--- Testing Specific Salutations Translations ---")
+            
+            salutations_by_french = {w['french'].lower(): w for w in salutations_words}
+            
+            salutations_tests = [
+                {"french": "bonjour", "shimaore": "kwezi", "kibouchi": "kwezi"},
+                {"french": "comment ça va", "shimaore": "jéjé", "kibouchi": "akori"},
+                {"french": "au revoir", "shimaore": "kwaheri", "kibouchi": "maeva"},
+                {"french": "bonne nuit", "shimaore": "oukou wa hairi", "kibouchi": "haloui tsara"}
+            ]
+            
+            salutations_translations_correct = True
+            for test in salutations_tests:
+                french_key = test['french']
+                if french_key in salutations_by_french:
+                    word = salutations_by_french[french_key]
+                    shimaore_match = word['shimaore'].lower() == test['shimaore'].lower()
+                    kibouchi_match = word['kibouchi'].lower() == test['kibouchi'].lower()
+                    
+                    if shimaore_match and kibouchi_match:
+                        print(f"✅ {test['french']}: {word['shimaore']}/{word['kibouchi']}")
+                    else:
+                        print(f"❌ {test['french']}: Expected {test['shimaore']}/{test['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        salutations_translations_correct = False
+                else:
+                    print(f"❌ {test['french']} not found in salutations section")
+                    salutations_translations_correct = False
+            
+            # Test 4: Specific translation verification for grammaire
+            print("\n--- Testing Specific Grammaire Translations ---")
+            
+            grammaire_by_french = {w['french'].lower(): w for w in grammaire_words}
+            
+            grammaire_tests = [
+                {"french": "je", "shimaore": "wami", "kibouchi": "zahou"},
+                {"french": "tu", "shimaore": "wawé", "kibouchi": "anaou"},
+                {"french": "il/elle", "shimaore": "wayé", "kibouchi": "izi"},
+                {"french": "nous", "shimaore": "wassi", "kibouchi": "atsika"},
+                {"french": "le mien", "shimaore": "yangou", "kibouchi": "ninakahi"},
+                {"french": "professeur", "shimaore": "foundi", "kibouchi": "foundi"}
+            ]
+            
+            grammaire_translations_correct = True
+            for test in grammaire_tests:
+                french_key = test['french']
+                if french_key in grammaire_by_french:
+                    word = grammaire_by_french[french_key]
+                    shimaore_match = word['shimaore'].lower() == test['shimaore'].lower()
+                    kibouchi_match = word['kibouchi'].lower() == test['kibouchi'].lower()
+                    
+                    if shimaore_match and kibouchi_match:
+                        print(f"✅ {test['french']}: {word['shimaore']}/{word['kibouchi']}")
+                    else:
+                        print(f"❌ {test['french']}: Expected {test['shimaore']}/{test['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        grammaire_translations_correct = False
+                else:
+                    print(f"❌ {test['french']} not found in grammaire section")
+                    grammaire_translations_correct = False
+            
+            # Test 5: Emoji verification
+            print("\n--- Testing Emoji Verification ---")
+            
+            words_with_emojis = [w for w in all_words if w.get('image_url')]
+            emoji_count = len(words_with_emojis)
+            print(f"Words with emojis/images: {emoji_count}")
+            
+            # Check some specific emoji assignments
+            emoji_tests = [
+                {"french": "œil", "expected_emoji": "👁️"},
+                {"french": "main", "expected_emoji": "✋"},
+                {"french": "pied", "expected_emoji": "🦶"},
+                {"french": "bonjour", "expected_emoji": "☀️"}
+            ]
+            
+            emojis_correct = True
+            for test in emoji_tests:
+                word_found = False
+                for word in all_words:
+                    if word['french'].lower() == test['french']:
+                        word_found = True
+                        if word.get('image_url') == test['expected_emoji']:
+                            print(f"✅ {test['french']}: {test['expected_emoji']}")
+                        else:
+                            print(f"❌ {test['french']}: Expected {test['expected_emoji']}, got {word.get('image_url', 'none')}")
+                            emojis_correct = False
+                        break
+                
+                if not word_found:
+                    print(f"❌ {test['french']} not found for emoji test")
+                    emojis_correct = False
+            
+            # Test 6: Total word count verification
+            print("\n--- Testing Total Word Count ---")
+            
+            total_count_correct = len(all_words) == 476
+            if total_count_correct:
+                print(f"✅ Total words: exactly 476")
+            else:
+                print(f"❌ Total words: {len(all_words)} (expected exactly 476)")
+            
+            # Overall result
+            all_tests_passed = (
+                corps_count_correct and
+                salutations_count_correct and
+                grammaire_count_correct and
+                corps_translations_correct and
+                salutations_translations_correct and
+                grammaire_translations_correct and
+                emojis_correct and
+                total_count_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 SPECIFIC SECTIONS REVIEW REQUEST TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Corps section: exactly 32 words with correct translations")
+                print("✅ Salutations section: exactly 8 words with correct translations")
+                print("✅ Grammaire section: exactly 21 words with correct translations")
+                print("✅ All specific translations verified according to user images")
+                print("✅ Appropriate emojis assigned")
+                print("✅ Total word count: exactly 476 words")
+                print("✅ All requirements from review request have been met")
+            else:
+                print("\n❌ Some requirements from the review request are not met")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Specific sections review request test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the main authentic translations restoration test"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
