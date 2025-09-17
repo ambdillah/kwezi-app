@@ -51,9 +51,10 @@ export default function LearnScreen() {
   const fetchWords = async (category?: string) => {
     setLoading(true);
     try {
+      const baseUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:3000';
       const url = category 
-        ? `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/words?category=${category}`
-        : `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/words`;
+        ? `${baseUrl}/api/words?category=${category}`
+        : `${baseUrl}/api/words`;
       
       const response = await fetch(url);
       if (response.ok) {
