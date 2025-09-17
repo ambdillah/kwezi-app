@@ -352,7 +352,7 @@ def create_sentence_database():
     tenses = ['present', 'past', 'future']
     
     # Créer des phrases simples (sujet + verbe)
-    for verb in verbs[:10]:  # Utiliser les 10 premiers verbes
+    for verb in verbs[:30]:  # Utiliser les 30 premiers verbes
         for pronoun in pronouns:
             for tense in tenses:
                 # Phrase sans objet
