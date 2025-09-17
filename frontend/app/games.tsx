@@ -445,13 +445,16 @@ export default function GamesScreen() {
     if (memoryCards.length === 0) {
       return (
         <View style={styles.gameContainer}>
-          <View style={styles.gameHeader}>
-            <Text style={styles.gameTitle}>Mémoire des fleurs 🌺</Text>
+          <View style={styles.memoryStartScreen}>
+            <Text style={styles.memoryStartTitle}>Mémoire des fleurs 🌺</Text>
+            <Text style={styles.memoryStartDescription}>
+              Retourne les cartes ylang-ylang et trouve les paires ! 
+            </Text>
             <TouchableOpacity 
               style={styles.startMemoryButton}
               onPress={initMemoryGame}
             >
-              <Text style={styles.startButtonText}>Commencer le jeu</Text>
+              <Text style={styles.startButtonText}>🌸 Commencer le jeu</Text>
             </TouchableOpacity>
           </View>
         </View>
