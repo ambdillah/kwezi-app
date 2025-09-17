@@ -17273,7 +17273,7 @@ def main():
         ("Basic API Connectivity", tester.test_basic_connectivity),
         ("MongoDB Connection", tester.test_mongodb_connection),
         ("Educational Content Initialization", tester.test_init_base_content),
-        ("DATABASE RECOVERY VERIFICATION", tester.test_database_recovery_verification),
+        ("🎵 AUTHENTIC AUDIO SYSTEM INTEGRATION", tester.test_authentic_audio_system_integration),
     ]
     
     for test_name, test_func in priority_tests:
