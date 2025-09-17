@@ -174,6 +174,7 @@ def update_maison_verbes():
         {"french": "récolter", "shimaore": "ouvouna", "kibouchi": "mampoka", "category": "verbes", "image_url": "🌾", "difficulty": 1},
         {"french": "bouger", "shimaore": "outsengueléya", "kibouchi": "mitéki", "category": "verbes", "image_url": "🏃", "difficulty": 1},
         {"french": "arnaquer", "shimaore": "ouravi", "kibouchi": "mangalatra", "category": "verbes", "image_url": "🤥", "difficulty": 1},
+        {"french": "aller", "shimaore": "ouendra", "kibouchi": "mandeha", "category": "verbes", "image_url": "🚶", "difficulty": 1},
     ]
     
     # Ajouter timestamp à chaque mot
