@@ -76,9 +76,15 @@ export default function LearnScreen() {
     fetchWords();
   }, []);
 
-  const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr') => {
+  const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr', frenchWord?: string) => {
     try {
-      await speakText(text, language);
+      if (frenchWord && language !== 'fr') {
+        // Utiliser le système audio authentique si disponible
+        await playWordAudio(frenchWord, text, language);
+      } else {
+        // Fallback vers la synthèse vocale
+        await speakText(text, language);
+      }
     } catch (error) {
       console.log('Erreur lors de la prononciation:', error);
       Alert.alert('Info', 'La prononciation audio n\'est pas disponible sur cet appareil.');
@@ -87,7 +93,7 @@ export default function LearnScreen() {
 
   const speakAllLanguages = async (word: Word) => {
     try {
-      await speakWordAllLanguages(word);
+      await playWordAllLanguages(word);
     } catch (error) {
       console.log('Erreur lors de la lecture de toutes les langues:', error);
       Alert.alert('Info', 'Problème avec la prononciation audio.');
