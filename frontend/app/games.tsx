@@ -1062,14 +1062,29 @@ export default function GamesScreen() {
           </View>
         </View>
 
-        {/* Bouton de validation */}
-        <TouchableOpacity 
-          onPress={checkSentence}
-          style={[styles.checkButton, builtSentence.length === 0 && styles.checkButtonDisabled]}
-          disabled={builtSentence.length === 0}
-        >
-          <Text style={styles.checkButtonText}>Vérifier la phrase</Text>
-        </TouchableOpacity>
+        {/* Boutons d'action */}
+        <View style={styles.gameActionButtons}>
+          <TouchableOpacity 
+            onPress={checkSentence}
+            style={[styles.checkButton, builtSentence.length === 0 && styles.checkButtonDisabled]}
+            disabled={builtSentence.length === 0}
+          >
+            <Text style={styles.checkButtonText}>Vérifier la phrase</Text>
+          </TouchableOpacity>
+          
+          {builtSentence.length > 0 && (
+            <TouchableOpacity 
+              style={styles.listenButton}
+              onPress={() => {
+                const builtSentenceText = builtSentence.join(' ');
+                speakText(builtSentenceText, selectedLanguage);
+              }}
+            >
+              <Ionicons name="headset" size={18} color="#fff" />
+              <Text style={styles.listenButtonText}>Écouter</Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         {/* Bouton d'aide */}
         <TouchableOpacity 
