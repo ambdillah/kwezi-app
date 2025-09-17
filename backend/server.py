@@ -250,7 +250,7 @@ async def init_base_content():
         {"french": "Cafard", "shimaore": "Kalalawi", "kibouchi": "Kalalowou", "category": "animaux", "difficulty": 1},
         {"french": "Caméléon", "shimaore": "Tarundru", "kibouchi": "Tarondru", "category": "animaux", "difficulty": 2},
         {"french": "Chameau", "shimaore": "Ngamia", "kibouchi": "Angamia", "category": "animaux", "difficulty": 2},
-        {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou", "category": "animaux", "image_url": "https://images.unsplash.com/flagged/photo-1576523163697-795a7182b1b7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHw0fHxjaGlsZHJlbiUyMGFuaW1hbHN8ZW58MHx8fHwxNzU3OTQ5NTAxfDA&ixlib=rb-4.1.0&q=85", "difficulty": 1},
+        {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou", "category": "animaux", "image_url": "🐱", "difficulty": 1},
         {"french": "Chauve-souris", "shimaore": "Drema", "kibouchi": "Fanihi", "category": "animaux", "difficulty": 1},
         {"french": "Chenille", "shimaore": "Bazi", "kibouchi": "Bibimanguidi", "category": "animaux", "difficulty": 1},
         {"french": "Cheval", "shimaore": "Poundra", "kibouchi": "Farassi", "category": "animaux", "difficulty": 1},
