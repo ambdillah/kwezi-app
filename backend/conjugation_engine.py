@@ -100,9 +100,9 @@ class ConjugationEngine:
         }
     
     def get_shimaore_radical(self, infinitive):
-        """Extrait le radical d'un verbe shimaoré (enlève 'ou')"""
-        if infinitive.startswith('ou'):
-            return infinitive[2:]  # Enlever 'ou'
+        """Extrait le radical d'un verbe shimaoré (enlève 'ou' ou 'Ou')"""
+        if infinitive.lower().startswith('ou'):
+            return infinitive[2:]  # Enlever 'ou' ou 'Ou'
         return infinitive
     
     def conjugate_shimaore(self, infinitive, pronoun, tense='present'):
