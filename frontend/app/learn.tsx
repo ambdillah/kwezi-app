@@ -335,6 +335,12 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 10,
   },
+  wordImageContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   wordImage: {
     width: 40,
     height: 40,
@@ -347,6 +353,18 @@ const styles = StyleSheet.create({
   wordImageInner: {
     width: '100%',
     height: '100%',
+  },
+  emojiContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 8,
+  },
+  emojiText: {
+    fontSize: 24,
+    textAlign: 'center',
   },
   frenchWord: {
     fontSize: 22,
