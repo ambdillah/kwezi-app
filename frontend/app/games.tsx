@@ -147,16 +147,25 @@ export default function GamesScreen() {
   };
 
   const startGame = (gameId: string) => {
-    const shuffled = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
-    setGameWords(shuffled);
     setCurrentGame(gameId);
     setGameStarted(true);
     setScore(0);
     setSelectedWords([]);
     
-    // Pour le jeu "match-words", générer les questions
-    if (gameId === 'match-words') {
-      generateAllQuestions(shuffled);
+    if (gameId === 'sentence-builder') {
+      // Pour le jeu de construction de phrases
+      setSentenceScore(0);
+      setCurrentSentenceIndex(0);
+      setBuiltSentence([]);
+      fetchSentences(1); // Commencer par difficulté 1
+    } else {
+      // Pour les autres jeux
+      const shuffled = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
+      setGameWords(shuffled);
+      
+      if (gameId === 'match-words') {
+        generateAllQuestions(shuffled);
+      }
     }
     
     Speech.speak("C'est parti pour le jeu! Bonne chance!", {
