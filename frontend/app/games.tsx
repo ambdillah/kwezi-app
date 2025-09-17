@@ -1255,9 +1255,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   movesText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#666',
+    color: '#2C3E50',
+    backgroundColor: '#FFE135',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 15,
+    textAlign: 'center',
+    minWidth: 80,
   },
   memoryGrid: {
     flexDirection: 'row',
