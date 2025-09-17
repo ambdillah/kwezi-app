@@ -49,10 +49,8 @@
 ##
 ## test_plan:
 ##   current_focus:
-##     - "Task name 1"
-##     - "Task name 2"
-##   stuck_tasks:
-##     - "Task name with persistent issues"
+##     - "Authentic audio system integration with new recordings"
+##   stuck_tasks: []
 ##   test_all: false
 ##   test_priority: "high_first"  # or "sequential" or "stuck_first"
 ##
