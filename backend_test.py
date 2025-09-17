@@ -15336,11 +15336,14 @@ class MayotteEducationTester:
             return False
 
     def run_all_tests(self):
-        """Run all backend tests including the main authentic translations restoration test"""
+        """Run all backend tests including the critical database integrity verification"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
         print("=" * 80)
         
         test_results = []
+        
+        # CRITICAL: Database integrity verification first (user reports data loss)
+        test_results.append(("🚨 DATABASE INTEGRITY VERIFICATION", self.test_database_integrity_verification()))
         
         # Basic connectivity tests
         test_results.append(("Basic Connectivity", self.test_basic_connectivity()))
