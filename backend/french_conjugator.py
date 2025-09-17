@@ -154,22 +154,45 @@ class FrenchConjugator:
         # Verbes du 3ème groupe (tout le reste)
         return 3
     
-    def conjugate_first_group(self, verb, pronoun):
+    def conjugate_first_group(self, verb, pronoun, tense='present'):
         """Conjugue un verbe du 1er groupe (-er)"""
         root = verb[:-2]  # Enlever 'er'
         
-        endings = {
-            'je': 'e', 'tu': 'es', 'il': 'e', 'elle': 'e',
-            'nous': 'ons', 'vous': 'ez', 'ils': 'ent', 'elles': 'ent'
-        }
+        if tense == 'present':
+            endings = {
+                'je': 'e', 'tu': 'es', 'il': 'e', 'elle': 'e',
+                'nous': 'ons', 'vous': 'ez', 'ils': 'ent', 'elles': 'ent'
+            }
+            conjugated_verb = root + endings[pronoun]
+            
+            # Gestion des contractions
+            if pronoun == 'je' and self.needs_apostrophe(conjugated_verb):
+                return f"j'{conjugated_verb}"
+            else:
+                return f"{pronoun} {conjugated_verb}"
         
-        conjugated_verb = root + endings[pronoun]
+        elif tense == 'past':
+            # Passé composé avec avoir
+            past_participle = root + 'é'
+            auxiliaries = {
+                'je': "j'ai", 'tu': 'tu as', 'il': 'il a', 'elle': 'elle a',
+                'nous': 'nous avons', 'vous': 'vous avez', 'ils': 'ils ont', 'elles': 'elles ont'
+            }
+            return f"{auxiliaries[pronoun]} {past_participle}"
         
-        # Gestion des contractions
-        if pronoun == 'je' and self.needs_apostrophe(conjugated_verb):
-            return f"j'{conjugated_verb}"
-        else:
-            return f"{pronoun} {conjugated_verb}"
+        elif tense == 'future':
+            # Futur simple
+            endings = {
+                'je': 'ai', 'tu': 'as', 'il': 'a', 'elle': 'a',
+                'nous': 'ons', 'vous': 'ez', 'ils': 'ont', 'elles': 'ont'
+            }
+            future_stem = verb  # Pour les verbes en -er, on garde l'infinitif
+            conjugated_verb = future_stem + endings[pronoun]
+            
+            if pronoun == 'je' and self.needs_apostrophe(conjugated_verb):
+                return f"j'{conjugated_verb}"
+            else:
+                return f"{pronoun} {conjugated_verb}"
     
     def conjugate_second_group(self, verb, pronoun):
         """Conjugue un verbe du 2ème groupe (-ir)"""
