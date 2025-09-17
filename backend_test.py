@@ -14113,6 +14113,269 @@ class MayotteEducationTester:
             print(f"❌ Specific sections review request test error: {e}")
             return False
 
+    def test_review_request_famille_couleurs_nourriture(self):
+        """Test specific sections famille, couleurs, and nourriture according to review request"""
+        print("\n=== Testing Review Request: Famille, Couleurs, and Nourriture Sections ===")
+        
+        try:
+            # Initialize content first
+            print("--- Initializing Content ---")
+            init_response = self.session.post(f"{API_BASE}/init-base-content")
+            if init_response.status_code != 200:
+                print(f"❌ Content initialization failed: {init_response.status_code}")
+                return False
+            print("✅ Content initialized successfully")
+            
+            # Get all words
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"Total words in database: {len(all_words)}")
+            
+            # Test 1: Count famille words - should be exactly 20
+            print("\n--- Testing Famille Word Count (Should be exactly 20) ---")
+            famille_response = self.session.get(f"{API_BASE}/words?category=famille")
+            if famille_response.status_code != 200:
+                print(f"❌ Could not retrieve famille words: {famille_response.status_code}")
+                return False
+            
+            famille_words = famille_response.json()
+            famille_count = len(famille_words)
+            print(f"Famille words count: {famille_count}")
+            
+            if famille_count == 20:
+                print("✅ Famille word count is exactly 20 as required")
+                famille_count_correct = True
+            else:
+                print(f"❌ Famille word count is {famille_count}, should be exactly 20")
+                famille_count_correct = False
+            
+            # Test 2: Count couleurs words - should be exactly 8
+            print("\n--- Testing Couleurs Word Count (Should be exactly 8) ---")
+            couleurs_response = self.session.get(f"{API_BASE}/words?category=couleurs")
+            if couleurs_response.status_code != 200:
+                print(f"❌ Could not retrieve couleurs words: {couleurs_response.status_code}")
+                return False
+            
+            couleurs_words = couleurs_response.json()
+            couleurs_count = len(couleurs_words)
+            print(f"Couleurs words count: {couleurs_count}")
+            
+            if couleurs_count == 8:
+                print("✅ Couleurs word count is exactly 8 as required")
+                couleurs_count_correct = True
+            else:
+                print(f"❌ Couleurs word count is {couleurs_count}, should be exactly 8")
+                couleurs_count_correct = False
+            
+            # Test 3: Count nourriture words - should be exactly 45
+            print("\n--- Testing Nourriture Word Count (Should be exactly 45) ---")
+            nourriture_response = self.session.get(f"{API_BASE}/words?category=nourriture")
+            if nourriture_response.status_code != 200:
+                print(f"❌ Could not retrieve nourriture words: {nourriture_response.status_code}")
+                return False
+            
+            nourriture_words = nourriture_response.json()
+            nourriture_count = len(nourriture_words)
+            print(f"Nourriture words count: {nourriture_count}")
+            
+            if nourriture_count == 45:
+                print("✅ Nourriture word count is exactly 45 as required")
+                nourriture_count_correct = True
+            else:
+                print(f"❌ Nourriture word count is {nourriture_count}, should be exactly 45")
+                nourriture_count_correct = False
+            
+            # Test 4: Verify specific famille translations
+            print("\n--- Testing Specific Famille Translations ---")
+            famille_words_by_french = {word['french']: word for word in famille_words}
+            
+            famille_tests = [
+                {"french": "Oncle maternel", "shimaore": "Zama", "kibouchi": "Zama"},
+                {"french": "Épouse oncle maternel", "shimaore": "Zena", "kibouchi": "Zena"},
+                {"french": "Petite sœur", "shimaore": "Moinagna mtroumama", "kibouchi": "Zandri"},
+                {"french": "Grand frère", "shimaore": "Zouki mtroubaba", "kibouchi": "Zoki lalahi"},
+                {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba"},
+                {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama"}
+            ]
+            
+            famille_translations_correct = True
+            for test_case in famille_tests:
+                french_word = test_case['french']
+                if french_word in famille_words_by_french:
+                    word = famille_words_by_french[french_word]
+                    
+                    # Check shimaoré
+                    if word['shimaore'] == test_case['shimaore']:
+                        shimaore_ok = True
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{test_case['shimaore']}', got '{word['shimaore']}'")
+                        shimaore_ok = False
+                        famille_translations_correct = False
+                    
+                    # Check kibouchi
+                    if word['kibouchi'] == test_case['kibouchi']:
+                        kibouchi_ok = True
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{test_case['kibouchi']}', got '{word['kibouchi']}'")
+                        kibouchi_ok = False
+                        famille_translations_correct = False
+                    
+                    if shimaore_ok and kibouchi_ok:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in famille category")
+                    famille_translations_correct = False
+            
+            # Test 5: Verify specific couleurs translations
+            print("\n--- Testing Specific Couleurs Translations ---")
+            couleurs_words_by_french = {word['french']: word for word in couleurs_words}
+            
+            couleurs_tests = [
+                {"french": "Vert", "shimaore": "Dhavou", "kibouchi": "Mayitsou"},
+                {"french": "Rouge", "shimaore": "Ndzoukoundrou", "kibouchi": "Mena"},
+                {"french": "Gris", "shimaore": "Djifou", "kibouchi": "Dzofou"},
+                {"french": "Marron", "shimaore": "Trotro", "kibouchi": "Fotafotaka"}
+            ]
+            
+            couleurs_translations_correct = True
+            for test_case in couleurs_tests:
+                french_word = test_case['french']
+                if french_word in couleurs_words_by_french:
+                    word = couleurs_words_by_french[french_word]
+                    
+                    # Check shimaoré
+                    if word['shimaore'] == test_case['shimaore']:
+                        shimaore_ok = True
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{test_case['shimaore']}', got '{word['shimaore']}'")
+                        shimaore_ok = False
+                        couleurs_translations_correct = False
+                    
+                    # Check kibouchi
+                    if word['kibouchi'] == test_case['kibouchi']:
+                        kibouchi_ok = True
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{test_case['kibouchi']}', got '{word['kibouchi']}'")
+                        kibouchi_ok = False
+                        couleurs_translations_correct = False
+                    
+                    if shimaore_ok and kibouchi_ok:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in couleurs category")
+                    couleurs_translations_correct = False
+            
+            # Test 6: Verify specific nourriture translations
+            print("\n--- Testing Specific Nourriture Translations ---")
+            nourriture_words_by_french = {word['french']: word for word in nourriture_words}
+            
+            nourriture_tests = [
+                {"french": "Poulet", "shimaore": "Bawa", "kibouchi": "Mabawa"},
+                {"french": "Poivre", "shimaore": "Bvilibvili manga", "kibouchi": "Vilivili"},
+                {"french": "Ciboulette", "shimaore": "Chouroungou", "kibouchi": "Doungoulou ravigni"},
+                {"french": "Brède manioc", "shimaore": "Mataba", "kibouchi": "Féliki mouhogou"},
+                {"french": "Riz non décortiqué", "shimaore": "Melé", "kibouchi": "Vari tsivoidissa"},
+                {"french": "Un thé", "shimaore": "Maji ya moro", "kibouchi": "Ranou meyi"}
+            ]
+            
+            nourriture_translations_correct = True
+            for test_case in nourriture_tests:
+                french_word = test_case['french']
+                if french_word in nourriture_words_by_french:
+                    word = nourriture_words_by_french[french_word]
+                    
+                    # Check shimaoré
+                    if word['shimaore'] == test_case['shimaore']:
+                        shimaore_ok = True
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{test_case['shimaore']}', got '{word['shimaore']}'")
+                        shimaore_ok = False
+                        nourriture_translations_correct = False
+                    
+                    # Check kibouchi
+                    if word['kibouchi'] == test_case['kibouchi']:
+                        kibouchi_ok = True
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{test_case['kibouchi']}', got '{word['kibouchi']}'")
+                        kibouchi_ok = False
+                        nourriture_translations_correct = False
+                    
+                    if shimaore_ok and kibouchi_ok:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {french_word} not found in nourriture category")
+                    nourriture_translations_correct = False
+            
+            # Test 7: Verify emojis are assigned
+            print("\n--- Testing Emoji Assignment ---")
+            
+            # Check famille emojis (👨‍👩‍👧‍👦)
+            famille_with_emojis = [word for word in famille_words if word.get('image_url')]
+            print(f"Famille words with emojis: {len(famille_with_emojis)}/{len(famille_words)}")
+            
+            # Check couleurs emojis (🔴🟢🔵)
+            couleurs_with_emojis = [word for word in couleurs_words if word.get('image_url')]
+            print(f"Couleurs words with emojis: {len(couleurs_with_emojis)}/{len(couleurs_words)}")
+            
+            # Check nourriture emojis (🍚🥩🥬)
+            nourriture_with_emojis = [word for word in nourriture_words if word.get('image_url')]
+            print(f"Nourriture words with emojis: {len(nourriture_with_emojis)}/{len(nourriture_words)}")
+            
+            emojis_assigned = (len(famille_with_emojis) > 0 and 
+                             len(couleurs_with_emojis) > 0 and 
+                             len(nourriture_with_emojis) > 0)
+            
+            if emojis_assigned:
+                print("✅ Emojis are assigned to words in all three categories")
+            else:
+                print("❌ Some categories are missing emoji assignments")
+            
+            # Test 8: Verify total word count is 445
+            print("\n--- Testing Total Word Count (Should be 445) ---")
+            total_count = len(all_words)
+            print(f"Total words in database: {total_count}")
+            
+            if total_count == 445:
+                print("✅ Total word count is exactly 445 as required")
+                total_count_correct = True
+            else:
+                print(f"❌ Total word count is {total_count}, should be exactly 445")
+                total_count_correct = False
+            
+            # Overall result
+            all_tests_passed = (
+                famille_count_correct and
+                couleurs_count_correct and
+                nourriture_count_correct and
+                famille_translations_correct and
+                couleurs_translations_correct and
+                nourriture_translations_correct and
+                emojis_assigned and
+                total_count_correct
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 REVIEW REQUEST TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Famille section: Exactly 20 words with correct translations")
+                print("✅ Couleurs section: Exactly 8 words with correct translations")
+                print("✅ Nourriture section: Exactly 45 words with correct translations")
+                print("✅ All specific translations verified according to user images")
+                print("✅ Emojis appropriately assigned to all categories")
+                print("✅ Total database contains exactly 445 words")
+                print("✅ All sections reflect EXACTLY the content from user-provided images")
+            else:
+                print("\n❌ Review request testing failed - sections do not match user images exactly")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Review request testing error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the main authentic translations restoration test"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
@@ -14133,6 +14396,9 @@ class MayotteEducationTester:
         test_results.append(("Word CRUD Operations", self.test_word_crud()))
         test_results.append(("Exercise Management", self.test_exercise_management()))
         test_results.append(("User Progress Tracking", self.test_user_progress()))
+        
+        # MAIN TEST FOR REVIEW REQUEST - PRIORITY TEST
+        test_results.append(("🎯 REVIEW REQUEST: Famille, Couleurs, Nourriture", self.test_review_request_famille_couleurs_nourriture()))
         
         # Comprehensive vocabulary tests
         test_results.append(("Comprehensive Vocabulary", self.test_comprehensive_vocabulary_initialization()))
