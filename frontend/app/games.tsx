@@ -975,7 +975,6 @@ export default function GamesScreen() {
     if (!currentSentence) {
       return (
         <View style={styles.gameContainer}>
-          <Text style={styles.gameTitle}>Construire des phrases 📝</Text>
           <Text style={styles.loadingText}>Chargement des phrases...</Text>
         </View>
       );
