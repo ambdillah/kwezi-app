@@ -12847,6 +12847,221 @@ class MayotteEducationTester:
             print(f"❌ Comprehensive words and emojis verification error: {e}")
             return False
 
+    def test_authentic_translations_restoration_verification(self):
+        """Test comprehensive verification of authentic translations restoration as per review request"""
+        print("\n=== Testing Authentic Translations Restoration Verification ===")
+        
+        try:
+            # Initialize content first
+            print("--- Initializing Content ---")
+            init_response = self.session.post(f"{API_BASE}/init-base-content")
+            if init_response.status_code != 200:
+                print(f"❌ Content initialization failed: {init_response.status_code}")
+                return False
+            print("✅ Content initialized successfully")
+            
+            # 1. Test total word count - should be 273 words (not 426 or 542)
+            print("\n--- Testing Total Word Count (Should be 273) ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            total_count = len(all_words)
+            print(f"Total words found: {total_count}")
+            
+            if total_count == 273:
+                print("✅ Total word count is exactly 273 as required")
+                count_correct = True
+            else:
+                print(f"❌ Total word count is {total_count}, should be 273")
+                count_correct = False
+            
+            # 2. Test specific authentic translations mentioned by user
+            print("\n--- Testing Specific Authentic Translations ---")
+            words_by_french = {word['french']: word for word in all_words}
+            
+            specific_translations = [
+                # Animals
+                {"french": "Hérisson/Tangue", "shimaore": "Landra", "kibouchi": "Trandraka", "category": "animaux"},
+                {"french": "Araignée", "shimaore": "Shitrandrabwibwi", "kibouchi": "Bibi amparamani massou", "category": "animaux"},
+                
+                # Food
+                {"french": "Poulet", "shimaore": "Bawa", "kibouchi": "Akohou", "category": "nourriture", "note": "not 'Sawa'"},
+                {"french": "Poivre", "shimaore": "Bvilibvili manga", "kibouchi": "Vilivili", "category": "nourriture"},
+                {"french": "Ciboulette", "shimaore": "Chouroungou", "kibouchi": "Chiboulette", "category": "nourriture"},
+                
+                # Family
+                {"french": "Maman", "shimaore": "Mama", "kibouchi": "Baba", "category": "famille", "note": "kibouchi should be 'Baba' not 'Mama'"},
+                {"french": "Famille", "shimaore": "Mdjamaza", "kibouchi": "Havagna", "category": "famille", "note": "new word added"},
+                
+                # House
+                {"french": "Cour", "shimaore": "Mraba", "kibouchi": "Lacourou", "category": "maison", "note": "not 'Cours'"},
+            ]
+            
+            translations_correct = True
+            for test_case in specific_translations:
+                french_word = test_case['french']
+                found = False
+                
+                # Check if word exists (exact match or partial match for compound words)
+                for word_key in words_by_french.keys():
+                    if french_word in word_key or word_key in french_word:
+                        word = words_by_french[word_key]
+                        found = True
+                        
+                        # Check translations
+                        shimaore_match = word['shimaore'] == test_case['shimaore']
+                        kibouchi_match = word['kibouchi'] == test_case['kibouchi']
+                        category_match = word['category'] == test_case['category']
+                        
+                        if shimaore_match and kibouchi_match and category_match:
+                            note = f" ({test_case['note']})" if 'note' in test_case else ""
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} in {word['category']}{note}")
+                        else:
+                            print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']} in {test_case['category']}")
+                            print(f"   Got: {word['shimaore']}/{word['kibouchi']} in {word['category']}")
+                            translations_correct = False
+                        break
+                
+                if not found:
+                    print(f"❌ {french_word} not found in database")
+                    translations_correct = False
+            
+            # 3. Test category count - verify all categories are present
+            print("\n--- Testing Category Presence ---")
+            categories = set(word['category'] for word in all_words)
+            expected_categories = {
+                'salutations', 'famille', 'couleurs', 'animaux', 'nombres', 'corps', 
+                'maison', 'nourriture', 'nature', 'grammaire', 'adjectifs', 
+                'expressions', 'verbes', 'vetements', 'transport'
+            }
+            
+            print(f"Found categories ({len(categories)}): {sorted(categories)}")
+            print(f"Expected categories ({len(expected_categories)}): {sorted(expected_categories)}")
+            
+            missing_categories = expected_categories - categories
+            extra_categories = categories - expected_categories
+            
+            if not missing_categories:
+                print("✅ All expected categories are present")
+                categories_correct = True
+            else:
+                print(f"❌ Missing categories: {missing_categories}")
+                categories_correct = False
+            
+            if extra_categories:
+                print(f"ℹ️ Extra categories found: {extra_categories}")
+            
+            # Count words per category
+            print("\n--- Testing Words Per Category ---")
+            category_counts = {}
+            for word in all_words:
+                category = word['category']
+                category_counts[category] = category_counts.get(category, 0) + 1
+            
+            for category in sorted(category_counts.keys()):
+                count = category_counts[category]
+                print(f"  {category}: {count} words")
+            
+            # 4. Test emoji integration as image_url
+            print("\n--- Testing Emoji Integration as image_url ---")
+            words_with_images = [word for word in all_words if 'image_url' in word and word['image_url']]
+            emoji_examples = ['🏠', '🐱', '🔴', '🔵', '1️⃣', '2️⃣', '✋', '🦶']
+            
+            print(f"Words with image_url: {len(words_with_images)}")
+            
+            emoji_found = 0
+            for word in words_with_images[:10]:  # Check first 10 as examples
+                if any(emoji in word['image_url'] for emoji in emoji_examples):
+                    emoji_found += 1
+                    print(f"✅ {word['french']}: {word['image_url']}")
+            
+            if emoji_found > 0:
+                print(f"✅ Emojis are integrated as image_url ({emoji_found} examples found)")
+                emojis_correct = True
+            else:
+                print("❌ No emoji integration found in image_url fields")
+                emojis_correct = False
+            
+            # 5. Test data integrity - no duplicates and complete translations
+            print("\n--- Testing Data Integrity ---")
+            
+            # Check for duplicates
+            french_words = [word['french'] for word in all_words]
+            unique_french = set(french_words)
+            
+            if len(french_words) == len(unique_french):
+                print(f"✅ No duplicate French words found ({len(unique_french)} unique)")
+                no_duplicates = True
+            else:
+                duplicates = [word for word in french_words if french_words.count(word) > 1]
+                print(f"❌ Duplicate French words found: {set(duplicates)}")
+                no_duplicates = False
+            
+            # Check for complete translations
+            incomplete_translations = 0
+            for word in all_words:
+                if not word['french'] or not word['category']:
+                    incomplete_translations += 1
+                # Note: shimaoré or kibouchi can be empty for some words as per authentic data
+            
+            if incomplete_translations == 0:
+                print("✅ All words have complete French and category fields")
+                complete_data = True
+            else:
+                print(f"❌ {incomplete_translations} words have incomplete basic data")
+                complete_data = False
+            
+            # Overall assessment
+            print("\n--- Overall Assessment ---")
+            all_tests_passed = (
+                count_correct and 
+                translations_correct and 
+                categories_correct and 
+                emojis_correct and 
+                no_duplicates and 
+                complete_data
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 AUTHENTIC TRANSLATIONS RESTORATION VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Total word count is exactly 273 as required")
+                print("✅ All specific authentic translations verified:")
+                print("   - Hérisson/Tangue = Landra/Trandraka (animals)")
+                print("   - Araignée = Shitrandrabwibwi (animals)")
+                print("   - Poulet = Bawa (food, not 'Sawa')")
+                print("   - Poivre shimaoré = 'Bvilibvili manga', kibouchi = 'Vilivili'")
+                print("   - Ciboulette shimaoré = 'Chouroungou'")
+                print("   - Maman kibouchi = 'Baba' (not 'Mama')")
+                print("   - Famille = Mdjamaza/Havagna (new word)")
+                print("   - Cour = Mraba/Lacourou (not 'Cours')")
+                print("✅ All expected categories present")
+                print("✅ Emojis integrated as image_url")
+                print("✅ Data integrity confirmed - no duplicates, complete translations")
+                print("✅ User can now see ALL personalized content restored!")
+            else:
+                print("\n❌ Some aspects of authentic translations restoration need attention")
+                if not count_correct:
+                    print("❌ Word count is not 273 as required")
+                if not translations_correct:
+                    print("❌ Some specific authentic translations are incorrect")
+                if not categories_correct:
+                    print("❌ Some expected categories are missing")
+                if not emojis_correct:
+                    print("❌ Emoji integration issues")
+                if not no_duplicates:
+                    print("❌ Duplicate entries found")
+                if not complete_data:
+                    print("❌ Incomplete data found")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Authentic translations restoration verification error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run audio integration verification test for famille section as requested in review"""
         print("🎵 MAYOTTE EDUCATIONAL APP - AUDIO INTEGRATION VERIFICATION TEST 🎵")
