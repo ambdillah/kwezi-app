@@ -953,7 +953,7 @@ export default function GamesScreen() {
         setBuiltSentence([]);
       } else {
         Alert.alert('Félicitations! 🎊', `Jeu terminé! Score final: ${sentenceScore + 10}`, [
-          { text: 'Recommencer', onPress: () => startGame('sentence-builder') },
+          { text: 'Recommencer', onPress: () => startGame('build-sentence') },
           { text: 'Retour', onPress: () => { setGameStarted(false); setCurrentGame(null); } }
         ]);
       }
