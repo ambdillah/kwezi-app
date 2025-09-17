@@ -14619,6 +14619,229 @@ class MayotteEducationTester:
             print(f"❌ Maison and Verbes sections review request testing error: {e}")
             return False
 
+    def test_transport_vetements_tradition_sections_review(self):
+        """Test the specific transport, vetements, and tradition sections according to review request"""
+        print("\n=== Testing Transport, Vêtements, and Tradition Sections (Review Request) ===")
+        
+        try:
+            # Get all words first
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            print(f"Total words in database: {len(all_words)}")
+            
+            # Organize words by category
+            words_by_category = {}
+            for word in all_words:
+                category = word['category']
+                if category not in words_by_category:
+                    words_by_category[category] = []
+                words_by_category[category].append(word)
+            
+            print(f"Categories found: {sorted(words_by_category.keys())}")
+            
+            all_tests_passed = True
+            
+            # 1. Test SUPPRESSION DES DOUBLONS - verify no duplicates in the three sections
+            print("\n--- 1. Testing SUPPRESSION DES DOUBLONS ---")
+            
+            for category in ['transport', 'vetements', 'tradition']:
+                if category in words_by_category:
+                    words = words_by_category[category]
+                    french_words = [w['french'] for w in words]
+                    unique_words = set(french_words)
+                    
+                    if len(french_words) == len(unique_words):
+                        print(f"✅ {category}: No duplicates found ({len(unique_words)} unique words)")
+                    else:
+                        duplicates = [w for w in french_words if french_words.count(w) > 1]
+                        print(f"❌ {category}: Duplicates found: {set(duplicates)}")
+                        all_tests_passed = False
+                else:
+                    print(f"❌ {category}: Category not found in database")
+                    all_tests_passed = False
+            
+            # 2. Test word counts according to images
+            print("\n--- 2. Testing Word Counts According to Images ---")
+            
+            expected_counts = {
+                'transport': 7,
+                'vetements': 16, 
+                'tradition': 16
+            }
+            
+            for category, expected_count in expected_counts.items():
+                if category in words_by_category:
+                    actual_count = len(words_by_category[category])
+                    if actual_count == expected_count:
+                        print(f"✅ {category}: Correct count {actual_count} words (expected {expected_count})")
+                    else:
+                        print(f"❌ {category}: Incorrect count {actual_count} words (expected {expected_count})")
+                        all_tests_passed = False
+                else:
+                    print(f"❌ {category}: Category not found")
+                    all_tests_passed = False
+            
+            # 3. Test TRI ALPHABÉTIQUE - verify alphabetical order
+            print("\n--- 3. Testing TRI ALPHABÉTIQUE ---")
+            
+            for category in ['transport', 'vetements', 'tradition']:
+                if category in words_by_category:
+                    words = words_by_category[category]
+                    french_words = [w['french'] for w in words]
+                    sorted_words = sorted(french_words, key=str.lower)
+                    
+                    if french_words == sorted_words:
+                        print(f"✅ {category}: Words are in alphabetical order")
+                        print(f"   Order: {', '.join(french_words[:5])}{'...' if len(french_words) > 5 else ''}")
+                    else:
+                        print(f"❌ {category}: Words are NOT in alphabetical order")
+                        print(f"   Current: {', '.join(french_words[:5])}{'...' if len(french_words) > 5 else ''}")
+                        print(f"   Expected: {', '.join(sorted_words[:5])}{'...' if len(sorted_words) > 5 else ''}")
+                        all_tests_passed = False
+            
+            # 4. Test specific transport order
+            print("\n--- 4. Testing Transport Alphabetical Order ---")
+            
+            if 'transport' in words_by_category:
+                transport_words = [w['french'] for w in words_by_category['transport']]
+                expected_transport_order = ["avion", "barge", "motos", "pirogue", "taxis", "vedettes", "vélos"]
+                
+                if transport_words == expected_transport_order:
+                    print(f"✅ Transport words in correct alphabetical order: {', '.join(transport_words)}")
+                else:
+                    print(f"❌ Transport words in incorrect order")
+                    print(f"   Current: {', '.join(transport_words)}")
+                    print(f"   Expected: {', '.join(expected_transport_order)}")
+                    all_tests_passed = False
+            
+            # 5. Test specific transport translations
+            print("\n--- 5. Testing Specific Transport Translations ---")
+            
+            if 'transport' in words_by_category:
+                transport_words_dict = {w['french']: w for w in words_by_category['transport']}
+                
+                expected_transport_translations = {
+                    "vedettes": {"shimaore": "kwassa kwassa", "kibouchi": "videti"},
+                    "avion": {"shimaore": "ndrègué", "kibouchi": "roplani"},
+                    "pirogue": {"shimaore": "laka", "kibouchi": "lakana"}
+                }
+                
+                for french_word, expected_translations in expected_transport_translations.items():
+                    if french_word in transport_words_dict:
+                        word = transport_words_dict[french_word]
+                        shimaore_match = word['shimaore'].lower() == expected_translations['shimaore'].lower()
+                        kibouchi_match = word['kibouchi'].lower() == expected_translations['kibouchi'].lower()
+                        
+                        if shimaore_match and kibouchi_match:
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - CORRECT")
+                        else:
+                            print(f"❌ {french_word}: Expected {expected_translations['shimaore']}/{expected_translations['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                            all_tests_passed = False
+                    else:
+                        print(f"❌ {french_word}: Not found in transport category")
+                        all_tests_passed = False
+            
+            # 6. Test specific vetements translations
+            print("\n--- 6. Testing Specific Vêtements Translations ---")
+            
+            if 'vetements' in words_by_category:
+                vetements_words_dict = {w['french']: w for w in words_by_category['vetements']}
+                
+                expected_vetements_translations = {
+                    "salouva": {"shimaore": "salouva", "kibouchi": "slouvagna"},
+                    "kamiss/boubou": {"shimaore": "candzou bolé", "kibouchi": "ancandzou bé"},
+                    "baskets/sneakers": {"shimaore": "magochi", "kibouchi": "magochi"}
+                }
+                
+                for french_word, expected_translations in expected_vetements_translations.items():
+                    if french_word in vetements_words_dict:
+                        word = vetements_words_dict[french_word]
+                        shimaore_match = word['shimaore'].lower() == expected_translations['shimaore'].lower()
+                        kibouchi_match = word['kibouchi'].lower() == expected_translations['kibouchi'].lower()
+                        
+                        if shimaore_match and kibouchi_match:
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - CORRECT")
+                        else:
+                            print(f"❌ {french_word}: Expected {expected_translations['shimaore']}/{expected_translations['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                            all_tests_passed = False
+                    else:
+                        print(f"❌ {french_word}: Not found in vetements category")
+                        all_tests_passed = False
+            
+            # 7. Test specific tradition translations
+            print("\n--- 7. Testing Specific Tradition Translations ---")
+            
+            if 'tradition' in words_by_category:
+                tradition_words_dict = {w['french']: w for w in words_by_category['tradition']}
+                
+                expected_tradition_translations = {
+                    "grand mariage": {"shimaore": "manzaraka", "kibouchi": "manzaraka"},
+                    "chant mariage traditionnel": {"shimaore": "mlélèzi", "kibouchi": "mlélèzi"},
+                    "boxe traditionnelle": {"shimaore": "mrengué", "kibouchi": "mouringui"}
+                }
+                
+                for french_word, expected_translations in expected_tradition_translations.items():
+                    if french_word in tradition_words_dict:
+                        word = tradition_words_dict[french_word]
+                        shimaore_match = word['shimaore'].lower() == expected_translations['shimaore'].lower()
+                        kibouchi_match = word['kibouchi'].lower() == expected_translations['kibouchi'].lower()
+                        
+                        if shimaore_match and kibouchi_match:
+                            print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']} - CORRECT")
+                        else:
+                            print(f"❌ {french_word}: Expected {expected_translations['shimaore']}/{expected_translations['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                            all_tests_passed = False
+                    else:
+                        print(f"❌ {french_word}: Not found in tradition category")
+                        all_tests_passed = False
+            
+            # 8. Test emojis are assigned
+            print("\n--- 8. Testing Emojis Assignment ---")
+            
+            for category in ['transport', 'vetements', 'tradition']:
+                if category in words_by_category:
+                    words_with_emojis = [w for w in words_by_category[category] if w.get('image_url')]
+                    total_words = len(words_by_category[category])
+                    
+                    if words_with_emojis:
+                        print(f"✅ {category}: {len(words_with_emojis)}/{total_words} words have emojis assigned")
+                    else:
+                        print(f"⚠️ {category}: No words have emojis assigned")
+            
+            # 9. Test total word count (539 words)
+            print("\n--- 9. Testing Total Word Count (539 words) ---")
+            
+            total_words = len(all_words)
+            expected_total = 539
+            
+            if total_words == expected_total:
+                print(f"✅ Total word count correct: {total_words} words (expected {expected_total})")
+            else:
+                print(f"❌ Total word count incorrect: {total_words} words (expected {expected_total})")
+                all_tests_passed = False
+            
+            # Summary
+            if all_tests_passed:
+                print("\n🎉 TRANSPORT, VÊTEMENTS, AND TRADITION SECTIONS REVIEW COMPLETED SUCCESSFULLY!")
+                print("✅ AUCUN DOUBLON n'existe dans les trois sections")
+                print("✅ TRI ALPHABÉTIQUE est correctement appliqué")
+                print("✅ Nombre de mots correct pour chaque section")
+                print("✅ Traductions spécifiques vérifiées")
+                print("✅ Emojis appropriés assignés")
+                print("✅ Total général de 539 mots confirmé")
+            else:
+                print("\n❌ Some issues found in transport, vêtements, and tradition sections")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Transport, vêtements, tradition sections test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the main authentic translations restoration test"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
