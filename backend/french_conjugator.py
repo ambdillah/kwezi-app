@@ -248,15 +248,34 @@ class FrenchConjugator:
         group = self.get_verb_group(verb_normalized)
         
         if group == 1:
-            return self.conjugate_first_group(verb_normalized, pronoun_normalized)
+            return self.conjugate_first_group(verb_normalized, pronoun_normalized, tense)
         elif group == 2:
-            return self.conjugate_second_group(verb_normalized, pronoun_normalized)
+            return self.conjugate_second_group(verb_normalized, pronoun_normalized, tense)
         else:
-            # Pour le 3ème groupe, retour par défaut (à améliorer si nécessaire)
-            if pronoun_normalized == 'je' and self.needs_apostrophe(verb_normalized):
-                return f"j'{verb_normalized}"
-            else:
-                return f"{pronoun_normalized} {verb_normalized}"
+            # Pour le 3ème groupe, conjugaison basique selon le temps
+            if tense == 'present':
+                if pronoun_normalized == 'je' and self.needs_apostrophe(verb_normalized):
+                    return f"j'{verb_normalized}"
+                else:
+                    return f"{pronoun_normalized} {verb_normalized}"
+            elif tense == 'past':
+                # Passé composé basique avec avoir
+                auxiliaries = {
+                    'je': "j'ai", 'tu': 'tu as', 'il': 'il a', 'elle': 'elle a',
+                    'nous': 'nous avons', 'vous': 'vous avez', 'ils': 'ils ont', 'elles': 'elles ont'
+                }
+                return f"{auxiliaries[pronoun_normalized]} {verb_normalized}"
+            elif tense == 'future':
+                # Futur simple basique
+                endings = {
+                    'je': 'ai', 'tu': 'as', 'il': 'a', 'elle': 'a',
+                    'nous': 'ons', 'vous': 'ez', 'ils': 'ont', 'elles': 'ont'
+                }
+                future_verb = verb_normalized + endings[pronoun_normalized]
+                if pronoun_normalized == 'je' and self.needs_apostrophe(future_verb):
+                    return f"j'{future_verb}"
+                else:
+                    return f"{pronoun_normalized} {future_verb}"
 
 def test_conjugator():
     """Teste le conjugateur français"""
