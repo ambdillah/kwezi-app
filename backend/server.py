@@ -33,6 +33,7 @@ db = client[DB_NAME]
 words_collection = db.words
 exercises_collection = db.exercises
 user_progress_collection = db.user_progress
+sentences_collection = db.sentences
 
 # Pydantic models
 class Word(BaseModel):
