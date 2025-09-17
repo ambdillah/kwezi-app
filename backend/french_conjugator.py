@@ -15,6 +15,14 @@ class FrenchConjugator:
                 'present': {
                     'je': 'je suis', 'tu': 'tu es', 'il': 'il est', 'elle': 'elle est',
                     'nous': 'nous sommes', 'vous': 'vous êtes', 'ils': 'ils sont', 'elles': 'elles sont'
+                },
+                'past': {
+                    'je': "j'ai été", 'tu': 'tu as été', 'il': 'il a été', 'elle': 'elle a été',
+                    'nous': 'nous avons été', 'vous': 'vous avez été', 'ils': 'ils ont été', 'elles': 'elles ont été'
+                },
+                'future': {
+                    'je': 'je serai', 'tu': 'tu seras', 'il': 'il sera', 'elle': 'elle sera',
+                    'nous': 'nous serons', 'vous': 'vous serez', 'ils': 'ils seront', 'elles': 'elles seront'
                 }
             },
             'avoir': {
