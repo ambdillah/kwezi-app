@@ -24,7 +24,7 @@ def update_chiffres_and_animaux():
     
     # SECTION CHIFFRES - 20 mots exacts selon l'image
     chiffres_vocabulary = [
-        {"french": "un", "shimaore": "moja", "kibouchi": "areki", "category": "chiffre", "image_url": "1️⃣", "difficulty": 1},
+        {"french": "un", "shimaore": "moja", "kibouchi": "areki", "category": "nombres", "image_url": "1️⃣", "difficulty": 1},
         {"french": "deux", "shimaore": "mbili", "kibouchi": "aroyi", "category": "chiffre", "image_url": "2️⃣", "difficulty": 1},
         {"french": "trois", "shimaore": "trarou", "kibouchi": "telou", "category": "chiffre", "image_url": "3️⃣", "difficulty": 1},
         {"french": "quatre", "shimaore": "nhé", "kibouchi": "efatra", "category": "chiffre", "image_url": "4️⃣", "difficulty": 1},
