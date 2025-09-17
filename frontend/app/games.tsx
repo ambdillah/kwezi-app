@@ -1506,7 +1506,8 @@ const styles = StyleSheet.create({
   },
   quizOptionButton: {
     backgroundColor: '#F8F9FA',
-    padding: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     marginVertical: 6,
     borderRadius: 12,
     borderWidth: 2,
@@ -1514,6 +1515,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    minHeight: 50, // Taille minimum tactile
   },
   correctQuizOption: {
     backgroundColor: '#D4F8D4',
