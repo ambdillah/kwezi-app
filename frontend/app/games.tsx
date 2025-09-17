@@ -1198,12 +1198,35 @@ const styles = StyleSheet.create({
   },
 
   // Styles pour le jeu de mémoire (Mémoire des fleurs)
+  memoryStartScreen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  memoryStartTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#2C3E50',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  memoryStartDescription: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 40,
+    paddingHorizontal: 10,
+    lineHeight: 24,
+    maxWidth: 320,
+  },
   startMemoryButton: {
     backgroundColor: '#4ECDC4',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
     borderRadius: 25,
-    marginTop: 20,
+    minWidth: 250,
+    alignItems: 'center',
   },
   startButtonText: {
     color: 'white',
