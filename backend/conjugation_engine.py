@@ -187,10 +187,10 @@ def get_available_verbs():
     db = get_database()
     verbs = list(db.words.find({"category": "verbes"}))
     
-    # Filtrer les verbes shimaoré qui commencent par 'ou'
+    # Filtrer les verbes shimaoré qui commencent par 'ou' ou 'Ou'
     shimaore_infinitives = []
     for verb in verbs:
-        if verb['shimaore'].startswith('ou'):
+        if verb['shimaore'].lower().startswith('ou'):
             shimaore_infinitives.append({
                 'french': verb['french'],
                 'shimaore': verb['shimaore'],
