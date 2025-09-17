@@ -74,13 +74,62 @@ export default function LearnScreen() {
     fetchWords();
   }, []);
 
-  const speakWord = (text: string, language: 'fr' | 'sw' = 'fr') => {
-    const lang = language === 'fr' ? 'fr-FR' : 'sw-KE'; // Approximation pour shimaoré/kibouchi
-    Speech.speak(text, {
-      language: lang,
-      pitch: 1.1,
-      rate: 0.8,
-    });
+  const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr') => {
+    // Configuration des langues pour une meilleure prononciation
+    let lang = 'fr-FR';
+    let pitch = 1.0;
+    let rate = 0.7; // Plus lent pour les enfants
+    
+    switch (language) {
+      case 'fr':
+        lang = 'fr-FR';
+        pitch = 1.0;
+        rate = 0.7;
+        break;
+      case 'shimaore':
+        // Utiliser swahili comme approximation pour shimaoré
+        lang = 'sw-KE';
+        pitch = 1.1;
+        rate = 0.6; // Encore plus lent pour les langues locales
+        break;
+      case 'kibouchi':
+        // Utiliser malgache comme approximation pour kibouchi
+        lang = 'mg-MG';
+        pitch = 1.1;
+        rate = 0.6;
+        break;
+    }
+
+    try {
+      // Vérifier si la synthèse vocale est disponible
+      const isAvailable = await Speech.isSpeakingAsync();
+      if (isAvailable) {
+        await Speech.stop(); // Arrêter tout discours en cours
+      }
+      
+      Speech.speak(text, {
+        language: lang,
+        pitch: pitch,
+        rate: rate,
+        volume: 1.0,
+        onStart: () => console.log(`🔊 Prononciation de "${text}" en ${language}`),
+        onDone: () => console.log(`✅ Prononciation terminée`),
+        onError: (error) => {
+          console.log(`❌ Erreur de prononciation:`, error);
+          // Fallback vers le français si la langue n'est pas supportée
+          if (language !== 'fr') {
+            Speech.speak(text, {
+              language: 'fr-FR',
+              pitch: 1.0,
+              rate: 0.7,
+            });
+          }
+        }
+      });
+    } catch (error) {
+      console.log('Erreur Speech:', error);
+      Alert.alert('Info', 'La prononciation audio n\'est pas disponible sur cet appareil.');
+    }
   };
 
   const selectCategory = (category: string) => {
