@@ -74,6 +74,49 @@ export default function LearnScreen() {
     fetchWords();
   }, []);
 
+  const speakAllLanguages = async (word: Word) => {
+    try {
+      // Écouter français d'abord
+      await new Promise((resolve) => {
+        Speech.speak(word.french, {
+          language: 'fr-FR',
+          pitch: 1.0,
+          rate: 0.7,
+          onDone: resolve,
+        });
+      });
+
+      // Pause entre les langues
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Écouter shimaoré
+      await new Promise((resolve) => {
+        Speech.speak(word.shimaore, {
+          language: 'sw-KE',
+          pitch: 1.1,
+          rate: 0.6,
+          onDone: resolve,
+        });
+      });
+
+      // Pause entre les langues
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Écouter kibouchi
+      await new Promise((resolve) => {
+        Speech.speak(word.kibouchi, {
+          language: 'mg-MG',
+          pitch: 1.1,
+          rate: 0.6,
+          onDone: resolve,
+        });
+      });
+      
+    } catch (error) {
+      console.log('Erreur lors de la lecture de toutes les langues:', error);
+    }
+  };
+
   const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr') => {
     // Configuration des langues pour une meilleure prononciation
     let lang = 'fr-FR';
