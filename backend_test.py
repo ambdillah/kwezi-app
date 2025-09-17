@@ -12638,6 +12638,215 @@ class MayotteEducationTester:
         
         return failed == 0
 
+    def test_comprehensive_words_and_emojis_verification(self):
+        """Test comprehensive words and emojis verification as requested in review"""
+        print("\n=== Testing Comprehensive Words and Emojis Verification ===")
+        
+        try:
+            # 1. Test /api/words endpoint to verify it returns all words (426+ words expected)
+            print("--- Testing /api/words Endpoint for Total Word Count ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Could not retrieve words: {response.status_code}")
+                return False
+            
+            words = response.json()
+            total_words = len(words)
+            print(f"Total words found: {total_words}")
+            
+            # Check if we have 426+ words as expected
+            if total_words >= 426:
+                print(f"✅ Word count verification PASSED: {total_words} words (426+ expected)")
+                word_count_ok = True
+            else:
+                print(f"❌ Word count verification FAILED: {total_words} words (426+ expected)")
+                word_count_ok = False
+            
+            # 2. Test specific words with emojis integration
+            print("\n--- Testing Specific Words with Emojis Integration ---")
+            
+            words_by_french = {word['french']: word for word in words}
+            
+            # Test specific words mentioned in review request with their expected emojis
+            emoji_test_cases = [
+                {"french": "Maison", "expected_emoji": "🏠", "shimaore": "Nyoumba", "kibouchi": "Tragnou"},
+                {"french": "Plage", "expected_emoji": "🏖️", "shimaore": "Mtsangani", "kibouchi": "Fassigni"},
+                {"french": "Chat", "expected_emoji": "🐱", "shimaore": "Paha", "kibouchi": "Moirou"},
+                {"french": "Chien", "expected_emoji": "🐕", "shimaore": "Mbwa", "kibouchi": "Fadroka"},
+                {"french": "Rouge", "expected_emoji": "🔴", "shimaore": "Ndzoukoundrou", "kibouchi": "Mena"},
+                {"french": "Bleu", "expected_emoji": "🔵", "shimaore": "Bilé", "kibouchi": "Bilé"},
+                {"french": "Un", "expected_emoji": "1️⃣", "shimaore": "Moja", "kibouchi": "Areki"},
+                {"french": "Deux", "expected_emoji": "2️⃣", "shimaore": "Mbili", "kibouchi": "Aroyi"},
+                {"french": "Main", "expected_emoji": "✋", "shimaore": "Mhono", "kibouchi": "Tagnana"},
+                {"french": "Pied", "expected_emoji": "🦶", "shimaore": "Mindrou", "kibouchi": "Viti"}
+            ]
+            
+            emoji_tests_passed = True
+            
+            for test_case in emoji_test_cases:
+                french_word = test_case['french']
+                if french_word in words_by_french:
+                    word = words_by_french[french_word]
+                    
+                    # Check emoji integration
+                    has_emoji = 'image_url' in word and word['image_url'] == test_case['expected_emoji']
+                    
+                    # Check translations
+                    shimaore_correct = word['shimaore'] == test_case['shimaore']
+                    kibouchi_correct = word['kibouchi'] == test_case['kibouchi']
+                    
+                    if has_emoji and shimaore_correct and kibouchi_correct:
+                        print(f"✅ {french_word}: {test_case['expected_emoji']} | {word['shimaore']} (Shimaoré) / {word['kibouchi']} (Kibouchi)")
+                    else:
+                        print(f"❌ {french_word}: Issues found")
+                        if not has_emoji:
+                            actual_emoji = word.get('image_url', 'None')
+                            print(f"   - Emoji: Expected '{test_case['expected_emoji']}', got '{actual_emoji}'")
+                        if not shimaore_correct:
+                            print(f"   - Shimaoré: Expected '{test_case['shimaore']}', got '{word['shimaore']}'")
+                        if not kibouchi_correct:
+                            print(f"   - Kibouchi: Expected '{test_case['kibouchi']}', got '{word['kibouchi']}'")
+                        emoji_tests_passed = False
+                else:
+                    print(f"❌ {french_word} not found in database")
+                    emoji_tests_passed = False
+            
+            # 3. Test all categories are available
+            print("\n--- Testing All Categories Availability ---")
+            
+            categories = set(word['category'] for word in words)
+            expected_categories = {
+                'salutations', 'famille', 'couleurs', 'animaux', 'nombres', 
+                'corps', 'grammaire', 'maison', 'transport', 'vetements', 
+                'nourriture', 'adjectifs', 'nature', 'expressions', 'verbes'
+            }
+            
+            print(f"Found categories ({len(categories)}): {sorted(categories)}")
+            print(f"Expected categories ({len(expected_categories)}): {sorted(expected_categories)}")
+            
+            if expected_categories.issubset(categories):
+                print(f"✅ All 15 expected categories found")
+                categories_ok = True
+            else:
+                missing = expected_categories - categories
+                print(f"❌ Missing categories: {missing}")
+                categories_ok = False
+            
+            # 4. Test category filtering with examples
+            print("\n--- Testing Category Filtering with Examples ---")
+            
+            category_filter_tests = [
+                {"category": "famille", "expected_min": 15},
+                {"category": "couleurs", "expected_min": 8},
+                {"category": "animaux", "expected_min": 50},
+                {"category": "nombres", "expected_min": 20},
+                {"category": "corps", "expected_min": 25},
+                {"category": "verbes", "expected_min": 80}
+            ]
+            
+            category_filtering_ok = True
+            
+            for test in category_filter_tests:
+                category = test['category']
+                expected_min = test['expected_min']
+                
+                response = self.session.get(f"{API_BASE}/words?category={category}")
+                if response.status_code == 200:
+                    category_words = response.json()
+                    actual_count = len(category_words)
+                    
+                    if actual_count >= expected_min:
+                        print(f"✅ {category}: {actual_count} words (expected min {expected_min})")
+                        
+                        # Show sample words from category
+                        if category_words:
+                            sample_word = category_words[0]
+                            print(f"   Sample: {sample_word['french']} = {sample_word['shimaore']} / {sample_word['kibouchi']}")
+                    else:
+                        print(f"❌ {category}: {actual_count} words (expected min {expected_min})")
+                        category_filtering_ok = False
+                else:
+                    print(f"❌ {category}: API call failed with status {response.status_code}")
+                    category_filtering_ok = False
+            
+            # 5. Verify Shimaoré and Kibouchi translations are present
+            print("\n--- Testing Shimaoré and Kibouchi Translations Presence ---")
+            
+            words_with_shimaore = [w for w in words if w.get('shimaore') and w['shimaore'].strip()]
+            words_with_kibouchi = [w for w in words if w.get('kibouchi') and w['kibouchi'].strip()]
+            
+            shimaore_percentage = (len(words_with_shimaore) / total_words) * 100
+            kibouchi_percentage = (len(words_with_kibouchi) / total_words) * 100
+            
+            print(f"Words with Shimaoré translations: {len(words_with_shimaore)}/{total_words} ({shimaore_percentage:.1f}%)")
+            print(f"Words with Kibouchi translations: {len(words_with_kibouchi)}/{total_words} ({kibouchi_percentage:.1f}%)")
+            
+            # Most words should have both translations (allowing for some special cases)
+            translations_ok = shimaore_percentage >= 95 and kibouchi_percentage >= 95
+            
+            if translations_ok:
+                print("✅ Shimaoré and Kibouchi translations are well represented")
+            else:
+                print("❌ Some words are missing translations")
+            
+            # 6. Test that the problem of "mots et expressions non visibles" is resolved
+            print("\n--- Testing Problem Resolution: 'Mots et expressions non visibles' ---")
+            
+            # Check that we have visible content in all major categories
+            visibility_tests = []
+            
+            for category in ['salutations', 'famille', 'couleurs', 'animaux', 'nombres']:
+                cat_response = self.session.get(f"{API_BASE}/words?category={category}")
+                if cat_response.status_code == 200:
+                    cat_words = cat_response.json()
+                    if len(cat_words) > 0:
+                        visibility_tests.append(f"✅ {category}: {len(cat_words)} words visible")
+                    else:
+                        visibility_tests.append(f"❌ {category}: No words visible")
+                else:
+                    visibility_tests.append(f"❌ {category}: API error")
+            
+            for test_result in visibility_tests:
+                print(f"   {test_result}")
+            
+            problem_resolved = all("✅" in test for test in visibility_tests)
+            
+            if problem_resolved:
+                print("✅ Problem 'mots et expressions non visibles' has been RESOLVED")
+            else:
+                print("❌ Problem 'mots et expressions non visibles' still exists")
+            
+            # Overall result
+            all_tests_passed = (
+                word_count_ok and 
+                emoji_tests_passed and 
+                categories_ok and 
+                category_filtering_ok and 
+                translations_ok and 
+                problem_resolved
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 COMPREHENSIVE WORDS AND EMOJIS VERIFICATION COMPLETED SUCCESSFULLY!")
+                print(f"✅ Total words: {total_words} (426+ requirement met)")
+                print("✅ All specific words with emojis verified:")
+                print("   - Maison (🏠), Plage (🏖️), Chat (🐱), Chien (🐕)")
+                print("   - Rouge (🔴), Bleu (🔵), Un (1️⃣), Deux (2️⃣)")
+                print("   - Main (✋), Pied (🦶)")
+                print("✅ All 15 categories available and accessible")
+                print("✅ Category filtering working with sufficient content")
+                print("✅ Shimaoré and Kibouchi translations present")
+                print("✅ Problem 'mots et expressions non visibles' has been resolved")
+                print("✅ Database initialization successful - all content is now visible and accessible")
+            else:
+                print("\n❌ Some aspects of the comprehensive verification failed")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Comprehensive words and emojis verification error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run audio integration verification test for famille section as requested in review"""
         print("🎵 MAYOTTE EDUCATIONAL APP - AUDIO INTEGRATION VERIFICATION TEST 🎵")
