@@ -249,7 +249,19 @@ export default function GamesScreen() {
       <View style={styles.gameContainer}>
         <View style={styles.gameHeader}>
           <Text style={styles.gameTitle}>Associer les mots 🐒</Text>
-          <Text style={styles.scoreText}>Score: {score}</Text>
+        </View>
+        
+        <View style={styles.gameProgressBar}>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Question</Text>
+            <Text style={styles.progressValue}>
+              {currentQuestionIndex + 1} / {questionsGenerated.length}
+            </Text>
+          </View>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Score</Text>
+            <Text style={styles.progressValue}>{score}</Text>
+          </View>
         </View>
         
         <View style={styles.questionContainer}>
