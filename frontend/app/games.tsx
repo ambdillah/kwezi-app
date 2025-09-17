@@ -26,6 +26,17 @@ interface Word {
   image_url?: string;
 }
 
+interface Sentence {
+  id: string;
+  french: string;
+  shimaore: string;
+  kibouchi: string;
+  tense: string;
+  difficulty: number;
+  shimaore_words: string[];
+  kibouchi_words: string[];
+}
+
 interface GameCard {
   id: string;
   title: string;
