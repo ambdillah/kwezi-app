@@ -1089,8 +1089,6 @@ export default function GamesScreen() {
         return renderQuizGame();
       case 'build-sentence':
         return renderBuildSentenceGame();
-      case 'sentence-builder':
-        return renderBuildSentenceGame();
       default:
         return null;
     }
