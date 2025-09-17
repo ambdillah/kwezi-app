@@ -128,7 +128,6 @@ class ConjugationEngine:
             }
         }
         
-    def __init__(self):
         # Règles de conjugaison shimaoré
         self.shimaore_conjugation = {
             'present': {
