@@ -12847,6 +12847,128 @@ class MayotteEducationTester:
             print(f"❌ Comprehensive words and emojis verification error: {e}")
             return False
 
+    def test_category_filtering(self):
+        """Test category filtering functionality"""
+        print("\n=== Testing Category Filtering ===")
+        
+        try:
+            response = self.session.get(f"{API_BASE}/words?category=famille")
+            if response.status_code == 200:
+                famille_words = response.json()
+                print(f"✅ Category filtering working - Found {len(famille_words)} famille words")
+                
+                # Verify all words are in famille category
+                for word in famille_words:
+                    if word['category'] != 'famille':
+                        print(f"❌ Word {word['french']} has wrong category: {word['category']}")
+                        return False
+                
+                return True
+            else:
+                print(f"❌ Category filtering failed: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Category filtering error: {e}")
+            return False
+    
+    def test_word_crud(self):
+        """Test word CRUD operations"""
+        print("\n=== Testing Word CRUD Operations ===")
+        
+        try:
+            # Create a test word
+            test_word = {
+                "french": "Test Word",
+                "shimaore": "Test Shimaoré",
+                "kibouchi": "Test Kibouchi",
+                "category": "test",
+                "difficulty": 1
+            }
+            
+            # CREATE
+            create_response = self.session.post(f"{API_BASE}/words", json=test_word)
+            if create_response.status_code != 200:
+                print(f"❌ CREATE failed: {create_response.status_code}")
+                return False
+            
+            created_word = create_response.json()
+            word_id = created_word['id']
+            print(f"✅ CREATE successful - ID: {word_id}")
+            
+            # READ
+            read_response = self.session.get(f"{API_BASE}/words/{word_id}")
+            if read_response.status_code != 200:
+                print(f"❌ READ failed: {read_response.status_code}")
+                return False
+            print("✅ READ successful")
+            
+            # UPDATE
+            updated_word = test_word.copy()
+            updated_word['french'] = "Updated Test Word"
+            
+            update_response = self.session.put(f"{API_BASE}/words/{word_id}", json=updated_word)
+            if update_response.status_code != 200:
+                print(f"❌ UPDATE failed: {update_response.status_code}")
+                return False
+            print("✅ UPDATE successful")
+            
+            # DELETE
+            delete_response = self.session.delete(f"{API_BASE}/words/{word_id}")
+            if delete_response.status_code != 200:
+                print(f"❌ DELETE failed: {delete_response.status_code}")
+                return False
+            print("✅ DELETE successful")
+            
+            return True
+            
+        except Exception as e:
+            print(f"❌ CRUD operations error: {e}")
+            return False
+    
+    def test_exercise_management(self):
+        """Test exercise management functionality"""
+        print("\n=== Testing Exercise Management ===")
+        
+        try:
+            # Get exercises
+            response = self.session.get(f"{API_BASE}/exercises")
+            if response.status_code == 200:
+                exercises = response.json()
+                print(f"✅ Exercise retrieval working - Found {len(exercises)} exercises")
+                return True
+            else:
+                print(f"❌ Exercise management failed: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Exercise management error: {e}")
+            return False
+    
+    def test_user_progress(self):
+        """Test user progress tracking"""
+        print("\n=== Testing User Progress Tracking ===")
+        
+        try:
+            # Create test progress
+            test_progress = {
+                "user_name": "Test User",
+                "exercise_id": "test_exercise_id",
+                "score": 85
+            }
+            
+            response = self.session.post(f"{API_BASE}/progress", json=test_progress)
+            if response.status_code == 200:
+                print("✅ User progress tracking working")
+                return True
+            else:
+                print(f"❌ User progress tracking failed: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ User progress tracking error: {e}")
+            return False
+
     def test_authentic_translations_restoration_verification(self):
         """Test comprehensive verification of authentic translations restoration as per review request"""
         print("\n=== Testing Authentic Translations Restoration Verification ===")
