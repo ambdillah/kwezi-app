@@ -908,12 +908,184 @@ export default function GamesScreen() {
     );
   };
 
-  const renderBuildSentenceGame = () => (
-    <View style={styles.gameContainer}>
-      <Text style={styles.gameTitle}>Construire des phrases 📝</Text>
-      <Text style={styles.comingSoon}>Bientôt disponible! En cours de développement...</Text>
-    </View>
-  );
+  const renderBuildSentenceGame = () => {
+    // Fonctions pour gérer les mots
+    const addWordToSentence = (word: string) => {
+      setBuiltSentence([...builtSentence, word]);
+      setAvailableWords(availableWords.filter(w => w !== word));
+    };
+
+    const removeWordFromSentence = (index: number) => {
+      const word = builtSentence[index];
+      setBuiltSentence(builtSentence.filter((_, i) => i !== index));
+      setAvailableWords([...availableWords, word]);
+    };
+
+    const checkSentence = () => {
+      if (!currentSentence) return;
+      
+      const correctWords = selectedLanguage === 'shimaore' 
+        ? currentSentence.shimaore_words 
+        : currentSentence.kibouchi_words;
+      
+      const isCorrect = builtSentence.length === correctWords.length &&
+        builtSentence.every((word, index) => word === correctWords[index]);
+      
+      if (isCorrect) {
+        setSentenceScore(sentenceScore + 10);
+        Alert.alert('Bravo! 🎉', 'Phrase correcte!', [
+          { text: 'Continuer', onPress: nextSentence }
+        ]);
+        
+        // Prononcer la phrase correcte
+        const correctSentence = selectedLanguage === 'shimaore' 
+          ? currentSentence.shimaore 
+          : currentSentence.kibouchi;
+        Speech.speak(correctSentence, { language: 'sw-KE', rate: 0.7 });
+      } else {
+        Alert.alert('Essaie encore! 🤔', 'L\'ordre des mots n\'est pas correct.');
+      }
+    };
+
+    const nextSentence = () => {
+      if (currentSentenceIndex < sentences.length - 1) {
+        const nextIndex = currentSentenceIndex + 1;
+        const nextSent = sentences[nextIndex];
+        setCurrentSentenceIndex(nextIndex);
+        setCurrentSentence(nextSent);
+        
+        const wordsToShuffle = selectedLanguage === 'shimaore' 
+          ? nextSent.shimaore_words 
+          : nextSent.kibouchi_words;
+        setAvailableWords([...wordsToShuffle].sort(() => Math.random() - 0.5));
+        setBuiltSentence([]);
+      } else {
+        Alert.alert('Félicitations! 🎊', `Jeu terminé! Score final: ${sentenceScore + 10}`, [
+          { text: 'Recommencer', onPress: () => startGame('sentence-builder') },
+          { text: 'Retour', onPress: () => { setGameStarted(false); setCurrentGame(null); } }
+        ]);
+      }
+    };
+
+    const switchLanguage = () => {
+      if (!currentSentence) return;
+      
+      const newLanguage = selectedLanguage === 'shimaore' ? 'kibouchi' : 'shimaore';
+      setSelectedLanguage(newLanguage);
+      
+      const wordsToShuffle = newLanguage === 'shimaore' 
+        ? currentSentence.shimaore_words 
+        : currentSentence.kibouchi_words;
+      setAvailableWords([...wordsToShuffle].sort(() => Math.random() - 0.5));
+      setBuiltSentence([]);
+    };
+
+    if (!currentSentence) {
+      return (
+        <View style={styles.gameContainer}>
+          <Text style={styles.gameTitle}>Construire des phrases 📝</Text>
+          <Text style={styles.loadingText}>Chargement des phrases...</Text>
+        </View>
+      );
+    }
+
+    return (
+      <ScrollView style={styles.gameContainer}>
+        <View style={styles.gameHeader}>
+          <Text style={styles.gameTitle}>Construire des phrases 📝</Text>
+        </View>
+        
+        <View style={styles.gameProgressBar}>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Question</Text>
+            <Text style={styles.progressValue}>
+              {currentSentenceIndex + 1} / {sentences.length}
+            </Text>
+          </View>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Score</Text>
+            <Text style={styles.progressValue}>{sentenceScore}</Text>
+          </View>
+          <View style={styles.progressItem}>
+            <Text style={styles.progressLabel}>Langue</Text>
+            <TouchableOpacity onPress={switchLanguage}>
+              <Text style={[styles.progressValue, styles.languageButton]}>
+                {selectedLanguage === 'shimaore' ? 'SH' : 'KI'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Phrase française à traduire */}
+        <View style={styles.sentenceTarget}>
+          <Text style={styles.sentenceTargetLabel}>Phrase à traduire :</Text>
+          <Text style={styles.sentenceTargetText}>{currentSentence.french}</Text>
+        </View>
+
+        {/* Zone de construction de la phrase */}
+        <View style={styles.sentenceBuilder}>
+          <Text style={styles.sentenceBuilderLabel}>
+            Votre phrase en {selectedLanguage === 'shimaore' ? 'Shimaoré' : 'Kibouchi'} :
+          </Text>
+          <View style={styles.sentenceBuilderZone}>
+            {builtSentence.length === 0 ? (
+              <Text style={styles.sentenceBuilderPlaceholder}>
+                Sélectionnez les mots ci-dessous...
+              </Text>
+            ) : (
+              builtSentence.map((word, index) => (
+                <TouchableOpacity 
+                  key={index}
+                  onPress={() => removeWordFromSentence(index)}
+                  style={styles.builtWordButton}
+                >
+                  <Text style={styles.builtWordText}>{word}</Text>
+                </TouchableOpacity>
+              ))
+            )}
+          </View>
+        </View>
+
+        {/* Mots disponibles */}
+        <View style={styles.availableWords}>
+          <Text style={styles.availableWordsLabel}>Mots disponibles :</Text>
+          <View style={styles.availableWordsZone}>
+            {availableWords.map((word, index) => (
+              <TouchableOpacity 
+                key={index}
+                onPress={() => addWordToSentence(word)}
+                style={styles.availableWordButton}
+              >
+                <Text style={styles.availableWordText}>{word}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* Bouton de validation */}
+        <TouchableOpacity 
+          onPress={checkSentence}
+          style={[styles.checkButton, builtSentence.length === 0 && styles.checkButtonDisabled]}
+          disabled={builtSentence.length === 0}
+        >
+          <Text style={styles.checkButtonText}>Vérifier la phrase</Text>
+        </TouchableOpacity>
+
+        {/* Bouton d'aide */}
+        <TouchableOpacity 
+          onPress={() => {
+            const correctSentence = selectedLanguage === 'shimaore' 
+              ? currentSentence.shimaore 
+              : currentSentence.kibouchi;
+            Alert.alert('Aide 💡', `Phrase correcte :\n${correctSentence}`);
+          }}
+          style={styles.helpButton}
+        >
+          <Text style={styles.helpButtonText}>💡 Aide</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    );
+  };
 
   const renderGame = () => {
     switch (currentGame) {
