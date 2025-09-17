@@ -1763,8 +1763,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   languageButton: {
-    backgroundColor: '#3498DB !important',
-    color: '#fff !important',
+    backgroundColor: '#3498DB',
+    color: '#fff',
   },
   sentenceTarget: {
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
