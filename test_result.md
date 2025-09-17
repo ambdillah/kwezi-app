@@ -850,9 +850,21 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+  - task: "Review Request: Maison and Verbes Sections Testing"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ MAISON AND VERBES SECTIONS REVIEW REQUEST TESTING FAILED! Comprehensive testing revealed significant discrepancies from the user-provided images: 1) **CRITICAL: Total word count is 463, should be exactly 449** - The database contains 14 extra words. 2) **CRITICAL: Maison word count is 34, should be exactly 37** - The backend contains 3 fewer maison words than required. 3) **CRITICAL: Verbes word count is 104, should be exactly 106** - The backend contains 2 fewer verbs than required. 4) **CRITICAL: Missing specific maison translations** - 'Vesselles' (ziya/hintagna), 'Miroir' (chido/kitarafa), and 'Torche locale' (gandilé/poutroupmax) not found. 'Marmite' has incorrect translations (got safiou/vilogo, should be gnoumsou/vilangni). 5) **CRITICAL: Missing specific verbes translations** - 'Arnaquer' (ouravi/mangalatra) not found. Several verbs have incorrect translations: 'Jouer' should be 'ounguadza/mtsoma' (got oupaguedza/misoma), 'Comprendre' should be 'ouéléwa/mikoutan' (got ouéléwa/kouéléwa), 'Se laver' should be 'ouhowa/miseki' (got ouhowa/miséki). 6) ✅ **Emojis working** - Both maison (20/34) and verbes (100/104) sections have emojis assigned. 7) ✅ **Basic functionality working** - All basic daily verbs (manger, boire, dormir, marcher, parler) and activity verbs (cultiver, creuser, planter, récolter) are present and accessible. **ROOT CAUSE**: The backend contains a comprehensive educational dataset instead of the specific content from user images. The system needs to be updated to match the exact word counts and translations specified in the user-provided images for both maison (37 words) and verbes (106 verbs) sections."
+
 agent_communication:
   - agent: "testing"
-    message: "🎯 REVIEW REQUEST TESTING COMPLETED - CRITICAL ISSUES FOUND! The backend sections do NOT match the user-provided images exactly. Key findings: 1) Famille has 42 words (should be 20), 2) Couleurs has 16 words (should be 8), 3) Nourriture has 34 words (should be 45), 4) Total is 463 words (should be 445). Some specific translations are missing or incorrect. The backend contains a comprehensive dataset instead of the exact content from user images. Main agent needs to update the backend to match the EXACT word counts and translations specified in the user images."
+    message: "🎯 COMPREHENSIVE MAISON AND VERBES SECTIONS TESTING COMPLETED. The review request testing revealed that the current backend implementation does NOT match the user-provided images exactly. Key findings: MAISON SECTION (Required: 37 words, Found: 34 words) - Missing 3 critical words including 'Vesselles', 'Miroir', and 'Torche locale'. The word 'Marmite' has incorrect translations. VERBES SECTION (Required: 106 verbs, Found: 104 verbs) - Missing 2 verbs including 'Arnaquer'. Several verbs have incorrect translations that don't match the user images. TOTAL DATABASE (Required: 449 words, Found: 463 words) - The database contains 14 extra words. The backend needs to be updated to match the EXACT content from the user-provided images. All basic functionality is working (emojis, basic verbs, activity verbs), but the content doesn't match the specific requirements from the images."
 
   - task: "Famille section updates verification - new word 'Famille' and 'Maman' correction"
     implemented: true
