@@ -144,7 +144,7 @@ export default function GamesScreen() {
     setScore(0);
     setSelectedWords([]);
     
-    if (gameId === 'sentence-builder') {
+    if (gameId === 'build-sentence') {
       // Pour le jeu de construction de phrases
       setSentenceScore(0);
       setCurrentSentenceIndex(0);
