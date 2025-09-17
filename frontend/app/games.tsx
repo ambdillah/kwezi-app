@@ -13,6 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
+import { speakText, speakConjugatedSentence } from '../utils/speechUtils';
 
 const { width } = Dimensions.get('window');
 
