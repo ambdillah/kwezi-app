@@ -16,9 +16,9 @@ words_collection = db.words
 def update_chiffres_and_animaux():
     """Mettre à jour les sections chiffres et animaux avec les données exactes des images"""
     
-    # Supprimer tous les mots existants des catégories "chiffre" et "animal"
-    result_delete_chiffres = words_collection.delete_many({"category": "chiffre"})
-    result_delete_animaux = words_collection.delete_many({"category": "animal"})
+    # Supprimer tous les mots existants des catégories "nombres" et "animaux"
+    result_delete_chiffres = words_collection.delete_many({"category": "nombres"})
+    result_delete_animaux = words_collection.delete_many({"category": "animaux"})
     print(f"🗑️ Supprimé {result_delete_chiffres.deleted_count} anciens chiffres")
     print(f"🗑️ Supprimé {result_delete_animaux.deleted_count} anciens animaux")
     
