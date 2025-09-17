@@ -11,6 +11,7 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import uuid
 from french_conjugator import FrenchConjugator
+from french_conjugator import FrenchConjugator
 
 # Charger les variables d'environnement
 load_dotenv()
