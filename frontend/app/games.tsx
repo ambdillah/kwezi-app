@@ -122,6 +122,30 @@ export default function GamesScreen() {
     }
   };
 
+  const fetchSentences = async (difficulty: number = 1) => {
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/sentences?difficulty=${difficulty}&limit=5`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setSentences(data);
+        if (data.length > 0) {
+          setCurrentSentence(data[0]);
+          setCurrentSentenceIndex(0);
+          // Mélanger les mots de la phrase pour le jeu
+          const wordsToShuffle = selectedLanguage === 'shimaore' 
+            ? data[0].shimaore_words 
+            : data[0].kibouchi_words;
+          setAvailableWords([...wordsToShuffle].sort(() => Math.random() - 0.5));
+          setBuiltSentence([]);
+        }
+      }
+    } catch (error) {
+      Alert.alert('Erreur', 'Impossible de charger les phrases');
+    }
+  };
+
   const startGame = (gameId: string) => {
     const shuffled = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
     setGameWords(shuffled);
