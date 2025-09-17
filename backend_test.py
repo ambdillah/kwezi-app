@@ -13063,61 +13063,65 @@ class MayotteEducationTester:
             return False
 
     def run_all_tests(self):
-        """Run audio integration verification test for famille section as requested in review"""
-        print("🎵 MAYOTTE EDUCATIONAL APP - AUDIO INTEGRATION VERIFICATION TEST 🎵")
-        print("=" * 70)
+        """Run all backend tests including the main authentic translations restoration test"""
+        print("🚀 Starting Mayotte Educational App Backend Testing Suite")
+        print("=" * 80)
         
-        # Run the specific audio integration verification test as requested in review
-        print("Running audio integration verification test for famille section...")
+        test_results = []
         
-        test_results = {}
+        # Basic connectivity tests
+        test_results.append(("Basic Connectivity", self.test_basic_connectivity()))
+        test_results.append(("MongoDB Connection", self.test_mongodb_connection()))
         
-        # Essential connectivity tests first
-        test_results['connectivity'] = self.test_basic_connectivity()
-        test_results['mongodb'] = self.test_mongodb_connection()
-        test_results['init_content'] = self.test_init_base_content()
+        # Content initialization
+        test_results.append(("Init Base Content", self.test_init_base_content()))
         
-        # Main audio integration verification test
-        test_results['audio_integration'] = self.test_audio_integration_famille_section()
+        # Core functionality tests
+        test_results.append(("Get Words", self.test_get_words()))
+        test_results.append(("Category Filtering", self.test_category_filtering()))
+        test_results.append(("Word CRUD Operations", self.test_word_crud()))
+        test_results.append(("Exercise Management", self.test_exercise_management()))
+        test_results.append(("User Progress Tracking", self.test_user_progress()))
         
-        # Summary
-        print(f"\n{'='*70}")
-        print("🎵 AUDIO INTEGRATION VERIFICATION TEST RESULTS 🎵")
-        print(f"{'='*70}")
+        # Comprehensive vocabulary tests
+        test_results.append(("Comprehensive Vocabulary", self.test_comprehensive_vocabulary_initialization()))
+        test_results.append(("Specific Vocabulary from Table", self.test_specific_vocabulary_from_table()))
+        test_results.append(("Updated Greeting Improvements", self.test_updated_greeting_improvements()))
+        test_results.append(("Pronoun Additions", self.test_pronoun_additions()))
+        test_results.append(("New Verb Additions", self.test_new_verb_additions()))
+        test_results.append(("Corrected Numbers System", self.test_corrected_numbers_system()))
         
-        passed = sum(test_results.values())
-        total = len(test_results)
+        # MAIN TEST FOR REVIEW REQUEST
+        test_results.append(("🎯 AUTHENTIC TRANSLATIONS RESTORATION", self.test_authentic_translations_restoration_verification()))
         
-        for test_name, result in test_results.items():
-            status = "✅ PASS" if result else "❌ FAIL"
-            print(f"{test_name.replace('_', ' ').title()}: {status}")
+        # Print results summary
+        print("\n" + "=" * 80)
+        print("🎯 TEST RESULTS SUMMARY")
+        print("=" * 80)
         
-        print(f"\n📊 OVERALL RESULTS: {passed}/{total} tests passed")
+        passed = 0
+        failed = 0
         
-        if test_results.get('audio_integration', False):
-            print("🎉 AUDIO INTEGRATION VERIFICATION TEST PASSED!")
-            print("✅ Audio URLs successfully added to 4 famille words:")
-            print("   - Frère (kibouchi 'Anadahi'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/8n7qk8tu_Anadahi.m4a")
-            print("   - Sœur (kibouchi 'Anabavi'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/c1v1dt3h_Anabavi.m4a")
-            print("   - Oncle paternel (kibouchi 'Baba héli'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/dihqa9ml_Baba%20h%C3%A9li-b%C3%A9.m4a")
-            print("   - Papa (shimaoré 'Baba'): https://customer-assets.emergentagent.com/job_mayotalk/artifacts/wqvjojpg_Baba%20s.m4a")
-            print("✅ Data structure integrity maintained:")
-            print("   - audio_url field present in API responses for words with audio")
-            print("   - URLs correctly formed and accessible")
-            print("   - Only words with audio have audio_url field")
-            print("✅ API functionality verified:")
-            print("   - /api/words?category=famille returns words with audio URLs")
-            print("   - Other famille words correctly have no audio_url field")
-            print("   - All translations, categories, and difficulty levels preserved")
-            print("✅ URL encoding correct:")
-            print("   - Special characters properly encoded (%C3%A9 for é)")
-            print("   - All URLs point to correct .m4a audio files")
-            print("📝 Note: Papa has dual pronunciation files but uses shimaoré version")
-            print("The audio integration for famille section has been successfully verified.")
+        for test_name, result in test_results:
+            status = "✅ PASSED" if result else "❌ FAILED"
+            print(f"{test_name:<40} {status}")
+            if result:
+                passed += 1
+            else:
+                failed += 1
+        
+        print("=" * 80)
+        print(f"Total Tests: {len(test_results)}")
+        print(f"✅ Passed: {passed}")
+        print(f"❌ Failed: {failed}")
+        print(f"Success Rate: {(passed/len(test_results)*100):.1f}%")
+        
+        if failed == 0:
+            print("\n🎉 ALL TESTS PASSED! Backend is working correctly.")
         else:
-            print("❌ Audio integration verification test failed. Please review the issues above.")
+            print(f"\n⚠️ {failed} test(s) failed. Please check the issues above.")
         
-        return passed == total
+        return failed == 0
 
     def test_duplicate_removal_verification(self):
         """Test that all duplicate animals have been successfully removed"""
