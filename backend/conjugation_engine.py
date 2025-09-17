@@ -378,7 +378,7 @@ def create_sentence_database():
                 sentences_to_insert.append(sentence_doc)
     
     # Créer des phrases avec objet (sujet + verbe + objet)
-    for verb in verbs[:5]:  # Utiliser les 5 premiers verbes
+    for verb in verbs[:15]:  # Utiliser les 15 premiers verbes
         for obj in common_objects[:3]:  # 3 objets courants
             for pronoun in ['je', 'tu', 'il']:  # Simplifier pour commencer
                 sentence = engine.create_sentence(
