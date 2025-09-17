@@ -252,19 +252,31 @@ class ConjugationEngine:
         
         return infinitive  # Retour par défaut
     
+    def conjugate_french(self, verb_fr, pronoun, tense='present'):
+        """Conjugue un verbe français correctement"""
+        if tense in self.french_conjugation and pronoun in self.french_conjugation[tense]:
+            if verb_fr in self.french_conjugation[tense][pronoun]:
+                return self.french_conjugation[tense][pronoun][verb_fr]
+        
+        # Conjugaison par défaut si pas trouvée
+        return f"{pronoun} {verb_fr}"
+    
     def create_sentence(self, subject_fr, verb_fr, verb_shimaore, verb_kibouchi, object_fr=None, object_shimaore=None, object_kibouchi=None, tense='present'):
         """Crée une phrase complète en français, shimaoré et kibouchi"""
         
-        # Conjugaison
+        # Conjugaison française correcte
+        french_conjugated = self.conjugate_french(verb_fr, subject_fr.lower(), tense)
+        
+        # Conjugaison shimaoré et kibouchi
         shimaore_verb = self.conjugate_shimaore(verb_shimaore, subject_fr.lower(), tense)
         kibouchi_verb = self.conjugate_kibouchi(verb_kibouchi, subject_fr.lower(), tense)
         
-        # Pronoms
+        # Pronoms pour shimaoré et kibouchi
         shimaore_pronoun = self.pronouns['shimaore'].get(subject_fr.lower(), subject_fr)
         kibouchi_pronoun = self.pronouns['kibouchi'].get(subject_fr.lower(), subject_fr)
         
         # Construction des phrases
-        french_sentence = f"{subject_fr} {verb_fr}"
+        french_sentence = french_conjugated
         shimaore_sentence = f"{shimaore_pronoun} {shimaore_verb}"
         kibouchi_sentence = f"{kibouchi_pronoun} {kibouchi_verb}"
         
