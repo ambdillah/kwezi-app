@@ -324,9 +324,9 @@ def verify_cleaning(db):
     
     print("\n🔍 VÉRIFICATION DU NETTOYAGE...")
     
-    # Compter les mots avec et sans emojis
-    words_with_emojis = db.words.count_documents({"emoji": {"$ne": ""}})
-    words_without_emojis = db.words.count_documents({"emoji": ""})
+    # Compter les mots avec et sans emojis (utilise 'image_url' pas 'emoji')
+    words_with_emojis = db.words.count_documents({"image_url": {"$ne": ""}})
+    words_without_emojis = db.words.count_documents({"image_url": ""})
     total_words = db.words.count_documents({})
     
     print(f"📊 STATISTIQUES FINALES:")
@@ -335,23 +335,28 @@ def verify_cleaning(db):
     print(f"  📈 Total des mots: {total_words}")
     
     # Afficher quelques exemples de mots gardés avec emojis
-    print(f"\n✅ EXEMPLES DE MOTS AVEC EMOJIS GARDÉS:")
-    examples_with_emojis = list(db.words.find({"emoji": {"$ne": ""}}).limit(10))
+    print(f"\n✅ EXEMPLES DE MOTS AVEC EMOJIS GARDÉS (appropriés):")
+    examples_with_emojis = list(db.words.find({"image_url": {"$ne": ""}}).limit(10))
     
     for example in examples_with_emojis:
-        print(f"  {example.get('french', '')}: {example.get('emoji', '')} (approprié)")
+        print(f"  {example.get('french', '')}: {example.get('image_url', '')} (représentation exacte)")
     
     # Afficher quelques exemples de mots nettoyés
-    print(f"\n🧹 EXEMPLES DE MOTS NETTOYÉS (sans emoji):")
-    examples_without_emojis = list(db.words.find({
-        "emoji": "",
-        "french": {"$in": ["pénis", "testicules", "vagin", "respect", "secret"]}
-    }).limit(5))
+    print(f"\n🧹 EXEMPLES DE MOTS NETTOYÉS (emojis supprimés car inappropriés):")
     
-    for example in examples_without_emojis:
-        print(f"  {example.get('french', '')}: (emoji supprimé - approprié)")
+    # Chercher des mots qui ont été nettoyés parmi ceux qu'on visait
+    target_words = ["front", "sourcil", "hanche", "côtes", "épaule", "guide spirituel", "imam", "érosion", "savoir", "pouvoir"]
+    examples_cleaned = []
     
-    print(f"\n✅ Nettoyage terminé - Seuls les emojis avec signification exacte sont conservés")
+    for target in target_words:
+        found = db.words.find_one({"french": target, "image_url": ""})
+        if found:
+            examples_cleaned.append(found.get('french', ''))
+    
+    for example in examples_cleaned[:5]:
+        print(f"  {example}: (emoji supprimé - signification floue/incorrecte)")
+    
+    print(f"\n✅ Nettoyage terminé - Seuls les emojis avec représentation EXACTE sont conservés")
 
 def main():
     """Fonction principale"""
