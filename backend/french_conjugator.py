@@ -129,7 +129,7 @@ class FrenchConjugator:
     
     def needs_apostrophe(self, verb):
         """Détermine si le verbe nécessite une apostrophe avec 'je'"""
-        return verb.lower().startswith(('a', 'e', 'i', 'o', 'u', 'h'))
+        return verb.lower().startswith(('a', 'e', 'i', 'o', 'u', 'h', 'à', 'á', 'â', 'ä', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ò', 'ó', 'ô', 'ö', 'ù', 'ú', 'û', 'ü'))
     
     def get_verb_group(self, verb):
         """Détermine le groupe du verbe"""
