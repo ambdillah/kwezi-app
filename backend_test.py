@@ -16484,3 +16484,67 @@ if __name__ == "__main__":
     else:
         print("\n❌ Expressions and Adjectifs review request testing failed.")
         exit(1)
+
+def main():
+    """Run priority backend tests for the review request"""
+    print("🌺 Starting Mayotte Educational App Backend Testing 🌺")
+    print("=" * 60)
+    
+    tester = MayotteEducationTester()
+    
+    # Track test results
+    test_results = []
+    
+    # Run priority tests for the review request
+    priority_tests = [
+        ("Basic API Connectivity", tester.test_basic_connectivity),
+        ("MongoDB Connection", tester.test_mongodb_connection),
+        ("Educational Content Initialization", tester.test_init_base_content),
+        ("Specific Corrections from User Table", tester.test_specific_corrections_from_user_table),
+    ]
+    
+    for test_name, test_func in priority_tests:
+        print(f"\n{'='*60}")
+        print(f"Running: {test_name}")
+        print('='*60)
+        
+        try:
+            result = test_func()
+            test_results.append((test_name, result))
+            
+            if result:
+                print(f"✅ {test_name}: PASSED")
+            else:
+                print(f"❌ {test_name}: FAILED")
+                
+        except Exception as e:
+            print(f"❌ {test_name}: ERROR - {e}")
+            test_results.append((test_name, False))
+        
+        # Small delay between tests
+        time.sleep(1)
+    
+    # Print final summary
+    print(f"\n{'='*60}")
+    print("🎯 FINAL TEST SUMMARY")
+    print('='*60)
+    
+    passed = sum(1 for _, result in test_results if result)
+    total = len(test_results)
+    
+    for test_name, result in test_results:
+        status = "✅ PASSED" if result else "❌ FAILED"
+        print(f"{status}: {test_name}")
+    
+    print(f"\n📊 Overall Results: {passed}/{total} tests passed ({passed/total*100:.1f}%)")
+    
+    if passed == total:
+        print("🎉 All tests passed! Backend is working perfectly!")
+        return True
+    else:
+        print(f"⚠️ {total-passed} test(s) failed. Please check the issues above.")
+        return False
+
+if __name__ == "__main__":
+    success = main()
+    exit(0 if success else 1)
