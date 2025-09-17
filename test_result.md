@@ -1125,5 +1125,31 @@ agent_communication:
       - working: true
         agent: "testing"
         comment: "🎉 NUMBERS REORGANIZATION VERIFICATION COMPLETED SUCCESSFULLY! All requirements from the review request have been verified and confirmed. ✅ 1. Numerical organization of numbers 1-20 in logical order: All 20 numbers verified in correct sequence (Un, Deux, Trois, Quatre, Cinq, Six, Sept, Huit, Neuf, Dix, Onze, Douze, Treize, Quatorze, Quinze, Seize, Dix-sept, Dix-huit, Dix-neuf, Vingt) with authentic Shimaoré and Kibouchi translations ✅ 2. Other categories remain alphabetically organized: Colors verified in alphabetical order (Blanc, Bleu, Gris, Jaune, Marron, Noir, Rouge, Vert), Greetings verified in alphabetical order (Au revoir, Bonjour, Comment ça va, etc.) ✅ 3. Global functionality working: Backend responds correctly, all API endpoints working, total word count maintained at 548 words, 'nombres' category contains exactly 20 numbers ✅ 4. Previous corrections maintained: Intelligent and Nerveux in adjectifs, Gingembre in nourriture, Torche locale and Cour in maison, Je n'ai pas compris in expressions, duplicate verbs removed (104 unique verbs) ✅ Backend connectivity and MongoDB connection working perfectly ✅ Educational content initialization successful with 548 words ✅ All backend functionality remains intact after reorganization. The numbers reorganization has been completed successfully with all requirements met and no functionality lost."
+  - task: "Expressions and Adjectifs sections review request testing"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ EXPRESSIONS AND ADJECTIFS REVIEW REQUEST TESTING FAILED! Comprehensive testing revealed that the sections do NOT match the user-provided images exactly: 1) **CRITICAL: Expression count is 35, should be exactly 44** - The backend contains only 35 expressions instead of the required 44 from the image. 2) **CRITICAL: Adjectifs count is 19, should be exactly 52** - The backend contains only 19 adjectifs instead of the required 52 from the image. 3) **CRITICAL: Total word count is 463, should be exactly 510** - The database doesn't have the required total of 510 words. 4) **CRITICAL: Alphabetical order incorrect** - Both expressions and adjectifs are NOT in alphabetical order. Current expressions start with 'Aller bien, Aller quelque part, Avoir faim' instead of 'à droite, à gauche, appelez la police !'. Current adjectifs start with 'Beau/Jolie, Bon, Chaud' instead of 'amoureux, ancien, beau/jolie'. 5) **CRITICAL: Missing specific translations** - Required expressions not found: 'j'ai faim', 'j'ai soif', 'excuse-moi/pardon', 'je t'aime'. Required adjectifs not found: 'grand', 'petit', 'beau/jolie', 'intelligent'. 6) **CRITICAL: Missing alphabetical examples** - First expressions should be 'à droite, à gauche, appelez la police !' but got 'Aller bien, Aller quelque part, Avoir faim'. Last expressions should be 'tout droit, trop cher' but got 'Être fatigué, Être pressé'. First adjectifs should be 'amoureux, ancien, beau/jolie' but got 'Beau/Jolie, Bon, Chaud'. Last adjectifs should be 'triste, vieux, vrai' but got 'Petit, Triste, Vieux'. 7) ✅ **No duplicates found** - Both expressions (35 unique) and adjectifs (19 unique) have no duplicate entries. 8) ✅ **Emoji integration working** - Expressions have 27/35 with emojis, adjectifs have 15/19 with emojis. **ROOT CAUSE**: The backend contains a basic educational dataset instead of the comprehensive content from user images. The system needs to be updated to match the exact word counts, alphabetical order, and specific translations specified in the user-provided images."
+
+agent_communication:
   - agent: "testing"
-    message: "🎉 NEW FOOD WORDS ADDITION TESTING COMPLETED SUCCESSFULLY! All requirements from the French review request have been verified and confirmed: ✅ Two new words successfully added to nourriture section: 'Crevettes' (shimaoré: Camba, kibouchi: Ancamba) and 'Langouste' (shimaoré: Camba diva, kibouchi: Ancamba diva) ✅ Alphabetical organization verified: new words correctly positioned in alphabetical order within food section ✅ Total word count confirmed: 550 words (548 + 2 new) ✅ Food section count verified: 45 words (43 + 2 new) ✅ Proper distinction confirmed between 'Crevette' (singular, animals section) and 'Crevettes' (plural, food section) ✅ Global functionality verified: backend working correctly, all API endpoints responding, new entries accessible via API ✅ Backend connectivity and MongoDB operations working perfectly ✅ All CRUD operations remain functional after additions. The addition of the two new food words has been successfully completed and meets all specifications from the review request."
+    message: "🎯 EXPRESSIONS AND ADJECTIFS TESTING COMPLETED - CRITICAL ISSUES FOUND! The testing revealed that the current backend implementation does NOT match the user's provided images for expressions and adjectifs sections. Key findings: 1) Expression count: 35 (need 44), 2) Adjectifs count: 19 (need 52), 3) Total words: 463 (need 510), 4) Alphabetical order incorrect for both sections, 5) Missing specific required translations, 6) Missing required alphabetical examples. The backend needs significant updates to match the exact specifications from the user's images. All other functionality (no duplicates, emoji integration) is working correctly. Main agent should focus on implementing the complete expressions and adjectifs vocabulary as shown in the user's images with proper alphabetical sorting and exact word counts."
+
+test_plan:
+  current_focus:
+    - "Expressions and Adjectifs sections review request testing"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 2
+  run_ui: false
