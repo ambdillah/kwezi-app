@@ -15052,6 +15052,289 @@ class MayotteEducationTester:
             print(f"❌ Transport, vêtements, tradition sections test error: {e}")
             return False
 
+    def test_database_integrity_verification(self):
+        """CRITICAL: Test database integrity verification after user reports data loss"""
+        print("\n=== CRITICAL DATABASE INTEGRITY VERIFICATION ===")
+        print("User reports data loss after fork - verifying current database state")
+        
+        try:
+            # 1. Get current total word count
+            print("\n--- 1. TOTAL WORD COUNT VERIFICATION ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Cannot retrieve words: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            total_words = len(all_words)
+            print(f"Current total words in database: {total_words}")
+            
+            if total_words >= 539:
+                print(f"✅ Total word count meets expectation: {total_words} (539+ expected)")
+            else:
+                print(f"❌ CRITICAL: Total word count below expectation: {total_words} (539+ expected)")
+            
+            # 2. Verify 15 categories and their word counts
+            print("\n--- 2. CATEGORY VERIFICATION (15 categories) ---")
+            categories = {}
+            for word in all_words:
+                category = word['category']
+                if category not in categories:
+                    categories[category] = []
+                categories[category].append(word)
+            
+            expected_categories = [
+                'salutations', 'famille', 'couleurs', 'animaux', 'nombres',
+                'corps', 'grammaire', 'maison', 'transport', 'vetements',
+                'nourriture', 'adjectifs', 'nature', 'expressions', 'verbes'
+            ]
+            
+            print(f"Found {len(categories)} categories:")
+            for category in sorted(categories.keys()):
+                count = len(categories[category])
+                print(f"  {category}: {count} words")
+            
+            missing_categories = set(expected_categories) - set(categories.keys())
+            if missing_categories:
+                print(f"❌ CRITICAL: Missing categories: {missing_categories}")
+                return False
+            else:
+                print("✅ All 15 expected categories found")
+            
+            # 3. PRIORITY: Verify 34 specific corrections from apply_corrections.py
+            print("\n--- 3. CRITICAL: 34 SPECIFIC CORRECTIONS VERIFICATION ---")
+            
+            # Create lookup dictionary for faster searching
+            words_by_french = {word['french']: word for word in all_words}
+            
+            # Test critical corrections that user paid for
+            critical_corrections = [
+                # Numbers corrections
+                {"french": "Un", "shimaore": "Moja", "kibouchi": "Areki"},
+                {"french": "Deux", "shimaore": "Mbili", "kibouchi": "Aroyi"},
+                {"french": "Trois", "shimaore": "Trarou", "kibouchi": "Telou"},
+                {"french": "Quatre", "shimaore": "Nhé", "kibouchi": "Efatra"},
+                {"french": "Cinq", "shimaore": "Tsano", "kibouchi": "Dimi"},
+                
+                # Family corrections
+                {"french": "Frère", "shimaore": "Mwanagna mtroun", "kibouchi": "Anadahi"},
+                {"french": "Sœur", "shimaore": "Mwanagna mtroub", "kibouchi": "Anabavi"},
+                {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba"},
+                {"french": "Maman", "shimaore": "Mama", "kibouchi": "Mama"},
+                
+                # Color corrections
+                {"french": "Bleu", "shimaore": "Bilé", "kibouchi": "Bilé"},
+                {"french": "Vert", "shimaore": "Dhavou", "kibouchi": "Mayitsou"},
+                {"french": "Rouge", "shimaore": "Ndzoukoundrou", "kibouchi": "Mena"},
+                {"french": "Noir", "shimaore": "Nzidhou", "kibouchi": "Mayintigni"},
+                {"french": "Blanc", "shimaore": "Ndjéou", "kibouchi": "Malandi"},
+                
+                # Animal corrections
+                {"french": "Chat", "shimaore": "Paha", "kibouchi": "Moirou"},
+                {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka"},
+                {"french": "Oiseau", "shimaore": "Gnougni", "kibouchi": "Vorougnou"},
+                {"french": "Poisson", "shimaore": "Fi", "kibouchi": "Lokou"},
+                
+                # Food corrections
+                {"french": "Riz", "shimaore": "Tsoholé", "kibouchi": "Vari"},
+                {"french": "Eau", "shimaore": "Maji", "kibouchi": "Ranou"},
+                {"french": "Pain", "shimaore": "Dipé", "kibouchi": "Dipé"},
+                {"french": "Nourriture", "shimaore": "Chaoula", "kibouchi": "Hanigni"},
+                
+                # Body parts corrections
+                {"french": "Tête", "shimaore": "Shitsoi", "kibouchi": "Louha"},
+                {"french": "Main", "shimaore": "Mhono", "kibouchi": "Tagnana"},
+                {"french": "Pied", "shimaore": "Mindrou", "kibouchi": "Viti"},
+                {"french": "Œil", "shimaore": "Matso", "kibouchi": "Faninti"},
+                
+                # House corrections
+                {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou"},
+                {"french": "Porte", "shimaore": "Mlango", "kibouchi": "Varavaragena"},
+                {"french": "Lit", "shimaore": "Chtrandra", "kibouchi": "Koubani"},
+                
+                # Nature corrections
+                {"french": "Arbre", "shimaore": "Mwiri", "kibouchi": "Kakazou"},
+                {"french": "Soleil", "shimaore": "Mwézi", "kibouchi": "Zouva"},
+                {"french": "Mer", "shimaore": "Bahari", "kibouchi": "Bahari"},
+                {"french": "Plage", "shimaore": "Mtsangani", "kibouchi": "Fassigni"},
+                
+                # Grammar corrections
+                {"french": "Je", "shimaore": "Wami", "kibouchi": "Zahou"},
+                {"french": "Tu", "shimaore": "Wawé", "kibouchi": "Anaou"},
+                {"french": "Il/Elle", "shimaore": "Wayé", "kibouchi": "Izi"}
+            ]
+            
+            corrections_verified = 0
+            corrections_missing = 0
+            corrections_incorrect = 0
+            
+            for correction in critical_corrections:
+                french_word = correction['french']
+                if french_word in words_by_french:
+                    word = words_by_french[french_word]
+                    
+                    # Check if translations match exactly
+                    shimaore_match = word['shimaore'] == correction['shimaore']
+                    kibouchi_match = word['kibouchi'] == correction['kibouchi']
+                    
+                    if shimaore_match and kibouchi_match:
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                        corrections_verified += 1
+                    else:
+                        print(f"❌ {french_word}: Expected {correction['shimaore']}/{correction['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        corrections_incorrect += 1
+                else:
+                    print(f"❌ MISSING: {french_word} not found in database")
+                    corrections_missing += 1
+            
+            print(f"\nCorrections Summary:")
+            print(f"✅ Verified: {corrections_verified}")
+            print(f"❌ Incorrect: {corrections_incorrect}")
+            print(f"❌ Missing: {corrections_missing}")
+            print(f"Total tested: {len(critical_corrections)}")
+            
+            # 4. Database integrity checks
+            print("\n--- 4. DATABASE INTEGRITY CHECKS ---")
+            
+            # Check for duplicates
+            french_words = [word['french'] for word in all_words]
+            unique_french = set(french_words)
+            duplicates_found = len(french_words) - len(unique_french)
+            
+            if duplicates_found == 0:
+                print("✅ No duplicate entries found")
+            else:
+                print(f"❌ CRITICAL: {duplicates_found} duplicate entries found")
+                # Find and list duplicates
+                duplicate_words = []
+                for word in french_words:
+                    if french_words.count(word) > 1 and word not in duplicate_words:
+                        duplicate_words.append(word)
+                print(f"Duplicate words: {duplicate_words}")
+            
+            # Check for incomplete translations
+            incomplete_translations = 0
+            for word in all_words:
+                if not word['shimaore'] and not word['kibouchi']:
+                    incomplete_translations += 1
+                    print(f"❌ {word['french']}: No translations in either language")
+            
+            if incomplete_translations == 0:
+                print("✅ All words have at least one translation")
+            else:
+                print(f"❌ {incomplete_translations} words have no translations")
+            
+            # Check alphabetical sorting within categories
+            print("\n--- 5. ALPHABETICAL SORTING VERIFICATION ---")
+            sorting_issues = 0
+            for category_name, category_words in categories.items():
+                french_names = [word['french'] for word in category_words]
+                sorted_names = sorted(french_names, key=str.lower)
+                
+                if french_names == sorted_names:
+                    print(f"✅ {category_name}: Properly sorted ({len(french_names)} words)")
+                else:
+                    print(f"❌ {category_name}: NOT properly sorted")
+                    sorting_issues += 1
+            
+            # 6. API functionality verification
+            print("\n--- 6. API FUNCTIONALITY VERIFICATION ---")
+            
+            # Test MongoDB connection stability
+            api_tests_passed = 0
+            api_tests_total = 4
+            
+            # Test 1: Basic connectivity
+            try:
+                response = self.session.get(f"{BACKEND_URL}/")
+                if response.status_code == 200:
+                    print("✅ Root endpoint working")
+                    api_tests_passed += 1
+                else:
+                    print(f"❌ Root endpoint failed: {response.status_code}")
+            except Exception as e:
+                print(f"❌ Root endpoint error: {e}")
+            
+            # Test 2: Words endpoint
+            try:
+                response = self.session.get(f"{API_BASE}/words")
+                if response.status_code == 200:
+                    print("✅ Words endpoint working")
+                    api_tests_passed += 1
+                else:
+                    print(f"❌ Words endpoint failed: {response.status_code}")
+            except Exception as e:
+                print(f"❌ Words endpoint error: {e}")
+            
+            # Test 3: Category filtering
+            try:
+                response = self.session.get(f"{API_BASE}/words?category=famille")
+                if response.status_code == 200:
+                    famille_words = response.json()
+                    print(f"✅ Category filtering working (famille: {len(famille_words)} words)")
+                    api_tests_passed += 1
+                else:
+                    print(f"❌ Category filtering failed: {response.status_code}")
+            except Exception as e:
+                print(f"❌ Category filtering error: {e}")
+            
+            # Test 4: Individual word retrieval
+            try:
+                if all_words:
+                    test_word = all_words[0]
+                    response = self.session.get(f"{API_BASE}/words/{test_word['id']}")
+                    if response.status_code == 200:
+                        print("✅ Individual word retrieval working")
+                        api_tests_passed += 1
+                    else:
+                        print(f"❌ Individual word retrieval failed: {response.status_code}")
+                else:
+                    print("❌ No words available for individual retrieval test")
+            except Exception as e:
+                print(f"❌ Individual word retrieval error: {e}")
+            
+            # Final assessment
+            print("\n" + "=" * 60)
+            print("CRITICAL DATABASE INTEGRITY ASSESSMENT")
+            print("=" * 60)
+            
+            critical_issues = []
+            
+            if total_words < 539:
+                critical_issues.append(f"Total word count too low: {total_words} (expected 539+)")
+            
+            if missing_categories:
+                critical_issues.append(f"Missing categories: {missing_categories}")
+            
+            if corrections_missing > 0 or corrections_incorrect > 0:
+                critical_issues.append(f"Corrections issues: {corrections_missing} missing, {corrections_incorrect} incorrect")
+            
+            if duplicates_found > 0:
+                critical_issues.append(f"Duplicate entries: {duplicates_found}")
+            
+            if incomplete_translations > 0:
+                critical_issues.append(f"Incomplete translations: {incomplete_translations}")
+            
+            if api_tests_passed < api_tests_total:
+                critical_issues.append(f"API issues: {api_tests_total - api_tests_passed} failed tests")
+            
+            if not critical_issues:
+                print("🎉 DATABASE INTEGRITY VERIFICATION PASSED!")
+                print("✅ All critical checks passed")
+                print("✅ User's valuable translations are preserved")
+                print("✅ Database is in good state")
+                return True
+            else:
+                print("❌ CRITICAL DATABASE INTEGRITY ISSUES FOUND:")
+                for issue in critical_issues:
+                    print(f"   • {issue}")
+                print("\n⚠️ URGENT: Data recovery may be needed")
+                return False
+            
+        except Exception as e:
+            print(f"❌ Database integrity verification failed with error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the main authentic translations restoration test"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
