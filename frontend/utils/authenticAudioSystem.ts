@@ -27,6 +27,20 @@ const AUTHENTIC_AUDIO_MAPPING = {
   'Sœur': {
     kibouchi: 'https://customer-assets.emergentagent.com/job_4a14c8f2-84cf-4ceb-96bb-f2064afeeb42/artifacts/f5qkf8pn_Anabavi.m4a'
   },
+  // Grand-père (nouveaux enregistrements)
+  'Grand-père': {
+    shimaore: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/vk9s6gu0_Bacoco.m4a',
+    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/ed6namc7_Dadayi.m4a'
+  },
+  // Grand-mère (nouveaux enregistrements)
+  'Grand-mère': {
+    shimaore: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/ucv8yl4c_Coco.m4a',
+    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/8t1at8sj_Dadi.m4a'
+  },
+  // Madame (nouveau enregistrement)
+  'Madame': {
+    shimaore: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/1q9481sa_Bweni.m4a'
+  },
   // Variante famille (à identifier)
   'Baba héli': {
     kibouchi: 'https://customer-assets.emergentagent.com/job_4a14c8f2-84cf-4ceb-96bb-f2064afeeb42/artifacts/hg2eeidx_Baba%20h%C3%A9li-b%C3%A9.m4a'
