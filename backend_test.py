@@ -16148,6 +16148,9 @@ class MayotteEducationTester:
         # MAIN TEST FOR REVIEW REQUEST
         test_results.append(("🎯 AUTHENTIC TRANSLATIONS RESTORATION", self.test_authentic_translations_restoration_verification()))
         
+        # MAIN TEST FOR REVIEW REQUEST - SECOND BATCH AUDIO FILES
+        test_results.append(("🎯 SECOND BATCH AUDIO FILES INTEGRATION", self.test_second_batch_audio_files_integration()))
+        
         # Print results summary
         print("\n" + "=" * 80)
         print("🎯 TEST RESULTS SUMMARY")
