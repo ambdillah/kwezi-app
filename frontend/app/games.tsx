@@ -96,6 +96,15 @@ export default function GamesScreen() {
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  
+  // États pour le jeu de construction de phrases
+  const [sentences, setSentences] = useState<Sentence[]>([]);
+  const [currentSentence, setCurrentSentence] = useState<Sentence | null>(null);
+  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+  const [selectedLanguage, setSelectedLanguage] = useState<'shimaore' | 'kibouchi'>('shimaore');
+  const [availableWords, setAvailableWords] = useState<string[]>([]);
+  const [builtSentence, setBuiltSentence] = useState<string[]>([]);
+  const [sentenceScore, setSentenceScore] = useState(0);
 
   useEffect(() => {
     fetchWords();
