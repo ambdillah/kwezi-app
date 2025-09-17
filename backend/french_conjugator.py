@@ -281,16 +281,20 @@ def test_conjugator():
     """Teste le conjugateur français"""
     conjugator = FrenchConjugator()
     
-    test_verbs = ['abîmer', 'être', 'avoir', 'parler', 'finir', 'écouter', 'manger']
-    pronouns = ['je', 'tu', 'il', 'nous', 'vous', 'ils']
+    test_verbs = ['abîmer', 'parler', 'finir']
+    pronouns = ['je', 'tu', 'il']
+    tenses = ['present', 'past', 'future']
     
     print("=== TEST DU CONJUGATEUR FRANÇAIS ===")
     
     for verb in test_verbs:
         print(f"\nVerbe: {verb}")
-        for pronoun in pronouns:
-            conjugated = conjugator.conjugate_verb(verb, pronoun)
-            print(f"  {conjugated}")
+        for tense in tenses:
+            print(f"  {tense.upper()}:")
+            for pronoun in pronouns:
+                conjugated = conjugator.conjugate_verb(verb, pronoun, tense)
+                print(f"    {conjugated}")
+            print()
 
 if __name__ == "__main__":
     test_conjugator()
