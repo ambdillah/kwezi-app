@@ -1405,10 +1405,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   quizProgress: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 15,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    gap: 8,
   },
   quizCard: {
     backgroundColor: 'white',
