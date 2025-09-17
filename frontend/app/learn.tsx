@@ -502,18 +502,31 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
   },
+  pronunciationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+    marginTop: 10,
+  },
   pronounceButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#4ECDC4',
-    paddingVertical: 12,
-    borderRadius: 10,
-    gap: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    gap: 6,
+    flex: 1,
+    minHeight: 44, // Taille tactile minimale
+  },
+  pronounceAllButton: {
+    backgroundColor: '#FF6B6B', // Couleur différente pour le bouton "Tout écouter"
   },
   pronounceButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 14,
+    textAlign: 'center',
   },
 });
