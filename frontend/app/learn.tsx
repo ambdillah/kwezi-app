@@ -255,13 +255,23 @@ export default function LearnScreen() {
                     </TouchableOpacity>
                   </View>
                   
-                  <TouchableOpacity 
-                    style={styles.pronounceButton}
-                    onPress={() => speakWord(word.french)}
-                  >
-                    <Text style={styles.pronounceButtonText}>Écouter en français</Text>
-                    <Ionicons name="play" size={18} color="#fff" />
-                  </TouchableOpacity>
+                  <View style={styles.pronunciationButtons}>
+                    <TouchableOpacity 
+                      style={styles.pronounceButton}
+                      onPress={() => speakWord(word.french, 'fr')}
+                    >
+                      <Text style={styles.pronounceButtonText}>🇫🇷 Français</Text>
+                      <Ionicons name="play" size={16} color="#fff" />
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity 
+                      style={[styles.pronounceButton, styles.pronounceAllButton]}
+                      onPress={() => speakAllLanguages(word)}
+                    >
+                      <Text style={styles.pronounceButtonText}>🔊 Tout écouter</Text>
+                      <Ionicons name="musical-notes" size={16} color="#fff" />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               ))
             )}
