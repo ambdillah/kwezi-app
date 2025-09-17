@@ -661,13 +661,6 @@ export default function GamesScreen() {
         category: "politique"
       },
       {
-        question: "Comment dit-on 'Au revoir' en shimaoré ?",
-        options: ["Kwezi", "Asalama", "Lala hanou", "Marahaba"],
-        correct: "Lala hanou",
-        explanation: "Lala hanou est l'expression pour dire 'Au revoir' en shimaoré.",
-        category: "langue"
-      },
-      {
         question: "Quelle est la monnaie utilisée à Mayotte ?",
         options: ["Le franc CFA", "Le dollar", "L'euro", "Le franc comorien"],
         correct: "L'euro",
