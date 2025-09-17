@@ -75,104 +75,21 @@ export default function LearnScreen() {
     fetchWords();
   }, []);
 
-  const speakAllLanguages = async (word: Word) => {
+  const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr') => {
     try {
-      // Écouter français d'abord
-      await new Promise((resolve) => {
-        Speech.speak(word.french, {
-          language: 'fr-FR',
-          pitch: 1.0,
-          rate: 0.7,
-          onDone: resolve,
-        });
-      });
-
-      // Pause entre les langues
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // Écouter shimaoré
-      await new Promise((resolve) => {
-        Speech.speak(word.shimaore, {
-          language: 'sw-KE',
-          pitch: 1.1,
-          rate: 0.6,
-          onDone: resolve,
-        });
-      });
-
-      // Pause entre les langues
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // Écouter kibouchi
-      await new Promise((resolve) => {
-        Speech.speak(word.kibouchi, {
-          language: 'mg-MG',
-          pitch: 1.1,
-          rate: 0.6,
-          onDone: resolve,
-        });
-      });
-      
+      await speakText(text, language);
     } catch (error) {
-      console.log('Erreur lors de la lecture de toutes les langues:', error);
+      console.log('Erreur lors de la prononciation:', error);
+      Alert.alert('Info', 'La prononciation audio n\'est pas disponible sur cet appareil.');
     }
   };
 
-  const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr') => {
-    // Configuration des langues pour une meilleure prononciation
-    let lang = 'fr-FR';
-    let pitch = 1.0;
-    let rate = 0.7; // Plus lent pour les enfants
-    
-    switch (language) {
-      case 'fr':
-        lang = 'fr-FR';
-        pitch = 1.0;
-        rate = 0.7;
-        break;
-      case 'shimaore':
-        // Utiliser swahili comme approximation pour shimaoré
-        lang = 'sw-KE';
-        pitch = 1.1;
-        rate = 0.6; // Encore plus lent pour les langues locales
-        break;
-      case 'kibouchi':
-        // Utiliser malgache comme approximation pour kibouchi
-        lang = 'mg-MG';
-        pitch = 1.1;
-        rate = 0.6;
-        break;
-    }
-
+  const speakAllLanguages = async (word: Word) => {
     try {
-      // Vérifier si la synthèse vocale est disponible
-      const isAvailable = await Speech.isSpeakingAsync();
-      if (isAvailable) {
-        await Speech.stop(); // Arrêter tout discours en cours
-      }
-      
-      Speech.speak(text, {
-        language: lang,
-        pitch: pitch,
-        rate: rate,
-        volume: 1.0,
-        onStart: () => console.log(`🔊 Prononciation de "${text}" en ${language}`),
-        onDone: () => console.log(`✅ Prononciation terminée`),
-        onError: (error) => {
-          console.log(`❌ Erreur de prononciation:`, error);
-          // Fallback vers le français si la langue n'est pas supportée
-          if (language !== 'fr') {
-            Speech.speak(text, {
-              language: 'fr-FR',
-              pitch: 1.0,
-              rate: 0.7,
-            });
-          }
-        }
-      });
+      await speakWordAllLanguages(word);
     } catch (error) {
-      console.log('Erreur Speech:', error);
-      Alert.alert('Info', 'La prononciation audio n\'est pas disponible sur cet appareil.');
+      console.log('Erreur lors de la lecture de toutes les langues:', error);
+      Alert.alert('Info', 'Problème avec la prononciation audio.');
     }
   };
 
