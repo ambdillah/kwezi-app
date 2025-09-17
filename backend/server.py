@@ -25,7 +25,9 @@ app.add_middleware(
 # MongoDB connection
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/mayotte_app")
 client = MongoClient(MONGO_URL)
-db = client.mayotte_app
+# Use the correct database name from environment variable
+DB_NAME = os.getenv("DB_NAME", "mayotte_app")
+db = client[DB_NAME]
 
 # Collections
 words_collection = db.words
