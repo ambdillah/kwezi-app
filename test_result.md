@@ -57,8 +57,10 @@
 ##   test_priority: "high_first"  # or "sequential" or "stuck_first"
 ##
 ## agent_communication:
-##     -agent: "main"  # or "testing" or "user"
-##     -message: "Communication message between agents"
+  - agent: "main"
+    message: "USER REPORTS CRITICAL DATA LOSS: Database was corrupted before last fork and user lost valuable work that cost money. Need immediate verification of database integrity and recovery of exact words/translations from user-provided tables only. Priority: verify current database state and ensure only user-provided translations are used, not invented ones."
+  - agent: "main"
+    message: "About to run backend testing to verify current database state and identify exactly what corrections were applied from the 34-item correction table."
 
 # Protocol Guidelines for Main agent
 #
