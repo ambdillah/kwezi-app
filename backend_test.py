@@ -13400,6 +13400,286 @@ class MayotteEducationTester:
             print(f"❌ Authentic translations restoration verification error: {e}")
             return False
 
+    def test_nature_section_specific_verification(self):
+        """Test the specific nature section updates according to the user's image requirements"""
+        print("\n=== Testing Nature Section Specific Verification (Review Request) ===")
+        
+        try:
+            # 1. Test backend starts without syntax errors
+            print("--- Testing Backend Startup ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ Backend has syntax errors or is not responding: {response.status_code}")
+                return False
+            print("✅ Backend starts without syntax errors")
+            
+            # 2. Get nature words
+            print("\n--- Testing Nature Category Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=nature")
+            if response.status_code != 200:
+                print(f"❌ Nature endpoint failed: {response.status_code}")
+                return False
+            
+            nature_words = response.json()
+            nature_words_by_french = {word['french']: word for word in nature_words}
+            print(f"✅ /api/words?category=nature working correctly ({len(nature_words)} nature items)")
+            
+            # 3. Verify exactly 50 words in nature section according to the image
+            print("\n--- Testing Nature Words Count (Must be exactly 50) ---")
+            expected_nature_count = 50
+            actual_nature_count = len(nature_words)
+            
+            if actual_nature_count == expected_nature_count:
+                print(f"✅ Nature words count correct: {actual_nature_count} words (exactly 50 as required)")
+                count_correct = True
+            else:
+                print(f"❌ Nature words count incorrect: {actual_nature_count} words (should be exactly 50)")
+                count_correct = False
+            
+            # 4. Verify specific translations from the image
+            print("\n--- Testing Specific Translations from User's Image ---")
+            
+            # Specific translations mentioned in the review request
+            specific_translations = [
+                {
+                    "french": "Pente/Colline/Mont",
+                    "shimaore": "Mlima", 
+                    "kibouchi": "Boungou",
+                    "note": "compound word for slope/hill/mountain"
+                },
+                {
+                    "french": "École coranique",
+                    "shimaore": "Shioni", 
+                    "kibouchi": "Kioni",
+                    "note": "Quranic school"
+                },
+                {
+                    "french": "Tornade",
+                    "shimaore": "Ouzimouyi", 
+                    "kibouchi": "Tsikou soulaimana",
+                    "note": "tornado/cyclone"
+                },
+                {
+                    "french": "Marée basse",
+                    "shimaore": "Maji yavo", 
+                    "kibouchi": "Ranou mèki",
+                    "note": "low tide"
+                },
+                {
+                    "french": "Marée haute",
+                    "shimaore": "Maji yamalé", 
+                    "kibouchi": "Ranou fénou",
+                    "note": "high tide"
+                },
+                {
+                    "french": "Sol",
+                    "shimaore": "Chivandré ya tsi", 
+                    "kibouchi": "Tani",
+                    "note": "soil/ground (new according to image)"
+                },
+                {
+                    "french": "Sauvage",
+                    "shimaore": "Nyéha", 
+                    "kibouchi": "Di",
+                    "note": "wild (correction according to image)"
+                }
+            ]
+            
+            translations_verified = True
+            
+            for translation in specific_translations:
+                french_word = translation['french']
+                if french_word in nature_words_by_french:
+                    word = nature_words_by_french[french_word]
+                    
+                    # Check shimaoré translation
+                    if word['shimaore'] == translation['shimaore']:
+                        print(f"✅ {french_word} shimaoré: '{word['shimaore']}' - VERIFIED")
+                    else:
+                        print(f"❌ {french_word} shimaoré: Expected '{translation['shimaore']}', got '{word['shimaore']}'")
+                        translations_verified = False
+                    
+                    # Check kibouchi translation
+                    if word['kibouchi'] == translation['kibouchi']:
+                        print(f"✅ {french_word} kibouchi: '{word['kibouchi']}' - VERIFIED")
+                    else:
+                        print(f"❌ {french_word} kibouchi: Expected '{translation['kibouchi']}', got '{word['kibouchi']}'")
+                        translations_verified = False
+                    
+                    print(f"   Note: {translation['note']}")
+                else:
+                    print(f"❌ {french_word} not found in nature category")
+                    translations_verified = False
+            
+            # 5. Verify compound words are present
+            print("\n--- Testing Compound Words from Image ---")
+            
+            compound_words = [
+                "Pente/Colline/Mont",
+                "Caillou/Pierre/Rocher", 
+                "Chemin/Sentier/Parcours"
+            ]
+            
+            compound_words_present = True
+            for compound_word in compound_words:
+                if compound_word in nature_words_by_french:
+                    word = nature_words_by_french[compound_word]
+                    print(f"✅ {compound_word}: {word['shimaore']} / {word['kibouchi']} - PRESENT")
+                else:
+                    print(f"❌ {compound_word} not found")
+                    compound_words_present = False
+            
+            # 6. Verify new trees mentioned in the image
+            print("\n--- Testing New Trees from Image ---")
+            
+            new_trees = [
+                "Manguier",
+                "Jacquier",
+                "Cocotier",
+                "Baobab",
+                "Arbre à pain"
+            ]
+            
+            new_trees_present = True
+            for tree in new_trees:
+                if tree in nature_words_by_french:
+                    word = nature_words_by_french[tree]
+                    print(f"✅ {tree}: {word['shimaore']} / {word['kibouchi']} - PRESENT")
+                else:
+                    print(f"❌ {tree} not found")
+                    new_trees_present = False
+            
+            # 7. Verify specific terms like "barrière de corail", "école coranique"
+            print("\n--- Testing Specific Terms from Image ---")
+            
+            specific_terms = [
+                "Barrière de corail",
+                "École coranique",
+                "École"
+            ]
+            
+            specific_terms_present = True
+            for term in specific_terms:
+                if term in nature_words_by_french:
+                    word = nature_words_by_french[term]
+                    print(f"✅ {term}: {word['shimaore']} / {word['kibouchi']} - PRESENT")
+                else:
+                    print(f"❌ {term} not found")
+                    specific_terms_present = False
+            
+            # 8. Verify emojis are assigned appropriately
+            print("\n--- Testing Emoji Assignment ---")
+            
+            words_with_emojis = [word for word in nature_words if word.get('image_url')]
+            emoji_count = len(words_with_emojis)
+            
+            if emoji_count > 0:
+                print(f"✅ {emoji_count} nature words have emojis assigned")
+                
+                # Show some examples
+                for i, word in enumerate(words_with_emojis[:5]):  # Show first 5
+                    print(f"   {word['french']}: {word.get('image_url', 'No emoji')}")
+                
+                if emoji_count > 5:
+                    print(f"   ... and {emoji_count - 5} more")
+                
+                emojis_assigned = True
+            else:
+                print(f"❌ No nature words have emojis assigned")
+                emojis_assigned = False
+            
+            # 9. Verify total word count in database is 478
+            print("\n--- Testing Total Database Word Count (Must be 478) ---")
+            
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code == 200:
+                all_words = all_words_response.json()
+                total_word_count = len(all_words)
+                expected_total = 478
+                
+                if total_word_count == expected_total:
+                    print(f"✅ Total word count correct: {total_word_count} words (exactly 478 as required)")
+                    total_count_correct = True
+                else:
+                    print(f"❌ Total word count incorrect: {total_word_count} words (should be exactly 478)")
+                    total_count_correct = False
+            else:
+                print(f"❌ Could not retrieve total word count: {all_words_response.status_code}")
+                total_count_correct = False
+            
+            # 10. Verify all words from image are present (sample check)
+            print("\n--- Testing Sample Words from Image Present ---")
+            
+            sample_image_words = [
+                "Arbre", "Soleil", "Mer", "Plage", "Lune", "Étoile", 
+                "Sable", "Vent", "Pluie", "Rivière", "Mangrove", "Corail"
+            ]
+            
+            sample_words_present = True
+            for word in sample_image_words:
+                if word in nature_words_by_french:
+                    nature_word = nature_words_by_french[word]
+                    print(f"✅ {word}: {nature_word['shimaore']} / {nature_word['kibouchi']} - PRESENT")
+                else:
+                    print(f"❌ {word} not found")
+                    sample_words_present = False
+            
+            # Overall result
+            all_tests_passed = (
+                count_correct and 
+                translations_verified and 
+                compound_words_present and 
+                new_trees_present and 
+                specific_terms_present and 
+                emojis_assigned and 
+                total_count_correct and 
+                sample_words_present
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 NATURE SECTION SPECIFIC VERIFICATION COMPLETED SUCCESSFULLY!")
+                print("✅ Backend starts without syntax errors")
+                print(f"✅ Nature section has exactly 50 words as required by the image")
+                print("✅ All specific translations from the image verified:")
+                print("   - pente/colline/mont = mlima/boungou")
+                print("   - école coranique = shioni/kioni") 
+                print("   - tornade = ouzimouyi/tsikou soulaimana")
+                print("   - marée basse = maji yavo/ranou mèki")
+                print("   - marée haute = maji yamalé/ranou fénou")
+                print("   - sol = chivandré ya tsi/tani (nouveau)")
+                print("   - sauvage = nyéha/di (correction)")
+                print("✅ All compound words from image present")
+                print("✅ All new trees from image present (manguier, jacquier, etc.)")
+                print("✅ All specific terms from image present")
+                print(f"✅ {emoji_count} nature words have appropriate emojis assigned")
+                print(f"✅ Total database has exactly 478 words as required")
+                print("✅ All sample words from image are present and accessible")
+                print("✅ Nature section reflects EXACTLY the content from the user's image")
+            else:
+                print("\n❌ Nature section verification failed - does not match the user's image requirements")
+                if not count_correct:
+                    print("❌ Nature word count is not exactly 50")
+                if not translations_verified:
+                    print("❌ Some specific translations from image are incorrect")
+                if not compound_words_present:
+                    print("❌ Some compound words from image are missing")
+                if not new_trees_present:
+                    print("❌ Some new trees from image are missing")
+                if not specific_terms_present:
+                    print("❌ Some specific terms from image are missing")
+                if not emojis_assigned:
+                    print("❌ Emojis are not properly assigned")
+                if not total_count_correct:
+                    print("❌ Total word count is not 478")
+                if not sample_words_present:
+                    print("❌ Some sample words from image are missing")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Nature section specific verification error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the main authentic translations restoration test"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
