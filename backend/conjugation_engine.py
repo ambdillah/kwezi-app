@@ -260,7 +260,7 @@ class ConjugationEngine:
         # Utiliser le conjugateur automatique français
         try:
             return self.french_conjugator.conjugate_verb(verb_fr, pronoun, tense)
-        except Exception as e:
+        except Exception:
             # Fallback vers l'ancienne méthode si erreur
             verb_normalized = verb_fr.lower()
             
@@ -463,7 +463,7 @@ def main():
         # Créer la base de données de phrases
         sentences_created = create_sentence_database()
         
-        print(f"\n✅ Moteur de conjugaison opérationnel!")
+        print("\n✅ Moteur de conjugaison opérationnel!")
         print(f"📚 {sentences_created} phrases générées pour le jeu")
         
     except Exception as e:
