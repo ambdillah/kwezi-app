@@ -140,61 +140,171 @@ def clean_inappropriate_emojis(db):
     
     print("🧹 NETTOYAGE DES EMOJIS INAPPROPRIÉS...")
     
-    inappropriate_emojis, appropriate_emojis = identify_inappropriate_emojis()
-    
-    # Obtenir tous les mots avec des emojis
-    words_with_emojis = list(db.words.find({"emoji": {"$exists": True, "$ne": ""}}))
+    # Obtenir tous les mots avec des emojis (utilise 'image_url' pas 'emoji')
+    words_with_emojis = list(db.words.find({"image_url": {"$exists": True, "$ne": ""}}))
     
     print(f"📊 Trouvé {len(words_with_emojis)} mots avec emojis")
     
     cleaned_count = 0
     kept_count = 0
     
+    # Mots avec emojis INAPPROPRIÉS ou FLOUS à supprimer
+    words_to_clean = {
+        # Concepts abstraits difficiles à représenter exactement
+        "front": "🤔",  # Visage pensif ≠ front anatomique
+        "sourcil": "🤨",  # Visage suspicieux ≠ sourcil spécifique
+        "cils": "👁️",  # Œil général ≠ cils spécifiques
+        "arrière du crâne": "🤯",  # Explosion mentale ≠ partie anatomique
+        "hanche": "🫴",  # Main ouverte ≠ hanche anatomique
+        "côtes": "🫁",  # Poumons ≠ côtes osseuses
+        "épaule": "💪",  # Muscle/force ≠ épaule anatomique exacte
+        
+        # Concepts spirituels/professionnels
+        "guide spirituel": "👨‍🦲",  # Homme chauve ≠ guide spirituel exact
+        "imam": "👨‍🦲",  # Homme chauve ≠ imam exact (trop générique)
+        
+        # Concepts naturels complexes
+        "érosion": "🌊",  # Vague ≠ processus d'érosion
+        "marée basse": "🌊",  # Vague générale ≠ marée basse spécifique
+        "marée haute": "🌊",  # Vague générale ≠ marée haute spécifique
+        "platier": "🪨",  # Pierre ≠ platier récifal spécifique
+        "inondé": "🌊",  # Vague ≠ état d'inondation
+        "sauvage": "🌿",  # Plante ≠ concept "sauvage"
+        "barrière de corail": "🪸",  # Corail simple ≠ barrière complète
+        
+        # Objets spécifiques mal représentés
+        "fagot": "🪵",  # Bois général ≠ fagot assemblé
+        "bouillon": "🍲",  # Ragoût ≠ bouillon liquide
+        
+        # Verbes d'action/état mental
+        "savoir": "🧠",  # Cerveau ≠ action de savoir
+        "pouvoir": "💪",  # Force ≠ capacité/permission
+        "croire": "🙏",  # Prière ≠ action de croire
+        "penser": "💭",  # OK mais gardons seulement les représentations très exactes
+        "comprendre": "💡",  # Ampoule = idée, pas compréhension exacte
+        "apprendre": "📚",  # Livres = contexte mais pas action exacte
+        "connaître": "🧠",  # Cerveau ≠ action de connaître
+        "se rappeler": "🧠",  # Cerveau ≠ action de rappel
+        "sembler": "🤔",  # Visage pensif ≠ action de sembler
+        "paraître": "👀",  # Yeux ≠ action de paraître
+        "devenir": "🔄",  # Flèche circulaire = approximatif
+        "réussir": "🎉",  # Fête = célébration du succès, pas l'action exacte
+        "essayer": "🎯",  # Cible = objectif, pas action d'essayer
+        
+        # États émotionnels complexes
+        "inquiet": "😟",  # Visage inquiet = proche mais gardons que l'exact
+        "surpris": "😲",  # Visage surpris = proche mais gardons que l'exact
+        "honteux": "😳",  # Visage gêné = approximatif
+        "fier": "😤",  # Visage fier = approximatif
+        "amoureux": "❤️",  # Cœur = amour général, pas état amoureux exact
+        "fâché": "😠",  # Colère générale = OK mais "fâché" plus spécifique
+        
+        # Adjectifs abstraits
+        "intelligent": "🧠",  # Cerveau ≠ qualité d'intelligence
+        "bête": "🤪",  # Visage fou ≠ bêtise exacte
+        "sérieux": "😐",  # Visage neutre ≠ sérieux exact
+        "drôle": "😂",  # Rire = réaction au drôle, pas l'adjectif exact
+        "important": "⭐",  # Étoile = excellence, pas importance exacte
+        "inutile": "🗑️",  # Poubelle = contexte mais pas inutilité exacte
+        "faux": "❌",  # Croix rouge = négation, pas fausseté exacte
+        "vrai": "✅",  # Coche verte = validation, pas vérité exacte
+        "content": "😊",  # Sourire = proche mais gardons que l'exact
+        "triste": "😢",  # Visage triste = OK, assez exact
+        "fatigué": "😴",  # Visage endormi = proche mais pas identique
+        
+        # Actions complexes
+        "arnaquer": "🕵️",  # Détective ≠ action d'arnaquer
+        "informer": "📢",  # Haut-parleur = diffusion, pas information exacte
+        "avertir": "⚠️",  # Panneau danger = contexte mais pas action exacte
+    }
+    
+    # Mots avec emojis APPROPRIÉS à ABSOLUMENT GARDER
+    keep_these_emojis = {
+        # Animaux - représentation exacte parfaite
+        "chat", "chien", "poisson", "oiseau", "éléphant", "lion", "serpent", 
+        "tortue", "crabe", "requin", "cochon", "cheval", "chèvre", "mouton",
+        
+        # Couleurs - représentation exacte parfaite  
+        "rouge", "bleu", "vert", "jaune", "blanc", "noir",
+        
+        # Nombres - représentation exacte parfaite
+        "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix",
+        
+        # Famille - représentation claire
+        "papa", "maman", "enfant", "garçon", "fille", "bébé",
+        
+        # Corps - parties anatomiques claires et evidentes
+        "œil", "main", "pied", "nez", "oreille", "tête", "bouche", "dent",
+        
+        # Nature - éléments évidents
+        "soleil", "lune", "arbre", "fleur", "mer", "étoile",
+        
+        # Nourriture - items précis
+        "banane", "pomme", "pain", "eau", "riz", "poisson", "œuf",
+        
+        # Objets usuels évidents
+        "maison", "porte", "voiture", "vélo", "avion",
+        
+        # Actions physiques simples et claires
+        "dormir", "manger", "boire", "courir", "marcher",
+        
+        # Salutations avec gestes universels
+        "au revoir", "merci",
+        
+        # Émotions de base très claires
+        "rire", "pleurer"
+    }
+    
     for word in words_with_emojis:
         french_word = word.get("french", "").lower()
-        current_emoji = word.get("emoji", "")
+        current_emoji = word.get("image_url", "")
         word_id = word.get("_id")
         
         should_remove = False
+        reason = ""
         
-        # Vérifier si c'est dans la liste des inappropriés
-        if french_word in inappropriate_emojis:
+        # Vérifier si c'est dans la liste à nettoyer
+        if french_word in words_to_clean:
             should_remove = True
-            reason = "inapproprié/flou"
+            reason = "emoji inapproprié/flou pour ce concept"
             
-        # Vérifier si l'emoji est dans la liste des appropriés
-        elif french_word in appropriate_emojis:
-            expected_emoji = appropriate_emojis[french_word]
-            if current_emoji != expected_emoji:
-                should_remove = True
-                reason = "emoji incorrect pour ce mot"
-            else:
-                reason = "emoji correct - gardé"
-        
-        # Pour les mots non listés, appliquer une logique conservative
+        # Vérifier si c'est dans la liste à garder absolument
+        elif french_word in keep_these_emojis:
+            should_remove = False
+            reason = "emoji parfaitement approprié - gardé"
+            
+        # Pour les autres mots, logique conservative : supprimer si concept abstrait
         else:
-            # Supprimer les emojis pour les concepts abstraits, actions complexes, etc.
-            abstract_keywords = [
-                "faire", "avoir", "être", "aller", "venir", "pouvoir", "vouloir", "savoir",
-                "très", "plus", "moins", "beaucoup", "peu", "jamais", "toujours",
-                "peut-être", "certainement", "probablement", "exactement",
-                "comment", "pourquoi", "quand", "où", "combien",
-                "spirituel", "religieux", "traditionnel", "culturel",
-                "fiable", "sérieux", "important", "difficile", "facile"
+            # Mots clés indiquant des concepts abstraits ou difficiles à représenter
+            abstract_indicators = [
+                "faire", "avoir", "être", "aller", "venir", "devoir", "vouloir",
+                "très", "plus", "moins", "beaucoup", "peu", "jamais", "toujours", 
+                "peut-être", "comment", "pourquoi", "quand", "où", "combien",
+                "quelqu'un", "personne", "tout", "rien", "chaque", "plusieurs",
+                "spirituel", "religieux", "traditionnel", "culturel", "social",
+                "politique", "économique", "psychologique", "émotionnel",
+                "difficulté", "facilité", "rapidité", "lenteur", "beauté", "laideur"
             ]
             
-            # Si le mot contient des mots abstraits, supprimer l'emoji
-            if any(keyword in french_word for keyword in abstract_keywords):
+            # Si le mot contient des indicateurs abstraits, le nettoyer
+            contains_abstract = any(indicator in french_word for indicator in abstract_indicators)
+            
+            # Ou si c'est un verbe d'action complexe/mentale
+            complex_verbs = ["réfléchir", "méditer", "analyser", "critiquer", "juger", "estimer", "évaluer"]
+            is_complex_verb = any(verb in french_word for verb in complex_verbs)
+            
+            if contains_abstract or is_complex_verb:
                 should_remove = True
-                reason = "concept abstrait"
+                reason = "concept abstrait détecté"
             else:
-                reason = "gardé par défaut"
+                should_remove = False
+                reason = "gardé par défaut (semble approprié)"
         
         if should_remove:
-            # Supprimer l'emoji
+            # Supprimer l'emoji en mettant image_url à vide
             db.words.update_one(
                 {"_id": word_id},
-                {"$set": {"emoji": ""}}
+                {"$set": {"image_url": ""}}
             )
             print(f"🗑️ {word['french']}: {current_emoji} supprimé ({reason})")
             cleaned_count += 1
