@@ -831,6 +831,18 @@ metadata:
         agent: "testing"
         comment: "🔍 TRADITION MENU VISIBILITY AND EXPRESSION CORRECTIONS TESTING COMPLETED! Backend analysis reveals mixed results. ✅ Backend is running properly after restart (200 status) ✅ /api/words?category=tradition endpoint works correctly (16 tradition elements) ✅ Tradition elements are present and accessible: Mariage=Haroussi/Haroussi, Chant mariage traditionnel=Mlélézi/Mlélézi, Petit mariage=Mafounguidzo/Mafounguidzo, Grand mariage=Manzaraka/Manzaraka, etc. ✅ Tradition category exists in word list (confirmed in 16 total categories) ✅ All categories including tradition are available for frontend: adjectifs, animaux, corps, couleurs, expressions, famille, grammaire, maison, nature, nombres, nourriture, salutations, tradition, transport, verbes, vetements ✅ Frontend can retrieve tradition data successfully (16 items with all required fields) ✅ Total vocabulary: 574 words across 16 categories ❌ EXPRESSION CORRECTIONS NOT IMPLEMENTED: 'Je peux avoir des toilettes' still has incorrect shimaoré 'Tnissi miya mraba' (should be 'Nissi miya mraba') ❌ MISSING EXPRESSION: 'Je n'ai pas compris' with shimaoré 'Tsa éléwa' not found in expressions (44 expressions total) ✅ TRADITION MENU SHOULD BE VISIBLE: All backend requirements met for tradition menu visibility. If tradition menu still not visible in frontend, issue is likely: frontend cache needs clearing, frontend service needs restart, or frontend category filtering logic needs checking. The tradition category is fully functional on backend side with 16 authentic cultural elements."
 
+  - task: "Chiffres and Animaux sections verification according to user's images (Review Request)"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CHIFFRES AND ANIMAUX SECTIONS VERIFICATION FAILED! Comprehensive testing revealed that the sections do NOT match the user's image requirements: 1) **✅ CHIFFRES SECTION CORRECT**: Exactly 20 words found as required, all specific translations verified (Un=Moja/Areki, Deux=Mbili/Aroyi, Trois=Trarou/Telou, Quatre=Nhé/Efatra, Cinq=Tsano/Dimi, Vingt=Chirini/Arompoulou). 2) **❌ CRITICAL: Animaux count is 59, should be exactly 71** - The backend contains only 59 animal words instead of the required 71 from the image. 3) **❌ CRITICAL: Baleine translation incorrect** - Expected 'Droujou/' (empty kibouchi), got 'Droujou/Fésoutrou'. 4) **❌ CRITICAL: Missing marine animal** - 'Thon' not found in animaux category. 5) **❌ CRITICAL: Total word count is 463, should be exactly 569** - The database doesn't have the required total of 569 words. 6) **✅ Most specific translations correct**: Maki=Komba/Ankoumba, Hérisson/Tangue=Landra/Trandraka, Araignée=Shitrandrabwibwi/Bibi amparamani massou, Margouillat=Kasangwe/Kitsatsaka, Chauve-souris=Drema/Fanihi all verified. 7) **✅ Animal categories mostly present**: Marine animals (6/7), insects (6/6), mammals (5/5) found. 8) **✅ Emoji integration working**: 357 words have emojis, all 59 animals have emojis, 10/20 chiffres have emojis. **ROOT CAUSE**: The backend is missing 12 animals to reach the required 71, Baleine has incorrect kibouchi translation, Thon is missing, and the total word count is 106 words short of the required 569. The system needs to be updated to match the exact content and counts specified in the user's images."
+
 test_plan:
   current_focus: []
   stuck_tasks: []
