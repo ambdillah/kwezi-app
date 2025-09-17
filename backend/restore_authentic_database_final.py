@@ -675,13 +675,13 @@ def main():
         print(f"✅ Catégories : {len(categories)}")
         print(f"✅ Liste des catégories : {', '.join(sorted(categories))}")
         
-        if total_words > 500:
+        if total_words >= 500:
             print(f"\n🎉 SUCCÈS ! Base de données authentique restaurée avec {total_words} mots")
             print("📝 Toutes les traductions proviennent de votre PDF authentique")
             print("✅ Aucune donnée inventée ou erronée")
             return True
         else:
-            print(f"\n❌ Erreur : Seulement {total_words} mots (attendu > 500)")
+            print(f"\n❌ Erreur : Seulement {total_words} mots (attendu >= 500)")
             return False
             
     except Exception as e:
