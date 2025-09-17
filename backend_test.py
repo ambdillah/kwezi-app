@@ -14376,6 +14376,249 @@ class MayotteEducationTester:
             print(f"❌ Review request testing error: {e}")
             return False
 
+    def test_maison_verbes_sections_review_request(self):
+        """Test the specific maison and verbes sections according to the review request"""
+        print("\n=== Testing Maison and Verbes Sections (Review Request) ===")
+        
+        try:
+            # Initialize content first
+            print("--- Initializing Content ---")
+            init_response = self.session.post(f"{API_BASE}/init-base-content")
+            if init_response.status_code != 200:
+                print(f"❌ Content initialization failed: {init_response.status_code}")
+                return False
+            print("✅ Content initialized successfully")
+            
+            # Get all words to check total count
+            print("\n--- Testing Total Word Count ---")
+            all_words_response = self.session.get(f"{API_BASE}/words")
+            if all_words_response.status_code != 200:
+                print(f"❌ Could not retrieve all words: {all_words_response.status_code}")
+                return False
+            
+            all_words = all_words_response.json()
+            total_word_count = len(all_words)
+            print(f"Total words in database: {total_word_count}")
+            
+            # Check if total is 449 as required
+            if total_word_count == 449:
+                print("✅ Total word count is exactly 449 as required")
+                total_count_correct = True
+            else:
+                print(f"❌ Total word count is {total_word_count}, should be exactly 449")
+                total_count_correct = False
+            
+            # Test Maison Section - should have exactly 37 words
+            print("\n--- Testing Maison Section (37 words required) ---")
+            maison_response = self.session.get(f"{API_BASE}/words?category=maison")
+            if maison_response.status_code != 200:
+                print(f"❌ Could not retrieve maison words: {maison_response.status_code}")
+                return False
+            
+            maison_words = maison_response.json()
+            maison_count = len(maison_words)
+            print(f"Maison words found: {maison_count}")
+            
+            if maison_count == 37:
+                print("✅ Maison section has exactly 37 words as required")
+                maison_count_correct = True
+            else:
+                print(f"❌ Maison section has {maison_count} words, should be exactly 37")
+                maison_count_correct = False
+            
+            # Test specific maison translations
+            print("\n--- Testing Specific Maison Translations ---")
+            maison_words_by_french = {word['french']: word for word in maison_words}
+            
+            maison_specific_tests = [
+                {"french": "Maison", "shimaore": "Nyoumba", "kibouchi": "Tragnou"},
+                {"french": "Marmite", "shimaore": "Gnoumsou", "kibouchi": "Vilangni"},
+                {"french": "Vesselles", "shimaore": "Ziya", "kibouchi": "Hintagna"},
+                {"french": "Miroir", "shimaore": "Chido", "kibouchi": "Kitarafa"},
+                {"french": "Cour", "shimaore": "Mraba", "kibouchi": "Lacourou"},
+                {"french": "Torche locale", "shimaore": "Gandilé", "kibouchi": "Poutroupmax"},
+            ]
+            
+            maison_translations_correct = True
+            for test_case in maison_specific_tests:
+                french_word = test_case['french']
+                if french_word in maison_words_by_french:
+                    word = maison_words_by_french[french_word]
+                    if (word['shimaore'] == test_case['shimaore'] and 
+                        word['kibouchi'] == test_case['kibouchi']):
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        maison_translations_correct = False
+                else:
+                    print(f"❌ {french_word} not found in maison section")
+                    maison_translations_correct = False
+            
+            # Test Verbes Section - should have exactly 106 verbs
+            print("\n--- Testing Verbes Section (106 verbs required) ---")
+            verbes_response = self.session.get(f"{API_BASE}/words?category=verbes")
+            if verbes_response.status_code != 200:
+                print(f"❌ Could not retrieve verbes words: {verbes_response.status_code}")
+                return False
+            
+            verbes_words = verbes_response.json()
+            verbes_count = len(verbes_words)
+            print(f"Verbes words found: {verbes_count}")
+            
+            if verbes_count == 106:
+                print("✅ Verbes section has exactly 106 verbs as required")
+                verbes_count_correct = True
+            else:
+                print(f"❌ Verbes section has {verbes_count} verbs, should be exactly 106")
+                verbes_count_correct = False
+            
+            # Test specific verbes translations (partie 1)
+            print("\n--- Testing Specific Verbes Translations (Partie 1) ---")
+            verbes_words_by_french = {word['french']: word for word in verbes_words}
+            
+            verbes_specific_tests_1 = [
+                {"french": "Jouer", "shimaore": "Ounguadza", "kibouchi": "Mtsoma"},
+                {"french": "Cuisiner", "shimaore": "Oupiha", "kibouchi": "Mahandrou"},
+                {"french": "Pouvoir", "shimaore": "Ouchindra", "kibouchi": "Mahaléou"},
+                {"french": "Comprendre", "shimaore": "Ouéléwa", "kibouchi": "Mikoutan"},
+                {"french": "Se laver", "shimaore": "Ouhowa", "kibouchi": "Miseki"},
+            ]
+            
+            verbes_translations_1_correct = True
+            for test_case in verbes_specific_tests_1:
+                french_word = test_case['french']
+                if french_word in verbes_words_by_french:
+                    word = verbes_words_by_french[french_word]
+                    if (word['shimaore'] == test_case['shimaore'] and 
+                        word['kibouchi'] == test_case['kibouchi']):
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        verbes_translations_1_correct = False
+                else:
+                    print(f"❌ {french_word} not found in verbes section")
+                    verbes_translations_1_correct = False
+            
+            # Test specific verbes translations (partie 2)
+            print("\n--- Testing Specific Verbes Translations (Partie 2) ---")
+            
+            verbes_specific_tests_2 = [
+                {"french": "Balayer", "shimaore": "Ouhoundza", "kibouchi": "Mamafa"},
+                {"french": "Arnaquer", "shimaore": "Ouravi", "kibouchi": "Mangalatra"},
+                {"french": "Couper du bois", "shimaore": "Oupasouha kuni", "kibouchi": "Mamaki azoumati"},
+                {"french": "Cultiver", "shimaore": "Oulima", "kibouchi": "Mikapa"},
+            ]
+            
+            verbes_translations_2_correct = True
+            for test_case in verbes_specific_tests_2:
+                french_word = test_case['french']
+                if french_word in verbes_words_by_french:
+                    word = verbes_words_by_french[french_word]
+                    if (word['shimaore'] == test_case['shimaore'] and 
+                        word['kibouchi'] == test_case['kibouchi']):
+                        print(f"✅ {french_word}: {word['shimaore']} / {word['kibouchi']}")
+                    else:
+                        print(f"❌ {french_word}: Expected {test_case['shimaore']}/{test_case['kibouchi']}, got {word['shimaore']}/{word['kibouchi']}")
+                        verbes_translations_2_correct = False
+                else:
+                    print(f"❌ {french_word} not found in verbes section")
+                    verbes_translations_2_correct = False
+            
+            # Test basic daily verbs are present
+            print("\n--- Testing Basic Daily Verbs Present ---")
+            basic_daily_verbs = ["Manger", "Boire", "Dormir", "Marcher", "Parler"]
+            basic_verbs_present = True
+            
+            for verb in basic_daily_verbs:
+                if verb in verbes_words_by_french:
+                    word = verbes_words_by_french[verb]
+                    print(f"✅ {verb}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {verb} not found in verbes section")
+                    basic_verbs_present = False
+            
+            # Test activity verbs are present
+            print("\n--- Testing Activity Verbs Present ---")
+            activity_verbs = ["Cultiver", "Creuser", "Planter", "Récolter"]
+            activity_verbs_present = True
+            
+            for verb in activity_verbs:
+                if verb in verbes_words_by_french:
+                    word = verbes_words_by_french[verb]
+                    print(f"✅ {verb}: {word['shimaore']} / {word['kibouchi']}")
+                else:
+                    print(f"❌ {verb} not found in verbes section")
+                    activity_verbs_present = False
+            
+            # Test emojis are assigned
+            print("\n--- Testing Emojis Assignment ---")
+            
+            # Check maison emojis (🏠🍲🚪)
+            maison_with_emojis = [word for word in maison_words if word.get('image_url')]
+            print(f"Maison words with emojis: {len(maison_with_emojis)}")
+            
+            # Check verbes emojis (⚽🍽️💪🌱)
+            verbes_with_emojis = [word for word in verbes_words if word.get('image_url')]
+            print(f"Verbes words with emojis: {len(verbes_with_emojis)}")
+            
+            emojis_assigned = len(maison_with_emojis) > 0 and len(verbes_with_emojis) > 0
+            if emojis_assigned:
+                print("✅ Emojis are assigned to both maison and verbes sections")
+            else:
+                print("❌ Emojis are not properly assigned")
+            
+            # Overall assessment
+            all_tests_passed = (
+                total_count_correct and
+                maison_count_correct and
+                maison_translations_correct and
+                verbes_count_correct and
+                verbes_translations_1_correct and
+                verbes_translations_2_correct and
+                basic_verbs_present and
+                activity_verbs_present and
+                emojis_assigned
+            )
+            
+            print("\n--- REVIEW REQUEST TESTING SUMMARY ---")
+            if all_tests_passed:
+                print("🎉 MAISON AND VERBES SECTIONS REVIEW REQUEST TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Total word count: 449 words confirmed")
+                print("✅ Maison section: Exactly 37 words confirmed")
+                print("✅ Verbes section: Exactly 106 verbs confirmed")
+                print("✅ All specific maison translations verified")
+                print("✅ All specific verbes translations (partie 1 & 2) verified")
+                print("✅ Basic daily verbs present and accessible")
+                print("✅ Activity verbs present and accessible")
+                print("✅ Emojis properly assigned to both sections")
+                print("✅ All requirements from the review request have been met")
+            else:
+                print("❌ MAISON AND VERBES SECTIONS REVIEW REQUEST TESTING FAILED!")
+                if not total_count_correct:
+                    print(f"❌ Total word count incorrect: {total_word_count} (should be 449)")
+                if not maison_count_correct:
+                    print(f"❌ Maison word count incorrect: {maison_count} (should be 37)")
+                if not verbes_count_correct:
+                    print(f"❌ Verbes word count incorrect: {verbes_count} (should be 106)")
+                if not maison_translations_correct:
+                    print("❌ Some maison translations are incorrect")
+                if not verbes_translations_1_correct:
+                    print("❌ Some verbes translations (partie 1) are incorrect")
+                if not verbes_translations_2_correct:
+                    print("❌ Some verbes translations (partie 2) are incorrect")
+                if not basic_verbs_present:
+                    print("❌ Some basic daily verbs are missing")
+                if not activity_verbs_present:
+                    print("❌ Some activity verbs are missing")
+                if not emojis_assigned:
+                    print("❌ Emojis are not properly assigned")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Maison and Verbes sections review request testing error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the main authentic translations restoration test"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
