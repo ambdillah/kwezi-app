@@ -1937,4 +1937,41 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+
+  // Styles pour l'audio et la prononciation
+  sentenceTargetHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  sentenceAudioButton: {
+    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+    borderRadius: 20,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: '#4ECDC4',
+  },
+  gameActionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 16,
+  },
+  listenButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#9B59B6',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    gap: 6,
+    minHeight: 44,
+  },
+  listenButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 });
