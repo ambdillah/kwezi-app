@@ -150,23 +150,30 @@ export default function LearnScreen() {
                   <View style={styles.wordHeader}>
                     <View style={styles.frenchWordContainer}>
                       {word.image_url && (
-                        <View 
-                          style={[
-                            styles.wordImage,
-                            { 
-                              backgroundColor: '#f0f0f0',
-                              ...(word.image_url.startsWith('data:image/svg') 
-                                ? {} 
-                                : { borderWidth: 1, borderColor: '#ddd' })
-                            }
-                          ]}
-                        >
-                          <Image 
-                            source={{ uri: word.image_url }} 
-                            style={styles.wordImageInner} 
-                            resizeMode="contain"
-                            onError={(e) => console.log('Image load error:', e)}
-                          />
+                        <View style={styles.wordImageContainer}>
+                          {word.image_url.startsWith('data:image/svg') || word.image_url.startsWith('http') ? (
+                            <View 
+                              style={[
+                                styles.wordImage,
+                                { 
+                                  backgroundColor: '#f0f0f0',
+                                  borderWidth: 1, 
+                                  borderColor: '#ddd'
+                                }
+                              ]}
+                            >
+                              <Image 
+                                source={{ uri: word.image_url }} 
+                                style={styles.wordImageInner} 
+                                resizeMode="contain"
+                                onError={(e) => console.log('Image load error:', e)}
+                              />
+                            </View>
+                          ) : (
+                            <View style={styles.emojiContainer}>
+                              <Text style={styles.emojiText}>{word.image_url}</Text>
+                            </View>
+                          )}
                         </View>
                       )}
                       <Text style={styles.frenchWord}>{word.french}</Text>
