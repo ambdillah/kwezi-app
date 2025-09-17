@@ -1303,24 +1303,25 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   memoryCardText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 5,
+    marginBottom: 2,
+    flexShrink: 1,
   },
   frenchCardText: {
     color: '#2C3E50',
-    fontSize: 18,
+    fontSize: 13,
   },
   translationCardText: {
     color: '#8E44AD',
-    fontSize: 16,
+    fontSize: 12,
   },
   languageLabel: {
-    fontSize: 12,
+    fontSize: 9,
     color: '#7F8C8D',
     fontStyle: 'italic',
-    marginTop: 2,
+    marginTop: 1,
   },
   flowerEmoji: {
     fontSize: 20,
