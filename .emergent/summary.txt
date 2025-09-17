@@ -1,27 +1,30 @@
 <analysis>
-The AI engineer's work in this trajectory primarily focused on refining the user interface of two learning games (Quiz Mayotte and Mémoire des fleurs) and revamping the visual representation of vocabulary items in the backend. The initial phase involved troubleshooting and fixing layout issues on mobile screens for Quiz Mayotte, which included adjusting Flexbox properties and text sizes. This iterative process involved inspecting code, taking screenshots for verification, and restarting the frontend multiple times to ensure changes propagated. A similar approach was then applied to Mémoire des fleurs, successfully resolving identical layout problems. Finally, the user requested a shift from external image URLs to emojis for vocabulary representation, which the AI implemented in the backend by updating  with appropriate emojis for various word categories. The work concluded with these emoji replacements being made and the intent to test them.
+The AI engineer's work in this trajectory predominantly focused on comprehensive database management and iterative content updates for the Shimaoré and Kibouchi learning application. Initially, UI fixes for game start screens and a backend shift from image URLs to emojis were made. The core challenge became resolving persistent data loss and inconsistency: the database was found empty, then user-provided authentic translations were lost due to improper re-initialization logic. The engineer systematically extracted data from user-provided PDFs and images, creating and executing numerous Python scripts to rebuild and update specific vocabulary sections (nature, chiffres, animaux, corps, salutations, grammaire, famille, couleurs, nourriture, maison, verbes, expressions, adjectifs, transport, vêtements, tradition). Each update involved meticulous verification of word counts, translations, deduplication, and alphabetical sorting, often requiring multiple iterations due to subtle discrepancies or category mismatches. Frontend display issues, like incorrect emoji rendering and env URL configuration, were also addressed. The work culminated in applying final user-requested corrections.
 </analysis>
 
 <product_requirements>
-The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, the languages of Mayotte, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The primary ongoing need is the continuous refinement of vocabulary, including adding words, correcting translations, rectifying French orthography, and managing categories. Earlier work included implementing alphabetical/numerical sorting and developing three interactive games: a translation quiz, a memory game, and a cultural quiz. Image and native audio pronunciation integration were also requested.
+The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The primary ongoing need is the continuous refinement of vocabulary, including adding words, correcting translations, rectifying French orthography, and managing categories. Earlier work included implementing alphabetical/numerical sorting and developing three interactive games.
 
-In this trajectory, specific requests included:
-1.  **UI Fix for Quiz Mayotte**: The Quiz Mayotte game's start screen (title, description, and Commencer button) did not fit correctly on phone screens and was misaligned. The request was to re-arrange elements for proper display.
-2.  **UI Fix for Mémoire des fleurs**: Similar to Quiz Mayotte, the Mémoire des fleurs game's start screen elements (title, description, button) were misaligned and did not fit well on mobile screens, specifically the button being offset. The request was to apply similar layout optimizations.
-3.  **Content Visualization Change**: Replace existing image URLs for vocabulary words with small, pretty symbols (emojis) in various categories like maison, plage, foret, etc., to enhance visual coherence and efficiency.
+In this trajectory, explicit requests involved:
+1.  **UI Fix for Quiz Mayotte & Mémoire des fleurs**: Optimize start screen layouts for proper display on mobile.
+2.  **Content Visualization Change**: Replace image URLs with small, pretty symbols (emojis) for vocabulary items in the backend.
+3.  **Database Restoration**: Recover and restore a lost portion of authentic, user-entered vocabulary and translations.
+4.  **Database Updates**: Update the entire vocabulary database based on a provided PDF, then sequentially update specific sections (nature, chiffres, animaux, corps humain, salutations, grammaire, famille, couleurs, nourriture, maison, verbes, expressions, adjectifs, transport, vêtements, tradition) using various user-provided images, ensuring exact word counts, correct translations, deduplication, and alphabetical sorting.
+5.  **Final Corrections**: Apply a list of specific word and expression corrections from a user-provided table.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack Development**: Expo (React Native) frontend, FastAPI backend, MongoDB.
 -   **Expo Router**: File-based navigation.
--   **React Native Styling**: , Flexbox for layout, , .
+-   **React Native Styling**: , Flexbox for layout.
 -   **Content Management**: Dynamic vocabulary data managed via FastAPI and MongoDB.
--   **Media Integration**: Transition from image URLs to direct emoji representation in backend data.
--   **Troubleshooting**: Frontend restarts ([04:52:39] Starting project at /app), backend                          STOPPING  
+-   **Data Extraction**: OCR from images and PDF content parsing for database updates.
+-   **Backend Scripting**: Python scripts for database operations (initialization, updates, deduplication).
+-   **Troubleshooting**: Frontend restarts ([08:23:18] Starting project at /app), backend                          STOPPING  
 code-server                      RUNNING   pid 33, uptime 0:00:06
-expo                             STOPPED   Sep 17 04:52 AM
+expo                             STOPPED   Sep 17 08:23 AM
 mongodb                          RUNNING   pid 39, uptime 0:00:06
-supervisor>  for service management.
+supervisor> , log checking,  consultation.
 </key_technical_concepts>
 
 <code_architecture>
@@ -31,19 +34,25 @@ The application follows a standard Expo full-stack architecture:
 
 -   :
     -   **Importance**: Handles all data and API logic, serving vocabulary content.
-    -   **Changes Made**: Previously updated to include  and  fields. In this trajectory, the  values for 23 specific words across various categories (Couleurs, Animaux, Nombres, Corps, Maison, Nature) were updated from image URLs to appropriate Unicode emojis (e.g., Maison now uses 🏠, Plage uses 🏖️).
+    -   **Changes Made**: Initial update to  values from external URLs to Unicode emojis for 23 specific words. The  endpoint was an issue, leading to its effective bypass by subsequent dynamic scripts. Contains FastAPI endpoints for CRUD operations and database initialization.
 -   :
-    -   **Importance**: Contains the logic and UI for all interactive learning games, including Quiz Mayotte and Mémoire des fleurs.
-    -   **Changes Made**: Extensively modified to optimize the start screens for both Quiz Mayotte and Mémoire des fleurs for mobile display. New , , , ,  styles were added, replacing problematic  layouts. Similar styles (, , etc.) were introduced for Mémoire des fleurs to center content, adjust font sizes, and make buttons more accessible.
+    -   **Importance**: Contains UI logic for learning games (Quiz Mayotte, Mémoire des fleurs).
+    -   **Changes Made**: Styles (, , etc.) were added/modified to optimize start screens for mobile, addressing layout and button positioning issues.
 -   :
-    -   **Importance**: Manages frontend dependencies and Expo SDK version.
-    -   **Changes Made**: No direct changes were noted in this trajectory, but it defines the environment.
+    -   **Importance**: Displays vocabulary content, particularly where emojis are rendered.
+    -   **Changes Made**: Modified to correctly render emojis as text rather than attempting to load them as image URLs. Specific styles (, ) were added for this purpose.
 -   :
-    -   **Importance**: Holds environment variables for Expo.
-    -   **Changes Made**: No direct changes were made to the variables, but it's critical for environment configuration.
+    -   **Importance**: Holds environment variables for Expo, including backend API URL.
+    -   **Changes Made**:  was corrected to point to the local backend to resolve frontend loading issues.
+-    (e.g., , , , etc.):
+    -   **Importance**: Dynamically generated scripts for one-time database operations.
+    -   **Changes Made**: Numerous scripts were created to:
+        -   Restore an initial authentic dataset.
+        -   Rebuild the database from a user-provided PDF.
+        -   Incrementally update specific vocabulary categories (nature, chiffres, animaux, corps, salutations, grammaire, famille, couleurs, nourriture, maison, verbes, expressions, adjectifs, transport, vêtements, tradition) by extracting data from images. These scripts included logic for deduplication and alphabetical sorting within categories and explicitly deleted old content before adding new.
 -   :
-    -   **Importance**: TypeScript configuration for the frontend.
-    -   **Changes Made**: No direct changes were noted in this trajectory.
+    -   **Importance**: A script created to apply a final set of specific corrections to words and expressions in the database as requested by the user.
+    -   **Changes Made**: This script contained  operations for a list of 34 specific words, updating their , , and  fields based on user input.
 </code_architecture>
 
 <pending_tasks>
@@ -51,13 +60,13 @@ The application follows a standard Expo full-stack architecture:
 -   Develop and integrate a personal word mastery system (e.g., clickable stars/colors).
 -   Implement full support for multiple audio pronunciations per word (e.g., Shimaoré and Kibouchi for Papa).
 -   Extend image/icon coverage to a broader range of vocabulary words across all categories (now with emojis).
--   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features and content updates, specifically for the newly added emojis.
+-   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features and content updates.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer successfully implemented the user's request to replace image URLs with emojis for vocabulary words in the backend. This involved updating the  file to change the  field for 23 specific words across multiple categories (e.g., Couleurs, Animaux, Nombres, Corps, Maison, Nature) to direct Unicode emojis. For example, the  for Maison was changed to 🏠, for Plage to 🏖️, and for Forêt to 🌳. The  tool was used to efficiently apply these changes. This modification enhances visual consistency and reduces the need for external image assets. The AI has completed the backend update and is now in a state to test these changes on the frontend to ensure the emojis are displayed correctly.
+Immediately prior to this summary, the AI engineer was in the process of applying final corrections to the vocabulary database based on a user-provided table of words and expressions. A new script, , was created and executed to programmatically update 34 specific entries in the MongoDB database, ensuring the , , and  translations matched the user's explicit corrections. After executing the script, the AI attempted to manually verify some of these corrections via direct API calls, but these calls returned too much data for quick manual inspection. Therefore, the engineer decided the next logical step was to use the backend testing agent for a more efficient and comprehensive verification of these applied corrections.
 </current_work>
 
 <optional_next_step>
-Test the frontend display of the newly integrated emojis in the vocabulary sections.
+Run the backend testing agent to verify the recently applied vocabulary corrections.
 </optional_next_step>
