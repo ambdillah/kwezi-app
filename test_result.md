@@ -105,6 +105,18 @@
 user_problem_statement: "Mayotte educational app with backend API for learning Shimaoré and Kibouchi languages"
 
 backend:
+  - task: "Specific corrections from user's correction table (34 corrected words)"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ SPECIFIC CORRECTIONS VERIFICATION FAILED. Testing revealed multiple issues: 1) Only 8/12 major corrections verified (66.7% success rate) - below 80% threshold. 2) Database integrity issues: Total words 463 (expected ~539), some categories missing expected words. 3) Several important corrections not found: 'Torche' (major red correction), 'J'ai soif', 'Au milieu', 'Bonne nuit', 'Au revoir' expressions missing. 4) Some corrections have wrong translations: 'Bleu' found but translations don't match expected 'Bilé/Mayitsou bilé'. 5) API functionality working but content doesn't match user's correction table. 6) 7 words not found (vivre, faire pipi, embrasser, avertir, réchauffer, oursin, huître) confirmed as expected. CRITICAL: The correction process appears incomplete - many corrections from user's table are not properly applied in the database."
+
   - task: "Comprehensive words and emojis verification (Review Request)"
     implemented: true
     working: true
