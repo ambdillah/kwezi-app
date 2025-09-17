@@ -95,9 +95,50 @@ async def init_base_content():
     words_collection.delete_many({})
     exercises_collection.delete_many({})
     
-    # Base vocabulary with comprehensive content
+    # Base vocabulary avec traductions authentiques de Mayotte
     base_words = [
-        # Salutations (améliorées)
+        # Salutations (8 mots)
+        {"french": "Au revoir", "shimaore": "Djalabé", "kibouchi": "Djalabé", "category": "salutations", "image_url": "👋", "difficulty": 1},
+        {"french": "Bonjour", "shimaore": "Kwezi", "kibouchi": "Kwezi", "category": "salutations", "image_url": "☀️", "difficulty": 1},
+        {"french": "Comment ça va", "shimaore": "Jéjé", "kibouchi": "Akori", "category": "salutations", "image_url": "❓", "difficulty": 1},
+        {"french": "Ça va bien", "shimaore": "Fétré", "kibouchi": "Tsara", "category": "salutations", "image_url": "😊", "difficulty": 1},
+        {"french": "Oui", "shimaore": "Ewa", "kibouchi": "Iya", "category": "salutations", "image_url": "✅", "difficulty": 1},
+        {"french": "Non", "shimaore": "Anha", "kibouchi": "Anha", "category": "salutations", "image_url": "❌", "difficulty": 1},
+        {"french": "Excuse-moi", "shimaore": "Soimahani", "kibouchi": "Soimahani", "category": "salutations", "image_url": "🙏", "difficulty": 1},
+        {"french": "Merci", "shimaore": "Marahaba", "kibouchi": "Misara", "category": "salutations", "image_url": "🙏", "difficulty": 1},
+
+        # Famille (21 mots) - avec correction Maman et mot Famille ajouté
+        {"french": "Enfant", "shimaore": "Mwana", "kibouchi": "Zaza", "category": "famille", "image_url": "👶", "difficulty": 1},
+        {"french": "Famille", "shimaore": "Mdjamaza", "kibouchi": "Havagna", "category": "famille", "image_url": "👨‍👩‍👧‍👦", "difficulty": 1},
+        {"french": "Fille", "shimaore": "Mwana mtroub", "kibouchi": "Anabavi zaza", "category": "famille", "image_url": "👧", "difficulty": 1},
+        {"french": "Frère", "shimaore": "Mwanagna mtroun", "kibouchi": "Anadahi", "category": "famille", "image_url": "👦", "difficulty": 1, "audio_url": "https://example.com/audio/anadahi.m4a"},
+        {"french": "Garçon", "shimaore": "Mwana mtroun", "kibouchi": "Anamalé zaza", "category": "famille", "image_url": "👦", "difficulty": 1},
+        {"french": "Grand-mère", "shimaore": "Bibi", "kibouchi": "Rénéni", "category": "famille", "image_url": "👵", "difficulty": 1},
+        {"french": "Grand-père", "shimaore": "Babu", "kibouchi": "Dadavé", "category": "famille", "image_url": "👴", "difficulty": 1},
+        {"french": "Maman", "shimaore": "Mama", "kibouchi": "Baba", "category": "famille", "image_url": "👩", "difficulty": 1},
+        {"french": "Papa", "shimaore": "Baba", "kibouchi": "Baba", "category": "famille", "image_url": "👨", "difficulty": 1, "audio_url": "https://example.com/audio/baba_shimaore.m4a"},
+        {"french": "Sœur", "shimaore": "Mwanagna mtroub", "kibouchi": "Anabavi", "category": "famille", "image_url": "👧", "difficulty": 1, "audio_url": "https://example.com/audio/anabavi.m4a"},
+        {"french": "Tante", "shimaore": "Shangadja", "kibouchi": "Voulantiti", "category": "famille", "image_url": "👩", "difficulty": 2},
+        {"french": "Oncle", "shimaore": "Baba mdjé", "kibouchi": "Baba héli", "category": "famille", "image_url": "👨", "difficulty": 2},
+        {"french": "Cousin", "shimaore": "Mwanagna wamdjamaza", "kibouchi": "Voualantiri", "category": "famille", "image_url": "👦", "difficulty": 2},
+        {"french": "Cousine", "shimaore": "Mwanagna wamdjamaza", "kibouchi": "Voualantiti", "category": "famille", "image_url": "👧", "difficulty": 2},
+        {"french": "Époux", "shimaore": "Moutrou", "kibouchi": "Anamalé", "category": "famille", "image_url": "🤵", "difficulty": 2},
+        {"french": "Épouse", "shimaore": "Mtroub", "kibouchi": "Anabavi", "category": "famille", "image_url": "👰", "difficulty": 2},
+        {"french": "Ami", "shimaore": "Chaba", "kibouchi": "Tsi", "category": "famille", "image_url": "👫", "difficulty": 1},
+        {"french": "Amie", "shimaore": "Chaba", "kibouchi": "Tsi", "category": "famille", "image_url": "👭", "difficulty": 1},
+        {"french": "Voisin", "shimaore": "Djranyi", "kibouchi": "Mpiaouatagna", "category": "famille", "image_url": "🏠", "difficulty": 2},
+        {"french": "Bébé", "shimaore": "Kahé", "kibouchi": "Bébé", "category": "famille", "image_url": "👶", "difficulty": 1},
+        {"french": "Jumeau", "shimaore": "Mataou", "kibouchi": "Kambana", "category": "famille", "image_url": "👶👶", "difficulty": 2},
+
+        # Couleurs (8 mots)
+        {"french": "Blanc", "shimaore": "Ndjéou", "kibouchi": "Malandi", "category": "couleurs", "image_url": "⚪", "difficulty": 1},
+        {"french": "Bleu", "shimaore": "🔵", "kibouchi": "Bilé", "category": "couleurs", "image_url": "🔵", "difficulty": 1},
+        {"french": "Gris", "shimaore": "Kibou", "kibouchi": "Mavou", "category": "couleurs", "image_url": "⚫", "difficulty": 1},
+        {"french": "Jaune", "shimaore": "Dzindzano", "kibouchi": "Tamoutamou", "category": "couleurs", "image_url": "🟡", "difficulty": 1},
+        {"french": "Marron", "shimaore": "Bouné", "kibouchi": "Haintonga", "category": "couleurs", "image_url": "🟤", "difficulty": 1},
+        {"french": "Noir", "shimaore": "Nzidhou", "kibouchi": "Mayintigni", "category": "couleurs", "image_url": "⚫", "difficulty": 1},
+        {"french": "Rouge", "shimaore": "🔴", "kibouchi": "Mena", "category": "couleurs", "image_url": "🔴", "difficulty": 1},
+        {"french": "Vert", "shimaore": "Dhavou", "kibouchi": "Mayitsou", "category": "couleurs", "image_url": "🟢", "difficulty": 1},
         {"french": "Bonjour", "shimaore": "Kwezi", "kibouchi": "Salama", "category": "salutations", "difficulty": 1},
         {"french": "Bonsoir", "shimaore": "Massimu laïmwé", "kibouchi": "Massimu", "category": "salutations", "difficulty": 1},
         {"french": "Bonne nuit", "shimaore": "Ulala hazi", "kibouchi": "Mandri soa", "category": "salutations", "difficulty": 1},
