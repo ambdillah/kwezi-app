@@ -12821,6 +12821,7 @@ class MayotteEducationTester:
         test_results.append(("Init Base Content", self.test_init_base_content()))
         
         # Review request specific tests
+        test_results.append(("Transport/Vêtements/Tradition Review", self.test_transport_vetements_tradition_sections_review()))
         test_results.append(("Cour Correction", self.test_cour_correction_verification()))
         test_results.append(("Alphabetical Organization", self.test_alphabetical_organization_verification()))
         test_results.append(("Total Word Count (572)", self.test_total_word_count_verification()))
