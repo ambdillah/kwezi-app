@@ -27,19 +27,31 @@ const AUTHENTIC_AUDIO_MAPPING = {
   'Sœur': {
     kibouchi: 'https://customer-assets.emergentagent.com/job_4a14c8f2-84cf-4ceb-96bb-f2064afeeb42/artifacts/f5qkf8pn_Anabavi.m4a'
   },
-  // Grand-père (nouveaux enregistrements)
+  // Grand-père (versions améliorées)
   'Grand-père': {
     shimaore: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/vk9s6gu0_Bacoco.m4a',
-    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/ed6namc7_Dadayi.m4a'
+    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/k0uxar3d_Dadayi.m4a'
   },
-  // Grand-mère (nouveaux enregistrements)
+  // Grand-mère (versions améliorées)
   'Grand-mère': {
-    shimaore: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/ucv8yl4c_Coco.m4a',
-    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/8t1at8sj_Dadi.m4a'
+    shimaore: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/9kkagt8k_Coco.m4a',
+    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/8zi55srs_Dadi.m4a'
   },
-  // Madame (nouveau enregistrement)
+  // Madame 
   'Madame': {
     shimaore: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/1q9481sa_Bweni.m4a'
+  },
+  // Famille (nouveau)
+  'Famille': {
+    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/rtg5n6mp_Havagna.m4a'
+  },
+  // Garçon (nouveau)
+  'Garçon': {
+    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/cc6ge3l3_Lalahi.m4a'
+  },
+  // Monsieur (même audio que Garçon car même mot en Kibouchi)
+  'Monsieur': {
+    kibouchi: 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/cc6ge3l3_Lalahi.m4a'
   },
   // Variante famille (à identifier)
   'Baba héli': {
