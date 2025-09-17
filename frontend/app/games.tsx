@@ -74,17 +74,9 @@ const GAMES: GameCard[] = [
   {
     id: 'build-sentence',
     title: 'Construire des phrases',
-    description: 'Assemble les mots pour faire des phrases',
-    icon: 'text',
-    color: '#96CEB4',
-    difficulty: 3,
-  },
-  {
-    id: 'sentence-builder',
-    title: 'Construire des phrases',
     description: 'Remets les mots dans le bon ordre! 📝',
     icon: 'construct',
-    color: '#9B59B6',
+    color: '#96CEB4',
     difficulty: 2,
   },
 ];
