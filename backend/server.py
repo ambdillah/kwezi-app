@@ -254,7 +254,7 @@ async def init_base_content():
         {"french": "Chauve-souris", "shimaore": "Drema", "kibouchi": "Fanihi", "category": "animaux", "difficulty": 1},
         {"french": "Chenille", "shimaore": "Bazi", "kibouchi": "Bibimanguidi", "category": "animaux", "difficulty": 1},
         {"french": "Cheval", "shimaore": "Poundra", "kibouchi": "Farassi", "category": "animaux", "difficulty": 1},
-        {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka", "category": "animaux", "image_url": "https://images.unsplash.com/photo-1625923780302-53edca7b85f5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMGFuaW1hbHN8ZW58MHx8fHwxNzU3OTQ5NTAxfDA&ixlib=rb-4.1.0&q=85", "difficulty": 1},
+        {"french": "Chien", "shimaore": "Mbwa", "kibouchi": "Fadroka", "category": "animaux", "image_url": "🐕", "difficulty": 1},
         {"french": "Chèvre", "shimaore": "Mbouzi", "kibouchi": "Bengui", "category": "animaux", "difficulty": 1},
         {"french": "Civette", "shimaore": "Founga", "kibouchi": "Angava", "category": "animaux", "difficulty": 1},
         {"french": "Cochon", "shimaore": "Pouroukou", "kibouchi": "Lambou", "category": "animaux", "difficulty": 1},
