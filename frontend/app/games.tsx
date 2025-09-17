@@ -68,6 +68,14 @@ const GAMES: GameCard[] = [
     color: '#96CEB4',
     difficulty: 3,
   },
+  {
+    id: 'sentence-builder',
+    title: 'Construire des phrases',
+    description: 'Remets les mots dans le bon ordre! 📝',
+    icon: 'construct',
+    color: '#9B59B6',
+    difficulty: 2,
+  },
 ];
 
 export default function GamesScreen() {
