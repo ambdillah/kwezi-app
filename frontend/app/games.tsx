@@ -1296,12 +1296,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 30,
   },
+  encouragementRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
   encouragementText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
     textAlign: 'center',
-    marginBottom: 8,
   },
   encouragementSubtext: {
     fontSize: 14,
