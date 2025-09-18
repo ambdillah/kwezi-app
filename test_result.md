@@ -111,6 +111,21 @@
 user_problem_statement: "Mayotte educational app with backend API for learning Shimaoré and Kibouchi languages"
 
 backend:
+  - task: "Construire des phrases game - sentences endpoint fix"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "User reports 'Construire des phrases' game stuck on 'chargement des phrases' (loading phrases). Root cause identified: /api/sentences endpoint was returning empty array [] because sentences collection was empty."
+      - working: true
+        agent: "main"
+        comment: "ISSUE RESOLVED: Added import from conjugation_engine and created /api/init-sentences endpoint. Successfully initialized sentences database with 675 sentences. /api/sentences now returns proper conjugated sentences with French, Shimaoré, and Kibouchi translations in all tenses (present, past, future). Backend API is now fully functional for the sentence construction game."
+
   - task: "Database integrity verification after user reports data loss"
     implemented: true
     working: false
