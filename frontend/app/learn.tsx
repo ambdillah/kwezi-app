@@ -126,7 +126,10 @@ export default function LearnScreen() {
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           {/* Categories */}
           <View style={styles.categoriesContainer}>
-            <Text style={styles.sectionTitle}>Choisir une catégorie 🌺</Text>
+            <View style={styles.sectionTitleContainer}>
+              <YlangYlangFlower size={24} />
+              <Text style={styles.sectionTitle}> Choisir une catégorie</Text>
+            </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesScroll}>
               {CATEGORIES.map((category) => (
                 <TouchableOpacity
