@@ -11,6 +11,9 @@ from bson import ObjectId
 from dotenv import load_dotenv
 load_dotenv()
 
+# Import conjugation engine for sentence generation
+from conjugation_engine import create_sentence_database
+
 app = FastAPI(title="Mayotte Language Learning API")
 
 # Add CORS middleware
