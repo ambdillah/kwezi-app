@@ -16121,6 +16121,9 @@ class MayotteEducationTester:
         # Content initialization
         test_results.append(("Init Base Content", self.test_init_base_content()))
         
+        # CRITICAL: Test the sentences game functionality (Review Request Priority)
+        test_results.append(("🎯 CONSTRUIRE DES PHRASES GAME BACKEND", self.test_construire_des_phrases_game_backend()))
+        
         # Core functionality tests
         test_results.append(("Get Words", self.test_get_words()))
         test_results.append(("Category Filtering", self.test_category_filtering()))
