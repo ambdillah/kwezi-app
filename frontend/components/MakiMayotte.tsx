@@ -19,11 +19,11 @@ export const MakiMayotte: React.FC<MakiMayotteProps> = ({
   return (
     <Image
       source={require('../assets/maki-mayotte.png')}
+      resizeMode="contain"
       style={[
         {
           width: size,
           height: size,
-          resizeMode: 'contain'
         },
         style
       ]}
