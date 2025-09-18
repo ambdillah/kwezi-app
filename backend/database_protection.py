@@ -81,10 +81,12 @@ class DatabaseProtector:
         if missing_categories:
             return False, f"Catégories essentielles manquantes: {missing_categories}"
         
-        # Vérifier que "Au revoir" = "maeva" (signature authentique)
+        # Vérifier que "Au revoir" = "maeva" ou "maèva" (signature authentique)
         au_revoir = self.words_collection.find_one({"french": {"$regex": "^au revoir$", "$options": "i"}})
-        if au_revoir and au_revoir.get("kibouchi", "").lower() != "maeva":
-            return False, "Traduction incorrecte pour 'Au revoir' - devrait être 'maeva'"
+        if au_revoir:
+            kibouchi_au_revoir = au_revoir.get("kibouchi", "").lower()
+            if kibouchi_au_revoir not in ["maeva", "maèva"]:
+                return False, f"Traduction incorrecte pour 'Au revoir' - devrait être 'maeva' ou 'maèva'"
         
         return True, "Base de données authentique confirmée"
     
