@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { speakText, speakConjugatedSentence } from '../utils/speechUtils';
+import YlangYlangFlower from '../components/YlangYlangFlower';
 
 const { width } = Dimensions.get('window');
 
