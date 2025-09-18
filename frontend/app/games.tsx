@@ -574,7 +574,7 @@ export default function GamesScreen() {
                     </Text>
                   )}
                   {matchedPairs.includes(card.id) && (
-                    <Text style={styles.flowerEmoji}>🌺</Text>
+                    <YlangYlangFlower size={32} />
                   )}
                 </View>
               ) : (
