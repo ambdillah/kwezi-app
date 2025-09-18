@@ -807,10 +807,16 @@ async def create_progress(progress: UserProgress):
         progress_dict = progress.dict(exclude={"id"})
         progress_dict["completed_at"] = datetime.utcnow()
         result = user_progress_collection.insert_one(progress_dict)
-        progress_dict["id"] = str(result.inserted_id)
-        # Convert datetime to string for JSON serialization
-        progress_dict["completed_at"] = progress_dict["completed_at"].isoformat()
-        return progress_dict
+        
+        # Create a clean response dict for JSON serialization
+        response_dict = {
+            "id": str(result.inserted_id),
+            "user_name": progress_dict["user_name"],
+            "exercise_id": progress_dict["exercise_id"],
+            "score": progress_dict["score"],
+            "completed_at": progress_dict["completed_at"].isoformat()
+        }
+        return response_dict
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
