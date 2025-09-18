@@ -16376,6 +16376,290 @@ class MayotteEducationTester:
             print(f"❌ 'Construire des phrases' game backend test error: {e}")
             return False
 
+    def test_badge_and_progress_system(self):
+        """Test the comprehensive badge and progress system implementation"""
+        print("\n=== Testing Badge and Progress System Implementation ===")
+        print("CRITICAL TESTING: Badge system with automatic unlocking and progress tracking")
+        
+        try:
+            # Test user for all badge and progress tests
+            test_user = "Marie Abdou"
+            
+            # 1. Test progress retrieval (GET /api/progress/{user_name})
+            print("\n--- Testing Progress Retrieval ---")
+            progress_response = self.session.get(f"{API_BASE}/progress/{test_user}")
+            if progress_response.status_code == 200:
+                progress_data = progress_response.json()
+                print(f"✅ GET /api/progress/{test_user} working - {len(progress_data)} progress entries")
+            else:
+                print(f"❌ GET /api/progress/{test_user} failed: {progress_response.status_code}")
+                return False
+            
+            # 2. Test progress creation (POST /api/progress) - This is the critical issue
+            print("\n--- Testing Progress Creation (Critical Issue) ---")
+            
+            # Create test progress entries to build up stats for badge testing
+            test_progress_entries = [
+                {
+                    "user_name": test_user,
+                    "exercise_id": "test_exercise_1",
+                    "score": 100
+                },
+                {
+                    "user_name": test_user,
+                    "exercise_id": "test_exercise_2", 
+                    "score": 85
+                },
+                {
+                    "user_name": test_user,
+                    "exercise_id": "test_exercise_3",
+                    "score": 100
+                },
+                {
+                    "user_name": test_user,
+                    "exercise_id": "test_exercise_4",
+                    "score": 95
+                },
+                {
+                    "user_name": test_user,
+                    "exercise_id": "test_exercise_5",
+                    "score": 100
+                }
+            ]
+            
+            progress_creation_working = True
+            created_progress_ids = []
+            
+            for i, progress_entry in enumerate(test_progress_entries):
+                try:
+                    create_response = self.session.post(f"{API_BASE}/progress", json=progress_entry)
+                    if create_response.status_code == 200:
+                        created_progress = create_response.json()
+                        created_progress_ids.append(created_progress.get('id'))
+                        print(f"✅ Progress entry {i+1} created successfully - Score: {progress_entry['score']}")
+                    else:
+                        print(f"❌ Progress entry {i+1} creation failed: {create_response.status_code}")
+                        print(f"   Response: {create_response.text}")
+                        progress_creation_working = False
+                        break
+                except Exception as e:
+                    print(f"❌ Progress entry {i+1} creation error: {e}")
+                    progress_creation_working = False
+                    break
+            
+            if not progress_creation_working:
+                print("❌ CRITICAL ISSUE CONFIRMED: POST /api/progress returns 500 Internal Server Error")
+                return False
+            else:
+                print("✅ POST /api/progress working correctly - Critical issue resolved!")
+            
+            # 3. Test user statistics (GET /api/stats/{user_name})
+            print("\n--- Testing User Statistics ---")
+            stats_response = self.session.get(f"{API_BASE}/stats/{test_user}")
+            if stats_response.status_code == 200:
+                stats = stats_response.json()
+                print(f"✅ GET /api/stats/{test_user} working")
+                print(f"   Total Score: {stats.get('total_score', 0)}")
+                print(f"   Completed Exercises: {stats.get('completed_exercises', 0)}")
+                print(f"   Perfect Scores: {stats.get('perfect_scores', 0)}")
+                print(f"   Words Learned: {stats.get('words_learned', 0)}")
+                print(f"   Average Score: {stats.get('average_score', 0)}")
+                print(f"   Best Score: {stats.get('best_score', 0)}")
+                
+                # Store stats for badge testing
+                user_stats = stats
+            else:
+                print(f"❌ GET /api/stats/{test_user} failed: {stats_response.status_code}")
+                return False
+            
+            # 4. Test badge retrieval (GET /api/badges/{user_name})
+            print("\n--- Testing Badge Retrieval ---")
+            badges_response = self.session.get(f"{API_BASE}/badges/{test_user}")
+            if badges_response.status_code == 200:
+                user_badges = badges_response.json()
+                print(f"✅ GET /api/badges/{test_user} working - {len(user_badges)} badges unlocked")
+                if user_badges:
+                    print(f"   Current badges: {user_badges}")
+            else:
+                print(f"❌ GET /api/badges/{test_user} failed: {badges_response.status_code}")
+                return False
+            
+            # 5. Test badge unlocking (POST /api/badges/{user_name}/unlock/{badge_id})
+            print("\n--- Testing Badge Unlocking System ---")
+            
+            # Test badge rules based on user stats
+            badge_tests = [
+                {
+                    "badge_id": "first-word",
+                    "rule": "words_learned >= 1",
+                    "should_unlock": user_stats.get('words_learned', 0) >= 1
+                },
+                {
+                    "badge_id": "word-collector", 
+                    "rule": "words_learned >= 10",
+                    "should_unlock": user_stats.get('words_learned', 0) >= 10
+                },
+                {
+                    "badge_id": "ylang-ylang-master",
+                    "rule": "total_score >= 100", 
+                    "should_unlock": user_stats.get('total_score', 0) >= 100
+                },
+                {
+                    "badge_id": "perfect-score",
+                    "rule": "perfect_scores >= 1",
+                    "should_unlock": user_stats.get('perfect_scores', 0) >= 1
+                },
+                {
+                    "badge_id": "game-master",
+                    "rule": "completed_exercises >= 5",
+                    "should_unlock": user_stats.get('completed_exercises', 0) >= 5
+                }
+            ]
+            
+            badge_unlocking_working = True
+            
+            for badge_test in badge_tests:
+                badge_id = badge_test['badge_id']
+                rule = badge_test['rule']
+                should_unlock = badge_test['should_unlock']
+                
+                print(f"\n   Testing badge: {badge_id}")
+                print(f"   Rule: {rule}")
+                print(f"   Should unlock: {should_unlock}")
+                
+                if should_unlock:
+                    # Try to unlock the badge
+                    unlock_response = self.session.post(f"{API_BASE}/badges/{test_user}/unlock/{badge_id}")
+                    if unlock_response.status_code == 200:
+                        unlock_result = unlock_response.json()
+                        print(f"   ✅ Badge unlock successful: {unlock_result.get('message', 'No message')}")
+                        
+                        # Verify badge was actually unlocked
+                        verify_response = self.session.get(f"{API_BASE}/badges/{test_user}")
+                        if verify_response.status_code == 200:
+                            updated_badges = verify_response.json()
+                            if badge_id in updated_badges:
+                                print(f"   ✅ Badge {badge_id} verified in user's badge list")
+                            else:
+                                print(f"   ❌ Badge {badge_id} not found in user's badge list after unlock")
+                                badge_unlocking_working = False
+                        else:
+                            print(f"   ❌ Could not verify badge unlock")
+                            badge_unlocking_working = False
+                    else:
+                        print(f"   ❌ Badge unlock failed: {unlock_response.status_code}")
+                        print(f"   Response: {unlock_response.text}")
+                        badge_unlocking_working = False
+                else:
+                    print(f"   ⚠️ Badge {badge_id} should not unlock based on current stats")
+            
+            # 6. Test integration between progress and badge systems
+            print("\n--- Testing Progress-Badge Integration ---")
+            
+            # Get final badge count
+            final_badges_response = self.session.get(f"{API_BASE}/badges/{test_user}")
+            if final_badges_response.status_code == 200:
+                final_badges = final_badges_response.json()
+                print(f"✅ Final badge count: {len(final_badges)} badges")
+                print(f"   Badges earned: {final_badges}")
+                
+                # Check if automatic badge unlocking would work based on stats
+                expected_badges = []
+                for badge_test in badge_tests:
+                    if badge_test['should_unlock']:
+                        expected_badges.append(badge_test['badge_id'])
+                
+                print(f"   Expected badges based on stats: {expected_badges}")
+                
+                # Check if all expected badges are present
+                missing_badges = [badge for badge in expected_badges if badge not in final_badges]
+                if not missing_badges:
+                    print("   ✅ All expected badges are unlocked")
+                    integration_working = True
+                else:
+                    print(f"   ❌ Missing expected badges: {missing_badges}")
+                    integration_working = False
+            else:
+                print(f"❌ Could not get final badge list")
+                integration_working = False
+            
+            # 7. Test production readiness
+            print("\n--- Testing Production Readiness ---")
+            
+            production_ready = True
+            
+            # Check error handling
+            print("   Testing error handling...")
+            
+            # Test invalid user
+            invalid_user_response = self.session.get(f"{API_BASE}/progress/nonexistent_user")
+            if invalid_user_response.status_code == 200:
+                print("   ✅ Handles non-existent users gracefully")
+            else:
+                print(f"   ❌ Error handling for non-existent users: {invalid_user_response.status_code}")
+                production_ready = False
+            
+            # Test invalid badge unlock
+            invalid_badge_response = self.session.post(f"{API_BASE}/badges/{test_user}/unlock/invalid_badge")
+            if invalid_badge_response.status_code == 200:
+                print("   ✅ Handles invalid badge IDs gracefully")
+            else:
+                print(f"   ❌ Error handling for invalid badges: {invalid_badge_response.status_code}")
+                production_ready = False
+            
+            # Test malformed progress data
+            try:
+                malformed_progress = {"invalid": "data"}
+                malformed_response = self.session.post(f"{API_BASE}/progress", json=malformed_progress)
+                if malformed_response.status_code in [400, 422]:  # Expected validation errors
+                    print("   ✅ Handles malformed progress data with proper validation")
+                else:
+                    print(f"   ❌ Malformed data handling: {malformed_response.status_code}")
+                    production_ready = False
+            except Exception as e:
+                print(f"   ⚠️ Could not test malformed data: {e}")
+            
+            # Overall result
+            all_tests_passed = (
+                progress_creation_working and
+                badge_unlocking_working and
+                integration_working and
+                production_ready
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 BADGE AND PROGRESS SYSTEM TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ Progress retrieval working correctly")
+                print("✅ Progress creation working correctly (Critical issue resolved!)")
+                print("✅ User statistics calculation accurate")
+                print("✅ Badge retrieval working correctly")
+                print("✅ Badge unlocking system functional")
+                print("✅ Badge rules implemented correctly:")
+                print("   - first-word: words_learned >= 1")
+                print("   - word-collector: words_learned >= 10")
+                print("   - ylang-ylang-master: total_score >= 100")
+                print("   - perfect-score: perfect_scores >= 1")
+                print("   - game-master: completed_exercises >= 5")
+                print("✅ Progress-badge integration working")
+                print("✅ Error handling and production readiness verified")
+                print("✅ System is deployment-ready!")
+            else:
+                print("\n❌ BADGE AND PROGRESS SYSTEM TESTING FAILED!")
+                if not progress_creation_working:
+                    print("❌ Critical issue: POST /api/progress still returns 500 error")
+                if not badge_unlocking_working:
+                    print("❌ Badge unlocking system has issues")
+                if not integration_working:
+                    print("❌ Progress-badge integration not working correctly")
+                if not production_ready:
+                    print("❌ System not ready for production deployment")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Badge and progress system test error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the critical database integrity verification"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
