@@ -98,10 +98,12 @@ class DatabaseProtector:
             # Exporter toutes les données
             words = list(self.words_collection.find({}))
             
-            # Convertir ObjectId en string
+            # Convertir ObjectId en string et gérer les dates
             for word in words:
                 if "_id" in word:
                     word["_id"] = str(word["_id"])
+                if "created_at" in word:
+                    word["created_at"] = word["created_at"].isoformat() if hasattr(word["created_at"], 'isoformat') else str(word["created_at"])
             
             # Sauvegarder avec métadonnées
             backup_data = {
