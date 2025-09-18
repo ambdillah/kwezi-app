@@ -229,10 +229,15 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingBottom: 20,
   },
+  cultureRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
   cultureText: {
     fontSize: 16,
     color: '#333',
-    marginBottom: 8,
     textAlign: 'center',
   },
   languageText: {
