@@ -579,7 +579,7 @@ export default function GamesScreen() {
                 </View>
               ) : (
                 <View style={styles.memoryCardBack}>
-                  <Text style={styles.cardBackEmoji}>🌸</Text>
+                  <YlangYlangFlower size={28} />
                   <Text style={styles.cardBackText}>ylang-ylang</Text>
                 </View>
               )}
