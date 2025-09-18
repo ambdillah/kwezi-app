@@ -13,7 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
-import { speakEducationalContent, testVoiceConfigurations } from '../utils/enhancedSpeechUtils';
+import { speakWithMasculineVoice, testMasculineVoice } from '../utils/simpleMasculineVoice';
 import { playWordAudio, playWordAllLanguages, hasAuthenticAudio } from '../utils/authenticAudioSystem';
 import YlangYlangFlower from '../components/YlangYlangFlower';
 
