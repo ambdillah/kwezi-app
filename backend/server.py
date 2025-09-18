@@ -97,9 +97,10 @@ async def root():
 async def init_base_content():
     """Initialize the database with base vocabulary and exercises"""
     
+    # CRITICAL: Commented out destructive operations to prevent data loss
     # Clear existing data
-    words_collection.delete_many({})
-    exercises_collection.delete_many({})
+    # words_collection.delete_many({})  # DISABLED - CAUSES DATA LOSS
+    # exercises_collection.delete_many({})  # DISABLED - CAUSES DATA LOSS
     
     # Base vocabulary avec traductions authentiques de Mayotte
     base_words = [
