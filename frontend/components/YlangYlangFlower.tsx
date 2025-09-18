@@ -19,11 +19,11 @@ export const YlangYlangFlower: React.FC<YlangYlangFlowerProps> = ({
   return (
     <Image
       source={require('../assets/ylang-ylang.png')}
+      resizeMode="contain"
       style={[
         {
           width: size,
           height: size,
-          resizeMode: 'contain'
         },
         style
       ]}
