@@ -684,12 +684,51 @@ async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/init-sentences")
+@protect_database("init_sentences")
 async def initialize_sentences():
     """Initialize sentences database for the 'Construire des phrases' game"""
     try:
         create_sentence_database()
         count = sentences_collection.count_documents({})
         return {"message": f"Sentences database initialized successfully with {count} sentences"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/database-status")
+async def get_database_status():
+    """Get database integrity status and statistics"""
+    try:
+        is_healthy, message = db_protector.is_database_healthy()
+        stats = db_protector.get_database_stats()
+        
+        return {
+            "healthy": is_healthy,
+            "message": message,
+            "stats": stats
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/create-backup")
+async def create_database_backup():
+    """Create a manual backup of the database"""
+    try:
+        backup_path = db_protector.create_backup("manual_api_call")
+        if backup_path:
+            return {"message": "Backup created successfully", "backup_path": backup_path}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to create backup")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/emergency-restore")
+async def emergency_database_restore():
+    """Emergency restore of the authentic database"""
+    try:
+        if db_protector.emergency_restore():
+            return {"message": "Emergency restore completed successfully"}
+        else:
+            raise HTTPException(status_code=500, detail="Emergency restore failed")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
