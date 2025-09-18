@@ -60,6 +60,13 @@ export const speakText = async (
   try {
     const config = getLanguageConfig(language);
     
+    // Appliquer les corrections phonétiques pour Shimaoré et Kibouchi
+    let correctedText = text;
+    if (language === 'shimaore' || language === 'kibouchi') {
+      correctedText = applyPhoneticCorrections(text, language);
+      console.log(`🎯 Correction phonétique ${language}: "${text}" → "${correctedText}"`);
+    }
+    
     // Vérifier si une synthèse est en cours
     const isCurrentlySpeaking = await Speech.isSpeakingAsync();
     if (isCurrentlySpeaking) {
@@ -67,13 +74,13 @@ export const speakText = async (
     }
     
     return new Promise((resolve, reject) => {
-      Speech.speak(text, {
+      Speech.speak(correctedText, {
         language: config.lang,
         pitch: config.pitch,
         rate: config.rate,
         volume: 1.0,
         onStart: () => {
-          console.log(`🔊 Prononciation: "${text}" (${language})`);
+          console.log(`🔊 Prononciation: "${correctedText}" (${language})`);
           onStart?.();
         },
         onDone: () => {
@@ -86,7 +93,7 @@ export const speakText = async (
           
           // Fallback vers le français si la langue n'est pas supportée
           if (language !== 'fr') {
-            Speech.speak(text, {
+            Speech.speak(correctedText, {
               language: 'fr-FR',
               pitch: 1.0,
               rate: 0.7,
