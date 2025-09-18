@@ -113,7 +113,7 @@ export const kibouchiPhoneticRules: PhoneticRule[] = [
     description: 'Accentuation tr+voyelle'
   },
   {
-    pattern: /dr([aeiou])/gi,Çß
+    pattern: /dr([aeiou])/gi,
     replacement: 'ddr$1',
     description: 'Accentuation dr+voyelle'
   },
