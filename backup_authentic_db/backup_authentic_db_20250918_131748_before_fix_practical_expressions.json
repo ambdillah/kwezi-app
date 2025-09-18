@@ -1,0 +1,5548 @@
+{
+  "metadata": {
+    "timestamp": "20250918_131748",
+    "reason": "before_fix_practical_expressions",
+    "total_words": 554,
+    "db_name": "mayotte_app"
+  },
+  "words": [
+    {
+      "_id": "68cc01c3eb7c15b1f141026f",
+      "french": "œil",
+      "shimaore": "matso",
+      "kibouchi": "faninti",
+      "category": "corps",
+      "image_url": "👁️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410270",
+      "french": "nez",
+      "shimaore": "poua",
+      "kibouchi": "horougnou",
+      "category": "corps",
+      "image_url": "👃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410271",
+      "french": "oreille",
+      "shimaore": "kiyo",
+      "kibouchi": "soufigni",
+      "category": "corps",
+      "image_url": "👂",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410272",
+      "french": "ongle",
+      "shimaore": "kofou",
+      "kibouchi": "angofou",
+      "category": "corps",
+      "image_url": "💅",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410273",
+      "french": "front",
+      "shimaore": "housso",
+      "kibouchi": "lahara",
+      "category": "corps",
+      "image_url": "🤔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410274",
+      "french": "joue",
+      "shimaore": "savou",
+      "kibouchi": "fifi",
+      "category": "corps",
+      "image_url": "😊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410275",
+      "french": "dos",
+      "shimaore": "mengo",
+      "kibouchi": "vohou",
+      "category": "corps",
+      "image_url": "🫸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410276",
+      "french": "épaule",
+      "shimaore": "bèga",
+      "kibouchi": "haveyi",
+      "category": "corps",
+      "image_url": "💪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410277",
+      "french": "hanche",
+      "shimaore": "trenga",
+      "kibouchi": "tahezagna",
+      "category": "corps",
+      "image_url": "🫴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410278",
+      "french": "fesses",
+      "shimaore": "shidzé/mvoumo",
+      "kibouchi": "fouri",
+      "category": "corps",
+      "image_url": "🍑",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410279",
+      "french": "main",
+      "shimaore": "mhono",
+      "kibouchi": "tanagna",
+      "category": "corps",
+      "image_url": "✋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141027a",
+      "french": "tête",
+      "shimaore": "shitsoi",
+      "kibouchi": "louha",
+      "category": "corps",
+      "image_url": "🗣️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141027b",
+      "french": "ventre",
+      "shimaore": "mimba",
+      "kibouchi": "kibou",
+      "category": "corps",
+      "image_url": "🤰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141027c",
+      "french": "dent",
+      "shimaore": "magno",
+      "kibouchi": "hifi",
+      "category": "corps",
+      "image_url": "🦷",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141027d",
+      "french": "langue",
+      "shimaore": "oulimé",
+      "kibouchi": "lela",
+      "category": "corps",
+      "image_url": "👅",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141027e",
+      "french": "pied",
+      "shimaore": "mindrou",
+      "kibouchi": "viti",
+      "category": "corps",
+      "image_url": "🦶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141027f",
+      "french": "lèvre",
+      "shimaore": "dhomo",
+      "kibouchi": "soungni",
+      "category": "corps",
+      "image_url": "👄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410280",
+      "french": "peau",
+      "shimaore": "ngwezi",
+      "kibouchi": "ngwezi",
+      "category": "corps",
+      "image_url": "🫱",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410281",
+      "french": "cheveux",
+      "shimaore": "gnélé",
+      "kibouchi": "fagneya",
+      "category": "corps",
+      "image_url": "💇",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410282",
+      "french": "doigts",
+      "shimaore": "cha",
+      "kibouchi": "tondrou",
+      "category": "corps",
+      "image_url": "👆",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410283",
+      "french": "barbe",
+      "shimaore": "ndrévou",
+      "kibouchi": "somboutrou",
+      "category": "corps",
+      "image_url": "🧔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410284",
+      "french": "vagin",
+      "shimaore": "ndzigni",
+      "kibouchi": "tingui",
+      "category": "corps",
+      "image_url": "🫦",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410285",
+      "french": "testicules",
+      "shimaore": "kwendzé",
+      "kibouchi": "vouangarou",
+      "category": "corps",
+      "image_url": "🥎",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410286",
+      "french": "pénis",
+      "shimaore": "mbo",
+      "kibouchi": "kaboudzi",
+      "category": "corps",
+      "image_url": "🌶️",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410287",
+      "french": "menton",
+      "shimaore": "shlévou",
+      "kibouchi": "sokou",
+      "category": "corps",
+      "image_url": "🫸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410288",
+      "french": "bouche",
+      "shimaore": "hangno",
+      "kibouchi": "vava",
+      "category": "corps",
+      "image_url": "👄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410289",
+      "french": "côtes",
+      "shimaore": "bavou",
+      "kibouchi": "mbavou",
+      "category": "corps",
+      "image_url": "🫁",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141028a",
+      "french": "sourcil",
+      "shimaore": "tsi",
+      "kibouchi": "ankwéssi",
+      "category": "corps",
+      "image_url": "🤨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141028b",
+      "french": "cheville",
+      "shimaore": "dzitso la pwédza",
+      "kibouchi": "dzitso la pwédza",
+      "category": "corps",
+      "image_url": "🦶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141028c",
+      "french": "cou",
+      "shimaore": "tsingo",
+      "kibouchi": "vouzougnou",
+      "category": "corps",
+      "image_url": "🗣️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141028d",
+      "french": "cils",
+      "shimaore": "kove",
+      "kibouchi": "rambou faninti",
+      "category": "corps",
+      "image_url": "👁️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141028e",
+      "french": "arrière du crâne",
+      "shimaore": "komoi",
+      "kibouchi": "kitoika",
+      "category": "corps",
+      "image_url": "🤯",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141028f",
+      "french": "bonjour",
+      "shimaore": "kwezi",
+      "kibouchi": "kwezi",
+      "category": "salutations",
+      "image_url": "☀️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410290",
+      "french": "comment ça va",
+      "shimaore": "jéjé",
+      "kibouchi": "akori",
+      "category": "salutations",
+      "image_url": "❓",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410291",
+      "french": "oui",
+      "shimaore": "ewa",
+      "kibouchi": "iya",
+      "category": "salutations",
+      "image_url": "✅",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410292",
+      "french": "non",
+      "shimaore": "an'ha",
+      "kibouchi": "an'ha",
+      "category": "salutations",
+      "image_url": "❌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410293",
+      "french": "ça va bien",
+      "shimaore": "fétré",
+      "kibouchi": "tsara",
+      "category": "salutations",
+      "image_url": "😊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410294",
+      "french": "merci",
+      "shimaore": "marahaba",
+      "kibouchi": "marahaba",
+      "category": "salutations",
+      "image_url": "🙏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410295",
+      "french": "bonne nuit",
+      "shimaore": "oukou wa hairi",
+      "kibouchi": "haligni tsara",
+      "category": "salutations",
+      "image_url": "🌙",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410296",
+      "french": "au revoir",
+      "shimaore": "kwahéri",
+      "kibouchi": "maèva",
+      "category": "salutations",
+      "image_url": "👋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410297",
+      "french": "je",
+      "shimaore": "wami",
+      "kibouchi": "zahou",
+      "category": "grammaire",
+      "image_url": "👤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410298",
+      "french": "tu",
+      "shimaore": "wawé",
+      "kibouchi": "anaou",
+      "category": "grammaire",
+      "image_url": "👤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410299",
+      "french": "il/elle",
+      "shimaore": "wayé",
+      "kibouchi": "izi",
+      "category": "grammaire",
+      "image_url": "👤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141029a",
+      "french": "nous",
+      "shimaore": "wassi",
+      "kibouchi": "atsika",
+      "category": "grammaire",
+      "image_url": "👥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141029b",
+      "french": "ils/elles",
+      "shimaore": "wawo",
+      "kibouchi": "réou",
+      "category": "grammaire",
+      "image_url": "👥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141029c",
+      "french": "le mien",
+      "shimaore": "yangou",
+      "kibouchi": "ninakahi",
+      "category": "grammaire",
+      "image_url": "👤",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141029d",
+      "french": "le tien",
+      "shimaore": "yaho",
+      "kibouchi": "ninaou",
+      "category": "grammaire",
+      "image_url": "👤",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141029e",
+      "french": "le sien",
+      "shimaore": "yahé",
+      "kibouchi": "ninazi",
+      "category": "grammaire",
+      "image_url": "👤",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141029f",
+      "french": "le leur",
+      "shimaore": "yawo",
+      "kibouchi": "nindréou",
+      "category": "grammaire",
+      "image_url": "👥",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a0",
+      "french": "le nôtre",
+      "shimaore": "yatrou",
+      "kibouchi": "nintsika",
+      "category": "grammaire",
+      "image_url": "👥",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a1",
+      "french": "le vôtre",
+      "shimaore": "yangnou",
+      "kibouchi": "ninaréou",
+      "category": "grammaire",
+      "image_url": "👥",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a2",
+      "french": "vous",
+      "shimaore": "wagnou",
+      "kibouchi": "anaréou",
+      "category": "grammaire",
+      "image_url": "👥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a3",
+      "french": "professeur",
+      "shimaore": "foundi",
+      "kibouchi": "foundi",
+      "category": "grammaire",
+      "image_url": "👨‍🏫",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a4",
+      "french": "guide spirituel",
+      "shimaore": "cadhi",
+      "kibouchi": "cadhi",
+      "category": "grammaire",
+      "image_url": "👨‍🦲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a5",
+      "french": "imam",
+      "shimaore": "imamou",
+      "kibouchi": "imamou",
+      "category": "grammaire",
+      "image_url": "👨‍🦲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a6",
+      "french": "voisin",
+      "shimaore": "djirani",
+      "kibouchi": "djirani",
+      "category": "grammaire",
+      "image_url": "🏠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a7",
+      "french": "maire",
+      "shimaore": "méra",
+      "kibouchi": "méra",
+      "category": "grammaire",
+      "image_url": "🏛️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a8",
+      "french": "élu",
+      "shimaore": "dhoimana",
+      "kibouchi": "dhoimana",
+      "category": "grammaire",
+      "image_url": "🗳️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102a9",
+      "french": "pêcheur",
+      "shimaore": "mlozi",
+      "kibouchi": "ampamintagna",
+      "category": "grammaire",
+      "image_url": "🎣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102aa",
+      "french": "agriculteur",
+      "shimaore": "mlimizi",
+      "kibouchi": "ampikapa",
+      "category": "grammaire",
+      "image_url": "👨‍🌾",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ab",
+      "french": "éleveur",
+      "shimaore": "mtsounga",
+      "kibouchi": "ampitsounga",
+      "category": "grammaire",
+      "image_url": "🐄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:32.417000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ac",
+      "french": "tante",
+      "shimaore": "mama titi/bolé",
+      "kibouchi": "nindri heli/bé",
+      "category": "famille",
+      "image_url": "👩",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ad",
+      "french": "oncle maternel",
+      "shimaore": "zama",
+      "kibouchi": "zama",
+      "category": "famille",
+      "image_url": "👨",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ae",
+      "french": "oncle paternel",
+      "shimaore": "baba titi/bolé",
+      "kibouchi": "baba héli/bé",
+      "category": "famille",
+      "image_url": "👨",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102af",
+      "french": "épouse oncle maternel",
+      "shimaore": "zena",
+      "kibouchi": "zena",
+      "category": "famille",
+      "image_url": "👩",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b0",
+      "french": "petite sœur",
+      "shimaore": "moinagna mtroumama",
+      "kibouchi": "zandri viavi",
+      "category": "famille",
+      "image_url": "👧",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b1",
+      "french": "petit frère",
+      "shimaore": "moinagna mtroubaba",
+      "kibouchi": "zandri lalahi",
+      "category": "famille",
+      "image_url": "👦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b2",
+      "french": "grande sœur",
+      "shimaore": "zouki mtroumché",
+      "kibouchi": "zoki viavi",
+      "category": "famille",
+      "image_url": "👩",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b3",
+      "french": "grand frère",
+      "shimaore": "zouki mtroubaba",
+      "kibouchi": "zoki lalahi",
+      "category": "famille",
+      "image_url": "👨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b4",
+      "french": "frère",
+      "shimaore": "mwanagna mtroubaba",
+      "kibouchi": "anadahi",
+      "category": "famille",
+      "image_url": "👦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b5",
+      "french": "sœur",
+      "shimaore": "mwanagna mtroumama",
+      "kibouchi": "anabavi",
+      "category": "famille",
+      "image_url": "👧",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b6",
+      "french": "ami",
+      "shimaore": "mwandzani",
+      "kibouchi": "mwandzani",
+      "category": "famille",
+      "image_url": "👫",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b7",
+      "french": "fille/femme",
+      "shimaore": "mtroumama",
+      "kibouchi": "viavi",
+      "category": "famille",
+      "image_url": "👩",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b8",
+      "french": "garçon/homme",
+      "shimaore": "mtroubaba",
+      "kibouchi": "lalahi",
+      "category": "famille",
+      "image_url": "👨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102b9",
+      "french": "monsieur",
+      "shimaore": "mogné",
+      "kibouchi": "lalahi",
+      "category": "famille",
+      "image_url": "👨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ba",
+      "french": "grand-père",
+      "shimaore": "bacoco",
+      "kibouchi": "dadayi",
+      "category": "famille",
+      "image_url": "👴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102bb",
+      "french": "grand-mère",
+      "shimaore": "coco",
+      "kibouchi": "dadi",
+      "category": "famille",
+      "image_url": "👵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102bc",
+      "french": "madame",
+      "shimaore": "bwéni",
+      "kibouchi": "viavi",
+      "category": "famille",
+      "image_url": "👩",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102bd",
+      "french": "famille",
+      "shimaore": "mdjamaza",
+      "kibouchi": "havagna",
+      "category": "famille",
+      "image_url": "👨‍👩‍👧‍👦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102be",
+      "french": "papa",
+      "shimaore": "baba",
+      "kibouchi": "baba",
+      "category": "famille",
+      "image_url": "👨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102bf",
+      "french": "maman",
+      "shimaore": "mama",
+      "kibouchi": "mama",
+      "category": "famille",
+      "image_url": "👩",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c0",
+      "french": "bleu",
+      "shimaore": "bilé",
+      "kibouchi": "mayitsou bilé",
+      "category": "couleurs",
+      "image_url": "🔵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c1",
+      "french": "vert",
+      "shimaore": "dhavou",
+      "kibouchi": "mayitsou",
+      "category": "couleurs",
+      "image_url": "🟢",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c2",
+      "french": "noir",
+      "shimaore": "nzidhou",
+      "kibouchi": "mayintigni",
+      "category": "couleurs",
+      "image_url": "⚫",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c3",
+      "french": "blanc",
+      "shimaore": "ndjéou",
+      "kibouchi": "malandi",
+      "category": "couleurs",
+      "image_url": "⚪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c4",
+      "french": "jaune",
+      "shimaore": "dzindzano",
+      "kibouchi": "tamoutamou",
+      "category": "couleurs",
+      "image_url": "🟡",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c5",
+      "french": "rouge",
+      "shimaore": "nzoukoundrou",
+      "kibouchi": "mena",
+      "category": "couleurs",
+      "image_url": "🔴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c6",
+      "french": "gris",
+      "shimaore": "djifou",
+      "kibouchi": "dzofou",
+      "category": "couleurs",
+      "image_url": "⚫",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c7",
+      "french": "marron",
+      "shimaore": "trotro",
+      "kibouchi": "fotafotaka",
+      "category": "couleurs",
+      "image_url": "🟤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c8",
+      "french": "riz",
+      "shimaore": "tsoholé",
+      "kibouchi": "vari",
+      "category": "nourriture",
+      "image_url": "🍚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102c9",
+      "french": "eau",
+      "shimaore": "maji",
+      "kibouchi": "ranou",
+      "category": "nourriture",
+      "image_url": "💧",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ca",
+      "french": "nourriture",
+      "shimaore": "chaoula",
+      "kibouchi": "hanigni",
+      "category": "nourriture",
+      "image_url": "🍽️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102cb",
+      "french": "ananas",
+      "shimaore": "nanassi",
+      "kibouchi": "mananassi",
+      "category": "nourriture",
+      "image_url": "🍍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102cc",
+      "french": "pois d'angole",
+      "shimaore": "tsouzi",
+      "kibouchi": "ambatri",
+      "category": "nourriture",
+      "image_url": "🫘",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102cd",
+      "french": "banane",
+      "shimaore": "trovi",
+      "kibouchi": "hountsi",
+      "category": "nourriture",
+      "image_url": "🍌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ce",
+      "french": "pain",
+      "shimaore": "dipé",
+      "kibouchi": "dipé",
+      "category": "nourriture",
+      "image_url": "🍞",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102cf",
+      "french": "gâteau",
+      "shimaore": "mharé",
+      "kibouchi": "moukari",
+      "category": "nourriture",
+      "image_url": "🍰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d0",
+      "french": "mangue",
+      "shimaore": "manga",
+      "kibouchi": "manga",
+      "category": "nourriture",
+      "image_url": "🥭",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d1",
+      "french": "noix de coco",
+      "shimaore": "nadzi",
+      "kibouchi": "voiniou",
+      "category": "nourriture",
+      "image_url": "🥥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d2",
+      "french": "noix de coco fraîche",
+      "shimaore": "chijavou",
+      "kibouchi": "kidjayou",
+      "category": "nourriture",
+      "image_url": "🥥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d3",
+      "french": "lait",
+      "shimaore": "dzia",
+      "kibouchi": "rounounou",
+      "category": "nourriture",
+      "image_url": "🥛",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d4",
+      "french": "viande",
+      "shimaore": "nhyama",
+      "kibouchi": "amboumati",
+      "category": "nourriture",
+      "image_url": "🥩",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d5",
+      "french": "poisson",
+      "shimaore": "fi",
+      "kibouchi": "lokou",
+      "category": "nourriture",
+      "image_url": "🐟",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d6",
+      "french": "brèdes",
+      "shimaore": "féliki",
+      "kibouchi": "féliki",
+      "category": "nourriture",
+      "image_url": "🥬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d7",
+      "french": "brède mafane",
+      "shimaore": "féliki mafana",
+      "kibouchi": "féliki mafana",
+      "category": "nourriture",
+      "image_url": "🥬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d8",
+      "french": "brède manioc",
+      "shimaore": "mataba",
+      "kibouchi": "féliki mouhogou",
+      "category": "nourriture",
+      "image_url": "🥬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102d9",
+      "french": "brède morelle",
+      "shimaore": "féliki nyongo",
+      "kibouchi": "féliki angatsindra",
+      "category": "nourriture",
+      "image_url": "🥬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102da",
+      "french": "brès patate douce",
+      "shimaore": "féliki batata",
+      "kibouchi": "féliki batata",
+      "category": "nourriture",
+      "image_url": "🥬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102db",
+      "french": "patate douce",
+      "shimaore": "batata",
+      "kibouchi": "batata",
+      "category": "nourriture",
+      "image_url": "🍠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102dc",
+      "french": "bouillon",
+      "shimaore": "woubou",
+      "kibouchi": "kouba",
+      "category": "nourriture",
+      "image_url": "🍲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102dd",
+      "french": "banane au coco",
+      "shimaore": "trovi ya nadzi",
+      "kibouchi": "hountsi an voiniou",
+      "category": "nourriture",
+      "image_url": "🍌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102de",
+      "french": "riz au coco",
+      "shimaore": "tsoholé ya nadzi",
+      "kibouchi": "vari an voiniou",
+      "category": "nourriture",
+      "image_url": "🍚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102df",
+      "french": "poulet",
+      "shimaore": "bawa",
+      "kibouchi": "mabawa",
+      "category": "nourriture",
+      "image_url": "🐔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e0",
+      "french": "œuf",
+      "shimaore": "joiyi",
+      "kibouchi": "antoudi",
+      "category": "nourriture",
+      "image_url": "🥚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e1",
+      "french": "tomate",
+      "shimaore": "tamati",
+      "kibouchi": "matimati",
+      "category": "nourriture",
+      "image_url": "🍅",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e2",
+      "french": "oignon",
+      "shimaore": "chouroungou",
+      "kibouchi": "doungoulou",
+      "category": "nourriture",
+      "image_url": "🧅",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e3",
+      "french": "ail",
+      "shimaore": "chouroungou foudjé",
+      "kibouchi": "doungoulou mvoudjou",
+      "category": "nourriture",
+      "image_url": "🧄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e4",
+      "french": "orange",
+      "shimaore": "troundra",
+      "kibouchi": "tsoha",
+      "category": "nourriture",
+      "image_url": "🍊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e5",
+      "french": "mandarine",
+      "shimaore": "madhandzé",
+      "kibouchi": "tsoha madzandzi",
+      "category": "nourriture",
+      "image_url": "🍊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e6",
+      "french": "manioc",
+      "shimaore": "mhogo",
+      "kibouchi": "mouhogou",
+      "category": "nourriture",
+      "image_url": "🥔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e7",
+      "french": "piment",
+      "shimaore": "poutou",
+      "kibouchi": "pilipili",
+      "category": "nourriture",
+      "image_url": "🌶️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e8",
+      "french": "taro",
+      "shimaore": "majimbi",
+      "kibouchi": "majimbi",
+      "category": "nourriture",
+      "image_url": "🥔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102e9",
+      "french": "sel",
+      "shimaore": "chingo",
+      "kibouchi": "sira",
+      "category": "nourriture",
+      "image_url": "🧂",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ea",
+      "french": "poivre",
+      "shimaore": "bvilibvili manga",
+      "kibouchi": "vilivili",
+      "category": "nourriture",
+      "image_url": "🌶️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102eb",
+      "french": "curcuma",
+      "shimaore": "dzindzano",
+      "kibouchi": "tamoutamou",
+      "category": "nourriture",
+      "image_url": "🌿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ec",
+      "french": "cumin",
+      "shimaore": "massala",
+      "kibouchi": "massala",
+      "category": "nourriture",
+      "image_url": "🌿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ed",
+      "french": "ciboulette",
+      "shimaore": "chouroungou",
+      "kibouchi": "doungoulou ravigni",
+      "category": "nourriture",
+      "image_url": "🌿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ee",
+      "french": "gingembre",
+      "shimaore": "tsinguiziou",
+      "kibouchi": "sakéyi",
+      "category": "nourriture",
+      "image_url": "🫚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ef",
+      "french": "vanille",
+      "shimaore": "lavani",
+      "kibouchi": "lavani",
+      "category": "nourriture",
+      "image_url": "🌿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f0",
+      "french": "tamarin",
+      "shimaore": "ouhajou",
+      "kibouchi": "madirou kakazou",
+      "category": "nourriture",
+      "image_url": "🌰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f1",
+      "french": "un thé",
+      "shimaore": "maji ya moro",
+      "kibouchi": "ranou meyi",
+      "category": "nourriture",
+      "image_url": "🍵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f2",
+      "french": "papaye",
+      "shimaore": "papaya",
+      "kibouchi": "poipoiya",
+      "category": "nourriture",
+      "image_url": "🥭",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f3",
+      "french": "nourriture",
+      "shimaore": "chaoula",
+      "kibouchi": "hanigni",
+      "category": "nourriture",
+      "image_url": "🍽️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f4",
+      "french": "riz non décortiqué",
+      "shimaore": "melé",
+      "kibouchi": "vari tsivoidissa",
+      "category": "nourriture",
+      "image_url": "🌾",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.164000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f5",
+      "french": "un",
+      "shimaore": "moja",
+      "kibouchi": "areki",
+      "category": "nombres",
+      "image_url": "1️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f6",
+      "french": "deux",
+      "shimaore": "mbili",
+      "kibouchi": "aroyi",
+      "category": "nombres",
+      "image_url": "2️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f7",
+      "french": "trois",
+      "shimaore": "trarou",
+      "kibouchi": "telou",
+      "category": "nombres",
+      "image_url": "3️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f8",
+      "french": "quatre",
+      "shimaore": "nhé",
+      "kibouchi": "efatra",
+      "category": "nombres",
+      "image_url": "4️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102f9",
+      "french": "cinq",
+      "shimaore": "tsano",
+      "kibouchi": "dimi",
+      "category": "nombres",
+      "image_url": "5️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102fa",
+      "french": "six",
+      "shimaore": "sita",
+      "kibouchi": "tchouta",
+      "category": "nombres",
+      "image_url": "6️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102fb",
+      "french": "sept",
+      "shimaore": "saba",
+      "kibouchi": "fitou",
+      "category": "nombres",
+      "image_url": "7️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102fc",
+      "french": "huit",
+      "shimaore": "nané",
+      "kibouchi": "valou",
+      "category": "nombres",
+      "image_url": "8️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102fd",
+      "french": "neuf",
+      "shimaore": "chendra",
+      "kibouchi": "civi",
+      "category": "nombres",
+      "image_url": "9️⃣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102fe",
+      "french": "dix",
+      "shimaore": "koumi",
+      "kibouchi": "foulou",
+      "category": "nombres",
+      "image_url": "🔟",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14102ff",
+      "french": "onze",
+      "shimaore": "koumi na moja",
+      "kibouchi": "foulou areki ambi",
+      "category": "nombres",
+      "image_url": "1️⃣1️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410300",
+      "french": "douze",
+      "shimaore": "koumi na mbili",
+      "kibouchi": "foulou aroyi ambi",
+      "category": "nombres",
+      "image_url": "1️⃣2️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410301",
+      "french": "treize",
+      "shimaore": "koumi na trarou",
+      "kibouchi": "foulou telou ambi",
+      "category": "nombres",
+      "image_url": "1️⃣3️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410302",
+      "french": "quatorze",
+      "shimaore": "koumi na nhé",
+      "kibouchi": "foulou efatra ambi",
+      "category": "nombres",
+      "image_url": "1️⃣4️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410303",
+      "french": "quinze",
+      "shimaore": "koumi na tsano",
+      "kibouchi": "foulou dimi ambi",
+      "category": "nombres",
+      "image_url": "1️⃣5️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410304",
+      "french": "seize",
+      "shimaore": "koumi na sita",
+      "kibouchi": "foulou tchouta ambi",
+      "category": "nombres",
+      "image_url": "1️⃣6️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410305",
+      "french": "dix-sept",
+      "shimaore": "koumi na saba",
+      "kibouchi": "foulou fitou ambi",
+      "category": "nombres",
+      "image_url": "1️⃣7️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410306",
+      "french": "dix-huit",
+      "shimaore": "koumi na nané",
+      "kibouchi": "foulou valou ambi",
+      "category": "nombres",
+      "image_url": "1️⃣8️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410307",
+      "french": "dix-neuf",
+      "shimaore": "koumi na chendra",
+      "kibouchi": "foulou civi ambi",
+      "category": "nombres",
+      "image_url": "1️⃣9️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410308",
+      "french": "vingt",
+      "shimaore": "chirini",
+      "kibouchi": "arompoulou",
+      "category": "nombres",
+      "image_url": "2️⃣0️⃣",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410309",
+      "french": "cochon",
+      "shimaore": "pouroukou",
+      "kibouchi": "lambou",
+      "category": "animaux",
+      "image_url": "🐷",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141030a",
+      "french": "margouillat",
+      "shimaore": "kasangwe",
+      "kibouchi": "kitsatsaka",
+      "category": "animaux",
+      "image_url": "🦎",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141030b",
+      "french": "abeille",
+      "shimaore": "niochi",
+      "kibouchi": "antéli",
+      "category": "animaux",
+      "image_url": "🐝",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141030c",
+      "french": "chat",
+      "shimaore": "paha",
+      "kibouchi": "moirou",
+      "category": "animaux",
+      "image_url": "🐱",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141030d",
+      "french": "rat",
+      "shimaore": "pouhou",
+      "kibouchi": "voilavou",
+      "category": "animaux",
+      "image_url": "🐭",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141030e",
+      "french": "escargot",
+      "shimaore": "kwa",
+      "kibouchi": "ancora",
+      "category": "animaux",
+      "image_url": "🐌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141030f",
+      "french": "lion",
+      "shimaore": "simba",
+      "kibouchi": "simba",
+      "category": "animaux",
+      "image_url": "🦁",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410310",
+      "french": "grenouille",
+      "shimaore": "shiwatrotro",
+      "kibouchi": "sahougnou",
+      "category": "animaux",
+      "image_url": "🐸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410311",
+      "french": "oiseau",
+      "shimaore": "gnougni",
+      "kibouchi": "vorougnou",
+      "category": "animaux",
+      "image_url": "🐦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410312",
+      "french": "chien",
+      "shimaore": "mbwa",
+      "kibouchi": "fadroka",
+      "category": "animaux",
+      "image_url": "🐶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410313",
+      "french": "poisson",
+      "shimaore": "fi",
+      "kibouchi": "lokou",
+      "category": "animaux",
+      "image_url": "🐟",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410314",
+      "french": "maki",
+      "shimaore": "komba",
+      "kibouchi": "amkoumba",
+      "category": "animaux",
+      "image_url": "🐒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410315",
+      "french": "chèvre",
+      "shimaore": "mbouzi",
+      "kibouchi": "bengui",
+      "category": "animaux",
+      "image_url": "🐐",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410316",
+      "french": "moustique",
+      "shimaore": "manundi",
+      "kibouchi": "mokou",
+      "category": "animaux",
+      "image_url": "🦟",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410317",
+      "french": "mouche",
+      "shimaore": "ndzi",
+      "kibouchi": "lalitri",
+      "category": "animaux",
+      "image_url": "🪰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410318",
+      "french": "chauve souris",
+      "shimaore": "drema",
+      "kibouchi": "fanihi",
+      "category": "animaux",
+      "image_url": "🦇",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410319",
+      "french": "serpent",
+      "shimaore": "nyoha",
+      "kibouchi": "bibi lava",
+      "category": "animaux",
+      "image_url": "🐍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141031a",
+      "french": "lapin",
+      "shimaore": "sungura",
+      "kibouchi": "shoungoura",
+      "category": "animaux",
+      "image_url": "🐰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141031b",
+      "french": "canard",
+      "shimaore": "guisi",
+      "kibouchi": "doukitri",
+      "category": "animaux",
+      "image_url": "🦆",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141031c",
+      "french": "mouton",
+      "shimaore": "baribari",
+      "kibouchi": "baribari",
+      "category": "animaux",
+      "image_url": "🐑",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141031d",
+      "french": "crocodile",
+      "shimaore": "vwai",
+      "kibouchi": "vwai",
+      "category": "animaux",
+      "image_url": "🐊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141031e",
+      "french": "caméléon",
+      "shimaore": "tarundru",
+      "kibouchi": "tarondru",
+      "category": "animaux",
+      "image_url": "🦎",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141031f",
+      "french": "zébu",
+      "shimaore": "nyombé",
+      "kibouchi": "aoumbi",
+      "category": "animaux",
+      "image_url": "🐂",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410320",
+      "french": "âne",
+      "shimaore": "pundra",
+      "kibouchi": "ampundra",
+      "category": "animaux",
+      "image_url": "🫏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410321",
+      "french": "poule",
+      "shimaore": "kouhou",
+      "kibouchi": "akohou",
+      "category": "animaux",
+      "image_url": "🐔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410322",
+      "french": "pigeon",
+      "shimaore": "ndiwa",
+      "kibouchi": "ndiwa",
+      "category": "animaux",
+      "image_url": "🕊️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410323",
+      "french": "fourmis",
+      "shimaore": "tjoussou",
+      "kibouchi": "vitsiki",
+      "category": "animaux",
+      "image_url": "🐜",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410324",
+      "french": "chenille",
+      "shimaore": "bazi",
+      "kibouchi": "bibimanguidi",
+      "category": "animaux",
+      "image_url": "🐛",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410325",
+      "french": "papillon",
+      "shimaore": "pelapelaka",
+      "kibouchi": "tsipelapelaka",
+      "category": "animaux",
+      "image_url": "🦋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410326",
+      "french": "ver de terre",
+      "shimaore": "lingoui lingoui",
+      "kibouchi": "bibi fotaka",
+      "category": "animaux",
+      "image_url": "🪱",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410327",
+      "french": "criquet",
+      "shimaore": "furudji",
+      "kibouchi": "kidzedza",
+      "category": "animaux",
+      "image_url": "🦗",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410328",
+      "french": "cheval",
+      "shimaore": "poundra",
+      "kibouchi": "farassi",
+      "category": "animaux",
+      "image_url": "🐴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410329",
+      "french": "fruit du jaquier",
+      "shimaore": "fénéssi",
+      "kibouchi": "finéssi",
+      "category": "animaux",
+      "image_url": "🥭",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141032a",
+      "french": "perroquet",
+      "shimaore": "kasoukou",
+      "kibouchi": "kararokou",
+      "category": "animaux",
+      "image_url": "🦜",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141032b",
+      "french": "cafard",
+      "shimaore": "kalalawi",
+      "kibouchi": "kalalowou",
+      "category": "animaux",
+      "image_url": "🪳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141032c",
+      "french": "araignée",
+      "shimaore": "shitrandrabwibwi",
+      "kibouchi": "bibi ampamani massou",
+      "category": "animaux",
+      "image_url": "🕷️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141032d",
+      "french": "scorpion",
+      "shimaore": "hala",
+      "kibouchi": "hala",
+      "category": "animaux",
+      "image_url": "🦂",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141032e",
+      "french": "scolopendre",
+      "shimaore": "trambwi",
+      "kibouchi": "trambougnou",
+      "category": "animaux",
+      "image_url": "🐛",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141032f",
+      "french": "thon",
+      "shimaore": "mbassi",
+      "kibouchi": "mbassi",
+      "category": "animaux",
+      "image_url": "🐟",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410330",
+      "french": "requin",
+      "shimaore": "papa",
+      "kibouchi": "ankiou",
+      "category": "animaux",
+      "image_url": "🦈",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410331",
+      "french": "poulpe",
+      "shimaore": "pwedza",
+      "kibouchi": "pwedza",
+      "category": "animaux",
+      "image_url": "🐙",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410332",
+      "french": "crabe",
+      "shimaore": "dradraka",
+      "kibouchi": "dakatra",
+      "category": "animaux",
+      "image_url": "🦀",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410333",
+      "french": "tortue",
+      "shimaore": "nyamba/katsa",
+      "kibouchi": "fanou",
+      "category": "animaux",
+      "image_url": "🐢",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410334",
+      "french": "bigorno",
+      "shimaore": "trondro",
+      "kibouchi": "trondrou",
+      "category": "animaux",
+      "image_url": "🐚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410335",
+      "french": "éléphant",
+      "shimaore": "ndovu",
+      "kibouchi": "ndovu",
+      "category": "animaux",
+      "image_url": "🐘",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410336",
+      "french": "singe",
+      "shimaore": "djakwe",
+      "kibouchi": "djakouayi",
+      "category": "animaux",
+      "image_url": "🐒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410337",
+      "french": "souris",
+      "shimaore": "shikwetse",
+      "kibouchi": "voilavou",
+      "category": "animaux",
+      "image_url": "🐭",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410338",
+      "french": "phacochère",
+      "shimaore": "pouruku nyeha",
+      "kibouchi": "lambou",
+      "category": "animaux",
+      "image_url": "🐗",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410339",
+      "french": "lézard",
+      "shimaore": "ngwizi",
+      "kibouchi": "kitsatsaka",
+      "category": "animaux",
+      "image_url": "🦎",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141033a",
+      "french": "renard",
+      "shimaore": "mbwa nyeha",
+      "kibouchi": "fandroka",
+      "category": "animaux",
+      "image_url": "🦊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141033b",
+      "french": "chameau",
+      "shimaore": "ngamia",
+      "kibouchi": "angamia",
+      "category": "animaux",
+      "image_url": "🐪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141033c",
+      "french": "escargot",
+      "shimaore": "kowa",
+      "kibouchi": "ankora",
+      "category": "animaux",
+      "image_url": "🐌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141033d",
+      "french": "hérisson/tangue",
+      "shimaore": "landra",
+      "kibouchi": "trandraka",
+      "category": "animaux",
+      "image_url": "🦔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141033e",
+      "french": "corbeau",
+      "shimaore": "gawa/kwayi",
+      "kibouchi": "gouaka",
+      "category": "animaux",
+      "image_url": "🐦‍⬛",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141033f",
+      "french": "civette",
+      "shimaore": "founga",
+      "kibouchi": "angava",
+      "category": "animaux",
+      "image_url": "🦝",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410340",
+      "french": "dauphin",
+      "shimaore": "moungoumé",
+      "kibouchi": "fésoutrou",
+      "category": "animaux",
+      "image_url": "🐬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410341",
+      "french": "baleine",
+      "shimaore": "ndroujou",
+      "kibouchi": "",
+      "category": "animaux",
+      "image_url": "🐋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410342",
+      "french": "crevette",
+      "shimaore": "camba",
+      "kibouchi": "ancamba",
+      "category": "animaux",
+      "image_url": "🦐",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410343",
+      "french": "frelon",
+      "shimaore": "chonga",
+      "kibouchi": "faraka",
+      "category": "animaux",
+      "image_url": "🐝",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410344",
+      "french": "guêpe",
+      "shimaore": "movou",
+      "kibouchi": "fanintri",
+      "category": "animaux",
+      "image_url": "🐝",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410345",
+      "french": "bourdon",
+      "shimaore": "vungo vungo",
+      "kibouchi": "madjaoumbi",
+      "category": "animaux",
+      "image_url": "🐝",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410346",
+      "french": "puce",
+      "shimaore": "kunguni",
+      "kibouchi": "ancongou",
+      "category": "animaux",
+      "image_url": "🐛",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410347",
+      "french": "pou",
+      "shimaore": "ndra",
+      "kibouchi": "howou",
+      "category": "animaux",
+      "image_url": "🐛",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410348",
+      "french": "bouc",
+      "shimaore": "béwé",
+      "kibouchi": "béberou",
+      "category": "animaux",
+      "image_url": "🐐",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410349",
+      "french": "taureau",
+      "shimaore": "kondzo",
+      "kibouchi": "dzow",
+      "category": "animaux",
+      "image_url": "🐂",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141034a",
+      "french": "bigorneau",
+      "shimaore": "trondro",
+      "kibouchi": "trondrou",
+      "category": "animaux",
+      "image_url": "🐚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141034b",
+      "french": "lambis",
+      "shimaore": "kombé",
+      "kibouchi": "mahombi",
+      "category": "animaux",
+      "image_url": "🐚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141034c",
+      "french": "cône de mer",
+      "shimaore": "kwitsi",
+      "kibouchi": "tsimtipaka",
+      "category": "animaux",
+      "image_url": "🐚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141034d",
+      "french": "mille pattes",
+      "shimaore": "gnamaré",
+      "kibouchi": "kamara",
+      "category": "animaux",
+      "image_url": "🐛",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141034e",
+      "french": "oursin",
+      "shimaore": "gadzassi",
+      "kibouchi": "vouli vavi",
+      "category": "animaux",
+      "image_url": "🦔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141034f",
+      "french": "huître",
+      "shimaore": "gadzassi",
+      "kibouchi": "sadza",
+      "category": "animaux",
+      "image_url": "🦪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:33.914000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410350",
+      "french": "pente/colline/mont",
+      "shimaore": "mlima",
+      "kibouchi": "boungou",
+      "category": "nature",
+      "image_url": "⛰️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410351",
+      "french": "lune",
+      "shimaore": "mwézi",
+      "kibouchi": "fandzava",
+      "category": "nature",
+      "image_url": "🌙",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410352",
+      "french": "étoile",
+      "shimaore": "gnora",
+      "kibouchi": "lakintagna",
+      "category": "nature",
+      "image_url": "⭐",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410353",
+      "french": "sable",
+      "shimaore": "mtsanga",
+      "kibouchi": "fasigni",
+      "category": "nature",
+      "image_url": "🏖️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410354",
+      "french": "vague",
+      "shimaore": "dhouja",
+      "kibouchi": "houndza/riaka",
+      "category": "nature",
+      "image_url": "🌊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410355",
+      "french": "vent",
+      "shimaore": "pévo",
+      "kibouchi": "tsikou",
+      "category": "nature",
+      "image_url": "🌬️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410356",
+      "french": "pluie",
+      "shimaore": "vhoua",
+      "kibouchi": "mahaléni",
+      "category": "nature",
+      "image_url": "🌧️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410357",
+      "french": "mangrove",
+      "shimaore": "mhonko",
+      "kibouchi": "honkou",
+      "category": "nature",
+      "image_url": "🌿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410358",
+      "french": "corail",
+      "shimaore": "soiyi",
+      "kibouchi": "soiyi",
+      "category": "nature",
+      "image_url": "🪸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410359",
+      "french": "barrière de corail",
+      "shimaore": "caléni",
+      "kibouchi": "caléni",
+      "category": "nature",
+      "image_url": "🪸",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141035a",
+      "french": "tempête",
+      "shimaore": "darouba",
+      "kibouchi": "tsikou",
+      "category": "nature",
+      "image_url": "⛈️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141035b",
+      "french": "rivière",
+      "shimaore": "mouro",
+      "kibouchi": "mouroni",
+      "category": "nature",
+      "image_url": "🏞️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141035c",
+      "french": "pont",
+      "shimaore": "daradja",
+      "kibouchi": "daradja",
+      "category": "nature",
+      "image_url": "🌉",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141035d",
+      "french": "nuage",
+      "shimaore": "wingou",
+      "kibouchi": "vingou",
+      "category": "nature",
+      "image_url": "☁️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141035e",
+      "french": "arc en ciel",
+      "shimaore": "mcacamba",
+      "kibouchi": "",
+      "category": "nature",
+      "image_url": "🌈",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141035f",
+      "french": "campagne/forêt",
+      "shimaore": "malavouni",
+      "kibouchi": "atihala",
+      "category": "nature",
+      "image_url": "🌳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410360",
+      "french": "caillou/pierre/rocher",
+      "shimaore": "bwé",
+      "kibouchi": "vatou",
+      "category": "nature",
+      "image_url": "🪨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410361",
+      "french": "plateau",
+      "shimaore": "bandra",
+      "kibouchi": "kètraka",
+      "category": "nature",
+      "image_url": "🏔️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410362",
+      "french": "chemin/sentier/parcours",
+      "shimaore": "ndzia",
+      "kibouchi": "lalagna",
+      "category": "nature",
+      "image_url": "🛤️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410363",
+      "french": "herbe",
+      "shimaore": "malavou",
+      "kibouchi": "haitri",
+      "category": "nature",
+      "image_url": "🌱",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410364",
+      "french": "fleur",
+      "shimaore": "foulera",
+      "kibouchi": "foulera",
+      "category": "nature",
+      "image_url": "🌸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410365",
+      "french": "soleil",
+      "shimaore": "jouwa",
+      "kibouchi": "zouva",
+      "category": "nature",
+      "image_url": "☀️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410366",
+      "french": "mer",
+      "shimaore": "bahari",
+      "kibouchi": "bahari",
+      "category": "nature",
+      "image_url": "🌊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410367",
+      "french": "plage",
+      "shimaore": "mtsangani",
+      "kibouchi": "fassigni",
+      "category": "nature",
+      "image_url": "🏖️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410368",
+      "french": "arbre",
+      "shimaore": "mwiri",
+      "kibouchi": "kakazou",
+      "category": "nature",
+      "image_url": "🌳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410369",
+      "french": "rue/route",
+      "shimaore": "paré",
+      "kibouchi": "paré",
+      "category": "nature",
+      "image_url": "🛣️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141036a",
+      "french": "bananier",
+      "shimaore": "trindri",
+      "kibouchi": "voudi ni hountsi",
+      "category": "nature",
+      "image_url": "🌴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141036b",
+      "french": "feuille",
+      "shimaore": "mawoini",
+      "kibouchi": "hayitri",
+      "category": "nature",
+      "image_url": "🍃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141036c",
+      "french": "branche",
+      "shimaore": "trahi",
+      "kibouchi": "trahi",
+      "category": "nature",
+      "image_url": "🌿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141036d",
+      "french": "tornade",
+      "shimaore": "ouzimouyi",
+      "kibouchi": "tsikou soulaimana",
+      "category": "nature",
+      "image_url": "🌪️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141036e",
+      "french": "cocotier",
+      "shimaore": "m'nadzi",
+      "kibouchi": "voudi ni vwaniou",
+      "category": "nature",
+      "image_url": "🌴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141036f",
+      "french": "arbre à pain",
+      "shimaore": "m'frampé",
+      "kibouchi": "voudi ni frampé",
+      "category": "nature",
+      "image_url": "🌳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410370",
+      "french": "baobab",
+      "shimaore": "m'bouyou",
+      "kibouchi": "voudi ni bouyou",
+      "category": "nature",
+      "image_url": "🌳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410371",
+      "french": "bambou",
+      "shimaore": "m'banbo",
+      "kibouchi": "valiha",
+      "category": "nature",
+      "image_url": "🎋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410372",
+      "french": "manguier",
+      "shimaore": "m'manga",
+      "kibouchi": "voudi ni manga",
+      "category": "nature",
+      "image_url": "🌳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410373",
+      "french": "jacquier",
+      "shimaore": "m'fénéssi",
+      "kibouchi": "voudi ni finéssi",
+      "category": "nature",
+      "image_url": "🌳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410374",
+      "french": "terre",
+      "shimaore": "trotro",
+      "kibouchi": "fotaka",
+      "category": "nature",
+      "image_url": "🌍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410375",
+      "french": "sol",
+      "shimaore": "chivandré ya tsi",
+      "kibouchi": "tani",
+      "category": "nature",
+      "image_url": "🌍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410376",
+      "french": "érosion",
+      "shimaore": "padza",
+      "kibouchi": "padza",
+      "category": "nature",
+      "image_url": "🌊",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410377",
+      "french": "marée basse",
+      "shimaore": "maji yavo",
+      "kibouchi": "ranou mèki",
+      "category": "nature",
+      "image_url": "🌊",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410378",
+      "french": "platier",
+      "shimaore": "kalé",
+      "kibouchi": "kaléni",
+      "category": "nature",
+      "image_url": "🪨",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410379",
+      "french": "marée haute",
+      "shimaore": "maji yamalé",
+      "kibouchi": "ranou fénou",
+      "category": "nature",
+      "image_url": "🌊",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141037a",
+      "french": "inondé",
+      "shimaore": "ourora",
+      "kibouchi": "dobou",
+      "category": "nature",
+      "image_url": "🌊",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141037b",
+      "french": "sauvage",
+      "shimaore": "nyéha",
+      "kibouchi": "di",
+      "category": "nature",
+      "image_url": "🌿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141037c",
+      "french": "canne à sucre",
+      "shimaore": "mouwoi",
+      "kibouchi": "fari",
+      "category": "nature",
+      "image_url": "🌾",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141037d",
+      "french": "fagot",
+      "shimaore": "kouni",
+      "kibouchi": "azoumati",
+      "category": "nature",
+      "image_url": "🪵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141037e",
+      "french": "pirogue",
+      "shimaore": "laka",
+      "kibouchi": "laka",
+      "category": "nature",
+      "image_url": "🛶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141037f",
+      "french": "vedette",
+      "shimaore": "kwassa kwassa",
+      "kibouchi": "vidéti",
+      "category": "nature",
+      "image_url": "🚤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410380",
+      "french": "école",
+      "shimaore": "licoli",
+      "kibouchi": "licoli",
+      "category": "nature",
+      "image_url": "🏫",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410381",
+      "french": "école coranique",
+      "shimaore": "shioni",
+      "kibouchi": "kioni",
+      "category": "nature",
+      "image_url": "🕌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:34.661000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410382",
+      "french": "maison",
+      "shimaore": "nyoumba",
+      "kibouchi": "tragnou",
+      "category": "maison",
+      "image_url": "🏠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410383",
+      "french": "porte",
+      "shimaore": "mlango",
+      "kibouchi": "vavavaragna",
+      "category": "maison",
+      "image_url": "🚪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410384",
+      "french": "case",
+      "shimaore": "banga",
+      "kibouchi": "banga",
+      "category": "maison",
+      "image_url": "🏠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410385",
+      "french": "lit",
+      "shimaore": "chtrandra",
+      "kibouchi": "koubani",
+      "category": "maison",
+      "image_url": "🛏️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410386",
+      "french": "marmite",
+      "shimaore": "gnoungou",
+      "kibouchi": "vilangni",
+      "category": "maison",
+      "image_url": "🍲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410387",
+      "french": "vesselles",
+      "shimaore": "ziya",
+      "kibouchi": "hintagna",
+      "category": "maison",
+      "image_url": "🍽️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410388",
+      "french": "bol",
+      "shimaore": "chicombé",
+      "kibouchi": "bacouli",
+      "category": "maison",
+      "image_url": "🥣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410389",
+      "french": "cuillère",
+      "shimaore": "soutrou",
+      "kibouchi": "sotrou",
+      "category": "maison",
+      "image_url": "🥄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141038a",
+      "french": "fenêtre",
+      "shimaore": "fénétri",
+      "kibouchi": "lafoumétara",
+      "category": "maison",
+      "image_url": "🪟",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141038b",
+      "french": "chaise",
+      "shimaore": "chiri",
+      "kibouchi": "chiri",
+      "category": "maison",
+      "image_url": "🪑",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141038c",
+      "french": "table",
+      "shimaore": "latabou",
+      "kibouchi": "latabou",
+      "category": "maison",
+      "image_url": "🪑",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141038d",
+      "french": "miroir",
+      "shimaore": "chido",
+      "kibouchi": "kitarafa",
+      "category": "maison",
+      "image_url": "🪞",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141038e",
+      "french": "cour",
+      "shimaore": "mraba",
+      "kibouchi": "lacourou",
+      "category": "maison",
+      "image_url": "🏡",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141038f",
+      "french": "clôture",
+      "shimaore": "vala",
+      "kibouchi": "vala",
+      "category": "maison",
+      "image_url": "🚧",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410390",
+      "french": "toilette",
+      "shimaore": "mrabani",
+      "kibouchi": "mraba",
+      "category": "maison",
+      "image_url": "🚽",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410391",
+      "french": "seau",
+      "shimaore": "siyo",
+      "kibouchi": "siyo",
+      "category": "maison",
+      "image_url": "🪣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410392",
+      "french": "louche",
+      "shimaore": "paou",
+      "kibouchi": "pow",
+      "category": "maison",
+      "image_url": "🥄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410393",
+      "french": "couteau",
+      "shimaore": "sembeya",
+      "kibouchi": "méssou",
+      "category": "maison",
+      "image_url": "🔪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410394",
+      "french": "matelas",
+      "shimaore": "godoro",
+      "kibouchi": "goudorou",
+      "category": "maison",
+      "image_url": "🛏️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410395",
+      "french": "oreiller",
+      "shimaore": "mtsao",
+      "kibouchi": "hondagna",
+      "category": "maison",
+      "image_url": "🛌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410396",
+      "french": "buffet",
+      "shimaore": "biffé",
+      "kibouchi": "biffé",
+      "category": "maison",
+      "image_url": "🗄️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410397",
+      "french": "mur",
+      "shimaore": "péssi",
+      "kibouchi": "riba",
+      "category": "maison",
+      "image_url": "🧱",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410398",
+      "french": "véranda",
+      "shimaore": "baraza",
+      "kibouchi": "baraza",
+      "category": "maison",
+      "image_url": "🏠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410399",
+      "french": "toiture",
+      "shimaore": "outro",
+      "kibouchi": "vovougnou",
+      "category": "maison",
+      "image_url": "🏠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141039a",
+      "french": "ampoule",
+      "shimaore": "lalampou",
+      "kibouchi": "lalampou",
+      "category": "maison",
+      "image_url": "💡",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141039b",
+      "french": "lumière",
+      "shimaore": "mwengué",
+      "kibouchi": "mwengue",
+      "category": "maison",
+      "image_url": "💡",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141039c",
+      "french": "torche",
+      "shimaore": "pongé",
+      "kibouchi": "pongi",
+      "category": "maison",
+      "image_url": "🔦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141039d",
+      "french": "hache",
+      "shimaore": "soha",
+      "kibouchi": "famaki",
+      "category": "maison",
+      "image_url": "🪓",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141039e",
+      "french": "machette",
+      "shimaore": "m'panga",
+      "kibouchi": "ampanga",
+      "category": "maison",
+      "image_url": "🗡️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141039f",
+      "french": "coupe coupe",
+      "shimaore": "chombo",
+      "kibouchi": "chombou",
+      "category": "maison",
+      "image_url": "🗡️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a0",
+      "french": "cartable/malette",
+      "shimaore": "mkoba",
+      "kibouchi": "mkoba",
+      "category": "maison",
+      "image_url": "🎒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a1",
+      "french": "sac",
+      "shimaore": "gouni",
+      "kibouchi": "gouni",
+      "category": "maison",
+      "image_url": "🎒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a2",
+      "french": "balai",
+      "shimaore": "péou",
+      "kibouchi": "famafa",
+      "category": "maison",
+      "image_url": "🧹",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a3",
+      "french": "mortier",
+      "shimaore": "chino",
+      "kibouchi": "légnou",
+      "category": "maison",
+      "image_url": "🫖",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a4",
+      "french": "assiette",
+      "shimaore": "sahani",
+      "kibouchi": "sahani",
+      "category": "maison",
+      "image_url": "🍽️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a5",
+      "french": "fondation",
+      "shimaore": "houra",
+      "kibouchi": "koura",
+      "category": "maison",
+      "image_url": "🏗️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a6",
+      "french": "torche locale",
+      "shimaore": "gandilé/poutroupmax",
+      "kibouchi": "gandili/poutroupmax",
+      "category": "maison",
+      "image_url": "🔦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a7",
+      "french": "jouer",
+      "shimaore": "ounguadza",
+      "kibouchi": "msoma",
+      "category": "verbes",
+      "image_url": "⚽",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a8",
+      "french": "courir",
+      "shimaore": "wendra mbiyo",
+      "kibouchi": "miloumeyi",
+      "category": "verbes",
+      "image_url": "🏃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103a9",
+      "french": "dire",
+      "shimaore": "ourongoa",
+      "kibouchi": "mangnabara",
+      "category": "verbes",
+      "image_url": "🗣️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103aa",
+      "french": "pouvoir",
+      "shimaore": "ouchindra",
+      "kibouchi": "mahaléou",
+      "category": "verbes",
+      "image_url": "💪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ab",
+      "french": "vouloir",
+      "shimaore": "outsaha",
+      "kibouchi": "chokou",
+      "category": "verbes",
+      "image_url": "🤲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ac",
+      "french": "savoir",
+      "shimaore": "oujoua",
+      "kibouchi": "méhéyi",
+      "category": "verbes",
+      "image_url": "🧠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ad",
+      "french": "voir",
+      "shimaore": "ouona",
+      "kibouchi": "mahita",
+      "category": "verbes",
+      "image_url": "👁️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ae",
+      "french": "devoir",
+      "shimaore": "oulazimou",
+      "kibouchi": "tokountrou",
+      "category": "verbes",
+      "image_url": "⚖️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103af",
+      "french": "venir",
+      "shimaore": "ouja",
+      "kibouchi": "havyi",
+      "category": "verbes",
+      "image_url": "🏃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b0",
+      "french": "rapprocher",
+      "shimaore": "outsengueléya",
+      "kibouchi": "magnatougnou",
+      "category": "verbes",
+      "image_url": "👥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b1",
+      "french": "prendre",
+      "shimaore": "ourenga",
+      "kibouchi": "mangala",
+      "category": "verbes",
+      "image_url": "✋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b2",
+      "french": "donner",
+      "shimaore": "ouva",
+      "kibouchi": "magnamiya",
+      "category": "verbes",
+      "image_url": "🤲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b3",
+      "french": "parler",
+      "shimaore": "oulagoua",
+      "kibouchi": "mivoulangna",
+      "category": "verbes",
+      "image_url": "🗣️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b4",
+      "french": "mettre",
+      "shimaore": "outria",
+      "kibouchi": "mangnanou",
+      "category": "verbes",
+      "image_url": "👆",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b5",
+      "french": "passer",
+      "shimaore": "ouvira",
+      "kibouchi": "mihomba",
+      "category": "verbes",
+      "image_url": "🚶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b6",
+      "french": "trouver",
+      "shimaore": "oupara",
+      "kibouchi": "mahazou",
+      "category": "verbes",
+      "image_url": "🔍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b7",
+      "french": "aimer",
+      "shimaore": "ouvendza",
+      "kibouchi": "mihya",
+      "category": "verbes",
+      "image_url": "❤️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b8",
+      "french": "croire",
+      "shimaore": "ouamini",
+      "kibouchi": "kommimi",
+      "category": "verbes",
+      "image_url": "🙏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103b9",
+      "french": "penser",
+      "shimaore": "oufikiri",
+      "kibouchi": "midztéri",
+      "category": "verbes",
+      "image_url": "🤔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ba",
+      "french": "connaître",
+      "shimaore": "oujoua",
+      "kibouchi": "méhéyi",
+      "category": "verbes",
+      "image_url": "🧠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103bb",
+      "french": "demander",
+      "shimaore": "oudzissa",
+      "kibouchi": "magnoutani",
+      "category": "verbes",
+      "image_url": "❓",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103bc",
+      "french": "répondre",
+      "shimaore": "oudjibou",
+      "kibouchi": "mikoudjibou",
+      "category": "verbes",
+      "image_url": "💬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103bd",
+      "french": "laisser",
+      "shimaore": "oulicha",
+      "kibouchi": "mangnambéla",
+      "category": "verbes",
+      "image_url": "👋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103be",
+      "french": "manger",
+      "shimaore": "oudhya",
+      "kibouchi": "mihinagna",
+      "category": "verbes",
+      "image_url": "🍽️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103bf",
+      "french": "boire",
+      "shimaore": "ounoua",
+      "kibouchi": "mindranou",
+      "category": "verbes",
+      "image_url": "🥤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c0",
+      "french": "lire",
+      "shimaore": "ousoma",
+      "kibouchi": "mndzorou",
+      "category": "verbes",
+      "image_url": "📖",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c1",
+      "french": "écrire",
+      "shimaore": "outhanguiha",
+      "kibouchi": "mikonandrka",
+      "category": "verbes",
+      "image_url": "✍️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c2",
+      "french": "écouter",
+      "shimaore": "ouvoulikia",
+      "kibouchi": "miréyergni",
+      "category": "verbes",
+      "image_url": "👂",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c3",
+      "french": "apprendre",
+      "shimaore": "oufoundriha",
+      "kibouchi": "midzorou",
+      "category": "verbes",
+      "image_url": "📚",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c4",
+      "french": "comprendre",
+      "shimaore": "ouéléwa",
+      "kibouchi": "mikoutan",
+      "category": "verbes",
+      "image_url": "💡",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c5",
+      "french": "marcher",
+      "shimaore": "ouendra",
+      "kibouchi": "mandeha",
+      "category": "verbes",
+      "image_url": "🚶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c6",
+      "french": "entrer",
+      "shimaore": "ounguïya",
+      "kibouchi": "mihiditri",
+      "category": "verbes",
+      "image_url": "🚪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c7",
+      "french": "sortir",
+      "shimaore": "ouhawa",
+      "kibouchi": "miboka",
+      "category": "verbes",
+      "image_url": "🚪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c8",
+      "french": "rester",
+      "shimaore": "oukétsi",
+      "kibouchi": "mipétraka",
+      "category": "verbes",
+      "image_url": "🏠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103c9",
+      "french": "vivre",
+      "shimaore": "ouyinchi",
+      "kibouchi": "mikouènchi",
+      "category": "verbes",
+      "image_url": "❤️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ca",
+      "french": "dormir",
+      "shimaore": "oulala",
+      "kibouchi": "mandri",
+      "category": "verbes",
+      "image_url": "😴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103cb",
+      "french": "attendre",
+      "shimaore": "oulindra",
+      "kibouchi": "mandigni",
+      "category": "verbes",
+      "image_url": "⏰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103cc",
+      "french": "suivre",
+      "shimaore": "oulounga",
+      "kibouchi": "mangniraka",
+      "category": "verbes",
+      "image_url": "👥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103cd",
+      "french": "tenir",
+      "shimaore": "oussika",
+      "kibouchi": "mitana",
+      "category": "verbes",
+      "image_url": "✋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ce",
+      "french": "ouvrir",
+      "shimaore": "ouboua",
+      "kibouchi": "mampibiyangna",
+      "category": "verbes",
+      "image_url": "🔓",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103cf",
+      "french": "fermer",
+      "shimaore": "oubala",
+      "kibouchi": "migadra",
+      "category": "verbes",
+      "image_url": "🔒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d0",
+      "french": "sembler",
+      "shimaore": "oufana",
+      "kibouchi": "mampihragna",
+      "category": "verbes",
+      "image_url": "🤔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d1",
+      "french": "paraître",
+      "shimaore": "ouvonehoua",
+      "kibouchi": "",
+      "category": "verbes",
+      "image_url": "👁️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d2",
+      "french": "devenir",
+      "shimaore": "ougawouha",
+      "kibouchi": "mivadiki",
+      "category": "verbes",
+      "image_url": "🔄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d3",
+      "french": "tomber",
+      "shimaore": "oupouliha",
+      "kibouchi": "latsaka",
+      "category": "verbes",
+      "image_url": "⬇️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d4",
+      "french": "se rappeler",
+      "shimaore": "oumaézi",
+      "kibouchi": "koufahamou",
+      "category": "verbes",
+      "image_url": "🧠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d5",
+      "french": "commencer",
+      "shimaore": "ouhandrissa",
+      "kibouchi": "mitaponou",
+      "category": "verbes",
+      "image_url": "▶️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d6",
+      "french": "finir",
+      "shimaore": "oumalidza",
+      "kibouchi": "mankéfa",
+      "category": "verbes",
+      "image_url": "✅",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d7",
+      "french": "réussir",
+      "shimaore": "ouchindra",
+      "kibouchi": "mahaléou",
+      "category": "verbes",
+      "image_url": "🏆",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d8",
+      "french": "essayer",
+      "shimaore": "oudjerebou",
+      "kibouchi": "mikoujérebou",
+      "category": "verbes",
+      "image_url": "🤞",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103d9",
+      "french": "attraper",
+      "shimaore": "oubara",
+      "kibouchi": "misamboutrou",
+      "category": "verbes",
+      "image_url": "✋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103da",
+      "french": "flatuler",
+      "shimaore": "oujamba",
+      "kibouchi": "manguétountrou",
+      "category": "verbes",
+      "image_url": "💨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103db",
+      "french": "traverser",
+      "shimaore": "ouchiya",
+      "kibouchi": "mitsaka",
+      "category": "verbes",
+      "image_url": "🚶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103dc",
+      "french": "sauter",
+      "shimaore": "ouarouka",
+      "kibouchi": "mivongna",
+      "category": "verbes",
+      "image_url": "🦘",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103dd",
+      "french": "frapper",
+      "shimaore": "ourema",
+      "kibouchi": "mamangou",
+      "category": "verbes",
+      "image_url": "👊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103de",
+      "french": "faire caca",
+      "shimaore": "ougna madzi",
+      "kibouchi": "manguéri",
+      "category": "verbes",
+      "image_url": "💩",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103df",
+      "french": "faire pipi",
+      "shimaore": "ougna kojo",
+      "kibouchi": "mamani",
+      "category": "verbes",
+      "image_url": "💧",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e0",
+      "french": "vomir",
+      "shimaore": "ouraviha",
+      "kibouchi": "mandouva",
+      "category": "verbes",
+      "image_url": "🤮",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e1",
+      "french": "s'asseoir",
+      "shimaore": "oukétsi",
+      "kibouchi": "mipétraka",
+      "category": "verbes",
+      "image_url": "🪑",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e2",
+      "french": "danser",
+      "shimaore": "ouzina",
+      "kibouchi": "mitsindrakra",
+      "category": "verbes",
+      "image_url": "💃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e3",
+      "french": "arrêter",
+      "shimaore": "ouziya",
+      "kibouchi": "mitsahatra",
+      "category": "verbes",
+      "image_url": "🛑",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e4",
+      "french": "vendre",
+      "shimaore": "ouhoudza",
+      "kibouchi": "mandafou",
+      "category": "verbes",
+      "image_url": "💰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e5",
+      "french": "cracher",
+      "shimaore": "outra marré",
+      "kibouchi": "mandrora",
+      "category": "verbes",
+      "image_url": "💦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e6",
+      "french": "mordre",
+      "shimaore": "ouka magno",
+      "kibouchi": "mangnekitri",
+      "category": "verbes",
+      "image_url": "🦷",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e7",
+      "french": "gratter",
+      "shimaore": "oukouwa",
+      "kibouchi": "mihorrou",
+      "category": "verbes",
+      "image_url": "✋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e8",
+      "french": "embrasser",
+      "shimaore": "ounouka",
+      "kibouchi": "mihoroukou",
+      "category": "verbes",
+      "image_url": "💋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103e9",
+      "french": "jeter",
+      "shimaore": "ouvoutsa",
+      "kibouchi": "manoui",
+      "category": "verbes",
+      "image_url": "🗑️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ea",
+      "french": "avertir",
+      "shimaore": "outahadaricha",
+      "kibouchi": "mampahéyi",
+      "category": "verbes",
+      "image_url": "⚠️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103eb",
+      "french": "informer",
+      "shimaore": "oujoudza",
+      "kibouchi": "mangnabara",
+      "category": "verbes",
+      "image_url": "📢",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ec",
+      "french": "se laver le derrière",
+      "shimaore": "outsamba",
+      "kibouchi": "mambouyi",
+      "category": "verbes",
+      "image_url": "🚿",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ed",
+      "french": "se laver",
+      "shimaore": "ouhowa",
+      "kibouchi": "misséki",
+      "category": "verbes",
+      "image_url": "🧼",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ee",
+      "french": "piler",
+      "shimaore": "oudoudoua",
+      "kibouchi": "mandissa",
+      "category": "verbes",
+      "image_url": "🔨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ef",
+      "french": "changer",
+      "shimaore": "ougaoudza",
+      "kibouchi": "mamadiki",
+      "category": "verbes",
+      "image_url": "🔄",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f0",
+      "french": "étendre au soleil",
+      "shimaore": "ouaniha",
+      "kibouchi": "manapi",
+      "category": "verbes",
+      "image_url": "☀️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f1",
+      "french": "réchauffer",
+      "shimaore": "ouhelesedza",
+      "kibouchi": "mamana",
+      "category": "verbes",
+      "image_url": "🔥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f2",
+      "french": "se baigner",
+      "shimaore": "ouhowa",
+      "kibouchi": "miseki",
+      "category": "verbes",
+      "image_url": "🏊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f3",
+      "french": "faire le lit",
+      "shimaore": "ouhodza",
+      "kibouchi": "mandzari koubani",
+      "category": "verbes",
+      "image_url": "🛏️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f4",
+      "french": "faire sécher",
+      "shimaore": "ouhoumisa",
+      "kibouchi": "manapi",
+      "category": "verbes",
+      "image_url": "🌞",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f5",
+      "french": "balayer",
+      "shimaore": "ouhoundza",
+      "kibouchi": "mamafa",
+      "category": "verbes",
+      "image_url": "🧹",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f6",
+      "french": "couper",
+      "shimaore": "oukatra",
+      "kibouchi": "manapaka",
+      "category": "verbes",
+      "image_url": "✂️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f7",
+      "french": "tremper",
+      "shimaore": "oulodza",
+      "kibouchi": "mandzoubougnou",
+      "category": "verbes",
+      "image_url": "💧",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f8",
+      "french": "se raser",
+      "shimaore": "oumea ndrevu",
+      "kibouchi": "manapaka somboutrou",
+      "category": "verbes",
+      "image_url": "🪒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103f9",
+      "french": "abîmer",
+      "shimaore": "oumengna",
+      "kibouchi": "mandroubaka",
+      "category": "verbes",
+      "image_url": "💥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103fa",
+      "french": "entrer",
+      "shimaore": "ounguiya",
+      "kibouchi": "mihidiri",
+      "category": "verbes",
+      "image_url": "🚪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103fb",
+      "french": "acheter",
+      "shimaore": "ounnounoua",
+      "kibouchi": "mivanga",
+      "category": "verbes",
+      "image_url": "🛒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103fc",
+      "french": "griller",
+      "shimaore": "ouwoha",
+      "kibouchi": "mitonou",
+      "category": "verbes",
+      "image_url": "🔥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103fd",
+      "french": "allumer",
+      "shimaore": "oupatsa",
+      "kibouchi": "mikoupatsa",
+      "category": "verbes",
+      "image_url": "🔥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103fe",
+      "french": "se peigner",
+      "shimaore": "oupengné",
+      "kibouchi": "mipéngni",
+      "category": "verbes",
+      "image_url": "💇",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f14103ff",
+      "french": "cuisiner",
+      "shimaore": "oupiha",
+      "kibouchi": "mahandrou",
+      "category": "verbes",
+      "image_url": "👩‍🍳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410400",
+      "french": "ranger/arranger",
+      "shimaore": "ourenguelédza",
+      "kibouchi": "magnadzari",
+      "category": "verbes",
+      "image_url": "📦",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410401",
+      "french": "tresser",
+      "shimaore": "ousssouka",
+      "kibouchi": "mitali/mandrani",
+      "category": "verbes",
+      "image_url": "💇",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410402",
+      "french": "peindre",
+      "shimaore": "ouvaha",
+      "kibouchi": "magnossoutrou",
+      "category": "verbes",
+      "image_url": "🎨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410403",
+      "french": "essuyer",
+      "shimaore": "ouvangouha",
+      "kibouchi": "mamitri",
+      "category": "verbes",
+      "image_url": "🧽",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410404",
+      "french": "amener/apporter",
+      "shimaore": "ouvinga",
+      "kibouchi": "mandéyi",
+      "category": "verbes",
+      "image_url": "🤲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410405",
+      "french": "éteindre",
+      "shimaore": "ouzima",
+      "kibouchi": "mamounou",
+      "category": "verbes",
+      "image_url": "🌫️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410406",
+      "french": "tuer",
+      "shimaore": "ouwoula",
+      "kibouchi": "mamounou",
+      "category": "verbes",
+      "image_url": "💀",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410407",
+      "french": "combler",
+      "shimaore": "oufitsiya",
+      "kibouchi": "mankahampi",
+      "category": "verbes",
+      "image_url": "⬆️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410408",
+      "french": "cultiver",
+      "shimaore": "oulima",
+      "kibouchi": "mikapa",
+      "category": "verbes",
+      "image_url": "🌱",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410409",
+      "french": "couper du bois",
+      "shimaore": "oupasouha kuni",
+      "kibouchi": "mamaki azoumati",
+      "category": "verbes",
+      "image_url": "🪓",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141040a",
+      "french": "cueillir",
+      "shimaore": "oupoua",
+      "kibouchi": "mampoka",
+      "category": "verbes",
+      "image_url": "🌸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141040b",
+      "french": "planter",
+      "shimaore": "outabou",
+      "kibouchi": "mamboli",
+      "category": "verbes",
+      "image_url": "🌱",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141040c",
+      "french": "creuser",
+      "shimaore": "outsimba",
+      "kibouchi": "mangadi",
+      "category": "verbes",
+      "image_url": "⛏️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141040d",
+      "french": "récolter",
+      "shimaore": "ouvouna",
+      "kibouchi": "mampoka",
+      "category": "verbes",
+      "image_url": "🌾",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141040e",
+      "french": "bouger",
+      "shimaore": "outsengueléya",
+      "kibouchi": "mitéki",
+      "category": "verbes",
+      "image_url": "🏃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141040f",
+      "french": "arnaquer",
+      "shimaore": "ouravi",
+      "kibouchi": "mangalatra",
+      "category": "verbes",
+      "image_url": "🤥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410410",
+      "french": "aller",
+      "shimaore": "ouendra",
+      "kibouchi": "mandeha",
+      "category": "verbes",
+      "image_url": "🚶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:35.415000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410411",
+      "french": "avion",
+      "shimaore": "ndrègué",
+      "kibouchi": "roplani",
+      "category": "transport",
+      "image_url": "✈️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410412",
+      "french": "barge",
+      "shimaore": "markabou",
+      "kibouchi": "markabou",
+      "category": "transport",
+      "image_url": "⛴️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410413",
+      "french": "motos",
+      "shimaore": "monto",
+      "kibouchi": "monto",
+      "category": "transport",
+      "image_url": "🏍️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410414",
+      "french": "pirogue",
+      "shimaore": "laka",
+      "kibouchi": "lakana",
+      "category": "transport",
+      "image_url": "🛶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410415",
+      "french": "taxis",
+      "shimaore": "taxi",
+      "kibouchi": "taxi",
+      "category": "transport",
+      "image_url": "🚕",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410416",
+      "french": "vedettes",
+      "shimaore": "kwassa kwassa",
+      "kibouchi": "videti",
+      "category": "transport",
+      "image_url": "🚤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410417",
+      "french": "vélos",
+      "shimaore": "bicycleti",
+      "kibouchi": "bicycleti",
+      "category": "transport",
+      "image_url": "🚲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410418",
+      "french": "baskets/sneakers",
+      "shimaore": "magochi",
+      "kibouchi": "magochi",
+      "category": "vetements",
+      "image_url": "👟",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410419",
+      "french": "chapeau",
+      "shimaore": "kofia",
+      "kibouchi": "koufia",
+      "category": "vetements",
+      "image_url": "👒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141041a",
+      "french": "chaussures",
+      "shimaore": "kabwa",
+      "kibouchi": "kabwa",
+      "category": "vetements",
+      "image_url": "👞",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141041b",
+      "french": "chemise",
+      "shimaore": "chimizi",
+      "kibouchi": "chimizi",
+      "category": "vetements",
+      "image_url": "👔",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141041c",
+      "french": "haut de salouva",
+      "shimaore": "body",
+      "kibouchi": "body",
+      "category": "vetements",
+      "image_url": "👕",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141041d",
+      "french": "jupe",
+      "shimaore": "ripo",
+      "kibouchi": "ripou",
+      "category": "vetements",
+      "image_url": "👗",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141041e",
+      "french": "kamiss/boubou",
+      "shimaore": "candzou bolé",
+      "kibouchi": "ancandzou bé",
+      "category": "vetements",
+      "image_url": "👘",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141041f",
+      "french": "pantalon",
+      "shimaore": "sourouali",
+      "kibouchi": "sourouali",
+      "category": "vetements",
+      "image_url": "👖",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410420",
+      "french": "robe",
+      "shimaore": "robo",
+      "kibouchi": "robou",
+      "category": "vetements",
+      "image_url": "👗",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410421",
+      "french": "salouva",
+      "shimaore": "salouva",
+      "kibouchi": "slouvagna",
+      "category": "vetements",
+      "image_url": "👘",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410422",
+      "french": "short",
+      "shimaore": "kaliso",
+      "kibouchi": "kaliso",
+      "category": "vetements",
+      "image_url": "🩳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410423",
+      "french": "sous vêtement",
+      "shimaore": "silipou",
+      "kibouchi": "silipou",
+      "category": "vetements",
+      "image_url": "🩲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410424",
+      "french": "t shirt",
+      "shimaore": "kandzou",
+      "kibouchi": "kandzou",
+      "category": "vetements",
+      "image_url": "👕",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410425",
+      "french": "tongs",
+      "shimaore": "sapatri",
+      "kibouchi": "kabwa sapatri",
+      "category": "vetements",
+      "image_url": "🩴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410426",
+      "french": "voile",
+      "shimaore": "kichali",
+      "kibouchi": "kichali",
+      "category": "vetements",
+      "image_url": "🧣",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410427",
+      "french": "vêtement",
+      "shimaore": "ngouvwo",
+      "kibouchi": "ankandzou",
+      "category": "vetements",
+      "image_url": "👕",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410428",
+      "french": "barbecue traditionnelle",
+      "shimaore": "voulé",
+      "kibouchi": "voulé",
+      "category": "tradition",
+      "image_url": "🔥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410429",
+      "french": "boxe traditionnelle",
+      "shimaore": "mrengué",
+      "kibouchi": "mouringui",
+      "category": "tradition",
+      "image_url": "🥊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141042a",
+      "french": "camper",
+      "shimaore": "tobé",
+      "kibouchi": "mitobi",
+      "category": "tradition",
+      "image_url": "🏕️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141042b",
+      "french": "chant mariage traditionnel",
+      "shimaore": "mlélèzi",
+      "kibouchi": "mlélèzi",
+      "category": "tradition",
+      "image_url": "🎵",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141042c",
+      "french": "chant religieux femme",
+      "shimaore": "deba",
+      "kibouchi": "deba",
+      "category": "tradition",
+      "image_url": "🎵",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141042d",
+      "french": "chant religieux homme",
+      "shimaore": "moulidi/dahira/dinahou",
+      "kibouchi": "moulidi/dahira/dinahou",
+      "category": "tradition",
+      "image_url": "🎵",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141042e",
+      "french": "chant religieux mixte",
+      "shimaore": "shengué/madjilis",
+      "kibouchi": "maoulida/shengué/madjlis",
+      "category": "tradition",
+      "image_url": "🎵",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141042f",
+      "french": "chant traditionnelle",
+      "shimaore": "mgodro",
+      "kibouchi": "mgodro",
+      "category": "tradition",
+      "image_url": "🎵",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410430",
+      "french": "cérémonie",
+      "shimaore": "shouhouli",
+      "kibouchi": "shouhouli",
+      "category": "tradition",
+      "image_url": "⛪",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410431",
+      "french": "danse traditionnelle femme",
+      "shimaore": "mbiwi/wadhaha",
+      "kibouchi": "mbiwi/wadhaha",
+      "category": "tradition",
+      "image_url": "💃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410432",
+      "french": "danse traditionnelle mixte",
+      "shimaore": "shigoma",
+      "kibouchi": "shigoma",
+      "category": "tradition",
+      "image_url": "💃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410433",
+      "french": "fiançailles",
+      "shimaore": "mafounguidzo",
+      "kibouchi": "mafounguidzo",
+      "category": "tradition",
+      "image_url": "💒",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410434",
+      "french": "grand mariage",
+      "shimaore": "manzaraka",
+      "kibouchi": "manzaraka",
+      "category": "tradition",
+      "image_url": "💒",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410435",
+      "french": "mariage",
+      "shimaore": "haroussi",
+      "kibouchi": "haroussi",
+      "category": "tradition",
+      "image_url": "💒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410436",
+      "french": "rite de la pluie",
+      "shimaore": "mgourou",
+      "kibouchi": "mgourou",
+      "category": "tradition",
+      "image_url": "🌧️",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410437",
+      "french": "tamtam boeuf",
+      "shimaore": "ngoma ya nyombé",
+      "kibouchi": "vala naoumbi",
+      "category": "tradition",
+      "image_url": "🥁",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.168000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410438",
+      "french": "appelez la police !",
+      "shimaore": "hira sirikali",
+      "kibouchi": "kahiya sirikali",
+      "category": "expressions",
+      "image_url": "🚔",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410439",
+      "french": "appelez une ambulance !",
+      "shimaore": "hira ambulanci",
+      "kibouchi": "kahiya ambulanci",
+      "category": "expressions",
+      "image_url": "🚑",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141043a",
+      "french": "au milieu",
+      "shimaore": "hari",
+      "kibouchi": "angnivou",
+      "category": "expressions",
+      "image_url": "🎯",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141043b",
+      "french": "avec climatisation ?",
+      "shimaore": "ina climatisation",
+      "kibouchi": "missi climatisation",
+      "category": "expressions",
+      "image_url": "❄️",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141043c",
+      "french": "avec petit déjeuner ?",
+      "shimaore": "ina kèya",
+      "kibouchi": "missi ankera",
+      "category": "expressions",
+      "image_url": "🥞",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141043d",
+      "french": "avoir la haine",
+      "shimaore": "outoukiwa",
+      "kibouchi": "marari rohou",
+      "category": "expressions",
+      "image_url": "😠",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141043e",
+      "french": "bienvenu",
+      "shimaore": "oukaribissa",
+      "kibouchi": "karibou",
+      "category": "expressions",
+      "image_url": "🤗",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141043f",
+      "french": "c'est loin ?",
+      "shimaore": "ya mbali",
+      "kibouchi": "lavitri",
+      "category": "expressions",
+      "image_url": "📏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410440",
+      "french": "c'est très bon !",
+      "shimaore": "issi jiva",
+      "kibouchi": "matavi soifi",
+      "category": "expressions",
+      "image_url": "😋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410441",
+      "french": "combien la nuit ?",
+      "shimaore": "kissagé oukou moja",
+      "kibouchi": "hotri inou hahigni areki",
+      "category": "expressions",
+      "image_url": "🌙",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410442",
+      "french": "combien ça coûte ?",
+      "shimaore": "kissajé",
+      "kibouchi": "hotri inou moi",
+      "category": "expressions",
+      "image_url": "💰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410443",
+      "french": "convivialité",
+      "shimaore": "ouvoimoja",
+      "kibouchi": "ouvoimoja",
+      "category": "expressions",
+      "image_url": "🤝",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410444",
+      "french": "entre aide",
+      "shimaore": "oussayidiyana",
+      "kibouchi": "moussada",
+      "category": "expressions",
+      "image_url": "🤝",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410445",
+      "french": "excuse-moi/pardon",
+      "shimaore": "soimahani",
+      "kibouchi": "soimahani",
+      "category": "expressions",
+      "image_url": "🙏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410446",
+      "french": "faire crédit",
+      "shimaore": "oukopa",
+      "kibouchi": "midéni",
+      "category": "expressions",
+      "image_url": "💰",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410447",
+      "french": "j'ai besoin d'un médecin",
+      "shimaore": "ntsha douktera",
+      "kibouchi": "zahou mila douktera",
+      "category": "expressions",
+      "image_url": "👩‍⚕️",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410448",
+      "french": "j'ai compris",
+      "shimaore": "tsi héléwa",
+      "kibouchi": "zahou kouéléwa",
+      "category": "expressions",
+      "image_url": "💡",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410449",
+      "french": "j'ai faim",
+      "shimaore": "nissi ona ndza",
+      "kibouchi": "zahou moussari",
+      "category": "expressions",
+      "image_url": "🍽️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141044a",
+      "french": "j'ai mal",
+      "shimaore": "nissi kodza",
+      "kibouchi": "zahou marari",
+      "category": "expressions",
+      "image_url": "😵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141044b",
+      "french": "j'ai soif",
+      "shimaore": "nissi ona niyora",
+      "kibouchi": "zahou tindranou",
+      "category": "expressions",
+      "image_url": "💧",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141044c",
+      "french": "j'arrive de",
+      "shimaore": "tsi lawa",
+      "kibouchi": "zahou boka",
+      "category": "expressions",
+      "image_url": "🏃",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141044d",
+      "french": "je ne me sens pas bien",
+      "shimaore": "tsissi fétré",
+      "kibouchi": "za maharengni nafoussokou moidéhi",
+      "category": "expressions",
+      "image_url": "😵",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141044e",
+      "french": "je ne peux pas",
+      "shimaore": "tsi chindri",
+      "kibouchi": "zahou tsi mahaléou",
+      "category": "expressions",
+      "image_url": "🚫",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141044f",
+      "french": "je peux avoir des toilettes",
+      "shimaore": "tnissi miya mraba",
+      "kibouchi": "zahou mangataka mraba",
+      "category": "expressions",
+      "image_url": "🚽",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410450",
+      "french": "je prends ça",
+      "shimaore": "nissi renga ini",
+      "kibouchi": "zahou bou angala tihi",
+      "category": "expressions",
+      "image_url": "✋",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410451",
+      "french": "je suis perdu",
+      "shimaore": "tsi latsiha",
+      "kibouchi": "zahou véri",
+      "category": "expressions",
+      "image_url": "🤷",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410452",
+      "french": "je t'aime",
+      "shimaore": "nisouhou vendza",
+      "kibouchi": "zahou mitia anaou",
+      "category": "expressions",
+      "image_url": "❤️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410453",
+      "french": "je veux manger",
+      "shimaore": "nissi miya chaoula",
+      "kibouchi": "zahou mila ihinagna",
+      "category": "expressions",
+      "image_url": "🍽️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410454",
+      "french": "je voudrais aller à",
+      "shimaore": "nissi tsaha nendré",
+      "kibouchi": "zahou chokou andeha",
+      "category": "expressions",
+      "image_url": "🚶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410455",
+      "french": "joie",
+      "shimaore": "fouraha",
+      "kibouchi": "aravouangna",
+      "category": "expressions",
+      "image_url": "😊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410456",
+      "french": "moins cher s'il vous plaît",
+      "shimaore": "nissi miya ouchoukidzé",
+      "kibouchi": "za mangataka koupoungouza kima",
+      "category": "expressions",
+      "image_url": "💰",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410457",
+      "french": "montre-moi",
+      "shimaore": "néssédzéyé",
+      "kibouchi": "ampizaha zahou",
+      "category": "expressions",
+      "image_url": "👁️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410458",
+      "french": "nounou",
+      "shimaore": "mlézi",
+      "kibouchi": "mlézi",
+      "category": "expressions",
+      "image_url": "👵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410459",
+      "french": "où se trouve",
+      "shimaore": "ouparihanoua havi",
+      "kibouchi": "aya moi",
+      "category": "expressions",
+      "image_url": "📍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141045a",
+      "french": "où sommes-nous",
+      "shimaore": "ra havi",
+      "kibouchi": "atsika yétou aya",
+      "category": "expressions",
+      "image_url": "📍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141045b",
+      "french": "pouvez-vous m'aider ?",
+      "shimaore": "ni sayidié vanou",
+      "kibouchi": "zahou mangataka moussada",
+      "category": "expressions",
+      "image_url": "🤝",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141045c",
+      "french": "quelqu'un de fiable",
+      "shimaore": "mwaminifou",
+      "kibouchi": "mwaminifou",
+      "category": "expressions",
+      "image_url": "🤝",
+      "difficulty": 2,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141045d",
+      "french": "respect",
+      "shimaore": "mastaha",
+      "kibouchi": "mastaha",
+      "category": "expressions",
+      "image_url": "🙏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141045e",
+      "french": "s'il vous plaît",
+      "shimaore": "tafadali",
+      "kibouchi": "tafadali",
+      "category": "expressions",
+      "image_url": "🙏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141045f",
+      "french": "secret",
+      "shimaore": "siri",
+      "kibouchi": "siri",
+      "category": "expressions",
+      "image_url": "🤫",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410460",
+      "french": "tout droit",
+      "shimaore": "hondzoha",
+      "kibouchi": "mahitsi",
+      "category": "expressions",
+      "image_url": "⬆️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410461",
+      "french": "trop cher",
+      "shimaore": "hali",
+      "kibouchi": "saroutrou",
+      "category": "expressions",
+      "image_url": "💸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410462",
+      "french": "à droite",
+      "shimaore": "houméni",
+      "kibouchi": "finana",
+      "category": "expressions",
+      "image_url": "➡️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410463",
+      "french": "à gauche",
+      "shimaore": "potroni",
+      "kibouchi": "kipotrou",
+      "category": "expressions",
+      "image_url": "⬅️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410464",
+      "french": "amoureux",
+      "shimaore": "ouvendza",
+      "kibouchi": "mitiya",
+      "category": "adjectifs",
+      "image_url": "😍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410465",
+      "french": "ancien",
+      "shimaore": "halé",
+      "kibouchi": "kevi",
+      "category": "adjectifs",
+      "image_url": "🏛️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410466",
+      "french": "beau/jolie",
+      "shimaore": "mzouri",
+      "kibouchi": "zatovou",
+      "category": "adjectifs",
+      "image_url": "😍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410467",
+      "french": "bon",
+      "shimaore": "mwéma",
+      "kibouchi": "tsara",
+      "category": "adjectifs",
+      "image_url": "👍",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410468",
+      "french": "bête",
+      "shimaore": "dhaba",
+      "kibouchi": "dhaba",
+      "category": "adjectifs",
+      "image_url": "🤪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410469",
+      "french": "calme",
+      "shimaore": "baridi",
+      "kibouchi": "malémi",
+      "category": "adjectifs",
+      "image_url": "😌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141046a",
+      "french": "chaud",
+      "shimaore": "moro",
+      "kibouchi": "méyi",
+      "category": "adjectifs",
+      "image_url": "🔥",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141046b",
+      "french": "colère",
+      "shimaore": "hadabou",
+      "kibouchi": "méloukou",
+      "category": "adjectifs",
+      "image_url": "😠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141046c",
+      "french": "content",
+      "shimaore": "oujiviwa",
+      "kibouchi": "ravou",
+      "category": "adjectifs",
+      "image_url": "😊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141046d",
+      "french": "court",
+      "shimaore": "coutri",
+      "kibouchi": "fohiki",
+      "category": "adjectifs",
+      "image_url": "📏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141046e",
+      "french": "difficile",
+      "shimaore": "ndziro",
+      "kibouchi": "mahéri",
+      "category": "adjectifs",
+      "image_url": "😵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141046f",
+      "french": "drôle",
+      "shimaore": "outsésa",
+      "kibouchi": "mampimohi",
+      "category": "adjectifs",
+      "image_url": "😂",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410470",
+      "french": "dur",
+      "shimaore": "mangavou",
+      "kibouchi": "mahéri",
+      "category": "adjectifs",
+      "image_url": "🪨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410471",
+      "french": "facile",
+      "shimaore": "ndzangou",
+      "kibouchi": "mora",
+      "category": "adjectifs",
+      "image_url": "😊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410472",
+      "french": "fatigué",
+      "shimaore": "ouléméwa",
+      "kibouchi": "vaha",
+      "category": "adjectifs",
+      "image_url": "😴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410473",
+      "french": "faux",
+      "shimaore": "trambo",
+      "kibouchi": "vandi",
+      "category": "adjectifs",
+      "image_url": "❌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410474",
+      "french": "fermé",
+      "shimaore": "oubala",
+      "kibouchi": "migadra",
+      "category": "adjectifs",
+      "image_url": "🔒",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410475",
+      "french": "fier",
+      "shimaore": "oujiviwa",
+      "kibouchi": "ravou",
+      "category": "adjectifs",
+      "image_url": "😤",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410476",
+      "french": "fort",
+      "shimaore": "ouna ngouvou",
+      "kibouchi": "missi ngouvou",
+      "category": "adjectifs",
+      "image_url": "💪",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410477",
+      "french": "froid",
+      "shimaore": "baridi",
+      "kibouchi": "manintsi",
+      "category": "adjectifs",
+      "image_url": "❄️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410478",
+      "french": "fâché",
+      "shimaore": "ouja hassira",
+      "kibouchi": "mélonkou",
+      "category": "adjectifs",
+      "image_url": "😠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410479",
+      "french": "gentil",
+      "shimaore": "mwéma",
+      "kibouchi": "tsara rohou",
+      "category": "adjectifs",
+      "image_url": "😊",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141047a",
+      "french": "grand",
+      "shimaore": "bolé",
+      "kibouchi": "bé",
+      "category": "adjectifs",
+      "image_url": "📏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141047b",
+      "french": "gros",
+      "shimaore": "mtronga/tronga",
+      "kibouchi": "bé",
+      "category": "adjectifs",
+      "image_url": "🔵",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141047c",
+      "french": "honteux",
+      "shimaore": "ouona haya",
+      "kibouchi": "mampiflingnatia",
+      "category": "adjectifs",
+      "image_url": "😳",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141047d",
+      "french": "important",
+      "shimaore": "mouhimou",
+      "kibouchi": "mouhimou",
+      "category": "adjectifs",
+      "image_url": "⭐",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141047e",
+      "french": "inquiet",
+      "shimaore": "ouna hamo",
+      "kibouchi": "miyéfitri/kouchanga",
+      "category": "adjectifs",
+      "image_url": "😰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141047f",
+      "french": "intelligent",
+      "shimaore": "mstanrabou",
+      "kibouchi": "trara louha",
+      "category": "adjectifs",
+      "image_url": "🧠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410480",
+      "french": "inutile",
+      "shimaore": "kassina mana",
+      "kibouchi": "tsissi fotouri",
+      "category": "adjectifs",
+      "image_url": "🗑️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410481",
+      "french": "jeune",
+      "shimaore": "nrétsa",
+      "kibouchi": "zaza",
+      "category": "adjectifs",
+      "image_url": "👶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410482",
+      "french": "laid",
+      "shimaore": "tsi ndzouzouri",
+      "kibouchi": "ratsi sora",
+      "category": "adjectifs",
+      "image_url": "😬",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410483",
+      "french": "long",
+      "shimaore": "drilé",
+      "kibouchi": "habou",
+      "category": "adjectifs",
+      "image_url": "📏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410484",
+      "french": "lourd",
+      "shimaore": "ndziro",
+      "kibouchi": "mavéchatra",
+      "category": "adjectifs",
+      "image_url": "🏋️",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410485",
+      "french": "léger",
+      "shimaore": "ndzangou",
+      "kibouchi": "mivivagna",
+      "category": "adjectifs",
+      "image_url": "🪶",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410486",
+      "french": "maigre",
+      "shimaore": "tsala",
+      "kibouchi": "mahia",
+      "category": "adjectifs",
+      "image_url": "📏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410487",
+      "french": "mauvais",
+      "shimaore": "mbovou",
+      "kibouchi": "mwadéli",
+      "category": "adjectifs",
+      "image_url": "👎",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410488",
+      "french": "mou",
+      "shimaore": "trémboivou",
+      "kibouchi": "malémi",
+      "category": "adjectifs",
+      "image_url": "🧽",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410489",
+      "french": "méchant",
+      "shimaore": "mbovou",
+      "kibouchi": "ratsi rohou",
+      "category": "adjectifs",
+      "image_url": "😠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141048a",
+      "french": "nerveux",
+      "shimaore": "oussikitiha",
+      "kibouchi": "téhi téhitri",
+      "category": "adjectifs",
+      "image_url": "😰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141048b",
+      "french": "nouveau",
+      "shimaore": "piya",
+      "kibouchi": "vowou",
+      "category": "adjectifs",
+      "image_url": "✨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141048c",
+      "french": "ouvert",
+      "shimaore": "ouboua",
+      "kibouchi": "mibiyangna",
+      "category": "adjectifs",
+      "image_url": "🔓",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141048d",
+      "french": "pauvre",
+      "shimaore": "maskini",
+      "kibouchi": "maskini",
+      "category": "adjectifs",
+      "image_url": "💸",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141048e",
+      "french": "petit",
+      "shimaore": "titi",
+      "kibouchi": "héli",
+      "category": "adjectifs",
+      "image_url": "📏",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f141048f",
+      "french": "propre",
+      "shimaore": "trahara",
+      "kibouchi": "madiou",
+      "category": "adjectifs",
+      "image_url": "✨",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410490",
+      "french": "riche",
+      "shimaore": "tadjiri",
+      "kibouchi": "tadjiri",
+      "category": "adjectifs",
+      "image_url": "💰",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410491",
+      "french": "sale",
+      "shimaore": "trotro",
+      "kibouchi": "maloutou",
+      "category": "adjectifs",
+      "image_url": "🦠",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410492",
+      "french": "satisfait",
+      "shimaore": "oufourahi",
+      "kibouchi": "ravou",
+      "category": "adjectifs",
+      "image_url": "😌",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410493",
+      "french": "surpris",
+      "shimaore": "oumarouha",
+      "kibouchi": "téhitri",
+      "category": "adjectifs",
+      "image_url": "😲",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410494",
+      "french": "sérieux",
+      "shimaore": "kassidi",
+      "kibouchi": "koussoudi",
+      "category": "adjectifs",
+      "image_url": "😐",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410495",
+      "french": "triste",
+      "shimaore": "ouna hamo",
+      "kibouchi": "malahélou",
+      "category": "adjectifs",
+      "image_url": "😢",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410496",
+      "french": "vieux",
+      "shimaore": "dhouha",
+      "kibouchi": "héla",
+      "category": "adjectifs",
+      "image_url": "👴",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410497",
+      "french": "vrai",
+      "shimaore": "kwéli",
+      "kibouchi": "ankitigni",
+      "category": "adjectifs",
+      "image_url": "✅",
+      "difficulty": 1,
+      "created_at": "2025-09-18T12:35:36.918000"
+    },
+    {
+      "_id": "68cc01c3eb7c15b1f1410498",
+      "french": "mille-pattes",
+      "shimaore": "mjongo",
+      "kibouchi": "ancoudafitri",
+      "category": "animaux",
+      "difficulty": 1
+    }
+  ]
+}
