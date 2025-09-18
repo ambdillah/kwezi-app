@@ -14,6 +14,9 @@ load_dotenv()
 # Import conjugation engine for sentence generation
 from conjugation_engine import create_sentence_database
 
+# Import database protection system
+from database_protection import protect_database, db_protector, check_database_integrity
+
 app = FastAPI(title="Mayotte Language Learning API")
 
 # Add CORS middleware
