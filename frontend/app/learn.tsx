@@ -84,7 +84,7 @@ export default function LearnScreen() {
         await playWordAudio(frenchWord, text, language);
       } else {
         // Fallback vers la synthèse vocale
-        await speakText(text, language);
+        await speakEducationalContent(text, language);
       }
     } catch (error) {
       console.log('Erreur lors de la prononciation:', error);
