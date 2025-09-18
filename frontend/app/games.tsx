@@ -1188,9 +1188,11 @@ export default function GamesScreen() {
           ))}
           
           <View style={styles.encouragementContainer}>
-            <Text style={styles.encouragementText}>
-              🐒 Les makis de Mayotte t'encouragent! 🌺
-            </Text>
+            <View style={styles.encouragementRow}>
+              <MakiMayotte size={24} />
+              <Text style={styles.encouragementText}> Les makis de Mayotte t'encouragent! </Text>
+              <YlangYlangFlower size={24} />
+            </View>
             <Text style={styles.encouragementSubtext}>
               Apprends en t'amusant avec le Shimaoré et le Kibouchi
             </Text>
