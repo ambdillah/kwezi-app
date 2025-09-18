@@ -152,7 +152,7 @@ export default function ProgressScreen() {
           </View>
 
           <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeEmoji}>🐒</Text>
+            <MakiMayotte size={50} />
             <Text style={styles.welcomeTitle}>Salut petit mahorais!</Text>
             <Text style={styles.welcomeSubtitle}>
               Comment tu t'appelles? Les makis aimeraient te connaître! 🌺
