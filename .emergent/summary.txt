@@ -1,30 +1,27 @@
 <analysis>
-The AI engineer's work in this trajectory predominantly focused on comprehensive database management and iterative content updates for the Shimaoré and Kibouchi learning application. Initially, UI fixes for game start screens and a backend shift from image URLs to emojis were made. The core challenge became resolving persistent data loss and inconsistency: the database was found empty, then user-provided authentic translations were lost due to improper re-initialization logic. The engineer systematically extracted data from user-provided PDFs and images, creating and executing numerous Python scripts to rebuild and update specific vocabulary sections (nature, chiffres, animaux, corps, salutations, grammaire, famille, couleurs, nourriture, maison, verbes, expressions, adjectifs, transport, vêtements, tradition). Each update involved meticulous verification of word counts, translations, deduplication, and alphabetical sorting, often requiring multiple iterations due to subtle discrepancies or category mismatches. Frontend display issues, like incorrect emoji rendering and env URL configuration, were also addressed. The work culminated in applying final user-requested corrections.
+The AI engineer's work primarily focused on integrating audio, rectifying database inconsistencies, and refining content. Key efforts included installing  and creating  for authentic audio playback. Significant time was spent resolving persistent database issues, including using the correct 548-word database instead of the 463-word version, and ensuring maéva replaced djalabé. Extensive emoji cleanup was performed, removing ambiguous and incorrect associations (e.g., papaye with mango). The work was iterative, often involving script creation for database manipulation and frontend updates for UI integration. The most recent task involves diagnosing a Construire des phrases game bug where it gets stuck loading.
 </analysis>
 
 <product_requirements>
-The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The primary ongoing need is the continuous refinement of vocabulary, including adding words, correcting translations, rectifying French orthography, and managing categories. Earlier work included implementing alphabetical/numerical sorting and developing three interactive games.
+The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The core problem has been continuous refinement of vocabulary, ensuring accurate translations, correct orthography, and proper category management.
 
-In this trajectory, explicit requests involved:
-1.  **UI Fix for Quiz Mayotte & Mémoire des fleurs**: Optimize start screen layouts for proper display on mobile.
-2.  **Content Visualization Change**: Replace image URLs with small, pretty symbols (emojis) for vocabulary items in the backend.
-3.  **Database Restoration**: Recover and restore a lost portion of authentic, user-entered vocabulary and translations.
-4.  **Database Updates**: Update the entire vocabulary database based on a provided PDF, then sequentially update specific sections (nature, chiffres, animaux, corps humain, salutations, grammaire, famille, couleurs, nourriture, maison, verbes, expressions, adjectifs, transport, vêtements, tradition) using various user-provided images, ensuring exact word counts, correct translations, deduplication, and alphabetical sorting.
-5.  **Final Corrections**: Apply a list of specific word and expression corrections from a user-provided table.
+Explicit requests throughout the trajectory included:
+1.  **UI/UX Optimization**: Refine Quiz Mayotte and Mémoire des fleurs layouts for mobile, including responsive game entries, texts, buttons, and vertical alignment of score counters.
+2.  **Content Visualization (Emojis)**: Implement small, pretty symbols (emojis) for vocabulary items, strictly for clear and exact meanings, replacing generic images.
+3.  **Database Integrity & Restoration**: Critically, verify and restore the correct 548-word authentic database, eliminate duplicates, ensure translations like maéva are used instead of djalabé, and prevent usage of incorrect data sources.
+4.  **New Game - Construire des phrases**: Implement a fourth game focused on sentence reconstruction using a database of conjugated verbs (Shimaoré, Kibouchi, French) across various tenses.
+5.  **French Conjugation Improvement**: Ensure grammatical correctness in French sentences, including contractions and proper past/future tense conjugations.
+6.  **Audio Pronunciation (Voix Off)**: Integrate a system for reading words/expressions in French, Shimaoré, and Kibouchi, prioritizing user-provided authentic audio recordings with text-to-speech fallback, and size-optimized audio files.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-stack Development**: Expo (React Native) frontend, FastAPI backend, MongoDB.
--   **Expo Router**: File-based navigation.
--   **React Native Styling**: , Flexbox for layout.
--   **Content Management**: Dynamic vocabulary data managed via FastAPI and MongoDB.
--   **Data Extraction**: OCR from images and PDF content parsing for database updates.
--   **Backend Scripting**: Python scripts for database operations (initialization, updates, deduplication).
--   **Troubleshooting**: Frontend restarts ([08:23:18] Starting project at /app), backend                          STOPPING  
-code-server                      RUNNING   pid 33, uptime 0:00:06
-expo                             STOPPED   Sep 17 08:23 AM
-mongodb                          RUNNING   pid 39, uptime 0:00:06
-supervisor> , log checking,  consultation.
+-   **Full-stack Development**: Expo (React Native) for frontend, FastAPI for backend, MongoDB for database.
+-   **Expo Router**: File-based routing for navigation.
+-   **React Native Styling**: Flexbox,  for responsive mobile UI.
+-   **Database Management**: Python scripts for data recovery, deduplication, and content updates.
+-   **Conjugation Engine**: Backend logic for verb conjugation in multiple languages.
+-   **Audio Playback**:  (TTS) and  (authentic audio).
+-   **API Interaction**: Frontend-backend communication for dynamic content.
 </key_technical_concepts>
 
 <code_architecture>
@@ -33,40 +30,73 @@ The application follows a standard Expo full-stack architecture:
 
 
 -   :
-    -   **Importance**: Handles all data and API logic, serving vocabulary content.
-    -   **Changes Made**: Initial update to  values from external URLs to Unicode emojis for 23 specific words. The  endpoint was an issue, leading to its effective bypass by subsequent dynamic scripts. Contains FastAPI endpoints for CRUD operations and database initialization.
+    -   **Importance**: Core FastAPI backend.
+    -   **Changes Made**: Modified to reflect the correct database name and ensure API stability amidst recovery.
 -   :
-    -   **Importance**: Contains UI logic for learning games (Quiz Mayotte, Mémoire des fleurs).
-    -   **Changes Made**: Styles (, , etc.) were added/modified to optimize start screens for mobile, addressing layout and button positioning issues.
+    -   **Importance**: Backend environment variables.
+    -   **Changes Made**:  was critically updated multiple times, most recently changed from  to  to ensure the authentic 553/548-word database is used.
 -   :
-    -   **Importance**: Displays vocabulary content, particularly where emojis are rendered.
-    -   **Changes Made**: Modified to correctly render emojis as text rather than attempting to load them as image URLs. Specific styles (, ) were added for this purpose.
+    -   **Importance**: Script to recover authentic data.
+    -   **Changes Made**: Executed but initially failed to restore the correct database size.
 -   :
-    -   **Importance**: Holds environment variables for Expo, including backend API URL.
-    -   **Changes Made**:  was corrected to point to the local backend to resolve frontend loading issues.
--    (e.g., , , , etc.):
-    -   **Importance**: Dynamically generated scripts for one-time database operations.
-    -   **Changes Made**: Numerous scripts were created to:
-        -   Restore an initial authentic dataset.
-        -   Rebuild the database from a user-provided PDF.
-        -   Incrementally update specific vocabulary categories (nature, chiffres, animaux, corps, salutations, grammaire, famille, couleurs, nourriture, maison, verbes, expressions, adjectifs, transport, vêtements, tradition) by extracting data from images. These scripts included logic for deduplication and alphabetical sorting within categories and explicitly deleted old content before adding new.
+    -   **Importance**: Script to remove duplicate entries.
+    -   **Changes Made**: Executed to address mass duplication issues.
 -   :
-    -   **Importance**: A script created to apply a final set of specific corrections to words and expressions in the database as requested by the user.
-    -   **Changes Made**: This script contained  operations for a list of 34 specific words, updating their , , and  fields based on user input.
+    -   **Importance**: Script to assign emojis.
+    -   **Changes Made**: Executed for initial emoji integration.
+-   :
+    -   **Importance**: Conjugation logic for Shimaoré, Kibouchi, and French.
+    -   **Changes Made**: Multiple refinements to ensure grammatical correctness and sentence variety.
+-   :
+    -   **Importance**: Comprehensive French verb conjugation.
+    -   **Changes Made**: Created to handle regular/irregular verbs and tenses, including contractions.
+-   :
+    -   **Importance**: (Created) Definitive script to extract and restore the database from user-provided PDF.
+    -   **Changes Made**: Iteratively refined to include all categories, correctly count words, and use the user's authentic data.
+-   :
+    -   **Importance**: (Created) Script to remove emojis with ambiguous or incorrect meanings.
+    -   **Changes Made**: Modified to correctly identify and remove emojis by targeting the  field, removing 83 ambiguous emojis.
+-   :
+    -   **Importance**: (Created) Script for targeted removal of highly inappropriate emojis.
+    -   **Changes Made**: Created and executed to remove emojis from specific sensitive words.
+-   :
+    -   **Importance**: (Created) Comprehensive script to remove duplicates and re-check all emojis.
+    -   **Changes Made**: Created and executed, removing 5 duplicates and 51 remaining inappropriate emojis, and setting a unique index.
+-   :
+    -   **Importance**: (Created) Script to correct specific incorrect emoji-word pairings.
+    -   **Changes Made**: Created and executed, removing 12 known incorrect associations (e.g., papaye with mango).
+-   , :
+    -   **Importance**: (Created) Scripts attempting to restore the 542-word database, combining various update scripts.
+    -   **Changes Made**: Created and iterated upon during database recovery, ultimately leading to the  fix in .
+-   :
+    -   **Importance**: UI and logic for all learning games.
+    -   **Changes Made**: Integrated the Construire des phrases game, including its UI, state, API calls, and local audio playback hooks. Mobile UI optimized.
+-   :
+    -   **Importance**: Displays vocabulary for learning.
+    -   **Changes Made**: Improved  and  functions; integrated  and ; added visual indicators (musical note) for authentic audio.
+-   :
+    -   **Importance**: Reusable utility for text-to-speech.
+    -   **Changes Made**: Centralized speech logic and language approximations.
+-   :
+    -   **Importance**: Manages user-provided authentic audio playback.
+    -   **Changes Made**: Created to prioritize  files over TTS. Was repeatedly updated to include 10 newly uploaded authentic audio recordings, correctly mapping them to words in the authentic database.
+-   :
+    -   **Importance**: Manages frontend dependencies.
+    -   **Changes Made**:  was added to enable local audio playback.
 </code_architecture>
 
 <pending_tasks>
--   Implement frontend UI for audio playback to enable children to listen to word pronunciations.
+-   Implement frontend UI for audio playback in games other than Commencer à apprendre.
 -   Develop and integrate a personal word mastery system (e.g., clickable stars/colors).
--   Implement full support for multiple audio pronunciations per word (e.g., Shimaoré and Kibouchi for Papa).
--   Extend image/icon coverage to a broader range of vocabulary words across all categories (now with emojis).
--   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features and content updates.
+-   Extend the variety of French sentences in the Construire des phrases game.
+-   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features.
+-   Investigate and resolve the remaining incorrect emoji associations (e.g., curcuma with leaves, ginger with roots).
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was in the process of applying final corrections to the vocabulary database based on a user-provided table of words and expressions. A new script, , was created and executed to programmatically update 34 specific entries in the MongoDB database, ensuring the , , and  translations matched the user's explicit corrections. After executing the script, the AI attempted to manually verify some of these corrections via direct API calls, but these calls returned too much data for quick manual inspection. Therefore, the engineer decided the next logical step was to use the backend testing agent for a more efficient and comprehensive verification of these applied corrections.
+Immediately prior to this summary, the AI engineer was addressing a critical bug in the Construire des phrases game. The user reported that the game was stuck on chargement des phrases (loading phrases) and they could not test its content. This indicates a potential issue with the frontend's ability to fetch sentences from the backend or a problem with the backend's  endpoint itself. The AI engineer's last action was to begin diagnosing this problem by checking the status of the backend server and specifically inspecting the  endpoint to determine the root cause of the loading issue.
 </current_work>
 
 <optional_next_step>
-Run the backend testing agent to verify the recently applied vocabulary corrections.
+Diagnose the Construire des phrases game issue by inspecting the backend's  endpoint.
 </optional_next_step>
