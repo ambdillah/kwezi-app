@@ -108,7 +108,8 @@ class DatabaseProtector:
                 "metadata": {
                     "timestamp": timestamp,
                     "reason": reason,
-                    "stats": self.get_database_stats()
+                    "total_words": len(words),
+                    "db_name": DB_NAME
                 },
                 "words": words
             }
