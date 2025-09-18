@@ -684,11 +684,12 @@ async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/init-sentences")
-@protect_database("init_sentences")
 async def initialize_sentences():
     """Initialize sentences database for the 'Construire des phrases' game"""
     try:
-        create_sentence_database()
+        # Exécuter la création de phrases dans un thread séparé pour éviter les problèmes d'async
+        import asyncio
+        await asyncio.get_event_loop().run_in_executor(None, create_sentence_database)
         count = sentences_collection.count_documents({})
         return {"message": f"Sentences database initialized successfully with {count} sentences"}
     except Exception as e:
