@@ -788,20 +788,113 @@ async def create_exercise(exercise: Exercise):
 @app.get("/api/progress/{user_name}")
 async def get_user_progress(user_name: str):
     """Get progress for a specific user"""
-    progress = list(user_progress_collection.find({"user_name": user_name}))
-    for p in progress:
-        p["id"] = str(p["_id"])
-        del p["_id"]
-    return progress
+    try:
+        progress = list(user_progress_collection.find({"user_name": user_name}))
+        for p in progress:
+            p["id"] = str(p["_id"])
+            del p["_id"]
+            # Convert datetime to string for JSON serialization
+            if "completed_at" in p:
+                p["completed_at"] = p["completed_at"].isoformat()
+        return progress
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/progress")
 async def create_progress(progress: UserProgress):
     """Record user progress"""
-    progress_dict = progress.dict(exclude={"id"})
-    progress_dict["completed_at"] = datetime.utcnow()
-    result = user_progress_collection.insert_one(progress_dict)
-    progress_dict["id"] = str(result.inserted_id)
-    return progress_dict
+    try:
+        progress_dict = progress.dict(exclude={"id"})
+        progress_dict["completed_at"] = datetime.utcnow()
+        result = user_progress_collection.insert_one(progress_dict)
+        progress_dict["id"] = str(result.inserted_id)
+        # Convert datetime to string for JSON serialization
+        progress_dict["completed_at"] = progress_dict["completed_at"].isoformat()
+        return progress_dict
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Badge system endpoints
+@app.get("/api/badges/{user_name}")
+async def get_user_badges(user_name: str):
+    """Get badges for a specific user"""
+    try:
+        badges_collection = db.user_badges
+        user_badges = badges_collection.find_one({"user_name": user_name})
+        
+        if user_badges:
+            user_badges["id"] = str(user_badges["_id"])
+            del user_badges["_id"]
+            return user_badges.get("badges", [])
+        else:
+            return []
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/badges/{user_name}/unlock/{badge_id}")
+async def unlock_badge(user_name: str, badge_id: str):
+    """Unlock a badge for a user"""
+    try:
+        badges_collection = db.user_badges
+        
+        # Check if user already has badges record
+        user_badges = badges_collection.find_one({"user_name": user_name})
+        
+        if user_badges:
+            # User exists, add badge if not already unlocked
+            if badge_id not in user_badges.get("badges", []):
+                badges_collection.update_one(
+                    {"user_name": user_name},
+                    {
+                        "$push": {"badges": badge_id},
+                        "$set": {"updated_at": datetime.utcnow()}
+                    }
+                )
+                return {"message": f"Badge {badge_id} unlocked for {user_name}"}
+            else:
+                return {"message": f"Badge {badge_id} already unlocked"}
+        else:
+            # Create new user badges record
+            badges_collection.insert_one({
+                "user_name": user_name,
+                "badges": [badge_id],
+                "created_at": datetime.utcnow(),
+                "updated_at": datetime.utcnow()
+            })
+            return {"message": f"Badge {badge_id} unlocked for {user_name}"}
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/stats/{user_name}")
+async def get_user_stats(user_name: str):
+    """Get comprehensive stats for a user for badge calculations"""
+    try:
+        # Get user progress
+        progress = list(user_progress_collection.find({"user_name": user_name}))
+        
+        # Calculate basic stats
+        total_score = sum(p.get("score", 0) for p in progress)
+        completed_exercises = len(progress)
+        average_score = total_score / completed_exercises if completed_exercises > 0 else 0
+        best_score = max((p.get("score", 0) for p in progress), default=0)
+        perfect_scores = len([p for p in progress if p.get("score", 0) >= 100])
+        
+        # Calculate learning streaks (simplified)
+        learning_days = len(set(p.get("completed_at", datetime.utcnow()).date() for p in progress))
+        
+        return {
+            "user_name": user_name,
+            "total_score": total_score,
+            "completed_exercises": completed_exercises,
+            "average_score": round(average_score, 1),
+            "best_score": best_score,
+            "perfect_scores": perfect_scores,
+            "learning_days": learning_days,
+            "words_learned": completed_exercises  # Simplified assumption
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
