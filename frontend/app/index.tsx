@@ -65,7 +65,7 @@ export default function WelcomeScreen() {
 
           {/* Section makis stylisés */}
           <View style={styles.makiSection}>
-            <Text style={styles.makiEmoji}>🐒</Text>
+            <MakiMayotte size={60} />
             <Text style={styles.makiText}>Avec les makis de Mayotte</Text>
           </View>
 
