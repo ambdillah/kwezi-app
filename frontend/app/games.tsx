@@ -15,6 +15,7 @@ import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { speakText, speakConjugatedSentence } from '../utils/speechUtils';
 import YlangYlangFlower from '../components/YlangYlangFlower';
+import MakiMayotte from '../components/MakiMayotte';
 
 const { width } = Dimensions.get('window');
 
