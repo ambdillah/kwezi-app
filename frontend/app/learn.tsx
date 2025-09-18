@@ -15,6 +15,7 @@ import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { speakText } from '../utils/speechUtils';
 import { playWordAudio, playWordAllLanguages, hasAuthenticAudio } from '../utils/authenticAudioSystem';
+import YlangYlangFlower from '../components/YlangYlangFlower';
 
 interface Word {
   id: string;
