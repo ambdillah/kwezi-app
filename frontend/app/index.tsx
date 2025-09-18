@@ -116,7 +116,9 @@ export default function WelcomeScreen() {
           <View style={styles.footer}>
             <View style={styles.cultureRow}>
               <YlangYlangFlower size={24} />
-              <Text style={styles.cultureText}> Ylang-ylang • 🐒 Maki • 🏝️ Mayotte</Text>
+              <Text style={styles.cultureText}> Ylang-ylang • </Text>
+              <MakiMayotte size={24} />
+              <Text style={styles.cultureText}> Maki • 🏝️ Mayotte</Text>
             </View>
             <Text style={styles.languageText}>Français • Shimaoré • Kibouchi</Text>
           </View>
