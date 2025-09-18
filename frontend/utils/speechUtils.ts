@@ -1,11 +1,12 @@
 /**
- * UTILITAIRES AUDIO - SYSTÈME DE PRONONCIATION
- * ============================================
- * Fonctions réutilisables pour la synthèse vocale dans toute l'application
+ * UTILITAIRES AUDIO - SYSTÈME DE PRONONCIATION AMÉLIORÉ
+ * =====================================================
+ * Fonctions réutilisables pour la synthèse vocale avec corrections phonétiques
  */
 
 import * as Speech from 'expo-speech';
 import { Alert } from 'react-native';
+import { applyPhoneticCorrections } from './phoneticCorrections';
 
 export type SupportedLanguage = 'fr' | 'shimaore' | 'kibouchi';
 
