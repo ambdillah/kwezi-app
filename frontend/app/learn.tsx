@@ -299,11 +299,16 @@ const styles = StyleSheet.create({
   categoriesContainer: {
     marginBottom: 30,
   },
+  sectionTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
-    marginBottom: 15,
   },
   categoriesScroll: {
     marginBottom: 10,
