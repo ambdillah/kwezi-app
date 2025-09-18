@@ -679,6 +679,16 @@ async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/api/init-sentences")
+async def initialize_sentences():
+    """Initialize sentences database for the 'Construire des phrases' game"""
+    try:
+        create_sentence_database()
+        count = sentences_collection.count_documents({})
+        return {"message": f"Sentences database initialized successfully with {count} sentences"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/words")
 async def create_word(word: WordCreate):
     """Create a new word"""
