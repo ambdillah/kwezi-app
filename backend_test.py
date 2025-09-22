@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Backend Test Suite for Mayotte Educational App - Audio Metadata Integration Testing
-Tests the audio metadata integration for the famille section
+Backend Test Suite for Mayotte Educational App - Complete Audio Metadata Integration Testing
+Tests the complete audio metadata integration for famille and nature sections
+Based on French review request: Testing famille (88% coverage) and nature (100% coverage)
 """
 
 import requests
@@ -17,11 +18,13 @@ load_dotenv('/app/frontend/.env')
 BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'http://localhost:8001')
 API_BASE = f"{BACKEND_URL}/api"
 
-print(f"🎵 TESTING AUDIO METADATA INTEGRATION AT: {API_BASE}")
-print("=" * 60)
-print("CONTEXT: Testing audio metadata integration for famille section")
-print("EXPECTED: 32 family words with audio metadata (has_authentic_audio: true)")
-print("=" * 60)
+print(f"🎵 TESTING COMPLETE AUDIO METADATA INTEGRATION AT: {API_BASE}")
+print("=" * 80)
+print("CONTEXT: Testing complete audio metadata integration for famille and nature sections")
+print("FAMILLE SECTION: 88% coverage expected (22/25 words with has_authentic_audio: true)")
+print("NATURE SECTION: 100% coverage expected (49/49 words with has_authentic_audio: true)")
+print("TESTING: API endpoints, metadata fields, language consistency, sources")
+print("=" * 80)
 
 class AudioMetadataTester:
     def __init__(self):
