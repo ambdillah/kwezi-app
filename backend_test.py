@@ -149,7 +149,8 @@ class CompleteAudioMetadataTester:
                     details = f"Shimaore: {word.get('shimaore')}, Kibouchi: {word.get('kibouchi')}"
                 
                 test_name = f"Correction: {word.get('french')}"
-                if not self.log_test(test_name, test_passed, details):
+                self.log_test(test_name, test_passed, details)
+                if not test_passed:
                     corrections_passed = False
         
         return corrections_passed
