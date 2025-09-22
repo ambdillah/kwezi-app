@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "timestamp": "20250922_085312",
+    "reason": "corrupted_state_before_cleanup",
+    "total_words": 2872,
+    "db_name": "mayotte_app"
+  },
+  "words": [
+    {
+      "_id": "68cc21ba04fd6e70b3737f59",
+      "french": "arrière du crâne",
+      "shimaore": "komoi",
+      "kibouchi": "kitoika",
+      "category": "corps",
+      "image_url": "🤯",
+      "difficulty": 1,
+      "created_at": 
