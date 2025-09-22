@@ -141,7 +141,7 @@ def update_nombres_section():
                 
                 new_word = {
                     "french": francais,
-                    "shimatore": shimaore,
+                    "shimaore": shimaore,
                     "kibouchi": kibouchi,
                     "category": "Nombres",
                     "emoji": "",  # Pas d'emoji pour les nombres selon les préférences
