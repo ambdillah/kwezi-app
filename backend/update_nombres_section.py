@@ -170,11 +170,11 @@ def update_nombres_section():
         
         # Vérification de l'intégrité
         print("🔍 Vérification de l'intégrité de la base de données...")
-        integrity_ok = db_protection.check_integrity()
-        if integrity_ok:
+        is_healthy, message = db_protection.is_database_healthy()
+        if is_healthy:
             print("✅ Intégrité vérifiée avec succès")
         else:
-            print("⚠️ Problème d'intégrité détecté")
+            print(f"⚠️ Problème d'intégrité détecté: {message}")
         
         print()
         print("✅ Mise à jour de la section nombres terminée avec succès!")
