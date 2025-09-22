@@ -971,7 +971,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Review Request: Famille, Couleurs, Nourriture Sections Testing"
+    - "Updated numbers section testing with 8 new numbers (trente to cent)"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
