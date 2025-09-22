@@ -83,8 +83,8 @@ def update_nombres_section():
         
         # Créer une sauvegarde avant modification
         print("💾 Création d'une sauvegarde avant modification...")
-        backup_success = db_protection.create_backup("before_update_nombres_section")
-        if backup_success:
+        backup_path = db_protection.create_backup("before_update_nombres_section")
+        if backup_path:
             print("✅ Sauvegarde créée avec succès")
         else:
             print("⚠️ Échec de la sauvegarde")
