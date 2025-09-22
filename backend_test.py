@@ -390,6 +390,8 @@ class CompleteAudioMetadataTester:
         overall_success = self.passed_tests == self.total_tests and len(self.critical_failures) == 0
         status = "✅ ALL TESTS PASSED" if overall_success else "❌ SOME TESTS FAILED"
         print(f"\n{status}")
+        
+        return overall_success
 
 def main():
     """Main function to run the complete audio metadata integration tests"""
