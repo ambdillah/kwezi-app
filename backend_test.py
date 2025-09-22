@@ -233,15 +233,18 @@ class CompleteAudioMetadataTester:
                     
                     test_name = f"Nature Example: {french_word} → {expected['shimaore_expected']}"
                     details = f"Found: {word.get('shimaore')}, Audio: {has_audio}"
+                    test_passed = translation_correct and has_audio
                     
-                    if not self.log_test(test_name, translation_correct and has_audio, details):
+                    self.log_test(test_name, test_passed, details)
+                    if not test_passed:
                         examples_passed = False
                 
                 elif "should_have_audio" in expected:
                     test_name = f"Nature Example: {french_word} audio"
                     details = f"Audio: {has_audio}, Filename: {word.get('audio_filename', 'None')}"
                     
-                    if not self.log_test(test_name, has_audio, details):
+                    self.log_test(test_name, has_audio, details)
+                    if not has_audio:
                         examples_passed = False
         
         return examples_passed
