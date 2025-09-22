@@ -70,6 +70,11 @@ def restore_clean_database():
         for word in corrupted_words:
             if "_id" in word:
                 word["_id"] = str(word["_id"])
+            # Convertir les dates en string
+            if "created_at" in word and hasattr(word["created_at"], 'isoformat'):
+                word["created_at"] = word["created_at"].isoformat()
+            if "updated_at" in word and hasattr(word["updated_at"], 'isoformat'):
+                word["updated_at"] = word["updated_at"].isoformat()
         
         corrupted_backup = {
             "metadata": {
