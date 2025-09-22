@@ -1,27 +1,21 @@
 <analysis>
-The AI engineer's work primarily focused on integrating audio, rectifying database inconsistencies, and refining content. Key efforts included installing  and creating  for authentic audio playback. Significant time was spent resolving persistent database issues, including using the correct 548-word database instead of the 463-word version, and ensuring maéva replaced djalabé. Extensive emoji cleanup was performed, removing ambiguous and incorrect associations (e.g., papaye with mango). The work was iterative, often involving script creation for database manipulation and frontend updates for UI integration. The most recent task involves diagnosing a Construire des phrases game bug where it gets stuck loading.
+The AI engineer's work has primarily focused on robustifying the application's backend database, enhancing content accuracy, and improving frontend user experience. Initial efforts fixed a critical Construire des phrases game bug where it was stuck loading, by addressing an empty  endpoint and initializing sentences. A major challenge involved recurring database corruption and duplication, which led to the implementation of a multi-layered database protection system, including automatic backups, integrity checks, and emergency restoration scripts. Numerous data corrections, including specific word translations, cultural expressions, and alphabetical sorting, were applied through custom Python scripts. Frontend enhancements included replacing generic emojis with authentic Mayotte imagery (ylang-ylang flower, maki) and implementing phonetic corrections for Shimaoré and Kibouchi TTS. The most recent ongoing task is resolving a bug where the male voice selection for text-to-speech is not being applied, and clarifying a user-provided future date for a fork.
 </analysis>
 
 <product_requirements>
 The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The core problem has been continuous refinement of vocabulary, ensuring accurate translations, correct orthography, and proper category management.
 
-Explicit requests throughout the trajectory included:
-1.  **UI/UX Optimization**: Refine Quiz Mayotte and Mémoire des fleurs layouts for mobile, including responsive game entries, texts, buttons, and vertical alignment of score counters.
-2.  **Content Visualization (Emojis)**: Implement small, pretty symbols (emojis) for vocabulary items, strictly for clear and exact meanings, replacing generic images.
-3.  **Database Integrity & Restoration**: Critically, verify and restore the correct 548-word authentic database, eliminate duplicates, ensure translations like maéva are used instead of djalabé, and prevent usage of incorrect data sources.
-4.  **New Game - Construire des phrases**: Implement a fourth game focused on sentence reconstruction using a database of conjugated verbs (Shimaoré, Kibouchi, French) across various tenses.
-5.  **French Conjugation Improvement**: Ensure grammatical correctness in French sentences, including contractions and proper past/future tense conjugations.
-6.  **Audio Pronunciation (Voix Off)**: Integrate a system for reading words/expressions in French, Shimaoré, and Kibouchi, prioritizing user-provided authentic audio recordings with text-to-speech fallback, and size-optimized audio files.
+Explicit requests throughout the trajectory included: UI/UX optimization for games and content visualization using authentic images (ylang-ylang, maki) instead of emojis. A critical focus has been on database integrity, maintaining a 548-word authentic database, eliminating duplicates, and implementing a robust protection system. A new Construire des phrases game was implemented, requiring accurate French conjugation and sentence generation. An audio pronunciation system (Voix Off) was integrated, prioritizing authentic audio recordings and applying phonetic corrections for Shimaoré and Kibouchi TTS. Other tasks included ensuring the badge and progress system is operational, sorting database content alphabetically (with exceptions for numbers and grammar), removing emojis from sensitive words, and enabling a charismatic male voice for pronunciations.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-stack Development**: Expo (React Native) for frontend, FastAPI for backend, MongoDB for database.
--   **Expo Router**: File-based routing for navigation.
--   **React Native Styling**: Flexbox,  for responsive mobile UI.
--   **Database Management**: Python scripts for data recovery, deduplication, and content updates.
--   **Conjugation Engine**: Backend logic for verb conjugation in multiple languages.
--   **Audio Playback**:  (TTS) and  (authentic audio).
--   **API Interaction**: Frontend-backend communication for dynamic content.
+- Full-stack Development: Expo (React Native) for frontend, FastAPI for backend, MongoDB for database.
+- Expo Router: File-based routing for navigation.
+- Database Management: Python scripts for data recovery, deduplication, content updates, and a custom database protection system.
+- Conjugation Engine: Backend logic for verb conjugation and sentence generation.
+- Audio Playback:  (TTS) and  (authentic audio) with custom phonetic corrections.
+- API Interaction: Frontend-backend communication for dynamic content and administrative tasks.
+- Image Handling: Base64 encoding for custom images (Ylang-ylang, Maki).
 </key_technical_concepts>
 
 <code_architecture>
@@ -29,74 +23,39 @@ The application follows a standard Expo full-stack architecture:
 
 
 
--   :
-    -   **Importance**: Core FastAPI backend.
-    -   **Changes Made**: Modified to reflect the correct database name and ensure API stability amidst recovery.
--   :
-    -   **Importance**: Backend environment variables.
-    -   **Changes Made**:  was critically updated multiple times, most recently changed from  to  to ensure the authentic 553/548-word database is used.
--   :
-    -   **Importance**: Script to recover authentic data.
-    -   **Changes Made**: Executed but initially failed to restore the correct database size.
--   :
-    -   **Importance**: Script to remove duplicate entries.
-    -   **Changes Made**: Executed to address mass duplication issues.
--   :
-    -   **Importance**: Script to assign emojis.
-    -   **Changes Made**: Executed for initial emoji integration.
--   :
-    -   **Importance**: Conjugation logic for Shimaoré, Kibouchi, and French.
-    -   **Changes Made**: Multiple refinements to ensure grammatical correctness and sentence variety.
--   :
-    -   **Importance**: Comprehensive French verb conjugation.
-    -   **Changes Made**: Created to handle regular/irregular verbs and tenses, including contractions.
--   :
-    -   **Importance**: (Created) Definitive script to extract and restore the database from user-provided PDF.
-    -   **Changes Made**: Iteratively refined to include all categories, correctly count words, and use the user's authentic data.
--   :
-    -   **Importance**: (Created) Script to remove emojis with ambiguous or incorrect meanings.
-    -   **Changes Made**: Modified to correctly identify and remove emojis by targeting the  field, removing 83 ambiguous emojis.
--   :
-    -   **Importance**: (Created) Script for targeted removal of highly inappropriate emojis.
-    -   **Changes Made**: Created and executed to remove emojis from specific sensitive words.
--   :
-    -   **Importance**: (Created) Comprehensive script to remove duplicates and re-check all emojis.
-    -   **Changes Made**: Created and executed, removing 5 duplicates and 51 remaining inappropriate emojis, and setting a unique index.
--   :
-    -   **Importance**: (Created) Script to correct specific incorrect emoji-word pairings.
-    -   **Changes Made**: Created and executed, removing 12 known incorrect associations (e.g., papaye with mango).
--   , :
-    -   **Importance**: (Created) Scripts attempting to restore the 542-word database, combining various update scripts.
-    -   **Changes Made**: Created and iterated upon during database recovery, ultimately leading to the  fix in .
--   :
-    -   **Importance**: UI and logic for all learning games.
-    -   **Changes Made**: Integrated the Construire des phrases game, including its UI, state, API calls, and local audio playback hooks. Mobile UI optimized.
--   :
-    -   **Importance**: Displays vocabulary for learning.
-    -   **Changes Made**: Improved  and  functions; integrated  and ; added visual indicators (musical note) for authentic audio.
--   :
-    -   **Importance**: Reusable utility for text-to-speech.
-    -   **Changes Made**: Centralized speech logic and language approximations.
--   :
-    -   **Importance**: Manages user-provided authentic audio playback.
-    -   **Changes Made**: Created to prioritize  files over TTS. Was repeatedly updated to include 10 newly uploaded authentic audio recordings, correctly mapping them to words in the authentic database.
--   :
-    -   **Importance**: Manages frontend dependencies.
-    -   **Changes Made**:  was added to enable local audio playback.
+-   : Core FastAPI backend. Modified to include  endpoint, implement  decorators, add admin endpoints (, , ), and fix  serialization for progress/badges. Destructive code in  was commented out.
+-   : Backend environment variables.  updated to .
+-   : **NEW**. Implements a multi-layered system for database integrity, auto-backups, and emergency restoration. Updated to recognize maèva as an authentic signature.
+-    (e.g., , , , etc.): **NEW**. Various scripts for applying specific data corrections, translations, and orthographic fixes to the MongoDB database based on user requests and provided data. These include updates for non, oncle paternel, au revoir, practical expressions, ancien, verbs from tables, and comprehensive cleanup.
+-   : **NEW**. Script to handle alphabetical sorting, emoji removal, and general data hygiene.
+-   : **NEW**. Corrected script to properly update MongoDB documents for alphabetical/logical sorting across categories.
+-   : **NEW**. Script to change compound emojis for numbers 11-20 to plain text for better display.
+-    & : **NEW**. Scripts for comprehensive duplicate detection, user-guided duplicate removal, and removal of emojis from sensitive words.
+-   : UI and logic for games. Modified for Construire des phrases game, and integrated  and  components.
+-   : Vocabulary display. Integrated  and .
+-   : Home screen. Integrated  and  components.
+-   : User progress. Integrated  component.
+-   : Text-to-speech utility. Integrated .
+-   : **NEW**. Provides specific phonetic rules for Shimaoré and Kibouchi TTS.
+-    & : **NEW**. Attempts at improving speech utility and forcing a masculine voice.
+-    & : **NEW**. Reusable components for authentic Mayotte illustrations, replacing generic emojis.
 </code_architecture>
 
 <pending_tasks>
--   Implement frontend UI for audio playback in games other than Commencer à apprendre.
--   Develop and integrate a personal word mastery system (e.g., clickable stars/colors).
--   Extend the variety of French sentences in the Construire des phrases game.
--   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features.
--   Investigate and resolve the remaining incorrect emoji associations (e.g., curcuma with leaves, ginger with roots).
+- Implement frontend UI for audio playback in games other than Commencer à apprendre.
+- Develop and integrate a personal word mastery system (e.g., clickable stars/colors).
+- Extend the variety of French sentences in the Construire des phrases game.
+- Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features.
+- Investigate and resolve remaining incorrect emoji associations (e.g., curcuma with leaves, ginger with roots).
+- Identify the root cause of the recurring database duplication problem (2316 words).
+- Resolve the issue of the text-to-speech voice remaining female despite attempts to force a male voice.
+- Clarify the user's mentioned fork date (October 19, 2025).
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was addressing a critical bug in the Construire des phrases game. The user reported that the game was stuck on chargement des phrases (loading phrases) and they could not test its content. This indicates a potential issue with the frontend's ability to fetch sentences from the backend or a problem with the backend's  endpoint itself. The AI engineer's last action was to begin diagnosing this problem by checking the status of the backend server and specifically inspecting the  endpoint to determine the root cause of the loading issue.
+Immediately prior to this summary, the AI engineer was addressing a critical bug where the pronunciation of words and expressions in the application was consistently using a female voice, despite efforts to implement a male, more charismatic voice. The previous attempt involved creating and integrating  into  to explicitly select a male voice from available system voices. The user explicitly reported that the voice is still female, indicating that the fix was not successful. The AI engineer is in the process of diagnosing why the male voice selection is not being correctly applied, potentially examining limitations of  or the voice selection logic. Additionally, the user asked for clarification on a fork date (October 19, 2025), which the AI engineer noted as being in the future relative to the current session (September 18, 2025), and is awaiting user input for this clarification.
 </current_work>
 
 <optional_next_step>
-Diagnose the Construire des phrases game issue by inspecting the backend's  endpoint.
+Diagnose and fix the persistent issue where the text-to-speech voice remains female, ensuring the male voice is correctly applied for pronunciations.
 </optional_next_step>
