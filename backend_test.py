@@ -53,6 +53,7 @@ class CompleteAudioMetadataTester:
         
         self.test_results.append(result)
         print(result)
+        return passed
     
     def test_api_connectivity(self) -> bool:
         """Test basic API connectivity"""
