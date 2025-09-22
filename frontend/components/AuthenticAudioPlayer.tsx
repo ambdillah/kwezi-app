@@ -48,16 +48,14 @@ export const AuthenticAudioPlayer: React.FC<AuthenticAudioPlayerProps> = ({
 
       setIsPlaying(true);
 
-      // Construire le chemin vers le fichier audio
-      const audioPath = `../assets/audio/famille/${word.audio_filename}`;
-      
       console.log('🎵 Lecture audio authentique:', word.french, word.audio_filename);
       
       try {
+        // Construire le chemin vers le fichier audio réel
+        const audioPath = require(`../assets/audio/famille/${word.audio_filename}`);
+        
         const { sound: newSound } = await Audio.Sound.createAsync(
-          // Pour l'instant, nous utilisons un placeholder
-          // En production, les fichiers audio devraient être dans assets
-          require('../assets/adaptive-icon.png'), // Placeholder - à remplacer par l'audio réel
+          audioPath,
           {
             shouldPlay: true,
             volume: 1.0,
@@ -72,8 +70,11 @@ export const AuthenticAudioPlayer: React.FC<AuthenticAudioPlayerProps> = ({
           }
         });
 
+        console.log(`✅ Lecture audio authentique réussie: ${word.french}`);
+
       } catch (audioError) {
         console.log('⚠️ Fichier audio non trouvé, utilisation de la synthèse vocale');
+        console.log('Erreur audio:', audioError);
         
         // Fallback vers la synthèse vocale
         const Speech = require('expo-speech');
