@@ -53,6 +53,13 @@ class Word(BaseModel):
     audio_url: Optional[str] = None
     difficulty: int = Field(default=1, ge=1, le=3)
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    # Nouveaux champs audio authentiques
+    audio_filename: Optional[str] = None
+    audio_pronunciation_lang: Optional[str] = None
+    audio_note: Optional[str] = None
+    audio_source: Optional[str] = None
+    has_authentic_audio: Optional[bool] = False
+    audio_updated_at: Optional[datetime] = None
 
 class WordCreate(BaseModel):
     french: str
