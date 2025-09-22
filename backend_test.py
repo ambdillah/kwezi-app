@@ -17323,6 +17323,14 @@ class MayotteEducationTester:
             
             numbers = response.json()
             numbers_count = len(numbers)
+            
+            # Also try with capital N if no results
+            if numbers_count == 0:
+                response = self.session.get(f"{API_BASE}/words?category=Nombres")
+                if response.status_code == 200:
+                    numbers = response.json()
+                    numbers_count = len(numbers)
+            
             numbers_by_french = {word['french'].lower(): word for word in numbers}
             print(f"✅ GET /api/words?category=nombres working - Retrieved {numbers_count} numbers")
             
