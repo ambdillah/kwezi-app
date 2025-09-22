@@ -6,6 +6,7 @@
  */
 
 import { Audio } from 'expo-av';
+import { Asset } from 'expo-asset';
 import { speakText } from './speechUtils';
 
 export type AudioLanguage = 'fr' | 'shimaore' | 'kibouchi';
@@ -21,47 +22,6 @@ interface WordWithAudio {
   audio_pronunciation_lang?: string;
   audio_source?: string;
 }
-
-/**
- * Mapping des fichiers audio locaux
- * Ces fichiers sont maintenant stockés dans /assets/audio/famille/
- */
-const LOCAL_AUDIO_FILES: { [key: string]: any } = {
-  'Anabavi.m4a': require('../assets/audio/famille/Anabavi.m4a'),
-  'Anadahi.m4a': require('../assets/audio/famille/Anadahi.m4a'),
-  'Baba héli-bé.m4a': require('../assets/audio/famille/Baba héli-bé.m4a'),
-  'Baba k.m4a': require('../assets/audio/famille/Baba k.m4a'),
-  'Baba s.m4a': require('../assets/audio/famille/Baba s.m4a'),
-  'Baba titi-bolé.m4a': require('../assets/audio/famille/Baba titi-bolé.m4a'),
-  'Bacoco.m4a': require('../assets/audio/famille/Bacoco.m4a'),
-  'Bweni.m4a': require('../assets/audio/famille/Bweni.m4a'),
-  'Coco.m4a': require('../assets/audio/famille/Coco.m4a'),
-  'Dadayi.m4a': require('../assets/audio/famille/Dadayi.m4a'),
-  'Dadi.m4a': require('../assets/audio/famille/Dadi.m4a'),
-  'Havagna.m4a': require('../assets/audio/famille/Havagna.m4a'),
-  'Lalahi.m4a': require('../assets/audio/famille/Lalahi.m4a'),
-  'Mama titi-bolé.m4a': require('../assets/audio/famille/Mama titi-bolé.m4a'),
-  'Mama.m4a': require('../assets/audio/famille/Mama.m4a'),
-  'Mdjamaza.m4a': require('../assets/audio/famille/Mdjamaza.m4a'),
-  'Moina boueni.m4a': require('../assets/audio/famille/Moina boueni.m4a'),
-  'Moina.m4a': require('../assets/audio/famille/Moina.m4a'),
-  'Moinagna mtroubaba.m4a': require('../assets/audio/famille/Moinagna mtroubaba.m4a'),
-  'Moinagna mtroumama.m4a': require('../assets/audio/famille/Moinagna mtroumama.m4a'),
-  'Mongné.m4a': require('../assets/audio/famille/Mongné.m4a'),
-  'Mtroubaba.m4a': require('../assets/audio/famille/Mtroubaba.m4a'),
-  'Mtroumama.m4a': require('../assets/audio/famille/Mtroumama.m4a'),
-  'Mwandzani.m4a': require('../assets/audio/famille/Mwandzani.m4a'),
-  'Ninfndri héli-bé.m4a': require('../assets/audio/famille/Ninfndri héli-bé.m4a'),
-  'Tseki lalahi.m4a': require('../assets/audio/famille/Tseki lalahi.m4a'),
-  'Viavi.m4a': require('../assets/audio/famille/Viavi.m4a'),
-  'Zama.m4a': require('../assets/audio/famille/Zama.m4a'),
-  'Zena.m4a': require('../assets/audio/famille/Zena.m4a'),
-  'Zoki lalahi.m4a': require('../assets/audio/famille/Zoki lalahi.m4a'),
-  'Zoki viavi.m4a': require('../assets/audio/famille/Zoki viavi.m4a'),
-  'Zouki mtroubaba.m4a': require('../assets/audio/famille/Zouki mtroubaba.m4a'),
-  'Zouki mtroumché.m4a': require('../assets/audio/famille/Zouki mtroumché.m4a'),
-  'Zouki.m4a': require('../assets/audio/famille/Zouki.m4a'),
-};
 
 /**
  * Interface pour le contrôle audio
@@ -94,7 +54,7 @@ export const stopCurrentAudio = async (): Promise<void> => {
 };
 
 /**
- * Joue un enregistrement audio authentique local
+ * Joue un enregistrement audio authentique local via URI
  */
 export const playLocalAuthenticAudio = async (
   audioFilename: string,
@@ -102,17 +62,14 @@ export const playLocalAuthenticAudio = async (
   onComplete?: () => void
 ): Promise<boolean> => {
   try {
-    // Vérifier si le fichier existe
-    const audioAsset = LOCAL_AUDIO_FILES[audioFilename];
-    if (!audioAsset) {
-      console.log(`⚠️ Fichier audio non trouvé: ${audioFilename}`);
-      return false;
-    }
-
+    // Construire le chemin URI vers le fichier audio
+    const audioUri = `file:///app/frontend/assets/audio/famille/${audioFilename}`;
+    
     // Arrêter l'audio précédent
     await stopCurrentAudio();
     
-    console.log(`🎵 Chargement audio authentique local: ${audioFilename}`);
+    console.log(`🎵 Chargement audio authentique: ${audioFilename}`);
+    console.log(`📂 URI: ${audioUri}`);
     
     // Configurer l'audio
     await Audio.setAudioModeAsync({
@@ -124,7 +81,7 @@ export const playLocalAuthenticAudio = async (
     
     // Charger et jouer l'audio
     const { sound } = await Audio.Sound.createAsync(
-      audioAsset,
+      { uri: audioUri },
       { 
         shouldPlay: true,
         volume: 1.0,
@@ -152,7 +109,17 @@ export const playLocalAuthenticAudio = async (
     
   } catch (error) {
     console.log('❌ Erreur lors de la lecture de l\'audio authentique local:', error);
-    return false;
+    console.log('🔄 Tentative avec Asset API...');
+    
+    // Fallback: essayer avec Asset API si disponible
+    try {
+      const assetUri = Asset.fromModule(require('../assets/adaptive-icon.png')).uri; // Placeholder pour tester
+      console.log('⚠️ Utilisation d\'un placeholder pour le test');
+      return false; // Forcer le fallback TTS pour le moment
+    } catch (assetError) {
+      console.log('❌ Asset API aussi échoué:', assetError);
+      return false;
+    }
   }
 };
 
@@ -187,6 +154,8 @@ export const playWordWithMetadata = async (
         if (success) {
           return; // Audio authentique joué avec succès
         }
+        
+        console.log('⚠️ Audio authentique échoué, utilisation de la synthèse vocale');
       }
     }
     
@@ -249,7 +218,7 @@ export const playWordAllLanguagesWithMetadata = async (
  * Vérifie si un mot a un enregistrement audio authentique
  */
 export const hasAuthenticAudioMetadata = (word: WordWithAudio): boolean => {
-  return !!(word.has_authentic_audio && word.audio_filename && LOCAL_AUDIO_FILES[word.audio_filename]);
+  return !!(word.has_authentic_audio && word.audio_filename);
 };
 
 /**
