@@ -71,7 +71,7 @@ def update_nombres_section():
         client = MongoClient(mongo_url)
         db_name = os.getenv('DB_NAME', 'mayotte_app')
         db = client[db_name]
-        collection = db.vocabulary
+        collection = db.words
         
         # Initialiser la protection de base de données
         db_protection = DatabaseProtector()
