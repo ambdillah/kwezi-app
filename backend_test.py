@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend Test Suite for Mayotte Educational App - Family Section Update Testing
-Tests the family section update with 5 new words and corrections (561 words total)
+Backend Test Suite for Mayotte Educational App - Audio Metadata Integration Testing
+Tests the audio metadata integration for the famille section
 """
 
 import requests
@@ -17,10 +17,10 @@ load_dotenv('/app/frontend/.env')
 BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'http://localhost:8001')
 API_BASE = f"{BACKEND_URL}/api"
 
-print(f"🔍 TESTING FAMILY SECTION UPDATE AT: {API_BASE}")
+print(f"🎵 TESTING AUDIO METADATA INTEGRATION AT: {API_BASE}")
 print("=" * 60)
-print("CONTEXT: Testing family section update with 5 new words and corrections")
-print("EXPECTED: 561 words total (556 + 5 new family words)")
+print("CONTEXT: Testing audio metadata integration for famille section")
+print("EXPECTED: 32 family words with audio metadata (has_authentic_audio: true)")
 print("=" * 60)
 
 class FamilySectionTester:
