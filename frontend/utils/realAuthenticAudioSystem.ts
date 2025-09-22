@@ -322,12 +322,8 @@ export const playWordWithRealAudio = async (
  * Vérifie si un mot a un enregistrement audio authentique
  */
 export const hasRealAuthenticAudio = (word: WordWithAudio): boolean => {
-  if (!word.has_authentic_audio || !word.audio_filename) {
-    return false;
-  }
-  
-  const audioFiles = word.category === 'famille' ? FAMILLE_AUDIO_FILES : NATURE_AUDIO_FILES;
-  return !!(audioFiles[word.audio_filename]);
+  // Vérifier simplement les métadonnées de la base de données
+  return !!(word.has_authentic_audio && word.audio_filename);
 };
 
 /**
