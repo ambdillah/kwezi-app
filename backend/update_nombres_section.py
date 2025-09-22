@@ -96,7 +96,7 @@ def update_nombres_section():
         
         for traduction in nouvelles_traductions:
             francais = traduction["français"]
-            shimatore = traduction["shimaoré"]
+            shimaore = traduction["shimaoré"]
             kibouchi = traduction["kibouchi"]
             
             print(f"🔍 Recherche de '{francais}'...")
@@ -113,12 +113,12 @@ def update_nombres_section():
                 # Mettre à jour le mot existant
                 print(f"   ✏️ Mise à jour existante: {francais}")
                 print(f"      Ancien Shimaoré: {existing_word.get('shimatore', 'N/A')}")
-                print(f"      Nouveau Shimaoré: {shimatore}")
+                print(f"      Nouveau Shimaoré: {shimaore}")
                 print(f"      Ancien Kibouchi: {existing_word.get('kibouchi', 'N/A')}")
                 print(f"      Nouveau Kibouchi: {kibouchi}")
                 
                 update_data = {
-                    "shimatore": shimatore,
+                    "shimatore": shimaore,
                     "kibouchi": kibouchi,
                     "updated_at": datetime.now(),
                     "updated_by": "update_nombres_section_script"
@@ -141,7 +141,7 @@ def update_nombres_section():
                 
                 new_word = {
                     "french": francais,
-                    "shimatore": shimatore,
+                    "shimatore": shimaore,
                     "kibouchi": kibouchi,
                     "category": "Nombres",
                     "emoji": "",  # Pas d'emoji pour les nombres selon les préférences
