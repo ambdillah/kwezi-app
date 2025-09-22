@@ -74,7 +74,7 @@ def update_nombres_section():
         collection = db.vocabulary
         
         # Initialiser la protection de base de données
-        db_protection = DatabaseProtector(db)
+        db_protection = DatabaseProtector()
         
         print(f"🔗 Connexion à MongoDB: {mongo_url}")
         print(f"📊 Base de données: {db_name}")
