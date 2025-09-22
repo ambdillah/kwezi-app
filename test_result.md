@@ -162,6 +162,18 @@ backend:
         agent: "testing"
         comment: "🎉 CONSTRUIRE DES PHRASES GAME BACKEND TESTING COMPLETED SUCCESSFULLY! Comprehensive testing confirmed all functionality is working correctly: ✅ /api/init-sentences endpoint successfully initializes 81 sentences from available verbs ✅ /api/sentences endpoint returns proper sentences (no more empty array) ✅ Sentence structure has all required fields (french, shimaore, kibouchi, tense, difficulty) ✅ Word arrays available for game reconstruction (shimaore_words, kibouchi_words) ✅ Filtering by difficulty works correctly (difficulty 1 and 2) ✅ Filtering by tense works correctly (present, past, future) ✅ Combined filtering (difficulty + tense) works correctly ✅ Sentences are properly conjugated in all three languages ✅ Limit parameter works correctly ✅ Total sentence count is sufficient: 81 sentences (50+ needed for game) ✅ Game loading fix confirmed - 'chargement des phrases' issue completely resolved. 🎮 GAME STATUS: The 'Construire des phrases' game should now work correctly with no more stuck loading screen, sentences available in French, Shimaoré, and Kibouchi, proper difficulty and tense filtering, and complete sentence conjugation system."
 
+  - task: "Database restoration verification after clean backup and 8 new numbers addition"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 DATABASE RESTORATION VERIFICATION COMPLETED SUCCESSFULLY! All requirements from the review request have been systematically tested and verified: ✅ **TOTAL WORD COUNT VERIFIED**: Exactly 556 words found (548 + 8 new numbers as expected) - database correctly restored from clean backup ✅ **NO PYDANTIC ERRORS**: All words have required fields (french, shimaore, kibouchi, category) - no 'Field required shimaore' errors found ✅ **8 NEW NUMBERS ACCESSIBLE**: All 20 numbers (1-20) verified accessible via API including the 8 new additions: un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, onze, douze, treize, quatorze, quinze, seize, dix-sept, dix-huit, dix-neuf, vingt ✅ **MAIN CATEGORIES INTACT**: All 10 expected categories present and functional: salutations (8), famille (20), couleurs (8), animaux (69), nombres (20), corps, grammaire, maison, nourriture, verbes ✅ **DATA STRUCTURE CONSISTENT**: No duplicate French words found - massive duplication issue (2872 words) completely resolved ✅ **API FUNCTIONALITY**: GET /api/words working without errors, category filtering (/api/words?category=nombres) working correctly, individual word access by ID working correctly ✅ **BACKEND CONNECTIVITY**: API responding correctly with proper JSON structure. **CRITICAL SUCCESS**: The database corruption with 2872 words (massive duplication) has been completely resolved. The clean backup restoration was successful, bringing the total to exactly 556 words (548 + 8 new numbers). All Pydantic validation errors have been eliminated, and the database structure is now consistent and functional."
+
   - task: "Database integrity verification after user reports data loss"
     implemented: true
     working: false
