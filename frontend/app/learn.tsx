@@ -84,13 +84,13 @@ export default function LearnScreen() {
     fetchWords();
   }, []);
 
-  const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr', frenchWord?: string) => {
+  const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr', word?: Word) => {
     try {
-      if (frenchWord && language !== 'fr') {
-        // Utiliser le système audio authentique si disponible
-        await playWordAudio(frenchWord, text, language);
+      if (word && language !== 'fr') {
+        // Utiliser le nouveau système audio avec métadonnées
+        await playWordWithMetadata(word, language);
       } else {
-        // Fallback vers la synthèse vocale
+        // Fallback vers la synthèse vocale pour français
         await speakEducationalContent(text, language);
       }
     } catch (error) {
@@ -101,7 +101,7 @@ export default function LearnScreen() {
 
   const speakAllLanguages = async (word: Word) => {
     try {
-      await playWordAllLanguages(word);
+      await playWordAllLanguagesWithMetadata(word);
     } catch (error) {
       console.log('Erreur lors de la lecture de toutes les langues:', error);
       Alert.alert('Info', 'Problème avec la prononciation audio.');
