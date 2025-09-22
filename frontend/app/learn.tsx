@@ -231,7 +231,7 @@ export default function LearnScreen() {
                       <Text style={styles.languageLabel}>Shimaoré:</Text>
                       <Text style={styles.translationText}>{word.shimaore}</Text>
                       <View style={styles.audioButtonContainer}>
-                        {hasAuthenticAudioMetadata(word) && (
+                        {hasRealAuthenticAudio(word) && (
                           <Ionicons name="musical-notes" size={12} color="#FFD700" />
                         )}
                         <Ionicons name="volume-high" size={20} color="#4ECDC4" />
@@ -245,7 +245,7 @@ export default function LearnScreen() {
                       <Text style={styles.languageLabel}>Kibouchi:</Text>
                       <Text style={styles.translationText}>{word.kibouchi}</Text>
                       <View style={styles.audioButtonContainer}>
-                        {hasAuthenticAudioMetadata(word) && (
+                        {hasRealAuthenticAudio(word) && (
                           <Ionicons name="musical-notes" size={12} color="#FFD700" />
                         )}
                         <Ionicons name="volume-high" size={20} color="#FF6B6B" />
