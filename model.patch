@@ -1,22 +1,64 @@
 diff --git a/backend/update_nombres_section.py b/backend/update_nombres_section.py
-index 4058475..b331532 100644
+index f917710..3ed6d8a 100644
 --- a/backend/update_nombres_section.py
 +++ b/backend/update_nombres_section.py
-@@ -16,7 +16,7 @@ sys.path.append('/app/backend')
- # Charger les variables d'environnement
- load_dotenv()
- 
--from database_protection import DatabaseProtection
-+from database_protection import DatabaseProtector
- 
- def update_nombres_section():
-     """Met à jour la section des nombres avec les nouvelles traductions pour les dizaines."""
-@@ -74,7 +74,7 @@ def update_nombres_section():
-         collection = db.vocabulary
+@@ -96,7 +96,7 @@ def update_nombres_section():
          
-         # Initialiser la protection de base de données
--        db_protection = DatabaseProtection(db)
-+        db_protection = DatabaseProtector(db)
-         
-         print(f"🔗 Connexion à MongoDB: {mongo_url}")
-         print(f"📊 Base de données: {db_name}")
+         for traduction in nouvelles_traductions:
+             francais = traduction["français"]
+-            shimatore = traduction["shimaoré"]
++            shimaore = traduction["shimaoré"]
+             kibouchi = traduction["kibouchi"]
+             
+             print(f"🔍 Recherche de '{francais}'...")
+@@ -113,12 +113,12 @@ def update_nombres_section():
+                 # Mettre à jour le mot existant
+                 print(f"   ✏️ Mise à jour existante: {francais}")
+                 print(f"      Ancien Shimaoré: {existing_word.get('shimatore', 'N/A')}")
+-                print(f"      Nouveau Shimaoré: {shimatore}")
++                print(f"      Nouveau Shimaoré: {shimaore}")
+                 print(f"      Ancien Kibouchi: {existing_word.get('kibouchi', 'N/A')}")
+                 print(f"      Nouveau Kibouchi: {kibouchi}")
+                 
+                 update_data = {
+-                    "shimatore": shimatore,
++                    "shimatore": shimaore,
+                     "kibouchi": kibouchi,
+                     "updated_at": datetime.now(),
+                     "updated_by": "update_nombres_section_script"
+@@ -141,7 +141,7 @@ def update_nombres_section():
+                 
+                 new_word = {
+                     "french": francais,
+-                    "shimatore": shimatore,
++                    "shimatore": shimaore,
+                     "kibouchi": kibouchi,
+                     "category": "Nombres",
+                     "emoji": "",  # Pas d'emoji pour les nombres selon les préférences
+diff --git a/model.patch b/model.patch
+index 89c4edc..e69de29 100644
+--- a/model.patch
++++ b/model.patch
+@@ -1,22 +0,0 @@
+-diff --git a/backend/update_nombres_section.py b/backend/update_nombres_section.py
+-index 4058475..b331532 100644
+---- a/backend/update_nombres_section.py
+-+++ b/backend/update_nombres_section.py
+-@@ -16,7 +16,7 @@ sys.path.append('/app/backend')
+- # Charger les variables d'environnement
+- load_dotenv()
+- 
+--from database_protection import DatabaseProtection
+-+from database_protection import DatabaseProtector
+- 
+- def update_nombres_section():
+-     """Met à jour la section des nombres avec les nouvelles traductions pour les dizaines."""
+-@@ -74,7 +74,7 @@ def update_nombres_section():
+-         collection = db.vocabulary
+-         
+-         # Initialiser la protection de base de données
+--        db_protection = DatabaseProtection(db)
+-+        db_protection = DatabaseProtector(db)
+-         
+-         print(f"🔗 Connexion à MongoDB: {mongo_url}")
+-         print(f"📊 Base de données: {db_name}")
