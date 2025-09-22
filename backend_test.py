@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend Test Suite for Mayotte Educational App - Database Restoration Testing
-Tests database restoration and 8 new numbers addition (556 words total)
+Backend Test Suite for Mayotte Educational App - Family Section Update Testing
+Tests the family section update with 5 new words and corrections (561 words total)
 """
 
 import requests
@@ -17,10 +17,10 @@ load_dotenv('/app/frontend/.env')
 BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'http://localhost:8001')
 API_BASE = f"{BACKEND_URL}/api"
 
-print(f"🔍 TESTING DATABASE RESTORATION AT: {API_BASE}")
+print(f"🔍 TESTING FAMILY SECTION UPDATE AT: {API_BASE}")
 print("=" * 60)
-print("CONTEXT: Testing corrected database after restoration from clean backup")
-print("EXPECTED: 556 words total (548 + 8 new numbers)")
+print("CONTEXT: Testing family section update with 5 new words and corrections")
+print("EXPECTED: 561 words total (556 + 5 new family words)")
 print("=" * 60)
 
 class MayotteEducationTester:
