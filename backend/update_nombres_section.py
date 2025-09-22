@@ -112,13 +112,13 @@ def update_nombres_section():
             if existing_word:
                 # Mettre à jour le mot existant
                 print(f"   ✏️ Mise à jour existante: {francais}")
-                print(f"      Ancien Shimaoré: {existing_word.get('shimatore', 'N/A')}")
+                print(f"      Ancien Shimaoré: {existing_word.get('shimaore', 'N/A')}")
                 print(f"      Nouveau Shimaoré: {shimaore}")
                 print(f"      Ancien Kibouchi: {existing_word.get('kibouchi', 'N/A')}")
                 print(f"      Nouveau Kibouchi: {kibouchi}")
                 
                 update_data = {
-                    "shimatore": shimaore,
+                    "shimaore": shimaore,
                     "kibouchi": kibouchi,
                     "updated_at": datetime.now(),
                     "updated_by": "update_nombres_section_script"
