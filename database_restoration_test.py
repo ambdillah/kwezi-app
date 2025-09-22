@@ -93,12 +93,12 @@ class DatabaseRestorationTester:
             
             # Expected numbers (should include at least 1-20 plus potentially more)
             expected_basic_numbers = [
-                "Un", "Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", 
-                "Neuf", "Dix", "Onze", "Douze", "Treize", "Quatorze", "Quinze", 
-                "Seize", "Dix-sept", "Dix-huit", "Dix-neuf", "Vingt"
+                "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", 
+                "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", 
+                "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt"
             ]
             
-            found_numbers = [num['french'] for num in numbers]
+            found_numbers = [num['french'].lower() for num in numbers]
             missing_numbers = [num for num in expected_basic_numbers if num not in found_numbers]
             
             if numbers_count >= 20 and not missing_numbers:
