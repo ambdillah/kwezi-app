@@ -195,7 +195,7 @@ export const stopCurrentAudio = async (): Promise<void> => {
 };
 
 /**
- * Joue un enregistrement audio authentique RÉEL
+ * Joue un enregistrement audio authentique RÉEL via HTTP
  */
 export const playRealAuthenticAudio = async (
   audioFilename: string,
@@ -204,19 +204,14 @@ export const playRealAuthenticAudio = async (
   onComplete?: () => void
 ): Promise<boolean> => {
   try {
-    // Sélectionner le bon dictionnaire selon la catégorie
-    const audioFiles = category === 'famille' ? FAMILLE_AUDIO_FILES : NATURE_AUDIO_FILES;
-    const audioAsset = audioFiles[audioFilename];
+    // Construire l'URL du serveur audio local
+    const audioUrl = `http://localhost:8002/audio/${category}/${audioFilename}`;
     
-    if (!audioAsset) {
-      console.log(`⚠️ Fichier audio non trouvé: ${audioFilename} dans ${category}`);
-      return false;
-    }
-
+    console.log(`🎵 Chargement RÉEL du fichier authentique via HTTP: ${audioFilename} (${category})`);
+    console.log(`🔗 URL: ${audioUrl}`);
+    
     // Arrêter l'audio précédent
     await stopCurrentAudio();
-    
-    console.log(`🎵 Chargement RÉEL du fichier authentique: ${audioFilename} (${category})`);
     
     // Configurer l'audio
     await Audio.setAudioModeAsync({
@@ -226,9 +221,9 @@ export const playRealAuthenticAudio = async (
       shouldDuckAndroid: true,
     });
     
-    // Charger et jouer l'audio
+    // Charger et jouer l'audio via URL HTTP
     const { sound } = await Audio.Sound.createAsync(
-      audioAsset,
+      { uri: audioUrl },
       { 
         shouldPlay: true,
         volume: 1.0,
@@ -248,14 +243,14 @@ export const playRealAuthenticAudio = async (
         sound.unloadAsync();
         currentAudio.sound = null;
         onComplete?.();
-        console.log('✅ Audio authentique RÉEL terminé');
+        console.log('✅ Audio authentique RÉEL HTTP terminé');
       }
     });
     
     return true;
     
   } catch (error) {
-    console.log('❌ Erreur lors de la lecture de l\'audio authentique RÉEL:', error);
+    console.log('❌ Erreur lors de la lecture de l\'audio authentique RÉEL HTTP:', error);
     return false;
   }
 };
