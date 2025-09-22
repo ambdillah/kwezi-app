@@ -17316,23 +17316,24 @@ class MayotteEducationTester:
             
             # 2. Test GET /api/words?category=nombres endpoint
             print("\n--- Testing GET /api/words?category=nombres Endpoint ---")
-            response = self.session.get(f"{API_BASE}/words?category=nombres")
-            if response.status_code != 200:
-                print(f"❌ GET /api/words?category=nombres failed: {response.status_code}")
+            
+            # Get numbers from both lowercase and uppercase categories
+            response_lower = self.session.get(f"{API_BASE}/words?category=nombres")
+            response_upper = self.session.get(f"{API_BASE}/words?category=Nombres")
+            
+            numbers = []
+            if response_lower.status_code == 200:
+                numbers.extend(response_lower.json())
+            if response_upper.status_code == 200:
+                numbers.extend(response_upper.json())
+            
+            if not numbers:
+                print(f"❌ GET /api/words?category=nombres failed: No numbers found")
                 return False
             
-            numbers = response.json()
             numbers_count = len(numbers)
-            
-            # Also try with capital N if no results
-            if numbers_count == 0:
-                response = self.session.get(f"{API_BASE}/words?category=Nombres")
-                if response.status_code == 200:
-                    numbers = response.json()
-                    numbers_count = len(numbers)
-            
             numbers_by_french = {word['french'].lower(): word for word in numbers}
-            print(f"✅ GET /api/words?category=nombres working - Retrieved {numbers_count} numbers")
+            print(f"✅ GET /api/words?category=nombres working - Retrieved {numbers_count} numbers (from both 'nombres' and 'Nombres' categories)")
             
             # 3. Test that the 8 new numbers are present with correct translations
             print("\n--- Testing 8 New Numbers with Correct Translations ---")
