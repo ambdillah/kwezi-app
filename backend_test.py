@@ -17297,12 +17297,219 @@ class MayotteEducationTester:
             print(f"❌ Badge and progress system test error: {e}")
             return False
 
+    def test_updated_numbers_section_with_new_additions(self):
+        """Test the updated numbers section with 8 new numbers (trente to cent)"""
+        print("\n=== Testing Updated Numbers Section with New Additions ===")
+        print("CRITICAL TESTING: 8 new numbers added to reach 556+ total words")
+        
+        try:
+            # 1. Test GET /api/words endpoint
+            print("\n--- Testing GET /api/words Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words")
+            if response.status_code != 200:
+                print(f"❌ GET /api/words failed: {response.status_code}")
+                return False
+            
+            all_words = response.json()
+            total_word_count = len(all_words)
+            print(f"✅ GET /api/words working - Retrieved {total_word_count} words")
+            
+            # 2. Test GET /api/words?category=nombres endpoint
+            print("\n--- Testing GET /api/words?category=nombres Endpoint ---")
+            response = self.session.get(f"{API_BASE}/words?category=nombres")
+            if response.status_code != 200:
+                print(f"❌ GET /api/words?category=nombres failed: {response.status_code}")
+                return False
+            
+            numbers = response.json()
+            numbers_count = len(numbers)
+            numbers_by_french = {word['french'].lower(): word for word in numbers}
+            print(f"✅ GET /api/words?category=nombres working - Retrieved {numbers_count} numbers")
+            
+            # 3. Test that the 8 new numbers are present with correct translations
+            print("\n--- Testing 8 New Numbers with Correct Translations ---")
+            
+            expected_new_numbers = {
+                "trente": {"shimaore": "thalathini", "kibouchi": "téloumpoulou"},
+                "quarante": {"shimaore": "arbahini", "kibouchi": "éfampoulou"},
+                "cinquante": {"shimaore": "hamssini", "kibouchi": "dimimpoulou"},
+                "soixante": {"shimaore": "sitini", "kibouchi": "tchoutampoulou"},
+                "soixante-dix": {"shimaore": "sabouini", "kibouchi": "fitoumpoulou"},
+                "quatre-vingts": {"shimaore": "thamanini", "kibouchi": "valoumpoulou"},
+                "quatre-vingt-dix": {"shimaore": "toussuini", "kibouchi": "civiampulou"},
+                "cent": {"shimaore": "miya", "kibouchi": "zatou"}
+            }
+            
+            new_numbers_found = 0
+            all_new_numbers_correct = True
+            
+            for french_number, expected_translations in expected_new_numbers.items():
+                if french_number in numbers_by_french:
+                    word = numbers_by_french[french_number]
+                    
+                    # Check shimaoré translation
+                    shimaore_correct = word['shimaore'].lower() == expected_translations['shimaore'].lower()
+                    # Check kibouchi translation
+                    kibouchi_correct = word['kibouchi'].lower() == expected_translations['kibouchi'].lower()
+                    # Check category
+                    category_correct = word['category'].lower() == 'nombres'
+                    
+                    if shimaore_correct and kibouchi_correct and category_correct:
+                        print(f"✅ {french_number}: shimaoré='{word['shimaore']}', kibouchi='{word['kibouchi']}'")
+                        new_numbers_found += 1
+                    else:
+                        print(f"❌ {french_number}: Translation mismatch")
+                        if not shimaore_correct:
+                            print(f"   Shimaoré: Expected '{expected_translations['shimaore']}', got '{word['shimaore']}'")
+                        if not kibouchi_correct:
+                            print(f"   Kibouchi: Expected '{expected_translations['kibouchi']}', got '{word['kibouchi']}'")
+                        if not category_correct:
+                            print(f"   Category: Expected 'nombres', got '{word['category']}'")
+                        all_new_numbers_correct = False
+                else:
+                    print(f"❌ {french_number}: Not found in database")
+                    all_new_numbers_correct = False
+            
+            print(f"\n📊 New Numbers Summary: {new_numbers_found}/8 new numbers found and verified")
+            
+            # 4. Test that database contains more than 548 words (548 + 8 = 556)
+            print("\n--- Testing Total Word Count (Should be 556+ words) ---")
+            
+            expected_minimum = 556
+            if total_word_count >= expected_minimum:
+                print(f"✅ Total word count: {total_word_count} words (≥ {expected_minimum} required)")
+                word_count_sufficient = True
+            else:
+                print(f"❌ Total word count: {total_word_count} words (< {expected_minimum} required)")
+                word_count_sufficient = False
+            
+            # 5. Test that all other endpoints still work correctly
+            print("\n--- Testing Other Endpoints Still Work Correctly ---")
+            
+            other_endpoints_working = True
+            endpoints_to_test = [
+                ("/words?category=famille", "Family words"),
+                ("/words?category=couleurs", "Color words"),
+                ("/words?category=animaux", "Animal words"),
+                ("/words?category=verbes", "Verb words"),
+                ("/exercises", "Exercises"),
+                ("/sentences", "Sentences")
+            ]
+            
+            for endpoint, description in endpoints_to_test:
+                try:
+                    response = self.session.get(f"{API_BASE}{endpoint}")
+                    if response.status_code == 200:
+                        data = response.json()
+                        count = len(data) if isinstance(data, list) else "N/A"
+                        print(f"✅ {endpoint}: {description} - {count} items")
+                    else:
+                        print(f"❌ {endpoint}: Failed with status {response.status_code}")
+                        other_endpoints_working = False
+                except Exception as e:
+                    print(f"❌ {endpoint}: Error - {str(e)}")
+                    other_endpoints_working = False
+            
+            # 6. Test numbers structure and integrity
+            print("\n--- Testing Numbers Structure and Integrity ---")
+            
+            structure_valid = True
+            required_fields = ['french', 'shimaore', 'kibouchi', 'category']
+            
+            for i, number in enumerate(numbers[:5]):  # Test first 5 numbers
+                missing_fields = []
+                for field in required_fields:
+                    if field not in number or not number[field]:
+                        missing_fields.append(field)
+                
+                if missing_fields:
+                    print(f"❌ Number #{i+1} ({number.get('french', 'Unknown')}): Missing fields: {missing_fields}")
+                    structure_valid = False
+                else:
+                    # Verify category is 'nombres'
+                    if number['category'].lower() != 'nombres':
+                        print(f"❌ Number #{i+1} ({number['french']}): Wrong category: {number['category']}")
+                        structure_valid = False
+            
+            if structure_valid:
+                print("✅ Numbers structure validation passed")
+            
+            # 7. Test that existing numbers (1-20) are still present
+            print("\n--- Testing Existing Numbers (1-20) Still Present ---")
+            
+            basic_numbers = ["un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix",
+                           "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt"]
+            
+            existing_numbers_present = True
+            existing_found = 0
+            
+            for basic_number in basic_numbers:
+                if basic_number in numbers_by_french:
+                    existing_found += 1
+                else:
+                    print(f"❌ Basic number missing: {basic_number}")
+                    existing_numbers_present = False
+            
+            if existing_numbers_present:
+                print(f"✅ All existing numbers (1-20) still present: {existing_found}/20 found")
+            else:
+                print(f"❌ Some existing numbers missing: {existing_found}/20 found")
+            
+            # Overall result
+            all_tests_passed = (
+                all_new_numbers_correct and
+                word_count_sufficient and
+                other_endpoints_working and
+                structure_valid and
+                existing_numbers_present
+            )
+            
+            if all_tests_passed:
+                print("\n🎉 UPDATED NUMBERS SECTION TESTING COMPLETED SUCCESSFULLY!")
+                print("✅ GET /api/words endpoint working correctly")
+                print("✅ GET /api/words?category=nombres endpoint working correctly")
+                print("✅ All 8 new numbers present with correct translations:")
+                print("   - trente (shimaoré: thalathini, kibouchi: téloumpoulou)")
+                print("   - quarante (shimaoré: arbahini, kibouchi: éfampoulou)")
+                print("   - cinquante (shimaoré: hamssini, kibouchi: dimimpoulou)")
+                print("   - soixante (shimaoré: sitini, kibouchi: tchoutampoulou)")
+                print("   - soixante-dix (shimaoré: sabouini, kibouchi: fitoumpoulou)")
+                print("   - quatre-vingts (shimaoré: thamanini, kibouchi: valoumpoulou)")
+                print("   - quatre-vingt-dix (shimaoré: toussuini, kibouchi: civiampulou)")
+                print("   - cent (shimaoré: miya, kibouchi: zatou)")
+                print(f"✅ Database now contains {total_word_count} words (≥ 556 required)")
+                print("✅ All other endpoints still working correctly")
+                print("✅ Numbers structure and integrity verified")
+                print("✅ Existing numbers (1-20) still present")
+                print("✅ Updated numbers section implementation is complete and functional!")
+            else:
+                print("\n❌ UPDATED NUMBERS SECTION TESTING FAILED!")
+                if not all_new_numbers_correct:
+                    print("❌ Some new numbers missing or have incorrect translations")
+                if not word_count_sufficient:
+                    print("❌ Total word count insufficient")
+                if not other_endpoints_working:
+                    print("❌ Some other endpoints not working")
+                if not structure_valid:
+                    print("❌ Numbers structure validation failed")
+                if not existing_numbers_present:
+                    print("❌ Some existing numbers missing")
+            
+            return all_tests_passed
+            
+        except Exception as e:
+            print(f"❌ Updated numbers section testing error: {e}")
+            return False
+
     def run_all_tests(self):
         """Run all backend tests including the critical database integrity verification"""
         print("🚀 Starting Mayotte Educational App Backend Testing Suite")
         print("=" * 80)
         
         test_results = []
+        
+        # PRIORITY TEST FOR REVIEW REQUEST - UPDATED NUMBERS SECTION
+        test_results.append(("🎯 UPDATED NUMBERS SECTION WITH NEW ADDITIONS", self.test_updated_numbers_section_with_new_additions()))
         
         # CRITICAL: Database integrity verification first (user reports data loss)
         test_results.append(("🚨 DATABASE INTEGRITY VERIFICATION", self.test_database_integrity_verification()))
