@@ -87,8 +87,8 @@ export default function LearnScreen() {
   const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr', word?: Word) => {
     try {
       if (word && language !== 'fr') {
-        // Utiliser le nouveau système audio avec métadonnées
-        await playWordWithMetadata(word, language);
+        // Utiliser le nouveau système audio RÉEL avec fichiers locaux
+        await playWordWithRealAudio(word, language);
       } else {
         // Fallback vers la synthèse vocale pour français
         await speakEducationalContent(text, language);
@@ -101,7 +101,16 @@ export default function LearnScreen() {
 
   const speakAllLanguages = async (word: Word) => {
     try {
-      await playWordAllLanguagesWithMetadata(word);
+      // Français
+      await speakEducationalContent(word.french, 'fr');
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Shimaoré
+      await playWordWithRealAudio(word, 'shimaore');
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Kibouchi
+      await playWordWithRealAudio(word, 'kibouchi');
     } catch (error) {
       console.log('Erreur lors de la lecture de toutes les langues:', error);
       Alert.alert('Info', 'Problème avec la prononciation audio.');
