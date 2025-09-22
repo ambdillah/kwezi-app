@@ -25,6 +25,12 @@ interface Word {
   category: string;
   difficulty: number;
   image_url?: string;
+  // Nouveaux champs audio
+  has_authentic_audio?: boolean;
+  audio_filename?: string;
+  audio_pronunciation_lang?: string;
+  audio_source?: string;
+  audio_updated_at?: string;
 }
 
 const CATEGORIES = [
