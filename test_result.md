@@ -1311,7 +1311,7 @@ agent_communication:
 
 test_plan:
   current_focus:
-    - "Specific corrections from user's correction table (34 corrected words)"
+    - "Audio metadata integration for famille section (32 words with has_authentic_audio)"
   stuck_tasks:
     - "Specific corrections from user's correction table (34 corrected words)"
   test_all: false
