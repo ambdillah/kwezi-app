@@ -15,7 +15,7 @@ import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { speakWithMasculineVoice, testMasculineVoice } from '../utils/simpleMasculineVoice';
 import { playWordAudio, playWordAllLanguages, hasAuthenticAudio } from '../utils/authenticAudioSystem';
-import { playWordWithMetadata, hasAuthenticAudioMetadata, getWordAudioInfo, playWordAllLanguagesWithMetadata } from '../utils/dynamicAudioSystem';
+import { playWordWithRealAudio, hasRealAuthenticAudio, getRealAudioInfo } from '../utils/realAuthenticAudioSystem';
 import YlangYlangFlower from '../components/YlangYlangFlower';
 
 interface Word {
