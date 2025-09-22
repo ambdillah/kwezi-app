@@ -1,12 +1,10 @@
 /**
- * SYSTÈME AUDIO DYNAMIQUE
- * ========================
- * Utilise les métadonnées de la base de données pour jouer
- * les enregistrements audio authentiques ou la synthèse vocale
+ * SYSTÈME AUDIO DYNAMIQUE - VERSION CORRIGÉE
+ * ============================================
+ * Utilise l'ancien système audio fonctionnel avec les nouvelles métadonnées
  */
 
 import { Audio } from 'expo-av';
-import { Asset } from 'expo-asset';
 import { speakText } from './speechUtils';
 
 export type AudioLanguage = 'fr' | 'shimaore' | 'kibouchi';
@@ -22,6 +20,43 @@ interface WordWithAudio {
   audio_pronunciation_lang?: string;
   audio_source?: string;
 }
+
+/**
+ * Mapping vers l'ancien système audio qui fonctionne
+ * Utilise les URLs distantes de l'ancien système qui fonctionnaient
+ */
+const FAMILLE_AUDIO_MAPPING: { [key: string]: { [key: string]: string } } = {
+  'papa': {
+    'shimaore': 'https://customer-assets.emergentagent.com/job_4a14c8f2-84cf-4ceb-96bb-f2064afeeb42/artifacts/cr57ryqz_Baba%20s.m4a',
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_4a14c8f2-84cf-4ceb-96bb-f2064afeeb42/artifacts/qdc3kyos_Baba%20k.m4a'
+  },
+  'frère': {
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_4a14c8f2-84cf-4ceb-96bb-f2064afeeb42/artifacts/5ppmqe8p_Anadahi.m4a'
+  },
+  'sœur': {
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_4a14c8f2-84cf-4ceb-96bb-f2064afeeb42/artifacts/f5qkf8pn_Anabavi.m4a'
+  },
+  'grand-père': {
+    'shimaore': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/vk9s6gu0_Bacoco.m4a',
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/k0uxar3d_Dadayi.m4a'
+  },
+  'grand-mère': {
+    'shimaore': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/9kkagt8k_Coco.m4a',
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/8zi55srs_Dadi.m4a'
+  },
+  'madame': {
+    'shimaore': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/1q9481sa_Bweni.m4a'
+  },
+  'famille': {
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/rtg5n6mp_Havagna.m4a'
+  },
+  'homme': {
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/cc6ge3l3_Lalahi.m4a'
+  },
+  'monsieur': {
+    'kibouchi': 'https://customer-assets.emergentagent.com/job_c7e31f8c-473e-4b2f-bab2-dc500a14de15/artifacts/cc6ge3l3_Lalahi.m4a'
+  }
+};
 
 /**
  * Interface pour le contrôle audio
@@ -54,22 +89,18 @@ export const stopCurrentAudio = async (): Promise<void> => {
 };
 
 /**
- * Joue un enregistrement audio authentique local via URI
+ * Joue un enregistrement audio authentique depuis une URL
  */
-export const playLocalAuthenticAudio = async (
-  audioFilename: string,
+export const playAuthenticAudio = async (
+  audioUrl: string,
   onStart?: () => void,
   onComplete?: () => void
 ): Promise<boolean> => {
   try {
-    // Construire le chemin URI vers le fichier audio
-    const audioUri = `file:///app/frontend/assets/audio/famille/${audioFilename}`;
-    
     // Arrêter l'audio précédent
     await stopCurrentAudio();
     
-    console.log(`🎵 Chargement audio authentique: ${audioFilename}`);
-    console.log(`📂 URI: ${audioUri}`);
+    console.log(`🎵 Chargement audio authentique: ${audioUrl}`);
     
     // Configurer l'audio
     await Audio.setAudioModeAsync({
@@ -81,7 +112,7 @@ export const playLocalAuthenticAudio = async (
     
     // Charger et jouer l'audio
     const { sound } = await Audio.Sound.createAsync(
-      { uri: audioUri },
+      { uri: audioUrl },
       { 
         shouldPlay: true,
         volume: 1.0,
@@ -101,30 +132,20 @@ export const playLocalAuthenticAudio = async (
         sound.unloadAsync();
         currentAudio.sound = null;
         onComplete?.();
-        console.log('✅ Audio authentique local terminé');
+        console.log('✅ Audio authentique terminé');
       }
     });
     
     return true;
     
   } catch (error) {
-    console.log('❌ Erreur lors de la lecture de l\'audio authentique local:', error);
-    console.log('🔄 Tentative avec Asset API...');
-    
-    // Fallback: essayer avec Asset API si disponible
-    try {
-      const assetUri = Asset.fromModule(require('../assets/adaptive-icon.png')).uri; // Placeholder pour tester
-      console.log('⚠️ Utilisation d\'un placeholder pour le test');
-      return false; // Forcer le fallback TTS pour le moment
-    } catch (assetError) {
-      console.log('❌ Asset API aussi échoué:', assetError);
-      return false;
-    }
+    console.log('❌ Erreur lors de la lecture de l\'audio authentique:', error);
+    return false;
   }
 };
 
 /**
- * Fonction principale pour jouer un mot avec les nouvelles métadonnées
+ * Fonction principale pour jouer un mot avec les métadonnées
  */
 export const playWordWithMetadata = async (
   word: WordWithAudio,
@@ -133,9 +154,25 @@ export const playWordWithMetadata = async (
   onComplete?: () => void
 ): Promise<void> => {
   try {
-    // Vérifier s'il existe un audio authentique pour ce mot
+    // Vérifier d'abord l'ancien système qui fonctionne
+    const audioMapping = FAMILLE_AUDIO_MAPPING[word.french.toLowerCase()];
+    
+    if (audioMapping && audioMapping[language]) {
+      console.log(`🎯 Audio authentique trouvé (ancien système) pour "${word.french}" en ${language}`);
+      
+      const success = await playAuthenticAudio(
+        audioMapping[language],
+        onStart,
+        onComplete
+      );
+      
+      if (success) {
+        return; // Audio authentique joué avec succès
+      }
+    }
+    
+    // Vérifier le nouveau système avec métadonnées
     if (word.has_authentic_audio && word.audio_filename) {
-      // Vérifier si la langue correspond
       const shouldUseAuthentic = 
         word.audio_pronunciation_lang === 'both' ||
         word.audio_pronunciation_lang === language ||
@@ -143,19 +180,10 @@ export const playWordWithMetadata = async (
         (word.audio_pronunciation_lang === 'shimaore' && language === 'shimaore');
 
       if (shouldUseAuthentic) {
-        console.log(`🎯 Audio authentique trouvé pour "${word.french}" (${word.audio_filename})`);
+        console.log(`🎯 Audio authentique trouvé (nouveau système) pour "${word.french}" (${word.audio_filename})`);
         
-        const success = await playLocalAuthenticAudio(
-          word.audio_filename,
-          onStart,
-          onComplete
-        );
-        
-        if (success) {
-          return; // Audio authentique joué avec succès
-        }
-        
-        console.log('⚠️ Audio authentique échoué, utilisation de la synthèse vocale');
+        // Pour le moment, utiliser fallback TTS car les fichiers locaux ne fonctionnent pas encore
+        console.log('⚠️ Fichiers locaux pas encore supportés, utilisation TTS');
       }
     }
     
@@ -218,6 +246,13 @@ export const playWordAllLanguagesWithMetadata = async (
  * Vérifie si un mot a un enregistrement audio authentique
  */
 export const hasAuthenticAudioMetadata = (word: WordWithAudio): boolean => {
+  // Vérifier l'ancien système d'abord
+  const audioMapping = FAMILLE_AUDIO_MAPPING[word.french.toLowerCase()];
+  if (audioMapping && (audioMapping['shimaore'] || audioMapping['kibouchi'])) {
+    return true;
+  }
+  
+  // Vérifier le nouveau système
   return !!(word.has_authentic_audio && word.audio_filename);
 };
 
