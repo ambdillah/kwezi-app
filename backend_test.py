@@ -346,15 +346,33 @@ class CompleteAudioMetadataTester:
         # Run all test suites
         test_results = []
         
-        test_results.append(self.test_famille_section_coverage())
-        test_results.append(self.test_nature_section_coverage())
-        test_results.append(self.test_api_endpoints())
-        test_results.append(self.test_metadata_validation())
+        result1 = self.test_famille_section_coverage()
+        test_results.append(result1)
+        print(f"DEBUG: famille_section_coverage returned: {result1}")
+        
+        result2 = self.test_nature_section_coverage()
+        test_results.append(result2)
+        print(f"DEBUG: nature_section_coverage returned: {result2}")
+        
+        result3 = self.test_api_endpoints()
+        test_results.append(result3)
+        print(f"DEBUG: api_endpoints returned: {result3}")
+        
+        result4 = self.test_metadata_validation()
+        test_results.append(result4)
+        print(f"DEBUG: metadata_validation returned: {result4}")
+        
+        print(f"DEBUG: test_results = {test_results}")
+        print(f"DEBUG: all(test_results) = {all(test_results)}")
         
         # Generate summary
         overall_success = self.generate_summary()
+        print(f"DEBUG: generate_summary returned: {overall_success}")
         
-        return all(test_results) and overall_success
+        final_result = all(test_results) and overall_success
+        print(f"DEBUG: final_result = {final_result}")
+        
+        return final_result
 
     def generate_summary(self):
         """Generate comprehensive test summary"""
