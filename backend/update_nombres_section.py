@@ -16,7 +16,7 @@ sys.path.append('/app/backend')
 # Charger les variables d'environnement
 load_dotenv()
 
-from database_protection import DatabaseProtection
+from database_protection import DatabaseProtector
 
 def update_nombres_section():
     """Met à jour la section des nombres avec les nouvelles traductions pour les dizaines."""
@@ -74,7 +74,7 @@ def update_nombres_section():
         collection = db.vocabulary
         
         # Initialiser la protection de base de données
-        db_protection = DatabaseProtection(db)
+        db_protection = DatabaseProtector(db)
         
         print(f"🔗 Connexion à MongoDB: {mongo_url}")
         print(f"📊 Base de données: {db_name}")
