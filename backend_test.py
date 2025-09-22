@@ -348,9 +348,9 @@ class CompleteAudioMetadataTester:
         test_results.append(self.test_metadata_validation())
         
         # Generate summary
-        self.generate_summary()
+        overall_success = self.generate_summary()
         
-        return all(test_results)
+        return all(test_results) and overall_success
 
     def generate_summary(self):
         """Generate comprehensive test summary"""
