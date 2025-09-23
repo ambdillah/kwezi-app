@@ -1,29 +1,26 @@
 #!/usr/bin/env python3
 """
-Backend Test Suite for Mayotte Educational App - Complete Audio Metadata Integration Testing
-Tests the complete audio metadata integration for famille and nature sections
-Based on French review request: Testing famille (88% coverage) and nature (100% coverage)
+Test du nouveau système audio dual restructuré pour la section famille
+Test des exigences du review request français
 """
 
 import requests
 import json
+import sys
 import os
-from dotenv import load_dotenv
-import time
+from datetime import datetime
 
-# Load environment variables
-load_dotenv('/app/frontend/.env')
-
-# Get backend URL from environment
-BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'http://localhost:8001')
+# Configuration de l'URL backend depuis les variables d'environnement
+BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://dual-language-app.preview.emergentagent.com')
 API_BASE = f"{BACKEND_URL}/api"
 
-print(f"🎵 TESTING COMPLETE AUDIO METADATA INTEGRATION AT: {API_BASE}")
+print(f"🎵 TESTING NOUVEAU SYSTÈME AUDIO DUAL RESTRUCTURÉ AT: {API_BASE}")
 print("=" * 80)
-print("CONTEXT: Testing complete audio metadata integration for famille and nature sections")
-print("FAMILLE SECTION: 88% coverage expected (22/25 words with has_authentic_audio: true)")
-print("NATURE SECTION: 100% coverage expected (49/49 words with has_authentic_audio: true)")
-print("TESTING: API endpoints, metadata fields, language consistency, sources")
+print("CONTEXT: Test du nouveau système audio dual pour la section famille")
+print("REQUIREMENTS: Champs dual_audio_system, shimoare_has_audio, kibouchi_has_audio")
+print("ENDPOINTS: /api/words/{word_id}/audio-info, /api/words/{word_id}/audio/{lang}")
+print("SPECIFIC TESTS: papa (Baba s.m4a + Baba k.m4a), famille (Mdjamaza.m4a + Havagna.m4a)")
+print("VALIDATION: Deux prononciations authentiques distinctes par mot")
 print("=" * 80)
 
 class CompleteAudioMetadataTester:
