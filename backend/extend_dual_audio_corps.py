@@ -113,10 +113,10 @@ def extend_dual_audio_system_corps():
             
             # Mise à jour des champs audio
             update_data = {
-                "shimaore_audio_filename": shimaore_file,
-                "has_shimaore_audio": True,
+                "shimoare_audio_filename": shimaore_file,
+                "shimoare_has_audio": True,
                 "kibouchi_audio_filename": kibouchi_file,
-                "has_kibouchi_audio": True,
+                "kibouchi_has_audio": True,
                 "dual_audio_system": True,
                 "audio_category": "corps"
             }
