@@ -1006,6 +1006,26 @@ async def get_animaux_audio(filename: str):
         headers={"Content-Disposition": f"inline; filename={filename}"}
     )
 
+@app.get("/api/audio/corps/{filename}")
+async def get_corps_audio(filename: str):
+    """Sert un fichier audio corps"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/corps", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio corps non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
 @app.get("/api/audio/info")
 async def get_audio_info():
     """Information sur les fichiers audio disponibles"""
@@ -1015,6 +1035,7 @@ async def get_audio_info():
     nature_dir = "/app/frontend/assets/audio/nature"
     nombres_dir = "/app/frontend/assets/audio/nombres"
     animaux_dir = "/app/frontend/assets/audio/animaux"
+    corps_dir = "/app/frontend/assets/audio/corps"
     
     famille_files = []
     nature_files = []
