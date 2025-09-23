@@ -1,341 +1,475 @@
 #!/usr/bin/env python3
 """
-Test du système audio dual étendu pour TOUTES les catégories
-Test complet pour vérifier l'extension du système dual aux catégories nature, nombres, et animaux
+Backend Testing Suite for Mayotte Language Learning API
+Focus: "Construire des phrases" game bug fix verification
+
+This test suite specifically addresses the user's reported issue:
+- Game was showing only sentences with verb "abimer" 
+- Lack of variety in sentence construction
+- Need to verify random mixing and increased default limit
+
+Test Requirements from Review Request:
+1. Variété des verbes: Different verbs in sentences (not just "abimer")
+2. Mélange aléatoire: Order changes between calls
+3. Limite par défaut: 20 sentences by default (not 10)
+4. Filtrage par difficulté: difficulty=1, difficulty=2 work with mixing
+5. Filtrage par temps: tense filters work (present/past/future)
+6. Structure des phrases: All required fields present
+7. Nombre total: 675 sentences total in database
+8. Performance: Mixing doesn't affect performance significantly
 """
 
 import requests
 import json
+import time
+from typing import List, Dict, Any
+import os
 import sys
-from typing import Dict, List, Any
+from collections import Counter
 
-# Configuration de l'URL de base
-BASE_URL = "https://mayotte-learn-2.preview.emergentagent.com/api"
+# Get backend URL from environment
+BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://mayotte-learn-2.preview.emergentagent.com')
+API_BASE = f"{BACKEND_URL}/api"
 
-class DualAudioSystemTester:
+class SentenceGameTester:
     def __init__(self):
-        self.results = {
-            "total_tests": 0,
-            "passed": 0,
-            "failed": 0,
-            "errors": []
-        }
+        self.api_base = API_BASE
+        self.test_results = []
+        self.total_tests = 0
+        self.passed_tests = 0
         
-    def log_test(self, test_name: str, passed: bool, message: str = ""):
-        """Enregistre le résultat d'un test"""
-        self.results["total_tests"] += 1
+    def log_test(self, test_name: str, passed: bool, details: str = ""):
+        """Log test result"""
+        self.total_tests += 1
         if passed:
-            self.results["passed"] += 1
-            print(f"✅ {test_name}: PASSED {message}")
+            self.passed_tests += 1
+            status = "✅ PASS"
         else:
-            self.results["failed"] += 1
-            error_msg = f"❌ {test_name}: FAILED {message}"
-            print(error_msg)
-            self.results["errors"].append(error_msg)
-    
-    def test_new_audio_endpoints(self):
-        """Test 1: Vérifier les nouveaux endpoints audio"""
-        print("\n🎵 TEST 1: NOUVEAUX ENDPOINTS AUDIO")
+            status = "❌ FAIL"
         
-        # Test GET /api/audio/nombres/{filename}
+        result = f"{status}: {test_name}"
+        if details:
+            result += f" - {details}"
+        
+        self.test_results.append(result)
+        print(result)
+        
+    def test_api_connectivity(self):
+        """Test basic API connectivity"""
         try:
-            response = requests.get(f"{BASE_URL}/audio/nombres/Moja.m4a")
-            self.log_test("Endpoint /api/audio/nombres/{filename}", 
-                         response.status_code in [200, 404], 
+            response = requests.get(f"{self.api_base}/../", timeout=10)
+            self.log_test("API Connectivity", response.status_code == 200, 
                          f"Status: {response.status_code}")
+            return response.status_code == 200
         except Exception as e:
-            self.log_test("Endpoint /api/audio/nombres/{filename}", False, f"Error: {e}")
-        
-        # Test GET /api/audio/animaux/{filename}
-        try:
-            response = requests.get(f"{BASE_URL}/audio/animaux/Paha.m4a")
-            self.log_test("Endpoint /api/audio/animaux/{filename}", 
-                         response.status_code in [200, 404], 
-                         f"Status: {response.status_code}")
-        except Exception as e:
-            self.log_test("Endpoint /api/audio/animaux/{filename}", False, f"Error: {e}")
-        
-        # Test GET /api/audio/info - doit retourner 4 catégories
-        try:
-            response = requests.get(f"{BASE_URL}/audio/info")
-            if response.status_code == 200:
-                data = response.json()
-                categories = ["famille", "nature", "nombres", "animaux"]
-                has_all_categories = all(cat in data for cat in categories)
-                self.log_test("Endpoint /api/audio/info retourne 4 catégories", 
-                             has_all_categories, 
-                             f"Catégories trouvées: {list(data.keys())}")
-                
-                # Vérifier les endpoints dans la réponse
-                if "endpoints" in data:
-                    expected_endpoints = {
-                        "famille": "/api/audio/famille/{filename}",
-                        "nature": "/api/audio/nature/{filename}",
-                        "nombres": "/api/audio/nombres/{filename}",
-                        "animaux": "/api/audio/animaux/{filename}"
-                    }
-                    endpoints_match = all(
-                        data["endpoints"].get(cat) == expected_endpoints[cat] 
-                        for cat in expected_endpoints
-                    )
-                    self.log_test("Endpoints corrects dans /api/audio/info", 
-                                 endpoints_match, 
-                                 f"Endpoints: {data.get('endpoints', {})}")
-            else:
-                self.log_test("Endpoint /api/audio/info", False, f"Status: {response.status_code}")
-        except Exception as e:
-            self.log_test("Endpoint /api/audio/info", False, f"Error: {e}")
+            self.log_test("API Connectivity", False, f"Error: {str(e)}")
+            return False
     
-    def test_dual_system_extension(self):
-        """Test 2: Vérifier l'extension du système dual aux nouvelles catégories"""
-        print("\n🔄 TEST 2: EXTENSION SYSTÈME DUAL")
-        
-        categories_to_test = ["nature", "nombres", "animaux"]
-        expected_counts = {"nature": 49, "nombres": 20, "animaux": 69}
-        
-        for category in categories_to_test:
-            try:
-                # Récupérer les mots de la catégorie
-                response = requests.get(f"{BASE_URL}/words", params={"category": category})
-                if response.status_code == 200:
-                    words = response.json()
-                    
-                    # Vérifier le nombre de mots
-                    word_count = len(words)
-                    expected_count = expected_counts[category]
-                    self.log_test(f"Nombre de mots {category}", 
-                                 word_count >= expected_count * 0.8,  # Tolérance de 20%
-                                 f"Trouvé: {word_count}, Attendu: ~{expected_count}")
-                    
-                    # Compter les mots avec dual_audio_system: true
-                    dual_system_words = [w for w in words if w.get("dual_audio_system", False)]
-                    dual_count = len(dual_system_words)
-                    
-                    self.log_test(f"Mots {category} avec dual_audio_system: true", 
-                                 dual_count > 0, 
-                                 f"Trouvé: {dual_count}/{word_count} mots avec système dual")
-                    
-                    # Tester quelques mots spécifiques si disponibles
-                    if dual_system_words:
-                        test_word = dual_system_words[0]
-                        word_id = test_word.get("id")
-                        if word_id:
-                            self.test_word_dual_audio(word_id, test_word.get("french", ""), category)
-                
-                else:
-                    self.log_test(f"Récupération mots {category}", False, f"Status: {response.status_code}")
-            except Exception as e:
-                self.log_test(f"Test catégorie {category}", False, f"Error: {e}")
-    
-    def test_word_dual_audio(self, word_id: str, french_word: str, category: str):
-        """Test les endpoints audio dual pour un mot spécifique"""
+    def test_sentences_endpoint_basic(self):
+        """Test basic sentences endpoint functionality"""
         try:
-            # Test GET /api/words/{id}/audio-info
-            response = requests.get(f"{BASE_URL}/words/{word_id}/audio-info")
-            if response.status_code == 200:
-                data = response.json()
-                has_dual_system = data.get("dual_audio_system", False)
-                self.log_test(f"Audio-info pour '{french_word}' ({category})", 
-                             has_dual_system, 
-                             f"dual_audio_system: {has_dual_system}")
-                
-                # Test des endpoints audio par langue
-                for lang in ["shimaore", "kibouchi"]:
-                    audio_info = data.get("audio", {}).get(lang, {})
-                    has_audio = audio_info.get("has_audio", False)
-                    
-                    if has_audio:
-                        # Tester l'endpoint audio
-                        audio_response = requests.get(f"{BASE_URL}/words/{word_id}/audio/{lang}")
-                        self.log_test(f"Audio {lang} pour '{french_word}'", 
-                                     audio_response.status_code in [200, 404], 
-                                     f"Status: {audio_response.status_code}")
-            else:
-                self.log_test(f"Audio-info pour '{french_word}'", False, f"Status: {response.status_code}")
-        except Exception as e:
-            self.log_test(f"Test audio dual pour '{french_word}'", False, f"Error: {e}")
-    
-    def test_specific_words(self):
-        """Test 3: Tester les mots spécifiques mentionnés dans la demande"""
-        print("\n🎯 TEST 3: MOTS SPÉCIFIQUES")
-        
-        specific_tests = [
-            {"french": "un", "category": "nombres", "shimaore_file": "Moja.m4a", "kibouchi_file": "Areki.m4a"},
-            {"french": "arbre", "category": "nature", "shimaore_file": "Mwiri.m4a", "kibouchi_file": "Kakazou.m4a"},
-            {"french": "chat", "category": "animaux", "shimaore_file": "Paha.m4a", "kibouchi_file": "Moirou.m4a"}
-        ]
-        
-        for test_case in specific_tests:
-            try:
-                # Trouver le mot dans la base de données
-                response = requests.get(f"{BASE_URL}/words", params={"category": test_case["category"]})
-                if response.status_code == 200:
-                    words = response.json()
-                    target_word = None
-                    
-                    for word in words:
-                        if word.get("french", "").lower() == test_case["french"].lower():
-                            target_word = word
-                            break
-                    
-                    if target_word:
-                        word_id = target_word.get("id")
-                        french = target_word.get("french")
-                        
-                        # Vérifier le système dual
-                        has_dual = target_word.get("dual_audio_system", False)
-                        self.log_test(f"Mot '{french}' a dual_audio_system", 
-                                     has_dual, 
-                                     f"dual_audio_system: {has_dual}")
-                        
-                        if has_dual and word_id:
-                            # Tester les fichiers audio spécifiques
-                            for lang, expected_file in [("shimaore", test_case["shimaore_file"]), 
-                                                       ("kibouchi", test_case["kibouchi_file"])]:
-                                
-                                # Vérifier les métadonnées audio
-                                info_response = requests.get(f"{BASE_URL}/words/{word_id}/audio-info")
-                                if info_response.status_code == 200:
-                                    info_data = info_response.json()
-                                    audio_info = info_data.get("audio", {}).get(lang, {})
-                                    actual_file = audio_info.get("filename")
-                                    
-                                    self.log_test(f"Fichier {lang} pour '{french}'", 
-                                                 actual_file == expected_file, 
-                                                 f"Attendu: {expected_file}, Trouvé: {actual_file}")
-                                
-                                # Tester l'endpoint audio
-                                audio_response = requests.get(f"{BASE_URL}/words/{word_id}/audio/{lang}")
-                                self.log_test(f"Endpoint audio {lang} pour '{french}'", 
-                                             audio_response.status_code in [200, 404], 
-                                             f"Status: {audio_response.status_code}")
-                    else:
-                        self.log_test(f"Trouver mot '{test_case['french']}'", False, "Mot non trouvé")
-                else:
-                    self.log_test(f"Récupération mots {test_case['category']}", False, f"Status: {response.status_code}")
-            except Exception as e:
-                self.log_test(f"Test mot spécifique '{test_case['french']}'", False, f"Error: {e}")
-    
-    def test_audio_coverage_validation(self):
-        """Test 4: Validation de la couverture audio"""
-        print("\n📊 TEST 4: VALIDATION COUVERTURE AUDIO")
-        
-        try:
-            # Récupérer les statistiques audio
-            response = requests.get(f"{BASE_URL}/audio/info")
-            if response.status_code == 200:
-                data = response.json()
-                
-                total_audio_files = 0
-                for category in ["famille", "nature", "nombres", "animaux"]:
-                    if category in data:
-                        count = data[category].get("count", 0)
-                        total_audio_files += count
-                        self.log_test(f"Fichiers audio {category}", 
-                                     count > 0, 
-                                     f"Trouvé: {count} fichiers")
-                
-                self.log_test("Total fichiers audio disponibles", 
-                             total_audio_files > 0, 
-                             f"Total: {total_audio_files} fichiers")
-            else:
-                self.log_test("Récupération info audio", False, f"Status: {response.status_code}")
-        except Exception as e:
-            self.log_test("Test couverture audio", False, f"Error: {e}")
-        
-        # Compter les mots avec système dual dans toutes les catégories
-        try:
-            total_dual_words = 0
-            categories = ["famille", "nature", "nombres", "animaux"]
+            response = requests.get(f"{self.api_base}/sentences", timeout=10)
             
-            for category in categories:
-                response = requests.get(f"{BASE_URL}/words", params={"category": category})
-                if response.status_code == 200:
-                    words = response.json()
-                    dual_words = [w for w in words if w.get("dual_audio_system", False)]
-                    dual_count = len(dual_words)
-                    total_dual_words += dual_count
-                    
-                    self.log_test(f"Mots {category} avec système dual", 
-                                 dual_count >= 0, 
-                                 f"Trouvé: {dual_count} mots")
+            if response.status_code != 200:
+                self.log_test("Sentences Endpoint Basic", False, 
+                             f"Status: {response.status_code}")
+                return False
             
-            # Vérifier si on approche les 138 mots restructurés mentionnés
-            self.log_test("Total mots avec système dual", 
-                         total_dual_words > 50,  # Seuil minimum raisonnable
-                         f"Total: {total_dual_words} mots (objectif: ~138)")
+            sentences = response.json()
+            
+            # Check if we get sentences (not empty array)
+            if not sentences or len(sentences) == 0:
+                self.log_test("Sentences Endpoint Basic", False, 
+                             "Empty sentences array returned")
+                return False
+            
+            self.log_test("Sentences Endpoint Basic", True, 
+                         f"Returned {len(sentences)} sentences")
+            return True
+            
         except Exception as e:
-            self.log_test("Comptage mots dual", False, f"Error: {e}")
+            self.log_test("Sentences Endpoint Basic", False, f"Error: {str(e)}")
+            return False
     
-    def test_category_detection(self):
-        """Test 5: Détection automatique de catégorie pour servir les bons fichiers"""
-        print("\n🔍 TEST 5: DÉTECTION AUTOMATIQUE DE CATÉGORIE")
-        
-        # Tester que les endpoints audio utilisent le bon dossier selon la catégorie
-        categories = ["famille", "nature", "nombres", "animaux"]
-        
-        for category in categories:
-            try:
-                # Récupérer quelques mots de la catégorie
-                response = requests.get(f"{BASE_URL}/words", params={"category": category, "limit": 5})
-                if response.status_code == 200:
-                    words = response.json()
-                    dual_words = [w for w in words if w.get("dual_audio_system", False)]
-                    
-                    if dual_words:
-                        test_word = dual_words[0]
-                        word_id = test_word.get("id")
-                        
-                        if word_id:
-                            # Tester que l'endpoint audio fonctionne (détection automatique)
-                            for lang in ["shimaore", "kibouchi"]:
-                                audio_response = requests.get(f"{BASE_URL}/words/{word_id}/audio/{lang}")
-                                self.log_test(f"Détection catégorie {category} pour audio {lang}", 
-                                             audio_response.status_code in [200, 404], 
-                                             f"Status: {audio_response.status_code}")
-                    else:
-                        self.log_test(f"Mots dual disponibles pour {category}", False, "Aucun mot avec système dual")
-                else:
-                    self.log_test(f"Récupération mots {category}", False, f"Status: {response.status_code}")
-            except Exception as e:
-                self.log_test(f"Test détection {category}", False, f"Error: {e}")
+    def test_default_limit_20_sentences(self):
+        """Test that default limit is 20 sentences (not 10)"""
+        try:
+            response = requests.get(f"{self.api_base}/sentences", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_test("Default Limit 20 Sentences", False, 
+                             f"Status: {response.status_code}")
+                return False
+            
+            sentences = response.json()
+            
+            # Check if default returns 20 sentences
+            expected_default = 20
+            actual_count = len(sentences)
+            
+            passed = actual_count == expected_default
+            self.log_test("Default Limit 20 Sentences", passed, 
+                         f"Expected: {expected_default}, Got: {actual_count}")
+            return passed
+            
+        except Exception as e:
+            self.log_test("Default Limit 20 Sentences", False, f"Error: {str(e)}")
+            return False
+    
+    def test_sentence_structure_complete(self):
+        """Test that sentences have all required fields"""
+        try:
+            response = requests.get(f"{self.api_base}/sentences?limit=5", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_test("Sentence Structure Complete", False, 
+                             f"Status: {response.status_code}")
+                return False
+            
+            sentences = response.json()
+            
+            if not sentences:
+                self.log_test("Sentence Structure Complete", False, "No sentences returned")
+                return False
+            
+            required_fields = [
+                'french', 'shimaore', 'kibouchi', 'tense', 'difficulty',
+                'shimaore_words', 'kibouchi_words'
+            ]
+            
+            missing_fields = []
+            for i, sentence in enumerate(sentences):
+                for field in required_fields:
+                    if field not in sentence:
+                        missing_fields.append(f"Sentence {i+1}: missing '{field}'")
+            
+            if missing_fields:
+                self.log_test("Sentence Structure Complete", False, 
+                             f"Missing fields: {', '.join(missing_fields[:3])}")
+                return False
+            
+            self.log_test("Sentence Structure Complete", True, 
+                         f"All {len(required_fields)} required fields present in {len(sentences)} sentences")
+            return True
+            
+        except Exception as e:
+            self.log_test("Sentence Structure Complete", False, f"Error: {str(e)}")
+            return False
+    
+    def test_verb_variety_not_just_abimer(self):
+        """Test that sentences contain different verbs, not just 'abimer'"""
+        try:
+            response = requests.get(f"{self.api_base}/sentences?limit=50", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_test("Verb Variety (Not Just Abimer)", False, 
+                             f"Status: {response.status_code}")
+                return False
+            
+            sentences = response.json()
+            
+            if not sentences:
+                self.log_test("Verb Variety (Not Just Abimer)", False, "No sentences returned")
+                return False
+            
+            # Extract verbs from French sentences
+            verbs_found = set()
+            abimer_count = 0
+            
+            for sentence in sentences:
+                french_text = sentence.get('french', '').lower()
+                
+                # Count "abimer" occurrences
+                if 'abîmer' in french_text or 'abimer' in french_text:
+                    abimer_count += 1
+                
+                # Extract potential verbs (simple approach - look for common verb patterns)
+                words = french_text.split()
+                for word in words:
+                    # Remove punctuation and check if it's likely a verb
+                    clean_word = word.strip('.,!?;:').lower()
+                    if len(clean_word) > 3:  # Basic filter for verb-like words
+                        verbs_found.add(clean_word)
+            
+            # Check variety
+            total_sentences = len(sentences)
+            unique_verbs = len(verbs_found)
+            abimer_percentage = (abimer_count / total_sentences) * 100 if total_sentences > 0 else 0
+            
+            # Pass if we have variety (not dominated by "abimer")
+            variety_good = abimer_percentage < 50 and unique_verbs > 10
+            
+            self.log_test("Verb Variety (Not Just Abimer)", variety_good, 
+                         f"Unique verbs: {unique_verbs}, Abimer: {abimer_count}/{total_sentences} ({abimer_percentage:.1f}%)")
+            return variety_good
+            
+        except Exception as e:
+            self.log_test("Verb Variety (Not Just Abimer)", False, f"Error: {str(e)}")
+            return False
+    
+    def test_random_mixing_order_changes(self):
+        """Test that sentence order changes between calls (random mixing)"""
+        try:
+            # Make first call
+            response1 = requests.get(f"{self.api_base}/sentences?limit=10", timeout=10)
+            if response1.status_code != 200:
+                self.log_test("Random Mixing Order Changes", False, 
+                             f"First call status: {response1.status_code}")
+                return False
+            
+            sentences1 = response1.json()
+            
+            # Wait a moment and make second call
+            time.sleep(0.5)
+            response2 = requests.get(f"{self.api_base}/sentences?limit=10", timeout=10)
+            if response2.status_code != 200:
+                self.log_test("Random Mixing Order Changes", False, 
+                             f"Second call status: {response2.status_code}")
+                return False
+            
+            sentences2 = response2.json()
+            
+            if not sentences1 or not sentences2:
+                self.log_test("Random Mixing Order Changes", False, "Empty responses")
+                return False
+            
+            # Compare first few sentences to see if order changed
+            first_sentences_1 = [s.get('french', '') for s in sentences1[:5]]
+            first_sentences_2 = [s.get('french', '') for s in sentences2[:5]]
+            
+            # Check if order is different
+            order_changed = first_sentences_1 != first_sentences_2
+            
+            self.log_test("Random Mixing Order Changes", order_changed, 
+                         f"First call: {first_sentences_1[0][:30]}..., Second call: {first_sentences_2[0][:30]}...")
+            return order_changed
+            
+        except Exception as e:
+            self.log_test("Random Mixing Order Changes", False, f"Error: {str(e)}")
+            return False
+    
+    def test_difficulty_filtering_with_mixing(self):
+        """Test difficulty filtering works with random mixing"""
+        try:
+            # Test difficulty=1
+            response1 = requests.get(f"{self.api_base}/sentences?difficulty=1&limit=10", timeout=10)
+            if response1.status_code != 200:
+                self.log_test("Difficulty Filtering (difficulty=1)", False, 
+                             f"Status: {response1.status_code}")
+                return False
+            
+            sentences1 = response1.json()
+            
+            # Check all sentences have difficulty=1
+            difficulty1_correct = all(s.get('difficulty') == 1 for s in sentences1)
+            
+            # Test difficulty=2
+            response2 = requests.get(f"{self.api_base}/sentences?difficulty=2&limit=10", timeout=10)
+            if response2.status_code != 200:
+                self.log_test("Difficulty Filtering (difficulty=2)", False, 
+                             f"Status: {response2.status_code}")
+                return False
+            
+            sentences2 = response2.json()
+            
+            # Check all sentences have difficulty=2
+            difficulty2_correct = all(s.get('difficulty') == 2 for s in sentences2)
+            
+            both_passed = difficulty1_correct and difficulty2_correct
+            
+            self.log_test("Difficulty Filtering with Mixing", both_passed, 
+                         f"Difficulty 1: {len(sentences1)} sentences, Difficulty 2: {len(sentences2)} sentences")
+            return both_passed
+            
+        except Exception as e:
+            self.log_test("Difficulty Filtering with Mixing", False, f"Error: {str(e)}")
+            return False
+    
+    def test_tense_filtering_with_mixing(self):
+        """Test tense filtering works with random mixing"""
+        try:
+            tenses = ['present', 'past', 'future']
+            all_passed = True
+            tense_counts = {}
+            
+            for tense in tenses:
+                response = requests.get(f"{self.api_base}/sentences?tense={tense}&limit=5", timeout=10)
+                
+                if response.status_code != 200:
+                    self.log_test(f"Tense Filtering ({tense})", False, 
+                                 f"Status: {response.status_code}")
+                    all_passed = False
+                    continue
+                
+                sentences = response.json()
+                
+                # Check all sentences have correct tense
+                tense_correct = all(s.get('tense') == tense for s in sentences)
+                tense_counts[tense] = len(sentences)
+                
+                if not tense_correct:
+                    all_passed = False
+                
+                self.log_test(f"Tense Filtering ({tense})", tense_correct, 
+                             f"{len(sentences)} sentences")
+            
+            self.log_test("Tense Filtering with Mixing", all_passed, 
+                         f"Present: {tense_counts.get('present', 0)}, Past: {tense_counts.get('past', 0)}, Future: {tense_counts.get('future', 0)}")
+            return all_passed
+            
+        except Exception as e:
+            self.log_test("Tense Filtering with Mixing", False, f"Error: {str(e)}")
+            return False
+    
+    def test_total_sentences_count_675(self):
+        """Test that total sentences in database is 675"""
+        try:
+            # Get all sentences with high limit
+            response = requests.get(f"{self.api_base}/sentences?limit=1000", timeout=15)
+            
+            if response.status_code != 200:
+                self.log_test("Total Sentences Count 675", False, 
+                             f"Status: {response.status_code}")
+                return False
+            
+            sentences = response.json()
+            total_count = len(sentences)
+            expected_count = 675
+            
+            passed = total_count == expected_count
+            self.log_test("Total Sentences Count 675", passed, 
+                         f"Expected: {expected_count}, Got: {total_count}")
+            return passed
+            
+        except Exception as e:
+            self.log_test("Total Sentences Count 675", False, f"Error: {str(e)}")
+            return False
+    
+    def test_performance_with_mixing(self):
+        """Test that random mixing doesn't significantly affect performance"""
+        try:
+            # Test multiple calls and measure time
+            times = []
+            
+            for i in range(3):
+                start_time = time.time()
+                response = requests.get(f"{self.api_base}/sentences?limit=20", timeout=10)
+                end_time = time.time()
+                
+                if response.status_code != 200:
+                    self.log_test("Performance with Mixing", False, 
+                                 f"Call {i+1} failed with status: {response.status_code}")
+                    return False
+                
+                times.append(end_time - start_time)
+            
+            avg_time = sum(times) / len(times)
+            max_time = max(times)
+            
+            # Performance is good if average < 2 seconds and max < 5 seconds
+            performance_good = avg_time < 2.0 and max_time < 5.0
+            
+            self.log_test("Performance with Mixing", performance_good, 
+                         f"Avg: {avg_time:.2f}s, Max: {max_time:.2f}s")
+            return performance_good
+            
+        except Exception as e:
+            self.log_test("Performance with Mixing", False, f"Error: {str(e)}")
+            return False
+    
+    def test_combined_filtering(self):
+        """Test combined difficulty and tense filtering"""
+        try:
+            response = requests.get(f"{self.api_base}/sentences?difficulty=1&tense=present&limit=5", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_test("Combined Filtering", False, 
+                             f"Status: {response.status_code}")
+                return False
+            
+            sentences = response.json()
+            
+            if not sentences:
+                self.log_test("Combined Filtering", False, "No sentences returned")
+                return False
+            
+            # Check all sentences match both filters
+            all_correct = all(
+                s.get('difficulty') == 1 and s.get('tense') == 'present' 
+                for s in sentences
+            )
+            
+            self.log_test("Combined Filtering", all_correct, 
+                         f"{len(sentences)} sentences with difficulty=1 and tense=present")
+            return all_correct
+            
+        except Exception as e:
+            self.log_test("Combined Filtering", False, f"Error: {str(e)}")
+            return False
     
     def run_all_tests(self):
-        """Exécuter tous les tests"""
-        print("🚀 DÉBUT DES TESTS DU SYSTÈME AUDIO DUAL ÉTENDU")
+        """Run all tests for the Construire des phrases game"""
+        print("🎮 STARTING CONSTRUIRE DES PHRASES GAME TESTING")
+        print("=" * 60)
+        print("Focus: Verifying bug fix for sentence variety and random mixing")
+        print()
+        
+        # Run all tests
+        tests = [
+            self.test_api_connectivity,
+            self.test_sentences_endpoint_basic,
+            self.test_default_limit_20_sentences,
+            self.test_sentence_structure_complete,
+            self.test_verb_variety_not_just_abimer,
+            self.test_random_mixing_order_changes,
+            self.test_difficulty_filtering_with_mixing,
+            self.test_tense_filtering_with_mixing,
+            self.test_combined_filtering,
+            self.test_total_sentences_count_675,
+            self.test_performance_with_mixing
+        ]
+        
+        for test in tests:
+            try:
+                test()
+            except Exception as e:
+                self.log_test(test.__name__, False, f"Unexpected error: {str(e)}")
+            print()  # Add spacing between tests
+        
+        # Print summary
+        print("=" * 60)
+        print("🎯 TEST SUMMARY")
         print("=" * 60)
         
-        self.test_new_audio_endpoints()
-        self.test_dual_system_extension()
-        self.test_specific_words()
-        self.test_audio_coverage_validation()
-        self.test_category_detection()
+        for result in self.test_results:
+            print(result)
         
-        # Résumé final
-        print("\n" + "=" * 60)
-        print("📋 RÉSUMÉ DES TESTS")
-        print(f"Total tests: {self.results['total_tests']}")
-        print(f"✅ Réussis: {self.results['passed']}")
-        print(f"❌ Échoués: {self.results['failed']}")
+        print()
+        print(f"📊 OVERALL RESULTS: {self.passed_tests}/{self.total_tests} tests passed")
         
-        if self.results['failed'] > 0:
-            print("\n🔍 ERREURS DÉTAILLÉES:")
-            for error in self.results['errors']:
-                print(f"  {error}")
-        
-        success_rate = (self.results['passed'] / self.results['total_tests']) * 100 if self.results['total_tests'] > 0 else 0
-        print(f"\n📊 Taux de réussite: {success_rate:.1f}%")
-        
-        if success_rate >= 80:
-            print("🎉 SYSTÈME AUDIO DUAL ÉTENDU: FONCTIONNEL")
-        elif success_rate >= 60:
-            print("⚠️  SYSTÈME AUDIO DUAL ÉTENDU: PARTIELLEMENT FONCTIONNEL")
+        if self.passed_tests == self.total_tests:
+            print("🎉 ALL TESTS PASSED! The 'Construire des phrases' game bug has been successfully fixed!")
+            print("✅ Sentence variety issue resolved")
+            print("✅ Random mixing implemented")
+            print("✅ Default limit increased to 20")
+            print("✅ All filtering functionality working")
         else:
-            print("❌ SYSTÈME AUDIO DUAL ÉTENDU: PROBLÈMES CRITIQUES")
+            failed_count = self.total_tests - self.passed_tests
+            print(f"❌ {failed_count} test(s) failed. The bug fix needs attention.")
         
-        return success_rate >= 80
+        return self.passed_tests == self.total_tests
+
+def main():
+    """Main test execution"""
+    print("Backend Testing Suite for Mayotte Language Learning API")
+    print("Specific Focus: 'Construire des phrases' game bug fix verification")
+    print()
+    
+    tester = SentenceGameTester()
+    success = tester.run_all_tests()
+    
+    return success
 
 if __name__ == "__main__":
-    tester = DualAudioSystemTester()
-    success = tester.run_all_tests()
-    sys.exit(0 if success else 1)
+    success = main()
+    exit(0 if success else 1)
