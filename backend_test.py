@@ -50,15 +50,14 @@ class CorpsAudioTester:
             
             data = response.json()
             
-            # Vérifier que 5 catégories sont présentes
+            # Vérifier que 5 catégories sont présentes (structure réelle de l'API)
             expected_categories = ["famille", "nature", "nombres", "animaux", "corps"]
             
-            if "categories" not in data:
-                self.log_test("Audio Info Extension", False, "Clé 'categories' manquante dans la réponse")
-                return
-            
-            categories = data["categories"]
-            found_categories = list(categories.keys())
+            # Vérifier que toutes les catégories attendues sont présentes
+            found_categories = []
+            for category in expected_categories:
+                if category in data and "count" in data[category]:
+                    found_categories.append(category)
             
             if len(found_categories) != 5:
                 self.log_test("Audio Info Extension", False, 
@@ -72,8 +71,8 @@ class CorpsAudioTester:
                 return
             
             # Vérifier l'endpoint pour corps
-            if "corps" in categories and "endpoint" in categories["corps"]:
-                corps_endpoint = categories["corps"]["endpoint"]
+            if "endpoints" in data and "corps" in data["endpoints"]:
+                corps_endpoint = data["endpoints"]["corps"]
                 expected_endpoint = "/api/audio/corps/{filename}"
                 if corps_endpoint != expected_endpoint:
                     self.log_test("Audio Info Extension", False, 
@@ -81,7 +80,7 @@ class CorpsAudioTester:
                     return
             
             self.log_test("Audio Info Extension", True, 
-                        f"5 catégories trouvées: {found_categories}, endpoint corps: {categories['corps']['endpoint']}")
+                        f"5 catégories trouvées: {found_categories}, endpoint corps: {data['endpoints']['corps']}")
             
         except Exception as e:
             self.log_test("Audio Info Extension", False, f"Erreur: {str(e)}")
