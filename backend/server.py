@@ -676,7 +676,7 @@ async def get_word(word_id: str):
         raise HTTPException(status_code=400, detail="Invalid word ID")
 
 @app.get("/api/sentences")
-async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 10):
+async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 20):
     """Récupère les phrases pour le jeu 'construire des phrases'"""
     try:
         import random
