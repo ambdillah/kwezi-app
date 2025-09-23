@@ -95,8 +95,12 @@ export default function LearnScreen() {
   const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr', word?: Word) => {
     try {
       if (word && language !== 'fr') {
-        // Utiliser le nouveau système audio RÉEL avec fichiers locaux
-        await playWordWithRealAudio(word, language);
+        // Utiliser le nouveau système audio DUAL en priorité
+        console.log(`🎯 Tentative prononciation ${language} pour "${word.french}"`);
+        console.log(`   Système dual: ${word.dual_audio_system}`);
+        console.log(`   Audio ${language}: ${language === 'shimaore' ? word.shimoare_has_audio : word.kibouchi_has_audio}`);
+        
+        await playWordWithDualAudio(word, language);
       } else {
         // Fallback vers la synthèse vocale pour français
         await speakEducationalContent(text, language);
