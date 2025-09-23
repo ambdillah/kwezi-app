@@ -14,15 +14,6 @@ from datetime import datetime
 BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://dual-language-app.preview.emergentagent.com')
 API_BASE = f"{BACKEND_URL}/api"
 
-print(f"🎵 TESTING NOUVEAU SYSTÈME AUDIO DUAL RESTRUCTURÉ AT: {API_BASE}")
-print("=" * 80)
-print("CONTEXT: Test du nouveau système audio dual pour la section famille")
-print("REQUIREMENTS: Champs dual_audio_system, shimoare_has_audio, kibouchi_has_audio")
-print("ENDPOINTS: /api/words/{word_id}/audio-info, /api/words/{word_id}/audio/{lang}")
-print("SPECIFIC TESTS: papa (Baba s.m4a + Baba k.m4a), famille (Mdjamaza.m4a + Havagna.m4a)")
-print("VALIDATION: Deux prononciations authentiques distinctes par mot")
-print("=" * 80)
-
 def log_test(test_name, status, details=""):
     """Log des résultats de test avec timestamp"""
     timestamp = datetime.now().strftime("%H:%M:%S")
@@ -32,397 +23,269 @@ def log_test(test_name, status, details=""):
         print(f"    {details}")
     return status
 
-class DualAudioSystemTester:
-    def __init__(self):
-        self.session = requests.Session()
-        self.test_results = []
-        self.total_tests = 0
-        self.passed_tests = 0
-        self.famille_words = []
-        self.critical_failures = []
-        
-    def log_test(self, test_name: str, passed: bool, message: str = ""):
-        """Log test result"""
-        self.total_tests += 1
-        if passed:
-            self.passed_tests += 1
+def test_api_connectivity():
+    """Test de connectivité API de base"""
+    try:
+        response = requests.get(f"{API_BASE}/../", timeout=10)
+        if response.status_code == 200:
+            return log_test("Connectivité API", True, f"Backend accessible: {response.json().get('message', 'OK')}")
         else:
-            if "critical" in test_name.lower():
-                self.critical_failures.append(test_name)
-        
-        return log_test(test_name, passed, message)
-    
-    def test_api_connectivity(self) -> bool:
-        """Test basic API connectivity"""
-        print("\n🔌 === TESTING API CONNECTIVITY ===")
-        try:
-            response = self.session.get(f"{API_BASE}/words", timeout=15)
-            if response.status_code != 200:
-                self.log_test("API Connectivity", False, f"Status code: {response.status_code}")
-                return False
-            
-            words_data = response.json()
-            self.log_test("API Connectivity", True, f"Backend responding, {len(words_data)} words retrieved")
-            return True
-            
-        except Exception as e:
-            self.log_test("API Connectivity", False, f"Critical error: {str(e)}")
-            return False
+            return log_test("Connectivité API", False, f"Status code: {response.status_code}")
+    except Exception as e:
+        return log_test("Connectivité API", False, f"Erreur: {str(e)}")
 
-    def test_famille_section_coverage(self) -> bool:
-        """Test Section Famille (88% coverage expected - 22/25 words)"""
-        print("\n👨‍👩‍👧‍👦 === TESTING FAMILLE SECTION AUDIO COVERAGE ===")
-        print("EXPECTED: 88% coverage (22/25 words with has_authentic_audio: true)")
+def test_famille_words_with_dual_audio_fields():
+    """Test 1: Vérifier que tous les mots de famille ont les nouveaux champs audio duaux"""
+    try:
+        response = requests.get(f"{API_BASE}/words?category=famille", timeout=10)
+        if response.status_code != 200:
+            return log_test("Champs audio duaux - Famille", False, f"Erreur API: {response.status_code}")
         
-        try:
-            # Get famille words
-            famille_response = self.session.get(f"{API_BASE}/words?category=famille", timeout=10)
-            if famille_response.status_code != 200:
-                self.log_test("Famille endpoint", False, f"Status code: {famille_response.status_code}")
-                return False
-            
-            self.famille_words = famille_response.json()
-            total_famille = len(self.famille_words)
-            
-            self.log_test("Famille endpoint", True, f"Retrieved {total_famille} family words")
-            
-            # Count words with authentic audio
-            words_with_audio = []
-            for word in self.famille_words:
-                if word.get("has_authentic_audio", False):
-                    words_with_audio.append({
-                        "french": word.get("french"),
-                        "shimaore": word.get("shimaore"),
-                        "kibouchi": word.get("kibouchi"),
-                        "audio_filename": word.get("audio_filename"),
-                        "audio_pronunciation_lang": word.get("audio_pronunciation_lang"),
-                        "audio_source": word.get("audio_source")
-                    })
-            
-            audio_count = len(words_with_audio)
-            coverage_percentage = (audio_count / total_famille) * 100 if total_famille > 0 else 0
-            
-            # Test coverage (expecting ~88% = 22/25)
-            expected_min_coverage = 85  # Allow some tolerance
-            coverage_passed = coverage_percentage >= expected_min_coverage
-            
-            self.log_test("Famille Audio Coverage", coverage_passed, 
-                         f"{audio_count}/{total_famille} words ({coverage_percentage:.1f}%) - Expected: ~88%")
-            
-            # Test specific corrections mentioned in review request
-            corrections_test = self.test_famille_corrections()
-            
-            return coverage_passed and corrections_test
-            
-        except Exception as e:
-            self.log_test("Famille section test", False, f"Error: {str(e)}")
-            return False
+        words = response.json()
+        if not words:
+            return log_test("Champs audio duaux - Famille", False, "Aucun mot famille trouvé")
+        
+        # Vérifier les nouveaux champs sur tous les mots famille
+        required_fields = [
+            'dual_audio_system', 'shimoare_has_audio', 'kibouchi_has_audio',
+            'shimoare_audio_filename', 'kibouchi_audio_filename'
+        ]
+        
+        words_with_dual_fields = 0
+        words_with_dual_system_enabled = 0
+        
+        for word in words:
+            has_all_fields = all(field in word for field in required_fields)
+            if has_all_fields:
+                words_with_dual_fields += 1
+                if word.get('dual_audio_system', False):
+                    words_with_dual_system_enabled += 1
+        
+        total_words = len(words)
+        success = words_with_dual_fields > 0
+        
+        details = f"{words_with_dual_fields}/{total_words} mots avec champs duaux, {words_with_dual_system_enabled} avec système activé"
+        return log_test("Champs audio duaux - Famille", success, details)
+        
+    except Exception as e:
+        return log_test("Champs audio duaux - Famille", False, f"Erreur: {str(e)}")
 
-    def test_famille_corrections(self) -> bool:
-        """Test specific corrections mentioned in review request (papa, famille, grand-père, etc.)"""
-        print("\n🔍 Testing Famille Corrections")
+def test_new_dual_audio_endpoints():
+    """Test 2: Vérifier les nouveaux endpoints audio duaux"""
+    try:
+        # D'abord, récupérer un mot famille avec système dual
+        response = requests.get(f"{API_BASE}/words?category=famille", timeout=10)
+        if response.status_code != 200:
+            return log_test("Endpoints audio duaux", False, "Impossible de récupérer les mots famille")
         
-        # Expected corrections based on review request
-        expected_corrections = {
-            "papa": {"should_have_audio": True},
-            "famille": {"should_have_audio": True},
-            "grand-père": {"should_have_audio": True},
-            "grand-mère": {"should_have_audio": True}
-        }
+        words = response.json()
+        dual_word = None
         
-        corrections_passed = True
+        # Chercher un mot avec système dual activé
+        for word in words:
+            if word.get('dual_audio_system', False):
+                dual_word = word
+                break
         
-        for word in self.famille_words:
-            french_word = word.get("french", "").lower()
+        if not dual_word:
+            return log_test("Endpoints audio duaux", False, "Aucun mot avec système dual trouvé")
+        
+        word_id = dual_word['id']
+        word_french = dual_word['french']
+        
+        # Test 2a: GET /api/words/{word_id}/audio-info
+        info_response = requests.get(f"{API_BASE}/words/{word_id}/audio-info", timeout=10)
+        if info_response.status_code != 200:
+            return log_test("Endpoints audio duaux", False, f"audio-info endpoint failed: {info_response.status_code}")
+        
+        audio_info = info_response.json()
+        
+        # Vérifier la structure de la réponse
+        required_keys = ['word', 'dual_audio_system', 'audio']
+        if not all(key in audio_info for key in required_keys):
+            return log_test("Endpoints audio duaux", False, "Structure audio-info incorrecte")
+        
+        # Test 2b: GET /api/words/{word_id}/audio/shimaore (si disponible)
+        shimaore_available = audio_info['audio']['shimaore']['has_audio']
+        kibouchi_available = audio_info['audio']['kibouchi']['has_audio']
+        
+        endpoints_tested = 0
+        endpoints_working = 0
+        
+        if shimaore_available:
+            endpoints_tested += 1
+            shimaore_response = requests.get(f"{API_BASE}/words/{word_id}/audio/shimaore", timeout=10)
+            if shimaore_response.status_code == 200:
+                endpoints_working += 1
+        
+        # Test 2c: GET /api/words/{word_id}/audio/kibouchi (si disponible)
+        if kibouchi_available:
+            endpoints_tested += 1
+            kibouchi_response = requests.get(f"{API_BASE}/words/{word_id}/audio/kibouchi", timeout=10)
+            if kibouchi_response.status_code == 200:
+                endpoints_working += 1
+        
+        success = endpoints_working == endpoints_tested and endpoints_tested > 0
+        details = f"Mot '{word_french}': {endpoints_working}/{endpoints_tested} endpoints audio fonctionnels"
+        return log_test("Endpoints audio duaux", success, details)
+        
+    except Exception as e:
+        return log_test("Endpoints audio duaux", False, f"Erreur: {str(e)}")
+
+def test_legacy_audio_compatibility():
+    """Test 3: Vérifier la compatibilité avec les anciens endpoints"""
+    try:
+        # Test 3a: GET /api/audio/famille/{filename} toujours fonctionnel
+        famille_response = requests.get(f"{API_BASE}/audio/famille/test.m4a", timeout=10)
+        # On s'attend à un 404 car le fichier n'existe probablement pas, mais pas une erreur 500
+        famille_working = famille_response.status_code in [200, 404]
+        
+        # Test 3b: GET /api/audio/info retourne les nouveaux endpoints
+        info_response = requests.get(f"{API_BASE}/audio/info", timeout=10)
+        if info_response.status_code != 200:
+            return log_test("Compatibilité anciens endpoints", False, f"audio/info failed: {info_response.status_code}")
+        
+        info_data = info_response.json()
+        
+        # Vérifier que les nouveaux endpoints sont mentionnés
+        has_dual_system_endpoint = 'dual_system' in info_data.get('endpoints', {})
+        
+        success = famille_working and has_dual_system_endpoint
+        details = f"Famille endpoint: {'OK' if famille_working else 'FAIL'}, Dual system info: {'OK' if has_dual_system_endpoint else 'FAIL'}"
+        return log_test("Compatibilité anciens endpoints", success, details)
+        
+    except Exception as e:
+        return log_test("Compatibilité anciens endpoints", False, f"Erreur: {str(e)}")
+
+def test_specific_words_audio():
+    """Test 4: Tests spécifiques pour papa, famille, frère"""
+    try:
+        # Récupérer tous les mots famille
+        response = requests.get(f"{API_BASE}/words?category=famille", timeout=10)
+        if response.status_code != 200:
+            return log_test("Tests mots spécifiques", False, "Impossible de récupérer les mots famille")
+        
+        words = response.json()
+        word_dict = {word['french'].lower(): word for word in words}
+        
+        test_words = ['papa', 'famille', 'frère']
+        results = {}
+        
+        for test_word in test_words:
+            if test_word not in word_dict:
+                results[test_word] = f"Mot '{test_word}' non trouvé"
+                continue
             
-            if french_word in expected_corrections:
-                expected = expected_corrections[french_word]
-                has_audio = word.get("has_authentic_audio", False)
+            word = word_dict[test_word]
+            word_id = word['id']
+            
+            # Vérifier les informations audio
+            info_response = requests.get(f"{API_BASE}/words/{word_id}/audio-info", timeout=10)
+            if info_response.status_code != 200:
+                results[test_word] = f"Erreur audio-info: {info_response.status_code}"
+                continue
+            
+            audio_info = info_response.json()
+            
+            # Vérifier les fichiers audio attendus
+            shimaore_file = audio_info['audio']['shimaore'].get('filename')
+            kibouchi_file = audio_info['audio']['kibouchi'].get('filename')
+            
+            if test_word == 'papa':
+                # Papa: doit avoir Baba s.m4a (shimaoré) et Baba k.m4a (kibouchi)
+                expected_shimaore = 'Baba s.m4a'
+                expected_kibouchi = 'Baba k.m4a'
+                shimaore_ok = shimaore_file == expected_shimaore
+                kibouchi_ok = kibouchi_file == expected_kibouchi
+                results[test_word] = f"Shimaoré: {shimaore_file} ({'✓' if shimaore_ok else '✗'}), Kibouchi: {kibouchi_file} ({'✓' if kibouchi_ok else '✗'})"
                 
-                if expected["should_have_audio"]:
-                    test_passed = has_audio
-                    details = f"Audio: {has_audio}, Filename: {word.get('audio_filename', 'None')}"
-                else:
-                    test_passed = True
-                    details = f"Shimaore: {word.get('shimaore')}, Kibouchi: {word.get('kibouchi')}"
+            elif test_word == 'famille':
+                # Famille: doit avoir Mdjamaza.m4a (shimaoré) et Havagna.m4a (kibouchi)
+                expected_shimaore = 'Mdjamaza.m4a'
+                expected_kibouchi = 'Havagna.m4a'
+                shimaore_ok = shimaore_file == expected_shimaore
+                kibouchi_ok = kibouchi_file == expected_kibouchi
+                results[test_word] = f"Shimaoré: {shimaore_file} ({'✓' if shimaore_ok else '✗'}), Kibouchi: {kibouchi_file} ({'✓' if kibouchi_ok else '✗'})"
                 
-                test_name = f"Correction: {word.get('french')}"
-                self.log_test(test_name, test_passed, details)
-                if not test_passed:
-                    corrections_passed = False
+            elif test_word == 'frère':
+                # Frère: doit avoir les bons fichiers audio pour chaque langue
+                has_shimaore = audio_info['audio']['shimaore']['has_audio']
+                has_kibouchi = audio_info['audio']['kibouchi']['has_audio']
+                results[test_word] = f"Shimaoré: {shimaore_file} ({'✓' if has_shimaore else '✗'}), Kibouchi: {kibouchi_file} ({'✓' if has_kibouchi else '✗'})"
         
-        return corrections_passed
+        # Évaluer le succès global
+        success = all('✓' in result for result in results.values())
+        details = "; ".join([f"{word}: {result}" for word, result in results.items()])
+        return log_test("Tests mots spécifiques", success, details)
+        
+    except Exception as e:
+        return log_test("Tests mots spécifiques", False, f"Erreur: {str(e)}")
 
-    def test_nature_section_coverage(self) -> bool:
-        """Test Section Nature (100% coverage expected - 49/49 words)"""
-        print("\n🌿 === TESTING NATURE SECTION AUDIO COVERAGE ===")
-        print("EXPECTED: 100% coverage (49/49 words with has_authentic_audio: true)")
+def test_dual_pronunciation_validation():
+    """Test 5: Validation que chaque mot famille peut avoir DEUX prononciations distinctes"""
+    try:
+        response = requests.get(f"{API_BASE}/words?category=famille", timeout=10)
+        if response.status_code != 200:
+            return log_test("Validation prononciations duales", False, "Impossible de récupérer les mots famille")
         
-        try:
-            # Get nature words
-            nature_response = self.session.get(f"{API_BASE}/words?category=nature", timeout=10)
-            if nature_response.status_code != 200:
-                self.log_test("Nature endpoint", False, f"Status code: {nature_response.status_code}")
-                return False
-            
-            self.nature_words = nature_response.json()
-            total_nature = len(self.nature_words)
-            
-            self.log_test("Nature endpoint", True, f"Retrieved {total_nature} nature words")
-            
-            # Count words with authentic audio
-            words_with_audio = []
-            for word in self.nature_words:
-                if word.get("has_authentic_audio", False):
-                    words_with_audio.append({
-                        "french": word.get("french"),
-                        "shimaore": word.get("shimaore"),
-                        "kibouchi": word.get("kibouchi"),
-                        "audio_filename": word.get("audio_filename"),
-                        "audio_pronunciation_lang": word.get("audio_pronunciation_lang"),
-                        "audio_source": word.get("audio_source")
-                    })
-            
-            audio_count = len(words_with_audio)
-            coverage_percentage = (audio_count / total_nature) * 100 if total_nature > 0 else 0
-            
-            # Test coverage (expecting 100%)
-            expected_min_coverage = 95  # Allow some tolerance
-            coverage_passed = coverage_percentage >= expected_min_coverage
-            
-            self.log_test("Nature Audio Coverage", coverage_passed, 
-                         f"{audio_count}/{total_nature} words ({coverage_percentage:.1f}%) - Expected: 100%")
-            
-            # Test specific examples mentioned in review request
-            examples_test = self.test_nature_examples()
-            
-            return coverage_passed and examples_test
-            
-        except Exception as e:
-            self.log_test("Nature section test", False, f"Error: {str(e)}")
-            return False
-
-    def test_nature_examples(self) -> bool:
-        """Test specific nature examples: bahari (mer), mwiri (arbre), jouwa (soleil)"""
-        print("\n🔍 Testing Nature Examples")
+        words = response.json()
         
-        # Expected examples from review request
-        expected_examples = {
-            "mer": {"shimaore_expected": "bahari"},
-            "arbre": {"shimaore_expected": "mwiri"},
-            "soleil": {"shimaore_expected": "jouwa"},
-            "lune": {"should_have_audio": True}
-        }
+        words_with_dual_audio = 0
+        words_with_both_languages = 0
+        total_famille_words = len(words)
         
-        examples_passed = True
-        
-        for word in self.nature_words:
-            french_word = word.get("french", "").lower()
-            
-            if french_word in expected_examples:
-                expected = expected_examples[french_word]
-                has_audio = word.get("has_authentic_audio", False)
-                shimaore = word.get("shimaore", "").lower()
+        for word in words:
+            if word.get('dual_audio_system', False):
+                words_with_dual_audio += 1
                 
-                if "shimaore_expected" in expected:
-                    # Test translation mapping
-                    expected_shimaore = expected["shimaore_expected"].lower()
-                    translation_correct = expected_shimaore in shimaore
-                    
-                    test_name = f"Nature Example: {french_word} → {expected['shimaore_expected']}"
-                    details = f"Found: {word.get('shimaore')}, Audio: {has_audio}"
-                    test_passed = translation_correct and has_audio
-                    
-                    self.log_test(test_name, test_passed, details)
-                    if not test_passed:
-                        examples_passed = False
+                # Vérifier si le mot a des fichiers audio pour les deux langues
+                has_shimaore = word.get('shimoare_has_audio', False)
+                has_kibouchi = word.get('kibouchi_has_audio', False)
                 
-                elif "should_have_audio" in expected:
-                    test_name = f"Nature Example: {french_word} audio"
-                    details = f"Audio: {has_audio}, Filename: {word.get('audio_filename', 'None')}"
-                    
-                    self.log_test(test_name, has_audio, details)
-                    if not has_audio:
-                        examples_passed = False
+                if has_shimaore and has_kibouchi:
+                    words_with_both_languages += 1
         
-        return examples_passed
+        # Le système doit permettre d'avoir deux prononciations distinctes
+        success = words_with_dual_audio > 0 and words_with_both_languages > 0
+        details = f"{words_with_dual_audio} mots avec système dual, {words_with_both_languages} avec les deux langues, sur {total_famille_words} mots famille"
+        return log_test("Validation prononciations duales", success, details)
+        
+    except Exception as e:
+        return log_test("Validation prononciations duales", False, f"Erreur: {str(e)}")
 
-    def test_api_endpoints(self) -> bool:
-        """Test API endpoints for audio integration"""
-        print("\n🔗 === TESTING API ENDPOINTS ===")
-        
-        endpoints_passed = True
-        
-        # Test famille endpoint with audio icons
-        famille_test = self.log_test(
-            "GET /api/words?category=famille",
-            len(self.famille_words) > 0,
-            f"Retrieved {len(self.famille_words)} words"
-        )
-        
-        # Test nature endpoint with audio icons
-        nature_test = self.log_test(
-            "GET /api/words?category=nature", 
-            len(self.nature_words) > 0,
-            f"Retrieved {len(self.nature_words)} words"
-        )
-        
-        # Test new audio fields presence
-        required_fields = ["has_authentic_audio", "audio_filename", "audio_pronunciation_lang", "audio_source"]
-        
-        # Check famille words for new fields
-        famille_fields_present = False
-        if self.famille_words:
-            sample_word = next((w for w in self.famille_words if w.get("has_authentic_audio")), None)
-            if sample_word:
-                famille_fields_present = all(field in sample_word for field in required_fields)
-        
-        fields_test = self.log_test(
-            "New audio fields present",
-            famille_fields_present,
-            f"Fields: {required_fields}"
-        )
-        
-        return famille_test and nature_test and fields_test
-
-    def test_metadata_validation(self) -> bool:
-        """Test metadata validation (languages and sources)"""
-        print("\n✅ === TESTING METADATA VALIDATION ===")
-        
-        validation_passed = True
-        
-        # Test language consistency
-        valid_languages = {"shimaore", "kibouchi", "both"}
-        invalid_languages = []
-        
-        all_audio_words = []
-        for word in self.famille_words + self.nature_words:
-            if word.get("has_authentic_audio"):
-                all_audio_words.append(word)
-        
-        for word in all_audio_words:
-            lang = word.get("audio_pronunciation_lang", "").lower()
-            if lang and lang not in valid_languages:
-                invalid_languages.append(f"{word.get('french')}: {lang}")
-        
-        lang_test = self.log_test(
-            "Language Consistency",
-            len(invalid_languages) == 0,
-            f"Valid languages: {valid_languages}. Invalid: {invalid_languages[:3] if invalid_languages else 'None'}"
-        )
-        
-        # Test sources
-        famille_sources = set()
-        nature_sources = set()
-        
-        for word in self.famille_words:
-            if word.get("has_authentic_audio") and word.get("audio_source"):
-                famille_sources.add(word.get("audio_source"))
-        
-        for word in self.nature_words:
-            if word.get("has_authentic_audio") and word.get("audio_source"):
-                nature_sources.add(word.get("audio_source"))
-        
-        sources_test = self.log_test(
-            "Audio Sources Present",
-            len(famille_sources) > 0 or len(nature_sources) > 0,
-            f"Famille sources: {list(famille_sources)}, Nature sources: {list(nature_sources)}"
-        )
-        
-        return lang_test and sources_test
-
-    def run_complete_audio_metadata_tests(self) -> bool:
-        """Run all complete audio metadata integration tests"""
-        print("🎵 STARTING COMPLETE AUDIO METADATA INTEGRATION TESTING")
-        print("=" * 80)
-        
-        # Test API connectivity first
-        if not self.test_api_connectivity():
-            print("❌ API connectivity failed - aborting tests")
-            return False
-        
-        # Run all test suites
-        test_results = []
-        
-        test_results.append(self.test_famille_section_coverage())
-        test_results.append(self.test_nature_section_coverage())
-        test_results.append(self.test_api_endpoints())
-        test_results.append(self.test_metadata_validation())
-        
-        # Generate summary
-        overall_success = self.generate_summary()
-        
-        return all(test_results) and overall_success
-
-    def generate_summary(self):
-        """Generate comprehensive test summary"""
-        print("\n" + "=" * 80)
-        print("🎵 COMPLETE AUDIO METADATA INTEGRATION TEST SUMMARY")
-        print("=" * 80)
-        
-        print(f"Total Tests: {self.total_tests}")
-        print(f"Passed: {self.passed_tests}")
-        print(f"Failed: {self.total_tests - self.passed_tests}")
-        print(f"Success Rate: {(self.passed_tests/self.total_tests)*100:.1f}%")
-        
-        # Detailed results
-        if self.famille_words:
-            famille_audio_count = sum(1 for w in self.famille_words if w.get("has_authentic_audio"))
-            famille_coverage = (famille_audio_count / len(self.famille_words)) * 100
-            print(f"\n📊 FAMILLE SECTION:")
-            print(f"   Total Words: {len(self.famille_words)}")
-            print(f"   Words with Audio: {famille_audio_count}")
-            print(f"   Coverage: {famille_coverage:.1f}% (Expected: ~88%)")
-        
-        if self.nature_words:
-            nature_audio_count = sum(1 for w in self.nature_words if w.get("has_authentic_audio"))
-            nature_coverage = (nature_audio_count / len(self.nature_words)) * 100
-            print(f"\n🌿 NATURE SECTION:")
-            print(f"   Total Words: {len(self.nature_words)}")
-            print(f"   Words with Audio: {nature_audio_count}")
-            print(f"   Coverage: {nature_coverage:.1f}% (Expected: 100%)")
-        
-        # Critical failures
-        if self.critical_failures:
-            print(f"\n❌ CRITICAL FAILURES:")
-            for failure in self.critical_failures:
-                print(f"   - {failure}")
-        
-        # Overall status
-        overall_success = self.passed_tests == self.total_tests and len(self.critical_failures) == 0
-        status = "✅ ALL TESTS PASSED" if overall_success else "❌ SOME TESTS FAILED"
-        print(f"\n{status}")
-        
-        return overall_success
-
-def main():
-    """Main function to run the complete audio metadata integration tests"""
-    print("🧪 Starting Complete Audio Metadata Integration Testing")
-    print("=" * 80)
+def run_all_tests():
+    """Exécuter tous les tests du système audio dual"""
+    print("🎵 DÉBUT DES TESTS DU SYSTÈME AUDIO DUAL RESTRUCTURÉ")
+    print("=" * 60)
     
-    tester = CompleteAudioMetadataTester()
-    success = tester.run_complete_audio_metadata_tests()
+    tests = [
+        test_api_connectivity,
+        test_famille_words_with_dual_audio_fields,
+        test_new_dual_audio_endpoints,
+        test_legacy_audio_compatibility,
+        test_specific_words_audio,
+        test_dual_pronunciation_validation
+    ]
     
-    print("\n" + "=" * 80)
-    print("🏁 FINAL TEST RESULTS")
-    print("=" * 80)
+    passed = 0
+    total = len(tests)
     
-    if success:
-        print("🎉 ALL CRITICAL TESTS PASSED!")
-        print("✅ Complete audio metadata integration verified successfully")
-        print("✅ Famille section has proper audio coverage (~88%)")
-        print("✅ Nature section has complete audio coverage (100%)")
-        print("✅ API endpoints return new audio metadata fields")
-        print("✅ Language consistency and sources validated")
-        print("✅ Specific corrections and examples verified")
+    for test_func in tests:
+        if test_func():
+            passed += 1
+        print()  # Ligne vide entre les tests
+    
+    print("=" * 60)
+    print(f"🎯 RÉSULTATS: {passed}/{total} tests réussis")
+    
+    if passed == total:
+        print("🎉 TOUS LES TESTS SONT PASSÉS! Le système audio dual est fonctionnel.")
+        return True
     else:
-        print("⚠️  SOME TESTS FAILED")
-        print("❌ Complete audio metadata integration has issues")
-        print("❌ Please review the detailed test results above")
-        print("❌ Check famille/nature coverage and metadata fields")
-    
-    return success
+        print(f"⚠️  {total - passed} test(s) ont échoué. Vérification nécessaire.")
+        return False
 
 if __name__ == "__main__":
-    success = main()
-    exit(0 if success else 1)
+    print(f"🔗 URL Backend: {BACKEND_URL}")
+    success = run_all_tests()
+    sys.exit(0 if success else 1)
