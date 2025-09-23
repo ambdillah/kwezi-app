@@ -117,12 +117,12 @@ export default function LearnScreen() {
       await speakEducationalContent(word.french, 'fr');
       await new Promise(resolve => setTimeout(resolve, 800));
       
-      // Shimaoré
-      await playWordWithRealAudio(word, 'shimaore');
+      // Shimaoré avec nouveau système dual
+      await playWordWithDualAudio(word, 'shimaore');
       await new Promise(resolve => setTimeout(resolve, 800));
       
-      // Kibouchi
-      await playWordWithRealAudio(word, 'kibouchi');
+      // Kibouchi avec nouveau système dual
+      await playWordWithDualAudio(word, 'kibouchi');
     } catch (error) {
       console.log('Erreur lors de la lecture de toutes les langues:', error);
       Alert.alert('Info', 'Problème avec la prononciation audio.');
