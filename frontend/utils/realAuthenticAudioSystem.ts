@@ -195,7 +195,7 @@ export const stopCurrentAudio = async (): Promise<void> => {
 };
 
 /**
- * Joue un enregistrement audio authentique RÉEL via HTTP
+ * Joue un enregistrement audio authentique RÉEL via l'API intégrée
  */
 export const playRealAuthenticAudio = async (
   audioFilename: string,
@@ -204,11 +204,11 @@ export const playRealAuthenticAudio = async (
   onComplete?: () => void
 ): Promise<boolean> => {
   try {
-    // Utiliser l'URL du backend via la variable d'environnement
+    // Utiliser l'API audio intégrée dans le backend principal
     const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
-    const audioUrl = `${backendUrl.replace(':8001', ':8002')}/audio/${category}/${audioFilename}`;
+    const audioUrl = `${backendUrl}/api/audio/${category}/${audioFilename}`;
     
-    console.log(`🎵 Chargement RÉEL du fichier authentique via HTTP: ${audioFilename} (${category})`);
+    console.log(`🎵 Chargement RÉEL du fichier authentique via API intégrée: ${audioFilename} (${category})`);
     console.log(`🔗 URL: ${audioUrl}`);
     
     // Arrêter l'audio précédent
@@ -222,7 +222,7 @@ export const playRealAuthenticAudio = async (
       shouldDuckAndroid: true,
     });
     
-    // Charger et jouer l'audio via URL HTTP
+    // Charger et jouer l'audio via l'API intégrée
     const { sound } = await Audio.Sound.createAsync(
       { uri: audioUrl },
       { 
@@ -244,14 +244,14 @@ export const playRealAuthenticAudio = async (
         sound.unloadAsync();
         currentAudio.sound = null;
         onComplete?.();
-        console.log('✅ Audio authentique RÉEL HTTP terminé');
+        console.log('✅ Audio authentique RÉEL API intégrée terminé');
       }
     });
     
     return true;
     
   } catch (error) {
-    console.log('❌ Erreur lors de la lecture de l\'audio authentique RÉEL HTTP:', error);
+    console.log('❌ Erreur lors de la lecture de l\'audio authentique RÉEL API intégrée:', error);
     return false;
   }
 };
