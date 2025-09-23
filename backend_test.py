@@ -96,21 +96,21 @@ class CorpsAudioTester:
             
             data = response.json()
             
-            if "categories" not in data or "corps" not in data["categories"]:
+            if "corps" not in data:
                 self.log_test("Corps Audio Files Detection", False, "Catégorie 'corps' non trouvée dans audio/info")
                 return
             
-            corps_info = data["categories"]["corps"]
+            corps_info = data["corps"]
             
-            if "file_count" in corps_info:
-                file_count = corps_info["file_count"]
+            if "count" in corps_info:
+                file_count = corps_info["count"]
                 if file_count == 61:
                     self.log_test("Corps Audio Files Detection", True, f"61 fichiers audio détectés dans /corps")
                 else:
                     self.log_test("Corps Audio Files Detection", False, 
                                 f"Attendu 61 fichiers, trouvé {file_count}")
             else:
-                self.log_test("Corps Audio Files Detection", False, "Champ 'file_count' manquant pour la catégorie corps")
+                self.log_test("Corps Audio Files Detection", False, "Champ 'count' manquant pour la catégorie corps")
                 
         except Exception as e:
             self.log_test("Corps Audio Files Detection", False, f"Erreur: {str(e)}")
