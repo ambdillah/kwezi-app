@@ -1041,6 +1041,7 @@ async def get_audio_info():
     nature_files = []
     nombres_files = []
     animaux_files = []
+    corps_files = []
     
     if os.path.exists(famille_dir):
         famille_files = [f for f in os.listdir(famille_dir) if f.endswith('.m4a')]
@@ -1053,6 +1054,9 @@ async def get_audio_info():
         
     if os.path.exists(animaux_dir):
         animaux_files = [f for f in os.listdir(animaux_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(corps_dir):
+        corps_files = [f for f in os.listdir(corps_dir) if f.endswith('.m4a')]
     
     return {
         "service": "Audio API intégré - Système Dual Étendu",
@@ -1072,11 +1076,16 @@ async def get_audio_info():
             "count": len(animaux_files),
             "files": sorted(animaux_files)
         },
+        "corps": {
+            "count": len(corps_files),
+            "files": sorted(corps_files)
+        },
         "endpoints": {
             "famille": "/api/audio/famille/{filename}",
             "nature": "/api/audio/nature/{filename}",
             "nombres": "/api/audio/nombres/{filename}",
             "animaux": "/api/audio/animaux/{filename}",
+            "corps": "/api/audio/corps/{filename}",
             "dual_system": "/api/words/{word_id}/audio/{lang}"
         }
     }
