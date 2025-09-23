@@ -679,6 +679,8 @@ async def get_word(word_id: str):
 async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 10):
     """Récupère les phrases pour le jeu 'construire des phrases'"""
     try:
+        import random
+        
         # Construire le filtre
         filter_query = {}
         if difficulty:
@@ -686,8 +688,14 @@ async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 
         if tense:
             filter_query["tense"] = tense
         
-        # Récupérer les phrases
-        sentences = list(sentences_collection.find(filter_query).limit(limit))
+        # Récupérer toutes les phrases correspondantes puis mélanger
+        all_sentences = list(sentences_collection.find(filter_query))
+        
+        # Mélanger les phrases pour plus de variété
+        random.shuffle(all_sentences)
+        
+        # Appliquer la limite après le mélange
+        sentences = all_sentences[:limit]
         
         # Convertir ObjectId en string
         for sentence in sentences:
