@@ -1087,8 +1087,18 @@ async def get_word_audio_by_language(word_id: str, lang: str):
         import os
         from fastapi.responses import FileResponse
         
-        # Pour l'instant, tous les fichiers sont dans le dossier famille
-        file_path = os.path.join("/app/frontend/assets/audio/famille", filename)
+        # Détecter automatiquement la catégorie du mot pour utiliser le bon dossier
+        word_category = word_doc.get("category", "famille")
+        audio_dirs = {
+            "famille": "/app/frontend/assets/audio/famille",
+            "nature": "/app/frontend/assets/audio/nature", 
+            "nombres": "/app/frontend/assets/audio/nombres",
+            "animaux": "/app/frontend/assets/audio/animaux"
+        }
+        
+        # Utiliser le dossier correspondant à la catégorie, famille par défaut
+        audio_dir = audio_dirs.get(word_category, audio_dirs["famille"])
+        file_path = os.path.join(audio_dir, filename)
         
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail=f"Fichier audio non trouvé: {filename}")
