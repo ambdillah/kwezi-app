@@ -1026,7 +1026,7 @@ async def get_audio_info():
         animaux_files = [f for f in os.listdir(animaux_dir) if f.endswith('.m4a')]
     
     return {
-        "service": "Audio API intégré",
+        "service": "Audio API intégré - Système Dual Étendu",
         "famille": {
             "count": len(famille_files),
             "files": sorted(famille_files)
@@ -1034,6 +1034,14 @@ async def get_audio_info():
         "nature": {
             "count": len(nature_files),
             "files": sorted(nature_files)
+        },
+        "nombres": {
+            "count": len(nombres_files),
+            "files": sorted(nombres_files)
+        },
+        "animaux": {
+            "count": len(animaux_files),
+            "files": sorted(animaux_files)
         },
         "endpoints": {
             "famille": "/api/audio/famille/{filename}",
