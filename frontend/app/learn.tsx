@@ -243,7 +243,7 @@ export default function LearnScreen() {
                       <Text style={styles.languageLabel}>Shimaoré:</Text>
                       <Text style={styles.translationText}>{word.shimaore}</Text>
                       <View style={styles.audioButtonContainer}>
-                        {hasRealAuthenticAudio(word) && (
+                        {hasDualAudioForLanguage(word, 'shimaore') && (
                           <Ionicons name="musical-notes" size={12} color="#FFD700" />
                         )}
                         <Ionicons name="volume-high" size={20} color="#4ECDC4" />
