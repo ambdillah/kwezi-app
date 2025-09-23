@@ -257,7 +257,7 @@ export default function LearnScreen() {
                       <Text style={styles.languageLabel}>Kibouchi:</Text>
                       <Text style={styles.translationText}>{word.kibouchi}</Text>
                       <View style={styles.audioButtonContainer}>
-                        {hasRealAuthenticAudio(word) && (
+                        {hasDualAudioForLanguage(word, 'kibouchi') && (
                           <Ionicons name="musical-notes" size={12} color="#FFD700" />
                         )}
                         <Ionicons name="volume-high" size={20} color="#FF6B6B" />
