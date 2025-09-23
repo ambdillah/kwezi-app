@@ -364,8 +364,8 @@ class CorpsAudioTester:
             
             audio_info = response.json()
             
-            # Vérifier la structure des métadonnées
-            required_fields = ["dual_audio_system", "languages"]
+            # Vérifier la structure des métadonnées (structure réelle de l'API)
+            required_fields = ["dual_audio_system", "audio"]
             for field in required_fields:
                 if field not in audio_info:
                     self.log_test("Audio Info Metadata", False, f"Champ requis manquant: {field}")
@@ -375,14 +375,14 @@ class CorpsAudioTester:
                 self.log_test("Audio Info Metadata", False, "dual_audio_system devrait être true")
                 return
             
-            languages = audio_info.get("languages", {})
-            if "shimaore" not in languages or "kibouchi" not in languages:
+            audio_data = audio_info.get("audio", {})
+            if "shimaore" not in audio_data or "kibouchi" not in audio_data:
                 self.log_test("Audio Info Metadata", False, "Langues Shimaoré et Kibouchi manquantes")
                 return
             
             # Vérifier les métadonnées pour chaque langue
-            shimoare_info = languages.get("shimaore", {})
-            kibouchi_info = languages.get("kibouchi", {})
+            shimoare_info = audio_data.get("shimaore", {})
+            kibouchi_info = audio_data.get("kibouchi", {})
             
             if not shimoare_info.get("has_audio", False) or not kibouchi_info.get("has_audio", False):
                 self.log_test("Audio Info Metadata", False, "has_audio devrait être true pour les deux langues")
