@@ -23,14 +23,22 @@ print("SPECIFIC TESTS: papa (Baba s.m4a + Baba k.m4a), famille (Mdjamaza.m4a + H
 print("VALIDATION: Deux prononciations authentiques distinctes par mot")
 print("=" * 80)
 
-class CompleteAudioMetadataTester:
+def log_test(test_name, status, details=""):
+    """Log des résultats de test avec timestamp"""
+    timestamp = datetime.now().strftime("%H:%M:%S")
+    status_icon = "✅" if status else "❌"
+    print(f"[{timestamp}] {status_icon} {test_name}")
+    if details:
+        print(f"    {details}")
+    return status
+
+class DualAudioSystemTester:
     def __init__(self):
         self.session = requests.Session()
         self.test_results = []
         self.total_tests = 0
         self.passed_tests = 0
         self.famille_words = []
-        self.nature_words = []
         self.critical_failures = []
         
     def log_test(self, test_name: str, passed: bool, message: str = ""):
