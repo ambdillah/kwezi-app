@@ -503,6 +503,21 @@ backend:
         agent: "testing"
         comment: "🎵 COMPLETE AUDIO METADATA INTEGRATION TESTING COMPLETED SUCCESSFULLY! All requirements from the French review request have been systematically tested and verified: ✅ **FAMILLE SECTION (88% COVERAGE ACHIEVED)**: Confirmed 22/25 words have has_authentic_audio: true (88.0% coverage as expected) ✅ **NATURE SECTION (100% COVERAGE ACHIEVED)**: Confirmed 49/49 words have has_authentic_audio: true (100.0% coverage as expected) ✅ **SPECIFIC CORRECTIONS VERIFIED**: All corrections mentioned in review request confirmed working: papa (Audio: True, Filename: Baba k.m4a), famille (Audio: True, Filename: Havagna.m4a), grand-père (Audio: True, Filename: Bacoco.m4a), grand-mère (Audio: True, Filename: Coco.m4a) ✅ **NATURE EXAMPLES VERIFIED**: All specific mappings confirmed: mer → bahari (Audio: True), arbre → mwiri (Audio: True), soleil → jouwa (Audio: True), lune (Audio: True, Filename: Fandzava.m4a) ✅ **API ENDPOINTS WORKING**: GET /api/words?category=famille (25 words), GET /api/words?category=nature (49 words), all new audio fields present ✅ **NEW AUDIO FIELDS CONFIRMED**: All required fields verified: has_authentic_audio, audio_filename, audio_pronunciation_lang, audio_source ✅ **METADATA VALIDATION PASSED**: Language consistency verified (shimaore, kibouchi, both), Sources confirmed (google_drive_famille, google_drive_famille_completion, google_drive_nature) ✅ **COMPREHENSIVE TESTING**: 18/18 tests passed (100% success rate), 561 total words in database, complete audio metadata integration functional. The complete audio metadata integration for both famille (88% coverage) and nature (100% coverage) sections has been successfully implemented and verified according to all specifications in the French review request."
 
+  - task: "Dual audio system restructuring - separate pronunciations for Shimaoré and Kibouchi"
+    implemented: true
+    working: true
+    file: "backend/server.py, frontend/app/learn.tsx"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "PROBLÈME RÉSOLU: Restructuration complète de la base de données pour supporter des prononciations séparées. ✅ Script restructure_audio_database.py exécuté avec succès (25 mots restructurés) ✅ Nouveaux champs ajoutés: shimoare_audio_filename, kibouchi_audio_filename, shimoare_has_audio, kibouchi_has_audio, dual_audio_system ✅ Backend mis à jour: nouveau modèle Word avec champs duaux, nouveaux endpoints /api/words/{id}/audio/{lang} et /api/words/{id}/audio-info ✅ Frontend mis à jour: nouveau système dualAuthenticAudioSystem.ts, learn.tsx modifié pour utiliser playWordWithDualAudio et hasDualAudioForLanguage ✅ Compatibilité maintenue avec l'ancien système. Chaque mot peut maintenant avoir DEUX prononciations authentiques distinctes au lieu d'une seule."
+      - working: true
+        agent: "testing"  
+        comment: "🎉 NOUVEAU SYSTÈME AUDIO DUAL RESTRUCTURÉ TESTÉ AVEC SUCCÈS! Tous les tests backend ont réussi (6/6). ✅ **DATABASE RESTRUCTURÉE**: 25 mots famille avec nouveaux champs dual (dual_audio_system, shimoare_has_audio, kibouchi_has_audio, shimoare_audio_filename, kibouchi_audio_filename) ✅ **NOUVEAUX ENDPOINTS AUDIO DUAL**: /api/words/{id}/audio-info, /api/words/{id}/audio/shimaore, /api/words/{id}/audio/kibouchi tous fonctionnels ✅ **COMPATIBILITÉ ANCIENS ENDPOINTS**: /api/audio/famille/{filename} et /api/audio/info maintenus ✅ **TESTS SPÉCIFIQUES RÉUSSIS**: Papa (Baba s.m4a + Baba k.m4a), Famille (Mdjamaza.m4a + Havagna.m4a), Frère (fichiers audio corrects) ✅ **VALIDATION PRONONCIATIONS DUALES**: Système permet maintenant DEUX prononciations authentiques distinctes par mot (25 mots avec les deux langues) ✅ **SYSTÈME PRÊT PRODUCTION**: Gestion d'erreurs appropriée, intégration API backend complète. Le nouveau système audio dual pour permettre des prononciations authentiques séparées en Shimaoré ET Kibouchi est entièrement fonctionnel."
+
   - task: "Updated animals vocabulary testing from new tableau"
     implemented: true
     working: true
