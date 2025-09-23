@@ -16,6 +16,7 @@ import * as Speech from 'expo-speech';
 import { speakWithMasculineVoice, testMasculineVoice } from '../utils/simpleMasculineVoice';
 import { playWordAudio, playWordAllLanguages, hasAuthenticAudio } from '../utils/authenticAudioSystem';
 import { playWordWithRealAudio, hasRealAuthenticAudio, getRealAudioInfo } from '../utils/realAuthenticAudioSystem';
+import { playWordWithDualAudio, hasDualAudio, hasDualAudioForLanguage, getDualAudioInfo } from '../utils/dualAuthenticAudioSystem';
 import YlangYlangFlower from '../components/YlangYlangFlower';
 
 interface Word {
