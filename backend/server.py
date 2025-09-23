@@ -1005,15 +1005,25 @@ async def get_audio_info():
     
     famille_dir = "/app/frontend/assets/audio/famille"
     nature_dir = "/app/frontend/assets/audio/nature"
+    nombres_dir = "/app/frontend/assets/audio/nombres"
+    animaux_dir = "/app/frontend/assets/audio/animaux"
     
     famille_files = []
     nature_files = []
+    nombres_files = []
+    animaux_files = []
     
     if os.path.exists(famille_dir):
         famille_files = [f for f in os.listdir(famille_dir) if f.endswith('.m4a')]
     
     if os.path.exists(nature_dir):
         nature_files = [f for f in os.listdir(nature_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(nombres_dir):
+        nombres_files = [f for f in os.listdir(nombres_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(animaux_dir):
+        animaux_files = [f for f in os.listdir(animaux_dir) if f.endswith('.m4a')]
     
     return {
         "service": "Audio API intégré",
