@@ -46,19 +46,11 @@ class DualAudioSystemTester:
         self.total_tests += 1
         if passed:
             self.passed_tests += 1
-            status = "✅ PASS"
         else:
-            status = "❌ FAIL"
-            if "critical" in test_name.lower() or "coverage" in test_name.lower():
+            if "critical" in test_name.lower():
                 self.critical_failures.append(test_name)
         
-        result = f"{status}: {test_name}"
-        if message:
-            result += f" - {message}"
-        
-        self.test_results.append(result)
-        print(result)
-        return passed
+        return log_test(test_name, passed, message)
     
     def test_api_connectivity(self) -> bool:
         """Test basic API connectivity"""
