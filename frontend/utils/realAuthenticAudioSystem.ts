@@ -204,8 +204,9 @@ export const playRealAuthenticAudio = async (
   onComplete?: () => void
 ): Promise<boolean> => {
   try {
-    // Construire l'URL du serveur audio local
-    const audioUrl = `http://localhost:8002/audio/${category}/${audioFilename}`;
+    // Utiliser l'URL du backend via la variable d'environnement
+    const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+    const audioUrl = `${backendUrl.replace(':8001', ':8002')}/audio/${category}/${audioFilename}`;
     
     console.log(`🎵 Chargement RÉEL du fichier authentique via HTTP: ${audioFilename} (${category})`);
     console.log(`🔗 URL: ${audioUrl}`);
