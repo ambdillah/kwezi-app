@@ -910,6 +910,80 @@ async def get_user_stats(user_name: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Routes audio authentiques
+@app.get("/api/audio/famille/{filename}")
+async def get_famille_audio(filename: str):
+    """Sert un fichier audio famille"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/famille", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio famille non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
+@app.get("/api/audio/nature/{filename}")
+async def get_nature_audio(filename: str):
+    """Sert un fichier audio nature"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/nature", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio nature non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
+@app.get("/api/audio/info")
+async def get_audio_info():
+    """Information sur les fichiers audio disponibles"""
+    import os
+    
+    famille_dir = "/app/frontend/assets/audio/famille"
+    nature_dir = "/app/frontend/assets/audio/nature"
+    
+    famille_files = []
+    nature_files = []
+    
+    if os.path.exists(famille_dir):
+        famille_files = [f for f in os.listdir(famille_dir) if f.endswith('.m4a')]
+    
+    if os.path.exists(nature_dir):
+        nature_files = [f for f in os.listdir(nature_dir) if f.endswith('.m4a')]
+    
+    return {
+        "service": "Audio API intégré",
+        "famille": {
+            "count": len(famille_files),
+            "files": sorted(famille_files)
+        },
+        "nature": {
+            "count": len(nature_files),
+            "files": sorted(nature_files)
+        },
+        "endpoints": {
+            "famille": "/api/audio/famille/{filename}",
+            "nature": "/api/audio/nature/{filename}"
+        }
+    }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
