@@ -1,21 +1,18 @@
 <analysis>
-The AI engineer's work has primarily focused on robustifying the application's backend database, enhancing content accuracy, and improving frontend user experience. Initial efforts fixed a critical Construire des phrases game bug where it was stuck loading, by addressing an empty  endpoint and initializing sentences. A major challenge involved recurring database corruption and duplication, which led to the implementation of a multi-layered database protection system, including automatic backups, integrity checks, and emergency restoration scripts. Numerous data corrections, including specific word translations, cultural expressions, and alphabetical sorting, were applied through custom Python scripts. Frontend enhancements included replacing generic emojis with authentic Mayotte imagery (ylang-ylang flower, maki) and implementing phonetic corrections for Shimaoré and Kibouchi TTS. The most recent ongoing task is resolving a bug where the male voice selection for text-to-speech is not being applied, and clarifying a user-provided future date for a fork.
+The AI engineer's work has primarily focused on data integrity and audio integration. Initial efforts involved correcting the nombres section, which inadvertently exposed a critical database duplication issue. This was resolved by restoring a clean backup and carefully re-adding the numbers, ensuring data consistency. Subsequently, the famille section was updated with new translations. The major part of the trajectory focused on integrating authentic audio pronunciations. This involved extracting audio files from Google Drive, mapping them to database entries, and battling persistent technical challenges in the frontend's audio playback system (e.g.,  limitations with dynamic  files in React Native, and  access issues on mobile). The solution evolved from a direct file approach to an external HTTP audio server, and finally, integrating audio serving directly into the main FastAPI backend. Orthography corruptions were also identified and fixed. The most recent task involved addressing a fundamental architectural flaw: a single audio field per word preventing dual-language authentic pronunciations. The AI is currently restructuring the database to support separate Shimaoré and Kibouchi audio fields.
 </analysis>
 
 <product_requirements>
-The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The core problem has been continuous refinement of vocabulary, ensuring accurate translations, correct orthography, and proper category management.
-
-Explicit requests throughout the trajectory included: UI/UX optimization for games and content visualization using authentic images (ylang-ylang, maki) instead of emojis. A critical focus has been on database integrity, maintaining a 548-word authentic database, eliminating duplicates, and implementing a robust protection system. A new Construire des phrases game was implemented, requiring accurate French conjugation and sentence generation. An audio pronunciation system (Voix Off) was integrated, prioritizing authentic audio recordings and applying phonetic corrections for Shimaoré and Kibouchi TTS. Other tasks included ensuring the badge and progress system is operational, sorting database content alphabetically (with exceptions for numbers and grammar), removing emojis from sensitive words, and enabling a charismatic male voice for pronunciations.
+The user requires an educational mobile application for children to learn Shimaoré and Kibouchi, featuring engaging games, illustrations, audio pronunciation, an admin panel, offline mode, badge system, and user data export. The core problem has been continuous refinement of vocabulary, ensuring accurate translations, correct orthography, and proper category management. The implemented features include UI/UX optimization with authentic Mayotte images (ylang-ylang, maki) and robust database integrity with a 548-word authentic database, duplicate elimination, and a protection system. A Construire des phrases game, an audio pronunciation system (Voix Off) with phonetic corrections, and an operational badge/progress system are also in place. Database content is sorted alphabetically (with exceptions), emojis are removed from sensitive words, and attempts have been made to enable a charismatic male voice for pronunciations.
 </product_requirements>
 
 <key_technical_concepts>
-- Full-stack Development: Expo (React Native) for frontend, FastAPI for backend, MongoDB for database.
-- Expo Router: File-based routing for navigation.
+- Full-stack Development: Expo (React Native), FastAPI, MongoDB.
+- Expo Router: File-based routing.
 - Database Management: Python scripts for data recovery, deduplication, content updates, and a custom database protection system.
-- Conjugation Engine: Backend logic for verb conjugation and sentence generation.
-- Audio Playback:  (TTS) and  (authentic audio) with custom phonetic corrections.
-- API Interaction: Frontend-backend communication for dynamic content and administrative tasks.
-- Image Handling: Base64 encoding for custom images (Ylang-ylang, Maki).
+- Audio Playback:  (TTS) and  with custom phonetic corrections.
+- API Interaction: Frontend-backend communication, including a newly integrated audio serving API.
+- Image Handling: Base64 encoding for custom images.
 </key_technical_concepts>
 
 <code_architecture>
@@ -23,22 +20,48 @@ The application follows a standard Expo full-stack architecture:
 
 
 
--   : Core FastAPI backend. Modified to include  endpoint, implement  decorators, add admin endpoints (, , ), and fix  serialization for progress/badges. Destructive code in  was commented out.
--   : Backend environment variables.  updated to .
--   : **NEW**. Implements a multi-layered system for database integrity, auto-backups, and emergency restoration. Updated to recognize maèva as an authentic signature.
--    (e.g., , , , etc.): **NEW**. Various scripts for applying specific data corrections, translations, and orthographic fixes to the MongoDB database based on user requests and provided data. These include updates for non, oncle paternel, au revoir, practical expressions, ancien, verbs from tables, and comprehensive cleanup.
--   : **NEW**. Script to handle alphabetical sorting, emoji removal, and general data hygiene.
--   : **NEW**. Corrected script to properly update MongoDB documents for alphabetical/logical sorting across categories.
--   : **NEW**. Script to change compound emojis for numbers 11-20 to plain text for better display.
--    & : **NEW**. Scripts for comprehensive duplicate detection, user-guided duplicate removal, and removal of emojis from sensitive words.
--   : UI and logic for games. Modified for Construire des phrases game, and integrated  and  components.
--   : Vocabulary display. Integrated  and .
--   : Home screen. Integrated  and  components.
--   : User progress. Integrated  component.
--   : Text-to-speech utility. Integrated .
--   : **NEW**. Provides specific phonetic rules for Shimaoré and Kibouchi TTS.
--    & : **NEW**. Attempts at improving speech utility and forcing a masculine voice.
--    & : **NEW**. Reusable components for authentic Mayotte illustrations, replacing generic emojis.
+-   : Core FastAPI backend.
+    -   **Changes:**
+        -   Modified to include new audio fields (, , , , ) in the  Pydantic model for serializing audio metadata.
+        -   Integrated audio file serving endpoints (, , ) directly into the main FastAPI application to circumvent  access issues on mobile.
+-   : Implements database integrity.
+    -   **Changes:** Corrected class name from  to  and method calls like  to .
+-    (New): Script to add/update number translations from user-provided images.
+    -   **Changes:** Numerous corrections made during its development including class names, method calls, collection names ( to ), and field names ( to ).
+-    (New): Script to restore the database from a specified backup.
+    -   **Changes:** Fixed a  during initial execution.
+-    (New): Script to add/update family translations from user-provided images.
+-    (New): Script to integrate audio file metadata for the famille section into the MongoDB database.
+-   , ,  (New): Scripts to attempt automated downloading of audio files from Google Drive. These encountered access restrictions.
+-    (New): Script to extract audio files from a user-uploaded ZIP into .
+-    (New): Script to extract audio files from a user-uploaded ZIP into .
+-    (New): Script to add any missing audio metadata for famille words.
+-    (New): Script to map and integrate audio file metadata for the nature section into the MongoDB database.
+-    (New): Temporary script to test the backend audio system.
+-    (New): A temporary FastAPI server to serve audio files on port 8002. This approach was later abandoned in favor of integrating endpoints into .
+-    (New): Script to correct specific orthography errors (e.g., bwéni for madame).
+-    (New): Script to generate a report of word-to-audio file mappings.
+-    (New): Script for an in-depth report on translation-to-pronunciation mappings, highlighting mismatches.
+-    (New): Script to correct specific audio mappings (e.g., famille and frère).
+-    (New): Script to handle the special case of frère requiring different audio files for Shimaoré and Kibouchi.
+-    (New): Script for 1:1 audio file to word mapping based on exact orthography match.
+-    (New): Script to complete all remaining audio mappings for the famille section following specific 's'/'k' differentiation logic.
+-    (New): Script to restructure the database to accommodate separate audio fields for Shimaoré and Kibouchi pronunciations.
+-   : The learning screen.
+    -   **Changes:**
+        -   Updated  interface to include new audio metadata fields.
+        -   Integrated  and later  to replace older audio playback logic.
+        -   Replaced  and  functions to use the new dynamic/real audio systems.
+-   : New directory to store extracted audio files. Contains  and  subdirectories.
+-    (New): A reusable component initially created for playing authentic audio.
+-   : Original audio utility.
+    -   **Changes:** This file was the basis for developing new systems; it was not directly modified but its functionalities were replaced.
+-    (New): An attempt to create a dynamic audio system that was later found to have limitations with  and  files.
+-    (New): The latest iteration of the frontend audio utility.
+    -   **Changes:**
+        -   Initial version struggled with  for  files.
+        -   Updated to use HTTP URLs, first pointing to  (audio_server.py), then to the integrated endpoints in .
+        -   Simplified  function.
 </code_architecture>
 
 <pending_tasks>
@@ -47,15 +70,22 @@ The application follows a standard Expo full-stack architecture:
 - Extend the variety of French sentences in the Construire des phrases game.
 - Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features.
 - Investigate and resolve remaining incorrect emoji associations (e.g., curcuma with leaves, ginger with roots).
-- Identify the root cause of the recurring database duplication problem (2316 words).
+- Identify the root cause of the recurring database duplication problem (2316 words). (Partially addressed by clean restore, but underlying cause still pending).
 - Resolve the issue of the text-to-speech voice remaining female despite attempts to force a male voice.
 - Clarify the user's mentioned fork date (October 19, 2025).
+- Complete the database restructuring to support separate Shimaoré and Kibouchi audio pronunciations per word.
+- Update frontend and backend code to fully utilize the new database audio structure.
+- Extend audio integration (metadata + files) to other categories (e.g., colors, animals).
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was addressing a critical bug where the pronunciation of words and expressions in the application was consistently using a female voice, despite efforts to implement a male, more charismatic voice. The previous attempt involved creating and integrating  into  to explicitly select a male voice from available system voices. The user explicitly reported that the voice is still female, indicating that the fix was not successful. The AI engineer is in the process of diagnosing why the male voice selection is not being correctly applied, potentially examining limitations of  or the voice selection logic. Additionally, the user asked for clarification on a fork date (October 19, 2025), which the AI engineer noted as being in the future relative to the current session (September 18, 2025), and is awaiting user input for this clarification.
+Immediately prior to this summary, the AI engineer was addressing a fundamental architectural flaw in the audio pronunciation system. The user identified that the current system, having a single audio field per word, prevented the correct association of authentic pronunciations for both Shimaoré and Kibouchi when both were available. This resulted in one language often defaulting to non-original text-to-speech.
+
+The user explicitly requested to: crée des tableaux avec une colonne en français, une colonne de traduction en shimaoré, une colonne en kibouchi, une colonne de prononciation des mots en kibouchi et une colonne de prononciation en shimaoré. de cette manière tu associe chaque mot ou expression en français à sa traduction dans les deux langues avec les prononciations qui vont avec.
+
+The AI engineer acknowledged this as a critical problem and decided to restructure the database to support separate audio fields for each language. A new script, , was created, and its execution was initiated to perform this database schema change.
 </current_work>
 
 <optional_next_step>
-Diagnose and fix the persistent issue where the text-to-speech voice remains female, ensuring the male voice is correctly applied for pronunciations.
+Complete the execution of  and verify the new database schema.
 </optional_next_step>
