@@ -987,9 +987,104 @@ async def get_audio_info():
         },
         "endpoints": {
             "famille": "/api/audio/famille/{filename}",
-            "nature": "/api/audio/nature/{filename}"
+            "nature": "/api/audio/nature/{filename}",
+            "dual_system": "/api/words/{word_id}/audio/{lang}"
         }
     }
+
+# Nouveaux endpoints pour le système audio dual
+@app.get("/api/words/{word_id}/audio/{lang}")
+async def get_word_audio_by_language(word_id: str, lang: str):
+    """
+    Récupère l'audio d'un mot dans une langue spécifique
+    lang: 'shimaore' ou 'kibouchi'
+    """
+    if lang not in ['shimaore', 'kibouchi']:
+        raise HTTPException(status_code=400, detail="Langue doit être 'shimaore' ou 'kibouchi'")
+    
+    try:
+        # Récupérer le mot
+        word_doc = words_collection.find_one({"_id": ObjectId(word_id)})
+        if not word_doc:
+            raise HTTPException(status_code=404, detail="Mot non trouvé")
+        
+        # Vérifier si le système dual est activé
+        if not word_doc.get("dual_audio_system", False):
+            raise HTTPException(status_code=400, detail="Ce mot n'utilise pas le système audio dual")
+        
+        # Récupérer le nom du fichier selon la langue
+        if lang == "shimaore":
+            filename = word_doc.get("shimoare_audio_filename")
+            has_audio = word_doc.get("shimoare_has_audio", False)
+        else:  # kibouchi
+            filename = word_doc.get("kibouchi_audio_filename")
+            has_audio = word_doc.get("kibouchi_has_audio", False)
+        
+        if not has_audio or not filename:
+            raise HTTPException(status_code=404, detail=f"Pas d'audio disponible en {lang} pour ce mot")
+        
+        # Servir le fichier
+        import os
+        from fastapi.responses import FileResponse
+        
+        # Pour l'instant, tous les fichiers sont dans le dossier famille
+        file_path = os.path.join("/app/frontend/assets/audio/famille", filename)
+        
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail=f"Fichier audio non trouvé: {filename}")
+        
+        return FileResponse(
+            file_path,
+            media_type="audio/mp4",
+            headers={"Content-Disposition": f"inline; filename={filename}"}
+        )
+        
+    except ValueError:
+        raise HTTPException(status_code=400, detail="ID de mot invalide")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/words/{word_id}/audio-info")
+async def get_word_audio_info(word_id: str):
+    """
+    Récupère les informations audio d'un mot (système dual)
+    """
+    try:
+        word_doc = words_collection.find_one({"_id": ObjectId(word_id)})
+        if not word_doc:
+            raise HTTPException(status_code=404, detail="Mot non trouvé")
+        
+        return {
+            "word": {
+                "id": word_id,
+                "french": word_doc.get("french"),
+                "shimaore": word_doc.get("shimaore"),
+                "kibouchi": word_doc.get("kibouchi")
+            },
+            "dual_audio_system": word_doc.get("dual_audio_system", False),
+            "audio": {
+                "shimaore": {
+                    "has_audio": word_doc.get("shimoare_has_audio", False),
+                    "filename": word_doc.get("shimoare_audio_filename"),
+                    "url": f"/api/words/{word_id}/audio/shimaore" if word_doc.get("shimoare_has_audio") else None
+                },
+                "kibouchi": {
+                    "has_audio": word_doc.get("kibouchi_has_audio", False),
+                    "filename": word_doc.get("kibouchi_audio_filename"),
+                    "url": f"/api/words/{word_id}/audio/kibouchi" if word_doc.get("kibouchi_has_audio") else None
+                }
+            },
+            "legacy_audio": {
+                "has_authentic_audio": word_doc.get("has_authentic_audio", False),
+                "audio_filename": word_doc.get("audio_filename"),
+                "audio_pronunciation_lang": word_doc.get("audio_pronunciation_lang")
+            }
+        }
+        
+    except ValueError:
+        raise HTTPException(status_code=400, detail="ID de mot invalide")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
