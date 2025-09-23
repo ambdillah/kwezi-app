@@ -988,6 +988,8 @@ async def get_audio_info():
         "endpoints": {
             "famille": "/api/audio/famille/{filename}",
             "nature": "/api/audio/nature/{filename}",
+            "nombres": "/api/audio/nombres/{filename}",
+            "animaux": "/api/audio/animaux/{filename}",
             "dual_system": "/api/words/{word_id}/audio/{lang}"
         }
     }
