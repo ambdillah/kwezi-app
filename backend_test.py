@@ -26,9 +26,10 @@ def log_test(test_name, status, details=""):
 def test_api_connectivity():
     """Test de connectivité API de base"""
     try:
-        response = requests.get(f"{API_BASE}/../", timeout=10)
+        response = requests.get(f"{API_BASE}/words", timeout=10)
         if response.status_code == 200:
-            return log_test("Connectivité API", True, f"Backend accessible: {response.json().get('message', 'OK')}")
+            words = response.json()
+            return log_test("Connectivité API", True, f"Backend accessible: {len(words)} mots récupérés")
         else:
             return log_test("Connectivité API", False, f"Status code: {response.status_code}")
     except Exception as e:
