@@ -532,6 +532,21 @@ backend:
         agent: "testing"  
         comment: "🎉 NOUVEAU SYSTÈME AUDIO DUAL RESTRUCTURÉ TESTÉ AVEC SUCCÈS! Tous les tests backend ont réussi (6/6). ✅ **DATABASE RESTRUCTURÉE**: 25 mots famille avec nouveaux champs dual (dual_audio_system, shimoare_has_audio, kibouchi_has_audio, shimoare_audio_filename, kibouchi_audio_filename) ✅ **NOUVEAUX ENDPOINTS AUDIO DUAL**: /api/words/{id}/audio-info, /api/words/{id}/audio/shimaore, /api/words/{id}/audio/kibouchi tous fonctionnels ✅ **COMPATIBILITÉ ANCIENS ENDPOINTS**: /api/audio/famille/{filename} et /api/audio/info maintenus ✅ **TESTS SPÉCIFIQUES RÉUSSIS**: Papa (Baba s.m4a + Baba k.m4a), Famille (Mdjamaza.m4a + Havagna.m4a), Frère (fichiers audio corrects) ✅ **VALIDATION PRONONCIATIONS DUALES**: Système permet maintenant DEUX prononciations authentiques distinctes par mot (25 mots avec les deux langues) ✅ **SYSTÈME PRÊT PRODUCTION**: Gestion d'erreurs appropriée, intégration API backend complète. Le nouveau système audio dual pour permettre des prononciations authentiques séparées en Shimaoré ET Kibouchi est entièrement fonctionnel."
 
+  - task: "Extension système audio dual aux catégories nature, nombres et animaux"
+    implemented: true
+    working: true
+    file: "backend/extend_dual_audio_system.py, backend/server.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "EXTENSION SYSTÈME DUAL RÉUSSIE: ✅ 3 fichiers ZIP extraits (Nature: 96 audio, Nombres: 53 audio, Animaux: 127 audio) ✅ Script extend_dual_audio_system.py créé et exécuté (138 mots restructurés au total) ✅ Backend étendu avec nouveaux endpoints: /api/audio/nombres/{filename}, /api/audio/animaux/{filename} ✅ Détection automatique de catégorie pour servir les bons fichiers audio ✅ Mappings intelligents: nombres avec logique numérique spéciale, nature et animaux avec correspondances automatiques ✅ 4 catégories complètes: famille (25), nature (49), nombres (20), animaux (69) avec système dual"
+      - working: true
+        agent: "testing"
+        comment: "🎉 SYSTÈME AUDIO DUAL ÉTENDU VALIDÉ AVEC SUCCÈS! Tests backend complets réussis (52/52). ✅ **EXTENSION COMPLÈTE**: 163 mots avec système dual across 4 catégories (famille: 25, nature: 49, nombres: 20, animaux: 69) ✅ **NOUVEAUX ENDPOINTS FONCTIONNELS**: /api/audio/nombres/{filename}, /api/audio/animaux/{filename}, /api/audio/info retourne 4 catégories ✅ **DUAL SYSTEM OPÉRATIONNEL**: /api/words/{id}/audio/shimaore et /api/words/{id}/audio/kibouchi pour toutes catégories ✅ **TESTS SPÉCIFIQUES VALIDÉS**: un (Moja.m4a/Areki.m4a), arbre (Mwiri.m4a/Kakazou.m4a), chat (Paha.m4a/Moirou.m4a) ✅ **COUVERTURE AUDIO EXCELLENTE**: 310 fichiers audio totaux, détection automatique catégorie fonctionnelle ✅ **SYSTÈME PRODUCTION READY**: Tous les 4 catégories supportent maintenant prononciations authentiques duales séparées Shimaoré ET Kibouchi"
+
   - task: "Updated animals vocabulary testing from new tableau"
     implemented: true
     working: true
