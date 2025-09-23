@@ -10,7 +10,7 @@ import sys
 from typing import Dict, List, Any
 
 # Configuration de l'URL de base
-BASE_URL = "https://dual-language-app.preview.emergentagent.com/api"
+BASE_URL = "https://mayotte-learn-2.preview.emergentagent.com/api"
 
 class DualAudioSystemTester:
     def __init__(self):
