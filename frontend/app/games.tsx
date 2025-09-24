@@ -152,6 +152,12 @@ export default function GamesScreen() {
   };
 
   const startGame = (gameId: string) => {
+    // Navigation spéciale pour le jeu de découverte de Mayotte
+    if (gameId === 'mayotte-discovery') {
+      router.push('/mayotte-discovery');
+      return;
+    }
+    
     setCurrentGame(gameId);
     setGameStarted(true);
     setScore(0);
