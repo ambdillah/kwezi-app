@@ -1,6 +1,7 @@
 /**
  * SYSTÈME DE COLORATION DES PRÉFIXES DE CONJUGAISON
  * Colorie automatiquement les préfixes selon les temps grammaticaux
+ * UNIQUEMENT pour les verbes, pas pour les pronoms
  */
 
 // Schéma de couleurs pédagogiques pour les temps
@@ -11,14 +12,26 @@ export const TENSE_COLORS = {
   default: '#6C757D'     // Gris - Non identifié
 };
 
-// Préfixes de conjugaison Shimaoré
+// Pronoms personnels - NE PAS colorier ces mots
+export const SHIMAORE_PRONOUNS = [
+  'wami', 'wawe', 'waye', 'wassi', 'wagnou', 'wawo',  // Pronoms sujets
+  'yangou', 'yaho', 'yahe', 'yatrou', 'yangnou', 'yawo', // Pronoms possessifs
+  'mimi', 'wewe', 'yeye', 'swassi', 'nangnou', 'wawo'    // Variantes
+];
+
+export const KIBOUCHI_PRONOUNS = [
+  'zahou', 'anaou', 'izi', 'atsika', 'anarou', 'rou',  // Pronoms sujets
+  'za', 'ana', // Formes courtes (attention: 'za' et 'ana' peuvent être des préfixes de conjugaison)
+];
+
+// Préfixes de conjugaison Shimaoré (UNIQUEMENT pour les verbes)
 export const SHIMAORE_PREFIXES = {
   present: ['nis', 'ous', 'as', 'ris', 'mous', 'was'],
   past: ['naco', 'waco', 'aco', 'raco', 'mwaco'],
   future: ['nitso', 'outso', 'atso', 'ritso', 'moutso', 'watso']
 };
 
-// Préfixes de conjugaison Kibouchi
+// Préfixes de conjugaison Kibouchi (UNIQUEMENT pour les verbes)
 export const KIBOUCHI_PREFIXES = {
   present: ['za', 'ana', 'izi', 'zéheyi', 'anaréou', 'réou'],
   past: ['ni'], // Préfixe ajouté pour le passé
@@ -26,12 +39,59 @@ export const KIBOUCHI_PREFIXES = {
 };
 
 /**
+ * Vérifie si un mot est un pronom personnel (à ne pas colorier)
+ */
+export const isPronoun = (word: string, language: 'shimaore' | 'kibouchi'): boolean => {
+  const lowerWord = word.toLowerCase().trim();
+  const pronouns = language === 'shimaore' ? SHIMAORE_PRONOUNS : KIBOUCHI_PRONOUNS;
+  
+  return pronouns.includes(lowerWord);
+};
+
+/**
+ * Vérifie si un mot semble être un verbe conjugué
+ * (a un préfixe de conjugaison ET n'est pas un pronom)
+ */
+export const isConjugatedVerb = (word: string, language: 'shimaore' | 'kibouchi'): boolean => {
+  // D'abord vérifier que ce n'est pas un pronom
+  if (isPronoun(word, language)) {
+    return false;
+  }
+  
+  const lowerWord = word.toLowerCase().trim();
+  const prefixes = language === 'shimaore' ? SHIMAORE_PREFIXES : KIBOUCHI_PREFIXES;
+  
+  // Vérifier si le mot commence par un préfixe de conjugaison
+  for (const prefixList of Object.values(prefixes)) {
+    for (const prefix of prefixList) {
+      if (lowerWord.startsWith(prefix)) {
+        // Pour Kibouchi, 'za' et 'ana' peuvent être des pronoms ou des préfixes
+        if (language === 'kibouchi' && (prefix === 'za' || prefix === 'ana')) {
+          // Si le mot est exactement 'za' ou 'ana', c'est probablement un pronom
+          if (lowerWord === prefix) {
+            return false;
+          }
+          // Si c'est suivi d'un espace ou d'autre chose, c'est probablement un verbe
+          return true;
+        }
+        return true;
+      }
+    }
+  }
+  
+  return false;
+};
+
+/**
  * Identifie le temps d'un mot basé sur ses préfixes
+ * UNIQUEMENT si c'est un verbe conjugué
  */
 export const identifyTense = (word: string, language: 'shimaore' | 'kibouchi'): string => {
-  if (!word) return 'default';
+  if (!word || !isConjugatedVerb(word, language)) {
+    return 'default';
+  }
   
-  const lowerWord = word.toLowerCase();
+  const lowerWord = word.toLowerCase().trim();
   const prefixes = language === 'shimaore' ? SHIMAORE_PREFIXES : KIBOUCHI_PREFIXES;
   
   // Vérifier chaque temps
@@ -48,15 +108,27 @@ export const identifyTense = (word: string, language: 'shimaore' | 'kibouchi'): 
 
 /**
  * Sépare un mot en préfixe et racine pour la coloration
+ * UNIQUEMENT si c'est un verbe conjugué
  */
 export const separatePrefixAndRoot = (word: string, language: 'shimaore' | 'kibouchi'): {
   prefix: string;
   root: string;
   tense: string;
+  isVerb: boolean;
 } => {
-  if (!word) return { prefix: '', root: word, tense: 'default' };
+  if (!word) return { prefix: '', root: word, tense: 'default', isVerb: false };
   
-  const lowerWord = word.toLowerCase();
+  // Vérifier si c'est un pronom - si oui, ne pas traiter
+  if (isPronoun(word, language)) {
+    return { prefix: '', root: word, tense: 'default', isVerb: false };
+  }
+  
+  // Vérifier si c'est un verbe conjugué
+  if (!isConjugatedVerb(word, language)) {
+    return { prefix: '', root: word, tense: 'default', isVerb: false };
+  }
+  
+  const lowerWord = word.toLowerCase().trim();
   const prefixes = language === 'shimaore' ? SHIMAORE_PREFIXES : KIBOUCHI_PREFIXES;
   
   // Rechercher le préfixe correspondant
@@ -70,7 +142,8 @@ export const separatePrefixAndRoot = (word: string, language: 'shimaore' | 'kibo
         return {
           prefix: originalPrefix,
           root: originalRoot,
-          tense: tense
+          tense: tense,
+          isVerb: true
         };
       }
     }
@@ -80,7 +153,8 @@ export const separatePrefixAndRoot = (word: string, language: 'shimaore' | 'kibo
   return {
     prefix: '',
     root: word,
-    tense: 'default'
+    tense: 'default',
+    isVerb: false
   };
 };
 
@@ -93,17 +167,20 @@ export const getTenseColor = (tense: string): string => {
 
 /**
  * Créé des informations de coloration pour une liste de mots
+ * UNIQUEMENT les verbes seront colorés
  */
 export const createColoredWordsList = (words: string[], language: 'shimaore' | 'kibouchi') => {
   return words.map(word => {
-    const { prefix, root, tense } = separatePrefixAndRoot(word, language);
+    const { prefix, root, tense, isVerb } = separatePrefixAndRoot(word, language);
     return {
       originalWord: word,
       prefix,
       root,
       tense,
-      color: getTenseColor(tense),
-      hasPrefix: prefix.length > 0
+      color: isVerb ? getTenseColor(tense) : TENSE_COLORS.default,
+      hasPrefix: prefix.length > 0,
+      isVerb: isVerb,
+      isPronoun: isPronoun(word, language)
     };
   });
 };
@@ -145,8 +222,9 @@ export const getTenseExplanations = () => {
 
 /**
  * Vérifie si un mot contient un préfixe temporel
+ * UNIQUEMENT pour les verbes
  */
 export const hasTemporalPrefix = (word: string, language: 'shimaore' | 'kibouchi'): boolean => {
-  const { tense } = separatePrefixAndRoot(word, language);
-  return tense !== 'default';
+  const { tense, isVerb } = separatePrefixAndRoot(word, language);
+  return isVerb && tense !== 'default';
 };
