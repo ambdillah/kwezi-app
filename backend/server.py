@@ -1006,6 +1006,26 @@ async def get_animaux_audio(filename: str):
         headers={"Content-Disposition": f"inline; filename={filename}"}
     )
 
+@app.get("/api/audio/adjectifs/{filename}")
+async def get_adjectifs_audio(filename: str):
+    """Sert un fichier audio adjectifs"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/adjectifs", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio adjectifs non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
 @app.get("/api/audio/expressions/{filename}")
 async def get_expressions_audio(filename: str):
     """Sert un fichier audio expressions"""
