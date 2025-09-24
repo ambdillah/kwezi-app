@@ -4,7 +4,7 @@
  * Fonctions pour tester différentes configurations de voix
  */
 
-import { speakWithEnhancedVoice, getAvailableVoices } from './enhancedSpeechUtils';
+import { speakWithFeminineVoice, selectBestFeminineVoice } from './feminineSpeechUtils';
 
 /**
  * Teste plusieurs configurations de voix avec des phrases d'exemple
