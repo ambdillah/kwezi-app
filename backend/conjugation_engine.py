@@ -205,6 +205,200 @@ class ConjugationEngine:
             }
         }
     
+        
+    # Dictionnaire complet de conjugaisons françaises
+    french_conjugation = {
+        'present': {
+            'je': {
+                'parler': 'je parle',
+                'manger': 'je mange', 
+                'jouer': 'je joue',
+                'marcher': 'je marche',
+                'courir': 'je cours',
+                'dormir': 'je dors',
+                'boire': 'je bois',
+                'voir': 'je vois',
+                'avoir': "j'ai",
+                'être': 'je suis',
+                'faire': 'je fais',
+                'aller': 'je vais',
+                'venir': 'je viens',
+                'prendre': 'je prends',
+                'donner': 'je donne',
+                'regarder': 'je regarde',
+                'écouter': "j'écoute",
+                'lire': 'je lis',
+                'écrire': "j'écris",
+                'chanter': 'je chante',
+                'danser': 'je danse',
+                'travailler': 'je travaille',
+                'aimer': "j'aime",
+                'détester': 'je déteste',
+                'acheter': "j'achète",
+                'vendre': 'je vends',
+                'ouvrir': "j'ouvre",
+                'fermer': 'je ferme',
+                'commencer': 'je commence'
+            },
+            'tu': {
+                'parler': 'tu parles',
+                'manger': 'tu manges',
+                'jouer': 'tu joues', 
+                'marcher': 'tu marches',
+                'courir': 'tu cours',
+                'dormir': 'tu dors',
+                'boire': 'tu bois',
+                'voir': 'tu vois',
+                'avoir': 'tu as',
+                'être': 'tu es',
+                'faire': 'tu fais',
+                'aller': 'tu vas',
+                'venir': 'tu viens',
+                'prendre': 'tu prends',
+                'donner': 'tu donnes',
+                'regarder': 'tu regardes',
+                'écouter': 'tu écoutes',
+                'lire': 'tu lis',
+                'écrire': 'tu écris',
+                'chanter': 'tu chantes',
+                'danser': 'tu danses',
+                'travailler': 'tu travailles',
+                'aimer': 'tu aimes',
+                'détester': 'tu détestes',
+                'acheter': 'tu achètes',
+                'vendre': 'tu vends',
+                'ouvrir': 'tu ouvres',
+                'fermer': 'tu fermes',
+                'commencer': 'tu commences'
+            },
+            'il': {
+                'parler': 'il parle',
+                'manger': 'il mange',
+                'jouer': 'il joue',
+                'marcher': 'il marche',
+                'courir': 'il court',
+                'dormir': 'il dort',
+                'boire': 'il boit',
+                'voir': 'il voit',
+                'avoir': 'il a',
+                'être': 'il est',
+                'faire': 'il fait',
+                'aller': 'il va',
+                'venir': 'il vient',
+                'prendre': 'il prend',
+                'donner': 'il donne',
+                'regarder': 'il regarde',
+                'écouter': 'il écoute',
+                'lire': 'il lit',
+                'écrire': 'il écrit',
+                'chanter': 'il chante',
+                'danser': 'il danse',
+                'travailler': 'il travaille',
+                'aimer': 'il aime',
+                'détester': 'il déteste',
+                'acheter': 'il achète',
+                'vendre': 'il vend',
+                'ouvrir': 'il ouvre',
+                'fermer': 'il ferme',
+                'commencer': 'il commence'
+            },
+            'nous': {
+                'parler': 'nous parlons',
+                'manger': 'nous mangeons',
+                'jouer': 'nous jouons',
+                'marcher': 'nous marchons',
+                'courir': 'nous courons',
+                'dormir': 'nous dormons',
+                'boire': 'nous buvons',
+                'voir': 'nous voyons',
+                'avoir': 'nous avons',
+                'être': 'nous sommes',
+                'faire': 'nous faisons',
+                'aller': 'nous allons',
+                'venir': 'nous venons',
+                'prendre': 'nous prenons',
+                'donner': 'nous donnons',
+                'regarder': 'nous regardons',
+                'écouter': 'nous écoutons',
+                'lire': 'nous lisons',
+                'écrire': 'nous écrivons',
+                'chanter': 'nous chantons',
+                'danser': 'nous dansons',
+                'travailler': 'nous travaillons',
+                'aimer': 'nous aimons',
+                'détester': 'nous détestons',
+                'acheter': 'nous achetons',
+                'vendre': 'nous vendons',
+                'ouvrir': 'nous ouvrons',
+                'fermer': 'nous fermons',
+                'commencer': 'nous commençons'
+            },
+            'vous': {
+                'parler': 'vous parlez',
+                'manger': 'vous mangez',
+                'jouer': 'vous jouez',
+                'marcher': 'vous marchez',
+                'courir': 'vous courez',
+                'dormir': 'vous dormez',
+                'boire': 'vous buvez',
+                'voir': 'vous voyez',
+                'avoir': 'vous avez',
+                'être': 'vous êtes',
+                'faire': 'vous faites',
+                'aller': 'vous allez',
+                'venir': 'vous venez',
+                'prendre': 'vous prenez',
+                'donner': 'vous donnez',
+                'regarder': 'vous regardez',
+                'écouter': 'vous écoutez',
+                'lire': 'vous lisez',
+                'écrire': 'vous écrivez',
+                'chanter': 'vous chantez',
+                'danser': 'vous dansez',
+                'travailler': 'vous travaillez',
+                'aimer': 'vous aimez',
+                'détester': 'vous détestez',
+                'acheter': 'vous achetez',
+                'vendre': 'vous vendez',
+                'ouvrir': 'vous ouvrez',
+                'fermer': 'vous fermez',
+                'commencer': 'vous commencez'
+            },
+            'ils': {
+                'parler': 'ils parlent',
+                'manger': 'ils mangent',
+                'jouer': 'ils jouent',
+                'marcher': 'ils marchent',
+                'courir': 'ils courent',
+                'dormir': 'ils dorment',
+                'boire': 'ils boivent',
+                'voir': 'ils voient',
+                'avoir': 'ils ont',
+                'être': 'ils sont',
+                'faire': 'ils font',
+                'aller': 'ils vont',
+                'venir': 'ils viennent',
+                'prendre': 'ils prennent',
+                'donner': 'ils donnent',
+                'regarder': 'ils regardent',
+                'écouter': 'ils écoutent',
+                'lire': 'ils lisent',
+                'écrire': 'ils écrivent',
+                'chanter': 'ils chantent',
+                'danser': 'ils dansent',
+                'travailler': 'ils travaillent',
+                'aimer': 'ils aiment',
+                'détester': 'ils détestent',
+                'acheter': 'ils achètent',
+                'vendre': 'ils vendent',
+                'ouvrir': 'ils ouvrent',
+                'fermer': 'ils ferment',
+                'commencer': 'ils commencent'
+            }
+        }
+    }
+
+    
     def get_shimaore_radical(self, infinitive):
         """Extrait le radical d'un verbe shimaoré (enlève 'ou' ou 'Ou')"""
         if infinitive.lower().startswith('ou'):
@@ -255,21 +449,28 @@ class ConjugationEngine:
         
         return infinitive  # Retour par défaut
     
-    def conjugate_french(self, verb_fr, pronoun, tense='present'):
+        def conjugate_french(self, verb_fr, pronoun, tense='present'):
         """Conjugue un verbe français correctement"""
-        # Utiliser le conjugateur automatique français
-        try:
-            return self.french_conjugator.conjugate_verb(verb_fr, pronoun, tense)
-        except Exception:
-            # Fallback vers l'ancienne méthode si erreur
-            verb_normalized = verb_fr.lower()
-            
-            if tense in self.french_conjugation and pronoun in self.french_conjugation[tense]:
-                if verb_normalized in self.french_conjugation[tense][pronoun]:
-                    return self.french_conjugation[tense][pronoun][verb_normalized]
-            
-            # Conjugaison par défaut si pas trouvée
-            return f"{pronoun} {verb_normalized}"
+        verb_normalized = verb_fr.lower()
+        
+        # Utiliser le dictionnaire de conjugaisons
+        if tense in self.french_conjugation and pronoun in self.french_conjugation[tense]:
+            if verb_normalized in self.french_conjugation[tense][pronoun]:
+                return self.french_conjugation[tense][pronoun][verb_normalized]
+        
+        # Conjugaison automatique basique pour les verbes du premier groupe
+        if verb_normalized.endswith('er') and tense == 'present':
+            radical = verb_normalized[:-2]
+            endings = {
+                'je': 'e', 'tu': 'es', 'il': 'e',
+                'nous': 'ons', 'vous': 'ez', 'ils': 'ent'
+            }
+            if pronoun in endings:
+                return f"{pronoun} {radical}{endings[pronoun]}"
+        
+        # Fallback 
+        return f"{pronoun} {verb_normalized}"
+    
     
     def create_sentence(self, subject_fr, verb_fr, verb_shimaore, verb_kibouchi, object_fr=None, object_shimaore=None, object_kibouchi=None, tense='present'):
         """Crée une phrase complète en français, shimaoré et kibouchi"""
