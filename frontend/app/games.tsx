@@ -1041,13 +1041,15 @@ export default function GamesScreen() {
               </Text>
             ) : (
               builtSentence.map((word, index) => (
-                <TouchableOpacity 
+                <ColoredConjugationWord
                   key={index}
+                  word={word}
+                  language={selectedLanguage}
                   onPress={() => removeWordFromSentence(index)}
                   style={styles.builtWordButton}
-                >
-                  <Text style={styles.builtWordText}>{word}</Text>
-                </TouchableOpacity>
+                  textStyle={styles.builtWordText}
+                  showTenseIndicator={false}
+                />
               ))
             )}
           </View>
