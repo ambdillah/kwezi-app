@@ -1263,6 +1263,10 @@ async def get_audio_info():
     verbes_dir = "/app/frontend/assets/audio/verbes"
     expressions_dir = "/app/frontend/assets/audio/expressions"
     adjectifs_dir = "/app/frontend/assets/audio/adjectifs"
+    vetements_dir = "/app/frontend/assets/audio/vetements"
+    maison_dir = "/app/frontend/assets/audio/maison"
+    tradition_dir = "/app/frontend/assets/audio/tradition"
+    transport_dir = "/app/frontend/assets/audio/transport"
     
     famille_files = []
     nature_files = []
@@ -1276,6 +1280,10 @@ async def get_audio_info():
     verbes_files = []
     expressions_files = []
     adjectifs_files = []
+    vetements_files = []
+    maison_files = []
+    tradition_files = []
+    transport_files = []
     
     if os.path.exists(famille_dir):
         famille_files = [f for f in os.listdir(famille_dir) if f.endswith('.m4a')]
