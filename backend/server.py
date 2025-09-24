@@ -1254,7 +1254,11 @@ async def get_word_audio_by_language(word_id: str, lang: str):
             "nature": "/app/frontend/assets/audio/nature", 
             "nombres": "/app/frontend/assets/audio/nombres",
             "animaux": "/app/frontend/assets/audio/animaux",
-            "corps": "/app/frontend/assets/audio/corps"
+            "corps": "/app/frontend/assets/audio/corps",
+            "salutations": "/app/frontend/assets/audio/salutations",
+            "couleurs": "/app/frontend/assets/audio/couleurs",
+            "grammaire": "/app/frontend/assets/audio/grammaire",
+            "nourriture": "/app/frontend/assets/audio/nourriture"
         }
         
         # Utiliser le dossier correspondant à la catégorie, famille par défaut
