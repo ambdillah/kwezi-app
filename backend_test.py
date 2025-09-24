@@ -42,12 +42,11 @@ class BackendTester:
             if response.status_code == 200:
                 data = response.json()
                 total_categories = data.get('total_categories', 0)
-                categories = data.get('categories', {})
                 
                 if total_categories == 16:
-                    # Check if new categories are present
+                    # Check if new categories are present in the data keys
                     new_categories = ['vetements', 'maison', 'tradition', 'transport']
-                    missing_categories = [cat for cat in new_categories if cat not in categories]
+                    missing_categories = [cat for cat in new_categories if cat not in data]
                     
                     if not missing_categories:
                         self.log_result("Audio Info 16 Categories", True, f"All 16 categories present including new ones: {new_categories}")
