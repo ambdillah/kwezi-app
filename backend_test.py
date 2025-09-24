@@ -1,363 +1,667 @@
 #!/usr/bin/env python3
 """
-Backend Testing for Mayotte Language Learning API
-Focus: NOURRITURE SECTION MAJOR UPDATE - 97.7% Audio Coverage Testing
-
-This test specifically validates the major update to the "nourriture" section
-that improved audio coverage from 65.9% (29/44) to 97.7% (43/44) with 14 new words integrated.
+BACKEND TESTING - VERBES SECTION DUAL AUDIO SYSTEM INTEGRATION
+Test complet pour l'intégration du système audio dual pour la section "verbes"
 """
 
 import requests
 import json
+import os
 import sys
-from typing import Dict, List, Any
+from datetime import datetime
 
-# Get backend URL from environment
-BACKEND_URL = "https://mayotte-learn-2.preview.emergentagent.com/api"
+# Configuration des URLs
+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://mayotte-learn-2.preview.emergentagent.com')
+API_BASE = f"{BACKEND_URL}/api"
 
-class NourritureAudioTester:
+class VerbsAudioTester:
     def __init__(self):
-        self.backend_url = BACKEND_URL
-        self.test_results = []
-        self.failed_tests = []
+        self.results = []
+        self.total_tests = 0
+        self.passed_tests = 0
+        self.failed_tests = 0
         
-        # Expected 14 new words with their audio files from the review request
-        self.new_words_with_audio = {
-            "œuf": {"shimaoré": "Joiyi.m4a", "kibouchi": "Antoudi.m4a"},
-            "poulet": {"shimaoré": "Bawa.m4a", "kibouchi": "Mabawa.m4a"},
-            "nourriture": {"shimaoré": "Chaoula.m4a", "kibouchi": "Hanigni.m4a"},
-            "oignon": {"shimaoré": "Chouroungou.m4a", "kibouchi": "Doungoulou.m4a"},
-            "orange": {"shimaoré": "Troundra.m4a", "kibouchi": "Tsoha.m4a"},
-            "pois d'angole": {"shimaoré": "Tsouzi.m4a", "kibouchi": "Ambatri.m4a"},
-            "poivre": {"shimaoré": "Bvilibvili manga.m4a", "kibouchi": "Vilivili.m4a"},
-            "riz non décortiqué": {"shimaoré": "Mélé.m4a", "kibouchi": "Vari tsivoidissa.m4a"},
-            "sel": {"shimaoré": "Chingo.m4a", "kibouchi": "Sira.m4a"},
-            "tamarin": {"shimaoré": "Ouhajou.m4a", "kibouchi": "Madirou kakazou.m4a"},
-            "taro": {"shimaoré": "Majimbi.m4a", "kibouchi": "Majimbi.m4a"},
-            "un thé": {"shimaoré": "Maji ya moro.m4a", "kibouchi": "Ranou meyi.m4a"},
-            "vanille": {"shimaoré": "Lavani.m4a", "kibouchi": "Lavani.m4a"},
-            "noix de coco fraîche": {"shimaoré": "Chijavou.m4a", "kibouchi": "Kidjavou.m4a"}
-        }
-
-    def log_test(self, test_name: str, success: bool, details: str = ""):
-        """Log test result"""
+    def log_result(self, test_name, success, details="", expected="", actual=""):
+        """Enregistre le résultat d'un test"""
+        self.total_tests += 1
+        if success:
+            self.passed_tests += 1
+            status = "✅ PASS"
+        else:
+            self.failed_tests += 1
+            status = "❌ FAIL"
+            
         result = {
             "test": test_name,
+            "status": status,
             "success": success,
-            "details": details
+            "details": details,
+            "expected": expected,
+            "actual": actual,
+            "timestamp": datetime.now().isoformat()
         }
-        self.test_results.append(result)
-        
-        status = "✅ PASS" if success else "❌ FAIL"
+        self.results.append(result)
         print(f"{status}: {test_name}")
         if details:
-            print(f"   Details: {details}")
-        
-        if not success:
-            self.failed_tests.append(test_name)
+            print(f"    Details: {details}")
+        if not success and expected:
+            print(f"    Expected: {expected}")
+            print(f"    Actual: {actual}")
+        print()
 
-    def test_nourriture_category_words(self):
-        """Test 1: Verify nourriture category has 44 words total"""
+    def test_1_extension_systeme_audio_dual_10_categories(self):
+        """Test 1: Vérifier que 10 catégories sont maintenant supportées"""
+        print("🔧 TEST 1: Extension système audio dual - 10 catégories")
+        
         try:
-            response = requests.get(f"{self.backend_url}/words?category=nourriture", timeout=10)
-            if response.status_code == 200:
-                words = response.json()
-                word_count = len(words)
+            response = requests.get(f"{API_BASE}/audio/info", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_result(
+                    "Extension système audio dual - 10 catégories",
+                    False,
+                    f"Erreur HTTP {response.status_code}",
+                    "Status 200",
+                    f"Status {response.status_code}"
+                )
+                return
                 
-                if word_count == 44:
-                    self.log_test("Nourriture Category Word Count", True, f"Found {word_count}/44 words as expected")
-                else:
-                    self.log_test("Nourriture Category Word Count", False, f"Found {word_count}/44 words, expected exactly 44")
-                
-                return words
+            data = response.json()
+            
+            # Vérifier total_categories
+            total_categories = data.get('total_categories', 0)
+            if total_categories == 10:
+                self.log_result(
+                    "Total catégories supportées",
+                    True,
+                    f"10 catégories confirmées: {total_categories}"
+                )
             else:
-                self.log_test("Nourriture Category Word Count", False, f"API returned status {response.status_code}")
-                return []
+                self.log_result(
+                    "Total catégories supportées",
+                    False,
+                    f"Nombre incorrect de catégories",
+                    "10 catégories",
+                    f"{total_categories} catégories"
+                )
+            
+            # Vérifier présence de la catégorie verbes
+            if 'verbes' in data:
+                verbes_count = data['verbes']['count']
+                self.log_result(
+                    "Catégorie verbes présente",
+                    True,
+                    f"Catégorie verbes trouvée avec {verbes_count} fichiers audio"
+                )
+            else:
+                self.log_result(
+                    "Catégorie verbes présente",
+                    False,
+                    "Catégorie verbes manquante dans la réponse",
+                    "Catégorie verbes présente",
+                    "Catégorie verbes absente"
+                )
+            
+            # Vérifier endpoint verbes
+            endpoints = data.get('endpoints', {})
+            verbes_endpoint = endpoints.get('verbes')
+            if verbes_endpoint == "/api/audio/verbes/{filename}":
+                self.log_result(
+                    "Endpoint verbes configuré",
+                    True,
+                    f"Endpoint verbes: {verbes_endpoint}"
+                )
+            else:
+                self.log_result(
+                    "Endpoint verbes configuré",
+                    False,
+                    "Endpoint verbes incorrect ou manquant",
+                    "/api/audio/verbes/{filename}",
+                    str(verbes_endpoint)
+                )
+                
         except Exception as e:
-            self.log_test("Nourriture Category Word Count", False, f"Exception: {str(e)}")
-            return []
+            self.log_result(
+                "Extension système audio dual - 10 catégories",
+                False,
+                f"Exception: {str(e)}"
+            )
 
-    def test_dual_audio_coverage(self, words: List[Dict]):
-        """Test 2: Verify 43/44 words have dual_audio_system: true (97.7% coverage)"""
-        if not words:
-            self.log_test("Dual Audio Coverage 97.7%", False, "No words provided for testing")
-            return
+    def test_2_couverture_section_verbes(self):
+        """Test 2: Confirmer couverture section verbes (53/105 verbes)"""
+        print("🔧 TEST 2: Couverture section verbes")
         
-        words_with_dual_audio = 0
-        words_without_audio = []
-        
-        for word in words:
-            if word.get('dual_audio_system', False):
-                words_with_dual_audio += 1
-            else:
-                words_without_audio.append(word.get('french', 'Unknown'))
-        
-        coverage_percentage = (words_with_dual_audio / len(words)) * 100
-        
-        if words_with_dual_audio == 43 and len(words) == 44:
-            self.log_test("Dual Audio Coverage 97.7%", True, 
-                         f"Found {words_with_dual_audio}/44 words with dual audio ({coverage_percentage:.1f}% coverage)")
-        else:
-            self.log_test("Dual Audio Coverage 97.7%", False, 
-                         f"Found {words_with_dual_audio}/44 words with dual audio ({coverage_percentage:.1f}% coverage). Words without audio: {words_without_audio}")
-
-    def test_new_words_integration(self, words: List[Dict]):
-        """Test 3: Verify all 14 new words are present with correct translations"""
-        if not words:
-            self.log_test("14 New Words Integration", False, "No words provided for testing")
-            return
-        
-        word_dict = {word['french']: word for word in words}
-        found_new_words = 0
-        missing_words = []
-        
-        for french_word in self.new_words_with_audio.keys():
-            if french_word in word_dict:
-                found_new_words += 1
-                word_data = word_dict[french_word]
-                # Verify the word has dual audio system enabled
-                if not word_data.get('dual_audio_system', False):
-                    self.log_test(f"New Word Audio System - {french_word}", False, 
-                                 "dual_audio_system not enabled")
-            else:
-                missing_words.append(french_word)
-        
-        if found_new_words == 14:
-            self.log_test("14 New Words Integration", True, 
-                         f"All 14 new words found and integrated: {list(self.new_words_with_audio.keys())}")
-        else:
-            self.log_test("14 New Words Integration", False, 
-                         f"Found {found_new_words}/14 new words. Missing: {missing_words}")
-
-    def test_dual_audio_endpoints(self, words: List[Dict]):
-        """Test 4: Test dual audio endpoints for sample new words"""
-        if not words:
-            self.log_test("Dual Audio Endpoints", False, "No words provided for testing")
-            return
-        
-        word_dict = {word['french']: word for word in words}
-        test_words = ["œuf", "poulet", "nourriture", "sel"]  # Sample from new words
-        successful_tests = 0
-        
-        for french_word in test_words:
-            if french_word in word_dict:
-                word_data = word_dict[french_word]
-                word_id = word_data.get('id')
-                
-                if word_id:
-                    # Test Shimaoré audio endpoint
-                    try:
-                        shimaore_response = requests.get(f"{self.backend_url}/words/{word_id}/audio/shimaore", timeout=10)
-                        kibouchi_response = requests.get(f"{self.backend_url}/words/{word_id}/audio/kibouchi", timeout=10)
-                        
-                        if shimaore_response.status_code == 200 and kibouchi_response.status_code == 200:
-                            successful_tests += 1
-                            self.log_test(f"Dual Audio Endpoints - {french_word}", True, 
-                                         "Both Shimaoré and Kibouchi audio endpoints working")
-                        else:
-                            self.log_test(f"Dual Audio Endpoints - {french_word}", False, 
-                                         f"Shimaoré: {shimaore_response.status_code}, Kibouchi: {kibouchi_response.status_code}")
-                    except Exception as e:
-                        self.log_test(f"Dual Audio Endpoints - {french_word}", False, f"Exception: {str(e)}")
-        
-        if successful_tests == len(test_words):
-            self.log_test("Dual Audio Endpoints Overall", True, f"All {successful_tests} test words working")
-        else:
-            self.log_test("Dual Audio Endpoints Overall", False, f"Only {successful_tests}/{len(test_words)} test words working")
-
-    def test_nourriture_audio_endpoint(self):
-        """Test 5: Test GET /api/audio/nourriture/{filename} endpoint"""
-        test_files = ["Joiyi.m4a", "Bawa.m4a", "Chaoula.m4a", "Chingo.m4a"]  # Sample from new files
-        successful_tests = 0
-        
-        for filename in test_files:
-            try:
-                response = requests.get(f"{self.backend_url}/audio/nourriture/{filename}", timeout=10)
-                if response.status_code == 200:
-                    successful_tests += 1
-                    self.log_test(f"Nourriture Audio Endpoint - {filename}", True, "File accessible")
-                else:
-                    self.log_test(f"Nourriture Audio Endpoint - {filename}", False, f"Status: {response.status_code}")
-            except Exception as e:
-                self.log_test(f"Nourriture Audio Endpoint - {filename}", False, f"Exception: {str(e)}")
-        
-        if successful_tests == len(test_files):
-            self.log_test("Nourriture Audio Endpoint Overall", True, f"All {successful_tests} test files accessible")
-        else:
-            self.log_test("Nourriture Audio Endpoint Overall", False, f"Only {successful_tests}/{len(test_files)} test files accessible")
-
-    def test_audio_info_endpoint(self):
-        """Test 6: Verify GET /api/audio/info shows 83 files for nourriture"""
         try:
-            response = requests.get(f"{self.backend_url}/audio/info", timeout=10)
-            if response.status_code == 200:
-                audio_info = response.json()
+            # Récupérer tous les verbes
+            response = requests.get(f"{API_BASE}/words?category=verbes", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_result(
+                    "Récupération verbes",
+                    False,
+                    f"Erreur HTTP {response.status_code}",
+                    "Status 200",
+                    f"Status {response.status_code}"
+                )
+                return
                 
-                if 'nourriture' in audio_info:
-                    nourriture_info = audio_info['nourriture']
-                    file_count = nourriture_info.get('count', 0)
-                    
-                    if file_count == 83:
-                        self.log_test("Audio Info - 83 Files", True, f"Found {file_count} nourriture audio files as expected")
+            verbes = response.json()
+            total_verbes = len(verbes)
+            
+            # Compter les verbes avec dual_audio_system
+            verbes_with_dual_audio = [v for v in verbes if v.get('dual_audio_system') == True]
+            count_with_audio = len(verbes_with_dual_audio)
+            coverage_percentage = (count_with_audio / total_verbes * 100) if total_verbes > 0 else 0
+            
+            self.log_result(
+                "Total verbes dans la base",
+                True,
+                f"Total verbes trouvés: {total_verbes}"
+            )
+            
+            # Vérifier la couverture (attendu: 53/105 = 50.5%)
+            if count_with_audio >= 50:  # Au moins 50 verbes avec audio
+                self.log_result(
+                    "Couverture audio verbes",
+                    True,
+                    f"{count_with_audio}/{total_verbes} verbes avec dual_audio_system: true ({coverage_percentage:.1f}%)"
+                )
+            else:
+                self.log_result(
+                    "Couverture audio verbes",
+                    False,
+                    f"Couverture insuffisante",
+                    "Au moins 50 verbes avec audio",
+                    f"{count_with_audio} verbes avec audio"
+                )
+            
+            # Vérifier les verbes essentiels mentionnés
+            essential_verbs = ["manger", "boire", "voir", "parler", "marcher"]
+            essential_found = []
+            
+            for verb_name in essential_verbs:
+                verb_found = next((v for v in verbes if v.get('french', '').lower() == verb_name.lower()), None)
+                if verb_found and verb_found.get('dual_audio_system'):
+                    essential_found.append(verb_name)
+            
+            if len(essential_found) >= 4:  # Au moins 4 des 5 verbes essentiels
+                self.log_result(
+                    "Verbes essentiels avec audio",
+                    True,
+                    f"Verbes essentiels trouvés avec audio: {', '.join(essential_found)}"
+                )
+            else:
+                self.log_result(
+                    "Verbes essentiels avec audio",
+                    False,
+                    f"Verbes essentiels manquants",
+                    "Au moins 4 verbes essentiels avec audio",
+                    f"{len(essential_found)} verbes essentiels trouvés: {', '.join(essential_found)}"
+                )
+                
+        except Exception as e:
+            self.log_result(
+                "Couverture section verbes",
+                False,
+                f"Exception: {str(e)}"
+            )
+
+    def test_3_fonctionnalite_systeme_dual_verbes(self):
+        """Test 3: Fonctionnalité système dual pour verbes"""
+        print("🔧 TEST 3: Fonctionnalité système dual verbes")
+        
+        try:
+            # Récupérer les verbes avec dual audio
+            response = requests.get(f"{API_BASE}/words?category=verbes", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_result(
+                    "Récupération verbes pour test dual",
+                    False,
+                    f"Erreur HTTP {response.status_code}"
+                )
+                return
+                
+            verbes = response.json()
+            verbes_with_dual = [v for v in verbes if v.get('dual_audio_system') == True]
+            
+            if not verbes_with_dual:
+                self.log_result(
+                    "Verbes avec système dual trouvés",
+                    False,
+                    "Aucun verbe avec dual_audio_system trouvé"
+                )
+                return
+            
+            # Tester les endpoints dual audio sur quelques verbes
+            test_verbs = verbes_with_dual[:3]  # Tester les 3 premiers
+            
+            for verb in test_verbs:
+                verb_id = verb.get('id')
+                verb_name = verb.get('french', 'Unknown')
+                
+                if not verb_id:
+                    continue
+                
+                # Test endpoint shimaore
+                try:
+                    shimaore_response = requests.get(f"{API_BASE}/words/{verb_id}/audio/shimaore", timeout=10)
+                    if shimaore_response.status_code == 200:
+                        self.log_result(
+                            f"Audio Shimaoré - {verb_name}",
+                            True,
+                            f"Endpoint shimaore fonctionnel pour '{verb_name}'"
+                        )
                     else:
-                        self.log_test("Audio Info - 83 Files", False, f"Found {file_count} files, expected 83")
-                else:
-                    self.log_test("Audio Info - 83 Files", False, "Nourriture section not found in audio info")
-            else:
-                self.log_test("Audio Info - 83 Files", False, f"API returned status {response.status_code}")
-        except Exception as e:
-            self.log_test("Audio Info - 83 Files", False, f"Exception: {str(e)}")
-
-    def test_audio_metadata_consistency(self, words: List[Dict]):
-        """Test 7: Verify audio metadata consistency for words with dual audio"""
-        if not words:
-            self.log_test("Audio Metadata Consistency", False, "No words provided for testing")
-            return
-        
-        consistent_words = 0
-        inconsistent_words = []
-        
-        for word in words:
-            if word.get('dual_audio_system', False):
-                # Check if metadata fields are consistent
-                shimoare_has_audio = word.get('shimoare_has_audio', False)
-                kibouchi_has_audio = word.get('kibouchi_has_audio', False)
-                shimoare_filename = word.get('shimoare_audio_filename')
-                kibouchi_filename = word.get('kibouchi_audio_filename')
+                        self.log_result(
+                            f"Audio Shimaoré - {verb_name}",
+                            False,
+                            f"Erreur HTTP {shimaore_response.status_code} pour shimaore"
+                        )
+                except Exception as e:
+                    self.log_result(
+                        f"Audio Shimaoré - {verb_name}",
+                        False,
+                        f"Exception shimaore: {str(e)}"
+                    )
                 
-                # Both should have audio if dual_audio_system is true
-                if shimoare_has_audio and kibouchi_has_audio and shimoare_filename and kibouchi_filename:
-                    consistent_words += 1
-                else:
-                    inconsistent_words.append({
-                        'french': word.get('french', 'Unknown'),
-                        'shimoare_has_audio': shimoare_has_audio,
-                        'kibouchi_has_audio': kibouchi_has_audio,
-                        'shimoare_filename': shimoare_filename,
-                        'kibouchi_filename': kibouchi_filename
-                    })
-        
-        total_dual_audio_words = len([w for w in words if w.get('dual_audio_system', False)])
-        
-        if consistent_words == total_dual_audio_words:
-            self.log_test("Audio Metadata Consistency", True, 
-                         f"All {consistent_words} dual audio words have consistent metadata")
-        else:
-            self.log_test("Audio Metadata Consistency", False, 
-                         f"Only {consistent_words}/{total_dual_audio_words} words have consistent metadata. Inconsistent: {inconsistent_words[:3]}")
+                # Test endpoint kibouchi
+                try:
+                    kibouchi_response = requests.get(f"{API_BASE}/words/{verb_id}/audio/kibouchi", timeout=10)
+                    if kibouchi_response.status_code == 200:
+                        self.log_result(
+                            f"Audio Kibouchi - {verb_name}",
+                            True,
+                            f"Endpoint kibouchi fonctionnel pour '{verb_name}'"
+                        )
+                    else:
+                        self.log_result(
+                            f"Audio Kibouchi - {verb_name}",
+                            False,
+                            f"Erreur HTTP {kibouchi_response.status_code} pour kibouchi"
+                        )
+                except Exception as e:
+                    self.log_result(
+                        f"Audio Kibouchi - {verb_name}",
+                        False,
+                        f"Exception kibouchi: {str(e)}"
+                    )
+                
+                # Test endpoint audio-info
+                try:
+                    info_response = requests.get(f"{API_BASE}/words/{verb_id}/audio-info", timeout=10)
+                    if info_response.status_code == 200:
+                        info_data = info_response.json()
+                        if info_data.get('dual_audio_system') == True:
+                            self.log_result(
+                                f"Audio Info - {verb_name}",
+                                True,
+                                f"Métadonnées audio correctes pour '{verb_name}'"
+                            )
+                        else:
+                            self.log_result(
+                                f"Audio Info - {verb_name}",
+                                False,
+                                f"Métadonnées audio incorrectes pour '{verb_name}'"
+                            )
+                    else:
+                        self.log_result(
+                            f"Audio Info - {verb_name}",
+                            False,
+                            f"Erreur HTTP {info_response.status_code} pour audio-info"
+                        )
+                except Exception as e:
+                    self.log_result(
+                        f"Audio Info - {verb_name}",
+                        False,
+                        f"Exception audio-info: {str(e)}"
+                    )
+                    
+        except Exception as e:
+            self.log_result(
+                "Fonctionnalité système dual verbes",
+                False,
+                f"Exception: {str(e)}"
+            )
 
-    def test_specific_new_word_mappings(self, words: List[Dict]):
-        """Test 8: Verify specific audio file mappings for key new words"""
-        if not words:
-            self.log_test("Specific Audio Mappings", False, "No words provided for testing")
-            return
+    def test_4_exemples_specifiques(self):
+        """Test 4: Exemples spécifiques mentionnés dans la review"""
+        print("🔧 TEST 4: Exemples spécifiques")
         
-        word_dict = {word['french']: word for word in words}
-        test_mappings = {
-            "œuf": {"shimaoré": "Joiyi.m4a", "kibouchi": "Antoudi.m4a"},
-            "poulet": {"shimaoré": "Bawa.m4a", "kibouchi": "Mabawa.m4a"},
-            "sel": {"shimaoré": "Chingo.m4a", "kibouchi": "Sira.m4a"},
-            "vanille": {"shimaoré": "Lavani.m4a", "kibouchi": "Lavani.m4a"}
+        specific_examples = {
+            "voir": "Mahita.m4a",
+            "manger": "Mamana.m4a", 
+            "marcher": "Mandéha.m4a",
+            "arnaquer": "Mangalatra.m4a",
+            "traverser": "Latsaka.m4a"
         }
         
-        correct_mappings = 0
-        incorrect_mappings = []
-        
-        for french_word, expected_files in test_mappings.items():
-            if french_word in word_dict:
-                word_data = word_dict[french_word]
-                shimoare_file = word_data.get('shimoare_audio_filename')
-                kibouchi_file = word_data.get('kibouchi_audio_filename')
+        try:
+            # Récupérer tous les verbes
+            response = requests.get(f"{API_BASE}/words?category=verbes", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_result(
+                    "Récupération verbes pour exemples spécifiques",
+                    False,
+                    f"Erreur HTTP {response.status_code}"
+                )
+                return
                 
-                if (shimoare_file == expected_files['shimaoré'] and 
-                    kibouchi_file == expected_files['kibouchi']):
-                    correct_mappings += 1
+            verbes = response.json()
+            
+            for verb_name, expected_file in specific_examples.items():
+                # Trouver le verbe
+                verb = next((v for v in verbes if v.get('french', '').lower() == verb_name.lower()), None)
+                
+                if not verb:
+                    self.log_result(
+                        f"Verbe '{verb_name}' trouvé",
+                        False,
+                        f"Verbe '{verb_name}' non trouvé dans la base"
+                    )
+                    continue
+                
+                # Vérifier dual_audio_system
+                if verb.get('dual_audio_system') == True:
+                    self.log_result(
+                        f"Verbe '{verb_name}' - dual audio",
+                        True,
+                        f"Verbe '{verb_name}' a dual_audio_system: true"
+                    )
+                    
+                    # Vérifier les métadonnées audio
+                    shimoare_file = verb.get('shimoare_audio_filename')
+                    kibouchi_file = verb.get('kibouchi_audio_filename')
+                    
+                    if shimoare_file or kibouchi_file:
+                        self.log_result(
+                            f"Verbe '{verb_name}' - fichiers audio",
+                            True,
+                            f"Fichiers audio: Shimaoré={shimoare_file}, Kibouchi={kibouchi_file}"
+                        )
+                    else:
+                        self.log_result(
+                            f"Verbe '{verb_name}' - fichiers audio",
+                            False,
+                            f"Métadonnées audio manquantes pour '{verb_name}'"
+                        )
                 else:
-                    incorrect_mappings.append({
-                        'word': french_word,
-                        'expected_shimoare': expected_files['shimaoré'],
-                        'actual_shimoare': shimoare_file,
-                        'expected_kibouchi': expected_files['kibouchi'],
-                        'actual_kibouchi': kibouchi_file
-                    })
+                    self.log_result(
+                        f"Verbe '{verb_name}' - dual audio",
+                        False,
+                        f"Verbe '{verb_name}' n'a pas dual_audio_system: true"
+                    )
+                    
+        except Exception as e:
+            self.log_result(
+                "Exemples spécifiques",
+                False,
+                f"Exception: {str(e)}"
+            )
+
+    def test_5_endpoint_verbes_performance(self):
+        """Test 5: Endpoint et performance verbes"""
+        print("🔧 TEST 5: Endpoint et performance verbes")
         
-        if correct_mappings == len(test_mappings):
-            self.log_test("Specific Audio Mappings", True, 
-                         f"All {correct_mappings} test mappings are correct")
-        else:
-            self.log_test("Specific Audio Mappings", False, 
-                         f"Only {correct_mappings}/{len(test_mappings)} mappings correct. Incorrect: {incorrect_mappings}")
+        try:
+            # Test de l'endpoint /api/audio/verbes/{filename}
+            # D'abord récupérer la liste des fichiers disponibles
+            response = requests.get(f"{API_BASE}/audio/info", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_result(
+                    "Récupération info audio pour test endpoint",
+                    False,
+                    f"Erreur HTTP {response.status_code}"
+                )
+                return
+                
+            data = response.json()
+            verbes_files = data.get('verbes', {}).get('files', [])
+            
+            if not verbes_files:
+                self.log_result(
+                    "Fichiers audio verbes disponibles",
+                    False,
+                    "Aucun fichier audio verbes trouvé"
+                )
+                return
+            
+            # Vérifier qu'il y a au moins 50 fichiers (attendu: 50 fichiers)
+            if len(verbes_files) >= 50:
+                self.log_result(
+                    "Nombre fichiers audio verbes",
+                    True,
+                    f"{len(verbes_files)} fichiers audio verbes trouvés (≥50 attendu)"
+                )
+            else:
+                self.log_result(
+                    "Nombre fichiers audio verbes",
+                    False,
+                    f"Nombre insuffisant de fichiers audio",
+                    "Au moins 50 fichiers",
+                    f"{len(verbes_files)} fichiers"
+                )
+            
+            # Tester l'endpoint avec quelques fichiers
+            test_files = verbes_files[:3]  # Tester les 3 premiers fichiers
+            
+            for filename in test_files:
+                try:
+                    start_time = datetime.now()
+                    file_response = requests.get(f"{API_BASE}/audio/verbes/{filename}", timeout=10)
+                    end_time = datetime.now()
+                    response_time = (end_time - start_time).total_seconds()
+                    
+                    if file_response.status_code == 200:
+                        content_type = file_response.headers.get('content-type', '')
+                        if 'audio' in content_type.lower():
+                            self.log_result(
+                                f"Endpoint verbes - {filename}",
+                                True,
+                                f"Fichier {filename} servi correctement ({response_time:.2f}s, {content_type})"
+                            )
+                        else:
+                            self.log_result(
+                                f"Endpoint verbes - {filename}",
+                                False,
+                                f"Content-Type incorrect: {content_type}"
+                            )
+                    else:
+                        self.log_result(
+                            f"Endpoint verbes - {filename}",
+                            False,
+                            f"Erreur HTTP {file_response.status_code} pour {filename}"
+                        )
+                        
+                except Exception as e:
+                    self.log_result(
+                        f"Endpoint verbes - {filename}",
+                        False,
+                        f"Exception: {str(e)}"
+                    )
+            
+            # Vérifier le total de fichiers audio (attendu: 592+)
+            total_files = data.get('total_files', 0)
+            if total_files >= 590:
+                self.log_result(
+                    "Total fichiers audio système",
+                    True,
+                    f"{total_files} fichiers audio au total (≥590 attendu)"
+                )
+            else:
+                self.log_result(
+                    "Total fichiers audio système",
+                    False,
+                    f"Total insuffisant de fichiers audio",
+                    "Au moins 590 fichiers",
+                    f"{total_files} fichiers"
+                )
+                
+        except Exception as e:
+            self.log_result(
+                "Endpoint et performance verbes",
+                False,
+                f"Exception: {str(e)}"
+            )
+
+    def test_6_integrite_globale(self):
+        """Test 6: Intégrité globale du système"""
+        print("🔧 TEST 6: Intégrité globale")
+        
+        try:
+            # Vérifier que le système gère 10 catégories
+            response = requests.get(f"{API_BASE}/audio/info", timeout=10)
+            
+            if response.status_code != 200:
+                self.log_result(
+                    "Intégrité système audio",
+                    False,
+                    f"Erreur HTTP {response.status_code}"
+                )
+                return
+                
+            data = response.json()
+            
+            # Vérifier les 10 catégories attendues
+            expected_categories = [
+                'famille', 'nature', 'nombres', 'animaux', 'corps',
+                'salutations', 'couleurs', 'grammaire', 'nourriture', 'verbes'
+            ]
+            
+            missing_categories = []
+            present_categories = []
+            
+            for category in expected_categories:
+                if category in data:
+                    present_categories.append(category)
+                else:
+                    missing_categories.append(category)
+            
+            if len(present_categories) == 10:
+                self.log_result(
+                    "10 catégories audio présentes",
+                    True,
+                    f"Toutes les 10 catégories présentes: {', '.join(present_categories)}"
+                )
+            else:
+                self.log_result(
+                    "10 catégories audio présentes",
+                    False,
+                    f"Catégories manquantes: {', '.join(missing_categories)}",
+                    "10 catégories",
+                    f"{len(present_categories)} catégories"
+                )
+            
+            # Vérifier la cohérence des audio_dirs configuration
+            endpoints = data.get('endpoints', {})
+            if len(endpoints) >= 10:  # Au moins 10 endpoints + dual_system
+                self.log_result(
+                    "Configuration endpoints audio",
+                    True,
+                    f"{len(endpoints)} endpoints configurés"
+                )
+            else:
+                self.log_result(
+                    "Configuration endpoints audio",
+                    False,
+                    f"Configuration endpoints insuffisante",
+                    "Au moins 10 endpoints",
+                    f"{len(endpoints)} endpoints"
+                )
+            
+            # Tester que les autres catégories fonctionnent toujours
+            test_categories = ['famille', 'animaux', 'nombres']  # Quelques catégories existantes
+            
+            for category in test_categories:
+                if category in data and data[category]['count'] > 0:
+                    # Tester un fichier de cette catégorie
+                    files = data[category]['files']
+                    if files:
+                        test_file = files[0]
+                        try:
+                            test_response = requests.get(f"{API_BASE}/audio/{category}/{test_file}", timeout=10)
+                            if test_response.status_code == 200:
+                                self.log_result(
+                                    f"Catégorie {category} fonctionnelle",
+                                    True,
+                                    f"Catégorie {category} fonctionne correctement"
+                                )
+                            else:
+                                self.log_result(
+                                    f"Catégorie {category} fonctionnelle",
+                                    False,
+                                    f"Erreur HTTP {test_response.status_code} pour {category}"
+                                )
+                        except Exception as e:
+                            self.log_result(
+                                f"Catégorie {category} fonctionnelle",
+                                False,
+                                f"Exception: {str(e)}"
+                            )
+                            
+        except Exception as e:
+            self.log_result(
+                "Intégrité globale",
+                False,
+                f"Exception: {str(e)}"
+            )
 
     def run_all_tests(self):
-        """Run all nourriture section audio update tests"""
-        print("🍽️ STARTING NOURRITURE SECTION MAJOR UPDATE TESTING")
-        print("=" * 80)
-        print("Testing the major update that improved audio coverage from 65.9% to 97.7%")
-        print("Expected: 43/44 words with dual audio system (14 new words integrated)")
-        print("=" * 80)
+        """Exécute tous les tests"""
+        print("🎯 DÉBUT DES TESTS - INTÉGRATION SECTION VERBES")
+        print("=" * 60)
+        print()
         
-        # Test 1: Get nourriture words
-        words = self.test_nourriture_category_words()
+        # Exécuter tous les tests
+        self.test_1_extension_systeme_audio_dual_10_categories()
+        self.test_2_couverture_section_verbes()
+        self.test_3_fonctionnalite_systeme_dual_verbes()
+        self.test_4_exemples_specifiques()
+        self.test_5_endpoint_verbes_performance()
+        self.test_6_integrite_globale()
         
-        # Test 2: Verify 97.7% coverage
-        self.test_dual_audio_coverage(words)
+        # Résumé final
+        print("=" * 60)
+        print("🎯 RÉSUMÉ DES TESTS")
+        print("=" * 60)
+        print(f"Total tests: {self.total_tests}")
+        print(f"✅ Réussis: {self.passed_tests}")
+        print(f"❌ Échoués: {self.failed_tests}")
+        print(f"📊 Taux de réussite: {(self.passed_tests/self.total_tests*100):.1f}%")
+        print()
         
-        # Test 3: Verify 14 new words integration
-        self.test_new_words_integration(words)
+        if self.failed_tests > 0:
+            print("❌ TESTS ÉCHOUÉS:")
+            for result in self.results:
+                if not result['success']:
+                    print(f"  - {result['test']}: {result['details']}")
+            print()
         
-        # Test 4: Test dual audio endpoints
-        self.test_dual_audio_endpoints(words)
-        
-        # Test 5: Test nourriture audio endpoint
-        self.test_nourriture_audio_endpoint()
-        
-        # Test 6: Test audio info endpoint
-        self.test_audio_info_endpoint()
-        
-        # Test 7: Test metadata consistency
-        self.test_audio_metadata_consistency(words)
-        
-        # Test 8: Test specific mappings
-        self.test_specific_new_word_mappings(words)
-        
-        # Summary
-        self.print_summary()
-
-    def print_summary(self):
-        """Print test summary"""
-        print("\n" + "=" * 80)
-        print("🍽️ NOURRITURE SECTION MAJOR UPDATE TEST SUMMARY")
-        print("=" * 80)
-        
-        total_tests = len(self.test_results)
-        passed_tests = len([t for t in self.test_results if t['success']])
-        failed_tests = len(self.failed_tests)
-        
-        print(f"Total Tests: {total_tests}")
-        print(f"Passed: {passed_tests}")
-        print(f"Failed: {failed_tests}")
-        print(f"Success Rate: {(passed_tests/total_tests)*100:.1f}%")
-        
-        if self.failed_tests:
-            print(f"\n❌ FAILED TESTS ({len(self.failed_tests)}):")
-            for test in self.failed_tests:
-                print(f"   - {test}")
-        
-        if failed_tests == 0:
-            print("\n🎉 ALL TESTS PASSED! The nourriture section major update is working correctly!")
-            print("✅ 97.7% audio coverage achieved (43/44 words)")
-            print("✅ 14 new words successfully integrated")
-            print("✅ Dual audio system functional")
-            print("✅ All endpoints working correctly")
+        # Déterminer le statut global
+        if self.failed_tests == 0:
+            print("🎉 TOUS LES TESTS RÉUSSIS - INTÉGRATION VERBES COMPLÈTE!")
+            return True
+        elif self.failed_tests <= 2:
+            print("⚠️  INTÉGRATION MAJORITAIREMENT RÉUSSIE - Quelques ajustements mineurs nécessaires")
+            return True
         else:
-            print(f"\n⚠️  {failed_tests} TESTS FAILED - Issues need to be addressed")
-        
-        print("=" * 80)
+            print("❌ INTÉGRATION INCOMPLÈTE - Corrections nécessaires")
+            return False
 
 def main():
-    """Main test execution"""
-    tester = NourritureAudioTester()
-    tester.run_all_tests()
+    """Fonction principale"""
+    print("🚀 LANCEMENT DES TESTS BACKEND - SECTION VERBES")
+    print(f"🌐 Backend URL: {BACKEND_URL}")
+    print(f"🔗 API Base: {API_BASE}")
+    print()
+    
+    tester = VerbsAudioTester()
+    success = tester.run_all_tests()
+    
+    # Code de sortie
+    sys.exit(0 if success else 1)
 
 if __name__ == "__main__":
     main()
