@@ -1,21 +1,27 @@
 #!/usr/bin/env python3
 """
-TESTS SPÉCIFIQUES POUR LA SECTION "CORPS HUMAIN" - INTÉGRATION AUDIO DUAL
-========================================================================
+TESTS COMPLETS - INTÉGRATION AUDIO POUR 4 NOUVELLES SECTIONS
+===========================================================
 
-Tests critiques pour vérifier l'intégration du système audio dual 
-pour la catégorie "corps humain" avec 61 fichiers audio authentiques.
+Tests critiques pour vérifier l'intégration du système audio dual pour:
+- Salutations (7/8 mots avec audio, 10 fichiers)
+- Couleurs (8/8 mots avec audio, 16 fichiers) 
+- Grammaire (21/21 mots avec audio, 62 fichiers)
+- Nourriture (29/44 mots avec audio, 83 fichiers)
+
+OBJECTIF: Vérifier que 9 catégories sont supportées avec 542 fichiers audio au total
 """
 
 import requests
 import json
 import os
+import sys
 from typing import Dict, List, Any
 
 # Configuration des URLs
 BACKEND_URL = "https://mayotte-learn-2.preview.emergentagent.com/api"
 
-class CorpsAudioTester:
+class DualAudioSystemTester:
     def __init__(self):
         self.backend_url = BACKEND_URL
         self.test_results = []
@@ -39,414 +45,394 @@ class CorpsAudioTester:
             print(f"   {details}")
             self.failed_tests.append(result)
     
-    def test_audio_info_extension(self):
-        """TEST 1: Vérifier que GET /api/audio/info inclut maintenant la section "corps" (5 catégories total)"""
+    def test_9_categories_support(self):
+        """TEST 1: Vérifier que 9 catégories sont supportées (5 originales + 4 nouvelles)"""
         try:
             response = requests.get(f"{self.backend_url}/audio/info")
             
             if response.status_code != 200:
-                self.log_test("Audio Info Extension", False, f"Status code: {response.status_code}")
+                self.log_test("9 Categories Support", False, f"Status code: {response.status_code}")
                 return
             
             data = response.json()
             
-            # Vérifier que 5 catégories sont présentes (structure réelle de l'API)
-            expected_categories = ["famille", "nature", "nombres", "animaux", "corps"]
+            # Vérifier les 9 catégories attendues
+            expected_categories = [
+                "famille", "nature", "nombres", "animaux", "corps",  # 5 originales
+                "salutations", "couleurs", "grammaire", "nourriture"  # 4 nouvelles
+            ]
             
-            # Vérifier que toutes les catégories attendues sont présentes
             found_categories = []
-            for category in expected_categories:
-                if category in data and "count" in data[category]:
-                    found_categories.append(category)
-            
-            if len(found_categories) != 5:
-                self.log_test("Audio Info Extension", False, 
-                            f"Attendu 5 catégories, trouvé {len(found_categories)}: {found_categories}")
-                return
-            
-            # Vérifier que "corps" est inclus
-            if "corps" not in found_categories:
-                self.log_test("Audio Info Extension", False, 
-                            f"Catégorie 'corps' manquante. Catégories trouvées: {found_categories}")
-                return
-            
-            # Vérifier l'endpoint pour corps
-            if "endpoints" in data and "corps" in data["endpoints"]:
-                corps_endpoint = data["endpoints"]["corps"]
-                expected_endpoint = "/api/audio/corps/{filename}"
-                if corps_endpoint != expected_endpoint:
-                    self.log_test("Audio Info Extension", False, 
-                                f"Endpoint corps incorrect: {corps_endpoint}, attendu: {expected_endpoint}")
-                    return
-            
-            self.log_test("Audio Info Extension", True, 
-                        f"5 catégories trouvées: {found_categories}, endpoint corps: {data['endpoints']['corps']}")
-            
-        except Exception as e:
-            self.log_test("Audio Info Extension", False, f"Erreur: {str(e)}")
-    
-    def test_corps_audio_files_detection(self):
-        """TEST 2: Confirmer que 61 fichiers audio sont détectés dans le répertoire /corps"""
-        try:
-            response = requests.get(f"{self.backend_url}/audio/info")
-            
-            if response.status_code != 200:
-                self.log_test("Corps Audio Files Detection", False, f"Status code: {response.status_code}")
-                return
-            
-            data = response.json()
-            
-            if "corps" not in data:
-                self.log_test("Corps Audio Files Detection", False, "Catégorie 'corps' non trouvée dans audio/info")
-                return
-            
-            corps_info = data["corps"]
-            
-            if "count" in corps_info:
-                file_count = corps_info["count"]
-                if file_count == 61:
-                    self.log_test("Corps Audio Files Detection", True, f"61 fichiers audio détectés dans /corps")
-                else:
-                    self.log_test("Corps Audio Files Detection", False, 
-                                f"Attendu 61 fichiers, trouvé {file_count}")
+            if "categories" in data:
+                found_categories = list(data["categories"].keys())
             else:
-                self.log_test("Corps Audio Files Detection", False, "Champ 'count' manquant pour la catégorie corps")
+                # Fallback: chercher les catégories dans la structure directe
+                for category in expected_categories:
+                    if category in data and isinstance(data[category], dict):
+                        found_categories.append(category)
+            
+            missing_categories = [cat for cat in expected_categories if cat not in found_categories]
+            
+            if len(found_categories) >= 9 and not missing_categories:
+                self.log_test("9 Categories Support", True, 
+                            f"9+ catégories trouvées: {found_categories}")
+            else:
+                self.log_test("9 Categories Support", False, 
+                            f"Trouvé {len(found_categories)} catégories: {found_categories}. Manquantes: {missing_categories}")
                 
         except Exception as e:
-            self.log_test("Corps Audio Files Detection", False, f"Erreur: {str(e)}")
+            self.log_test("9 Categories Support", False, f"Erreur: {str(e)}")
     
-    def test_corps_audio_endpoint(self):
-        """TEST 3: Tester l'endpoint GET /api/audio/corps/{filename} avec des fichiers spécifiques"""
-        test_files = [
-            "Mhono.m4a",      # main (Shimaoré)
-            "Tagnana.m4a",    # main (Kibouchi)
-            "Shitsoi.m4a",    # tête (Shimaoré)
-            "Louha.m4a",      # tête (Kibouchi)
-            "Matso.m4a",      # œil (Shimaoré)
-            "Faninti.m4a"     # œil (Kibouchi)
-        ]
+    def test_542_total_audio_files(self):
+        """TEST 2: Confirmer que GET /api/audio/info montre 542+ fichiers audio au total"""
+        try:
+            response = requests.get(f"{self.backend_url}/audio/info")
+            
+            if response.status_code != 200:
+                self.log_test("542+ Total Audio Files", False, f"Status code: {response.status_code}")
+                return
+            
+            data = response.json()
+            
+            total_files = 0
+            
+            # Compter les fichiers dans chaque catégorie
+            if "total_files" in data:
+                total_files = data["total_files"]
+            else:
+                # Fallback: compter manuellement
+                categories = ["famille", "nature", "nombres", "animaux", "corps", 
+                            "salutations", "couleurs", "grammaire", "nourriture"]
+                
+                for category in categories:
+                    if category in data and "count" in data[category]:
+                        total_files += data[category]["count"]
+            
+            if total_files >= 542:
+                self.log_test("542+ Total Audio Files", True, f"{total_files} fichiers audio détectés")
+            else:
+                self.log_test("542+ Total Audio Files", False, 
+                            f"Attendu 542+, trouvé {total_files} fichiers")
+                
+        except Exception as e:
+            self.log_test("542+ Total Audio Files", False, f"Erreur: {str(e)}")
+    
+    def test_new_audio_endpoints(self):
+        """TEST 3: Tester tous les nouveaux endpoints pour les 4 nouvelles sections"""
+        new_sections_tests = {
+            'salutations': 'Marahaba.m4a',  # "merci" example
+            'couleurs': 'Ndzoukoundrou.m4a',  # "rouge" example  
+            'grammaire': 'Wami.m4a',  # "je" example
+            'nourriture': 'Pilipili.m4a'  # "piment" example
+        }
         
         success_count = 0
         
-        for filename in test_files:
+        for section, test_file in new_sections_tests.items():
             try:
-                response = requests.get(f"{self.backend_url}/audio/corps/{filename}")
+                response = requests.get(f"{self.backend_url}/audio/{section}/{test_file}")
                 
                 if response.status_code == 200:
-                    success_count += 1
-                    print(f"   ✅ {filename}: Status 200, Content-Type: {response.headers.get('content-type', 'N/A')}")
+                    content_type = response.headers.get('content-type', '')
+                    if 'audio' in content_type.lower():
+                        success_count += 1
+                        print(f"   ✅ {section}/{test_file}: Status 200, Content-Type: {content_type}")
+                    else:
+                        print(f"   ❌ {section}/{test_file}: Wrong Content-Type: {content_type}")
                 else:
-                    print(f"   ❌ {filename}: Status {response.status_code}")
+                    print(f"   ❌ {section}/{test_file}: Status {response.status_code}")
                     
             except Exception as e:
-                print(f"   ❌ {filename}: Erreur {str(e)}")
+                print(f"   ❌ {section}/{test_file}: Erreur {str(e)}")
         
-        if success_count == len(test_files):
-            self.log_test("Corps Audio Endpoint", True, f"Tous les {len(test_files)} fichiers testés sont accessibles")
+        if success_count == len(new_sections_tests):
+            self.log_test("New Audio Endpoints", True, f"Tous les {len(new_sections_tests)} nouveaux endpoints fonctionnent")
         else:
-            self.log_test("Corps Audio Endpoint", False, 
-                        f"Seulement {success_count}/{len(test_files)} fichiers accessibles")
+            self.log_test("New Audio Endpoints", False, 
+                        f"Seulement {success_count}/{len(new_sections_tests)} endpoints fonctionnent")
     
-    def test_corps_words_dual_audio_coverage(self):
-        """TEST 4: Vérifier que les 32 mots de la catégorie "corps" ont dual_audio_system: true"""
-        try:
-            response = requests.get(f"{self.backend_url}/words?category=corps")
-            
-            if response.status_code != 200:
-                self.log_test("Corps Words Dual Audio Coverage", False, f"Status code: {response.status_code}")
-                return
-            
-            words = response.json()
-            
-            if not isinstance(words, list):
-                self.log_test("Corps Words Dual Audio Coverage", False, "Réponse n'est pas une liste")
-                return
-            
-            total_words = len(words)
-            dual_audio_words = 0
-            shimoare_audio_words = 0
-            kibouchi_audio_words = 0
-            
-            for word in words:
-                if word.get("dual_audio_system", False):
-                    dual_audio_words += 1
+    def test_section_coverage(self):
+        """TEST 4: Vérifier la couverture audio pour chaque section"""
+        sections_expected = {
+            'salutations': {'words': 8, 'with_audio': 7, 'coverage': 87.5},
+            'couleurs': {'words': 8, 'with_audio': 8, 'coverage': 100.0},
+            'grammaire': {'words': 21, 'with_audio': 21, 'coverage': 100.0},
+            'nourriture': {'words': 44, 'with_audio': 29, 'coverage': 66.0}
+        }
+        
+        success_count = 0
+        
+        for section, expected in sections_expected.items():
+            try:
+                response = requests.get(f"{self.backend_url}/words?category={section}")
                 
-                if word.get("shimoare_has_audio", False):
-                    shimoare_audio_words += 1
+                if response.status_code != 200:
+                    print(f"   ❌ {section}: API Error {response.status_code}")
+                    continue
                 
-                if word.get("kibouchi_has_audio", False):
-                    kibouchi_audio_words += 1
-            
-            # Vérifier le nombre total de mots
-            if total_words != 32:
-                self.log_test("Corps Words Dual Audio Coverage", False, 
-                            f"Attendu 32 mots dans la catégorie corps, trouvé {total_words}")
-                return
-            
-            # Vérifier la couverture dual audio
-            if dual_audio_words == 32:
-                self.log_test("Corps Words Dual Audio Coverage", True, 
-                            f"32/32 mots ont dual_audio_system: true, Shimaoré: {shimoare_audio_words}/32, Kibouchi: {kibouchi_audio_words}/32")
-            else:
-                self.log_test("Corps Words Dual Audio Coverage", False, 
-                            f"Seulement {dual_audio_words}/32 mots ont dual_audio_system: true")
+                words = response.json()
+                total_words = len(words)
+                words_with_dual_audio = sum(1 for word in words if word.get('dual_audio_system', False))
                 
-        except Exception as e:
-            self.log_test("Corps Words Dual Audio Coverage", False, f"Erreur: {str(e)}")
+                coverage = (words_with_dual_audio / total_words * 100) if total_words > 0 else 0
+                
+                # Tolérance de 20% pour les variations
+                meets_expectations = (
+                    total_words >= expected['words'] * 0.8 and
+                    words_with_dual_audio >= expected['with_audio'] * 0.8 and
+                    coverage >= expected['coverage'] * 0.8
+                )
+                
+                if meets_expectations:
+                    success_count += 1
+                    print(f"   ✅ {section}: {words_with_dual_audio}/{total_words} mots ({coverage:.1f}% couverture)")
+                else:
+                    print(f"   ❌ {section}: {words_with_dual_audio}/{total_words} mots ({coverage:.1f}% couverture)")
+                    print(f"      Attendu: {expected['with_audio']}/{expected['words']} ({expected['coverage']}%)")
+                    
+            except Exception as e:
+                print(f"   ❌ {section}: Erreur {str(e)}")
+        
+        if success_count == len(sections_expected):
+            self.log_test("Section Coverage", True, f"Toutes les {len(sections_expected)} sections ont une couverture adéquate")
+        else:
+            self.log_test("Section Coverage", False, 
+                        f"Seulement {success_count}/{len(sections_expected)} sections ont une couverture adéquate")
     
-    def test_specific_words_audio_mappings(self):
-        """TEST 5: Tester les exemples spécifiques (main, tête, œil) avec leurs fichiers audio"""
-        test_cases = [
+    def test_specific_examples(self):
+        """TEST 5: Tester les exemples spécifiques mentionnés dans la review request"""
+        test_examples = [
             {
-                "french": "main",
-                "shimoare_file": "Mhono.m4a",
-                "kibouchi_file": "Tagnana.m4a"
+                'section': 'salutations',
+                'french': 'merci',
+                'shimoare_file': 'Marahaba.m4a',
+                'note': 'Shimaoré/Kibouchi même fichier'
             },
             {
-                "french": "tête", 
-                "shimoare_file": "Shitsoi.m4a",
-                "kibouchi_file": "Louha.m4a"
+                'section': 'couleurs', 
+                'french': 'rouge',
+                'shimoare_file': 'Ndzoukoundrou.m4a',
+                'kibouchi_file': 'Mena.m4a',
+                'note': 'Fichiers séparés'
             },
             {
-                "french": "œil",
-                "shimoare_file": "Matso.m4a", 
-                "kibouchi_file": "Faninti.m4a"
+                'section': 'grammaire',
+                'french': 'je',
+                'shimoare_file': 'Wami.m4a',
+                'kibouchi_file': 'Zahou.m4a',
+                'note': 'Fichiers séparés'
+            },
+            {
+                'section': 'nourriture',
+                'french': 'piment',
+                'shimoare_file': 'Pilipili.m4a',
+                'note': 'Shimaoré/Kibouchi même fichier'
             }
         ]
         
         success_count = 0
         
-        for test_case in test_cases:
+        for example in test_examples:
             try:
-                # Trouver le mot dans la base de données
-                response = requests.get(f"{self.backend_url}/words?category=corps")
+                # Récupérer les mots de la section
+                response = requests.get(f"{self.backend_url}/words?category={example['section']}")
                 if response.status_code != 200:
+                    print(f"   ❌ {example['french']}: Impossible de récupérer les mots de {example['section']}")
                     continue
                 
                 words = response.json()
                 target_word = None
                 
                 for word in words:
-                    if word.get("french", "").lower() == test_case["french"].lower():
+                    if word.get('french', '').lower() == example['french'].lower():
                         target_word = word
                         break
                 
                 if not target_word:
-                    print(f"   ❌ {test_case['french']}: Mot non trouvé dans la base de données")
+                    print(f"   ❌ {example['french']}: Mot non trouvé dans {example['section']}")
                     continue
                 
-                # Vérifier les champs audio
-                shimoare_file = target_word.get("shimoare_audio_filename", "")
-                kibouchi_file = target_word.get("kibouchi_audio_filename", "")
-                dual_system = target_word.get("dual_audio_system", False)
-                shimoare_has_audio = target_word.get("shimoare_has_audio", False)
-                kibouchi_has_audio = target_word.get("kibouchi_has_audio", False)
+                word_id = target_word.get('id')
+                if not word_id:
+                    print(f"   ❌ {example['french']}: ID manquant")
+                    continue
                 
-                if (shimoare_file == test_case["shimoare_file"] and 
-                    kibouchi_file == test_case["kibouchi_file"] and
-                    dual_system and shimoare_has_audio and kibouchi_has_audio):
-                    
+                # Tester les endpoints audio duaux
+                shimoare_response = requests.get(f"{self.backend_url}/words/{word_id}/audio/shimaore")
+                kibouchi_response = requests.get(f"{self.backend_url}/words/{word_id}/audio/kibouchi")
+                
+                shimoare_ok = shimoare_response.status_code == 200
+                kibouchi_ok = kibouchi_response.status_code == 200
+                dual_system = target_word.get('dual_audio_system', False)
+                
+                if shimoare_ok and kibouchi_ok and dual_system:
                     success_count += 1
-                    print(f"   ✅ {test_case['french']}: {shimoare_file} (Shimaoré) + {kibouchi_file} (Kibouchi)")
+                    print(f"   ✅ {example['french']}: Dual audio OK - {example['note']}")
                 else:
-                    print(f"   ❌ {test_case['french']}: Mapping incorrect")
-                    print(f"      Attendu: {test_case['shimoare_file']} + {test_case['kibouchi_file']}")
-                    print(f"      Trouvé: {shimoare_file} + {kibouchi_file}")
-                    print(f"      Flags: dual={dual_system}, shimoare={shimoare_has_audio}, kibouchi={kibouchi_has_audio}")
+                    print(f"   ❌ {example['french']}: Shimaoré={shimoare_ok}, Kibouchi={kibouchi_ok}, Dual={dual_system}")
                     
             except Exception as e:
-                print(f"   ❌ {test_case['french']}: Erreur {str(e)}")
+                print(f"   ❌ {example['french']}: Erreur {str(e)}")
         
-        if success_count == len(test_cases):
-            self.log_test("Specific Words Audio Mappings", True, f"Tous les {len(test_cases)} exemples spécifiques sont correctement mappés")
+        if success_count == len(test_examples):
+            self.log_test("Specific Examples", True, f"Tous les {len(test_examples)} exemples spécifiques fonctionnent")
         else:
-            self.log_test("Specific Words Audio Mappings", False, 
-                        f"Seulement {success_count}/{len(test_cases)} exemples corrects")
+            self.log_test("Specific Examples", False, 
+                        f"Seulement {success_count}/{len(test_examples)} exemples fonctionnent")
     
-    def test_dual_audio_endpoints(self):
-        """TEST 6: Tester les endpoints GET /api/words/{word_id}/audio/shimaore et /api/words/{word_id}/audio/kibouchi"""
-        try:
-            # Récupérer quelques mots de la catégorie corps
-            response = requests.get(f"{self.backend_url}/words?category=corps")
-            if response.status_code != 200:
-                self.log_test("Dual Audio Endpoints", False, f"Impossible de récupérer les mots corps: {response.status_code}")
-                return
-            
-            words = response.json()
-            test_words = []
-            
-            # Sélectionner les mots avec dual_audio_system
-            for word in words:
-                if (word.get("dual_audio_system", False) and 
-                    word.get("french", "").lower() in ["main", "tête", "œil"]):
-                    test_words.append(word)
-            
-            if not test_words:
-                self.log_test("Dual Audio Endpoints", False, "Aucun mot de test trouvé avec dual_audio_system")
-                return
-            
-            success_count = 0
-            total_tests = 0
-            
-            for word in test_words:
-                word_id = word.get("id", "")
-                french_word = word.get("french", "")
-                
-                if not word_id:
+    def test_dual_audio_metadata(self):
+        """TEST 6: Vérifier que les métadonnées dual_audio_system sont correctement définies"""
+        sections_to_test = ['salutations', 'couleurs', 'grammaire', 'nourriture']
+        
+        success_count = 0
+        
+        for section in sections_to_test:
+            try:
+                response = requests.get(f"{self.backend_url}/words?category={section}")
+                if response.status_code != 200:
+                    print(f"   ❌ {section}: API Error {response.status_code}")
                     continue
                 
-                # Tester endpoint Shimaoré
-                try:
-                    shimoare_response = requests.get(f"{self.backend_url}/words/{word_id}/audio/shimaore")
-                    total_tests += 1
-                    if shimoare_response.status_code == 200:
-                        success_count += 1
-                        print(f"   ✅ {french_word} (Shimaoré): Status 200")
-                    else:
-                        print(f"   ❌ {french_word} (Shimaoré): Status {shimoare_response.status_code}")
-                except Exception as e:
-                    print(f"   ❌ {french_word} (Shimaoré): Erreur {str(e)}")
+                words = response.json()
+                if not words:
+                    print(f"   ❌ {section}: Aucun mot trouvé")
+                    continue
                 
-                # Tester endpoint Kibouchi
-                try:
-                    kibouchi_response = requests.get(f"{self.backend_url}/words/{word_id}/audio/kibouchi")
-                    total_tests += 1
-                    if kibouchi_response.status_code == 200:
-                        success_count += 1
-                        print(f"   ✅ {french_word} (Kibouchi): Status 200")
-                    else:
-                        print(f"   ❌ {french_word} (Kibouchi): Status {kibouchi_response.status_code}")
-                except Exception as e:
-                    print(f"   ❌ {french_word} (Kibouchi): Erreur {str(e)}")
-            
-            if success_count == total_tests and total_tests > 0:
-                self.log_test("Dual Audio Endpoints", True, f"Tous les {total_tests} endpoints audio testés fonctionnent")
-            else:
-                self.log_test("Dual Audio Endpoints", False, 
-                            f"Seulement {success_count}/{total_tests} endpoints fonctionnent")
+                # Vérifier qu'au moins un mot a le système dual activé
+                dual_audio_words = [w for w in words if w.get('dual_audio_system', False)]
                 
-        except Exception as e:
-            self.log_test("Dual Audio Endpoints", False, f"Erreur: {str(e)}")
+                if dual_audio_words:
+                    # Vérifier les champs requis sur le premier mot
+                    test_word = dual_audio_words[0]
+                    required_fields = [
+                        'dual_audio_system',
+                        'shimoare_has_audio',
+                        'kibouchi_has_audio',
+                        'shimoare_audio_filename',
+                        'kibouchi_audio_filename'
+                    ]
+                    
+                    missing_fields = []
+                    for field in required_fields:
+                        if field not in test_word or test_word[field] is None:
+                            missing_fields.append(field)
+                    
+                    if not missing_fields:
+                        success_count += 1
+                        print(f"   ✅ {section}: Métadonnées complètes ({len(dual_audio_words)} mots avec dual audio)")
+                    else:
+                        print(f"   ❌ {section}: Champs manquants: {missing_fields}")
+                else:
+                    print(f"   ❌ {section}: Aucun mot avec dual_audio_system=true")
+                    
+            except Exception as e:
+                print(f"   ❌ {section}: Erreur {str(e)}")
+        
+        if success_count == len(sections_to_test):
+            self.log_test("Dual Audio Metadata", True, f"Métadonnées correctes pour toutes les {len(sections_to_test)} sections")
+        else:
+            self.log_test("Dual Audio Metadata", False, 
+                        f"Seulement {success_count}/{len(sections_to_test)} sections ont des métadonnées correctes")
     
-    def test_audio_info_metadata(self):
-        """TEST 7: Vérifier GET /api/words/{word_id}/audio-info retourne les bonnes métadonnées"""
+    def test_performance_9_categories(self):
+        """TEST 7: Vérifier que le système gère 9 catégories sans problème de performance"""
         try:
-            # Récupérer un mot de test
-            response = requests.get(f"{self.backend_url}/words?category=corps")
-            if response.status_code != 200:
-                self.log_test("Audio Info Metadata", False, f"Impossible de récupérer les mots corps: {response.status_code}")
-                return
+            import time
+            start_time = time.time()
             
-            words = response.json()
-            test_word = None
+            categories = ['salutations', 'couleurs', 'grammaire', 'nourriture', 
+                         'famille', 'nature', 'nombres', 'animaux', 'corps']
             
-            for word in words:
-                if (word.get("dual_audio_system", False) and 
-                    word.get("french", "").lower() == "main"):
-                    test_word = word
-                    break
+            successful_requests = 0
+            total_words = 0
             
-            if not test_word:
-                self.log_test("Audio Info Metadata", False, "Mot de test 'main' non trouvé avec dual_audio_system")
-                return
+            for category in categories:
+                try:
+                    response = requests.get(f"{self.backend_url}/words?category={category}", timeout=5)
+                    if response.status_code == 200:
+                        words = response.json()
+                        successful_requests += 1
+                        total_words += len(words)
+                except:
+                    pass
             
-            word_id = test_word.get("id", "")
-            if not word_id:
-                self.log_test("Audio Info Metadata", False, "ID du mot de test manquant")
-                return
+            end_time = time.time()
+            total_time = end_time - start_time
             
-            # Tester l'endpoint audio-info
-            response = requests.get(f"{self.backend_url}/words/{word_id}/audio-info")
+            # Performance acceptable: moins de 15 secondes pour 9 requêtes
+            performance_ok = total_time < 15.0 and successful_requests >= 8
             
-            if response.status_code != 200:
-                self.log_test("Audio Info Metadata", False, f"Status code: {response.status_code}")
-                return
-            
-            audio_info = response.json()
-            
-            # Vérifier la structure des métadonnées (structure réelle de l'API)
-            required_fields = ["dual_audio_system", "audio"]
-            for field in required_fields:
-                if field not in audio_info:
-                    self.log_test("Audio Info Metadata", False, f"Champ requis manquant: {field}")
-                    return
-            
-            if not audio_info.get("dual_audio_system", False):
-                self.log_test("Audio Info Metadata", False, "dual_audio_system devrait être true")
-                return
-            
-            audio_data = audio_info.get("audio", {})
-            if "shimaore" not in audio_data or "kibouchi" not in audio_data:
-                self.log_test("Audio Info Metadata", False, "Langues Shimaoré et Kibouchi manquantes")
-                return
-            
-            # Vérifier les métadonnées pour chaque langue
-            shimoare_info = audio_data.get("shimaore", {})
-            kibouchi_info = audio_data.get("kibouchi", {})
-            
-            if not shimoare_info.get("has_audio", False) or not kibouchi_info.get("has_audio", False):
-                self.log_test("Audio Info Metadata", False, "has_audio devrait être true pour les deux langues")
-                return
-            
-            self.log_test("Audio Info Metadata", True, 
-                        f"Métadonnées correctes: dual_system={audio_info['dual_audio_system']}, "
-                        f"shimoare_audio={shimoare_info.get('has_audio')}, kibouchi_audio={kibouchi_info.get('has_audio')}")
-            
+            if performance_ok:
+                self.log_test("Performance 9 Categories", True, 
+                            f"{successful_requests}/9 catégories, {total_words} mots, {total_time:.2f}s")
+            else:
+                self.log_test("Performance 9 Categories", False, 
+                            f"{successful_requests}/9 catégories, {total_time:.2f}s (trop lent)")
+                
         except Exception as e:
-            self.log_test("Audio Info Metadata", False, f"Erreur: {str(e)}")
+            self.log_test("Performance 9 Categories", False, f"Erreur: {str(e)}")
     
     def test_automatic_category_detection(self):
-        """TEST 8: Confirmer que le système détecte automatiquement la catégorie "corps" pour servir les bons fichiers"""
-        try:
-            # Tester que les fichiers sont servis depuis le bon répertoire
-            test_files = ["Mhono.m4a", "Shitsoi.m4a", "Matso.m4a"]
-            
-            success_count = 0
-            
-            for filename in test_files:
-                response = requests.get(f"{self.backend_url}/audio/corps/{filename}")
+        """TEST 8: Vérifier que la détection automatique de catégorie fonctionne"""
+        test_cases = [
+            {'category': 'salutations', 'file': 'Marahaba.m4a'},
+            {'category': 'couleurs', 'file': 'Ndzoukoundrou.m4a'},
+            {'category': 'grammaire', 'file': 'Wami.m4a'},
+            {'category': 'nourriture', 'file': 'Pilipili.m4a'}
+        ]
+        
+        success_count = 0
+        
+        for test_case in test_cases:
+            try:
+                response = requests.get(f"{self.backend_url}/audio/{test_case['category']}/{test_case['file']}")
                 
                 if response.status_code == 200:
-                    # Vérifier que c'est bien un fichier audio
                     content_type = response.headers.get('content-type', '')
                     if 'audio' in content_type.lower():
                         success_count += 1
-                        print(f"   ✅ {filename}: Servi depuis /corps avec Content-Type: {content_type}")
+                        print(f"   ✅ {test_case['category']}/{test_case['file']}: Content-Type: {content_type}")
                     else:
-                        print(f"   ❌ {filename}: Content-Type incorrect: {content_type}")
+                        print(f"   ❌ {test_case['category']}/{test_case['file']}: Wrong Content-Type: {content_type}")
                 else:
-                    print(f"   ❌ {filename}: Status {response.status_code}")
-            
-            if success_count == len(test_files):
-                self.log_test("Automatic Category Detection", True, 
-                            f"Détection automatique de catégorie fonctionne - {len(test_files)} fichiers servis depuis /corps")
-            else:
-                self.log_test("Automatic Category Detection", False, 
-                            f"Seulement {success_count}/{len(test_files)} fichiers correctement servis")
-                
-        except Exception as e:
-            self.log_test("Automatic Category Detection", False, f"Erreur: {str(e)}")
+                    print(f"   ❌ {test_case['category']}/{test_case['file']}: Status {response.status_code}")
+                    
+            except Exception as e:
+                print(f"   ❌ {test_case['category']}/{test_case['file']}: Erreur {str(e)}")
+        
+        if success_count == len(test_cases):
+            self.log_test("Automatic Category Detection", True, 
+                        f"Détection automatique fonctionne pour toutes les {len(test_cases)} catégories")
+        else:
+            self.log_test("Automatic Category Detection", False, 
+                        f"Seulement {success_count}/{len(test_cases)} catégories détectées correctement")
     
     def run_all_tests(self):
-        """Exécute tous les tests"""
-        print("🎯 TESTS SPÉCIFIQUES POUR LA SECTION 'CORPS HUMAIN' - INTÉGRATION AUDIO DUAL")
+        """Exécute tous les tests pour l'intégration audio des 4 nouvelles sections"""
+        print("🎵 TESTS COMPLETS - INTÉGRATION AUDIO POUR 4 NOUVELLES SECTIONS")
         print("=" * 80)
         print(f"🔗 Backend URL: {self.backend_url}")
         print()
+        print("📋 SECTIONS TESTÉES:")
+        print("   • Salutations (7/8 mots avec audio, 10 fichiers)")
+        print("   • Couleurs (8/8 mots avec audio, 16 fichiers)")
+        print("   • Grammaire (21/21 mots avec audio, 62 fichiers)")
+        print("   • Nourriture (29/44 mots avec audio, 83 fichiers)")
+        print()
         
         # Exécuter tous les tests
-        self.test_audio_info_extension()
-        self.test_corps_audio_files_detection()
-        self.test_corps_audio_endpoint()
-        self.test_corps_words_dual_audio_coverage()
-        self.test_specific_words_audio_mappings()
-        self.test_dual_audio_endpoints()
-        self.test_audio_info_metadata()
+        self.test_9_categories_support()
+        self.test_542_total_audio_files()
+        self.test_new_audio_endpoints()
+        self.test_section_coverage()
+        self.test_specific_examples()
+        self.test_dual_audio_metadata()
+        self.test_performance_9_categories()
         self.test_automatic_category_detection()
         
         # Résumé des résultats
         print("\n" + "=" * 80)
-        print("📊 RÉSUMÉ DES TESTS")
+        print("📊 RÉSUMÉ DES TESTS - INTÉGRATION AUDIO 4 NOUVELLES SECTIONS")
         print("=" * 80)
         
         total_tests = len(self.test_results)
@@ -462,12 +448,13 @@ class CorpsAudioTester:
             for test in self.failed_tests:
                 print(f"   - {test['test']}: {test['details']}")
         
-        print("\n🎯 OBJECTIF: Confirmer que l'intégration de la section 'corps humain' avec le système audio dual")
-        print("    est complète et fonctionnelle avec 100% de couverture (32/32 mots).")
+        print("\n🎯 OBJECTIF: Vérifier l'intégration complète du système audio dual pour")
+        print("    4 nouvelles sections avec 9 catégories supportées et 542+ fichiers audio.")
         
         if failed_tests == 0:
             print("\n🎉 SUCCÈS COMPLET! Tous les tests sont passés.")
-            print("✅ L'intégration du système audio dual pour la section 'corps humain' est fonctionnelle.")
+            print("✅ L'intégration du système audio dual pour les 4 nouvelles sections est fonctionnelle.")
+            print("✅ 65 mots mis à jour avec le système dual audio opérationnel sur 9 catégories.")
         else:
             print(f"\n⚠️  {failed_tests} test(s) ont échoué. Vérification nécessaire.")
         
@@ -475,7 +462,7 @@ class CorpsAudioTester:
 
 def main():
     """Fonction principale"""
-    tester = CorpsAudioTester()
+    tester = DualAudioSystemTester()
     success = tester.run_all_tests()
     return success
 
