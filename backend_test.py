@@ -195,7 +195,7 @@ class NourritureAudioTester:
                 
                 if 'nourriture' in audio_info:
                     nourriture_info = audio_info['nourriture']
-                    file_count = nourriture_info.get('file_count', 0)
+                    file_count = nourriture_info.get('count', 0)
                     
                     if file_count == 83:
                         self.log_test("Audio Info - 83 Files", True, f"Found {file_count} nourriture audio files as expected")
