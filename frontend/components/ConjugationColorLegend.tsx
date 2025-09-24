@@ -174,6 +174,21 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
   },
+  
+  // Style pour note sur les pronoms
+  pronounsNote: {
+    backgroundColor: '#E8F4FD',
+    padding: 10,
+    borderRadius: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: '#007BFF',
+    marginBottom: 16,
+  },
+  pronounsNoteText: {
+    fontSize: 12,
+    color: '#0056B3',
+    fontStyle: 'italic',
+  },
 
   // Styles pour explications des temps
   tenseExplanation: {
