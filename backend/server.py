@@ -1204,6 +1204,9 @@ async def get_audio_info():
         
     if os.path.exists(verbes_dir):
         verbes_files = [f for f in os.listdir(verbes_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(expressions_dir):
+        expressions_files = [f for f in os.listdir(expressions_dir) if f.endswith('.m4a')]
     
     return {
         "service": "Audio API intégré - Système Dual Étendu",
@@ -1247,6 +1250,10 @@ async def get_audio_info():
             "count": len(verbes_files),
             "files": sorted(verbes_files)
         },
+        "expressions": {
+            "count": len(expressions_files),
+            "files": sorted(expressions_files)
+        },
         "endpoints": {
             "famille": "/api/audio/famille/{filename}",
             "nature": "/api/audio/nature/{filename}",
@@ -1258,10 +1265,11 @@ async def get_audio_info():
             "grammaire": "/api/audio/grammaire/{filename}",
             "nourriture": "/api/audio/nourriture/{filename}",
             "verbes": "/api/audio/verbes/{filename}",
+            "expressions": "/api/audio/expressions/{filename}",
             "dual_system": "/api/words/{word_id}/audio/{lang}"
         },
-        "total_categories": 10,
-        "total_files": len(famille_files) + len(nature_files) + len(nombres_files) + len(animaux_files) + len(corps_files) + len(salutations_files) + len(couleurs_files) + len(grammaire_files) + len(nourriture_files) + len(verbes_files)
+        "total_categories": 11,
+        "total_files": len(famille_files) + len(nature_files) + len(nombres_files) + len(animaux_files) + len(corps_files) + len(salutations_files) + len(couleurs_files) + len(grammaire_files) + len(nourriture_files) + len(verbes_files) + len(expressions_files)
     }
 
 # Nouveaux endpoints pour le système audio dual
