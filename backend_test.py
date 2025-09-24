@@ -250,9 +250,9 @@ class BackendTester:
             
             if response.status_code == 200 and response_time < 2.0:
                 data = response.json()
-                categories_count = len(data.get('categories', {}))
+                total_categories = data.get('total_categories', 0)
                 self.log_result("Performance 16 Categories", True, 
-                              f"{categories_count} categories, {response_time:.2f}s response time")
+                              f"{total_categories} categories, {response_time:.2f}s response time")
             else:
                 self.log_result("Performance 16 Categories", False, 
                               f"HTTP {response.status_code}, {response_time:.2f}s response time")
