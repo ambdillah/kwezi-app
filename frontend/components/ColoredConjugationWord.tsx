@@ -14,6 +14,7 @@ interface ColoredConjugationWordProps {
 
 /**
  * Composant qui affiche un mot avec coloration automatique des préfixes de conjugaison
+ * UNIQUEMENT pour les verbes, pas pour les pronoms
  */
 const ColoredConjugationWord: React.FC<ColoredConjugationWordProps> = ({
   word,
@@ -24,9 +25,9 @@ const ColoredConjugationWord: React.FC<ColoredConjugationWordProps> = ({
   showTenseIndicator = true,
   disabled = false
 }) => {
-  const { prefix, root, tense } = separatePrefixAndRoot(word, language);
+  const { prefix, root, tense, isVerb } = separatePrefixAndRoot(word, language);
   const tenseColor = getTenseColor(tense);
-  const hasPrefix = prefix.length > 0;
+  const hasPrefix = prefix.length > 0 && isVerb; // Seulement colorier si c'est un verbe
 
   // Noms des temps en français
   const tenseNames = {
@@ -39,9 +40,9 @@ const ColoredConjugationWord: React.FC<ColoredConjugationWordProps> = ({
   const WordContent = () => (
     <View style={[styles.wordContainer, style]}>
       <View style={styles.textContainer}>
-        {hasPrefix ? (
+        {hasPrefix && isVerb ? (
           <>
-            {/* Préfixe coloré */}
+            {/* Préfixe coloré UNIQUEMENT pour les verbes */}
             <Text style={[
               styles.prefixText,
               textStyle,
@@ -55,15 +56,15 @@ const ColoredConjugationWord: React.FC<ColoredConjugationWordProps> = ({
             </Text>
           </>
         ) : (
-          /* Mot complet sans préfixe */
+          /* Mot complet sans préfixe (pronoms et autres mots) */
           <Text style={[styles.fullWordText, textStyle]}>
             {word}
           </Text>
         )}
       </View>
       
-      {/* Indicateur de temps (optionnel) */}
-      {showTenseIndicator && hasPrefix && tense !== 'default' && (
+      {/* Indicateur de temps (optionnel) - UNIQUEMENT pour les verbes */}
+      {showTenseIndicator && hasPrefix && isVerb && tense !== 'default' && (
         <View style={[styles.tenseIndicator, { backgroundColor: tenseColor }]}>
           <Text style={styles.tenseIndicatorText}>
             {tenseNames[tense as keyof typeof tenseNames]}
