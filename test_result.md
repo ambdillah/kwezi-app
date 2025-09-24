@@ -139,7 +139,7 @@ backend:
     implemented: true
     working: false
     file: "backend/analyse_et_corriger_pdf_vocabulary.py, backend/complete_pdf_integration.py"
-    stuck_count: 1
+    stuck_count: 2
     priority: "critical"
     needs_retesting: false
     status_history:
@@ -149,6 +149,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "❌ CORRECTIONS PDF INCOMPLÈTES - PROBLÈMES CRITIQUES IDENTIFIÉS: 1) **DOUBLONS PARTIELLEMENT RÉSOLUS**: ✅ Aucun doublon détecté, ✅ Bigorneau/Tortue corrects, ❌ Escargot a 'kwa' au lieu de 'kowa', ❌ Oursin/Huître ont même traduction 'gadzassi' (pas distinctes). 2) **ORTHOGRAPHE NON CORRIGÉE**: ❌ 100+ mots français gardent accents (étoile, école, côtes, lèvre, etc.), ❌ 98 mots shimaoré gardent accents, ❌ Corrections étoile->etoile et école->ecole non appliquées. 3) **INTÉGRATION INCORRECTE**: ❌ 560 mots trouvés au lieu de 211, ❌ Catégorie 'education' manquante, ✅ Nombres 11-20 présents, ✅ Couverture kibouchi excellente (99.6%). 4) **MOTS SPÉCIFIQUES MANQUANTS**: ❌ 'pente' non trouvé, ❌ 'ecole' sans accent non trouvé. 5) **POSITIF**: ✅ Structure cohérente, ✅ API fonctionnelle, ✅ Chat->moirou correct. **CONCLUSION**: Les corrections orthographiques principales n'ont PAS été appliquées. La base contient 560 mots au lieu des 211 attendus du PDF, suggérant que l'intégration a ajouté du contenu existant plutôt que de remplacer par le PDF corrigé."
+      - working: false
+        agent: "testing"
+        comment: "❌ RETEST CORRECTIONS PDF - ÉCHEC CONFIRMÉ: Après test complet des corrections ciblées, les problèmes persistent: 1) **DOUBLONS**: ✅ Aucun doublon détecté, ✅ Bigorneau unique, ❌ Escargot a toujours 'kwa' au lieu de 'kowa', ❌ Oursin/Huître ont même traduction 'gadzassi' (non distinctes). 2) **ORTHOGRAPHE**: ❌ 100 mots français avec accents (arrière du crâne, côtes, lèvre, pénis, tête, épaule), ❌ 98 mots shimaoré avec accents, ❌ 'étoile' et 'école' existent toujours avec accents, ❌ 'etoile' et 'ecole' sans accents n'existent pas. 3) **INTÉGRITÉ**: ❌ 560 mots au lieu de 211 attendus, ❌ Catégorie 'education' manquante, ❌ 'pente' non trouvé, ❌ Couverture kibouchi 99.6% au lieu de 26.5%. 4) **CORRECTIONS SPÉCIFIQUES**: ❌ GET /api/words/escargot retourne 'kwa' au lieu de 'kowa', ❌ Oursin a 'gadzassi' au lieu de 'gadzassi ya bahari', ❌ 'ecole' sans accent n'existe pas. **CONCLUSION CRITIQUE**: Les corrections ciblées mentionnées dans la demande de retest N'ONT PAS été appliquées. La base de données contient toujours les erreurs identifiées précédemment. Tests: 13/24 réussis (54.2%). Le main agent doit appliquer les corrections spécifiques du PDF avant de pouvoir considérer cette tâche comme terminée."
   - task: "Badge and progress system implementation"
     implemented: true
     working: true
