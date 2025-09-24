@@ -48,27 +48,34 @@ def get_audio_mappings():
         "gris": ("Djifou.m4a", "Dzofou.m4a"),
         "jaune": ("Dzindzano.m4a", "Tamoutamou.m4a"),
         "marron": ("Trotro.m4a", "Fotafotaka.m4a"),
-        "noir": ("Nzidhou.m4a", "Mayintigni.m4a"),  # Note: Nzidhou pas trouvé
-        "rouge": ("Ndzoukoundrou.m4a", "Mena.m4a"),  # Note: Mena pas trouvé
+        "noir": ("Ndzidhou.m4a", "Mayintigni.m4a"),
+        "rouge": ("Ndzoukoundrou.m4a", "Mena.m4a"),
         "vert": ("Dhavou.m4a", "Mayitsou.m4a"),
     }
     
-    # GRAMMAIRE (21 mots) - seulement ceux qui ont des fichiers audio correspondants
+    # GRAMMAIRE (21 mots) - utiliser les fichiers disponibles 
     grammaire_mappings = {
-        "je": ("Wami.m4a", "Zahou.m4a"),  # Note: fichiers pas trouvés, à vérifier
-        "tu": ("Wawé.m4a", "Anaou.m4a"),  # Wawé trouvé, Anaou pas trouvé
+        "je": ("Wami.m4a", "Zahou.m4a"),
+        "tu": ("Wawé.m4a", "Anaou.m4a"),
         "nous": ("Wassi.m4a", "Atsika.m4a"),
-        "vous": ("Wagnou.m4a", "Anaréou.m4a"),  # Wagnou pas trouvé
-        "il/elle": ("Wayé.m4a", "Izi.m4a"),  # Wayé pas trouvé
-        "ils/elles": ("Wawo.m4a", "Réou.m4a"),  # Fichiers pas trouvés
+        "vous": ("Wagnou.m4a", "Anaréou.m4a"),
+        "il/elle": ("Wayé.m4a", "Izi.m4a"),
+        "ils/elles": ("Wawo.m4a", "Réou.m4a"),
+        "agriculteur": ("Mlimizi.m4a", "Ampikapa.m4a"),
         "imam": ("Imamou.m4a", "Imamou.m4a"),
         "guide spirituel": ("Cadhi.m4a", "Cadhi.m4a"),
-        "le tien": ("Yaho.m4a", "Ninaou.m4a"),  # Yaho pas trouvé
-        "le sien": ("Yahé.m4a", "Ninazi.m4a"),  # Yahé pas trouvé
+        "le mien": ("Yangou.m4a", "Ninakahi.m4a"),
+        "le tien": ("Yaho.m4a", "Ninaou.m4a"),
+        "le sien": ("Yahé.m4a", "Ninazi.m4a"),
+        "le leur": ("Yawo.m4a", "Nindréou.m4a"),
         "le nôtre": ("Yatrou.m4a", "Nintsika.m4a"),
+        "le vôtre": ("Yagnou.m4a", "Ninaréou.m4a"),
+        "maire": ("Méra.m4a", "Méra.m4a"),
         "professeur": ("Foundi.m4a", "Foundi.m4a"),
+        "pêcheur": ("Mlozi.m4a", "Ampamintagna.m4a"),
         "voisin": ("Djirani.m4a", "Djirani.m4a"),
-        "éleveur": ("Mtsounga.m4a", "Ampitsounga.m4a"),  # Mtsounga pas trouvé
+        "élu": ("Dhoimana.m4a", "Dhoimana.m4a"),
+        "éleveur": ("Mtsounga.m4a", "Ampitsounga.m4a"),
     }
     
     # NOURRITURE (44 mots) - correspondance avec les fichiers disponibles
