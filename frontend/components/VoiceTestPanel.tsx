@@ -39,13 +39,13 @@ export const VoiceTestPanel: React.FC<VoiceTestPanelProps> = ({
       
       switch (type) {
         case 'energetic':
-          await speakWithEnhancedVoice(testText, 'fr', 'masculine', 'energetic');
+          await speakWithFeminineVoice(testText, 'fr', 'feminine', 'warm');
           break;
         case 'storyteller':
-          await speakWithEnhancedVoice(testText, 'fr', 'masculine', 'storyteller');
+          await speakWithFeminineVoice(testText, 'fr', 'feminine', 'gentle');
           break;
         case 'calm':
-          await speakWithEnhancedVoice(testText, 'fr', 'masculine', 'calm');
+          await speakWithFeminineVoice(testText, 'fr', 'feminine', 'calm');
           break;
         case 'demo':
           await runVoiceDemo();
