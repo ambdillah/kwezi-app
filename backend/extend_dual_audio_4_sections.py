@@ -80,18 +80,38 @@ def get_audio_mappings():
     
     # NOURRITURE (44 mots) - correspondance avec les fichiers disponibles
     nourriture_mappings = {
+        "ail": ("Chouroungou voudjé.m4a", "Doungoulou mvoudjou.m4a"),
+        "ananas": ("Nanassi.m4a", "Mananassi.m4a"),
+        "banane": ("Trovi.m4a", "Hountsi.m4a"),
+        "banane au coco": ("Trovi ya nadzi.m4a", "Hountsi an voiniou.m4a"),
+        "bouillon": ("Woubou.m4a", "Kouba.m4a"),
+        "brède mafane": ("Féliki mafana s.m4a", "Féliki mafana k.m4a"),
+        "brède manioc": ("Mataba.m4a", "Féliki mouhogou.m4a"),
+        "brède morelle": ("Féliki nyongo.m4a", "Féliki angnatsindra.m4a"),
+        "brèdes": ("Féliki s.m4a", "Féliki k.m4a"),
+        "brès patate douce": ("Féliki batata.m4a", "Féliki batata.m4a"),
         "ciboulette": ("Chouroungou.m4a", "Doungoulou ravigni.m4a"),
-        "gingembre": ("Tsinguiziou.m4a", "Tsinguiziou.m4a"),  # Même fichier
+        "cumin": ("Massala.m4a", "Massala.m4a"),
+        "curcuma": ("Dzindzano.m4a", "Tamoutamou.m4a"),
+        "eau": ("Maji.m4a", "Ranou.m4a"),
+        "gingembre": ("Tsinguiziou.m4a", "Sakèyi.m4a"),
+        "gâteau": ("Mharé.m4a", "Moukari.m4a"),
+        "lait": ("Dzia.m4a", "Rounounou.m4a"),
         "mandarine": ("Madhandzé.m4a", "Tsoha madzandzi.m4a"),
-        "mangue": ("Bvilibvili manga.m4a", "Bvilibvili manga.m4a"),  # Même fichier
-        "lait de coco": ("Maji ya moro.m4a", "Maji ya moro.m4a"),  # Si ce mot existe
+        "mangue": ("Manga.m4a", "Manga.m4a"),
+        "manioc": ("Mhogo.m4a", "Mouhogou.m4a"),
+        "noix de coco": ("Nadzi.m4a", "Voiniou.m4a"),
+        "pain": ("Dipé.m4a", "Dipé.m4a"),
+        "papaye": ("Papaya.m4a", "Papaya.m4a"),
+        "patate douce": ("Batata.m4a", "Batata.m4a"),
         "piment": ("Pilipili.m4a", "Pilipili.m4a"),
-        "son de riz": ("Poutou.m4a", "Poutou.m4a"),
-        "salade": ("Sira.m4a", "Sira.m4a"),
-        "fruit à pain": ("Madirou kakazou.m4a", "Madirou kakazou.m4a"),
         "poisson salé": ("Troundra.m4a", "Troundra.m4a"),
+        "riz": ("Tsoholé.m4a", "Vari.m4a"),
+        "riz au coco": ("Tsoholé ya nadzi.m4a", "Vari an voiniou.m4a"),
         "riz blanc": ("Vari tsivoidissa.m4a", "Vari tsivoidissa.m4a"),
-        "navet blanc": ("Lavani.m4a", "Lavani.m4a"),
+        "salade": ("Sira.m4a", "Sira.m4a"),
+        "tomate": ("Tamati.m4a", "Tamati.m4a"),
+        "viande": ("Nhyama.m4a", "Nhyama.m4a"),
     }
     
     return {
