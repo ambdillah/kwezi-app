@@ -449,7 +449,7 @@ class ConjugationEngine:
         
         return infinitive  # Retour par défaut
     
-        def conjugate_french(self, verb_fr, pronoun, tense='present'):
+    def conjugate_french(self, verb_fr, pronoun, tense='present'):
         """Conjugue un verbe français correctement"""
         verb_normalized = verb_fr.lower()
         
