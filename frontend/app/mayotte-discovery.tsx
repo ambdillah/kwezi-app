@@ -365,7 +365,7 @@ export default function MayotteDiscoveryGame() {
 
   const getCurrentMakiPosition = () => {
     const commune = MAYOTTE_COMMUNES.find(c => c.id === currentCommune);
-    return commune ? commune.quiz[0] : { x: 200, y: 180 }; // Position par défaut
+    return commune ? { x: commune.quiz[0] ? 285 : 285, y: commune.quiz[0] ? 220 : 220 } : { x: 285, y: 220 }; // Position Mamoudzou par défaut
   };
 
   return (
