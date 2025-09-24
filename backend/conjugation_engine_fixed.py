@@ -5,7 +5,17 @@ Version complète avec conjugaison française correcte
 """
 
 import uuid
-from database import get_database
+from dotenv import load_dotenv
+load_dotenv()
+
+from pymongo import MongoClient
+import os
+
+def get_database():
+    """Connexion à la base de données"""
+    MONGO_URL = os.getenv('MONGO_URL')
+    client = MongoClient(MONGO_URL)
+    return client.kwezi
 
 class ConjugationEngine:
     def __init__(self):
