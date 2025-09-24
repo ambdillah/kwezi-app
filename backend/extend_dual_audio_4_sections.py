@@ -32,13 +32,13 @@ def get_audio_mappings():
     # SALUTATIONS (8 mots)
     salutations_mappings = {
         "au revoir": ("Kwaheri.m4a", "Kwaheri.m4a"),  # Même fichier pour les deux
-        "bonjour": ("Kwezi.m4a", "Kwezi.m4a"),  # Note: pas de fichier Kwezi trouvé, à vérifier
         "bonne nuit": ("Oukou wa hairi.m4a", "Haligni tsara.m4a"),
-        "comment ça va": ("Jéjé.m4a", "Jéjé.m4a"),  # Note: pas d'Akori trouvé
+        "comment ça va": ("Jéjé.m4a", "Jéjé.m4a"),  # Utiliser Jéjé pour les deux
         "merci": ("Marahaba.m4a", "Marahaba.m4a"),
         "non": ("An_ha.m4a", "An_ha.m4a"),
         "oui": ("Ewa.m4a", "Iya.m4a"),
         "ça va bien": ("Fétré.m4a", "Tsara.m4a"),
+        # Note: "bonjour" non mappé car pas de fichier Kwezi trouvé
     }
     
     # COULEURS (8 mots) 
