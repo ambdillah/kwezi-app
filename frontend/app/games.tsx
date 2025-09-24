@@ -84,6 +84,14 @@ const GAMES: GameCard[] = [
     color: '#96CEB4',
     difficulty: 2,
   },
+  {
+    id: 'mayotte-discovery',
+    title: 'Découverte de Mayotte',
+    description: 'Explore l\'île avec le maki aventurier! 🗺️',
+    icon: 'map',
+    color: '#F39C12',
+    difficulty: 1,
+  },
 ];
 
 export default function GamesScreen() {
