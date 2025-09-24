@@ -1145,6 +1145,18 @@ async def get_audio_info():
         
     if os.path.exists(corps_dir):
         corps_files = [f for f in os.listdir(corps_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(salutations_dir):
+        salutations_files = [f for f in os.listdir(salutations_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(couleurs_dir):
+        couleurs_files = [f for f in os.listdir(couleurs_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(grammaire_dir):
+        grammaire_files = [f for f in os.listdir(grammaire_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(nourriture_dir):
+        nourriture_files = [f for f in os.listdir(nourriture_dir) if f.endswith('.m4a')]
     
     return {
         "service": "Audio API intégré - Système Dual Étendu",
@@ -1168,14 +1180,36 @@ async def get_audio_info():
             "count": len(corps_files),
             "files": sorted(corps_files)
         },
+        "salutations": {
+            "count": len(salutations_files),
+            "files": sorted(salutations_files)
+        },
+        "couleurs": {
+            "count": len(couleurs_files),
+            "files": sorted(couleurs_files)
+        },
+        "grammaire": {
+            "count": len(grammaire_files),
+            "files": sorted(grammaire_files)
+        },
+        "nourriture": {
+            "count": len(nourriture_files),
+            "files": sorted(nourriture_files)
+        },
         "endpoints": {
             "famille": "/api/audio/famille/{filename}",
             "nature": "/api/audio/nature/{filename}",
             "nombres": "/api/audio/nombres/{filename}",
             "animaux": "/api/audio/animaux/{filename}",
             "corps": "/api/audio/corps/{filename}",
+            "salutations": "/api/audio/salutations/{filename}",
+            "couleurs": "/api/audio/couleurs/{filename}",
+            "grammaire": "/api/audio/grammaire/{filename}",
+            "nourriture": "/api/audio/nourriture/{filename}",
             "dual_system": "/api/words/{word_id}/audio/{lang}"
-        }
+        },
+        "total_categories": 9,
+        "total_files": len(famille_files) + len(nature_files) + len(nombres_files) + len(animaux_files) + len(corps_files) + len(salutations_files) + len(couleurs_files) + len(grammaire_files) + len(nourriture_files)
     }
 
 # Nouveaux endpoints pour le système audio dual
