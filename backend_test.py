@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 """
 Backend Testing Suite for Mayotte Language Learning API
-Testing 4 New Sections Audio Integration: vêtements, maison, tradition, transport
+Testing PDF vocabulary shimaoré-kibouchi analysis and corrections
 """
 
 import requests
 import json
+import sys
+from typing import Dict, List, Any
 import time
-from datetime import datetime
 
 # Configuration
 BACKEND_URL = "https://shimakibo-learn.preview.emergentagent.com/api"
-HEADERS = {"Content-Type": "application/json"}
 
 class BackendTester:
     def __init__(self):
-        self.results = []
+        self.backend_url = BACKEND_URL
+        self.test_results = []
         self.total_tests = 0
         self.passed_tests = 0
         
-    def log_result(self, test_name: str, passed: bool, details: str = ""):
+    def log_test(self, test_name: str, passed: bool, details: str = ""):
         """Log test result"""
         self.total_tests += 1
         if passed:
@@ -32,293 +33,348 @@ class BackendTester:
         if details:
             result += f" - {details}"
         
-        self.results.append(result)
+        self.test_results.append(result)
         print(result)
         
-    def test_audio_info_16_categories(self):
-        """Test 1: Verify GET /api/audio/info shows 16 categories total"""
+    def make_request(self, endpoint: str, method: str = "GET", data: Dict = None) -> Dict:
+        """Make HTTP request to backend"""
+        url = f"{self.backend_url}{endpoint}"
         try:
-            response = requests.get(f"{BACKEND_URL}/audio/info", headers=HEADERS, timeout=10)
-            if response.status_code == 200:
-                data = response.json()
-                total_categories = data.get('total_categories', 0)
-                
-                if total_categories == 16:
-                    # Check if new categories are present in the data keys
-                    new_categories = ['vetements', 'maison', 'tradition', 'transport']
-                    missing_categories = [cat for cat in new_categories if cat not in data]
-                    
-                    if not missing_categories:
-                        self.log_result("Audio Info 16 Categories", True, f"All 16 categories present including new ones: {new_categories}")
-                    else:
-                        self.log_result("Audio Info 16 Categories", False, f"Missing categories: {missing_categories}")
-                else:
-                    self.log_result("Audio Info 16 Categories", False, f"Expected 16 categories, got {total_categories}")
-            else:
-                self.log_result("Audio Info 16 Categories", False, f"HTTP {response.status_code}")
-        except Exception as e:
-            self.log_result("Audio Info 16 Categories", False, f"Exception: {str(e)}")
-    
-    def test_new_audio_endpoints(self):
-        """Test 2: Verify new audio endpoints are functional"""
-        new_endpoints = [
-            ('vetements', 'Robo.m4a'),
-            ('maison', 'Nyoumba.m4a'),
-            ('tradition', 'Mrengué.m4a'),
-            ('transport', 'Ndrégué.m4a')
-        ]
-        
-        for category, filename in new_endpoints:
-            try:
-                response = requests.get(f"{BACKEND_URL}/audio/{category}/{filename}", timeout=10)
-                if response.status_code == 200:
-                    content_type = response.headers.get('content-type', '')
-                    if 'audio' in content_type.lower():
-                        self.log_result(f"Audio Endpoint {category}", True, f"Serving {filename} with {content_type}")
-                    else:
-                        self.log_result(f"Audio Endpoint {category}", False, f"Wrong content-type: {content_type}")
-                else:
-                    self.log_result(f"Audio Endpoint {category}", False, f"HTTP {response.status_code}")
-            except Exception as e:
-                self.log_result(f"Audio Endpoint {category}", False, f"Exception: {str(e)}")
-    
-    def test_section_coverage(self):
-        """Test 3: Verify audio coverage for each new section"""
-        expected_coverage = {
-            'vetements': {'target': 11, 'total': 16, 'percentage': 68.8},
-            'maison': {'target': 30, 'total': 37, 'percentage': 81.1},
-            'tradition': {'target': 6, 'total': 16, 'percentage': 37.5},
-            'transport': {'target': 5, 'total': 7, 'percentage': 71.4}
-        }
-        
-        for category, expected in expected_coverage.items():
-            try:
-                # Get words in category
-                response = requests.get(f"{BACKEND_URL}/words?category={category}", headers=HEADERS, timeout=10)
-                if response.status_code == 200:
-                    words = response.json()
-                    total_words = len(words)
-                    
-                    # Count words with dual audio system
-                    dual_audio_count = sum(1 for word in words if word.get('dual_audio_system', False))
-                    
-                    if total_words == expected['total'] and dual_audio_count == expected['target']:
-                        percentage = (dual_audio_count / total_words) * 100
-                        self.log_result(f"Coverage {category.title()}", True, 
-                                      f"{dual_audio_count}/{total_words} words ({percentage:.1f}%)")
-                    else:
-                        self.log_result(f"Coverage {category.title()}", False, 
-                                      f"Expected {expected['target']}/{expected['total']}, got {dual_audio_count}/{total_words}")
-                else:
-                    self.log_result(f"Coverage {category.title()}", False, f"HTTP {response.status_code}")
-            except Exception as e:
-                self.log_result(f"Coverage {category.title()}", False, f"Exception: {str(e)}")
-    
-    def test_specific_examples(self):
-        """Test 4: Verify specific examples mentioned in review request"""
-        test_cases = [
-            {'word': 'robe', 'category': 'vetements', 'shimaore_file': 'Robe.m4a', 'kibouchi_file': 'Robe.m4a'},
-            {'word': 'maison', 'category': 'maison', 'shimaore_file': 'Nyoumba.m4a', 'kibouchi_file': 'Tragnou.m4a'},
-            {'word': 'boxe traditionnelle', 'category': 'tradition', 'shimaore_file': 'Mrengué.m4a', 'kibouchi_file': 'Mouringui.m4a'},
-            {'word': 'avion', 'category': 'transport', 'shimaore_file': 'Ndrégué.m4a', 'kibouchi_file': 'Roplani.m4a'}
-        ]
-        
-        for test_case in test_cases:
-            try:
-                # Find the word
-                response = requests.get(f"{BACKEND_URL}/words?category={test_case['category']}", headers=HEADERS, timeout=10)
-                if response.status_code == 200:
-                    words = response.json()
-                    word_obj = next((w for w in words if w['french'].lower() == test_case['word'].lower()), None)
-                    
-                    if word_obj:
-                        word_id = word_obj['id']
-                        
-                        # Test dual audio endpoints
-                        shimaore_response = requests.get(f"{BACKEND_URL}/words/{word_id}/audio/shimaore", timeout=10)
-                        kibouchi_response = requests.get(f"{BACKEND_URL}/words/{word_id}/audio/kibouchi", timeout=10)
-                        
-                        shimaore_ok = shimaore_response.status_code == 200
-                        kibouchi_ok = kibouchi_response.status_code == 200
-                        
-                        if shimaore_ok and kibouchi_ok:
-                            self.log_result(f"Example '{test_case['word']}'", True, 
-                                          f"Both Shimaoré and Kibouchi audio working")
-                        else:
-                            self.log_result(f"Example '{test_case['word']}'", False, 
-                                          f"Shimaoré: {shimaore_response.status_code}, Kibouchi: {kibouchi_response.status_code}")
-                    else:
-                        self.log_result(f"Example '{test_case['word']}'", False, f"Word not found in {test_case['category']}")
-                else:
-                    self.log_result(f"Example '{test_case['word']}'", False, f"HTTP {response.status_code}")
-            except Exception as e:
-                self.log_result(f"Example '{test_case['word']}'", False, f"Exception: {str(e)}")
-    
-    def test_dual_audio_functionality(self):
-        """Test 5: Verify dual audio system functionality for new sections"""
-        new_categories = ['vetements', 'maison', 'tradition', 'transport']
-        
-        for category in new_categories:
-            try:
-                response = requests.get(f"{BACKEND_URL}/words?category={category}", headers=HEADERS, timeout=10)
-                if response.status_code == 200:
-                    words = response.json()
-                    
-                    # Test first word with dual audio system
-                    dual_audio_words = [w for w in words if w.get('dual_audio_system', False)]
-                    
-                    if dual_audio_words:
-                        test_word = dual_audio_words[0]
-                        word_id = test_word['id']
-                        
-                        # Test audio-info endpoint
-                        info_response = requests.get(f"{BACKEND_URL}/words/{word_id}/audio-info", headers=HEADERS, timeout=10)
-                        
-                        if info_response.status_code == 200:
-                            audio_info = info_response.json()
-                            has_dual = audio_info.get('dual_audio_system', False)
-                            
-                            if has_dual:
-                                self.log_result(f"Dual Audio {category.title()}", True, 
-                                              f"Word '{test_word['french']}' has complete dual audio metadata")
-                            else:
-                                self.log_result(f"Dual Audio {category.title()}", False, 
-                                              f"Word '{test_word['french']}' missing dual audio metadata")
-                        else:
-                            self.log_result(f"Dual Audio {category.title()}", False, f"Audio-info HTTP {info_response.status_code}")
-                    else:
-                        self.log_result(f"Dual Audio {category.title()}", False, "No words with dual audio system found")
-                else:
-                    self.log_result(f"Dual Audio {category.title()}", False, f"HTTP {response.status_code}")
-            except Exception as e:
-                self.log_result(f"Dual Audio {category.title()}", False, f"Exception: {str(e)}")
-    
-    def test_total_audio_files(self):
-        """Test 6: Verify total audio file count reaches 790+"""
-        try:
-            response = requests.get(f"{BACKEND_URL}/audio/info", headers=HEADERS, timeout=10)
-            if response.status_code == 200:
-                data = response.json()
-                total_files = data.get('total_files', 0)
-                
-                if total_files >= 790:
-                    self.log_result("Total Audio Files", True, f"{total_files} files (meets 790+ requirement)")
-                else:
-                    self.log_result("Total Audio Files", False, f"Only {total_files} files, expected 790+")
-            else:
-                self.log_result("Total Audio Files", False, f"HTTP {response.status_code}")
-        except Exception as e:
-            self.log_result("Total Audio Files", False, f"Exception: {str(e)}")
-    
-    def test_category_detection(self):
-        """Test 7: Verify automatic category detection for new sections"""
-        test_files = [
-            ('vetements', 'Pantalon.m4a'),
-            ('maison', 'Lit.m4a'),
-            ('tradition', 'Danse.m4a'),
-            ('transport', 'Motos.m4a')
-        ]
-        
-        for category, filename in test_files:
-            try:
-                response = requests.get(f"{BACKEND_URL}/audio/{category}/{filename}", timeout=10)
-                if response.status_code == 200:
-                    content_type = response.headers.get('content-type', '')
-                    if 'audio' in content_type.lower():
-                        self.log_result(f"Category Detection {category.title()}", True, 
-                                      f"Automatic detection working for {filename}")
-                    else:
-                        self.log_result(f"Category Detection {category.title()}", False, 
-                                      f"Wrong content-type: {content_type}")
-                elif response.status_code == 404:
-                    # File might not exist, but endpoint should be configured
-                    self.log_result(f"Category Detection {category.title()}", True, 
-                                  f"Endpoint configured (404 expected for non-existent file)")
-                else:
-                    self.log_result(f"Category Detection {category.title()}", False, f"HTTP {response.status_code}")
-            except Exception as e:
-                self.log_result(f"Category Detection {category.title()}", False, f"Exception: {str(e)}")
-    
-    def test_performance_with_16_categories(self):
-        """Test 8: Verify system performance with 16 categories"""
-        try:
-            start_time = time.time()
-            response = requests.get(f"{BACKEND_URL}/audio/info", headers=HEADERS, timeout=10)
-            end_time = time.time()
+            if method == "GET":
+                response = requests.get(url, timeout=10)
+            elif method == "POST":
+                response = requests.post(url, json=data, timeout=10)
+            elif method == "PUT":
+                response = requests.put(url, json=data, timeout=10)
+            elif method == "DELETE":
+                response = requests.delete(url, timeout=10)
             
-            response_time = end_time - start_time
-            
-            if response.status_code == 200 and response_time < 2.0:
-                data = response.json()
-                total_categories = data.get('total_categories', 0)
-                self.log_result("Performance 16 Categories", True, 
-                              f"{total_categories} categories, {response_time:.2f}s response time")
-            else:
-                self.log_result("Performance 16 Categories", False, 
-                              f"HTTP {response.status_code}, {response_time:.2f}s response time")
+            return {
+                "status_code": response.status_code,
+                "data": response.json() if response.content else {},
+                "success": response.status_code < 400
+            }
         except Exception as e:
-            self.log_result("Performance 16 Categories", False, f"Exception: {str(e)}")
-    
+            return {
+                "status_code": 0,
+                "data": {"error": str(e)},
+                "success": False
+            }
+
+    def test_1_doublons_elimines(self):
+        """Test 1: Vérifier que les doublons ont été éliminés"""
+        print("\n=== TEST 1: DOUBLONS ÉLIMINÉS ===")
+        
+        # Get all words
+        response = self.make_request("/words")
+        if not response["success"]:
+            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            return
+            
+        words = response["data"]
+        self.log_test("Récupération des mots", True, f"{len(words)} mots trouvés")
+        
+        # Check for duplicates by French word
+        french_words = {}
+        duplicates_found = []
+        
+        for word in words:
+            french = word.get("french", "").lower()
+            if french in french_words:
+                duplicates_found.append(french)
+            else:
+                french_words[french] = word
+        
+        # Test: No duplicates should exist
+        self.log_test("Absence de doublons", len(duplicates_found) == 0, 
+                     f"Doublons trouvés: {duplicates_found}" if duplicates_found else "Aucun doublon détecté")
+        
+        # Test specific cases mentioned in review
+        # 1. Only "bigorneau" should exist (not "tortue" duplicate)
+        bigorneau_count = sum(1 for word in words if word.get("french", "").lower() == "bigorneau")
+        tortue_count = sum(1 for word in words if word.get("french", "").lower() == "tortue")
+        
+        self.log_test("Bigorneau unique", bigorneau_count == 1, f"Bigorneau trouvé {bigorneau_count} fois")
+        self.log_test("Tortue présente", tortue_count >= 1, f"Tortue trouvé {tortue_count} fois")
+        
+        # 2. Only one "escargot" with translation "kowa"
+        escargot_words = [word for word in words if word.get("french", "").lower() == "escargot"]
+        escargot_with_kowa = [word for word in escargot_words if "kowa" in word.get("shimaore", "").lower()]
+        
+        self.log_test("Escargot unique", len(escargot_words) == 1, f"{len(escargot_words)} escargot(s) trouvé(s)")
+        self.log_test("Escargot avec 'kowa'", len(escargot_with_kowa) >= 1, 
+                     f"Escargot avec kowa: {escargot_with_kowa[0].get('shimaore', '') if escargot_with_kowa else 'Non trouvé'}")
+        
+        # 3. "oursin" and "huître" have distinct translations
+        oursin_words = [word for word in words if word.get("french", "").lower() == "oursin"]
+        huitre_words = [word for word in words if word.get("french", "").lower() == "huître"]
+        
+        if oursin_words and huitre_words:
+            oursin_translation = oursin_words[0].get("shimaore", "")
+            huitre_translation = huitre_words[0].get("shimaore", "")
+            distinct_translations = oursin_translation != huitre_translation
+            
+            self.log_test("Oursin/Huître traductions distinctes", distinct_translations,
+                         f"Oursin: {oursin_translation}, Huître: {huitre_translation}")
+        else:
+            self.log_test("Oursin/Huître présents", False, "Oursin ou Huître manquant")
+
+    def test_2_corrections_orthographiques(self):
+        """Test 2: Vérifier les corrections orthographiques"""
+        print("\n=== TEST 2: CORRECTIONS ORTHOGRAPHIQUES ===")
+        
+        response = self.make_request("/words")
+        if not response["success"]:
+            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            return
+            
+        words = response["data"]
+        
+        # Test: French words should not have accents
+        french_accent_issues = []
+        accent_chars = ['é', 'è', 'ê', 'à', 'ù', 'ô', 'î', 'ç', 'ü', 'ï']
+        
+        for word in words:
+            french = word.get("french", "")
+            if any(char in french for char in accent_chars):
+                french_accent_issues.append(french)
+        
+        self.log_test("Accents français supprimés", len(french_accent_issues) == 0,
+                     f"Mots avec accents: {french_accent_issues[:10]}" if french_accent_issues else "Aucun accent trouvé")
+        
+        # Test specific corrections mentioned
+        test_corrections = [
+            ("etoile", "étoile"),  # étoile -> etoile
+            ("ecole", "école"),    # école -> ecole
+        ]
+        
+        for corrected, original in test_corrections:
+            found_corrected = any(word.get("french", "").lower() == corrected for word in words)
+            found_original = any(word.get("french", "").lower() == original for word in words)
+            
+            self.log_test(f"Correction {original} -> {corrected}", found_corrected and not found_original,
+                         f"Trouvé '{corrected}': {found_corrected}, Trouvé '{original}': {found_original}")
+        
+        # Test: Shimaoré words should be normalized
+        shimaore_accent_issues = []
+        for word in words:
+            shimaore = word.get("shimaore", "")
+            if any(char in shimaore for char in accent_chars):
+                shimaore_accent_issues.append(f"{word.get('french', '')} -> {shimaore}")
+        
+        self.log_test("Accents shimaoré normalisés", len(shimaore_accent_issues) <= 5,  # Allow some exceptions
+                     f"Mots shimaoré avec accents: {len(shimaore_accent_issues)}")
+
+    def test_3_integration_complete_pdf(self):
+        """Test 3: Vérifier l'intégration complète du PDF"""
+        print("\n=== TEST 3: INTÉGRATION COMPLÈTE DU PDF ===")
+        
+        response = self.make_request("/words")
+        if not response["success"]:
+            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            return
+            
+        words = response["data"]
+        total_words = len(words)
+        
+        # Test: Total should be 211 words
+        self.log_test("Total 211 mots", total_words == 211, f"Trouvé {total_words} mots (attendu: 211)")
+        
+        # Test: Check categories
+        categories = {}
+        for word in words:
+            category = word.get("category", "unknown")
+            categories[category] = categories.get(category, 0) + 1
+        
+        expected_categories = [
+            "animaux", "corps", "couleurs", "education", "famille", 
+            "grammaire", "nature", "nombres", "salutations", "transport"
+        ]
+        
+        found_categories = list(categories.keys())
+        missing_categories = [cat for cat in expected_categories if cat not in found_categories]
+        
+        self.log_test("10 catégories présentes", len(missing_categories) == 0,
+                     f"Catégories manquantes: {missing_categories}" if missing_categories else f"Toutes les catégories présentes: {found_categories}")
+        
+        # Test: Check numbers 11-20 are present
+        numbers_11_20 = [
+            "onze", "douze", "treize", "quatorze", "quinze",
+            "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt"
+        ]
+        
+        found_numbers = []
+        for number in numbers_11_20:
+            if any(word.get("french", "").lower() == number for word in words):
+                found_numbers.append(number)
+        
+        self.log_test("Nombres 11-20 présents", len(found_numbers) == len(numbers_11_20),
+                     f"Nombres trouvés: {len(found_numbers)}/{len(numbers_11_20)} - {found_numbers}")
+        
+        # Test: Check kibouchi translations added
+        words_with_kibouchi = sum(1 for word in words if word.get("kibouchi", "").strip())
+        kibouchi_percentage = (words_with_kibouchi / total_words * 100) if total_words > 0 else 0
+        
+        self.log_test("45 traductions kibouchi ajoutées", words_with_kibouchi >= 45,
+                     f"{words_with_kibouchi} mots avec kibouchi ({kibouchi_percentage:.1f}%)")
+
+    def test_4_couverture_traductions(self):
+        """Test 4: Vérifier la couverture des traductions"""
+        print("\n=== TEST 4: COUVERTURE DES TRADUCTIONS ===")
+        
+        response = self.make_request("/words")
+        if not response["success"]:
+            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            return
+            
+        words = response["data"]
+        total_words = len(words)
+        
+        # Test: 100% shimaoré coverage
+        words_with_shimaore = sum(1 for word in words if word.get("shimaore", "").strip())
+        shimaore_percentage = (words_with_shimaore / total_words * 100) if total_words > 0 else 0
+        
+        self.log_test("100% couverture shimaoré", shimaore_percentage == 100,
+                     f"{words_with_shimaore}/{total_words} mots avec shimaoré ({shimaore_percentage:.1f}%)")
+        
+        # Test: ~26.5% kibouchi coverage (56/211)
+        words_with_kibouchi = sum(1 for word in words if word.get("kibouchi", "").strip())
+        kibouchi_percentage = (words_with_kibouchi / total_words * 100) if total_words > 0 else 0
+        expected_kibouchi = 56
+        
+        self.log_test("26.5% couverture kibouchi", abs(words_with_kibouchi - expected_kibouchi) <= 5,
+                     f"{words_with_kibouchi}/{total_words} mots avec kibouchi ({kibouchi_percentage:.1f}%) - attendu: ~{expected_kibouchi}")
+        
+        # Test specific new kibouchi translations
+        specific_tests = [
+            ("pente", "boungou"),
+            ("ecole", "licoli"), 
+            ("chat", "moirou")
+        ]
+        
+        for french_word, expected_kibouchi in specific_tests:
+            word_found = None
+            for word in words:
+                if word.get("french", "").lower() == french_word:
+                    word_found = word
+                    break
+            
+            if word_found:
+                actual_kibouchi = word_found.get("kibouchi", "").lower()
+                has_expected = expected_kibouchi.lower() in actual_kibouchi
+                self.log_test(f"Traduction kibouchi '{french_word}' -> '{expected_kibouchi}'", has_expected,
+                             f"Trouvé: '{actual_kibouchi}'")
+            else:
+                self.log_test(f"Mot '{french_word}' présent", False, "Mot non trouvé")
+
+    def test_5_coherence_base(self):
+        """Test 5: Vérifier la cohérence de la base de données"""
+        print("\n=== TEST 5: COHÉRENCE DE LA BASE ===")
+        
+        response = self.make_request("/words")
+        if not response["success"]:
+            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            return
+            
+        words = response["data"]
+        
+        # Test: No duplicates (already tested but important for coherence)
+        french_words = set()
+        duplicates = []
+        for word in words:
+            french = word.get("french", "").lower().strip()
+            if french in french_words:
+                duplicates.append(french)
+            else:
+                french_words.add(french)
+        
+        self.log_test("Aucun doublon", len(duplicates) == 0,
+                     f"Doublons: {duplicates}" if duplicates else "Base cohérente")
+        
+        # Test: All words have required fields
+        missing_fields = []
+        for i, word in enumerate(words):
+            required_fields = ["french", "shimaore", "category"]
+            for field in required_fields:
+                if not word.get(field, "").strip():
+                    missing_fields.append(f"Mot {i+1}: champ '{field}' manquant")
+        
+        self.log_test("Champs requis présents", len(missing_fields) == 0,
+                     f"Champs manquants: {len(missing_fields)}" if missing_fields else "Tous les champs requis présents")
+        
+        # Test: Data structure consistency
+        structure_issues = []
+        for i, word in enumerate(words):
+            # Check if word has basic structure
+            if not isinstance(word, dict):
+                structure_issues.append(f"Mot {i+1}: structure invalide")
+                continue
+                
+            # Check field types
+            string_fields = ["french", "shimaore", "kibouchi", "category"]
+            for field in string_fields:
+                if field in word and not isinstance(word[field], str):
+                    structure_issues.append(f"Mot {i+1}: {field} n'est pas une chaîne")
+        
+        self.log_test("Structure de données cohérente", len(structure_issues) == 0,
+                     f"Problèmes de structure: {len(structure_issues)}")
+        
+        # Test: API endpoints working
+        endpoints_to_test = [
+            "/words?category=famille",
+            "/words?category=couleurs", 
+            "/words?category=animaux",
+            "/words?category=nombres"
+        ]
+        
+        working_endpoints = 0
+        for endpoint in endpoints_to_test:
+            response = self.make_request(endpoint)
+            if response["success"]:
+                working_endpoints += 1
+        
+        self.log_test("Endpoints API fonctionnels", working_endpoints == len(endpoints_to_test),
+                     f"{working_endpoints}/{len(endpoints_to_test)} endpoints fonctionnels")
+
     def run_all_tests(self):
-        """Run all tests for 4 new sections audio integration"""
-        print("🎉 TESTING: INTÉGRATION 4 NOUVELLES SECTIONS AUDIO DUAL")
-        print("=" * 70)
-        print("Testing: vêtements, maison, tradition, transport")
-        print("Expected: 16 categories total, 790+ audio files, 52+ new words with dual audio")
-        print("=" * 70)
+        """Run all tests"""
+        print("🧪 DÉBUT DES TESTS - ANALYSE ET CORRECTION DU PDF VOCABULAIRE SHIMAORÉ-KIBOUCHI")
+        print("=" * 80)
         
-        # Run all tests
-        self.test_audio_info_16_categories()
-        self.test_new_audio_endpoints()
-        self.test_section_coverage()
-        self.test_specific_examples()
-        self.test_dual_audio_functionality()
-        self.test_total_audio_files()
-        self.test_category_detection()
-        self.test_performance_with_16_categories()
+        start_time = time.time()
         
-        # Summary
-        print("\n" + "=" * 70)
-        print("🎯 TEST SUMMARY")
-        print("=" * 70)
+        # Run all test suites
+        self.test_1_doublons_elimines()
+        self.test_2_corrections_orthographiques()
+        self.test_3_integration_complete_pdf()
+        self.test_4_couverture_traductions()
+        self.test_5_coherence_base()
         
-        for result in self.results:
+        end_time = time.time()
+        duration = end_time - start_time
+        
+        # Print summary
+        print("\n" + "=" * 80)
+        print("📊 RÉSUMÉ DES TESTS")
+        print("=" * 80)
+        
+        for result in self.test_results:
             print(result)
         
-        print(f"\n📊 OVERALL RESULTS: {self.passed_tests}/{self.total_tests} tests passed")
+        print(f"\n🎯 RÉSULTATS FINAUX:")
+        print(f"   Tests réussis: {self.passed_tests}/{self.total_tests}")
+        print(f"   Taux de réussite: {(self.passed_tests/self.total_tests*100):.1f}%")
+        print(f"   Durée: {duration:.2f}s")
         
         if self.passed_tests == self.total_tests:
-            print("🎉 ALL TESTS PASSED! 4 nouvelles sections audio integration is fully functional!")
+            print("🎉 TOUS LES TESTS SONT PASSÉS - INTÉGRATION PDF RÉUSSIE!")
             return True
         else:
             failed_tests = self.total_tests - self.passed_tests
-            print(f"❌ {failed_tests} tests failed. Integration needs attention.")
+            print(f"⚠️  {failed_tests} TEST(S) ÉCHOUÉ(S) - CORRECTIONS NÉCESSAIRES")
             return False
 
-def main():
-    """Main test execution"""
-    print("🚀 Starting Backend Testing for 4 New Sections Audio Integration")
-    print(f"Backend URL: {BACKEND_URL}")
-    print("Testing Requirements:")
-    print("- 16 categories total (adding vêtements, maison, tradition, transport)")
-    print("- Specific coverage targets for each new section")
-    print("- 790+ total audio files")
-    print("- 52+ new words with dual audio system")
-    print("- New endpoints functional")
-    print("- Specific examples working")
-    print()
-    
+if __name__ == "__main__":
     tester = BackendTester()
     success = tester.run_all_tests()
-    
-    if success:
-        print("\n✅ INTEGRATION TEST COMPLETED SUCCESSFULLY!")
-        print("The 4 new sections (vêtements, maison, tradition, transport) are fully integrated with the dual audio system.")
-    else:
-        print("\n❌ INTEGRATION TEST FAILED!")
-        print("Some requirements for the 4 new sections integration are not met.")
-    
-    return success
-
-if __name__ == "__main__":
-    main()
+    sys.exit(0 if success else 1)
