@@ -61,8 +61,14 @@ const ConjugationColorLegend: React.FC<ConjugationColorLegendProps> = ({
               </View>
 
               <Text style={styles.modalSubtitle}>
-                Les préfixes sont colorés selon le temps :
+                Les préfixes des VERBES CONJUGUÉS sont colorés selon le temps :
               </Text>
+              
+              <View style={styles.pronounsNote}>
+                <Text style={styles.pronounsNoteText}>
+                  ℹ️ Les pronoms (wami, wassi, zahou, etc.) ne sont pas colorés car ils ne changent pas selon les temps.
+                </Text>
+              </View>
 
               {Object.entries(explanations).map(([tense, info]) => (
                 <View key={tense} style={styles.tenseExplanation}>
