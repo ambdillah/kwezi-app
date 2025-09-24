@@ -64,11 +64,11 @@ export const VoiceTestPanel: React.FC<VoiceTestPanelProps> = ({
     
     setIsPlaying(true);
     try {
-      await speakWithEnhancedVoice("Test des corrections phonétiques", 'fr', 'masculine', 'energetic');
+      await speakWithFeminineVoice("Test des corrections phonétiques", 'fr', 'feminine', 'warm');
       await new Promise(resolve => setTimeout(resolve, 1000));
-      await speakWithEnhancedVoice("wami nisnguadza", 'shimaore', 'masculine', 'energetic');
+      await speakWithFeminineVoice("wami nisnguadza", 'shimaore', 'feminine', 'warm');
       await new Promise(resolve => setTimeout(resolve, 1000));
-      await speakWithEnhancedVoice("zahou za msoma", 'kibouchi', 'masculine', 'energetic');
+      await speakWithFeminineVoice("zahou za msoma", 'kibouchi', 'feminine', 'warm');
     } catch (error) {
       Alert.alert('Erreur', 'Impossible de tester la phonétique');
     } finally {
