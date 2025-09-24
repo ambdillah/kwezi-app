@@ -188,7 +188,7 @@ class ConjugationEngine:
                 'tu': 'Wawé', 
                 'il': 'Wayé',
                 'elle': 'Wayé',
-                'nous': 'Wassi',
+                'nous': 'Wasi',
                 'vous': 'Wagnou',
                 'ils': 'Wawo',
                 'elles': 'Wawo'
