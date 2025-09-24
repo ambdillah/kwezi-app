@@ -87,7 +87,7 @@ export const VoiceTestPanel: React.FC<VoiceTestPanelProps> = ({
         </View>
         
         <Text style={styles.subtitle}>
-          Testez différentes voix pour choisir la plus charismatique
+          Testez différentes voix féminines pour choisir la plus agréable
         </Text>
         
         <View style={styles.buttonsContainer}>
