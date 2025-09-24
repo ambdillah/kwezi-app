@@ -22,7 +22,7 @@ index 39ab582..e69de29 100644
 -+from datetime import datetime
 -+
 -+# Configuration des URLs
--+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://mayotte-learn-2.preview.emergentagent.com')
+-+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibo-learn.preview.emergentagent.com')
 -+API_BASE = f"{BACKEND_URL}/api"
 -+
 -+class AdjectifsAudioTester:
@@ -727,7 +727,7 @@ index 39ab582..e69de29 100644
 --+import time
 --+
 --+# Configuration des URLs
---+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://mayotte-learn-2.preview.emergentagent.com')
+--+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibo-learn.preview.emergentagent.com')
 --+API_BASE = f"{BACKEND_URL}/api"
 --+
 --+class ExpressionsAudioTester:
@@ -1449,7 +1449,7 @@ index 39ab582..e69de29 100644
 --+import time
 --+
 --+# Configuration des URLs
---+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://mayotte-learn-2.preview.emergentagent.com')
+--+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibo-learn.preview.emergentagent.com')
 --+API_BASE = f"{BACKEND_URL}/api"
 --+
 --+class ExpressionsAudioTester:

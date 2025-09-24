@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://mayotte-learn-2.preview.emergentagent.com/api"
+BACKEND_URL = "https://shimakibo-learn.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class BackendTester:
