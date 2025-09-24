@@ -16,6 +16,8 @@ import * as Speech from 'expo-speech';
 import { speakText, speakConjugatedSentence } from '../utils/speechUtils';
 import YlangYlangFlower from '../components/YlangYlangFlower';
 import MakiMayotte from '../components/MakiMayotte';
+import ColoredConjugationWord from '../components/ColoredConjugationWord';
+import ConjugationColorLegend from '../components/ConjugationColorLegend';
 
 const { width } = Dimensions.get('window');
 
