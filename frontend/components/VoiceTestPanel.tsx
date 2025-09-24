@@ -13,7 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { speakWithEnhancedVoice } from '../utils/enhancedSpeechUtils';
+import { speakWithFeminineVoice, testFeminineVoice } from '../utils/feminineSpeechUtils';
 import { runVoiceDemo, quickVoiceTest, showAvailableVoices } from '../utils/voiceTestUtils';
 
 interface VoiceTestPanelProps {
