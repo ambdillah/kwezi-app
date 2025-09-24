@@ -132,7 +132,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Mayotte educational app with backend API for learning Shimaoré and Kibouchi languages"
+user_problem_statement: "Analyse du PDF vocabulaire shimaoré-kibouchi pour vérifier orthographe, intégration et prononciations. Éliminer erreurs et doublons (ex: bigorno vs bigorneau)."
 
 backend:
   - task: "Badge and progress system implementation"
