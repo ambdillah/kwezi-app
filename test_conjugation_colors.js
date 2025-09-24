@@ -111,7 +111,7 @@ console.log('🧪 TEST DU SYSTÈME DE COLORATION (VERBES UNIQUEMENT)');
 console.log('=' * 60);
 
 // Mots de test shimaoré avec verbes ET pronoms
-const shimaoréWords = ['nisrenga', 'acorenga', 'atsorenga', 'wami', 'wassi', 'oudzya'];
+const shimaoréWords = ['nisrenga', 'acorenga', 'atsorenga', 'wami', 'wasi', 'oudzya'];
 console.log('\n📝 Tests Shimaoré:');
 shimaoréWords.forEach(word => {
   const result = separatePrefixAndRoot(word, 'shimaore');
