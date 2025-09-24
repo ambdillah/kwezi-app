@@ -1320,6 +1320,18 @@ async def get_audio_info():
         
     if os.path.exists(adjectifs_dir):
         adjectifs_files = [f for f in os.listdir(adjectifs_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(vetements_dir):
+        vetements_files = [f for f in os.listdir(vetements_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(maison_dir):
+        maison_files = [f for f in os.listdir(maison_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(tradition_dir):
+        tradition_files = [f for f in os.listdir(tradition_dir) if f.endswith('.m4a')]
+        
+    if os.path.exists(transport_dir):
+        transport_files = [f for f in os.listdir(transport_dir) if f.endswith('.m4a')]
     
     return {
         "service": "Audio API intégré - Système Dual Étendu",
@@ -1371,6 +1383,22 @@ async def get_audio_info():
             "count": len(adjectifs_files),
             "files": sorted(adjectifs_files)
         },
+        "vetements": {
+            "count": len(vetements_files),
+            "files": sorted(vetements_files)
+        },
+        "maison": {
+            "count": len(maison_files),
+            "files": sorted(maison_files)
+        },
+        "tradition": {
+            "count": len(tradition_files),
+            "files": sorted(tradition_files)
+        },
+        "transport": {
+            "count": len(transport_files),
+            "files": sorted(transport_files)
+        },
         "endpoints": {
             "famille": "/api/audio/famille/{filename}",
             "nature": "/api/audio/nature/{filename}",
@@ -1384,10 +1412,14 @@ async def get_audio_info():
             "verbes": "/api/audio/verbes/{filename}",
             "expressions": "/api/audio/expressions/{filename}",
             "adjectifs": "/api/audio/adjectifs/{filename}",
+            "vetements": "/api/audio/vetements/{filename}",
+            "maison": "/api/audio/maison/{filename}",
+            "tradition": "/api/audio/tradition/{filename}",
+            "transport": "/api/audio/transport/{filename}",
             "dual_system": "/api/words/{word_id}/audio/{lang}"
         },
-        "total_categories": 12,
-        "total_files": len(famille_files) + len(nature_files) + len(nombres_files) + len(animaux_files) + len(corps_files) + len(salutations_files) + len(couleurs_files) + len(grammaire_files) + len(nourriture_files) + len(verbes_files) + len(expressions_files) + len(adjectifs_files)
+        "total_categories": 16,
+        "total_files": len(famille_files) + len(nature_files) + len(nombres_files) + len(animaux_files) + len(corps_files) + len(salutations_files) + len(couleurs_files) + len(grammaire_files) + len(nourriture_files) + len(verbes_files) + len(expressions_files) + len(adjectifs_files) + len(vetements_files) + len(maison_files) + len(tradition_files) + len(transport_files)
     }
 
 # Nouveaux endpoints pour le système audio dual
