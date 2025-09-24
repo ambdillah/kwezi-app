@@ -1060,13 +1060,15 @@ export default function GamesScreen() {
           <Text style={styles.availableWordsLabel}>Mots disponibles :</Text>
           <View style={styles.availableWordsZone}>
             {availableWords.map((word, index) => (
-              <TouchableOpacity 
+              <ColoredConjugationWord
                 key={index}
+                word={word}
+                language={selectedLanguage}
                 onPress={() => addWordToSentence(word)}
                 style={styles.availableWordButton}
-              >
-                <Text style={styles.availableWordText}>{word}</Text>
-              </TouchableOpacity>
+                textStyle={styles.availableWordText}
+                showTenseIndicator={true}
+              />
             ))}
           </View>
         </View>
