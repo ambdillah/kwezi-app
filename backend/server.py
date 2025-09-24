@@ -1116,12 +1116,20 @@ async def get_audio_info():
     nombres_dir = "/app/frontend/assets/audio/nombres"
     animaux_dir = "/app/frontend/assets/audio/animaux"
     corps_dir = "/app/frontend/assets/audio/corps"
+    salutations_dir = "/app/frontend/assets/audio/salutations"
+    couleurs_dir = "/app/frontend/assets/audio/couleurs"
+    grammaire_dir = "/app/frontend/assets/audio/grammaire"
+    nourriture_dir = "/app/frontend/assets/audio/nourriture"
     
     famille_files = []
     nature_files = []
     nombres_files = []
     animaux_files = []
     corps_files = []
+    salutations_files = []
+    couleurs_files = []
+    grammaire_files = []
+    nourriture_files = []
     
     if os.path.exists(famille_dir):
         famille_files = [f for f in os.listdir(famille_dir) if f.endswith('.m4a')]
