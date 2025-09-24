@@ -1006,6 +1006,86 @@ async def get_animaux_audio(filename: str):
         headers={"Content-Disposition": f"inline; filename={filename}"}
     )
 
+@app.get("/api/audio/salutations/{filename}")
+async def get_salutations_audio(filename: str):
+    """Sert un fichier audio salutations"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/salutations", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio salutations non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
+@app.get("/api/audio/couleurs/{filename}")
+async def get_couleurs_audio(filename: str):
+    """Sert un fichier audio couleurs"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/couleurs", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio couleurs non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
+@app.get("/api/audio/grammaire/{filename}")
+async def get_grammaire_audio(filename: str):
+    """Sert un fichier audio grammaire"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/grammaire", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio grammaire non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
+@app.get("/api/audio/nourriture/{filename}")
+async def get_nourriture_audio(filename: str):
+    """Sert un fichier audio nourriture"""
+    import os
+    from fastapi.responses import FileResponse
+    
+    file_path = os.path.join("/app/frontend/assets/audio/nourriture", filename)
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Fichier audio nourriture non trouvé: {filename}")
+    
+    if not filename.endswith('.m4a'):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .m4a sont supportés")
+    
+    return FileResponse(
+        file_path,
+        media_type="audio/mp4",
+        headers={"Content-Disposition": f"inline; filename={filename}"}
+    )
+
 @app.get("/api/audio/corps/{filename}")
 async def get_corps_audio(filename: str):
     """Sert un fichier audio corps"""
