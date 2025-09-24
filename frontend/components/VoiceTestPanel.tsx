@@ -80,7 +80,7 @@ export const VoiceTestPanel: React.FC<VoiceTestPanelProps> = ({
     <View style={styles.overlay}>
       <View style={styles.panel}>
         <View style={styles.header}>
-          <Text style={styles.title}>🎙️ Test des Voix Masculines</Text>
+          <Text style={styles.title}>🎙️ Test des Voix Féminines</Text>
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
             <Ionicons name="close" size={24} color="#333" />
           </TouchableOpacity>
