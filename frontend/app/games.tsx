@@ -1012,6 +1012,9 @@ export default function GamesScreen() {
           </View>
         </View>
 
+        {/* Légende des couleurs de conjugaison */}
+        <ConjugationColorLegend language={selectedLanguage} compact={true} />
+
         {/* Phrase française à traduire */}
         <View style={styles.sentenceTarget}>
           <View style={styles.sentenceTargetHeader}>
