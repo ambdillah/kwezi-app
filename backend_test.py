@@ -62,7 +62,7 @@ class BackendTester:
     def test_new_audio_endpoints(self):
         """Test 2: Verify new audio endpoints are functional"""
         new_endpoints = [
-            ('vetements', 'Robe.m4a'),
+            ('vetements', 'Robo.m4a'),
             ('maison', 'Nyoumba.m4a'),
             ('tradition', 'Mrengué.m4a'),
             ('transport', 'Ndrégué.m4a')
