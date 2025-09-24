@@ -1161,6 +1161,7 @@ async def get_audio_info():
     grammaire_dir = "/app/frontend/assets/audio/grammaire"
     nourriture_dir = "/app/frontend/assets/audio/nourriture"
     verbes_dir = "/app/frontend/assets/audio/verbes"
+    expressions_dir = "/app/frontend/assets/audio/expressions"
     
     famille_files = []
     nature_files = []
@@ -1172,6 +1173,7 @@ async def get_audio_info():
     grammaire_files = []
     nourriture_files = []
     verbes_files = []
+    expressions_files = []
     
     if os.path.exists(famille_dir):
         famille_files = [f for f in os.listdir(famille_dir) if f.endswith('.m4a')]
