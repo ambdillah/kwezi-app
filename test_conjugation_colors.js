@@ -6,9 +6,9 @@
 
 // Import des fonctions (simulation)
 const SHIMAORE_PRONOUNS = [
-  'wami', 'wawe', 'waye', 'wassi', 'wagnou', 'wawo',  // Pronoms sujets
+  'wami', 'wawe', 'waye', 'wasi', 'wagnou', 'wawo',  // Pronoms sujets (corrigé: wassi -> wasi)
   'yangou', 'yaho', 'yahe', 'yatrou', 'yangnou', 'yawo', // Pronoms possessifs
-  'mimi', 'wewe', 'yeye', 'swassi', 'nangnou', 'wawo'    // Variantes
+  'mimi', 'wewe', 'yeye', 'swasi', 'nangnou', 'wawo'    // Variantes (corrigé: swassi -> swasi)
 ];
 
 const KIBOUCHI_PRONOUNS = [
