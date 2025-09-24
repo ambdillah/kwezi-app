@@ -103,7 +103,7 @@ export const VoiceTestPanel: React.FC<VoiceTestPanelProps> = ({
           
           <TouchableOpacity
             style={[styles.testButton, styles.storytellerButton]}
-            onPress={() => testVoice('storyteller', 'masculine conteur')}
+            onPress={() => testVoice('storyteller', 'féminine douce')}
             disabled={isPlaying}
           >
             <Ionicons name="book" size={20} color="white" />
