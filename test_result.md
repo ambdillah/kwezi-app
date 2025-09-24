@@ -775,6 +775,21 @@ backend:
         agent: "testing"
         comment: "❌ AUDIO METADATA INTEGRATION TESTING FAILED! Comprehensive testing revealed that the new audio metadata fields requested in the French review are NOT implemented. ✅ **BASIC AUDIO FUNCTIONALITY WORKING**: Found 22 famille words with audio_url field, GET /api/words?category=famille endpoint working correctly (25 words total), specific examples found (famille, papa, grand-père) with audio_url. ❌ **CRITICAL MISSING FEATURES**: 0/32 words have has_authentic_audio flag (expected 32+), 0 words have complete audio metadata structure, missing required fields: audio_filename, audio_pronunciation_lang, audio_source, has_authentic_audio. ❌ **METADATA STRUCTURE INCONSISTENCY**: 22 words have audio_url but no has_authentic_audio flag, audio metadata structure not implemented as requested. ❌ **SPECIFIC EXAMPLES MISSING METADATA**: famille, papa, grand-père all have audio_url but lack the new metadata fields (audio_filename, audio_pronunciation_lang, audio_source, has_authentic_audio). ✅ **OTHER ENDPOINTS WORKING**: All other API endpoints functional (couleurs: 8, animaux: 69, nombres: 20, salutations: 8). **ROOT CAUSE**: The audio metadata integration requested in the French review (32 mots de famille avec métadonnées audio) has not been implemented. The backend only has the basic audio_url field but lacks the new metadata structure with has_authentic_audio flag and related fields. **RECOMMENDATION**: Main agent needs to implement the audio metadata fields (has_authentic_audio, audio_filename, audio_pronunciation_lang, audio_source) for the 32 famille words as specified in the French review request."
 
+  - task: "Ajout nouveaux mots famille et correction tante"
+    implemented: false
+    working: false
+    file: "backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Tâche créée pour tester l'ajout des nouveaux mots de famille et la correction demandée selon la review request française."
+      - working: false
+        agent: "testing"
+        comment: "❌ NOUVEAUX MOTS FAMILLE NON AJOUTÉS - TESTS ÉCHOUÉS (7/19 réussis, 36.8%): 1) **NOUVEAUX MOTS MANQUANTS**: Les 4 nouveaux mots requis ne sont PAS dans la base: 'tante paternelle' (shimaoré: nguivavi, kibouchi: angouvavi), 'petit garcon' (shimaoré: mwana mtroubaba, kibouchi: zaza lalahi), 'jeune adulte' (shimaoré: chababi, kibouchi: chababai), 'frere/soeur' (shimaoré: moinagna, pas de kibouchi). 2) **CORRECTION TANTE NON APPLIQUÉE**: Le mot 'tante' existe toujours avec 'mama titi/bolé' au lieu d'être corrigé en 'tante maternelle' avec 'mama titi'. Le mot 'tante maternelle' n'existe pas. 3) **NOMBRE DE MOTS INCORRECT**: Section famille a 24 mots au lieu des 32 attendus. 4) **POSITIF**: ✅ API fonctionnelle (560 mots total), ✅ Structure des données cohérente, ✅ Emojis présents (83.3% couverture), ✅ Endpoints famille opérationnels. **CONCLUSION**: Les nouveaux mots de famille et la correction 'tante' → 'tante maternelle' N'ONT PAS été implémentés. Le main agent doit ajouter ces 4 nouveaux mots et appliquer la correction avant de pouvoir considérer cette tâche comme terminée."
+
 frontend:
   - task: "Welcome Screen Testing"
     implemented: true
