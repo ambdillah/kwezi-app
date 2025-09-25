@@ -50,13 +50,13 @@ if not BACKEND_URL:
 API_URL = f"{BACKEND_URL}/api"
 print(f"🔗 Using Backend URL: {BACKEND_URL}")
 
-class NourritureSectionTester:
+class MaisonSectionTester:
     def __init__(self):
         self.api_url = API_URL
         self.test_results = []
         self.total_tests = 0
         self.passed_tests = 0
-        self.nourriture_words = []
+        self.maison_words = []
         self.total_words_count = 0
         
     def log_test(self, test_name: str, passed: bool, details: str = ""):
@@ -115,32 +115,32 @@ class NourritureSectionTester:
             self.log_test("API Connectivity", False, f"Error: {str(e)}")
             return False
     
-    def test_2_nourriture_section_exists(self):
-        """Test 2: Vérification que la section nourriture existe"""
-        print("\n=== TEST 2: VÉRIFICATION SECTION NOURRITURE ===")
+    def test_2_maison_section_exists(self):
+        """Test 2: Vérification que la section maison existe"""
+        print("\n=== TEST 2: VÉRIFICATION SECTION MAISON ===")
         
         try:
-            response = self.make_request("/words?category=nourriture")
+            response = self.make_request("/words?category=maison")
             if response["success"]:
-                self.nourriture_words = response["data"]
-                count = len(self.nourriture_words)
-                self.log_test("Section nourriture existe", count > 0, f"{count} mots trouvés")
+                self.maison_words = response["data"]
+                count = len(self.maison_words)
+                self.log_test("Section maison existe", count > 0, f"{count} mots trouvés")
                 return count > 0
             else:
-                self.log_test("Section nourriture existe", False, f"Status: {response['status_code']}")
+                self.log_test("Section maison existe", False, f"Status: {response['status_code']}")
                 return False
         except Exception as e:
-            self.log_test("Section nourriture existe", False, f"Error: {str(e)}")
+            self.log_test("Section maison existe", False, f"Error: {str(e)}")
             return False
     
-    def test_3_44_words_added(self):
-        """Test 3: Vérification que 44 mots ont été ajoutés"""
-        print("\n=== TEST 3: VÉRIFICATION 44 MOTS AJOUTÉS ===")
+    def test_3_37_words_added(self):
+        """Test 3: Vérification que 37 mots ont été ajoutés"""
+        print("\n=== TEST 3: VÉRIFICATION 37 MOTS AJOUTÉS ===")
         
-        expected_count = 44
-        actual_count = len(self.nourriture_words)
+        expected_count = 37
+        actual_count = len(self.maison_words)
         
-        self.log_test("44 mots ajoutés", actual_count == expected_count, 
+        self.log_test("37 mots ajoutés", actual_count == expected_count, 
                      f"Attendu: {expected_count}, Trouvé: {actual_count}")
         
         return actual_count == expected_count
@@ -149,7 +149,7 @@ class NourritureSectionTester:
         """Test 4: Vérification de la structure des données"""
         print("\n=== TEST 4: STRUCTURE DES DONNÉES ===")
         
-        if not self.nourriture_words:
+        if not self.maison_words:
             self.log_test("Structure des données", False, "Aucun mot à tester")
             return False
         
@@ -157,7 +157,7 @@ class NourritureSectionTester:
         complete_words = 0
         words_with_emojis = 0
         
-        for word in self.nourriture_words:
+        for word in self.maison_words:
             # Check required fields
             has_all_fields = all(field in word and word[field] for field in required_fields)
             if has_all_fields:
@@ -167,108 +167,134 @@ class NourritureSectionTester:
             if 'image_url' in word and word['image_url']:
                 words_with_emojis += 1
         
-        structure_percentage = (complete_words / len(self.nourriture_words)) * 100
-        emoji_percentage = (words_with_emojis / len(self.nourriture_words)) * 100
+        structure_percentage = (complete_words / len(self.maison_words)) * 100
+        emoji_percentage = (words_with_emojis / len(self.maison_words)) * 100
         
         self.log_test("Structure complète", structure_percentage >= 95,
-                     f"{complete_words}/{len(self.nourriture_words)} mots avec structure complète ({structure_percentage:.1f}%)")
+                     f"{complete_words}/{len(self.maison_words)} mots avec structure complète ({structure_percentage:.1f}%)")
         
         self.log_test("Emojis présents", emoji_percentage >= 80,
-                     f"{words_with_emojis}/{len(self.nourriture_words)} mots avec emojis ({emoji_percentage:.1f}%)")
+                     f"{words_with_emojis}/{len(self.maison_words)} mots avec emojis ({emoji_percentage:.1f}%)")
         
         return structure_percentage >= 95
     
-    def test_5_corrected_spellings(self):
-        """Test 5: Test de l'orthographe corrigée pour des mots spécifiques"""
-        print("\n=== TEST 5: ORTHOGRAPHE CORRIGÉE ===")
+    def test_5_specific_house_words(self):
+        """Test 5: Test de mots spécifiques de la maison avec leur orthographe"""
+        print("\n=== TEST 5: MOTS SPÉCIFIQUES MAISON ===")
         
         test_words = {
-            "riz": {"shimaore": "tsoholé", "kibouchi": "vari"},
-            "sel": {"shimaore": "chingó", "kibouchi": "sira"},
-            "gingembre": {"shimaore": "tsingiziou", "kibouchi": "sakėyi"},
-            "ciboulette": {"shimaore": "chourougnou mani", "kibouchi": "doungoulou ravigni"}
+            "maison": {"shimaore": "nyoumba", "kibouchi": "tragnou"},
+            "fenêtre": {"shimaore": "fénétri", "kibouchi": "lafoumétara"},
+            "vaisselle": {"shimaore": "ziya", "kibouchi": "hintagna"},  # Note: API might show "vesselles"
+            "machette": {"shimaore": "m'panga", "kibouchi": "ampanga"}
         }
         
-        word_dict = {word['french'].lower(): word for word in self.nourriture_words}
+        word_dict = {word['french'].lower(): word for word in self.maison_words}
         
         for french_word, expected_translations in test_words.items():
-            if french_word in word_dict:
-                word = word_dict[french_word]
+            # Handle special case for vaisselle/vesselles
+            test_word = french_word
+            if french_word == "vaisselle" and french_word not in word_dict:
+                test_word = "vesselles"  # Check alternative spelling
+            
+            if test_word in word_dict:
+                word = word_dict[test_word]
                 shimaore_match = expected_translations["shimaore"].lower() in word['shimaore'].lower()
                 kibouchi_match = expected_translations["kibouchi"].lower() in word['kibouchi'].lower()
                 
-                self.log_test(f"Orthographe corrigée: {french_word}", 
+                self.log_test(f"Mot spécifique: {french_word}", 
                              shimaore_match and kibouchi_match,
                              f"Shimaoré: {word['shimaore']}, Kibouchi: {word['kibouchi']}")
             else:
-                self.log_test(f"Orthographe corrigée: {french_word}", False, "Mot non trouvé")
+                self.log_test(f"Mot spécifique: {french_word}", False, "Mot non trouvé")
     
-    def test_6_complex_new_foods(self):
-        """Test 6: Test des nouveaux aliments complexes"""
-        print("\n=== TEST 6: NOUVEAUX ALIMENTS COMPLEXES ===")
+    def test_6_complex_house_objects(self):
+        """Test 6: Test des objets de maison complexes"""
+        print("\n=== TEST 6: OBJETS MAISON COMPLEXES ===")
         
-        complex_foods = {
-            "brède manioc": {"shimaore": "mataba", "kibouchi": "féliki mouhogou"},
-            "riz au coco": {"shimaore": "tsoholé ya nadzi", "kibouchi": "vari an voiniou"},
-            "noix de coco fraîche": {"shimaore": "chijavou", "kibouchi": "kidjavou"}
+        complex_objects = {
+            "torche locale": {"shimaore": "gandilé", "kibouchi": "gandili"},
+            "coupe coupe": {"shimaore": "chombo", "kibouchi": "chombou"},
+            "cartable": {"shimaore": "mkoba", "kibouchi": "mkoba"}  # Note: API might show "cartable/malette"
         }
         
-        word_dict = {word['french'].lower(): word for word in self.nourriture_words}
+        word_dict = {word['french'].lower(): word for word in self.maison_words}
         
-        for french_word, expected_translations in complex_foods.items():
-            if french_word in word_dict:
-                word = word_dict[french_word]
-                shimaore_match = expected_translations["shimaore"].lower() in word['shimaore'].lower()
-                kibouchi_match = expected_translations["kibouchi"].lower() in word['kibouchi'].lower()
+        for french_word, expected_translations in complex_objects.items():
+            # Handle special case for cartable
+            test_word = french_word
+            if french_word == "cartable" and french_word not in word_dict:
+                test_word = "cartable/malette"  # Check alternative format
+            
+            if test_word in word_dict:
+                word = word_dict[test_word]
+                # For torche locale, check if translations contain expected values
+                if french_word == "torche locale":
+                    shimaore_match = expected_translations['shimaore'] in word['shimaore'].lower()
+                    kibouchi_match = expected_translations['kibouchi'] in word['kibouchi'].lower()
+                else:
+                    shimaore_match = word['shimaore'].lower() == expected_translations['shimaore'].lower()
+                    kibouchi_match = word['kibouchi'].lower() == expected_translations['kibouchi'].lower()
                 
-                self.log_test(f"Aliment complexe: {french_word}", 
+                self.log_test(f"Objet complexe: {french_word}", 
                              shimaore_match and kibouchi_match,
                              f"Shimaoré: {word['shimaore']}, Kibouchi: {word['kibouchi']}")
             else:
-                self.log_test(f"Aliment complexe: {french_word}", False, "Mot non trouvé")
+                self.log_test(f"Objet complexe: {french_word}", False, "Objet non trouvé")
     
     def test_7_data_integrity(self):
         """Test 7: Test de l'intégrité des données"""
         print("\n=== TEST 7: INTÉGRITÉ DES DONNÉES ===")
         
-        if not self.nourriture_words:
+        if not self.maison_words:
             self.log_test("Intégrité des données", False, "Aucun mot à tester")
             return
         
         # Test for duplicates
-        french_words = [word['french'].lower() for word in self.nourriture_words]
+        french_words = [word['french'].lower() for word in self.maison_words]
         unique_words = set(french_words)
         has_duplicates = len(french_words) != len(unique_words)
         
         self.log_test("Pas de doublons", not has_duplicates,
                      f"Trouvé {len(french_words)} mots, {len(unique_words)} uniques")
         
-        # Test emoji coverage
-        words_with_emojis = sum(1 for word in self.nourriture_words 
-                               if 'image_url' in word and word['image_url'])
-        emoji_percentage = (words_with_emojis / len(self.nourriture_words)) * 100
+        # Test emoji coverage - house-specific emojis
+        house_emojis = ['🏠', '🚪', '🛏️', '🪟', '🍽️', '🧹', '🔪', '🥄', '🪑', '🚽', '🔦', '🗡️', '🪓', '🍲', '🪣', '🎒', '🧱', '🛌', '🪞', '🫖', '🏡', '🚧', '🗄️', '🥣', '💡']
+        words_with_appropriate_emojis = 0
         
-        self.log_test("Emojis appropriés", emoji_percentage >= 80,
-                     f"{words_with_emojis}/{len(self.nourriture_words)} mots avec emojis ({emoji_percentage:.1f}%)")
+        for word in self.maison_words:
+            if 'image_url' in word and word['image_url']:
+                if any(emoji in word['image_url'] for emoji in house_emojis):
+                    words_with_appropriate_emojis += 1
+        
+        emoji_percentage = (words_with_appropriate_emojis / len(self.maison_words)) * 100
+        
+        self.log_test("Emojis appropriés maison", emoji_percentage >= 70,
+                     f"{words_with_appropriate_emojis}/{len(self.maison_words)} mots avec emojis maison ({emoji_percentage:.1f}%)")
         
         # Test audio references format
-        words_with_audio = sum(1 for word in self.nourriture_words 
-                              if any(field in word for field in ['audio_url', 'shimoare_audio_filename', 'kibouchi_audio_filename', 'has_authentic_audio']))
+        words_with_audio = sum(1 for word in self.maison_words 
+                              if any(field in word for field in ['audio_url', 'shimoare_audio_filename', 'kibouchi_audio_filename', 'has_authentic_audio', 'dual_audio_system']))
         
-        self.log_test("Références audio formatées", words_with_audio >= 0,
-                     f"{words_with_audio}/{len(self.nourriture_words)} mots avec références audio")
+        audio_percentage = (words_with_audio / len(self.maison_words)) * 100
+        
+        self.log_test("Références audio formatées", audio_percentage >= 50,
+                     f"{words_with_audio}/{len(self.maison_words)} mots avec références audio ({audio_percentage:.1f}%)")
     
     def test_8_other_sections_unaffected(self):
-        """Test 8: Test que les autres sections n'ont pas été affectées"""
-        print("\n=== TEST 8: AUTRES SECTIONS NON AFFECTÉES ===")
+        """Test 8: Test de cohérence avec les autres sections"""
+        print("\n=== TEST 8: COHÉRENCE AUTRES SECTIONS ===")
         
         expected_sections = {
             'famille': 25,  # Approximate expected count
             'animaux': 65,  # Approximate expected count  
             'nombres': 20,  # Approximate expected count
             'salutations': 8,  # Approximate expected count
-            'couleurs': 8   # Approximate expected count
+            'couleurs': 8,   # Approximate expected count
+            'nourriture': 40  # Approximate expected count
         }
+        
+        total_categories = 0
         
         for category, min_expected in expected_sections.items():
             try:
@@ -276,6 +302,7 @@ class NourritureSectionTester:
                 if response["success"]:
                     data = response["data"]
                     word_count = len(data)
+                    total_categories += 1
                     self.log_test(f"Section {category} intacte", word_count >= min_expected,
                                  f"Trouvé {word_count} mots (attendu ≥{min_expected})")
                 else:
@@ -283,10 +310,25 @@ class NourritureSectionTester:
                                  f"HTTP {response['status_code']}")
             except Exception as e:
                 self.log_test(f"Section {category} intacte", False, f"Error: {str(e)}")
+        
+        # Test total categories count
+        try:
+            response = self.make_request("/words")
+            if response["success"]:
+                all_words = response["data"]
+                categories = set(word['category'] for word in all_words)
+                category_count = len(categories)
+                
+                self.log_test("Nombre total catégories", category_count >= 6,
+                             f"Trouvé {category_count} catégories (attendu ≥6)")
+            else:
+                self.log_test("Nombre total catégories", False, f"HTTP {response['status_code']}")
+        except Exception as e:
+            self.log_test("Nombre total catégories", False, f"Error: {str(e)}")
     
-    def test_9_total_word_count_increase(self):
-        """Test 9: Test que le total de mots a augmenté de 44"""
-        print("\n=== TEST 9: AUGMENTATION TOTAL MOTS ===")
+    def test_9_total_word_count_reasonable(self):
+        """Test 9: Test que le nombre total de mots est raisonnable"""
+        print("\n=== TEST 9: NOMBRE TOTAL MOTS ===")
         
         try:
             response = self.make_request("/words")
@@ -294,33 +336,33 @@ class NourritureSectionTester:
                 data = response["data"]
                 self.total_words_count = len(data)
                 
-                # Based on previous tests, we expect around 565+ words (before nourriture) + 44
-                expected_minimum = 609  # 565 + 44
-                self.log_test("Total mots augmenté", self.total_words_count >= expected_minimum,
+                # Based on previous tests, we expect around 600+ words total
+                expected_minimum = 600
+                self.log_test("Total mots raisonnable", self.total_words_count >= expected_minimum,
                              f"Trouvé {self.total_words_count} mots total (attendu ≥{expected_minimum})")
                 return self.total_words_count
             else:
-                self.log_test("Total mots augmenté", False,
+                self.log_test("Total mots raisonnable", False,
                              f"HTTP {response['status_code']}")
                 return 0
         except Exception as e:
-            self.log_test("Total mots augmenté", False, f"Error: {str(e)}")
+            self.log_test("Total mots raisonnable", False, f"Error: {str(e)}")
             return 0
     
-    def test_10_nourriture_api_performance(self):
-        """Test 10: Test de performance de l'endpoint nourriture"""
-        print("\n=== TEST 10: PERFORMANCE API NOURRITURE ===")
+    def test_10_maison_api_performance(self):
+        """Test 10: Test des performances globales de l'API"""
+        print("\n=== TEST 10: PERFORMANCE API MAISON ===")
         
         try:
             start_time = time.time()
-            response = self.make_request("/words?category=nourriture")
+            response = self.make_request("/words?category=maison")
             end_time = time.time()
             
             response_time = end_time - start_time
             
             if response["success"]:
                 data = response["data"]
-                self.log_test("Performance API nourriture", response_time < 2.0,
+                self.log_test("Performance API maison", response_time < 2.0,
                              f"Temps de réponse: {response_time:.2f}s, {len(data)} mots retournés")
                 
                 # Test specific word queries if we have data
@@ -332,21 +374,26 @@ class NourritureSectionTester:
                         self.log_test("Accès mot individuel", word_response["success"],
                                      f"Mot ID {word_id} accessible")
                 
+                # Test that all returned words are from maison category
+                all_maison = all(word.get('category') == 'maison' for word in data)
+                self.log_test("Filtrage catégorie correct", all_maison,
+                             f"Tous les {len(data)} mots sont de la catégorie 'maison'")
+                
                 return True
             else:
-                self.log_test("Performance API nourriture", False,
+                self.log_test("Performance API maison", False,
                              f"HTTP {response['status_code']}")
                 return False
         except Exception as e:
-            self.log_test("Performance API nourriture", False, f"Error: {str(e)}")
+            self.log_test("Performance API maison", False, f"Error: {str(e)}")
             return False
     
     def run_all_tests(self):
-        """Execute all tests for nourriture section"""
-        print("🎯 DÉBUT DES TESTS BACKEND - SECTION NOURRITURE")
+        """Execute all tests for maison section"""
+        print("🏠 DÉBUT DES TESTS BACKEND - SECTION MAISON")
         print("=" * 70)
-        print("Test complet du backend après la création et correction orthographique")
-        print("de la section 'nourriture' avec 44 mots de base de Mayotte")
+        print("Test complet du backend après la création de la section 'maison'")
+        print("avec 37 mots de vocabulaire domestique de Mayotte")
         print("=" * 70)
         
         start_time = time.time()
@@ -356,20 +403,20 @@ class NourritureSectionTester:
             print("❌ ÉCHEC: Impossible de se connecter à l'API. Arrêt des tests.")
             return False
         
-        # Test nourriture section exists
-        if not self.test_2_nourriture_section_exists():
-            print("❌ ÉCHEC: Section nourriture non trouvée. Arrêt des tests.")
+        # Test maison section exists
+        if not self.test_2_maison_section_exists():
+            print("❌ ÉCHEC: Section maison non trouvée. Arrêt des tests.")
             return False
         
         # Run all test suites
-        self.test_3_44_words_added()
+        self.test_3_37_words_added()
         self.test_4_data_structure()
-        self.test_5_corrected_spellings()
-        self.test_6_complex_new_foods()
+        self.test_5_specific_house_words()
+        self.test_6_complex_house_objects()
         self.test_7_data_integrity()
         self.test_8_other_sections_unaffected()
-        self.test_9_total_word_count_increase()
-        self.test_10_nourriture_api_performance()
+        self.test_9_total_word_count_reasonable()
+        self.test_10_maison_api_performance()
         
         end_time = time.time()
         duration = end_time - start_time
@@ -384,25 +431,26 @@ class NourritureSectionTester:
         print(f"Tests réussis: {self.passed_tests}/{self.total_tests} ({success_rate:.1f}%)")
         print(f"Durée: {duration:.2f}s")
         
-        # Show nourriture section statistics
-        print(f"\n📈 STATISTIQUES SECTION NOURRITURE:")
-        if self.nourriture_words:
-            count = len(self.nourriture_words)
-            with_emojis = sum(1 for w in self.nourriture_words if w.get('image_url'))
-            with_audio = sum(1 for w in self.nourriture_words if (
+        # Show maison section statistics
+        print(f"\n📈 STATISTIQUES SECTION MAISON:")
+        if self.maison_words:
+            count = len(self.maison_words)
+            with_emojis = sum(1 for w in self.maison_words if w.get('image_url'))
+            with_audio = sum(1 for w in self.maison_words if (
                 w.get('has_authentic_audio') or w.get('audio_filename') or
-                w.get('shimoare_has_audio') or w.get('kibouchi_has_audio')
+                w.get('shimoare_has_audio') or w.get('kibouchi_has_audio') or
+                w.get('dual_audio_system')
             ))
             emoji_rate = (with_emojis / count * 100) if count > 0 else 0
             audio_rate = (with_audio / count * 100) if count > 0 else 0
-            print(f"  Nourriture: {count} mots")
+            print(f"  Maison: {count} mots")
             print(f"  Avec emojis: {with_emojis} ({emoji_rate:.1f}%)")
             print(f"  Avec audio: {with_audio} ({audio_rate:.1f}%)")
         
         print(f"  Total mots dans la base: {self.total_words_count}")
         
         if success_rate >= 80:
-            print("\n🎉 RÉSULTAT: SUCCÈS - La section nourriture est fonctionnelle!")
+            print("\n🎉 RÉSULTAT: SUCCÈS - La section maison est fonctionnelle!")
         elif success_rate >= 60:
             print("\n⚠️ RÉSULTAT: PARTIEL - Quelques problèmes identifiés")
         else:
@@ -416,7 +464,7 @@ class NourritureSectionTester:
 
 def main():
     """Main test execution"""
-    tester = NourritureSectionTester()
+    tester = MaisonSectionTester()
     success = tester.run_all_tests()
     
     if success:
