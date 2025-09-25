@@ -62,9 +62,9 @@ class BackendTester:
                 "success": False
             }
 
-    def test_1_corrections_orthographiques_appliquees(self):
-        """Test 1: Vérifier que les corrections orthographiques ont été appliquées"""
-        print("\n=== TEST 1: CORRECTIONS ORTHOGRAPHIQUES APPLIQUÉES ===")
+    def test_1_corrections_accents_remises(self):
+        """Test 1: Vérifier que les corrections d'accents ont été remises"""
+        print("\n=== TEST 1: CORRECTIONS D'ACCENTS REMISES ===")
         
         # Get all words
         response = self.make_request("/words")
@@ -75,49 +75,48 @@ class BackendTester:
         words = response["data"]
         self.log_test("Récupération des mots", True, f"{len(words)} mots trouvés")
         
-        # Create word lookup dictionary
-        word_dict = {word.get("french", "").lower(): word for word in words}
+        # Create word lookup dictionary (case-sensitive for accent testing)
+        word_dict = {word.get("french", ""): word for word in words}
         
-        # Test: Mots français sans accents existent maintenant (etoile, ecole, etc.)
-        words_without_accents = ["etoile", "ecole"]
-        for word_french in words_without_accents:
-            if word_french in word_dict:
-                self.log_test(f"Mot sans accent '{word_french}' existe", True, f"Trouvé: {word_dict[word_french].get('french', '')}")
-            else:
-                self.log_test(f"Mot sans accent '{word_french}' existe", False, f"Mot '{word_french}' non trouvé")
-        
-        # Test: Correction escargot - shimaore doit être "kowa" (au lieu de "kwa")
-        if "escargot" in word_dict:
-            escargot = word_dict["escargot"]
-            shimaore = escargot.get("shimaore", "").lower()
-            if "kowa" in shimaore:
-                self.log_test("Correction escargot -> 'kowa'", True, f"Shimaore: '{escargot.get('shimaore', '')}'")
-            else:
-                self.log_test("Correction escargot -> 'kowa'", False, f"Shimaore: '{escargot.get('shimaore', '')}' (devrait contenir 'kowa')")
+        # Test: Vérifier que "Frère" (avec accent) existe maintenant au lieu de "frere"
+        if "Frère" in word_dict:
+            self.log_test("Frère avec accent existe", True, f"Trouvé: 'Frère'")
         else:
-            self.log_test("Correction escargot -> 'kowa'", False, "Mot 'escargot' non trouvé")
-        
-        # Test: Correction oursin - shimaore doit être "gadzassi ya bahari" pour différencier de huître
-        if "oursin" in word_dict:
-            oursin = word_dict["oursin"]
-            shimaore = oursin.get("shimaore", "").lower()
-            if "gadzassi ya bahari" in shimaore:
-                self.log_test("Correction oursin -> 'gadzassi ya bahari'", True, f"Shimaore: '{oursin.get('shimaore', '')}'")
+            # Check if exists without accent
+            if "frere" in [w.lower() for w in word_dict.keys()]:
+                self.log_test("Frère avec accent existe", False, "Trouvé 'frere' sans accent au lieu de 'Frère'")
             else:
-                self.log_test("Correction oursin -> 'gadzassi ya bahari'", False, f"Shimaore: '{oursin.get('shimaore', '')}' (devrait être 'gadzassi ya bahari')")
-        else:
-            self.log_test("Correction oursin -> 'gadzassi ya bahari'", False, "Mot 'oursin' non trouvé")
+                self.log_test("Frère avec accent existe", False, "Mot 'Frère' non trouvé")
         
-        # Test: Correction nous - shimaore doit être "wasi" (au lieu de "wassi")
-        if "nous" in word_dict:
-            nous = word_dict["nous"]
-            shimaore = nous.get("shimaore", "").lower()
-            if shimaore == "wasi":
-                self.log_test("Correction nous -> 'wasi'", True, f"Shimaore: '{nous.get('shimaore', '')}'")
+        # Test: Vérifier "École", "Tête", "Étoile", "Tempête" avec accents appropriés
+        mots_avec_accents = ["École", "Tête", "Étoile", "Tempête"]
+        for mot in mots_avec_accents:
+            if mot in word_dict:
+                self.log_test(f"{mot} avec accent existe", True, f"Trouvé: '{mot}'")
             else:
-                self.log_test("Correction nous -> 'wasi'", False, f"Shimaore: '{nous.get('shimaore', '')}' (devrait être 'wasi')")
-        else:
-            self.log_test("Correction nous -> 'wasi'", False, "Mot 'nous' non trouvé")
+                # Check if exists without accent
+                mot_sans_accent = mot.lower().replace('é', 'e').replace('è', 'e').replace('ê', 'e')
+                if any(w.lower() == mot_sans_accent for w in word_dict.keys()):
+                    self.log_test(f"{mot} avec accent existe", False, f"Trouvé sans accent au lieu de '{mot}'")
+                else:
+                    self.log_test(f"{mot} avec accent existe", False, f"Mot '{mot}' non trouvé")
+        
+        # Test: Vérifier "Grand-père", "Grand-mère" avec accents et tirets
+        mots_composes = ["Grand-père", "Grand-mère"]
+        for mot in mots_composes:
+            if mot in word_dict:
+                self.log_test(f"{mot} avec accent et tiret existe", True, f"Trouvé: '{mot}'")
+            else:
+                # Check variants
+                variants_found = []
+                for w in word_dict.keys():
+                    if "grand" in w.lower() and ("père" in w.lower() or "mère" in w.lower()):
+                        variants_found.append(w)
+                
+                if variants_found:
+                    self.log_test(f"{mot} avec accent et tiret existe", False, f"Variantes trouvées: {variants_found}")
+                else:
+                    self.log_test(f"{mot} avec accent et tiret existe", False, f"Mot '{mot}' non trouvé")
 
     def test_2_nouveaux_mots_ajoutes(self):
         """Test 2: Vérifier que les nouveaux mots ont été ajoutés"""
