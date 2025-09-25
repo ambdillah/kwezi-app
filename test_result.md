@@ -49,7 +49,7 @@
 ##
 test_plan:
   current_focus:
-    - "Test approfondi de la structure de la base de données après correction complète"
+    - "Test complet après création de la section adjectifs avec 100% audio"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"  # or "sequential" or "stuck_first"
