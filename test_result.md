@@ -49,7 +49,7 @@
 ##
 test_plan:
   current_focus:
-    - "Test complet backend après création et mise à jour des prononciations audio pour la section vêtement"
+    - "Test complet backend après création et mise à jour des prononciations audio pour la section nature"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"  # or "sequential" or "stuck_first"
