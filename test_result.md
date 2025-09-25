@@ -1586,10 +1586,10 @@ agent_communication:
 
 test_plan:
   current_focus:
-    - "Analyse et correction du PDF vocabulaire shimaoré-kibouchi"
-  stuck_tasks:
-    - "Analyse et correction du PDF vocabulaire shimaoré-kibouchi"
+    - "Test complet backend après mise à jour section nombres"
+  stuck_tasks: []
   test_all: false
+  test_priority: "high_first"
   test_priority: "stuck_first"
 
 metadata:
