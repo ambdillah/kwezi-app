@@ -878,6 +878,18 @@ backend:
         agent: "testing"
         comment: "❌ NOUVEAUX MOTS FAMILLE NON AJOUTÉS - TESTS ÉCHOUÉS (7/19 réussis, 36.8%): 1) **NOUVEAUX MOTS MANQUANTS**: Les 4 nouveaux mots requis ne sont PAS dans la base: 'tante paternelle' (shimaoré: nguivavi, kibouchi: angouvavi), 'petit garcon' (shimaoré: mwana mtroubaba, kibouchi: zaza lalahi), 'jeune adulte' (shimaoré: chababi, kibouchi: chababai), 'frere/soeur' (shimaoré: moinagna, pas de kibouchi). 2) **CORRECTION TANTE NON APPLIQUÉE**: Le mot 'tante' existe toujours avec 'mama titi/bolé' au lieu d'être corrigé en 'tante maternelle' avec 'mama titi'. Le mot 'tante maternelle' n'existe pas. 3) **NOMBRE DE MOTS INCORRECT**: Section famille a 24 mots au lieu des 32 attendus. 4) **POSITIF**: ✅ API fonctionnelle (560 mots total), ✅ Structure des données cohérente, ✅ Emojis présents (83.3% couverture), ✅ Endpoints famille opérationnels. **CONCLUSION**: Les nouveaux mots de famille et la correction 'tante' → 'tante maternelle' N'ONT PAS été implémentés. Le main agent doit ajouter ces 4 nouveaux mots et appliquer la correction avant de pouvoir considérer cette tâche comme terminée."
 
+  - task: "Test complet backend après mise à jour des prononciations audio pour la section maison"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "🎵 TEST COMPLET BACKEND APRÈS MISE À JOUR AUDIO MAISON COMPLETED WITH MIXED RESULTS! Comprehensive testing of all requirements from the French review request confirmed 73.9% success rate (17/23 tests passed): ✅ **SECTION MAISON FONCTIONNELLE**: Section maison existe avec exactement 37 mots comme attendu ✅ **COUVERTURE AUDIO EXCELLENTE**: 30/37 mots (81.1%) ont des références audio, 66 fichiers M4A confirmés disponibles ✅ **SYSTÈME DUAL AUDIO OPÉRATIONNEL**: GET /api/audio/info confirme maison disponible avec 66 fichiers, endpoints audio fonctionnels ✅ **EXEMPLES SPÉCIFIQUES PARTIELS**: 'maison' (Nyoumba.m4a + Tragnou.m4a) ✅, 'machette' (M_panga.m4a + Ampanga.m4a) ✅ ✅ **PERFORMANCE OPTIMALE**: Temps de réponse excellent (0.058s), accès individuel fonctionnel ✅ **COHÉRENCE AUTRES SECTIONS**: Toutes les autres sections intactes (famille: 29, animaux: 69, couleurs: 8, nombres: 20, salutations: 8) ✅ **INTÉGRITÉ GLOBALE**: 564/566 mots (99.6%) avec données complètes, aucun doublon détecté ❌ **PROBLÈMES IDENTIFIÉS**: 1) Aucun mot n'a has_authentic_audio=true (0/37 mots), 2) 'fenêtre' n'a pas de références audio (fichiers Lafoumètara.m4a disponibles mais non assignés), 3) 'torche locale' n'a pas de références audio (fichiers Gandilé-poutroumax.m4a disponibles mais non assignés), 4) Endpoints audio retournent 405 Method Not Allowed au lieu de 200/404. **RÉSULTAT FINAL**: La mise à jour audio pour la section maison est largement fonctionnelle avec 66 fichiers M4A authentiques disponibles et 81.1% de couverture, mais nécessite des corrections mineures pour les références audio manquantes et le flag has_authentic_audio."
+
 frontend:
   - task: "Welcome Screen Testing"
     implemented: true
