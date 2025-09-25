@@ -143,6 +143,17 @@
 user_problem_statement: "Test complet du backend après la mise à jour de la section 'nombres': vérifier que les mots de la section 'nombres' sont correctement retournés, tester l'endpoint /api/vocabulary pour la section 'nombres', vérifier que tous les 28 nouveaux nombres sont présents (1-100), tester la structure des données avec champs requis (french, shimaoré, kibouchi, emoji, numeric_value, number_type), tester différents types de nombres (1-10, 11-19, dizaines, 100), vérifier robustesse (pas de doublons, remplacement complet, autres sections non affectées)."
 
 backend:
+  - task: "Test complet backend après mise à jour section nombres"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "⚠️ SECTION NOMBRES PARTIELLEMENT FONCTIONNELLE - PROBLÈMES IDENTIFIÉS! Tests complets effectués sur la section nombres avec résultats mitigés (55.7% de réussite, 39/70 tests passés): ✅ **POSITIFS**: API fonctionnelle (566 mots total), endpoint /api/words?category=nombres accessible (20 nombres trouvés), structure des données excellente (100% des nombres ont tous les champs requis), emojis présents (100% couverture), nombres de base 1-10 parfaits (100% trouvés avec traductions correctes), nombres composés 11-19 excellents (100% trouvés avec patterns 'koumi na' et 'foulou...ambi' corrects), traductions shimaoré et kibouchi complètes (100%), aucun doublon détecté, autres catégories non affectées. ❌ **PROBLÈMES CRITIQUES**: 1) **COUVERTURE INSUFFISANTE**: Seulement 20 nombres trouvés au lieu des 28+ attendus pour couvrir 1-100, 2) **DIZAINES MANQUANTES**: Seul 'vingt' trouvé, manque trente, quarante, cinquante, soixante, etc. (12.5% couverture), 3) **CENT MANQUANT**: Le nombre 100 'cent' n'existe pas dans la base, 4) **CHAMPS NUMERIC_VALUE ABSENTS**: Aucun nombre n'a de valeur numérique (tous None), empêchant la logique de tri et validation. **CONCLUSION**: La section nombres fonctionne bien pour 1-20 mais est incomplète pour couvrir 1-100 comme demandé. Les 8 nombres manquants pour atteindre 28 sont probablement les dizaines et centaines."
   - task: "Test complet backend après mise à jour section animaux"
     implemented: true
     working: true
