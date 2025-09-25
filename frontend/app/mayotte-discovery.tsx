@@ -30,350 +30,298 @@ import MayotteGameEngine, { Village, GameState } from '../utils/mayotteGameEngin
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-export default function MayotteDiscoveryGame() {
-  const [currentCommune, setCurrentCommune] = useState<string>('mamoudzou');
-  const [unlockedCommunes, setUnlockedCommunes] = useState<string[]>(['mamoudzou']);
-  const [showCommuneInfo, setShowCommuneInfo] = useState(false);
-  const [selectedCommuneInfo, setSelectedCommuneInfo] = useState<CommuneInfo | null>(null);
-  const [showQuiz, setShowQuiz] = useState(false);
-  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
-  const [quizScore, setQuizScore] = useState(0);
-  const [gameProgress, setGameProgress] = useState(0);
+const MayotteDiscoveryGame: React.FC = () => {
+  // Game Engine
+  const gameEngine = MayotteGameEngine.getInstance();
+  
+  // State
+  const [gameState, setGameState] = useState<GameState>(gameEngine.getGameState());
+  const [selectedVillage, setSelectedVillage] = useState<Village | null>(null);
+  const [showDiscoveryPanel, setShowDiscoveryPanel] = useState(false);
+  const [makiPosition, setMakiPosition] = useState({ x: 600, y: 400 }); // Position Mamoudzou
+  const [isMoving, setIsMoving] = useState(false);
+  const [showStats, setShowStats] = useState(false);
 
-  // Animation pour le maki
-  const makiPosition = useRef(new Animated.ValueXY({ x: 200, y: 180 })).current;
-  const makiBounce = useRef(new Animated.Value(1)).current;
+  // Animations
+  const statsScale = useSharedValue(0);
+  const celebrationScale = useSharedValue(0);
+  const makiAnimProgress = useSharedValue(0);
 
   useEffect(() => {
-    loadGameProgress();
-    // Animation de pulsation pour le maki
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(makiBounce, { toValue: 1.1, duration: 1000, useNativeDriver: true }),
-        Animated.timing(makiBounce, { toValue: 1, duration: 1000, useNativeDriver: true })
-      ])
-    ).start();
+    // Initialiser le jeu et s'abonner aux changements
+    const initGame = async () => {
+      await gameEngine.initializeGame();
+    };
+
+    initGame();
+    
+    const unsubscribe = gameEngine.subscribe((newState: GameState) => {
+      setGameState(newState);
+      
+      // Mettre à jour la position du maki
+      const currentVillage = newState.villages.find(v => v.id === newState.progress.currentVillage);
+      if (currentVillage) {
+        setMakiPosition(currentVillage.pos);
+      }
+    });
+
+    return unsubscribe;
   }, []);
 
-  const loadGameProgress = async () => {
-    try {
-      const savedProgress = await AsyncStorage.getItem('mayotte_game_progress');
-      if (savedProgress) {
-        const progress = JSON.parse(savedProgress);
-        setUnlockedCommunes(progress.unlockedCommunes || ['mamoudzou']);
-        setCurrentCommune(progress.currentCommune || 'mamoudzou');
-        setGameProgress(progress.gameProgress || 0);
-      }
-    } catch (error) {
-      console.log('Erreur chargement progression:', error);
-    }
-  };
+  // Animation styles
+  const statsStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: statsScale.value }],
+    };
+  });
 
-  const saveGameProgress = async () => {
-    try {
-      const progress = {
-        unlockedCommunes,
-        currentCommune,
-        gameProgress
-      };
-      await AsyncStorage.setItem('mayotte_game_progress', JSON.stringify(progress));
-    } catch (error) {
-      console.log('Erreur sauvegarde progression:', error);
-    }
-  };
+  const celebrationStyle = useAnimatedStyle(() => {
+    const scale = celebrationScale.value;
+    const opacity = interpolate(scale, [0, 0.5, 1], [0, 1, 0]);
+    
+    return {
+      transform: [{ scale }],
+      opacity,
+    };
+  });
 
-  const animateMakiToCommune = (commune: CommuneData) => {
-    Animated.sequence([
-      // Animation de saut
-      Animated.timing(makiBounce, {
-        toValue: 1.3,
-        duration: 200,
-        useNativeDriver: true
-      }),
-      // Déplacement vers la nouvelle position
-      Animated.timing(makiPosition, {
-        toValue: { x: commune.position.x, y: commune.position.y },
-        duration: 1500,
-        useNativeDriver: false
-      }),
-      // Atterrissage
-      Animated.timing(makiBounce, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true
-      })
-    ]).start();
-  };
-
-  const handleCommunePress = (commune: CommuneData) => {
-    const communeInfo = MAYOTTE_COMMUNES.find(c => c.id === commune.id);
-    if (!communeInfo) return;
-
-    if (!unlockedCommunes.includes(commune.id)) {
-      // Commune verrouillée
-      if (communeInfo.price) {
-        Alert.alert(
-          `🔒 ${communeInfo.name} - Commune Premium`,
-          `Débloquez cette commune pour €${communeInfo.price} et découvrez ses secrets !`,
-          [
-            { text: 'Plus tard', style: 'cancel' },
-            { text: `Débloquer €${communeInfo.price}`, onPress: () => handlePurchaseCommune(commune.id) }
-          ]
-        );
-      } else {
-        Alert.alert(
-          '🔒 Commune verrouillée',
-          'Terminez les quiz des communes précédentes pour débloquer celle-ci !',
-          [{ text: 'OK' }]
-        );
-      }
+  // Handlers
+  const handleVillagePress = async (villageId: string) => {
+    const village = gameState.villages.find(v => v.id === villageId);
+    if (!village || !village.unlocked) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      Alert.alert(
+        'Village verrouillé', 
+        'Explorez d\'abord les villages voisins pour débloquer celui-ci !'
+      );
       return;
     }
 
-    // Commune débloquée - afficher les informations
-    setSelectedCommuneInfo(communeInfo);
-    setCurrentCommune(commune.id);
-    animateMakiToCommune(commune);
-    setShowCommuneInfo(true);
+    // Vérifier s'il y a un chemin disponible
+    const availableDestinations = gameEngine.getAvailableDestinations(gameState.progress.currentVillage);
+    const isAccessible = availableDestinations.some(dest => dest.id === villageId);
     
-    // Lire le nom de la commune
-    speakEducationalContent(`Bienvenue à ${communeInfo.fullName}`, 'fr');
-  };
+    if (!isAccessible && villageId !== gameState.progress.currentVillage) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      Alert.alert(
+        'Chemin non disponible', 
+        'Vous ne pouvez pas vous rendre directement dans ce village depuis votre position actuelle.'
+      );
+      return;
+    }
 
-  const handlePurchaseCommune = (communeId: string) => {
-    // TODO: Intégrer système de paiement (Stripe)
-    Alert.alert(
-      '💳 Achat Premium',
-      'Fonctionnalité de paiement à venir ! Pour le moment, cette commune est débloquée gratuitement.',
-      [
-        {
-          text: 'Super !',
-          onPress: () => {
-            setUnlockedCommunes(prev => [...prev, communeId]);
-            saveGameProgress();
-          }
-        }
-      ]
-    );
-  };
-
-  const startQuiz = () => {
-    if (!selectedCommuneInfo) return;
-    setShowCommuneInfo(false);
-    setCurrentQuizIndex(0);
-    setQuizScore(0);
-    setShowQuiz(true);
-  };
-
-  const handleQuizAnswer = (answerIndex: number) => {
-    if (!selectedCommuneInfo) return;
-
-    const question = selectedCommuneInfo.quiz[currentQuizIndex];
-    const isCorrect = answerIndex === question.correctAnswer;
-
-    if (isCorrect) {
-      setQuizScore(prev => prev + 1);
-      Alert.alert('✅ Correct !', question.explanation, [
-        { text: 'Continuer', onPress: nextQuizQuestion }
-      ]);
+    if (villageId === gameState.progress.currentVillage) {
+      // Déjà dans ce village, ouvrir le panneau de découverte
+      setSelectedVillage(village);
+      setShowDiscoveryPanel(true);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } else {
-      Alert.alert('❌ Incorrect', question.explanation, [
-        { text: 'Continuer', onPress: nextQuizQuestion }
-      ]);
+      // Voyager vers le village
+      await animateMovement(village);
     }
   };
 
-  const nextQuizQuestion = () => {
-    if (!selectedCommuneInfo) return;
-
-    if (currentQuizIndex < selectedCommuneInfo.quiz.length - 1) {
-      setCurrentQuizIndex(prev => prev + 1);
-    } else {
-      // Quiz terminé
-      const scorePercentage = (quizScore / selectedCommuneInfo.quiz.length) * 100;
+  const animateMovement = async (targetVillage: Village) => {
+    setIsMoving(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    // Obtenir le chemin
+    const path = gameEngine.getPathBetween(gameState.progress.currentVillage, targetVillage.id);
+    
+    if (path) {
+      // Animer le long du chemin
+      const pathPoints = path.from === gameState.progress.currentVillage ? path.path : [...path.path].reverse();
       
-      if (scorePercentage >= 70) {
-        // Quiz réussi - débloquer prochaine commune
-        unlockNextCommune();
+      for (let i = 1; i < pathPoints.length; i++) {
+        await new Promise<void>((resolve) => {
+          makiAnimProgress.value = withTiming(i / (pathPoints.length - 1), 
+            { duration: 800 },
+            (finished) => {
+              if (finished) {
+                runOnJS(() => {
+                  setMakiPosition(pathPoints[i]);
+                  resolve();
+                })();
+              }
+            }
+          );
+        });
+      }
+    }
+    
+    // Voyager dans le jeu
+    const success = await gameEngine.travelToVillage(targetVillage.id);
+    
+    setIsMoving(false);
+    
+    if (success) {
+      // Animation de célébration
+      celebrationScale.value = withSequence(
+        withTiming(1.2, { duration: 300 }),
+        withTiming(0, { duration: 300 })
+      );
+      
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      Vibration.vibrate([100, 50, 100]);
+      
+      // Ouvrir automatiquement le panneau de découverte
+      setTimeout(() => {
+        setSelectedVillage(targetVillage);
+        setShowDiscoveryPanel(true);
+      }, 600);
+    }
+  };
+
+  const handleQuizComplete = (success: boolean) => {
+    if (selectedVillage) {
+      gameEngine.completeQuiz(selectedVillage.id, success);
+      
+      if (success) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       } else {
-        Alert.alert(
-          '📚 Pas mal !',
-          `Score: ${quizScore}/${selectedCommuneInfo.quiz.length}\nVous pouvez recommencer pour améliorer votre score !`,
-          [{ text: 'OK', onPress: () => setShowQuiz(false) }]
-        );
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       }
     }
   };
 
-  const unlockNextCommune = () => {
-    setShowQuiz(false);
-    setGameProgress(prev => prev + 1);
-    
+  const toggleStats = () => {
+    setShowStats(!showStats);
+    statsScale.value = withTiming(showStats ? 0 : 1, { duration: 300 });
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
+  const handleResetGame = () => {
     Alert.alert(
-      '🎉 Quiz réussi !',
-      `Félicitations ! Vous avez débloqué de nouvelles communes à explorer !`,
+      'Réinitialiser le jeu',
+      'Êtes-vous sûr de vouloir recommencer votre exploration de Mayotte ? Toute votre progression sera perdue.',
       [
-        {
-          text: 'Explorer !',
-          onPress: () => {
-            // Débloquer la prochaine commune disponible
-            const nextCommune = MAYOTTE_COMMUNES.find(c => 
-              !unlockedCommunes.includes(c.id) && !c.price
-            );
-            if (nextCommune) {
-              setUnlockedCommunes(prev => [...prev, nextCommune.id]);
-            }
-            saveGameProgress();
+        { text: 'Annuler', style: 'cancel' },
+        { 
+          text: 'Réinitialiser', 
+          style: 'destructive',
+          onPress: async () => {
+            await gameEngine.resetGame();
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           }
-        }
+        },
       ]
     );
   };
 
-  const getCurrentMakiPosition = () => {
-    const commune = MAYOTTE_COMMUNES.find(c => c.id === currentCommune);
-    return commune ? { x: commune.quiz[0] ? 285 : 285, y: commune.quiz[0] ? 220 : 220 } : { x: 285, y: 220 }; // Position Mamoudzou par défaut
-  };
+  const getStats = () => gameEngine.getGameStats();
+  const stats = getStats();
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
-        colors={['#E3F2FD', '#BBDEFB', '#90CAF9']}
-        style={styles.gradient}
-      >
-        {/* Header */}
-        <View style={styles.header}>
+      <StatusBar barStyle="light-content" backgroundColor="#1B5E20" />
+      
+      <LinearGradient colors={['#2E7D32', '#388E3C', '#4CAF50']} style={styles.header}>
+        <View style={styles.headerContent}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="#1565C0" />
+            <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>🏝️ Découverte de Mayotte</Text>
-          <View style={styles.progressContainer}>
-            <Text style={styles.progressText}>{gameProgress}/10</Text>
+          
+          <View style={styles.headerCenter}>
+            <Text style={styles.headerTitle}>Découverte de Mayotte</Text>
+            <Text style={styles.headerSubtitle}>
+              {gameState.villages.find(v => v.id === gameState.progress.currentVillage)?.name || 'Mamoudzou'}
+            </Text>
+          </View>
+          
+          <View style={styles.headerRight}>
+            <TouchableOpacity onPress={toggleStats} style={styles.statsButton}>
+              <Ionicons name="stats-chart" size={20} color="#FFFFFF" />
+              <Text style={styles.scoreText}>{stats.score}</Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        {/* Carte principale */}
-        <View style={styles.mapContainer}>
-          <Animated.View style={{ transform: [{ scale: makiBounce }] }}>
-            <MayotteMap
-              width={SCREEN_WIDTH - 40}
-              height={400}
-              onCommunePress={handleCommunePress}
-              unlockedCommunes={unlockedCommunes}
-              currentCommune={currentCommune}
-              makiPosition={getCurrentMakiPosition()}
-            />
-          </Animated.View>
-        </View>
-
-        {/* Instructions */}
-        <View style={styles.instructionsContainer}>
-          <Text style={styles.instructionsText}>
-            🐒 Guidez le maki à travers Mayotte ! Touchez une commune pour découvrir ses secrets.
-          </Text>
-        </View>
-
-        {/* Modal d'informations sur la commune */}
-        <Modal
-          visible={showCommuneInfo}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={() => setShowCommuneInfo(false)}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              {selectedCommuneInfo && (
-                <ScrollView showsVerticalScrollIndicator={false}>
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={() => setShowCommuneInfo(false)}
-                  >
-                    <Ionicons name="close" size={24} color="#666" />
-                  </TouchableOpacity>
-
-                  <Text style={styles.modalTitle}>{selectedCommuneInfo.fullName}</Text>
-                  
-                  <Text style={styles.modalDescription}>{selectedCommuneInfo.description}</Text>
-
-                  <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>🍽️ Spécialités locales</Text>
-                    {selectedCommuneInfo.specialties.map((specialty, index) => (
-                      <Text key={index} style={styles.listItem}>• {specialty}</Text>
-                    ))}
-                  </View>
-
-                  <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>📚 Histoire</Text>
-                    <Text style={styles.sectionText}>{selectedCommuneInfo.history}</Text>
-                  </View>
-
-                  <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>🌟 Légendes</Text>
-                    {selectedCommuneInfo.legends.map((legend, index) => (
-                      <Text key={index} style={styles.listItem}>• {legend}</Text>
-                    ))}
-                  </View>
-
-                  <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>🎯 Le saviez-vous ?</Text>
-                    {selectedCommuneInfo.funFacts.map((fact, index) => (
-                      <Text key={index} style={styles.listItem}>• {fact}</Text>
-                    ))}
-                  </View>
-
-                  <TouchableOpacity style={styles.quizButton} onPress={startQuiz}>
-                    <Text style={styles.quizButtonText}>🧠 Tester mes connaissances</Text>
-                  </TouchableOpacity>
-                </ScrollView>
-              )}
-            </View>
-          </View>
-        </Modal>
-
-        {/* Modal de quiz */}
-        <Modal
-          visible={showQuiz}
-          animationType="fade"
-          transparent={true}
-          onRequestClose={() => setShowQuiz(false)}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.quizModalContent}>
-              {selectedCommuneInfo && selectedCommuneInfo.quiz[currentQuizIndex] && (
-                <>
-                  <Text style={styles.quizProgress}>
-                    Question {currentQuizIndex + 1}/{selectedCommuneInfo.quiz.length}
-                  </Text>
-                  
-                  <Text style={styles.quizQuestion}>
-                    {selectedCommuneInfo.quiz[currentQuizIndex].question}
-                  </Text>
-                  
-                  {selectedCommuneInfo.quiz[currentQuizIndex].answers.map((answer, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      style={styles.answerButton}
-                      onPress={() => handleQuizAnswer(index)}
-                    >
-                      <Text style={styles.answerText}>{answer}</Text>
-                    </TouchableOpacity>
-                  ))}
-                  
-                  <TouchableOpacity
-                    style={styles.quitQuizButton}
-                    onPress={() => setShowQuiz(false)}
-                  >
-                    <Text style={styles.quitQuizText}>Quitter le quiz</Text>
-                  </TouchableOpacity>
-                </>
-              )}
-            </View>
-          </View>
-        </Modal>
       </LinearGradient>
+
+      {/* Panneau des statistiques */}
+      {showStats && (
+        <Animated.View style={[styles.statsPanel, statsStyle]}>
+          <LinearGradient colors={['#E8F5E8', '#F1F8E9']} style={styles.statsContent}>
+            <Text style={styles.statsTitle}>📊 Vos Statistiques</Text>
+            
+            <View style={styles.statsGrid}>
+              <View style={styles.statItem}>
+                <Text style={styles.statValue}>{stats.villagesVisited}</Text>
+                <Text style={styles.statLabel}>Villages visités</Text>
+                <Text style={styles.statTotal}>sur {stats.totalVillages}</Text>
+              </View>
+              
+              <View style={styles.statItem}>
+                <Text style={styles.statValue}>{stats.quizCompleted}</Text>
+                <Text style={styles.statLabel}>Quiz réussis</Text>
+                <Text style={styles.statTotal}>sur {stats.totalQuiz}</Text>
+              </View>
+              
+              <View style={styles.statItem}>
+                <Text style={styles.statValue}>{stats.badges}</Text>
+                <Text style={styles.statLabel}>Badges obtenus</Text>
+                <Text style={styles.statTotal}>sur {stats.totalBadges}</Text>
+              </View>
+              
+              <View style={styles.statItem}>
+                <Text style={styles.statValue}>{stats.score}</Text>
+                <Text style={styles.statLabel}>Points totaux</Text>
+                <Text style={styles.statTotal}>🏆</Text>
+              </View>
+            </View>
+
+            <View style={styles.statsActions}>
+              <TouchableOpacity onPress={handleResetGame} style={styles.resetButton}>
+                <Ionicons name="refresh" size={16} color="#F44336" />
+                <Text style={styles.resetText}>Recommencer</Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </Animated.View>
+      )}
+
+      {/* Carte interactive */}
+      <View style={styles.mapContainer}>
+        <RealisticMayotteMap
+          villages={gameState.villages}
+          currentVillage={gameState.progress.currentVillage}
+          onVillagePress={handleVillagePress}
+        />
+        
+        {/* Maki animé */}
+        <AnimatedMaki
+          position={makiPosition}
+          isMoving={isMoving}
+          size={32}
+        />
+        
+        {/* Animation de célébration */}
+        <Animated.View style={[styles.celebrationContainer, celebrationStyle]}>
+          <Text style={styles.celebrationText}>🎉</Text>
+        </Animated.View>
+      </View>
+
+      {/* Panneau de découverte des villages */}
+      <VillageDiscoveryPanel
+        village={selectedVillage}
+        isVisible={showDiscoveryPanel}
+        onClose={() => setShowDiscoveryPanel(false)}
+        onQuizComplete={handleQuizComplete}
+      />
+
+      {/* Instructions flottantes */}
+      {gameState.progress.visitedVillages.length === 1 && (
+        <View style={styles.instructionsContainer}>
+          <LinearGradient colors={['#FFF3E0', '#FFE0B2']} style={styles.instructions}>
+            <Ionicons name="information-circle" size={20} color="#FF8F00" />
+            <Text style={styles.instructionsText}>
+              Touchez un village voisin pour commencer votre exploration ! 🗺️
+            </Text>
+          </LinearGradient>
+        </View>
+      )}
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
