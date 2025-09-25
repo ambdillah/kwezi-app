@@ -140,7 +140,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test complet du backend après la mise à jour de la section 'animaux': vérifier que les mots de la section 'animaux' sont correctement retournés, tester l'endpoint /api/vocabulary pour la section 'animaux', vérifier que tous les 69 nouveaux animaux sont présents, tester la structure des données avec champs requis (french, shimaoré, kibouchi, emoji), tester différents animaux spécifiques, vérifier robustesse (pas de doublons, remplacement complet, autres sections non affectées)."
+user_problem_statement: "Test complet du backend après la mise à jour de la section 'nombres': vérifier que les mots de la section 'nombres' sont correctement retournés, tester l'endpoint /api/vocabulary pour la section 'nombres', vérifier que tous les 28 nouveaux nombres sont présents (1-100), tester la structure des données avec champs requis (french, shimaoré, kibouchi, emoji, numeric_value, number_type), tester différents types de nombres (1-10, 11-19, dizaines, 100), vérifier robustesse (pas de doublons, remplacement complet, autres sections non affectées)."
 
 backend:
   - task: "Test complet backend après mise à jour section animaux"
