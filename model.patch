@@ -131,7 +131,7 @@ index 7a18468..e69de29 100644
 -----+from typing import Dict, List, Any
 -----+
 -----+# Configuration
------+BACKEND_URL = "https://shimakibo-learn.preview.emergentagent.com/api"
+-----+BACKEND_URL = "https://kwezi-learn.preview.emergentagent.com/api"
 -----+
 -----+class FamilyWordsTestSuite:
 -----+    def __init__(self):
@@ -510,7 +510,7 @@ index 7a18468..e69de29 100644
 ----------+from datetime import datetime
 ----------+
 ----------+# Configuration des URLs
-----------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibo-learn.preview.emergentagent.com')
+----------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://kwezi-learn.preview.emergentagent.com')
 ----------+API_BASE = f"{BACKEND_URL}/api"
 ----------+
 ----------+class AdjectifsAudioTester:
@@ -1215,7 +1215,7 @@ index 7a18468..e69de29 100644
 -----------+import time
 -----------+
 -----------+# Configuration des URLs
------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibo-learn.preview.emergentagent.com')
+-----------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://kwezi-learn.preview.emergentagent.com')
 -----------+API_BASE = f"{BACKEND_URL}/api"
 -----------+
 -----------+class ExpressionsAudioTester:
@@ -1937,7 +1937,7 @@ index 7a18468..e69de29 100644
 -----------+import time
 -----------+
 -----------+# Configuration des URLs
------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibo-learn.preview.emergentagent.com')
+-----------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://kwezi-learn.preview.emergentagent.com')
 -----------+API_BASE = f"{BACKEND_URL}/api"
 -----------+
 -----------+class ExpressionsAudioTester:

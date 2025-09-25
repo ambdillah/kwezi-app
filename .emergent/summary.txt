@@ -1,65 +1,88 @@
 <analysis>
-The AI engineer's trajectory involved significantly enhancing the Kwezi app's dual-language audio system and addressing critical bugs. Initially, the Construire des phrases game bug, where only abimer verbs appeared, was resolved by modifying the  endpoint in  to shuffle results and increase the default limit. Following this, extensive audio integration was performed for multiple categories. This encompassed downloading, extracting, and mapping audio files to database entries using custom Python scripts. The  was updated with new endpoints and category auto-detection. A critical  vs  typo in database field names was identified and corrected. The AI engineer also successfully diagnosed and provided solutions for an Expo Go preview issue, including generating QR codes. Over 11 new vocabulary categories were integrated incrementally, leading to a total of 16 supported categories with 790+ authentic audio files. Each integration involved rigorous backend testing. The current task is to meticulously analyze a provided PDF for orthographic and pronunciation errors, as well as duplicates, to further refine data integrity.
+The AI engineer's trajectory involved a series of feature enhancements and critical bug fixes for the Kwezi app. Initially, efforts focused on data integrity, attempting to analyze and correct vocabulary using a provided PDF. This was fraught with issues, including an empty database state, incorrect word counts, and user feedback indicating the PDF was unreliable. The task pivoted to implementing a conjugation prefix coloring system for the Construire des phrases game, which required extensive frontend and backend modifications to differentiate verbs from pronouns and correct French conjugations. Following this, the famille vocabulary section was updated, and the text-to-speech voice was successfully reverted to feminine. Most recently, work began on an ambitious new Découverte de Mayotte game, involving an interactive map and maki animation, with initial implementation of the map component and integration into the game menu, now focusing on refining the map's realism and adding zoom functionality based on user feedback.
 </analysis>
 
 <product_requirements>
-The user requires an educational mobile application for children to learn Shimaoré and Kibouchi. The app emphasizes engaging games, illustrations, and authentic audio pronunciation. Key problem areas have been refining vocabulary, ensuring accurate translations, correct orthography, and proper category management. Implemented features include UI/UX optimization with Mayotte images, a robust database (initially 548 words), duplicate elimination, and a protection system. A Construire des phrases game and an authentic audio pronunciation system (Voix Off) are in place.
+The Kwezi app is an educational mobile application for children to learn Shimaoré and Kibouchi, focusing on engaging games, illustrations, and authentic audio. The core problem is refining vocabulary, ensuring accurate translations, correct orthography, and effective category management. Existing features include UI/UX optimization, a robust database, and a Construire des phrases game with an authentic audio pronunciation system.
 
-Specific recent requests included:
-1.  **Dual-Language Audio Restructure:** Database was explicitly restructured to support separate Shimaoré and Kibouchi audio pronunciations per word/expression.
-2.  **Initial Audio Integration:** Updating pronunciations for nature, nombres, and animaux sections.
-3.  **Audio Correspondence Verification:** Resolving reported mix-ups in audio correspondences.
-4.  **Construire des phrases Game Fix:** Addressing the game's lack of variety, specifically propositions only for abimer.
-5.  **Extensive Audio Integration:** Updating pronunciations for corps humain, salutations, couleurs, grammaire, nourriture (with a subsequent re-upload for improved coverage), verbes, expressions, adjectifs, vêtements, maison, traditions, and transports using provided audio files.
-6.  **Expo Go Preview Issue:** Resolving the inability to preview the app on Expo Go.
-7.  **Current Request:** Analyzing a PDF for orthographic and pronunciation errors, and eliminating duplicates.
+Recent explicit requests and their current status:
+1.  **Dual-Language Audio Restructure & Integration:** Database restructured for separate Shimaoré/Kibouchi audio, and extensive audio integrated for 16 categories with 790+ files.  typo fixed.
+2.  **Construire des phrases Game Fix:** Initial bug (only abimer verbs) resolved.
+3.  **PDF Analysis & Correction:** User provided  to verify orthography, pronunciations, and eliminate errors. This task was attempted, but halted as the user deemed the PDF unreliable.
+4.  **Conjugation Coloring in Game:** Implement visual coloring of conjugation prefixes (Orange for past, Green for future) *only for verbs* in the Construire des phrases game. This has been implemented, including fixing wassi to wasi and correcting French conjugations.
+5.  **Family Vocabulary Update:** Add new family-related words and correct tante to tante maternelle. This has been implemented.
+6.  **Restore Feminine Voice-Off:** Change text-to-speech voice from male to female for non-authentic audio. This has been implemented.
+7.  **New Game - Découverte de Mayotte:** Create an interactive map game where a maki explores Mayotte's communes/villages, offering local specialties, history, and quizzes, with potential for monetization. Initial prototype and map rendering are in progress, now focusing on realism and zoom features.
 </product_requirements>
 
 <key_technical_concepts>
-- Full-stack Development: Expo (React Native), FastAPI, MongoDB.
-- Expo Router: File-based routing.
-- Database Management: Python scripts for schema restructuring, data updates (adding dual audio fields), and custom data processing.
-- Audio Playback:  with custom authentic audio systems served via FastAPI.
-- API Interaction: Frontend-backend communication using  endpoints for data and audio.
-- File Handling: Downloading and extracting ZIP files for audio assets.
-- Data Validation: Custom Python scripts for verifying and correcting audio-to-word mappings, orthography, and consistency.
+-   **Full-stack Development:** Expo (React Native), FastAPI, MongoDB.
+-   **Expo Router:** File-based routing for mobile screens.
+-   **Database Management:** Python scripts for data updates, migrations, and custom processing.
+-   **Audio/Speech:**  for authentic audio; custom utility for text-to-speech (TTS) voice management.
+-   **Frontend UI:**  for custom vector graphics (e.g., Mayotte map),  for animations,  for local data persistence.
+-   **Monetization:**  for in-app purchases (planned).
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a standard Expo full-stack architecture.
 
 -   : The FastAPI backend.
     -   **Importance:** Handles all API requests, including database operations and serving audio files.
-    -   **Changes:** The  endpoint was modified to include  and increased its  to 20 to diversify sentence propositions. Numerous new  endpoints were added (e.g., , , etc.) for each newly integrated audio category. The  function was updated to support these new categories in its auto-detection logic and . A critical typo from shimoare to shimaore was fixed in field references for consistency.
+    -   **Changes:** Fixed a bug in  for the Construire des phrases game by shuffling results and increasing the limit. Added numerous  endpoints for audio categories. Fixed  to  typo.
 -   : Contains logic for verb conjugation and sentence generation.
-    -   **Importance:** Provides the foundational data and logic for the Construire des phrases game.
-    -   **Changes:** Was inspected to understand sentence generation, but no direct modifications were made to this file in the provided trajectory, as the solution for variety was implemented in .
--    (multiple files): A series of new Python scripts (e.g., , , , , , , ).
-    -   **Importance:** These scripts are crucial for automating the integration of new audio assets. They download ZIP files, extract  files into  subdirectories, and update corresponding words/expressions in the MongoDB database with , , , and  fields.
-    -   **Changes:** Each script was specifically created and executed to process its designated categories. Notably,  was revised to fix the  vs  field name inconsistency.
--   : This directory now includes new subdirectories like , , , , , , , , , , , , each containing the respective  audio files.
-    -   **Importance:** Central repository for all authentic dual-language audio files, organized by category.
--   , , : New files.
-    -   **Importance:** Created to facilitate access to the Expo Go preview of the application by providing a scannable QR code and a web page to display it.  was updated to include  and  dependencies for this functionality.
+    -   **Importance:** Central to the Construire des phrases game.
+    -   **Changes:** This file was completely refactored and replaced by  to correct French conjugations and handle pronoun variations like wasi.
+-   : The new, refactored conjugation engine.
+    -   **Importance:** Provides accurate French, Shimaoré, and Kibouchi conjugations and sentence generation.
+    -   **Changes:** Created to replace the problematic , ensuring correct handling of verb tenses, pronouns (like wasi), and sentence structure.
+-   : A script to update family-related words.
+    -   **Importance:** Automates the addition and correction of vocabulary within the famille category.
+    -   **Changes:** Created and executed to add new words like tante paternelle, petit garçon, jeune adulte, frère/sœur, and to rename Tante to tante maternelle.
+-   : The main screen for various games.
+    -   **Importance:** Serves as the entry point for different educational games.
+    -   **Changes:** Integrated the  and  components into the Construire des phrases game. Added navigation and entry point for the new  game.
+-   : A learning section.
+    -   **Importance:** Provides educational content for different categories.
+    -   **Changes:** Updated to use the new  for text-to-speech, restoring the female voice.
+-   : The main screen for the new Découverte de Mayotte game.
+    -   **Importance:** Contains the core logic and UI for the interactive map game.
+    -   **Changes:** Created as part of the initial prototype, including state management for Maki position and unlocked communes, and rendering of the  component.
+-   : A new React Native component.
+    -   **Importance:** Displays words with color-coded conjugation prefixes, improving grammatical understanding.
+    -   **Changes:** Created to dynamically color prefixes based on conjugation rules, specifically distinguishing between verbs and non-verbs (pronouns).
+-   : A new React Native component.
+    -   **Importance:** Provides a visual legend for the color-coded conjugation prefixes.
+    -   **Changes:** Created to explain the color scheme (e.g., orange for past, green for future) and clarify that coloring applies only to verbs.
+-   : A new React Native component.
+    -   **Importance:** Renders the interactive map of Mayotte for the discovery game.
+    -   **Changes:** Initially created as a basic SVG, then redrawn to be more realistic based on user feedback. Currently being updated to support zoom and pan functionality.
+-   : A new utility file.
+    -   **Importance:** Defines the logic for identifying conjugation prefixes and assigning colors.
+    -   **Changes:** Created to centralize conjugation prefix patterns, colors, and the logic to apply coloring specifically to verbs, and corrected the wassi pronoun to wasi.
+-   : A new utility file.
+    -   **Importance:** Manages text-to-speech configuration to ensure a feminine voice is used.
+    -   **Changes:** Created to replace previous male-voice configurations, providing an  function and  function.
+-   : An existing utility file.
+    -   **Importance:** Previously handled advanced speech configuration.
+    -   **Changes:** Its functionality has been superseded by  to restore the female voice, with  and  now importing from the new feminine utility.
 </code_architecture>
 
 <pending_tasks>
-- Implement frontend UI for audio playback in games other than Commencer à apprendre.
-- Develop and integrate a personal word mastery system.
-- Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features.
-- Investigate and resolve remaining incorrect emoji associations.
-- Identify the root cause of the recurring database duplication problem (2316 words).
-- Resolve the issue of the text-to-speech voice remaining female despite attempts to force a male voice.
-- Clarify the user's mentioned fork date (October 19, 2025).
-- Analyze the provided PDF () to verify orthography, integration, and pronunciations, and eliminate errors (duplicates or inconsistencies).
+-   Implement frontend UI for audio playback in games other than Commencer à apprendre.
+-   Develop and integrate a personal word mastery system.
+-   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features.
+-   Investigate and resolve remaining incorrect emoji associations.
+-   Identify the root cause of the recurring database duplication problem (2316 words).
+-   Clarify the user's mentioned fork date (October 19, 2025).
+-   Add zoom and pan controls (buttons) to the Mayotte map.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer received a user request to analyze a PDF document titled vocabulaire shimaoré kibouchi FR.pdf. The user specifically asked to verify the orthography and integration of all Shimaoré and Kibouchi words and expressions, check their pronunciations (noting potential identical pronunciations in both languages), and eliminate any identified errors, such as duplicates (e.g., keeping bigorneau over bigorno).
+Immediately prior to this summary, the AI engineer was working on enhancing the Découverte de Mayotte game. The user provided feedback that the previously implemented map within  was not realistic and needed to be redesigned as a real detailed and visually attractive map. The user then provided a screenshot for inspiration and explicitly requested that the map be made zoomable, as it was unreadable otherwise.
 
-The AI engineer has successfully downloaded the PDF and extracted its content. The current work involves the systematic analysis of this extracted data to identify and categorize these orthographic, pronunciation, and duplication issues. The next immediate step is to formulate and implement a correction script based on this analysis to ensure data integrity and consistency across the entire vocabulary. This task is a critical step in refining the application's foundational data.
+The AI engineer has acknowledged this, planning to redraw the map with an authentic shape based on the provided screenshot and implement a zoom/pan system. The  component was modified to incorporate these changes (Chat 251). The most recent action () indicates the AI engineer is about to add simpler and accessible zoom controls with buttons, recognizing that gesture-based zoom can be complex. The current state is that the map has been redrawn, and the implementation of zoom functionality with dedicated UI controls is the immediate next step.
 </current_work>
 
 <optional_next_step>
-Analyze the extracted PDF content to systematically identify orthographic, pronunciation, and duplication errors, then develop a script to correct these in the database.
+Add a component for zoom controls (buttons) to the  in .
 </optional_next_step>

@@ -11,7 +11,7 @@ from typing import Dict, List, Any
 import time
 
 # Configuration
-BACKEND_URL = "https://shimakibo-learn.preview.emergentagent.com/api"
+BACKEND_URL = "https://kwezi-learn.preview.emergentagent.com/api"
 
 class BackendTester:
     def __init__(self):
