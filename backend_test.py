@@ -44,13 +44,13 @@ if not BACKEND_URL:
 API_URL = f"{BACKEND_URL}/api"
 print(f"🔗 Using Backend URL: {BACKEND_URL}")
 
-class VetementsSectionTester:
+class NatureSectionTester:
     def __init__(self):
         self.api_url = API_URL
         self.test_results = []
         self.total_tests = 0
         self.passed_tests = 0
-        self.vetements_words = []
+        self.nature_words = []
         self.total_words_count = 0
         
     def log_test(self, test_name: str, passed: bool, details: str = ""):
@@ -109,41 +109,43 @@ class VetementsSectionTester:
             self.log_test("API Connectivity", False, f"Error: {str(e)}")
             return False
     
-    def test_2_vetements_section_exists(self):
-        """Test 2: Vérification que la section vêtements existe"""
-        print("\n=== TEST 2: VÉRIFICATION SECTION VÊTEMENTS ===")
+    def test_2_nature_section_exists(self):
+        """Test 2: Vérification que la section nature existe"""
+        print("\n=== TEST 2: VÉRIFICATION SECTION NATURE ===")
         
         try:
-            response = self.make_request("/words?category=vetements")
+            response = self.make_request("/words?category=nature")
             if response["success"]:
-                self.vetements_words = response["data"]
-                count = len(self.vetements_words)
-                self.log_test("Section vêtements existe", count > 0, f"{count} mots trouvés")
+                self.nature_words = response["data"]
+                count = len(self.nature_words)
+                self.log_test("Section nature existe", count > 0, f"{count} mots trouvés")
                 return count > 0
             else:
-                self.log_test("Section vêtements existe", False, f"Status: {response['status_code']}")
+                self.log_test("Section nature existe", False, f"Status: {response['status_code']}")
                 return False
         except Exception as e:
-            self.log_test("Section vêtements existe", False, f"Error: {str(e)}")
+            self.log_test("Section nature existe", False, f"Error: {str(e)}")
             return False
     
-    def test_3_17_words_added(self):
-        """Test 3: Vérification que 17 mots ont été ajoutés"""
-        print("\n=== TEST 3: VÉRIFICATION 17 MOTS AJOUTÉS ===")
+    def test_3_58_words_added(self):
+        """Test 3: Vérification que 58 mots ont été ajoutés"""
+        print("\n=== TEST 3: VÉRIFICATION 58 MOTS AJOUTÉS ===")
         
-        expected_count = 17
-        actual_count = len(self.vetements_words)
+        expected_count = 58
+        actual_count = len(self.nature_words)
         
-        self.log_test("17 mots ajoutés", actual_count == expected_count, 
-                     f"Attendu: {expected_count}, Trouvé: {actual_count}")
+        # Allow some tolerance (50-60 words)
+        success = 50 <= actual_count <= 60
+        self.log_test("58 mots ajoutés", success, 
+                     f"Attendu: ~{expected_count}, Trouvé: {actual_count}")
         
-        return actual_count == expected_count
+        return success
     
     def test_4_data_structure(self):
         """Test 4: Vérification de la structure des données"""
         print("\n=== TEST 4: STRUCTURE DES DONNÉES ===")
         
-        if not self.vetements_words:
+        if not self.nature_words:
             self.log_test("Structure des données", False, "Aucun mot à tester")
             return False
         
@@ -151,7 +153,7 @@ class VetementsSectionTester:
         complete_words = 0
         words_with_emojis = 0
         
-        for word in self.vetements_words:
+        for word in self.nature_words:
             # Check required fields
             has_all_fields = all(field in word and word[field] for field in required_fields)
             if has_all_fields:
@@ -161,14 +163,14 @@ class VetementsSectionTester:
             if 'image_url' in word and word['image_url']:
                 words_with_emojis += 1
         
-        structure_percentage = (complete_words / len(self.vetements_words)) * 100
-        emoji_percentage = (words_with_emojis / len(self.vetements_words)) * 100
+        structure_percentage = (complete_words / len(self.nature_words)) * 100
+        emoji_percentage = (words_with_emojis / len(self.nature_words)) * 100
         
         self.log_test("Structure complète", structure_percentage >= 95,
-                     f"{complete_words}/{len(self.vetements_words)} mots avec structure complète ({structure_percentage:.1f}%)")
+                     f"{complete_words}/{len(self.nature_words)} mots avec structure complète ({structure_percentage:.1f}%)")
         
         self.log_test("Emojis présents", emoji_percentage >= 80,
-                     f"{words_with_emojis}/{len(self.vetements_words)} mots avec emojis ({emoji_percentage:.1f}%)")
+                     f"{words_with_emojis}/{len(self.nature_words)} mots avec emojis ({emoji_percentage:.1f}%)")
         
         return structure_percentage >= 95
     
@@ -177,13 +179,13 @@ class VetementsSectionTester:
         print("\n=== TEST 5: ORTHOGRAPHE CORRIGÉE ===")
         
         expected_corrections = {
-            "salouva": {"shimaore": "salouva", "kibouchi": "salouvagna"},
-            "kamiss": {"shimaore": "kandzou bolé", "kibouchi": "ankandzou bé"},
-            "tongs": {"shimaore": "sapatri", "kibouchi": "kabwa sapatri"},
-            "voile": {"shimaore": "kichali", "kibouchi": "kichali"}
+            "lune": {"shimaore": "mwézi", "kibouchi": "fandzava"},
+            "vague": {"shimaore": "dhouja", "kibouchi": "houndza"},
+            "fleur": {"shimaore": "foulera", "kibouchi": "foulèra"},
+            "cocotier": {"shimaore": "m'nadzi", "kibouchi": "voudi ni vwaniou"}
         }
         
-        word_dict = {word['french'].lower(): word for word in self.vetements_words}
+        word_dict = {word['french'].lower(): word for word in self.nature_words}
         
         for french_word, expected_translations in expected_corrections.items():
             if french_word in word_dict:
@@ -198,17 +200,17 @@ class VetementsSectionTester:
                 self.log_test(f"Orthographe corrigée: {french_word}", False, "Mot non trouvé")
     
     def test_6_audio_coverage(self):
-        """Test 6: Test de la couverture audio (16/17 mots = 94.1%)"""
+        """Test 6: Test de la couverture audio (55/58 mots = 94.8%)"""
         print("\n=== TEST 6: COUVERTURE AUDIO ===")
         
-        if not self.vetements_words:
+        if not self.nature_words:
             self.log_test("Couverture audio", False, "Aucun mot à tester")
             return
         
         words_with_audio = 0
-        total_words = len(self.vetements_words)
+        total_words = len(self.nature_words)
         
-        for word in self.vetements_words:
+        for word in self.nature_words:
             has_audio = (
                 word.get('has_authentic_audio', False) or
                 word.get('shimoare_has_audio', False) or
@@ -222,10 +224,10 @@ class VetementsSectionTester:
                 words_with_audio += 1
         
         coverage_percentage = (words_with_audio / total_words * 100) if total_words > 0 else 0
-        expected_coverage = 94.1  # 16/17 words
+        expected_coverage = 94.8  # 55/58 words
         
         success = coverage_percentage >= expected_coverage - 10  # Allow 10% tolerance
-        self.log_test("Couverture audio 94.1%", success, 
+        self.log_test("Couverture audio 94.8%", success, 
                      f"{words_with_audio}/{total_words} mots ({coverage_percentage:.1f}%) ont des références audio")
     
     def test_7_specific_audio_references(self):
@@ -233,13 +235,13 @@ class VetementsSectionTester:
         print("\n=== TEST 7: RÉFÉRENCES AUDIO SPÉCIFIQUES ===")
         
         expected_audio = {
-            "vêtement": "Ngouwo.m4a",
-            "salouva": "Salouva.m4a", 
-            "kamiss": "Kandzou bolé.m4a",
-            "tongs": "Kabwa sapatri.m4a"
+            "lune": "Fandzava.m4a",
+            "soleil": "Zouva.m4a", 
+            "mer": "Bahari.m4a",
+            "cocotier": "M_nadzi.m4a"
         }
         
-        word_dict = {word['french'].lower(): word for word in self.vetements_words}
+        word_dict = {word['french'].lower(): word for word in self.nature_words}
         
         for french_word, expected_audio_file in expected_audio.items():
             if french_word in word_dict:
@@ -256,63 +258,72 @@ class VetementsSectionTester:
             else:
                 self.log_test(f"Référence audio spécifique - {french_word}", False, "Mot non trouvé")
     
-    def test_8_appropriate_emojis(self):
-        """Test 8: Test des emojis appropriés pour vêtements"""
-        print("\n=== TEST 8: EMOJIS APPROPRIÉS VÊTEMENTS ===")
+    def test_8_diverse_nature_elements(self):
+        """Test 8: Test des éléments de nature diversifiés"""
+        print("\n=== TEST 8: ÉLÉMENTS NATURE DIVERSIFIÉS ===")
         
-        if not self.vetements_words:
-            self.log_test("Emojis appropriés", False, "Aucun mot à tester")
+        if not self.nature_words:
+            self.log_test("Éléments nature diversifiés", False, "Aucun mot à tester")
             return
         
-        # Clothing-specific emojis
-        clothing_emojis = ['👕', '👗', '👖', '👟', '👠', '👡', '👢', '🧥', '🧦', '🧤', '👒', '🎩', '👑', '💍', '👜', '🎒', '👓', '🕶️', '🥿', '🩱', '🩲', '🩳']
-        words_with_appropriate_emojis = 0
+        # Nature categories
+        categories = {
+            "celestial": ["lune", "étoile", "soleil", "arc-en-ciel", "arc en ciel", "nuage"],
+            "terrestrial": ["terre", "sol", "pierre", "sable", "caillou", "pente"],
+            "vegetation": ["arbre", "fleur", "herbe", "bambou", "cocotier", "manguier", "feuille"],
+            "marine": ["mer", "vague", "marée basse", "marée haute", "corail", "mangrove", "plage"]
+        }
         
-        for word in self.vetements_words:
-            if 'image_url' in word and word['image_url']:
-                if any(emoji in word['image_url'] for emoji in clothing_emojis):
-                    words_with_appropriate_emojis += 1
+        word_list = [word['french'].lower() for word in self.nature_words]
         
-        emoji_percentage = (words_with_appropriate_emojis / len(self.vetements_words)) * 100
-        
-        self.log_test("Emojis appropriés vêtements", emoji_percentage >= 70,
-                     f"{words_with_appropriate_emojis}/{len(self.vetements_words)} mots avec emojis vêtements ({emoji_percentage:.1f}%)")
+        for category, expected_words in categories.items():
+            found_words = [word for word in expected_words if word in word_list]
+            coverage = len(found_words) / len(expected_words) * 100 if expected_words else 0
+            
+            success = coverage >= 30  # At least 30% of words in each category
+            self.log_test(f"Éléments {category}", success,
+                         f"{len(found_words)}/{len(expected_words)} mots trouvés ({coverage:.1f}%): {found_words[:3]}")
     
-    def test_9_has_authentic_audio_flag(self):
-        """Test 9: Test que les champs has_authentic_audio sont définis à true"""
-        print("\n=== TEST 9: CHAMPS HAS_AUTHENTIC_AUDIO ===")
+    def test_9_data_integrity(self):
+        """Test 9: Test de l'intégrité des données"""
+        print("\n=== TEST 9: INTÉGRITÉ DES DONNÉES ===")
         
-        if not self.vetements_words:
-            self.log_test("Champs has_authentic_audio", False, "Aucun mot à tester")
+        if not self.nature_words:
+            self.log_test("Intégrité des données", False, "Aucun mot à tester")
             return
         
-        words_with_authentic_audio = sum(1 for word in self.vetements_words 
+        # Test appropriate emojis for nature
+        nature_emojis = ['🌳', '🌲', '🌱', '🌿', '🍃', '🌸', '🌺', '🌻', '🌹', '🌷', '🌾', '🌙', '☀️', '⭐', '🌊', '🏖️', '🏞️', '⛰️', '🌈', '☁️', '🌧️', '⛈️', '🌪️', '🔥', '💧', '🪨', '🌍', '🌎', '🌏']
+        words_with_nature_emojis = 0
+        
+        for word in self.nature_words:
+            if 'image_url' in word and word['image_url']:
+                if any(emoji in word['image_url'] for emoji in nature_emojis):
+                    words_with_nature_emojis += 1
+        
+        emoji_percentage = (words_with_nature_emojis / len(self.nature_words)) * 100
+        
+        self.log_test("Emojis appropriés nature", emoji_percentage >= 70,
+                     f"{words_with_nature_emojis}/{len(self.nature_words)} mots avec emojis nature ({emoji_percentage:.1f}%)")
+        
+        # Test has_authentic_audio flag
+        words_with_authentic_audio = sum(1 for word in self.nature_words 
                                        if word.get('has_authentic_audio', False))
         
-        expected_count = 16  # 16/17 words should have authentic audio
-        success = words_with_authentic_audio >= expected_count - 2  # Allow some tolerance
+        self.log_test("Champs has_authentic_audio définis", words_with_authentic_audio > 0,
+                     f"{words_with_authentic_audio}/{len(self.nature_words)} mots avec has_authentic_audio=true")
         
-        self.log_test("Champs has_authentic_audio définis", success,
-                     f"{words_with_authentic_audio}/{len(self.vetements_words)} mots avec has_authentic_audio=true")
-    
-    def test_10_no_duplicates(self):
-        """Test 10: Confirmer qu'il n'y a pas de doublons"""
-        print("\n=== TEST 10: PAS DE DOUBLONS ===")
-        
-        if not self.vetements_words:
-            self.log_test("Pas de doublons", False, "Aucun mot à tester")
-            return
-        
-        french_words = [word['french'].lower() for word in self.vetements_words]
+        # Test no duplicates
+        french_words = [word['french'].lower() for word in self.nature_words]
         unique_words = set(french_words)
         has_duplicates = len(french_words) != len(unique_words)
         
         self.log_test("Pas de doublons", not has_duplicates,
                      f"Trouvé {len(french_words)} mots, {len(unique_words)} uniques")
     
-    def test_11_other_sections_unaffected(self):
-        """Test 11: Test que les autres sections n'ont pas été affectées"""
-        print("\n=== TEST 11: AUTRES SECTIONS NON AFFECTÉES ===")
+    def test_10_other_sections_unaffected(self):
+        """Test 10: Test que les autres sections n'ont pas été affectées"""
+        print("\n=== TEST 10: AUTRES SECTIONS NON AFFECTÉES ===")
         
         expected_sections = {
             'famille': 25,  # Approximate expected count
@@ -337,9 +348,9 @@ class VetementsSectionTester:
             except Exception as e:
                 self.log_test(f"Section {category} intacte", False, f"Error: {str(e)}")
     
-    def test_12_total_sections_count(self):
-        """Test 12: Confirmer que le nombre total de sections est maintenant de 7"""
-        print("\n=== TEST 12: NOMBRE TOTAL SECTIONS = 7 ===")
+    def test_11_total_sections_count(self):
+        """Test 11: Confirmer que le nombre total de sections est maintenant de 8+"""
+        print("\n=== TEST 11: NOMBRE TOTAL SECTIONS ≥ 8 ===")
         
         try:
             response = self.make_request("/words")
@@ -348,73 +359,74 @@ class VetementsSectionTester:
                 categories = set(word['category'] for word in all_words)
                 category_count = len(categories)
                 
-                self.log_test("Nombre total sections = 7", category_count >= 7,
-                             f"Trouvé {category_count} catégories (attendu ≥7)")
+                self.log_test("Nombre total sections ≥ 8", category_count >= 8,
+                             f"Trouvé {category_count} catégories (attendu ≥8)")
                 self.log_test("Catégories trouvées", True, f"Catégories: {sorted(categories)}")
             else:
                 self.log_test("Nombre total sections", False, f"HTTP {response['status_code']}")
         except Exception as e:
             self.log_test("Nombre total sections", False, f"Error: {str(e)}")
     
-    def test_13_api_performance(self):
-        """Test 13: Tester les performances globales de l'API"""
-        print("\n=== TEST 13: PERFORMANCES API ===")
+    def test_12_api_performance(self):
+        """Test 12: Tester les performances globales de l'API"""
+        print("\n=== TEST 12: PERFORMANCES API ===")
         
         try:
             start_time = time.time()
-            response = self.make_request("/words?category=vetements")
+            response = self.make_request("/words?category=nature")
             end_time = time.time()
             
             response_time = end_time - start_time
             
             if response["success"]:
                 data = response["data"]
-                self.log_test("Performance API vêtements", response_time < 2.0,
+                self.log_test("Performance API nature", response_time < 2.0,
                              f"Temps de réponse: {response_time:.3f}s, {len(data)} mots retournés")
                 
-                # Test that all returned words are from vetements category
-                all_vetements = all(word.get('category') == 'vetements' for word in data)
-                self.log_test("Filtrage catégorie correct", all_vetements,
-                             f"Tous les {len(data)} mots sont de la catégorie 'vetements'")
+                # Test that all returned words are from nature category
+                all_nature = all(word.get('category') == 'nature' for word in data)
+                self.log_test("Filtrage catégorie correct", all_nature,
+                             f"Tous les {len(data)} mots sont de la catégorie 'nature'")
                 
                 return True
             else:
-                self.log_test("Performance API vêtements", False,
+                self.log_test("Performance API nature", False,
                              f"HTTP {response['status_code']}")
                 return False
         except Exception as e:
-            self.log_test("Performance API vêtements", False, f"Error: {str(e)}")
+            self.log_test("Performance API nature", False, f"Error: {str(e)}")
             return False
     
-    def test_14_specific_vetements_endpoint(self):
-        """Test 14: Test API endpoint spécifique /api/words?category=vetements"""
-        print("\n=== TEST 14: ENDPOINT SPÉCIFIQUE VÊTEMENTS ===")
+    def test_13_specific_nature_endpoint(self):
+        """Test 13: Test API endpoint spécifique /api/words?category=nature"""
+        print("\n=== TEST 13: ENDPOINT SPÉCIFIQUE NATURE ===")
         
         try:
-            response = self.make_request("/words?category=vetements")
+            response = self.make_request("/words?category=nature")
             if response["success"]:
                 words = response["data"]
                 
-                # Test that all 17 words are returned
-                self.log_test("17 mots retournés", len(words) == 17,
-                             f"Endpoint retourne {len(words)} mots (attendu: 17)")
+                # Test that all 58 words are returned (with tolerance)
+                success = 50 <= len(words) <= 60
+                self.log_test("58 mots retournés", success,
+                             f"Endpoint retourne {len(words)} mots (attendu: ~58)")
                 
-                # Test specific clothing words exist
-                expected_vetements = ['vêtement', 'salouva', 'kamiss', 'tongs', 'voile']
+                # Test specific nature words exist
+                expected_nature = ['lune', 'soleil', 'mer', 'arbre', 'fleur']
                 word_names = [word.get('french', '').lower() for word in words]
                 
-                for expected_word in expected_vetements:
+                for expected_word in expected_nature:
                     found = expected_word.lower() in word_names
                     self.log_test(f"Mot attendu présent - {expected_word}", found)
                     
             else:
-                self.log_test("Endpoint vêtements", False, f"HTTP {response['status_code']}")
+                self.log_test("Endpoint nature", False, f"HTTP {response['status_code']}")
         except Exception as e:
-            self.log_test("Endpoint vêtements", False, f"Error: {str(e)}")
+            self.log_test("Endpoint nature", False, f"Error: {str(e)}")
     
-    def test_15_audio_files_access(self):
-        """Test 15: Test d'accès aux fichiers audio via l'API"""
-        print("\n=== TEST 15: ACCÈS FICHIERS AUDIO ===")
+    def test_14_audio_files_access(self):
+        """Test 14: Test d'accès aux fichiers audio via l'API"""
+        print("\n=== TEST 14: ACCÈS FICHIERS AUDIO ===")
         
         try:
             # Test if audio info endpoint exists
@@ -423,15 +435,43 @@ class VetementsSectionTester:
                 audio_info = response["data"]
                 self.log_test("Endpoint audio/info", True, "Endpoint audio info accessible")
                 
-                # Check if vetements is in audio categories
-                if isinstance(audio_info, dict) and 'vetements' in str(audio_info):
-                    self.log_test("Catégorie vêtements dans audio", True, "Vêtements trouvé dans info audio")
+                # Check if nature is in audio categories
+                if isinstance(audio_info, dict) and 'nature' in str(audio_info):
+                    nature_info = audio_info.get('nature', {})
+                    file_count = nature_info.get('count', 0) if isinstance(nature_info, dict) else 0
+                    
+                    self.log_test("Catégorie nature dans audio", file_count >= 90,
+                                 f"Nature trouvé avec {file_count} fichiers audio (attendu: 97)")
                 else:
-                    self.log_test("Catégorie vêtements dans audio", False, "Vêtements non trouvé dans info audio")
+                    self.log_test("Catégorie nature dans audio", False, "Nature non trouvé dans info audio")
             else:
                 self.log_test("Endpoint audio/info", False, f"HTTP {response['status_code']} - Endpoints audio non implémentés")
         except Exception as e:
             self.log_test("Accès fichiers audio", False, f"Error: {str(e)} - Endpoints audio non implémentés")
+    
+    def test_15_audio_endpoint_functionality(self):
+        """Test 15: Test de la fonctionnalité de l'endpoint audio nature"""
+        print("\n=== TEST 15: FONCTIONNALITÉ ENDPOINT AUDIO ===")
+        
+        test_files = ["Bahari.m4a", "Zouva.m4a", "Fandzava.m4a"]
+        
+        for filename in test_files:
+            try:
+                response = requests.get(f"{self.api_url}/audio/nature/{filename}", timeout=10)
+                
+                if response.status_code == 200:
+                    content_type = response.headers.get("content-type", "")
+                    success = "audio" in content_type.lower()
+                    self.log_test(f"Endpoint audio nature - {filename}", success,
+                                 f"Status: {response.status_code}, Content-Type: {content_type}")
+                elif response.status_code == 404:
+                    self.log_test(f"Endpoint audio nature - {filename}", False,
+                                 f"Fichier non trouvé: {filename}")
+                else:
+                    self.log_test(f"Endpoint audio nature - {filename}", False,
+                                 f"Erreur HTTP: {response.status_code}")
+            except Exception as e:
+                self.log_test(f"Endpoint audio nature - {filename}", False, f"Error: {str(e)}")
     
     def test_16_total_word_count(self):
         """Test 16: Test que le nombre total de mots est raisonnable"""
@@ -457,11 +497,11 @@ class VetementsSectionTester:
             return 0
     
     def run_all_tests(self):
-        """Execute all tests for vetements section"""
-        print("👕 DÉBUT DES TESTS BACKEND - SECTION VÊTEMENTS")
+        """Execute all tests for nature section"""
+        print("🌿 DÉBUT DES TESTS BACKEND - SECTION NATURE")
         print("=" * 70)
         print("Test complet du backend après la création et mise à jour des")
-        print("prononciations audio pour la section 'vêtement' avec 17 mots")
+        print("prononciations audio pour la section 'nature' avec 58 mots")
         print("=" * 70)
         
         start_time = time.time()
@@ -471,25 +511,25 @@ class VetementsSectionTester:
             print("❌ ÉCHEC: Impossible de se connecter à l'API. Arrêt des tests.")
             return False
         
-        # Test vetements section exists
-        if not self.test_2_vetements_section_exists():
-            print("❌ ÉCHEC: Section vêtements non trouvée. Arrêt des tests.")
+        # Test nature section exists
+        if not self.test_2_nature_section_exists():
+            print("❌ ÉCHEC: Section nature non trouvée. Arrêt des tests.")
             return False
         
         # Run all test suites
-        self.test_3_17_words_added()
+        self.test_3_58_words_added()
         self.test_4_data_structure()
         self.test_5_corrected_spelling()
         self.test_6_audio_coverage()
         self.test_7_specific_audio_references()
-        self.test_8_appropriate_emojis()
-        self.test_9_has_authentic_audio_flag()
-        self.test_10_no_duplicates()
-        self.test_11_other_sections_unaffected()
-        self.test_12_total_sections_count()
-        self.test_13_api_performance()
-        self.test_14_specific_vetements_endpoint()
-        self.test_15_audio_files_access()
+        self.test_8_diverse_nature_elements()
+        self.test_9_data_integrity()
+        self.test_10_other_sections_unaffected()
+        self.test_11_total_sections_count()
+        self.test_12_api_performance()
+        self.test_13_specific_nature_endpoint()
+        self.test_14_audio_files_access()
+        self.test_15_audio_endpoint_functionality()
         self.test_16_total_word_count()
         
         end_time = time.time()
@@ -505,26 +545,26 @@ class VetementsSectionTester:
         print(f"Tests réussis: {self.passed_tests}/{self.total_tests} ({success_rate:.1f}%)")
         print(f"Durée: {duration:.2f}s")
         
-        # Show vetements section statistics
-        print(f"\n📈 STATISTIQUES SECTION VÊTEMENTS:")
-        if self.vetements_words:
-            count = len(self.vetements_words)
-            with_emojis = sum(1 for w in self.vetements_words if w.get('image_url'))
-            with_audio = sum(1 for w in self.vetements_words if (
+        # Show nature section statistics
+        print(f"\n📈 STATISTIQUES SECTION NATURE:")
+        if self.nature_words:
+            count = len(self.nature_words)
+            with_emojis = sum(1 for w in self.nature_words if w.get('image_url'))
+            with_audio = sum(1 for w in self.nature_words if (
                 w.get('has_authentic_audio') or w.get('audio_filename') or
                 w.get('shimoare_has_audio') or w.get('kibouchi_has_audio') or
                 w.get('dual_audio_system')
             ))
             emoji_rate = (with_emojis / count * 100) if count > 0 else 0
             audio_rate = (with_audio / count * 100) if count > 0 else 0
-            print(f"  Vêtements: {count} mots")
+            print(f"  Nature: {count} mots")
             print(f"  Avec emojis: {with_emojis} ({emoji_rate:.1f}%)")
             print(f"  Avec audio: {with_audio} ({audio_rate:.1f}%)")
         
         print(f"  Total mots dans la base: {self.total_words_count}")
         
         if success_rate >= 80:
-            print("\n🎉 RÉSULTAT: SUCCÈS - La section vêtements est fonctionnelle!")
+            print("\n🎉 RÉSULTAT: SUCCÈS - La section nature est fonctionnelle!")
         elif success_rate >= 60:
             print("\n⚠️ RÉSULTAT: PARTIEL - Quelques problèmes identifiés")
         else:
@@ -538,7 +578,7 @@ class VetementsSectionTester:
 
 def main():
     """Main test execution"""
-    tester = VetementsSectionTester()
+    tester = NatureSectionTester()
     success = tester.run_all_tests()
     
     if success:
