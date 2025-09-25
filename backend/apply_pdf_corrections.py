@@ -29,10 +29,14 @@ def backup_database():
     
     backup_filename = f"/app/backend/backup_words_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     
-    # Convertir ObjectId en string pour JSON
+    # Convertir ObjectId et datetime en string pour JSON
     for word in words:
         if '_id' in word:
             word['_id'] = str(word['_id'])
+        # Convertir les dates en string
+        for key, value in word.items():
+            if isinstance(value, datetime):
+                word[key] = value.isoformat()
     
     with open(backup_filename, 'w', encoding='utf-8') as f:
         json.dump(words, f, ensure_ascii=False, indent=2)
