@@ -47,12 +47,12 @@
 ##   test_sequence: 0
 ##   run_ui: false
 ##
-## test_plan:
-##   current_focus:
-##     - "Authentic audio system integration with new recordings"
-##   stuck_tasks: []
-##   test_all: false
-##   test_priority: "high_first"  # or "sequential" or "stuck_first"
+test_plan:
+  current_focus:
+    - "Test complet backend après mise à jour des prononciations audio pour toutes les sections"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"  # or "sequential" or "stuck_first"
 ##
 ## agent_communication:
     -agent: "main"
