@@ -1,35 +1,17 @@
 #!/usr/bin/env python3
 """
-Test complet du backend après la création et mise à jour des prononciations audio pour la section "vêtement"
-Comprehensive backend testing after creation and audio pronunciation updates for the "vêtement" section
+Test complet du backend après la création et mise à jour des prononciations audio pour la section "nature"
 
-Test Requirements from French review request:
-1. Vérification de la nouvelle section - tester que la section "vetements" existe maintenant
-2. Vérifier que les 17 mots ont été ajoutés avec succès
-3. Confirmer la structure des données (french, shimaoré, kibouchi, emoji)
-4. Test de l'orthographe corrigée:
-   - "salouva" → shimaoré: "salouva", kibouchi: "salouvagna"
-   - "kamiss" → shimaoré: "kandzou bolé", kibouchi: "ankandzou bé"
-   - "tongs" → shimaoré: "sapatri", kibouchi: "kabwa sapatri"
-   - "voile" → shimaoré: "kichali", kibouchi: "kichali"
-5. Test de la couverture audio - vérifier que 16/17 mots (94.1%) ont des références audio authentiques
-6. Tester les références audio spécifiques:
-   - "vêtement" → audio/vetements/Ngouwo.m4a
-   - "salouva" → audio/vetements/Salouva.m4a
-   - "kamiss" → audio/vetements/Kandzou bolé.m4a
-   - "tongs" → audio/vetements/Kabwa sapatri.m4a
-7. Test de l'intégrité des données - vérifier que tous les mots ont des emojis appropriés (👕, 👗, 👖, 👟, etc.)
-8. Tester que les champs `has_authentic_audio` sont définis à true
-9. Confirmer qu'il n'y a pas de doublons dans la section
-10. Test des autres sections - vérifier que les autres sections n'ont pas été affectées
-11. Confirmer que le nombre total de sections est maintenant de 7
-12. Tester les performances globales de l'API
-13. Test API endpoint spécifique - tester l'endpoint `/api/words?category=vetements`
-14. Vérifier que tous les 17 mots sont retournés
-15. Tester des requêtes spécifiques sur les nouveaux mots
-16. Test des fichiers audio - vérifier que les 23 fichiers M4A sont présents
-17. Confirmer que 16 fichiers sont utilisés et 7 restent disponibles
-18. Tester l'accès aux fichiers audio via l'API
+Ce test vérifie tous les aspects demandés dans la review request française:
+1. Vérification de la nouvelle section nature (58 mots attendus)
+2. Test de l'orthographe corrigée pour des mots spécifiques
+3. Test de la couverture audio (55/58 mots avec 94.8% d'audio authentique)
+4. Test des références audio spécifiques
+5. Test des éléments de nature diversifiés
+6. Test de l'intégrité des données
+7. Test des autres sections non affectées
+8. Test des endpoints API spécifiques
+9. Test des fichiers audio
 """
 
 import requests
