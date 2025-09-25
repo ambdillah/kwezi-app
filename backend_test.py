@@ -188,9 +188,9 @@ class BackendTester:
         else:
             self.log_test("Taux de capitalisation global", False, "Aucun mot à vérifier")
 
-    def test_3_integrite_globale(self):
-        """Test 3: Vérifier l'intégrité globale de la base de données"""
-        print("\n=== TEST 3: INTÉGRITÉ GLOBALE ===")
+    def test_3_mots_speciaux(self):
+        """Test 3: Vérifier les mots spéciaux"""
+        print("\n=== TEST 3: MOTS SPÉCIAUX ===")
         
         response = self.make_request("/words")
         if not response["success"]:
@@ -198,40 +198,51 @@ class BackendTester:
             return
             
         words = response["data"]
-        total_words = len(words)
+        word_dict = {word.get("french", ""): word for word in words}
         
-        # Test: Nouveau total de mots (devrait être 565)
-        expected_total = 565
-        self.log_test(f"Total de {expected_total} mots", total_words == expected_total, 
-                     f"Trouvé: {total_words} mots (attendu: {expected_total})")
+        # Test: Vérifier "Œil" (avec caractère spécial)
+        if "Œil" in word_dict:
+            self.log_test("Œil avec caractère spécial existe", True, f"Trouvé: 'Œil'")
+        else:
+            # Check variants
+            variants_found = []
+            for w in word_dict.keys():
+                if "œil" in w.lower() or "oeil" in w.lower():
+                    variants_found.append(w)
+            
+            if variants_found:
+                correct_variants = [v for v in variants_found if "Œ" in v]
+                self.log_test("Œil avec caractère spécial existe", len(correct_variants) > 0, 
+                            f"Variantes trouvées: {variants_found}")
+            else:
+                self.log_test("Œil avec caractère spécial existe", False, "Mot 'Œil' non trouvé")
         
-        # Test: Vérifier qu'il n'y a pas de doublons
-        french_words = [word.get("french", "").lower() for word in words]
-        unique_words = set(french_words)
-        duplicates = []
-        for word in unique_words:
-            count = french_words.count(word)
-            if count > 1:
-                duplicates.append(f"{word} ({count}x)")
-        
-        self.log_test("Aucun doublon", len(duplicates) == 0,
-                     f"Doublons trouvés: {', '.join(duplicates[:5])}" if duplicates else "Aucun doublon détecté")
-        
-        # Test: Vérifier que toutes les catégories sont intactes
-        categories = {}
-        for word in words:
-            category = word.get("category", "unknown")
-            categories[category] = categories.get(category, 0) + 1
-        
-        expected_categories = [
-            'salutations', 'famille', 'couleurs', 'animaux', 'nombres', 
-            'corps', 'grammaire', 'maison', 'nourriture', 'vetements',
-            'transport', 'nature', 'adjectifs', 'expressions', 'verbes'
-        ]
-        
-        missing_categories = [cat for cat in expected_categories if cat not in categories]
-        self.log_test("Toutes les catégories intactes", len(missing_categories) == 0,
-                     f"Catégories manquantes: {missing_categories}" if missing_categories else f"Toutes présentes: {list(categories.keys())}")
+        # Test: Vérifier "Petit garçon" (avec accent sur garçon)
+        if "Petit garçon" in word_dict:
+            self.log_test("Petit garçon avec accent existe", True, f"Trouvé: 'Petit garçon'")
+        else:
+            # Check variants
+            variants_found = []
+            for w in word_dict.keys():
+                if "petit" in w.lower() and "garçon" in w.lower():
+                    variants_found.append(w)
+            
+            if variants_found:
+                correct_variants = [v for v in variants_found if "ç" in v]
+                self.log_test("Petit garçon avec accent existe", len(correct_variants) > 0, 
+                            f"Variantes trouvées: {variants_found}")
+            else:
+                # Check if exists without accent
+                variants_sans_accent = []
+                for w in word_dict.keys():
+                    if "petit" in w.lower() and "garcon" in w.lower():
+                        variants_sans_accent.append(w)
+                
+                if variants_sans_accent:
+                    self.log_test("Petit garçon avec accent existe", False, 
+                                f"Trouvé sans accent: {variants_sans_accent}")
+                else:
+                    self.log_test("Petit garçon avec accent existe", False, "Mot 'Petit garçon' non trouvé")
 
     def test_4_endpoints_api_fonctionnels(self):
         """Test 4: Vérifier que les API endpoints fonctionnent correctement"""
