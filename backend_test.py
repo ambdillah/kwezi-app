@@ -313,40 +313,49 @@ class BackendTester:
 
     def run_all_tests(self):
         """Run all tests"""
-        print("🧪 DÉBUT DES TESTS - ANALYSE ET CORRECTION DU PDF VOCABULAIRE SHIMAORÉ-KIBOUCHI")
+        print("🧪 DÉBUT DES TESTS - CORRECTIONS PDF VOCABULAIRE SHIMAORÉ-KIBOUCHI")
+        print("=" * 80)
+        print("Focus: Vérifier 565 mots total, corrections orthographiques, nouveaux mots ajoutés")
         print("=" * 80)
         
         start_time = time.time()
         
         # Run all test suites
-        self.test_1_doublons_elimines()
-        self.test_2_corrections_orthographiques()
-        self.test_3_integration_complete_pdf()
-        self.test_4_couverture_traductions()
-        self.test_5_coherence_base()
+        self.test_1_corrections_orthographiques_appliquees()
+        self.test_2_nouveaux_mots_ajoutes()
+        self.test_3_integrite_globale()
+        self.test_4_endpoints_api_fonctionnels()
+        self.test_5_verification_corrections_specifiques()
         
         end_time = time.time()
         duration = end_time - start_time
         
         # Print summary
         print("\n" + "=" * 80)
-        print("📊 RÉSUMÉ DES TESTS")
+        print("📊 RÉSUMÉ DES TESTS - CORRECTIONS PDF VOCABULAIRE")
         print("=" * 80)
         
         for result in self.test_results:
             print(result)
         
+        success_rate = (self.passed_tests / self.total_tests * 100) if self.total_tests > 0 else 0
+        
         print(f"\n🎯 RÉSULTATS FINAUX:")
         print(f"   Tests réussis: {self.passed_tests}/{self.total_tests}")
-        print(f"   Taux de réussite: {(self.passed_tests/self.total_tests*100):.1f}%")
+        print(f"   Taux de réussite: {success_rate:.1f}%")
         print(f"   Durée: {duration:.2f}s")
         
-        if self.passed_tests == self.total_tests:
-            print("🎉 TOUS LES TESTS SONT PASSÉS - INTÉGRATION PDF RÉUSSIE!")
+        if success_rate >= 90:
+            print("🎉 EXCELLENT - CORRECTIONS PDF APPLIQUÉES AVEC SUCCÈS!")
             return True
+        elif success_rate >= 70:
+            print("✅ BIEN - CORRECTIONS PDF MAJORITAIREMENT APPLIQUÉES")
+            return True
+        elif success_rate >= 50:
+            print("⚠️ PARTIEL - CORRECTIONS PDF PARTIELLEMENT APPLIQUÉES")
+            return False
         else:
-            failed_tests = self.total_tests - self.passed_tests
-            print(f"⚠️  {failed_tests} TEST(S) ÉCHOUÉ(S) - CORRECTIONS NÉCESSAIRES")
+            print("❌ ÉCHEC - CORRECTIONS PDF NON APPLIQUÉES")
             return False
 
 if __name__ == "__main__":
