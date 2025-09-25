@@ -3,20 +3,30 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   SafeAreaView,
-  ScrollView,
+  TouchableOpacity,
   Alert,
-  Modal,
-  Animated,
+  StatusBar,
   Dimensions,
+  Vibration,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import MayotteMap, { CommuneData } from '../components/MayotteMap';
-import { speakEducationalContent } from '../utils/feminineSpeechUtils';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSequence,
+  interpolate,
+  runOnJS,
+} from 'react-native-reanimated';
+import * as Haptics from 'expo-haptics';
+
+import RealisticMayotteMap from '../components/RealisticMayotteMap';
+import AnimatedMaki from '../components/AnimatedMaki';
+import VillageDiscoveryPanel from '../components/VillageDiscoveryPanel';
+import MayotteGameEngine, { Village, GameState } from '../utils/mayotteGameEngine';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
