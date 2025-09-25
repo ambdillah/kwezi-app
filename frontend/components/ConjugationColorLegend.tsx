@@ -66,7 +66,7 @@ const ConjugationColorLegend: React.FC<ConjugationColorLegendProps> = ({
               
               <View style={styles.pronounsNote}>
                 <Text style={styles.pronounsNoteText}>
-                  ℹ️ Les pronoms (wami, wassi, zahou, etc.) ne sont pas colorés car ils ne changent pas selon les temps.
+                  ℹ️ Les pronoms (wami, wasi, zahou, etc.) ne sont pas colorés car ils ne changent pas selon les temps.
                 </Text>
               </View>
 
