@@ -1,23 +1,21 @@
 #!/usr/bin/env python3
 """
-Test complet du backend après la création de la section "maison"
-Comprehensive backend testing after creation of the "maison" section
+Test complet du backend après la mise à jour des prononciations audio pour la section "maison"
+Comprehensive backend testing after audio pronunciation updates for the "maison" section
 
 Test Requirements from French review request:
-1. Vérification de la nouvelle section "maison" (37 mots attendus)
-2. Test de mots spécifiques de la maison avec leur orthographe:
-   - "maison" → shimaoré: "nyoumba", kibouchi: "tragnou"
-   - "fenêtre" → shimaoré: "fénétri", kibouchi: "lafoumétara"
-   - "vaisselle" → shimaoré: "ziya", kibouchi: "hintagna"
-   - "machette" → shimaoré: "m'panga", kibouchi: "ampanga"
-3. Test des objets de maison complexes:
-   - "torche locale" → shimaoré: "gandilé", kibouchi: "gandili"
-   - "coupe-coupe" → shimaoré: "chombo", kibouchi: "chombou"
-   - "cartable" → shimaoré: "mkoba", kibouchi: "mkoba"
-4. Test de l'intégrité des données (emojis appropriés, références audio, pas de doublons)
-5. Test de cohérence avec les autres sections
-6. Test de l'endpoint API `/api/words?category=maison`
-7. Test des performances globales de l'API
+1. Vérification de la couverture audio - tous les 37 mots de la section "maison" ont des références audio authentiques
+2. Vérifier que le champ `has_authentic_audio` est défini à true
+3. Confirmer que les chemins audio pointent vers les bons fichiers M4A
+4. Test des références audio spécifiques:
+   - "maison" → audio/maison/Nyoumba.m4a
+   - "fenêtre" → audio/maison/Lafoumètara.m4a
+   - "machette" → audio/maison/M_panga.m4a
+   - "torche locale" → audio/maison/Gandilé-poutroumax.m4a
+5. Test de l'intégrité des fichiers audio - vérifier que les 66 fichiers M4A sont présents dans /app/frontend/assets/audio/maison/
+6. Test de performance audio - vérifier les temps de réponse pour l'endpoint audio
+7. Test de cohérence avec les autres sections - vérifier que les autres sections conservent leurs références audio
+8. Test API endpoints audio - tester l'endpoint `/api/words?category=maison` avec les nouvelles références
 """
 
 import requests
