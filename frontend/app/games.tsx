@@ -152,10 +152,12 @@ export default function GamesScreen() {
   };
 
   const startGame = (gameId: string) => {
-    // Navigation spéciale pour le jeu de découverte de Mayotte
+    // Navigation spéciale pour le jeu de découverte de Mayotte (temporairement désactivé)
     if (gameId === 'mayotte-discovery') {
-      router.push('/mayotte-discovery');
+      Alert.alert('Jeu temporairement indisponible', 'Le jeu de découverte de Mayotte sera bientôt disponible !');
       return;
+      // router.push('/mayotte-discovery');
+      // return;
     }
     
     setCurrentGame(gameId);
