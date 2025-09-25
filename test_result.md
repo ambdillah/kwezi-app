@@ -49,7 +49,7 @@
 ##
 test_plan:
   current_focus:
-    - "Test complet backend après création et mise à jour des prononciations audio pour la section nature"
+    - "Test approfondi de la structure de la base de données après correction complète"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"  # or "sequential" or "stuck_first"
