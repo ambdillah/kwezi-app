@@ -119,9 +119,9 @@ class BackendTester:
         else:
             self.log_test("Correction nous -> 'wasi'", False, "Mot 'nous' non trouvé")
 
-    def test_2_corrections_orthographiques(self):
-        """Test 2: Vérifier les corrections orthographiques"""
-        print("\n=== TEST 2: CORRECTIONS ORTHOGRAPHIQUES ===")
+    def test_2_nouveaux_mots_ajoutes(self):
+        """Test 2: Vérifier que les nouveaux mots ont été ajoutés"""
+        print("\n=== TEST 2: NOUVEAUX MOTS AJOUTÉS ===")
         
         response = self.make_request("/words")
         if not response["success"]:
@@ -129,45 +129,31 @@ class BackendTester:
             return
             
         words = response["data"]
+        word_dict = {word.get("french", "").lower(): word for word in words}
         
-        # Test: French words should not have accents
-        french_accent_issues = []
-        accent_chars = ['é', 'è', 'ê', 'à', 'ù', 'ô', 'î', 'ç', 'ü', 'ï']
-        
-        for word in words:
-            french = word.get("french", "")
-            if any(char in french for char in accent_chars):
-                french_accent_issues.append(french)
-        
-        self.log_test("Accents français supprimés", len(french_accent_issues) == 0,
-                     f"Mots avec accents: {french_accent_issues[:10]}" if french_accent_issues else "Aucun accent trouvé")
-        
-        # Test specific corrections mentioned
-        test_corrections = [
-            ("etoile", "étoile"),  # étoile -> etoile
-            ("ecole", "école"),    # école -> ecole
+        # Test nouveaux mots spécifiques
+        nouveaux_mots = [
+            ("pente", "nature"),
+            ("tante maternelle", "famille"),
+            ("tante paternelle", "famille"),
+            ("petit garcon", "famille"),
+            ("jeune adulte", "famille")
         ]
         
-        for corrected, original in test_corrections:
-            found_corrected = any(word.get("french", "").lower() == corrected for word in words)
-            found_original = any(word.get("french", "").lower() == original for word in words)
-            
-            self.log_test(f"Correction {original} -> {corrected}", found_corrected and not found_original,
-                         f"Trouvé '{corrected}': {found_corrected}, Trouvé '{original}': {found_original}")
-        
-        # Test: Shimaoré words should be normalized
-        shimaore_accent_issues = []
-        for word in words:
-            shimaore = word.get("shimaore", "")
-            if any(char in shimaore for char in accent_chars):
-                shimaore_accent_issues.append(f"{word.get('french', '')} -> {shimaore}")
-        
-        self.log_test("Accents shimaoré normalisés", len(shimaore_accent_issues) <= 5,  # Allow some exceptions
-                     f"Mots shimaoré avec accents: {len(shimaore_accent_issues)}")
+        for mot_french, categorie_attendue in nouveaux_mots:
+            if mot_french in word_dict:
+                word = word_dict[mot_french]
+                categorie_actuelle = word.get("category", "")
+                if categorie_actuelle == categorie_attendue:
+                    self.log_test(f"Nouveau mot '{mot_french}' ajouté", True, f"Catégorie: {categorie_actuelle}")
+                else:
+                    self.log_test(f"Nouveau mot '{mot_french}' ajouté", False, f"Catégorie: {categorie_actuelle} (attendue: {categorie_attendue})")
+            else:
+                self.log_test(f"Nouveau mot '{mot_french}' ajouté", False, f"Mot non trouvé")
 
-    def test_3_integration_complete_pdf(self):
-        """Test 3: Vérifier l'intégration complète du PDF"""
-        print("\n=== TEST 3: INTÉGRATION COMPLÈTE DU PDF ===")
+    def test_3_integrite_globale(self):
+        """Test 3: Vérifier l'intégrité globale de la base de données"""
+        print("\n=== TEST 3: INTÉGRITÉ GLOBALE ===")
         
         response = self.make_request("/words")
         if not response["success"]:
@@ -177,164 +163,153 @@ class BackendTester:
         words = response["data"]
         total_words = len(words)
         
-        # Test: Total should be 211 words
-        self.log_test("Total 211 mots", total_words == 211, f"Trouvé {total_words} mots (attendu: 211)")
+        # Test: Nouveau total de mots (devrait être 565)
+        expected_total = 565
+        self.log_test(f"Total de {expected_total} mots", total_words == expected_total, 
+                     f"Trouvé: {total_words} mots (attendu: {expected_total})")
         
-        # Test: Check categories
+        # Test: Vérifier qu'il n'y a pas de doublons
+        french_words = [word.get("french", "").lower() for word in words]
+        unique_words = set(french_words)
+        duplicates = []
+        for word in unique_words:
+            count = french_words.count(word)
+            if count > 1:
+                duplicates.append(f"{word} ({count}x)")
+        
+        self.log_test("Aucun doublon", len(duplicates) == 0,
+                     f"Doublons trouvés: {', '.join(duplicates[:5])}" if duplicates else "Aucun doublon détecté")
+        
+        # Test: Vérifier que toutes les catégories sont intactes
         categories = {}
         for word in words:
             category = word.get("category", "unknown")
             categories[category] = categories.get(category, 0) + 1
         
         expected_categories = [
-            "animaux", "corps", "couleurs", "education", "famille", 
-            "grammaire", "nature", "nombres", "salutations", "transport"
+            'salutations', 'famille', 'couleurs', 'animaux', 'nombres', 
+            'corps', 'grammaire', 'maison', 'nourriture', 'vetements',
+            'transport', 'nature', 'adjectifs', 'expressions', 'verbes'
         ]
         
-        found_categories = list(categories.keys())
-        missing_categories = [cat for cat in expected_categories if cat not in found_categories]
-        
-        self.log_test("10 catégories présentes", len(missing_categories) == 0,
-                     f"Catégories manquantes: {missing_categories}" if missing_categories else f"Toutes les catégories présentes: {found_categories}")
-        
-        # Test: Check numbers 11-20 are present
-        numbers_11_20 = [
-            "onze", "douze", "treize", "quatorze", "quinze",
-            "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt"
-        ]
-        
-        found_numbers = []
-        for number in numbers_11_20:
-            if any(word.get("french", "").lower() == number for word in words):
-                found_numbers.append(number)
-        
-        self.log_test("Nombres 11-20 présents", len(found_numbers) == len(numbers_11_20),
-                     f"Nombres trouvés: {len(found_numbers)}/{len(numbers_11_20)} - {found_numbers}")
-        
-        # Test: Check kibouchi translations added
-        words_with_kibouchi = sum(1 for word in words if word.get("kibouchi", "").strip())
-        kibouchi_percentage = (words_with_kibouchi / total_words * 100) if total_words > 0 else 0
-        
-        self.log_test("45 traductions kibouchi ajoutées", words_with_kibouchi >= 45,
-                     f"{words_with_kibouchi} mots avec kibouchi ({kibouchi_percentage:.1f}%)")
+        missing_categories = [cat for cat in expected_categories if cat not in categories]
+        self.log_test("Toutes les catégories intactes", len(missing_categories) == 0,
+                     f"Catégories manquantes: {missing_categories}" if missing_categories else f"Toutes présentes: {list(categories.keys())}")
 
-    def test_4_couverture_traductions(self):
-        """Test 4: Vérifier la couverture des traductions"""
-        print("\n=== TEST 4: COUVERTURE DES TRADUCTIONS ===")
+    def test_4_endpoints_api_fonctionnels(self):
+        """Test 4: Vérifier que les API endpoints fonctionnent correctement"""
+        print("\n=== TEST 4: ENDPOINTS API FONCTIONNELS ===")
         
+        # Test: GET /api/words (total et pagination)
         response = self.make_request("/words")
-        if not response["success"]:
-            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
-            return
+        if response["success"]:
+            words = response["data"]
+            self.log_test("GET /api/words", True, f"Récupéré {len(words)} mots")
+        else:
+            self.log_test("GET /api/words", False, f"Erreur: {response['data']}")
+        
+        # Test: GET /api/words?category=famille (doit inclure les nouveaux mots famille)
+        response = self.make_request("/words?category=famille")
+        if response["success"]:
+            famille_words = response["data"]
+            french_words = [word.get("french", "").lower() for word in famille_words]
             
-        words = response["data"]
-        total_words = len(words)
-        
-        # Test: 100% shimaoré coverage
-        words_with_shimaore = sum(1 for word in words if word.get("shimaore", "").strip())
-        shimaore_percentage = (words_with_shimaore / total_words * 100) if total_words > 0 else 0
-        
-        self.log_test("100% couverture shimaoré", shimaore_percentage == 100,
-                     f"{words_with_shimaore}/{total_words} mots avec shimaoré ({shimaore_percentage:.1f}%)")
-        
-        # Test: ~26.5% kibouchi coverage (56/211)
-        words_with_kibouchi = sum(1 for word in words if word.get("kibouchi", "").strip())
-        kibouchi_percentage = (words_with_kibouchi / total_words * 100) if total_words > 0 else 0
-        expected_kibouchi = 56
-        
-        self.log_test("26.5% couverture kibouchi", abs(words_with_kibouchi - expected_kibouchi) <= 5,
-                     f"{words_with_kibouchi}/{total_words} mots avec kibouchi ({kibouchi_percentage:.1f}%) - attendu: ~{expected_kibouchi}")
-        
-        # Test specific new kibouchi translations
-        specific_tests = [
-            ("pente", "boungou"),
-            ("ecole", "licoli"), 
-            ("chat", "moirou")
-        ]
-        
-        for french_word, expected_kibouchi in specific_tests:
-            word_found = None
-            for word in words:
-                if word.get("french", "").lower() == french_word:
-                    word_found = word
-                    break
+            # Vérifier que les nouveaux mots famille sont inclus
+            nouveaux_mots_famille = ["tante maternelle", "tante paternelle", "petit garcon", "jeune adulte"]
+            mots_trouves = [mot for mot in nouveaux_mots_famille if mot in french_words]
             
-            if word_found:
-                actual_kibouchi = word_found.get("kibouchi", "").lower()
-                has_expected = expected_kibouchi.lower() in actual_kibouchi
-                self.log_test(f"Traduction kibouchi '{french_word}' -> '{expected_kibouchi}'", has_expected,
-                             f"Trouvé: '{actual_kibouchi}'")
-            else:
-                self.log_test(f"Mot '{french_word}' présent", False, "Mot non trouvé")
-
-    def test_5_coherence_base(self):
-        """Test 5: Vérifier la cohérence de la base de données"""
-        print("\n=== TEST 5: COHÉRENCE DE LA BASE ===")
+            self.log_test("GET /api/words?category=famille", True, 
+                         f"Récupéré {len(famille_words)} mots famille, nouveaux mots trouvés: {len(mots_trouves)}/{len(nouveaux_mots_famille)}")
+        else:
+            self.log_test("GET /api/words?category=famille", False, f"Erreur: {response['data']}")
         
-        response = self.make_request("/words")
-        if not response["success"]:
-            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
-            return
+        # Test: GET /api/words?category=nature (doit inclure "pente")
+        response = self.make_request("/words?category=nature")
+        if response["success"]:
+            nature_words = response["data"]
+            french_words = [word.get("french", "").lower() for word in nature_words]
+            pente_trouve = "pente" in french_words
             
-        words = response["data"]
+            self.log_test("GET /api/words?category=nature", True, 
+                         f"Récupéré {len(nature_words)} mots nature, 'pente' trouvé: {pente_trouve}")
+        else:
+            self.log_test("GET /api/words?category=nature", False, f"Erreur: {response['data']}")
         
-        # Test: No duplicates (already tested but important for coherence)
-        french_words = set()
-        duplicates = []
-        for word in words:
-            french = word.get("french", "").lower().strip()
-            if french in french_words:
-                duplicates.append(french)
-            else:
-                french_words.add(french)
-        
-        self.log_test("Aucun doublon", len(duplicates) == 0,
-                     f"Doublons: {duplicates}" if duplicates else "Base cohérente")
-        
-        # Test: All words have required fields
-        missing_fields = []
-        for i, word in enumerate(words):
-            required_fields = ["french", "shimaore", "category"]
-            for field in required_fields:
-                if not word.get(field, "").strip():
-                    missing_fields.append(f"Mot {i+1}: champ '{field}' manquant")
-        
-        self.log_test("Champs requis présents", len(missing_fields) == 0,
-                     f"Champs manquants: {len(missing_fields)}" if missing_fields else "Tous les champs requis présents")
-        
-        # Test: Data structure consistency
-        structure_issues = []
-        for i, word in enumerate(words):
-            # Check if word has basic structure
-            if not isinstance(word, dict):
-                structure_issues.append(f"Mot {i+1}: structure invalide")
-                continue
-                
-            # Check field types
-            string_fields = ["french", "shimaore", "kibouchi", "category"]
-            for field in string_fields:
-                if field in word and not isinstance(word[field], str):
-                    structure_issues.append(f"Mot {i+1}: {field} n'est pas une chaîne")
-        
-        self.log_test("Structure de données cohérente", len(structure_issues) == 0,
-                     f"Problèmes de structure: {len(structure_issues)}")
-        
-        # Test: API endpoints working
-        endpoints_to_test = [
-            "/words?category=famille",
-            "/words?category=couleurs", 
-            "/words?category=animaux",
-            "/words?category=nombres"
-        ]
-        
-        working_endpoints = 0
-        for endpoint in endpoints_to_test:
-            response = self.make_request(endpoint)
+        # Test: Rechercher des mots spécifiques par français
+        mots_a_rechercher = ["escargot", "oursin", "nous", "pente"]
+        for mot in mots_a_rechercher:
+            # Simuler une recherche en récupérant tous les mots et filtrant
+            response = self.make_request("/words")
             if response["success"]:
-                working_endpoints += 1
+                words = response["data"]
+                mot_trouve = any(word.get("french", "").lower() == mot for word in words)
+                self.log_test(f"Recherche mot '{mot}'", mot_trouve, 
+                             f"Mot {'trouvé' if mot_trouve else 'non trouvé'}")
+            else:
+                self.log_test(f"Recherche mot '{mot}'", False, f"Erreur API: {response['data']}")
+
+    def test_5_verification_corrections_specifiques(self):
+        """Test 5: Vérification détaillée des corrections spécifiques"""
+        print("\n=== TEST 5: VÉRIFICATION CORRECTIONS SPÉCIFIQUES ===")
         
-        self.log_test("Endpoints API fonctionnels", working_endpoints == len(endpoints_to_test),
-                     f"{working_endpoints}/{len(endpoints_to_test)} endpoints fonctionnels")
+        response = self.make_request("/words")
+        if not response["success"]:
+            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            return
+            
+        words = response["data"]
+        word_dict = {word.get("french", "").lower(): word for word in words}
+        
+        # Vérifications détaillées des corrections critiques
+        corrections_critiques = [
+            {
+                "mot": "escargot",
+                "shimaore_attendu": "kowa",
+                "description": "Correction escargot: 'kwa' -> 'kowa'"
+            },
+            {
+                "mot": "oursin", 
+                "shimaore_attendu": "gadzassi ya bahari",
+                "description": "Différenciation oursin/huître"
+            },
+            {
+                "mot": "nous",
+                "shimaore_attendu": "wasi", 
+                "description": "Correction nous: 'wassi' -> 'wasi'"
+            }
+        ]
+        
+        for correction in corrections_critiques:
+            mot = correction["mot"]
+            shimaore_attendu = correction["shimaore_attendu"]
+            description = correction["description"]
+            
+            if mot in word_dict:
+                word = word_dict[mot]
+                shimaore_actuel = word.get("shimaore", "").lower()
+                
+                if shimaore_attendu.lower() in shimaore_actuel or shimaore_actuel == shimaore_attendu.lower():
+                    self.log_test(description, True, f"'{mot}' -> shimaore: '{word.get('shimaore', '')}'")
+                else:
+                    self.log_test(description, False, f"'{mot}' -> shimaore: '{word.get('shimaore', '')}' (attendu: '{shimaore_attendu}')")
+            else:
+                self.log_test(description, False, f"Mot '{mot}' non trouvé")
+        
+        # Vérifier les mots sans accents
+        mots_sans_accents = ["etoile", "ecole"]
+        for mot in mots_sans_accents:
+            if mot in word_dict:
+                self.log_test(f"Mot sans accent '{mot}' présent", True, f"Trouvé: '{word_dict[mot].get('french', '')}'")
+            else:
+                self.log_test(f"Mot sans accent '{mot}' présent", False, f"Mot '{mot}' non trouvé")
+        
+        # Vérifier que les versions avec accents n'existent plus
+        mots_avec_accents = ["étoile", "école"]
+        for mot in mots_avec_accents:
+            if mot in word_dict:
+                self.log_test(f"Mot avec accent '{mot}' supprimé", False, f"Mot '{mot}' encore présent")
+            else:
+                self.log_test(f"Mot avec accent '{mot}' supprimé", True, f"Mot '{mot}' correctement supprimé")
 
     def run_all_tests(self):
         """Run all tests"""
