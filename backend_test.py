@@ -1,21 +1,35 @@
 #!/usr/bin/env python3
 """
-Test complet du backend après la mise à jour des prononciations audio pour la section "maison"
-Comprehensive backend testing after audio pronunciation updates for the "maison" section
+Test complet du backend après la création et mise à jour des prononciations audio pour la section "vêtement"
+Comprehensive backend testing after creation and audio pronunciation updates for the "vêtement" section
 
 Test Requirements from French review request:
-1. Vérification de la couverture audio - tous les 37 mots de la section "maison" ont des références audio authentiques
-2. Vérifier que le champ `has_authentic_audio` est défini à true
-3. Confirmer que les chemins audio pointent vers les bons fichiers M4A
-4. Test des références audio spécifiques:
-   - "maison" → audio/maison/Nyoumba.m4a
-   - "fenêtre" → audio/maison/Lafoumètara.m4a
-   - "machette" → audio/maison/M_panga.m4a
-   - "torche locale" → audio/maison/Gandilé-poutroumax.m4a
-5. Test de l'intégrité des fichiers audio - vérifier que les 66 fichiers M4A sont présents dans /app/frontend/assets/audio/maison/
-6. Test de performance audio - vérifier les temps de réponse pour l'endpoint audio
-7. Test de cohérence avec les autres sections - vérifier que les autres sections conservent leurs références audio
-8. Test API endpoints audio - tester l'endpoint `/api/words?category=maison` avec les nouvelles références
+1. Vérification de la nouvelle section - tester que la section "vetements" existe maintenant
+2. Vérifier que les 17 mots ont été ajoutés avec succès
+3. Confirmer la structure des données (french, shimaoré, kibouchi, emoji)
+4. Test de l'orthographe corrigée:
+   - "salouva" → shimaoré: "salouva", kibouchi: "salouvagna"
+   - "kamiss" → shimaoré: "kandzou bolé", kibouchi: "ankandzou bé"
+   - "tongs" → shimaoré: "sapatri", kibouchi: "kabwa sapatri"
+   - "voile" → shimaoré: "kichali", kibouchi: "kichali"
+5. Test de la couverture audio - vérifier que 16/17 mots (94.1%) ont des références audio authentiques
+6. Tester les références audio spécifiques:
+   - "vêtement" → audio/vetements/Ngouwo.m4a
+   - "salouva" → audio/vetements/Salouva.m4a
+   - "kamiss" → audio/vetements/Kandzou bolé.m4a
+   - "tongs" → audio/vetements/Kabwa sapatri.m4a
+7. Test de l'intégrité des données - vérifier que tous les mots ont des emojis appropriés (👕, 👗, 👖, 👟, etc.)
+8. Tester que les champs `has_authentic_audio` sont définis à true
+9. Confirmer qu'il n'y a pas de doublons dans la section
+10. Test des autres sections - vérifier que les autres sections n'ont pas été affectées
+11. Confirmer que le nombre total de sections est maintenant de 7
+12. Tester les performances globales de l'API
+13. Test API endpoint spécifique - tester l'endpoint `/api/words?category=vetements`
+14. Vérifier que tous les 17 mots sont retournés
+15. Tester des requêtes spécifiques sur les nouveaux mots
+16. Test des fichiers audio - vérifier que les 23 fichiers M4A sont présents
+17. Confirmer que 16 fichiers sont utilisés et 7 restent disponibles
+18. Tester l'accès aux fichiers audio via l'API
 """
 
 import requests
