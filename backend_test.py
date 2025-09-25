@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Test complet du backend après la mise à jour de la section "animaux"
-Comprehensive backend testing after animals section update
+Test complet du backend après la mise à jour de la section "nombres"
+Comprehensive backend testing after numbers section update
 
 Tests:
-1. API vocabulary - vérifier que les mots de la section "animaux" sont correctement retournés
-2. Test de l'endpoint `/api/words` pour la section "animaux" 
-3. Vérifier que tous les 69 nouveaux animaux sont présents
-4. Test de la structure des données - chaque animal a les champs requis
-5. Test de différents animaux spécifiques
-6. Test de robustesse - pas de doublons, remplacement complet
+1. API vocabulary - vérifier que les mots de la section "nombres" sont correctement retournés
+2. Test de l'endpoint `/api/words` pour la section "nombres" 
+3. Vérifier que tous les 28 nouveaux nombres sont présents (1-100)
+4. Test de la structure des données - chaque nombre a les champs requis
+5. Test de différents types de nombres (1-10, 11-19, dizaines, 100)
+6. Test de robustesse - pas de doublons, remplacement complet, autres sections non affectées
 """
 
 import requests
