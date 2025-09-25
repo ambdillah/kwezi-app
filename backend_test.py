@@ -118,9 +118,9 @@ class BackendTester:
                 else:
                     self.log_test(f"{mot} avec accent et tiret existe", False, f"Mot '{mot}' non trouvé")
 
-    def test_2_nouveaux_mots_ajoutes(self):
-        """Test 2: Vérifier que les nouveaux mots ont été ajoutés"""
-        print("\n=== TEST 2: NOUVEAUX MOTS AJOUTÉS ===")
+    def test_2_capitalisation_appliquee(self):
+        """Test 2: Vérifier que la capitalisation a été appliquée"""
+        print("\n=== TEST 2: CAPITALISATION APPLIQUÉE ===")
         
         response = self.make_request("/words")
         if not response["success"]:
@@ -128,27 +128,65 @@ class BackendTester:
             return
             
         words = response["data"]
-        word_dict = {word.get("french", "").lower(): word for word in words}
+        word_dict = {word.get("french", ""): word for word in words}
         
-        # Test nouveaux mots spécifiques
-        nouveaux_mots = [
-            ("pente", "nature"),
-            ("tante maternelle", "famille"),
-            ("tante paternelle", "famille"),
-            ("petit garcon", "famille"),
-            ("jeune adulte", "famille")
-        ]
+        # Test: Vérifier que tous les mots français commencent par une majuscule
+        sample_words = ["Famille", "Papa", "Maman", "Bonjour", "Merci"]
         
-        for mot_french, categorie_attendue in nouveaux_mots:
-            if mot_french in word_dict:
-                word = word_dict[mot_french]
-                categorie_actuelle = word.get("category", "")
-                if categorie_actuelle == categorie_attendue:
-                    self.log_test(f"Nouveau mot '{mot_french}' ajouté", True, f"Catégorie: {categorie_actuelle}")
-                else:
-                    self.log_test(f"Nouveau mot '{mot_french}' ajouté", False, f"Catégorie: {categorie_actuelle} (attendue: {categorie_attendue})")
+        for mot in sample_words:
+            if mot in word_dict:
+                self.log_test(f"Capitalisation correcte: {mot}", True, f"Trouvé: '{mot}'")
             else:
-                self.log_test(f"Nouveau mot '{mot_french}' ajouté", False, f"Mot non trouvé")
+                # Check if exists with different capitalization
+                found_variant = None
+                for french_word in word_dict.keys():
+                    if french_word.lower() == mot.lower():
+                        found_variant = french_word
+                        break
+                
+                if found_variant:
+                    is_correct = found_variant[0].isupper()
+                    self.log_test(f"Capitalisation correcte: {mot}", is_correct, 
+                                f"Trouvé comme '{found_variant}' - {'correct' if is_correct else 'incorrect'}")
+                else:
+                    self.log_test(f"Capitalisation correcte: {mot}", False, "Mot non trouvé")
+        
+        # Test: Vérifier les mots composés: "Comment ça va", "Ça va bien"
+        mots_composes = ["Comment ça va", "Ça va bien"]
+        for mot in mots_composes:
+            if mot in word_dict:
+                self.log_test(f"Capitalisation mot composé: {mot}", True, f"Trouvé: '{mot}'")
+            else:
+                # Check variants
+                variants_found = []
+                for w in word_dict.keys():
+                    if mot.lower() in w.lower():
+                        variants_found.append(w)
+                
+                if variants_found:
+                    correct_variants = [v for v in variants_found if v[0].isupper()]
+                    self.log_test(f"Capitalisation mot composé: {mot}", len(correct_variants) > 0, 
+                                f"Variantes trouvées: {variants_found}")
+                else:
+                    self.log_test(f"Capitalisation mot composé: {mot}", False, f"Mot '{mot}' non trouvé")
+        
+        # Test général: Vérifier le taux de capitalisation global
+        capitalization_correct = 0
+        total_checked = 0
+        
+        for word in words[:100]:  # Check first 100 words as sample
+            french_word = word.get('french', '')
+            if french_word and len(french_word) > 0:
+                total_checked += 1
+                if french_word[0].isupper():
+                    capitalization_correct += 1
+        
+        if total_checked > 0:
+            rate = (capitalization_correct / total_checked) * 100
+            self.log_test("Taux de capitalisation global", rate >= 90, 
+                        f"{rate:.1f}% des mots correctement capitalisés ({capitalization_correct}/{total_checked})")
+        else:
+            self.log_test("Taux de capitalisation global", False, "Aucun mot à vérifier")
 
     def test_3_integrite_globale(self):
         """Test 3: Vérifier l'intégrité globale de la base de données"""
