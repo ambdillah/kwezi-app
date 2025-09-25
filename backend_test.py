@@ -244,57 +244,58 @@ class BackendTester:
                 else:
                     self.log_test("Petit garçon avec accent existe", False, "Mot 'Petit garçon' non trouvé")
 
-    def test_4_endpoints_api_fonctionnels(self):
-        """Test 4: Vérifier que les API endpoints fonctionnent correctement"""
-        print("\n=== TEST 4: ENDPOINTS API FONCTIONNELS ===")
+    def test_4_integrite_complete(self):
+        """Test 4: Vérifier l'intégrité complète"""
+        print("\n=== TEST 4: INTÉGRITÉ COMPLÈTE ===")
         
-        # Test: GET /api/words (total et pagination)
         response = self.make_request("/words")
-        if response["success"]:
-            words = response["data"]
-            self.log_test("GET /api/words", True, f"Récupéré {len(words)} mots")
-        else:
-            self.log_test("GET /api/words", False, f"Erreur: {response['data']}")
-        
-        # Test: GET /api/words?category=famille (doit inclure les nouveaux mots famille)
-        response = self.make_request("/words?category=famille")
-        if response["success"]:
-            famille_words = response["data"]
-            french_words = [word.get("french", "").lower() for word in famille_words]
+        if not response["success"]:
+            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            return
             
-            # Vérifier que les nouveaux mots famille sont inclus
-            nouveaux_mots_famille = ["tante maternelle", "tante paternelle", "petit garcon", "jeune adulte"]
-            mots_trouves = [mot for mot in nouveaux_mots_famille if mot in french_words]
-            
-            self.log_test("GET /api/words?category=famille", True, 
-                         f"Récupéré {len(famille_words)} mots famille, nouveaux mots trouvés: {len(mots_trouves)}/{len(nouveaux_mots_famille)}")
-        else:
-            self.log_test("GET /api/words?category=famille", False, f"Erreur: {response['data']}")
+        words = response["data"]
+        total_words = len(words)
         
-        # Test: GET /api/words?category=nature (doit inclure "pente")
-        response = self.make_request("/words?category=nature")
-        if response["success"]:
-            nature_words = response["data"]
-            french_words = [word.get("french", "").lower() for word in nature_words]
-            pente_trouve = "pente" in french_words
-            
-            self.log_test("GET /api/words?category=nature", True, 
-                         f"Récupéré {len(nature_words)} mots nature, 'pente' trouvé: {pente_trouve}")
-        else:
-            self.log_test("GET /api/words?category=nature", False, f"Erreur: {response['data']}")
+        # Test: Vérifier que le total reste 565 mots
+        expected_total = 565
+        self.log_test(f"Total de {expected_total} mots maintenu", total_words == expected_total, 
+                     f"Trouvé: {total_words} mots (attendu: {expected_total})")
         
-        # Test: Rechercher des mots spécifiques par français
-        mots_a_rechercher = ["escargot", "oursin", "nous", "pente"]
-        for mot in mots_a_rechercher:
-            # Simuler une recherche en récupérant tous les mots et filtrant
-            response = self.make_request("/words")
-            if response["success"]:
-                words = response["data"]
-                mot_trouve = any(word.get("french", "").lower() == mot for word in words)
-                self.log_test(f"Recherche mot '{mot}'", mot_trouve, 
-                             f"Mot {'trouvé' if mot_trouve else 'non trouvé'}")
+        # Test: Vérifier que les traductions shimaoré et kibouchi sont intactes
+        complete_translations = 0
+        for word in words:
+            shimaore = word.get('shimaore', '').strip()
+            kibouchi = word.get('kibouchi', '').strip()
+            
+            if shimaore and kibouchi:
+                complete_translations += 1
+        
+        completion_rate = (complete_translations / total_words) * 100 if total_words > 0 else 0
+        self.log_test("Traductions shimaoré et kibouchi intactes", completion_rate >= 95, 
+                    f"{completion_rate:.1f}% des mots ont des traductions complètes ({complete_translations}/{total_words})")
+        
+        # Test: Vérifier que les corrections précédentes sont préservées (escargot: "kowa", etc.)
+        corrections_preservees = [
+            ("escargot", "kowa", "shimaore"),
+            # Add other known corrections here
+        ]
+        
+        word_dict = {word.get("french", "").lower(): word for word in words}
+        
+        for mot_french, traduction_attendue, langue in corrections_preservees:
+            if mot_french in word_dict:
+                word = word_dict[mot_french]
+                traduction_actuelle = word.get(langue, "").lower()
+                
+                if traduction_attendue.lower() in traduction_actuelle:
+                    self.log_test(f"Correction préservée: {mot_french} -> {traduction_attendue}", True, 
+                                f"{langue}: '{word.get(langue, '')}'")
+                else:
+                    self.log_test(f"Correction préservée: {mot_french} -> {traduction_attendue}", False, 
+                                f"{langue}: '{word.get(langue, '')}' (attendu: {traduction_attendue})")
             else:
-                self.log_test(f"Recherche mot '{mot}'", False, f"Erreur API: {response['data']}")
+                self.log_test(f"Correction préservée: {mot_french} -> {traduction_attendue}", False, 
+                            f"Mot '{mot_french}' non trouvé")
 
     def test_5_verification_corrections_specifiques(self):
         """Test 5: Vérification détaillée des corrections spécifiques"""
