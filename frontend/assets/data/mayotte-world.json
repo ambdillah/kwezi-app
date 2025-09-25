@@ -1,0 +1,406 @@
+{
+  "world": {
+    "name": "Mayotte",
+    "bounds": {
+      "width": 1200,
+      "height": 800
+    },
+    "initialVillage": "mamoudzou"
+  },
+  "villages": [
+    {
+      "id": "mamoudzou",
+      "name": "Mamoudzou",
+      "pos": { "x": 600, "y": 400 },
+      "type": "prefecture",
+      "unlocked": true,
+      "assets": {
+        "bg": "mamoudzou_bg.png",
+        "audio": "mamoudzou.mp3"
+      },
+      "meta": {
+        "population": 57281,
+        "specialite": "Centre économique de Mayotte",
+        "description": "Plus grande ville et préfecture de Mayotte, centre des affaires et du commerce.",
+        "histoire": "Ancienne capitale administrative, Mamoudzou est le cœur économique moderne de l'île.",
+        "langue_locale": "shimaoré",
+        "quiz": {
+          "question": "Quelle est la spécialité de Mamoudzou ?",
+          "options": ["Pêche", "Commerce", "Agriculture", "Artisanat"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "dzaoudzi",
+      "name": "Dzaoudzi",
+      "pos": { "x": 850, "y": 350 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "dzaoudzi_bg.png",
+        "audio": "dzaoudzi.mp3"
+      },
+      "meta": {
+        "population": 15339,
+        "specialite": "Aéroport et transport maritime",
+        "description": "Porte d'entrée de Mayotte avec l'aéroport international Roland Garros.",
+        "histoire": "Ancienne capitale de Mayotte, siège de l'aéroport principal de l'île.",
+        "langue_locale": "shimaoré",
+        "quiz": {
+          "question": "Que trouve-t-on à Dzaoudzi ?",
+          "options": ["Port de pêche", "Aéroport", "Université", "Marché"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "koungou",
+      "name": "Koungou",
+      "pos": { "x": 500, "y": 250 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "koungou_bg.png",
+        "audio": "koungou.mp3"
+      },
+      "meta": {
+        "population": 26444,
+        "specialite": "Agriculture et élevage",
+        "description": "Commune agricole réputée pour ses cultures de manioc et ses élevages.",
+        "histoire": "Village traditionnel devenu commune moderne, gardienne des traditions agricoles mahoraises.",
+        "langue_locale": "shimaoré",
+        "quiz": {
+          "question": "Quelle est la principale activité de Koungou ?",
+          "options": ["Tourisme", "Agriculture", "Industrie", "Pêche"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "dembeni",
+      "name": "Dembéni",
+      "pos": { "x": 400, "y": 450 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "dembeni_bg.png",
+        "audio": "dembeni.mp3"
+      },
+      "meta": {
+        "population": 10141,
+        "specialite": "Artisanat traditionnel",
+        "description": "Village réputé pour son artisanat local et ses traditions ancestrales.",
+        "histoire": "L'un des plus anciens villages de Mayotte, conservant les savoir-faire traditionnels.",
+        "langue_locale": "kibouchi",
+        "quiz": {
+          "question": "Dembéni est connu pour quoi ?",
+          "options": ["Pêche", "Artisanat", "Agriculture", "Commerce"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "tsingoni",
+      "name": "Tsingoni",
+      "pos": { "x": 300, "y": 500 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "tsingoni_bg.png",
+        "audio": "tsingoni.mp3"
+      },
+      "meta": {
+        "population": 11165,
+        "specialite": "Première mosquée de France",
+        "description": "Village historique abritant la plus ancienne mosquée de France, datée de 1538.",
+        "histoire": "Ancienne capitale spirituelle de Mayotte, lieu de pèlerinage musulman.",
+        "langue_locale": "kibouchi",
+        "quiz": {
+          "question": "Que trouve-t-on à Tsingoni ?",
+          "options": ["Plus ancienne mosquée de France", "Plus ancien port", "Plus ancien marché", "Plus ancienne école"],
+          "correct": 0
+        }
+      }
+    },
+    {
+      "id": "sada",
+      "name": "Sada",
+      "pos": { "x": 250, "y": 350 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "sada_bg.png",
+        "audio": "sada.mp3"
+      },
+      "meta": {
+        "population": 10612,
+        "specialite": "Plages et lagon",
+        "description": "Commune côtière aux magnifiques plages et récifs coralliens.",
+        "histoire": "Village de pêcheurs traditionnel, gardien des techniques de pêche ancestrales.",
+        "langue_locale": "shimaoré",
+        "quiz": {
+          "question": "Sada est réputé pour ses ?",
+          "options": ["Montagnes", "Plages", "Forêts", "Rivières"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "boueni",
+      "name": "Bouéni",
+      "pos": { "x": 350, "y": 600 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "boueni_bg.png",
+        "audio": "boueni.mp3"
+      },
+      "meta": {
+        "population": 7135,
+        "specialite": "Culture de l'ylang-ylang",
+        "description": "Village parfumé par ses plantations d'ylang-ylang, fleur emblématique de Mayotte.",
+        "histoire": "Centre historique de la production d'ylang-ylang, parfum exporté dans le monde entier.",
+        "langue_locale": "kibouchi",
+        "quiz": {
+          "question": "Bouéni est célèbre pour sa culture de ?",
+          "options": ["Vanille", "Ylang-ylang", "Café", "Canne à sucre"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "kani_keli",
+      "name": "Kani-Kéli",
+      "pos": { "x": 450, "y": 650 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "kani_keli_bg.png",
+        "audio": "kani_keli.mp3"
+      },
+      "meta": {
+        "population": 5382,
+        "specialite": "Plage de sable blanc de Sakouli",
+        "description": "Village du sud aux plages paradisiaques, dont la célèbre plage de Sakouli.",
+        "histoire": "Point le plus au sud de Mayotte, lieu de contemplation et de sérénité.",
+        "langue_locale": "kibouchi",
+        "quiz": {
+          "question": "Kani-Kéli abrite quelle plage célèbre ?",
+          "options": ["Plage de Moya", "Plage de Sakouli", "Plage de N'Gouja", "Plage de Soulou"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "bandrele",
+      "name": "Bandrélé",
+      "pos": { "x": 550, "y": 600 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "bandrele_bg.png",
+        "audio": "bandrele.mp3"
+      },
+      "meta": {
+        "population": 8900,
+        "specialite": "Plage de Saziley et tortues marines",
+        "description": "Village côtier où viennent pondre les tortues marines sur la plage de Saziley.",
+        "histoire": "Site de reproduction des tortues vertes, lieu de conservation marine important.",
+        "langue_locale": "shimaoré",
+        "quiz": {
+          "question": "Bandrélé est connu pour ses ?",
+          "options": ["Oiseaux rares", "Tortues marines", "Dauphins", "Baleines"],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "mtsamboro",
+      "name": "Mtsamboro",
+      "pos": { "x": 200, "y": 150 },
+      "type": "commune",
+      "unlocked": false,
+      "assets": {
+        "bg": "mtsamboro_bg.png",
+        "audio": "mtsamboro.mp3"
+      },
+      "meta": {
+        "population": 6556,
+        "specialite": "Mont Choungui et randonnées",
+        "description": "Village au pied du Mont Choungui, paradis des randonneurs et amoureux de nature.",
+        "histoire": "Village de montagne préservé, gardien des traditions de l'intérieur de l'île.",
+        "langue_locale": "kibouchi",
+        "quiz": {
+          "question": "Mtsamboro est situé près du ?",
+          "options": ["Mont Bénara", "Mont Choungui", "Mont Mtsapéré", "Mont Combani"],
+          "correct": 1
+        }
+      }
+    }
+  ],
+  "paths": [
+    {
+      "from": "mamoudzou",
+      "to": "dzaoudzi",
+      "path": [
+        { "x": 600, "y": 400 },
+        { "x": 700, "y": 380 },
+        { "x": 800, "y": 360 },
+        { "x": 850, "y": 350 }
+      ],
+      "distance": 250,
+      "transport": "barge",
+      "unlock_requirement": { "type": "visit", "village": "mamoudzou" }
+    },
+    {
+      "from": "mamoudzou",
+      "to": "koungou",
+      "path": [
+        { "x": 600, "y": 400 },
+        { "x": 580, "y": 350 },
+        { "x": 550, "y": 300 },
+        { "x": 500, "y": 250 }
+      ],
+      "distance": 180,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "mamoudzou" }
+    },
+    {
+      "from": "mamoudzou",
+      "to": "dembeni",
+      "path": [
+        { "x": 600, "y": 400 },
+        { "x": 550, "y": 420 },
+        { "x": 500, "y": 435 },
+        { "x": 400, "y": 450 }
+      ],
+      "distance": 200,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "mamoudzou" }
+    },
+    {
+      "from": "dembeni",
+      "to": "tsingoni",
+      "path": [
+        { "x": 400, "y": 450 },
+        { "x": 370, "y": 470 },
+        { "x": 330, "y": 485 },
+        { "x": 300, "y": 500 }
+      ],
+      "distance": 120,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "dembeni" }
+    },
+    {
+      "from": "koungou",
+      "to": "sada",
+      "path": [
+        { "x": 500, "y": 250 },
+        { "x": 450, "y": 280 },
+        { "x": 350, "y": 320 },
+        { "x": 250, "y": 350 }
+      ],
+      "distance": 280,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "koungou" }
+    },
+    {
+      "from": "tsingoni",
+      "to": "boueni",
+      "path": [
+        { "x": 300, "y": 500 },
+        { "x": 310, "y": 540 },
+        { "x": 325, "y": 570 },
+        { "x": 350, "y": 600 }
+      ],
+      "distance": 110,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "tsingoni" }
+    },
+    {
+      "from": "boueni",
+      "to": "kani_keli",
+      "path": [
+        { "x": 350, "y": 600 },
+        { "x": 380, "y": 620 },
+        { "x": 415, "y": 635 },
+        { "x": 450, "y": 650 }
+      ],
+      "distance": 110,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "boueni" }
+    },
+    {
+      "from": "kani_keli",
+      "to": "bandrele",
+      "path": [
+        { "x": 450, "y": 650 },
+        { "x": 480, "y": 635 },
+        { "x": 515, "y": 620 },
+        { "x": 550, "y": 600 }
+      ],
+      "distance": 120,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "kani_keli" }
+    },
+    {
+      "from": "sada",
+      "to": "mtsamboro",
+      "path": [
+        { "x": 250, "y": 350 },
+        { "x": 235, "y": 300 },
+        { "x": 220, "y": 250 },
+        { "x": 200, "y": 150 }
+      ],
+      "distance": 220,
+      "transport": "sentier",
+      "unlock_requirement": { "type": "visit", "village": "sada" }
+    },
+    {
+      "from": "bandrele",
+      "to": "mamoudzou",
+      "path": [
+        { "x": 550, "y": 600 },
+        { "x": 565, "y": 550 },
+        { "x": 580, "y": 500 },
+        { "x": 590, "y": 450 },
+        { "x": 600, "y": 400 }
+      ],
+      "distance": 200,
+      "transport": "route",
+      "unlock_requirement": { "type": "visit", "village": "bandrele" }
+    }
+  ],
+  "progression": {
+    "badges": [
+      {
+        "id": "explorateur",
+        "name": "Explorateur de Mayotte",
+        "description": "Visite 3 villages différents",
+        "requirement": { "type": "visit_count", "count": 3 },
+        "icon": "🗺️"
+      },
+      {
+        "id": "connaisseur",
+        "name": "Connaisseur de Mayotte",
+        "description": "Réussis 5 quiz",
+        "requirement": { "type": "quiz_success", "count": 5 },
+        "icon": "🎓"
+      },
+      {
+        "id": "aventurier",
+        "name": "Grand Aventurier",
+        "description": "Visite tous les villages",
+        "requirement": { "type": "visit_all" },
+        "icon": "🏆"
+      }
+    ],
+    "scoring": {
+      "visit_village": 10,
+      "complete_quiz": 20,
+      "perfect_quiz": 50,
+      "unlock_village": 15
+    }
+  }
+}
