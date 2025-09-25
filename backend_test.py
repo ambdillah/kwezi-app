@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 """
-Test complet du backend après la mise à jour des prononciations audio pour toutes les sections
-Comprehensive backend testing after audio pronunciation updates for all sections
+Test complet du backend après la création et correction orthographique de la section "nourriture"
+Comprehensive backend testing after creation and spelling corrections of the "nourriture" section
 
 Test Requirements from French review request:
-1. Vérification des sections complètes (4 sections: animaux, nombres, corps, salutations)
-2. Test des références audio authentiques
-3. Test spécifique par section avec nombres de mots attendus:
-   - Nombres: 28 mots avec audio (Moja.m4a, Mbili.m4a, etc.)
-   - Animaux: 66+ mots avec audio (Pouroukou.m4a, Kasangwe.m4a, etc.)
-   - Corps: 20 mots avec audio (Matso.m4a, Cha.m4a, etc.)
-   - Salutations: 9 mots avec audio (Marahaba.m4a, Kwaheri.m4a, etc.)
-4. Test de l'intégrité des données (traductions shimaoré/kibouchi cohérentes, emojis appropriés)
-5. Test de performance (temps de réponse pour récupérer chaque section)
+1. Vérification de la nouvelle section "nourriture" (44 mots attendus)
+2. Test de l'orthographe corrigée pour des mots spécifiques:
+   - "riz" → shimaoré: "tsoholé", kibouchi: "vari"
+   - "sel" → shimaoré: "chingó" (avec accent), kibouchi: "sira"
+   - "gingembre" → shimaoré: "tsingiziou", kibouchi: "sakėyi"
+   - "ciboulette" → shimaoré: "chourougnou mani", kibouchi: "doungoulou ravigni"
+3. Test des nouveaux aliments complexes:
+   - "brède manioc" → shimaoré: "mataba", kibouchi: "féliki mouhogou"
+   - "riz au coco" → shimaoré: "tsoholé ya nadzi", kibouchi: "vari an voiniou"
+   - "noix de coco fraîche" → shimaoré: "chijavou", kibouchi: "kidjavou"
+4. Test de l'intégrité des données (emojis appropriés, références audio, pas de doublons)
+5. Test que les autres sections n'ont pas été affectées
+6. Test que le total de mots a augmenté de 44
+7. Test de l'endpoint API `/api/words?category=nourriture`
 """
 
 import requests
