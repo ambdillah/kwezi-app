@@ -151,12 +151,12 @@ test_plan:
 user_problem_statement: "Test complet du backend après la création et correction orthographique de la section 'nourriture': vérifier que les mots de la section 'nourriture' sont correctement retournés, tester l'endpoint /api/words?category=nourriture, vérifier que tous les 44 nouveaux aliments sont présents avec structure complète (french, shimaoré, kibouchi, emoji), tester l'orthographe corrigée pour riz/sel/gingembre/ciboulette, vérifier les aliments complexes (brède manioc, riz au coco, noix de coco fraîche), tester l'intégrité (pas de doublons, emojis appropriés, références audio), vérifier que les autres sections ne sont pas affectées."
 
 backend:
-  - task: "Test approfondi de la structure de la base de données après correction complète"
+  - task: "Test spécifique des correspondances audio verbes après correction"
     implemented: true
-    working: true
+    working: false
     file: "backend/server.py"
     stuck_count: 0
-    priority: "high"
+    priority: "critical"
     needs_retesting: false
     status_history:
       - working: true
