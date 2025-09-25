@@ -23,46 +23,42 @@ import Animated, {
 } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 
-import RealisticMayotteMap from '../components/RealisticMayotteMap';
-import AnimatedMaki from '../components/AnimatedMaki';
+import MapLibreMayotteMap from '../components/MapLibreMayotteMap';
 import VillageDiscoveryPanel from '../components/VillageDiscoveryPanel';
-import MayotteGameEngine, { Village, GameState } from '../utils/mayotteGameEngine';
+import GeoMayotteGameEngine, { VillageGeoData, GeoGameState, GeoCoordinate } from '../utils/geoMayotteGameEngine';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const MayotteDiscoveryGame: React.FC = () => {
-  // Game Engine
-  const gameEngine = MayotteGameEngine.getInstance();
+  // Game Engine géolocalisé
+  const gameEngine = GeoMayotteGameEngine.getInstance();
   
   // State
-  const [gameState, setGameState] = useState<GameState>(gameEngine.getGameState());
-  const [selectedVillage, setSelectedVillage] = useState<Village | null>(null);
+  const [gameState, setGameState] = useState<GeoGameState>(gameEngine.getGameState());
+  const [selectedVillage, setSelectedVillage] = useState<VillageGeoData | null>(null);
   const [showDiscoveryPanel, setShowDiscoveryPanel] = useState(false);
-  const [makiPosition, setMakiPosition] = useState({ x: 600, y: 400 }); // Position Mamoudzou
+  const [makiPosition, setMakiPosition] = useState<GeoCoordinate>({ latitude: -12.7822, longitude: 45.2281 }); // Mamoudzou
   const [isMoving, setIsMoving] = useState(false);
   const [showStats, setShowStats] = useState(false);
 
   // Animations
   const statsScale = useSharedValue(0);
   const celebrationScale = useSharedValue(0);
-  const makiAnimProgress = useSharedValue(0);
+  const movementProgress = useSharedValue(0);
 
   useEffect(() => {
-    // Initialiser le jeu et s'abonner aux changements
+    // Initialiser le jeu géolocalisé
     const initGame = async () => {
       await gameEngine.initializeGame();
     };
 
     initGame();
     
-    const unsubscribe = gameEngine.subscribe((newState: GameState) => {
+    const unsubscribe = gameEngine.subscribe((newState: GeoGameState) => {
       setGameState(newState);
       
-      // Mettre à jour la position du maki
-      const currentVillage = newState.villages.find(v => v.id === newState.progress.currentVillage);
-      if (currentVillage) {
-        setMakiPosition(currentVillage.pos);
-      }
+      // Mettre à jour la position GPS du maki
+      setMakiPosition(newState.progress.currentPosition);
     });
 
     return unsubscribe;
@@ -116,59 +112,62 @@ const MayotteDiscoveryGame: React.FC = () => {
       setShowDiscoveryPanel(true);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } else {
-      // Voyager vers le village
-      await animateMovement(village);
+      // Voyager vers le village avec animation GPS
+      await animateGPSMovement(village);
     }
   };
 
-  const animateMovement = async (targetVillage: Village) => {
+  const animateGPSMovement = async (targetVillage: VillageGeoData) => {
     setIsMoving(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
-    // Obtenir le chemin
-    const path = gameEngine.getPathBetween(gameState.progress.currentVillage, targetVillage.id);
+    // Obtenir le chemin GPS réel
+    const travelResult = await gameEngine.travelToVillage(targetVillage.id);
     
-    if (path) {
-      // Animer le long du chemin
-      const pathPoints = path.from === gameState.progress.currentVillage ? path.path : [...path.path].reverse();
+    if (travelResult.success && travelResult.path) {
+      // Animer le maki le long du chemin GPS
+      const animationDuration = Math.max(2000, travelResult.distance! * 200); // 200ms par km
       
-      for (let i = 1; i < pathPoints.length; i++) {
-        await new Promise<void>((resolve) => {
-          makiAnimProgress.value = withTiming(i / (pathPoints.length - 1), 
-            { duration: 800 },
-            (finished) => {
-              if (finished) {
-                runOnJS(() => {
-                  setMakiPosition(pathPoints[i]);
-                  resolve();
-                })();
-              }
-            }
-          );
-        });
-      }
-    }
-    
-    // Voyager dans le jeu
-    const success = await gameEngine.travelToVillage(targetVillage.id);
-    
-    setIsMoving(false);
-    
-    if (success) {
-      // Animation de célébration
-      celebrationScale.value = withSequence(
-        withTiming(1.2, { duration: 300 }),
-        withTiming(0, { duration: 300 })
+      movementProgress.value = withTiming(1, 
+        { duration: animationDuration },
+        (finished) => {
+          if (finished) {
+            runOnJS(() => {
+              setIsMoving(false);
+              
+              // Animation de célébration
+              celebrationScale.value = withSequence(
+                withTiming(1.2, { duration: 300 }),
+                withTiming(0, { duration: 300 })
+              );
+              
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              Vibration.vibrate([100, 50, 100]);
+              
+              // Ouvrir automatiquement le panneau de découverte
+              setTimeout(() => {
+                setSelectedVillage(targetVillage);
+                setShowDiscoveryPanel(true);
+              }, 600);
+            })();
+          }
+        }
       );
-      
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      Vibration.vibrate([100, 50, 100]);
-      
-      // Ouvrir automatiquement le panneau de découverte
-      setTimeout(() => {
-        setSelectedVillage(targetVillage);
-        setShowDiscoveryPanel(true);
-      }, 600);
+
+      // Mise à jour de la position en temps réel pendant l'animation
+      const intervalId = setInterval(() => {
+        const currentProgress = movementProgress.value;
+        const interpolatedPosition = gameEngine.interpolateAlongPath(travelResult.path!, currentProgress);
+        setMakiPosition(interpolatedPosition);
+        
+        if (currentProgress >= 1) {
+          clearInterval(intervalId);
+          movementProgress.value = 0;
+        }
+      }, 50); // Mise à jour toutes les 50ms
+    } else {
+      setIsMoving(false);
+      Alert.alert('Erreur', 'Impossible de se rendre dans ce village.');
     }
   };
 
@@ -211,6 +210,19 @@ const MayotteDiscoveryGame: React.FC = () => {
   const getStats = () => gameEngine.getGameStats();
   const stats = getStats();
 
+  // Adapter les données pour VillageDiscoveryPanel
+  const adaptVillageForPanel = (village: VillageGeoData) => {
+    return {
+      id: village.id,
+      name: village.name,
+      pos: { x: 0, y: 0 }, // Non utilisé avec GPS
+      type: village.type,
+      unlocked: village.unlocked,
+      assets: {},
+      meta: village.meta
+    };
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1B5E20" />
@@ -237,11 +249,11 @@ const MayotteDiscoveryGame: React.FC = () => {
         </View>
       </LinearGradient>
 
-      {/* Panneau des statistiques */}
+      {/* Panneau des statistiques GPS */}
       {showStats && (
         <Animated.View style={[styles.statsPanel, statsStyle]}>
           <LinearGradient colors={['#E8F5E8', '#F1F8E9']} style={styles.statsContent}>
-            <Text style={styles.statsTitle}>📊 Vos Statistiques</Text>
+            <Text style={styles.statsTitle}>📊 Statistiques GPS</Text>
             
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
@@ -263,9 +275,9 @@ const MayotteDiscoveryGame: React.FC = () => {
               </View>
               
               <View style={styles.statItem}>
-                <Text style={styles.statValue}>{stats.score}</Text>
-                <Text style={styles.statLabel}>Points totaux</Text>
-                <Text style={styles.statTotal}>🏆</Text>
+                <Text style={styles.statValue}>{stats.totalDistance}km</Text>
+                <Text style={styles.statLabel}>Distance parcourue</Text>
+                <Text style={styles.statTotal}>🛣️</Text>
               </View>
             </View>
 
@@ -279,19 +291,14 @@ const MayotteDiscoveryGame: React.FC = () => {
         </Animated.View>
       )}
 
-      {/* Carte interactive */}
+      {/* Carte MapLibre GL avec vraies données GPS */}
       <View style={styles.mapContainer}>
-        <RealisticMayotteMap
+        <MapLibreMayotteMap
           villages={gameState.villages}
           currentVillage={gameState.progress.currentVillage}
           onVillagePress={handleVillagePress}
-        />
-        
-        {/* Maki animé */}
-        <AnimatedMaki
-          position={makiPosition}
+          makiPosition={makiPosition}
           isMoving={isMoving}
-          size={32}
         />
         
         {/* Animation de célébration */}
@@ -302,19 +309,19 @@ const MayotteDiscoveryGame: React.FC = () => {
 
       {/* Panneau de découverte des villages */}
       <VillageDiscoveryPanel
-        village={selectedVillage}
+        village={selectedVillage ? adaptVillageForPanel(selectedVillage) : null}
         isVisible={showDiscoveryPanel}
         onClose={() => setShowDiscoveryPanel(false)}
         onQuizComplete={handleQuizComplete}
       />
 
-      {/* Instructions flottantes */}
+      {/* Instructions GPS pour nouveaux joueurs */}
       {gameState.progress.visitedVillages.length === 1 && (
         <View style={styles.instructionsContainer}>
           <LinearGradient colors={['#FFF3E0', '#FFE0B2']} style={styles.instructions}>
-            <Ionicons name="information-circle" size={20} color="#FF8F00" />
+            <Ionicons name="navigate" size={20} color="#FF8F00" />
             <Text style={styles.instructionsText}>
-              Touchez un village voisin pour commencer votre exploration ! 🗺️
+              Touchez un village voisin pour commencer votre exploration GPS ! 🗺️
             </Text>
           </LinearGradient>
         </View>
