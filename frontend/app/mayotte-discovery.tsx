@@ -23,7 +23,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 
-import MapLibreMayotteMap from '../components/MapLibreMayotteMap';
+import HybridRealisticMayotteMap from '../components/HybridRealisticMayotteMap';
 import VillageDiscoveryPanel from '../components/VillageDiscoveryPanel';
 import GeoMayotteGameEngine, { VillageGeoData, GeoGameState, GeoCoordinate } from '../utils/geoMayotteGameEngine';
 
@@ -128,43 +128,52 @@ const MayotteDiscoveryGame: React.FC = () => {
       // Animer le maki le long du chemin GPS
       const animationDuration = Math.max(2000, travelResult.distance! * 200); // 200ms par km
       
-      movementProgress.value = withTiming(1, 
-        { duration: animationDuration },
-        (finished) => {
-          if (finished) {
-            runOnJS(() => {
-              setIsMoving(false);
-              
-              // Animation de célébration
-              celebrationScale.value = withSequence(
-                withTiming(1.2, { duration: 300 }),
-                withTiming(0, { duration: 300 })
-              );
-              
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-              Vibration.vibrate([100, 50, 100]);
-              
-              // Ouvrir automatiquement le panneau de découverte
-              setTimeout(() => {
-                setSelectedVillage(targetVillage);
-                setShowDiscoveryPanel(true);
-              }, 600);
-            })();
+      // Animation fluide de déplacement
+      const animateMovement = () => {
+        movementProgress.value = withTiming(1, 
+          { duration: animationDuration },
+          (finished) => {
+            if (finished) {
+              runOnJS(() => {
+                setIsMoving(false);
+                
+                // Animation de célébration
+                celebrationScale.value = withSequence(
+                  withTiming(1.2, { duration: 300 }),
+                  withTiming(0, { duration: 300 })
+                );
+                
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                Vibration.vibrate([100, 50, 100]);
+                
+                // Ouvrir automatiquement le panneau de découverte
+                setTimeout(() => {
+                  setSelectedVillage(targetVillage);
+                  setShowDiscoveryPanel(true);
+                }, 600);
+
+                // Reset pour prochaine animation
+                movementProgress.value = 0;
+              })();
+            }
           }
-        }
-      );
+        );
+      };
 
       // Mise à jour de la position en temps réel pendant l'animation
-      const intervalId = setInterval(() => {
+      const updatePosition = () => {
         const currentProgress = movementProgress.value;
         const interpolatedPosition = gameEngine.interpolateAlongPath(travelResult.path!, currentProgress);
         setMakiPosition(interpolatedPosition);
         
-        if (currentProgress >= 1) {
-          clearInterval(intervalId);
-          movementProgress.value = 0;
+        if (currentProgress < 1) {
+          requestAnimationFrame(updatePosition);
         }
-      }, 50); // Mise à jour toutes les 50ms
+      };
+
+      // Démarrer l'animation
+      animateMovement();
+      updatePosition();
     } else {
       setIsMoving(false);
       Alert.alert('Erreur', 'Impossible de se rendre dans ce village.');
@@ -291,9 +300,9 @@ const MayotteDiscoveryGame: React.FC = () => {
         </Animated.View>
       )}
 
-      {/* Carte MapLibre GL avec vraies données GPS */}
+      {/* Carte hybride réaliste avec vraies coordonnées GPS */}
       <View style={styles.mapContainer}>
-        <MapLibreMayotteMap
+        <HybridRealisticMayotteMap
           villages={gameState.villages}
           currentVillage={gameState.progress.currentVillage}
           onVillagePress={handleVillagePress}
