@@ -138,7 +138,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Tester la mise à jour complète de la section famille avec les nouvelles données du tableau: vérifier nouvelles traductions, nouveau mot ajouté, total 29 mots, intégrité données."
+user_problem_statement: "Test complet du backend après la mise à jour de la section 'animaux': vérifier que les mots de la section 'animaux' sont correctement retournés, tester l'endpoint /api/vocabulary pour la section 'animaux', vérifier que tous les 69 nouveaux animaux sont présents, tester la structure des données avec champs requis (french, shimaoré, kibouchi, emoji), tester différents animaux spécifiques, vérifier robustesse (pas de doublons, remplacement complet, autres sections non affectées)."
 
 backend:
   - task: "Mise à jour complète section famille avec nouvelles données tableau"
