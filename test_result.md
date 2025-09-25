@@ -1615,11 +1615,10 @@ agent_communication:
 
 test_plan:
   current_focus:
-    - "Test complet backend après mise à jour section nombres"
+    - "Test complet backend après création section maison"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
-  test_priority: "stuck_first"
 
 metadata:
   created_by: "testing_agent"
