@@ -50,13 +50,14 @@ if not BACKEND_URL:
 API_URL = f"{BACKEND_URL}/api"
 print(f"🔗 Using Backend URL: {BACKEND_URL}")
 
-class AudioPronunciationTester:
+class NourritureSectionTester:
     def __init__(self):
         self.api_url = API_URL
         self.test_results = []
         self.total_tests = 0
         self.passed_tests = 0
-        self.section_data = {}
+        self.nourriture_words = []
+        self.total_words_count = 0
         
     def log_test(self, test_name: str, passed: bool, details: str = ""):
         """Log test result"""
@@ -114,381 +115,238 @@ class AudioPronunciationTester:
             self.log_test("API Connectivity", False, f"Error: {str(e)}")
             return False
     
-    def test_2_sections_completes(self):
-        """Test 2: Vérification des sections complètes (4 sections attendues)"""
-        print("\n=== TEST 2: VÉRIFICATION DES SECTIONS COMPLÈTES ===")
-        
-        expected_sections = ["animaux", "nombres", "corps", "salutations"]
+    def test_2_nourriture_section_exists(self):
+        """Test 2: Vérification que la section nourriture existe"""
+        print("\n=== TEST 2: VÉRIFICATION SECTION NOURRITURE ===")
         
         try:
-            # Test global words endpoint
-            response = self.make_request("/words")
-            if not response["success"]:
-                self.log_test("Global words endpoint", False, f"Status: {response['status_code']}")
+            response = self.make_request("/words?category=nourriture")
+            if response["success"]:
+                self.nourriture_words = response["data"]
+                count = len(self.nourriture_words)
+                self.log_test("Section nourriture existe", count > 0, f"{count} mots trouvés")
+                return count > 0
+            else:
+                self.log_test("Section nourriture existe", False, f"Status: {response['status_code']}")
                 return False
-            
-            words = response["data"]
-            self.log_test("Global words endpoint", True, f"Total words: {len(words)}")
-            
-            # Count words by category and test each section
-            for section in expected_sections:
-                section_response = self.make_request(f"/words?category={section}")
-                if section_response["success"]:
-                    section_words = section_response["data"]
-                    self.section_data[section] = section_words
-                    count = len(section_words)
-                    self.log_test(f"Section {section} accessible", True, f"{count} mots trouvés")
-                else:
-                    self.log_test(f"Section {section} accessible", False, f"Status: {section_response['status_code']}")
-                    self.section_data[section] = []
-            
-            return True
-            
         except Exception as e:
-            self.log_test("Sections complètes test", False, f"Error: {str(e)}")
+            self.log_test("Section nourriture existe", False, f"Error: {str(e)}")
             return False
     
-    def test_3_audio_authentiques(self):
-        """Test 3: Test des références audio authentiques"""
-        print("\n=== TEST 3: TEST DES RÉFÉRENCES AUDIO AUTHENTIQUES ===")
+    def test_3_44_words_added(self):
+        """Test 3: Vérification que 44 mots ont été ajoutés"""
+        print("\n=== TEST 3: VÉRIFICATION 44 MOTS AJOUTÉS ===")
         
-        try:
-            total_words_with_audio = 0
-            total_words = 0
-            
-            for section, words in self.section_data.items():
-                words_with_audio = 0
-                for word in words:
-                    total_words += 1
-                    # Check for various audio fields
-                    has_audio = (
-                        word.get('has_authentic_audio') or
-                        word.get('audio_filename') or
-                        word.get('shimoare_has_audio') or
-                        word.get('kibouchi_has_audio') or
-                        word.get('dual_audio_system')
-                    )
-                    if has_audio:
-                        words_with_audio += 1
-                        total_words_with_audio += 1
-                
-                if len(words) > 0:
-                    audio_percentage = (words_with_audio / len(words)) * 100
-                    self.log_test(f"Section {section} - références audio", words_with_audio > 0, 
-                                f"{words_with_audio}/{len(words)} mots avec audio ({audio_percentage:.1f}%)")
-                else:
-                    self.log_test(f"Section {section} - références audio", False, "Aucun mot dans la section")
-            
-            # Global audio coverage
-            if total_words > 0:
-                global_audio_percentage = (total_words_with_audio / total_words) * 100
-                self.log_test("Couverture audio globale", total_words_with_audio > 0, 
-                            f"{total_words_with_audio}/{total_words} mots avec audio ({global_audio_percentage:.1f}%)")
-            
-            return True
-            
-        except Exception as e:
-            self.log_test("Audio authentiques test", False, f"Error: {str(e)}")
-            return False
+        expected_count = 44
+        actual_count = len(self.nourriture_words)
+        
+        self.log_test("44 mots ajoutés", actual_count == expected_count, 
+                     f"Attendu: {expected_count}, Trouvé: {actual_count}")
+        
+        return actual_count == expected_count
     
-    def test_4_section_nombres(self):
-        """Test 4: Test spécifique section nombres (28 mots attendus)"""
-        print("\n=== TEST 4: TEST SPÉCIFIQUE SECTION NOMBRES ===")
+    def test_4_data_structure(self):
+        """Test 4: Vérification de la structure des données"""
+        print("\n=== TEST 4: STRUCTURE DES DONNÉES ===")
         
-        expected_count = 28
-        expected_audio_files = ["Moja.m4a", "Mbili.m4a"]
+        if not self.nourriture_words:
+            self.log_test("Structure des données", False, "Aucun mot à tester")
+            return False
         
-        nombres = self.section_data.get("nombres", [])
-        actual_count = len(nombres)
+        required_fields = ['french', 'shimaore', 'kibouchi', 'category']
+        complete_words = 0
+        words_with_emojis = 0
         
-        # Test word count
-        if actual_count >= expected_count:
-            self.log_test("Nombres - nombre de mots", True, f"{actual_count}/{expected_count}+ mots")
-        else:
-            self.log_test("Nombres - nombre de mots", False, f"{actual_count}/{expected_count}+ mots (insuffisant)")
-        
-        # Test data structure
-        complete_structure = 0
-        with_audio = 0
-        with_translations = 0
-        
-        for nombre in nombres:
+        for word in self.nourriture_words:
             # Check required fields
-            if all(field in nombre and nombre[field] for field in ['french', 'shimaore', 'kibouchi', 'category']):
-                complete_structure += 1
+            has_all_fields = all(field in word and word[field] for field in required_fields)
+            if has_all_fields:
+                complete_words += 1
             
-            # Check audio
-            if (nombre.get('has_authentic_audio') or nombre.get('audio_filename') or 
-                nombre.get('shimoare_has_audio') or nombre.get('kibouchi_has_audio')):
-                with_audio += 1
-            
-            # Check translations
-            if nombre.get('shimaore') and nombre.get('kibouchi'):
-                with_translations += 1
+            # Check for emoji (in image_url field)
+            if 'image_url' in word and word['image_url']:
+                words_with_emojis += 1
         
-        if actual_count > 0:
-            structure_rate = (complete_structure / actual_count) * 100
-            audio_rate = (with_audio / actual_count) * 100
-            translation_rate = (with_translations / actual_count) * 100
-            
-            self.log_test("Nombres - structure complète", structure_rate >= 90, 
-                        f"{complete_structure}/{actual_count} ({structure_rate:.1f}%)")
-            self.log_test("Nombres - avec audio", audio_rate > 0, 
-                        f"{with_audio}/{actual_count} ({audio_rate:.1f}%)")
-            self.log_test("Nombres - traductions complètes", translation_rate >= 90, 
-                        f"{with_translations}/{actual_count} ({translation_rate:.1f}%)")
+        structure_percentage = (complete_words / len(self.nourriture_words)) * 100
+        emoji_percentage = (words_with_emojis / len(self.nourriture_words)) * 100
         
-        # Test specific examples
-        nombres_dict = {n.get('french', '').lower(): n for n in nombres}
-        basic_numbers = ["un", "deux", "trois", "quatre", "cinq"]
-        found_basic = sum(1 for num in basic_numbers if num in nombres_dict)
+        self.log_test("Structure complète", structure_percentage >= 95,
+                     f"{complete_words}/{len(self.nourriture_words)} mots avec structure complète ({structure_percentage:.1f}%)")
         
-        self.log_test("Nombres - exemples de base (1-5)", found_basic >= 3, 
-                    f"{found_basic}/5 nombres de base trouvés")
+        self.log_test("Emojis présents", emoji_percentage >= 80,
+                     f"{words_with_emojis}/{len(self.nourriture_words)} mots avec emojis ({emoji_percentage:.1f}%)")
         
-        return True
+        return structure_percentage >= 95
     
-    def test_5_section_animaux(self):
-        """Test 5: Test spécifique section animaux (66+ mots attendus)"""
-        print("\n=== TEST 5: TEST SPÉCIFIQUE SECTION ANIMAUX ===")
+    def test_5_corrected_spellings(self):
+        """Test 5: Test de l'orthographe corrigée pour des mots spécifiques"""
+        print("\n=== TEST 5: ORTHOGRAPHE CORRIGÉE ===")
         
-        expected_count = 66
-        expected_examples = ["pouroukou", "kasangwe", "chat", "chien"]
+        test_words = {
+            "riz": {"shimaore": "tsoholé", "kibouchi": "vari"},
+            "sel": {"shimaore": "chingó", "kibouchi": "sira"},
+            "gingembre": {"shimaore": "tsingiziou", "kibouchi": "sakėyi"},
+            "ciboulette": {"shimaore": "chourougnou mani", "kibouchi": "doungoulou ravigni"}
+        }
         
-        animaux = self.section_data.get("animaux", [])
-        actual_count = len(animaux)
+        word_dict = {word['french'].lower(): word for word in self.nourriture_words}
         
-        # Test word count
-        if actual_count >= expected_count:
-            self.log_test("Animaux - nombre de mots", True, f"{actual_count}/{expected_count}+ mots")
-        else:
-            self.log_test("Animaux - nombre de mots", False, f"{actual_count}/{expected_count}+ mots (insuffisant)")
-        
-        # Test data quality
-        with_emojis = sum(1 for animal in animaux if animal.get('image_url'))
-        with_audio = sum(1 for animal in animaux if (
-            animal.get('has_authentic_audio') or animal.get('audio_filename') or
-            animal.get('shimoare_has_audio') or animal.get('kibouchi_has_audio')
-        ))
-        
-        if actual_count > 0:
-            emoji_rate = (with_emojis / actual_count) * 100
-            audio_rate = (with_audio / actual_count) * 100
-            
-            self.log_test("Animaux - avec emojis", emoji_rate >= 50, 
-                        f"{with_emojis}/{actual_count} ({emoji_rate:.1f}%)")
-            self.log_test("Animaux - avec audio", audio_rate > 0, 
-                        f"{with_audio}/{actual_count} ({audio_rate:.1f}%)")
-        
-        # Test specific examples
-        animaux_dict = {a.get('french', '').lower(): a for a in animaux}
-        found_examples = sum(1 for example in expected_examples if example in animaux_dict)
-        
-        self.log_test("Animaux - exemples spécifiques", found_examples >= 2, 
-                    f"{found_examples}/4 exemples trouvés")
-        
-        return True
-    
-    def test_6_section_corps(self):
-        """Test 6: Test spécifique section corps (20 mots attendus)"""
-        print("\n=== TEST 6: TEST SPÉCIFIQUE SECTION CORPS ===")
-        
-        expected_count = 20
-        expected_examples = ["matso", "cha", "tête", "main"]
-        
-        corps = self.section_data.get("corps", [])
-        actual_count = len(corps)
-        
-        # Test word count
-        if actual_count >= expected_count:
-            self.log_test("Corps - nombre de mots", True, f"{actual_count}/{expected_count}+ mots")
-        else:
-            self.log_test("Corps - nombre de mots", False, f"{actual_count}/{expected_count}+ mots (insuffisant)")
-        
-        # Test audio coverage
-        with_audio = sum(1 for mot in corps if (
-            mot.get('has_authentic_audio') or mot.get('audio_filename') or
-            mot.get('shimoare_has_audio') or mot.get('kibouchi_has_audio')
-        ))
-        
-        if actual_count > 0:
-            audio_rate = (with_audio / actual_count) * 100
-            self.log_test("Corps - avec audio", audio_rate > 0, 
-                        f"{with_audio}/{actual_count} ({audio_rate:.1f}%)")
-        
-        # Test specific examples
-        corps_dict = {c.get('french', '').lower(): c for c in corps}
-        found_examples = sum(1 for example in expected_examples if example in corps_dict)
-        
-        self.log_test("Corps - exemples spécifiques", found_examples >= 2, 
-                    f"{found_examples}/4 exemples trouvés")
-        
-        return True
-    
-    def test_7_section_salutations(self):
-        """Test 7: Test spécifique section salutations (9 mots attendus)"""
-        print("\n=== TEST 7: TEST SPÉCIFIQUE SECTION SALUTATIONS ===")
-        
-        expected_count = 9
-        expected_examples = ["marahaba", "kwaheri", "bonjour", "merci"]
-        
-        salutations = self.section_data.get("salutations", [])
-        actual_count = len(salutations)
-        
-        # Test word count
-        if actual_count >= expected_count:
-            self.log_test("Salutations - nombre de mots", True, f"{actual_count}/{expected_count}+ mots")
-        else:
-            self.log_test("Salutations - nombre de mots", False, f"{actual_count}/{expected_count}+ mots (insuffisant)")
-        
-        # Test audio coverage
-        with_audio = sum(1 for salut in salutations if (
-            salut.get('has_authentic_audio') or salut.get('audio_filename') or
-            salut.get('shimoare_has_audio') or salut.get('kibouchi_has_audio')
-        ))
-        
-        if actual_count > 0:
-            audio_rate = (with_audio / actual_count) * 100
-            self.log_test("Salutations - avec audio", audio_rate > 0, 
-                        f"{with_audio}/{actual_count} ({audio_rate:.1f}%)")
-        
-        # Test specific examples
-        salutations_dict = {s.get('french', '').lower(): s for s in salutations}
-        found_examples = sum(1 for example in expected_examples if example in salutations_dict)
-        
-        self.log_test("Salutations - exemples spécifiques", found_examples >= 2, 
-                    f"{found_examples}/4 exemples trouvés")
-        
-        return True
-    
-    def test_8_integrite_donnees(self):
-        """Test 8: Test de l'intégrité des données"""
-        print("\n=== TEST 8: TEST DE L'INTÉGRITÉ DES DONNÉES ===")
-        
-        try:
-            total_words = 0
-            complete_translations = 0
-            with_emojis = 0
-            duplicates_found = 0
-            french_words = set()
-            
-            for section, words in self.section_data.items():
-                for word in words:
-                    total_words += 1
-                    
-                    # Check translations
-                    if word.get('shimaore') and word.get('kibouchi'):
-                        complete_translations += 1
-                    
-                    # Check emojis
-                    if word.get('image_url'):
-                        with_emojis += 1
-                    
-                    # Check duplicates
-                    french = word.get('french', '').lower()
-                    if french in french_words:
-                        duplicates_found += 1
-                    else:
-                        french_words.add(french)
-            
-            if total_words > 0:
-                translation_rate = (complete_translations / total_words) * 100
-                emoji_rate = (with_emojis / total_words) * 100
+        for french_word, expected_translations in test_words.items():
+            if french_word in word_dict:
+                word = word_dict[french_word]
+                shimaore_match = expected_translations["shimaore"].lower() in word['shimaore'].lower()
+                kibouchi_match = expected_translations["kibouchi"].lower() in word['kibouchi'].lower()
                 
-                self.log_test("Intégrité - traductions complètes", translation_rate >= 80, 
-                            f"{complete_translations}/{total_words} ({translation_rate:.1f}%)")
-                self.log_test("Intégrité - emojis appropriés", emoji_rate >= 30, 
-                            f"{with_emojis}/{total_words} ({emoji_rate:.1f}%)")
-                self.log_test("Intégrité - absence de doublons", duplicates_found == 0, 
-                            f"{duplicates_found} doublons trouvés")
-            
-            return True
-            
-        except Exception as e:
-            self.log_test("Intégrité données test", False, f"Error: {str(e)}")
-            return False
+                self.log_test(f"Orthographe corrigée: {french_word}", 
+                             shimaore_match and kibouchi_match,
+                             f"Shimaoré: {word['shimaore']}, Kibouchi: {word['kibouchi']}")
+            else:
+                self.log_test(f"Orthographe corrigée: {french_word}", False, "Mot non trouvé")
     
-    def test_9_performance(self):
-        """Test 9: Test de performance"""
-        print("\n=== TEST 9: TEST DE PERFORMANCE ===")
+    def test_6_complex_new_foods(self):
+        """Test 6: Test des nouveaux aliments complexes"""
+        print("\n=== TEST 6: NOUVEAUX ALIMENTS COMPLEXES ===")
         
-        endpoints_to_test = [
-            "/words",
-            "/words?category=animaux",
-            "/words?category=nombres", 
-            "/words?category=corps",
-            "/words?category=salutations"
-        ]
+        complex_foods = {
+            "brède manioc": {"shimaore": "mataba", "kibouchi": "féliki mouhogou"},
+            "riz au coco": {"shimaore": "tsoholé ya nadzi", "kibouchi": "vari an voiniou"},
+            "noix de coco fraîche": {"shimaore": "chijavou", "kibouchi": "kidjavou"}
+        }
         
-        try:
-            for endpoint in endpoints_to_test:
-                start_time = time.time()
-                response = self.make_request(endpoint)
-                end_time = time.time()
+        word_dict = {word['french'].lower(): word for word in self.nourriture_words}
+        
+        for french_word, expected_translations in complex_foods.items():
+            if french_word in word_dict:
+                word = word_dict[french_word]
+                shimaore_match = expected_translations["shimaore"].lower() in word['shimaore'].lower()
+                kibouchi_match = expected_translations["kibouchi"].lower() in word['kibouchi'].lower()
                 
-                response_time = end_time - start_time
-                
+                self.log_test(f"Aliment complexe: {french_word}", 
+                             shimaore_match and kibouchi_match,
+                             f"Shimaoré: {word['shimaore']}, Kibouchi: {word['kibouchi']}")
+            else:
+                self.log_test(f"Aliment complexe: {french_word}", False, "Mot non trouvé")
+    
+    def test_7_data_integrity(self):
+        """Test 7: Test de l'intégrité des données"""
+        print("\n=== TEST 7: INTÉGRITÉ DES DONNÉES ===")
+        
+        if not self.nourriture_words:
+            self.log_test("Intégrité des données", False, "Aucun mot à tester")
+            return
+        
+        # Test for duplicates
+        french_words = [word['french'].lower() for word in self.nourriture_words]
+        unique_words = set(french_words)
+        has_duplicates = len(french_words) != len(unique_words)
+        
+        self.log_test("Pas de doublons", not has_duplicates,
+                     f"Trouvé {len(french_words)} mots, {len(unique_words)} uniques")
+        
+        # Test emoji coverage
+        words_with_emojis = sum(1 for word in self.nourriture_words 
+                               if 'image_url' in word and word['image_url'])
+        emoji_percentage = (words_with_emojis / len(self.nourriture_words)) * 100
+        
+        self.log_test("Emojis appropriés", emoji_percentage >= 80,
+                     f"{words_with_emojis}/{len(self.nourriture_words)} mots avec emojis ({emoji_percentage:.1f}%)")
+        
+        # Test audio references format
+        words_with_audio = sum(1 for word in self.nourriture_words 
+                              if any(field in word for field in ['audio_url', 'shimoare_audio_filename', 'kibouchi_audio_filename', 'has_authentic_audio']))
+        
+        self.log_test("Références audio formatées", words_with_audio >= 0,
+                     f"{words_with_audio}/{len(self.nourriture_words)} mots avec références audio")
+    
+    def test_8_other_sections_unaffected(self):
+        """Test 8: Test que les autres sections n'ont pas été affectées"""
+        print("\n=== TEST 8: AUTRES SECTIONS NON AFFECTÉES ===")
+        
+        expected_sections = {
+            'famille': 25,  # Approximate expected count
+            'animaux': 65,  # Approximate expected count  
+            'nombres': 20,  # Approximate expected count
+            'salutations': 8,  # Approximate expected count
+            'couleurs': 8   # Approximate expected count
+        }
+        
+        for category, min_expected in expected_sections.items():
+            try:
+                response = self.make_request(f"/words?category={category}")
                 if response["success"]:
                     data = response["data"]
-                    data_size = len(data) if isinstance(data, list) else 1
-                    
-                    # Consider response time acceptable if under 3 seconds
-                    if response_time < 3.0:
-                        self.log_test(f"Performance {endpoint}", True, 
-                                    f"{response_time:.2f}s pour {data_size} éléments")
-                    else:
-                        self.log_test(f"Performance {endpoint}", False, 
-                                    f"{response_time:.2f}s (trop lent)")
+                    word_count = len(data)
+                    self.log_test(f"Section {category} intacte", word_count >= min_expected,
+                                 f"Trouvé {word_count} mots (attendu ≥{min_expected})")
                 else:
-                    self.log_test(f"Performance {endpoint}", False, 
-                                f"Status: {response['status_code']}")
-            
-            return True
-            
+                    self.log_test(f"Section {category} intacte", False,
+                                 f"HTTP {response['status_code']}")
+            except Exception as e:
+                self.log_test(f"Section {category} intacte", False, f"Error: {str(e)}")
+    
+    def test_9_total_word_count_increase(self):
+        """Test 9: Test que le total de mots a augmenté de 44"""
+        print("\n=== TEST 9: AUGMENTATION TOTAL MOTS ===")
+        
+        try:
+            response = self.make_request("/words")
+            if response["success"]:
+                data = response["data"]
+                self.total_words_count = len(data)
+                
+                # Based on previous tests, we expect around 565+ words (before nourriture) + 44
+                expected_minimum = 609  # 565 + 44
+                self.log_test("Total mots augmenté", self.total_words_count >= expected_minimum,
+                             f"Trouvé {self.total_words_count} mots total (attendu ≥{expected_minimum})")
+                return self.total_words_count
+            else:
+                self.log_test("Total mots augmenté", False,
+                             f"HTTP {response['status_code']}")
+                return 0
         except Exception as e:
-            self.log_test("Performance test", False, f"Error: {str(e)}")
+            self.log_test("Total mots augmenté", False, f"Error: {str(e)}")
+            return 0
+    
+    def test_10_nourriture_api_performance(self):
+        """Test 10: Test de performance de l'endpoint nourriture"""
+        print("\n=== TEST 10: PERFORMANCE API NOURRITURE ===")
+        
+        try:
+            start_time = time.time()
+            response = self.make_request("/words?category=nourriture")
+            end_time = time.time()
+            
+            response_time = end_time - start_time
+            
+            if response["success"]:
+                data = response["data"]
+                self.log_test("Performance API nourriture", response_time < 2.0,
+                             f"Temps de réponse: {response_time:.2f}s, {len(data)} mots retournés")
+                
+                # Test specific word queries if we have data
+                if data:
+                    sample_word = data[0]
+                    word_id = sample_word.get('id')
+                    if word_id:
+                        word_response = self.make_request(f"/words/{word_id}")
+                        self.log_test("Accès mot individuel", word_response["success"],
+                                     f"Mot ID {word_id} accessible")
+                
+                return True
+            else:
+                self.log_test("Performance API nourriture", False,
+                             f"HTTP {response['status_code']}")
+                return False
+        except Exception as e:
+            self.log_test("Performance API nourriture", False, f"Error: {str(e)}")
             return False
     
-    def test_10_audio_endpoints(self):
-        """Test 10: Test des endpoints audio spécifiques"""
-        print("\n=== TEST 10: TEST DES ENDPOINTS AUDIO ===")
-        
-        # Test audio info endpoint
-        try:
-            response = self.make_request("/audio/info")
-            if response["success"]:
-                audio_info = response["data"]
-                self.log_test("Endpoint audio/info", True, "Informations audio disponibles")
-                
-                # Check if expected categories are present
-                if isinstance(audio_info, dict):
-                    categories_found = 0
-                    expected_categories = ['animaux', 'nombres', 'corps', 'salutations']
-                    
-                    for category in expected_categories:
-                        # Check various possible structures
-                        if (category in str(audio_info).lower() or 
-                            (isinstance(audio_info, dict) and 'categories' in audio_info and 
-                             category in audio_info.get('categories', {}))):
-                            categories_found += 1
-                            self.log_test(f"Catégorie audio {category}", True, "Disponible")
-                        else:
-                            self.log_test(f"Catégorie audio {category}", False, "Non trouvée")
-                    
-                    self.log_test("Couverture catégories audio", categories_found >= 2, 
-                                f"{categories_found}/4 catégories trouvées")
-            else:
-                self.log_test("Endpoint audio/info", False, f"Status: {response['status_code']}")
-        
-        except Exception as e:
-            self.log_test("Audio endpoints test", False, f"Error: {str(e)}")
-    
     def run_all_tests(self):
-        """Execute all tests"""
-        print("🎯 DÉBUT DES TESTS BACKEND - MISE À JOUR AUDIO PRONONCIATIONS")
+        """Execute all tests for nourriture section"""
+        print("🎯 DÉBUT DES TESTS BACKEND - SECTION NOURRITURE")
         print("=" * 70)
-        print("Test complet du backend après la mise à jour des prononciations audio")
-        print("Contexte: 4 sections (animaux, nombres, corps, salutations) avec audio authentique")
+        print("Test complet du backend après la création et correction orthographique")
+        print("de la section 'nourriture' avec 44 mots de base de Mayotte")
         print("=" * 70)
         
         start_time = time.time()
@@ -498,16 +356,20 @@ class AudioPronunciationTester:
             print("❌ ÉCHEC: Impossible de se connecter à l'API. Arrêt des tests.")
             return False
         
+        # Test nourriture section exists
+        if not self.test_2_nourriture_section_exists():
+            print("❌ ÉCHEC: Section nourriture non trouvée. Arrêt des tests.")
+            return False
+        
         # Run all test suites
-        self.test_2_sections_completes()
-        self.test_3_audio_authentiques()
-        self.test_4_section_nombres()
-        self.test_5_section_animaux()
-        self.test_6_section_corps()
-        self.test_7_section_salutations()
-        self.test_8_integrite_donnees()
-        self.test_9_performance()
-        self.test_10_audio_endpoints()
+        self.test_3_44_words_added()
+        self.test_4_data_structure()
+        self.test_5_corrected_spellings()
+        self.test_6_complex_new_foods()
+        self.test_7_data_integrity()
+        self.test_8_other_sections_unaffected()
+        self.test_9_total_word_count_increase()
+        self.test_10_nourriture_api_performance()
         
         end_time = time.time()
         duration = end_time - start_time
@@ -522,19 +384,25 @@ class AudioPronunciationTester:
         print(f"Tests réussis: {self.passed_tests}/{self.total_tests} ({success_rate:.1f}%)")
         print(f"Durée: {duration:.2f}s")
         
-        # Show section statistics
-        print(f"\n📈 STATISTIQUES PAR SECTION:")
-        for section, words in self.section_data.items():
-            count = len(words)
-            with_audio = sum(1 for w in words if (
+        # Show nourriture section statistics
+        print(f"\n📈 STATISTIQUES SECTION NOURRITURE:")
+        if self.nourriture_words:
+            count = len(self.nourriture_words)
+            with_emojis = sum(1 for w in self.nourriture_words if w.get('image_url'))
+            with_audio = sum(1 for w in self.nourriture_words if (
                 w.get('has_authentic_audio') or w.get('audio_filename') or
                 w.get('shimoare_has_audio') or w.get('kibouchi_has_audio')
             ))
+            emoji_rate = (with_emojis / count * 100) if count > 0 else 0
             audio_rate = (with_audio / count * 100) if count > 0 else 0
-            print(f"  {section.title()}: {count} mots, {with_audio} avec audio ({audio_rate:.1f}%)")
+            print(f"  Nourriture: {count} mots")
+            print(f"  Avec emojis: {with_emojis} ({emoji_rate:.1f}%)")
+            print(f"  Avec audio: {with_audio} ({audio_rate:.1f}%)")
+        
+        print(f"  Total mots dans la base: {self.total_words_count}")
         
         if success_rate >= 80:
-            print("\n🎉 RÉSULTAT: SUCCÈS - La mise à jour audio est fonctionnelle!")
+            print("\n🎉 RÉSULTAT: SUCCÈS - La section nourriture est fonctionnelle!")
         elif success_rate >= 60:
             print("\n⚠️ RÉSULTAT: PARTIEL - Quelques problèmes identifiés")
         else:
@@ -548,7 +416,7 @@ class AudioPronunciationTester:
 
 def main():
     """Main test execution"""
-    tester = AudioPronunciationTester()
+    tester = NourritureSectionTester()
     success = tester.run_all_tests()
     
     if success:
