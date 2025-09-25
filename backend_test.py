@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """
-Test complet du backend après la création et correction orthographique de la section "nourriture"
-Comprehensive backend testing after creation and spelling corrections of the "nourriture" section
+Test complet du backend après la création de la section "maison"
+Comprehensive backend testing after creation of the "maison" section
 
 Test Requirements from French review request:
-1. Vérification de la nouvelle section "nourriture" (44 mots attendus)
-2. Test de l'orthographe corrigée pour des mots spécifiques:
-   - "riz" → shimaoré: "tsoholé", kibouchi: "vari"
-   - "sel" → shimaoré: "chingó" (avec accent), kibouchi: "sira"
-   - "gingembre" → shimaoré: "tsingiziou", kibouchi: "sakėyi"
-   - "ciboulette" → shimaoré: "chourougnou mani", kibouchi: "doungoulou ravigni"
-3. Test des nouveaux aliments complexes:
-   - "brède manioc" → shimaoré: "mataba", kibouchi: "féliki mouhogou"
-   - "riz au coco" → shimaoré: "tsoholé ya nadzi", kibouchi: "vari an voiniou"
-   - "noix de coco fraîche" → shimaoré: "chijavou", kibouchi: "kidjavou"
+1. Vérification de la nouvelle section "maison" (37 mots attendus)
+2. Test de mots spécifiques de la maison avec leur orthographe:
+   - "maison" → shimaoré: "nyoumba", kibouchi: "tragnou"
+   - "fenêtre" → shimaoré: "fénétri", kibouchi: "lafoumétara"
+   - "vaisselle" → shimaoré: "ziya", kibouchi: "hintagna"
+   - "machette" → shimaoré: "m'panga", kibouchi: "ampanga"
+3. Test des objets de maison complexes:
+   - "torche locale" → shimaoré: "gandilé", kibouchi: "gandili"
+   - "coupe-coupe" → shimaoré: "chombo", kibouchi: "chombou"
+   - "cartable" → shimaoré: "mkoba", kibouchi: "mkoba"
 4. Test de l'intégrité des données (emojis appropriés, références audio, pas de doublons)
-5. Test que les autres sections n'ont pas été affectées
-6. Test que le total de mots a augmenté de 44
-7. Test de l'endpoint API `/api/words?category=nourriture`
+5. Test de cohérence avec les autres sections
+6. Test de l'endpoint API `/api/words?category=maison`
+7. Test des performances globales de l'API
 """
 
 import requests
