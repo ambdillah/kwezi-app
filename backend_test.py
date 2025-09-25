@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
 Backend Testing Suite for Mayotte Language Learning API
-Testing PDF vocabulary shimaoré-kibouchi analysis and corrections
+Testing PDF vocabulary corrections after shimaoré-kibouchi updates
+Focus: Verify 565 words total, orthographic corrections, and new words added
 """
 
 import requests
 import json
 import sys
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 import time
 
 # Configuration
