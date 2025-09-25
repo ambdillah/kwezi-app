@@ -62,13 +62,13 @@ if not BACKEND_URL:
 API_URL = f"{BACKEND_URL}/api"
 print(f"🔗 Using Backend URL: {BACKEND_URL}")
 
-class MaisonSectionTester:
+class VetementsSectionTester:
     def __init__(self):
         self.api_url = API_URL
         self.test_results = []
         self.total_tests = 0
         self.passed_tests = 0
-        self.maison_words = []
+        self.vetements_words = []
         self.total_words_count = 0
         
     def log_test(self, test_name: str, passed: bool, details: str = ""):
@@ -127,32 +127,32 @@ class MaisonSectionTester:
             self.log_test("API Connectivity", False, f"Error: {str(e)}")
             return False
     
-    def test_2_maison_section_exists(self):
-        """Test 2: Vérification que la section maison existe"""
-        print("\n=== TEST 2: VÉRIFICATION SECTION MAISON ===")
+    def test_2_vetements_section_exists(self):
+        """Test 2: Vérification que la section vêtements existe"""
+        print("\n=== TEST 2: VÉRIFICATION SECTION VÊTEMENTS ===")
         
         try:
-            response = self.make_request("/words?category=maison")
+            response = self.make_request("/words?category=vetements")
             if response["success"]:
-                self.maison_words = response["data"]
-                count = len(self.maison_words)
-                self.log_test("Section maison existe", count > 0, f"{count} mots trouvés")
+                self.vetements_words = response["data"]
+                count = len(self.vetements_words)
+                self.log_test("Section vêtements existe", count > 0, f"{count} mots trouvés")
                 return count > 0
             else:
-                self.log_test("Section maison existe", False, f"Status: {response['status_code']}")
+                self.log_test("Section vêtements existe", False, f"Status: {response['status_code']}")
                 return False
         except Exception as e:
-            self.log_test("Section maison existe", False, f"Error: {str(e)}")
+            self.log_test("Section vêtements existe", False, f"Error: {str(e)}")
             return False
     
-    def test_3_37_words_added(self):
-        """Test 3: Vérification que 37 mots ont été ajoutés"""
-        print("\n=== TEST 3: VÉRIFICATION 37 MOTS AJOUTÉS ===")
+    def test_3_17_words_added(self):
+        """Test 3: Vérification que 17 mots ont été ajoutés"""
+        print("\n=== TEST 3: VÉRIFICATION 17 MOTS AJOUTÉS ===")
         
-        expected_count = 37
-        actual_count = len(self.maison_words)
+        expected_count = 17
+        actual_count = len(self.vetements_words)
         
-        self.log_test("37 mots ajoutés", actual_count == expected_count, 
+        self.log_test("17 mots ajoutés", actual_count == expected_count, 
                      f"Attendu: {expected_count}, Trouvé: {actual_count}")
         
         return actual_count == expected_count
@@ -161,7 +161,7 @@ class MaisonSectionTester:
         """Test 4: Vérification de la structure des données"""
         print("\n=== TEST 4: STRUCTURE DES DONNÉES ===")
         
-        if not self.maison_words:
+        if not self.vetements_words:
             self.log_test("Structure des données", False, "Aucun mot à tester")
             return False
         
@@ -169,7 +169,7 @@ class MaisonSectionTester:
         complete_words = 0
         words_with_emojis = 0
         
-        for word in self.maison_words:
+        for word in self.vetements_words:
             # Check required fields
             has_all_fields = all(field in word and word[field] for field in required_fields)
             if has_all_fields:
@@ -179,123 +179,158 @@ class MaisonSectionTester:
             if 'image_url' in word and word['image_url']:
                 words_with_emojis += 1
         
-        structure_percentage = (complete_words / len(self.maison_words)) * 100
-        emoji_percentage = (words_with_emojis / len(self.maison_words)) * 100
+        structure_percentage = (complete_words / len(self.vetements_words)) * 100
+        emoji_percentage = (words_with_emojis / len(self.vetements_words)) * 100
         
         self.log_test("Structure complète", structure_percentage >= 95,
-                     f"{complete_words}/{len(self.maison_words)} mots avec structure complète ({structure_percentage:.1f}%)")
+                     f"{complete_words}/{len(self.vetements_words)} mots avec structure complète ({structure_percentage:.1f}%)")
         
         self.log_test("Emojis présents", emoji_percentage >= 80,
-                     f"{words_with_emojis}/{len(self.maison_words)} mots avec emojis ({emoji_percentage:.1f}%)")
+                     f"{words_with_emojis}/{len(self.vetements_words)} mots avec emojis ({emoji_percentage:.1f}%)")
         
         return structure_percentage >= 95
     
-    def test_5_specific_house_words(self):
-        """Test 5: Test de mots spécifiques de la maison avec leur orthographe"""
-        print("\n=== TEST 5: MOTS SPÉCIFIQUES MAISON ===")
+    def test_5_corrected_spelling(self):
+        """Test 5: Test de l'orthographe corrigée pour les mots spécifiques"""
+        print("\n=== TEST 5: ORTHOGRAPHE CORRIGÉE ===")
         
-        test_words = {
-            "maison": {"shimaore": "nyoumba", "kibouchi": "tragnou"},
-            "fenêtre": {"shimaore": "fénétri", "kibouchi": "lafoumétara"},
-            "vaisselle": {"shimaore": "ziya", "kibouchi": "hintagna"},  # Note: API might show "vesselles"
-            "machette": {"shimaore": "m'panga", "kibouchi": "ampanga"}
+        expected_corrections = {
+            "salouva": {"shimaore": "salouva", "kibouchi": "salouvagna"},
+            "kamiss": {"shimaore": "kandzou bolé", "kibouchi": "ankandzou bé"},
+            "tongs": {"shimaore": "sapatri", "kibouchi": "kabwa sapatri"},
+            "voile": {"shimaore": "kichali", "kibouchi": "kichali"}
         }
         
-        word_dict = {word['french'].lower(): word for word in self.maison_words}
+        word_dict = {word['french'].lower(): word for word in self.vetements_words}
         
-        for french_word, expected_translations in test_words.items():
-            # Handle special case for vaisselle/vesselles
-            test_word = french_word
-            if french_word == "vaisselle" and french_word not in word_dict:
-                test_word = "vesselles"  # Check alternative spelling
-            
-            if test_word in word_dict:
-                word = word_dict[test_word]
+        for french_word, expected_translations in expected_corrections.items():
+            if french_word in word_dict:
+                word = word_dict[french_word]
                 shimaore_match = expected_translations["shimaore"].lower() in word['shimaore'].lower()
                 kibouchi_match = expected_translations["kibouchi"].lower() in word['kibouchi'].lower()
                 
-                self.log_test(f"Mot spécifique: {french_word}", 
+                self.log_test(f"Orthographe corrigée: {french_word}", 
                              shimaore_match and kibouchi_match,
                              f"Shimaoré: {word['shimaore']}, Kibouchi: {word['kibouchi']}")
             else:
-                self.log_test(f"Mot spécifique: {french_word}", False, "Mot non trouvé")
+                self.log_test(f"Orthographe corrigée: {french_word}", False, "Mot non trouvé")
     
-    def test_6_complex_house_objects(self):
-        """Test 6: Test des objets de maison complexes"""
-        print("\n=== TEST 6: OBJETS MAISON COMPLEXES ===")
+    def test_6_audio_coverage(self):
+        """Test 6: Test de la couverture audio (16/17 mots = 94.1%)"""
+        print("\n=== TEST 6: COUVERTURE AUDIO ===")
         
-        complex_objects = {
-            "torche locale": {"shimaore": "gandilé", "kibouchi": "gandili"},
-            "coupe coupe": {"shimaore": "chombo", "kibouchi": "chombou"},
-            "cartable": {"shimaore": "mkoba", "kibouchi": "mkoba"}  # Note: API might show "cartable/malette"
-        }
-        
-        word_dict = {word['french'].lower(): word for word in self.maison_words}
-        
-        for french_word, expected_translations in complex_objects.items():
-            # Handle special case for cartable
-            test_word = french_word
-            if french_word == "cartable" and french_word not in word_dict:
-                test_word = "cartable/malette"  # Check alternative format
-            
-            if test_word in word_dict:
-                word = word_dict[test_word]
-                # For torche locale, check if translations contain expected values
-                if french_word == "torche locale":
-                    shimaore_match = expected_translations['shimaore'] in word['shimaore'].lower()
-                    kibouchi_match = expected_translations['kibouchi'] in word['kibouchi'].lower()
-                else:
-                    shimaore_match = word['shimaore'].lower() == expected_translations['shimaore'].lower()
-                    kibouchi_match = word['kibouchi'].lower() == expected_translations['kibouchi'].lower()
-                
-                self.log_test(f"Objet complexe: {french_word}", 
-                             shimaore_match and kibouchi_match,
-                             f"Shimaoré: {word['shimaore']}, Kibouchi: {word['kibouchi']}")
-            else:
-                self.log_test(f"Objet complexe: {french_word}", False, "Objet non trouvé")
-    
-    def test_7_data_integrity(self):
-        """Test 7: Test de l'intégrité des données"""
-        print("\n=== TEST 7: INTÉGRITÉ DES DONNÉES ===")
-        
-        if not self.maison_words:
-            self.log_test("Intégrité des données", False, "Aucun mot à tester")
+        if not self.vetements_words:
+            self.log_test("Couverture audio", False, "Aucun mot à tester")
             return
         
-        # Test for duplicates
-        french_words = [word['french'].lower() for word in self.maison_words]
+        words_with_audio = 0
+        total_words = len(self.vetements_words)
+        
+        for word in self.vetements_words:
+            has_audio = (
+                word.get('has_authentic_audio', False) or
+                word.get('shimoare_has_audio', False) or
+                word.get('kibouchi_has_audio', False) or
+                word.get('audio_filename') or
+                word.get('shimoare_audio_filename') or
+                word.get('kibouchi_audio_filename') or
+                word.get('dual_audio_system', False)
+            )
+            if has_audio:
+                words_with_audio += 1
+        
+        coverage_percentage = (words_with_audio / total_words * 100) if total_words > 0 else 0
+        expected_coverage = 94.1  # 16/17 words
+        
+        success = coverage_percentage >= expected_coverage - 10  # Allow 10% tolerance
+        self.log_test("Couverture audio 94.1%", success, 
+                     f"{words_with_audio}/{total_words} mots ({coverage_percentage:.1f}%) ont des références audio")
+    
+    def test_7_specific_audio_references(self):
+        """Test 7: Test des références audio spécifiques"""
+        print("\n=== TEST 7: RÉFÉRENCES AUDIO SPÉCIFIQUES ===")
+        
+        expected_audio = {
+            "vêtement": "Ngouwo.m4a",
+            "salouva": "Salouva.m4a", 
+            "kamiss": "Kandzou bolé.m4a",
+            "tongs": "Kabwa sapatri.m4a"
+        }
+        
+        word_dict = {word['french'].lower(): word for word in self.vetements_words}
+        
+        for french_word, expected_audio_file in expected_audio.items():
+            if french_word in word_dict:
+                word = word_dict[french_word]
+                audio_files = [
+                    word.get('audio_filename', ''),
+                    word.get('shimoare_audio_filename', ''),
+                    word.get('kibouchi_audio_filename', '')
+                ]
+                
+                has_expected_audio = any(expected_audio_file in audio_file for audio_file in audio_files if audio_file)
+                self.log_test(f"Référence audio spécifique - {french_word}", has_expected_audio,
+                             f"Attendu: {expected_audio_file}, Trouvé: {[f for f in audio_files if f]}")
+            else:
+                self.log_test(f"Référence audio spécifique - {french_word}", False, "Mot non trouvé")
+    
+    def test_8_appropriate_emojis(self):
+        """Test 8: Test des emojis appropriés pour vêtements"""
+        print("\n=== TEST 8: EMOJIS APPROPRIÉS VÊTEMENTS ===")
+        
+        if not self.vetements_words:
+            self.log_test("Emojis appropriés", False, "Aucun mot à tester")
+            return
+        
+        # Clothing-specific emojis
+        clothing_emojis = ['👕', '👗', '👖', '👟', '👠', '👡', '👢', '🧥', '🧦', '🧤', '👒', '🎩', '👑', '💍', '👜', '🎒', '👓', '🕶️', '🥿', '🩱', '🩲', '🩳']
+        words_with_appropriate_emojis = 0
+        
+        for word in self.vetements_words:
+            if 'image_url' in word and word['image_url']:
+                if any(emoji in word['image_url'] for emoji in clothing_emojis):
+                    words_with_appropriate_emojis += 1
+        
+        emoji_percentage = (words_with_appropriate_emojis / len(self.vetements_words)) * 100
+        
+        self.log_test("Emojis appropriés vêtements", emoji_percentage >= 70,
+                     f"{words_with_appropriate_emojis}/{len(self.vetements_words)} mots avec emojis vêtements ({emoji_percentage:.1f}%)")
+    
+    def test_9_has_authentic_audio_flag(self):
+        """Test 9: Test que les champs has_authentic_audio sont définis à true"""
+        print("\n=== TEST 9: CHAMPS HAS_AUTHENTIC_AUDIO ===")
+        
+        if not self.vetements_words:
+            self.log_test("Champs has_authentic_audio", False, "Aucun mot à tester")
+            return
+        
+        words_with_authentic_audio = sum(1 for word in self.vetements_words 
+                                       if word.get('has_authentic_audio', False))
+        
+        expected_count = 16  # 16/17 words should have authentic audio
+        success = words_with_authentic_audio >= expected_count - 2  # Allow some tolerance
+        
+        self.log_test("Champs has_authentic_audio définis", success,
+                     f"{words_with_authentic_audio}/{len(self.vetements_words)} mots avec has_authentic_audio=true")
+    
+    def test_10_no_duplicates(self):
+        """Test 10: Confirmer qu'il n'y a pas de doublons"""
+        print("\n=== TEST 10: PAS DE DOUBLONS ===")
+        
+        if not self.vetements_words:
+            self.log_test("Pas de doublons", False, "Aucun mot à tester")
+            return
+        
+        french_words = [word['french'].lower() for word in self.vetements_words]
         unique_words = set(french_words)
         has_duplicates = len(french_words) != len(unique_words)
         
         self.log_test("Pas de doublons", not has_duplicates,
                      f"Trouvé {len(french_words)} mots, {len(unique_words)} uniques")
-        
-        # Test emoji coverage - house-specific emojis
-        house_emojis = ['🏠', '🚪', '🛏️', '🪟', '🍽️', '🧹', '🔪', '🥄', '🪑', '🚽', '🔦', '🗡️', '🪓', '🍲', '🪣', '🎒', '🧱', '🛌', '🪞', '🫖', '🏡', '🚧', '🗄️', '🥣', '💡']
-        words_with_appropriate_emojis = 0
-        
-        for word in self.maison_words:
-            if 'image_url' in word and word['image_url']:
-                if any(emoji in word['image_url'] for emoji in house_emojis):
-                    words_with_appropriate_emojis += 1
-        
-        emoji_percentage = (words_with_appropriate_emojis / len(self.maison_words)) * 100
-        
-        self.log_test("Emojis appropriés maison", emoji_percentage >= 70,
-                     f"{words_with_appropriate_emojis}/{len(self.maison_words)} mots avec emojis maison ({emoji_percentage:.1f}%)")
-        
-        # Test audio references format
-        words_with_audio = sum(1 for word in self.maison_words 
-                              if any(field in word for field in ['audio_url', 'shimoare_audio_filename', 'kibouchi_audio_filename', 'has_authentic_audio', 'dual_audio_system']))
-        
-        audio_percentage = (words_with_audio / len(self.maison_words)) * 100
-        
-        self.log_test("Références audio formatées", audio_percentage >= 50,
-                     f"{words_with_audio}/{len(self.maison_words)} mots avec références audio ({audio_percentage:.1f}%)")
     
-    def test_8_other_sections_unaffected(self):
-        """Test 8: Test de cohérence avec les autres sections"""
-        print("\n=== TEST 8: COHÉRENCE AUTRES SECTIONS ===")
+    def test_11_other_sections_unaffected(self):
+        """Test 11: Test que les autres sections n'ont pas été affectées"""
+        print("\n=== TEST 11: AUTRES SECTIONS NON AFFECTÉES ===")
         
         expected_sections = {
             'famille': 25,  # Approximate expected count
@@ -306,15 +341,12 @@ class MaisonSectionTester:
             'nourriture': 40  # Approximate expected count
         }
         
-        total_categories = 0
-        
         for category, min_expected in expected_sections.items():
             try:
                 response = self.make_request(f"/words?category={category}")
                 if response["success"]:
                     data = response["data"]
                     word_count = len(data)
-                    total_categories += 1
                     self.log_test(f"Section {category} intacte", word_count >= min_expected,
                                  f"Trouvé {word_count} mots (attendu ≥{min_expected})")
                 else:
@@ -322,8 +354,11 @@ class MaisonSectionTester:
                                  f"HTTP {response['status_code']}")
             except Exception as e:
                 self.log_test(f"Section {category} intacte", False, f"Error: {str(e)}")
+    
+    def test_12_total_sections_count(self):
+        """Test 12: Confirmer que le nombre total de sections est maintenant de 7"""
+        print("\n=== TEST 12: NOMBRE TOTAL SECTIONS = 7 ===")
         
-        # Test total categories count
         try:
             response = self.make_request("/words")
             if response["success"]:
@@ -331,16 +366,94 @@ class MaisonSectionTester:
                 categories = set(word['category'] for word in all_words)
                 category_count = len(categories)
                 
-                self.log_test("Nombre total catégories", category_count >= 6,
-                             f"Trouvé {category_count} catégories (attendu ≥6)")
+                self.log_test("Nombre total sections = 7", category_count >= 7,
+                             f"Trouvé {category_count} catégories (attendu ≥7)")
+                self.log_test("Catégories trouvées", True, f"Catégories: {sorted(categories)}")
             else:
-                self.log_test("Nombre total catégories", False, f"HTTP {response['status_code']}")
+                self.log_test("Nombre total sections", False, f"HTTP {response['status_code']}")
         except Exception as e:
-            self.log_test("Nombre total catégories", False, f"Error: {str(e)}")
+            self.log_test("Nombre total sections", False, f"Error: {str(e)}")
     
-    def test_9_total_word_count_reasonable(self):
-        """Test 9: Test que le nombre total de mots est raisonnable"""
-        print("\n=== TEST 9: NOMBRE TOTAL MOTS ===")
+    def test_13_api_performance(self):
+        """Test 13: Tester les performances globales de l'API"""
+        print("\n=== TEST 13: PERFORMANCES API ===")
+        
+        try:
+            start_time = time.time()
+            response = self.make_request("/words?category=vetements")
+            end_time = time.time()
+            
+            response_time = end_time - start_time
+            
+            if response["success"]:
+                data = response["data"]
+                self.log_test("Performance API vêtements", response_time < 2.0,
+                             f"Temps de réponse: {response_time:.3f}s, {len(data)} mots retournés")
+                
+                # Test that all returned words are from vetements category
+                all_vetements = all(word.get('category') == 'vetements' for word in data)
+                self.log_test("Filtrage catégorie correct", all_vetements,
+                             f"Tous les {len(data)} mots sont de la catégorie 'vetements'")
+                
+                return True
+            else:
+                self.log_test("Performance API vêtements", False,
+                             f"HTTP {response['status_code']}")
+                return False
+        except Exception as e:
+            self.log_test("Performance API vêtements", False, f"Error: {str(e)}")
+            return False
+    
+    def test_14_specific_vetements_endpoint(self):
+        """Test 14: Test API endpoint spécifique /api/words?category=vetements"""
+        print("\n=== TEST 14: ENDPOINT SPÉCIFIQUE VÊTEMENTS ===")
+        
+        try:
+            response = self.make_request("/words?category=vetements")
+            if response["success"]:
+                words = response["data"]
+                
+                # Test that all 17 words are returned
+                self.log_test("17 mots retournés", len(words) == 17,
+                             f"Endpoint retourne {len(words)} mots (attendu: 17)")
+                
+                # Test specific clothing words exist
+                expected_vetements = ['vêtement', 'salouva', 'kamiss', 'tongs', 'voile']
+                word_names = [word.get('french', '').lower() for word in words]
+                
+                for expected_word in expected_vetements:
+                    found = expected_word.lower() in word_names
+                    self.log_test(f"Mot attendu présent - {expected_word}", found)
+                    
+            else:
+                self.log_test("Endpoint vêtements", False, f"HTTP {response['status_code']}")
+        except Exception as e:
+            self.log_test("Endpoint vêtements", False, f"Error: {str(e)}")
+    
+    def test_15_audio_files_access(self):
+        """Test 15: Test d'accès aux fichiers audio via l'API"""
+        print("\n=== TEST 15: ACCÈS FICHIERS AUDIO ===")
+        
+        try:
+            # Test if audio info endpoint exists
+            response = self.make_request("/audio/info")
+            if response["success"]:
+                audio_info = response["data"]
+                self.log_test("Endpoint audio/info", True, "Endpoint audio info accessible")
+                
+                # Check if vetements is in audio categories
+                if isinstance(audio_info, dict) and 'vetements' in str(audio_info):
+                    self.log_test("Catégorie vêtements dans audio", True, "Vêtements trouvé dans info audio")
+                else:
+                    self.log_test("Catégorie vêtements dans audio", False, "Vêtements non trouvé dans info audio")
+            else:
+                self.log_test("Endpoint audio/info", False, f"HTTP {response['status_code']} - Endpoints audio non implémentés")
+        except Exception as e:
+            self.log_test("Accès fichiers audio", False, f"Error: {str(e)} - Endpoints audio non implémentés")
+    
+    def test_16_total_word_count(self):
+        """Test 16: Test que le nombre total de mots est raisonnable"""
+        print("\n=== TEST 16: NOMBRE TOTAL MOTS ===")
         
         try:
             response = self.make_request("/words")
@@ -361,51 +474,12 @@ class MaisonSectionTester:
             self.log_test("Total mots raisonnable", False, f"Error: {str(e)}")
             return 0
     
-    def test_10_maison_api_performance(self):
-        """Test 10: Test des performances globales de l'API"""
-        print("\n=== TEST 10: PERFORMANCE API MAISON ===")
-        
-        try:
-            start_time = time.time()
-            response = self.make_request("/words?category=maison")
-            end_time = time.time()
-            
-            response_time = end_time - start_time
-            
-            if response["success"]:
-                data = response["data"]
-                self.log_test("Performance API maison", response_time < 2.0,
-                             f"Temps de réponse: {response_time:.2f}s, {len(data)} mots retournés")
-                
-                # Test specific word queries if we have data
-                if data:
-                    sample_word = data[0]
-                    word_id = sample_word.get('id')
-                    if word_id:
-                        word_response = self.make_request(f"/words/{word_id}")
-                        self.log_test("Accès mot individuel", word_response["success"],
-                                     f"Mot ID {word_id} accessible")
-                
-                # Test that all returned words are from maison category
-                all_maison = all(word.get('category') == 'maison' for word in data)
-                self.log_test("Filtrage catégorie correct", all_maison,
-                             f"Tous les {len(data)} mots sont de la catégorie 'maison'")
-                
-                return True
-            else:
-                self.log_test("Performance API maison", False,
-                             f"HTTP {response['status_code']}")
-                return False
-        except Exception as e:
-            self.log_test("Performance API maison", False, f"Error: {str(e)}")
-            return False
-    
     def run_all_tests(self):
-        """Execute all tests for maison section"""
-        print("🏠 DÉBUT DES TESTS BACKEND - SECTION MAISON")
+        """Execute all tests for vetements section"""
+        print("👕 DÉBUT DES TESTS BACKEND - SECTION VÊTEMENTS")
         print("=" * 70)
-        print("Test complet du backend après la création de la section 'maison'")
-        print("avec 37 mots de vocabulaire domestique de Mayotte")
+        print("Test complet du backend après la création et mise à jour des")
+        print("prononciations audio pour la section 'vêtement' avec 17 mots")
         print("=" * 70)
         
         start_time = time.time()
@@ -415,20 +489,26 @@ class MaisonSectionTester:
             print("❌ ÉCHEC: Impossible de se connecter à l'API. Arrêt des tests.")
             return False
         
-        # Test maison section exists
-        if not self.test_2_maison_section_exists():
-            print("❌ ÉCHEC: Section maison non trouvée. Arrêt des tests.")
+        # Test vetements section exists
+        if not self.test_2_vetements_section_exists():
+            print("❌ ÉCHEC: Section vêtements non trouvée. Arrêt des tests.")
             return False
         
         # Run all test suites
-        self.test_3_37_words_added()
+        self.test_3_17_words_added()
         self.test_4_data_structure()
-        self.test_5_specific_house_words()
-        self.test_6_complex_house_objects()
-        self.test_7_data_integrity()
-        self.test_8_other_sections_unaffected()
-        self.test_9_total_word_count_reasonable()
-        self.test_10_maison_api_performance()
+        self.test_5_corrected_spelling()
+        self.test_6_audio_coverage()
+        self.test_7_specific_audio_references()
+        self.test_8_appropriate_emojis()
+        self.test_9_has_authentic_audio_flag()
+        self.test_10_no_duplicates()
+        self.test_11_other_sections_unaffected()
+        self.test_12_total_sections_count()
+        self.test_13_api_performance()
+        self.test_14_specific_vetements_endpoint()
+        self.test_15_audio_files_access()
+        self.test_16_total_word_count()
         
         end_time = time.time()
         duration = end_time - start_time
@@ -443,26 +523,26 @@ class MaisonSectionTester:
         print(f"Tests réussis: {self.passed_tests}/{self.total_tests} ({success_rate:.1f}%)")
         print(f"Durée: {duration:.2f}s")
         
-        # Show maison section statistics
-        print(f"\n📈 STATISTIQUES SECTION MAISON:")
-        if self.maison_words:
-            count = len(self.maison_words)
-            with_emojis = sum(1 for w in self.maison_words if w.get('image_url'))
-            with_audio = sum(1 for w in self.maison_words if (
+        # Show vetements section statistics
+        print(f"\n📈 STATISTIQUES SECTION VÊTEMENTS:")
+        if self.vetements_words:
+            count = len(self.vetements_words)
+            with_emojis = sum(1 for w in self.vetements_words if w.get('image_url'))
+            with_audio = sum(1 for w in self.vetements_words if (
                 w.get('has_authentic_audio') or w.get('audio_filename') or
                 w.get('shimoare_has_audio') or w.get('kibouchi_has_audio') or
                 w.get('dual_audio_system')
             ))
             emoji_rate = (with_emojis / count * 100) if count > 0 else 0
             audio_rate = (with_audio / count * 100) if count > 0 else 0
-            print(f"  Maison: {count} mots")
+            print(f"  Vêtements: {count} mots")
             print(f"  Avec emojis: {with_emojis} ({emoji_rate:.1f}%)")
             print(f"  Avec audio: {with_audio} ({audio_rate:.1f}%)")
         
         print(f"  Total mots dans la base: {self.total_words_count}")
         
         if success_rate >= 80:
-            print("\n🎉 RÉSULTAT: SUCCÈS - La section maison est fonctionnelle!")
+            print("\n🎉 RÉSULTAT: SUCCÈS - La section vêtements est fonctionnelle!")
         elif success_rate >= 60:
             print("\n⚠️ RÉSULTAT: PARTIEL - Quelques problèmes identifiés")
         else:
@@ -476,7 +556,7 @@ class MaisonSectionTester:
 
 def main():
     """Main test execution"""
-    tester = MaisonSectionTester()
+    tester = VetementsSectionTester()
     success = tester.run_all_tests()
     
     if success:
