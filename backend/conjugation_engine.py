@@ -14,8 +14,9 @@ import os
 def get_database():
     """Connexion à la base de données"""
     MONGO_URL = os.getenv('MONGO_URL')
+    DB_NAME = os.getenv('DB_NAME', 'mayotte_app')
     client = MongoClient(MONGO_URL)
-    return client.kwezi
+    return client[DB_NAME]
 
 class ConjugationEngine:
     def __init__(self):
