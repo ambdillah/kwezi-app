@@ -12,7 +12,7 @@ from typing import Dict, List, Any, Optional
 import time
 
 # Configuration
-BACKEND_URL = "https://kwezi-learn.preview.emergentagent.com/api"
+BACKEND_URL = "https://shimao-game.preview.emergentagent.com/api"
 
 class FamilySectionTester:
     def __init__(self):

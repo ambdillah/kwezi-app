@@ -36,7 +36,7 @@ index b3ba502..e69de29 100644
 -+from typing import List, Dict, Any
 -+
 -+# Configuration
--+BASE_URL = "https://kwezi-learn.preview.emergentagent.com"
+-+BASE_URL = "https://shimao-game.preview.emergentagent.com"
 -+API_BASE = f"{BASE_URL}/api"
 -+
 -+class TestResults:
@@ -1569,7 +1569,7 @@ index b3ba502..e69de29 100644
 ------------+from typing import Dict, List, Any
 ------------+
 ------------+# Configuration
-------------+BACKEND_URL = "https://kwezi-learn.preview.emergentagent.com/api"
+------------+BACKEND_URL = "https://shimao-game.preview.emergentagent.com/api"
 ------------+
 ------------+class FamilyWordsTestSuite:
 ------------+    def __init__(self):
@@ -1948,7 +1948,7 @@ index b3ba502..e69de29 100644
 -----------------+from datetime import datetime
 -----------------+
 -----------------+# Configuration des URLs
------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://kwezi-learn.preview.emergentagent.com')
+-----------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimao-game.preview.emergentagent.com')
 -----------------+API_BASE = f"{BACKEND_URL}/api"
 -----------------+
 -----------------+class AdjectifsAudioTester:
@@ -2653,7 +2653,7 @@ index b3ba502..e69de29 100644
 ------------------+import time
 ------------------+
 ------------------+# Configuration des URLs
-------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://kwezi-learn.preview.emergentagent.com')
+------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimao-game.preview.emergentagent.com')
 ------------------+API_BASE = f"{BACKEND_URL}/api"
 ------------------+
 ------------------+class ExpressionsAudioTester:
@@ -3375,7 +3375,7 @@ index b3ba502..e69de29 100644
 ------------------+import time
 ------------------+
 ------------------+# Configuration des URLs
-------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://kwezi-learn.preview.emergentagent.com')
+------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimao-game.preview.emergentagent.com')
 ------------------+API_BASE = f"{BACKEND_URL}/api"
 ------------------+
 ------------------+class ExpressionsAudioTester:
