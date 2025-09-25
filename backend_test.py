@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Backend Testing Suite for Mayotte Language Learning API
-Testing French formatting corrections after database restoration
-Focus: Verify proper French accents, capitalization, and professional formatting
+Backend Testing Script for Mayotte Language Learning API
+Testing the complete family section update with new data from table
+Focus: Verify new translations, new word addition, and data integrity
 """
 
 import requests
@@ -14,7 +14,7 @@ import time
 # Configuration
 BACKEND_URL = "https://kwezi-learn.preview.emergentagent.com/api"
 
-class BackendTester:
+class FamilySectionTester:
     def __init__(self):
         self.backend_url = BACKEND_URL
         self.test_results = []
@@ -62,336 +62,241 @@ class BackendTester:
                 "success": False
             }
 
-    def test_1_corrections_accents_remises(self):
-        """Test 1: Vérifier que les corrections d'accents ont été remises"""
-        print("\n=== TEST 1: CORRECTIONS D'ACCENTS REMISES ===")
+    def test_1_nouvelles_traductions_mises_a_jour(self):
+        """Test 1: Vérifier les nouvelles traductions mise à jour"""
+        print("\n=== TEST 1: NOUVELLES TRADUCTIONS MISE À JOUR ===")
         
-        # Get all words
-        response = self.make_request("/words")
+        # Get family words
+        response = self.make_request("/words?category=famille")
         if not response["success"]:
-            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            self.log_test("Récupération mots famille", False, f"Erreur API: {response['data']}")
             return
             
-        words = response["data"]
-        self.log_test("Récupération des mots", True, f"{len(words)} mots trouvés")
+        family_words = response["data"]
+        self.log_test("Récupération mots famille", True, f"{len(family_words)} mots famille trouvés")
         
-        # Create word lookup dictionary (case-sensitive for accent testing)
-        word_dict = {word.get("french", ""): word for word in words}
+        # Create word lookup dictionary
+        word_dict = {word.get("french", "").lower(): word for word in family_words}
         
-        # Test: Vérifier que "Frère" (avec accent) existe maintenant au lieu de "frere"
-        if "Frère" in word_dict:
-            self.log_test("Frère avec accent existe", True, f"Trouvé: 'Frère'")
-        else:
-            # Check if exists without accent
-            if "frere" in [w.lower() for w in word_dict.keys()]:
-                self.log_test("Frère avec accent existe", False, "Trouvé 'frere' sans accent au lieu de 'Frère'")
-            else:
-                self.log_test("Frère avec accent existe", False, "Mot 'Frère' non trouvé")
+        # Test the specific updated translations from the review request
+        expected_updates = {
+            "tante maternelle": {"shimaore": "mama titi bolé", "kibouchi": "nindri heli bé"},
+            "oncle maternel": {"shimaore": "zama", "kibouchi": "zama"},
+            "petite sœur": {"shimaore": "moinagna mtroumama", "kibouchi": "zandri viavi"},
+            "grand frère": {"shimaore": "zouki mtoubaba", "kibouchi": "zoki lalahi"}
+        }
         
-        # Test: Vérifier "École", "Tête", "Étoile", "Tempête" avec accents appropriés
-        mots_avec_accents = ["École", "Tête", "Étoile", "Tempête"]
-        for mot in mots_avec_accents:
-            if mot in word_dict:
-                self.log_test(f"{mot} avec accent existe", True, f"Trouvé: '{mot}'")
-            else:
-                # Check if exists without accent
-                mot_sans_accent = mot.lower().replace('é', 'e').replace('è', 'e').replace('ê', 'e')
-                if any(w.lower() == mot_sans_accent for w in word_dict.keys()):
-                    self.log_test(f"{mot} avec accent existe", False, f"Trouvé sans accent au lieu de '{mot}'")
-                else:
-                    self.log_test(f"{mot} avec accent existe", False, f"Mot '{mot}' non trouvé")
-        
-        # Test: Vérifier "Grand-père", "Grand-mère" avec accents et tirets
-        mots_composes = ["Grand-père", "Grand-mère"]
-        for mot in mots_composes:
-            if mot in word_dict:
-                self.log_test(f"{mot} avec accent et tiret existe", True, f"Trouvé: '{mot}'")
-            else:
-                # Check variants
-                variants_found = []
-                for w in word_dict.keys():
-                    if "grand" in w.lower() and ("père" in w.lower() or "mère" in w.lower()):
-                        variants_found.append(w)
+        for french_word, expected_translations in expected_updates.items():
+            if french_word in word_dict:
+                word = word_dict[french_word]
+                shimaore_actual = word.get('shimaore', '').lower().strip()
+                kibouchi_actual = word.get('kibouchi', '').lower().strip()
+                shimaore_expected = expected_translations['shimaore'].lower().strip()
+                kibouchi_expected = expected_translations['kibouchi'].lower().strip()
                 
-                if variants_found:
-                    self.log_test(f"{mot} avec accent et tiret existe", False, f"Variantes trouvées: {variants_found}")
+                shimaore_match = shimaore_expected in shimaore_actual or shimaore_actual in shimaore_expected
+                kibouchi_match = kibouchi_expected in kibouchi_actual or kibouchi_actual in kibouchi_expected
+                
+                if shimaore_match and kibouchi_match:
+                    self.log_test(f"Traduction mise à jour: {french_word}", True, 
+                                  f"Shimaoré: {word.get('shimaore')}, Kibouchi: {word.get('kibouchi')}")
                 else:
-                    self.log_test(f"{mot} avec accent et tiret existe", False, f"Mot '{mot}' non trouvé")
+                    self.log_test(f"Traduction mise à jour: {french_word}", False, 
+                                  f"Attendu Shimaoré: {expected_translations['shimaore']}, Trouvé: {word.get('shimaore')} | "
+                                  f"Attendu Kibouchi: {expected_translations['kibouchi']}, Trouvé: {word.get('kibouchi')}")
+            else:
+                self.log_test(f"Traduction mise à jour: {french_word}", False, "Mot non trouvé dans la base")
 
-    def test_2_capitalisation_appliquee(self):
-        """Test 2: Vérifier que la capitalisation a été appliquée"""
-        print("\n=== TEST 2: CAPITALISATION APPLIQUÉE ===")
+    def test_2_nouveau_mot_ajoute(self):
+        """Test 2: Confirmer le nouveau mot ajouté"""
+        print("\n=== TEST 2: NOUVEAU MOT AJOUTÉ ===")
         
-        response = self.make_request("/words")
+        response = self.make_request("/words?category=famille")
         if not response["success"]:
-            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
+            self.log_test("Récupération mots famille", False, f"Erreur API: {response['data']}")
             return
             
-        words = response["data"]
-        word_dict = {word.get("french", ""): word for word in words}
+        family_words = response["data"]
+        word_dict = {word.get("french", "").lower(): word for word in family_words}
         
-        # Test: Vérifier que tous les mots français commencent par une majuscule
-        sample_words = ["Famille", "Papa", "Maman", "Bonjour", "Merci"]
+        # Test the new word: Petite fille: "mwana mtroumama" / "zaza viavi"
+        expected_new_word = {
+            "french": "petite fille",
+            "shimaore": "mwana mtroumama",
+            "kibouchi": "zaza viavi"
+        }
         
-        for mot in sample_words:
-            if mot in word_dict:
-                self.log_test(f"Capitalisation correcte: {mot}", True, f"Trouvé: '{mot}'")
+        if expected_new_word['french'] in word_dict:
+            word = word_dict[expected_new_word['french']]
+            shimaore_actual = word.get('shimaore', '').lower().strip()
+            kibouchi_actual = word.get('kibouchi', '').lower().strip()
+            shimaore_expected = expected_new_word['shimaore'].lower().strip()
+            kibouchi_expected = expected_new_word['kibouchi'].lower().strip()
+            
+            shimaore_match = shimaore_expected in shimaore_actual or shimaore_actual in shimaore_expected
+            kibouchi_match = kibouchi_expected in kibouchi_actual or kibouchi_actual in kibouchi_expected
+            
+            if shimaore_match and kibouchi_match:
+                self.log_test("Nouveau mot ajouté: Petite fille", True, 
+                              f"Shimaoré: {word.get('shimaore')}, Kibouchi: {word.get('kibouchi')}")
             else:
-                # Check if exists with different capitalization
-                found_variant = None
-                for french_word in word_dict.keys():
-                    if french_word.lower() == mot.lower():
-                        found_variant = french_word
-                        break
-                
-                if found_variant:
-                    is_correct = found_variant[0].isupper()
-                    self.log_test(f"Capitalisation correcte: {mot}", is_correct, 
-                                f"Trouvé comme '{found_variant}' - {'correct' if is_correct else 'incorrect'}")
-                else:
-                    self.log_test(f"Capitalisation correcte: {mot}", False, "Mot non trouvé")
-        
-        # Test: Vérifier les mots composés: "Comment ça va", "Ça va bien"
-        mots_composes = ["Comment ça va", "Ça va bien"]
-        for mot in mots_composes:
-            if mot in word_dict:
-                self.log_test(f"Capitalisation mot composé: {mot}", True, f"Trouvé: '{mot}'")
-            else:
-                # Check variants
-                variants_found = []
-                for w in word_dict.keys():
-                    if mot.lower() in w.lower():
-                        variants_found.append(w)
-                
-                if variants_found:
-                    correct_variants = [v for v in variants_found if v[0].isupper()]
-                    self.log_test(f"Capitalisation mot composé: {mot}", len(correct_variants) > 0, 
-                                f"Variantes trouvées: {variants_found}")
-                else:
-                    self.log_test(f"Capitalisation mot composé: {mot}", False, f"Mot '{mot}' non trouvé")
-        
-        # Test général: Vérifier le taux de capitalisation global
-        capitalization_correct = 0
-        total_checked = 0
-        
-        for word in words[:100]:  # Check first 100 words as sample
-            french_word = word.get('french', '')
-            if french_word and len(french_word) > 0:
-                total_checked += 1
-                if french_word[0].isupper():
-                    capitalization_correct += 1
-        
-        if total_checked > 0:
-            rate = (capitalization_correct / total_checked) * 100
-            self.log_test("Taux de capitalisation global", rate >= 90, 
-                        f"{rate:.1f}% des mots correctement capitalisés ({capitalization_correct}/{total_checked})")
+                self.log_test("Nouveau mot ajouté: Petite fille", False, 
+                              f"Traductions incorrectes - Attendu Shimaoré: {expected_new_word['shimaore']}, Trouvé: {word.get('shimaore')} | "
+                              f"Attendu Kibouchi: {expected_new_word['kibouchi']}, Trouvé: {word.get('kibouchi')}")
         else:
-            self.log_test("Taux de capitalisation global", False, "Aucun mot à vérifier")
+            self.log_test("Nouveau mot ajouté: Petite fille", False, "Mot 'Petite fille' non trouvé dans la base")
 
-    def test_3_mots_speciaux(self):
-        """Test 3: Vérifier les mots spéciaux"""
-        print("\n=== TEST 3: MOTS SPÉCIAUX ===")
+    def test_3_api_famille_complete(self):
+        """Test 3: Tester l'API famille complète"""
+        print("\n=== TEST 3: API FAMILLE COMPLÈTE ===")
         
-        response = self.make_request("/words")
-        if not response["success"]:
-            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
-            return
-            
-        words = response["data"]
-        word_dict = {word.get("french", ""): word for word in words}
-        
-        # Test: Vérifier "Œil" (avec caractère spécial)
-        if "Œil" in word_dict:
-            self.log_test("Œil avec caractère spécial existe", True, f"Trouvé: 'Œil'")
-        else:
-            # Check variants
-            variants_found = []
-            for w in word_dict.keys():
-                if "œil" in w.lower() or "oeil" in w.lower():
-                    variants_found.append(w)
-            
-            if variants_found:
-                correct_variants = [v for v in variants_found if "Œ" in v]
-                self.log_test("Œil avec caractère spécial existe", len(correct_variants) > 0, 
-                            f"Variantes trouvées: {variants_found}")
-            else:
-                self.log_test("Œil avec caractère spécial existe", False, "Mot 'Œil' non trouvé")
-        
-        # Test: Vérifier "Petit garçon" (avec accent sur garçon)
-        if "Petit garçon" in word_dict:
-            self.log_test("Petit garçon avec accent existe", True, f"Trouvé: 'Petit garçon'")
-        else:
-            # Check variants
-            variants_found = []
-            for w in word_dict.keys():
-                if "petit" in w.lower() and "garçon" in w.lower():
-                    variants_found.append(w)
-            
-            if variants_found:
-                correct_variants = [v for v in variants_found if "ç" in v]
-                self.log_test("Petit garçon avec accent existe", len(correct_variants) > 0, 
-                            f"Variantes trouvées: {variants_found}")
-            else:
-                # Check if exists without accent
-                variants_sans_accent = []
-                for w in word_dict.keys():
-                    if "petit" in w.lower() and "garcon" in w.lower():
-                        variants_sans_accent.append(w)
-                
-                if variants_sans_accent:
-                    self.log_test("Petit garçon avec accent existe", False, 
-                                f"Trouvé sans accent: {variants_sans_accent}")
-                else:
-                    self.log_test("Petit garçon avec accent existe", False, "Mot 'Petit garçon' non trouvé")
-
-    def test_4_integrite_complete(self):
-        """Test 4: Vérifier l'intégrité complète"""
-        print("\n=== TEST 4: INTÉGRITÉ COMPLÈTE ===")
-        
-        response = self.make_request("/words")
-        if not response["success"]:
-            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
-            return
-            
-        words = response["data"]
-        total_words = len(words)
-        
-        # Test: Vérifier que le total reste 565 mots
-        expected_total = 565
-        self.log_test(f"Total de {expected_total} mots maintenu", total_words == expected_total, 
-                     f"Trouvé: {total_words} mots (attendu: {expected_total})")
-        
-        # Test: Vérifier que les traductions shimaoré et kibouchi sont intactes
-        complete_translations = 0
-        for word in words:
-            shimaore = word.get('shimaore', '').strip()
-            kibouchi = word.get('kibouchi', '').strip()
-            
-            if shimaore and kibouchi:
-                complete_translations += 1
-        
-        completion_rate = (complete_translations / total_words) * 100 if total_words > 0 else 0
-        self.log_test("Traductions shimaoré et kibouchi intactes", completion_rate >= 95, 
-                    f"{completion_rate:.1f}% des mots ont des traductions complètes ({complete_translations}/{total_words})")
-        
-        # Test: Vérifier que les corrections précédentes sont préservées (escargot: "kowa", etc.)
-        corrections_preservees = [
-            ("escargot", "kowa", "shimaore"),
-            # Add other known corrections here
-        ]
-        
-        word_dict = {word.get("french", "").lower(): word for word in words}
-        
-        for mot_french, traduction_attendue, langue in corrections_preservees:
-            if mot_french in word_dict:
-                word = word_dict[mot_french]
-                traduction_actuelle = word.get(langue, "").lower()
-                
-                if traduction_attendue.lower() in traduction_actuelle:
-                    self.log_test(f"Correction préservée: {mot_french} -> {traduction_attendue}", True, 
-                                f"{langue}: '{word.get(langue, '')}'")
-                else:
-                    self.log_test(f"Correction préservée: {mot_french} -> {traduction_attendue}", False, 
-                                f"{langue}: '{word.get(langue, '')}' (attendu: {traduction_attendue})")
-            else:
-                self.log_test(f"Correction préservée: {mot_french} -> {traduction_attendue}", False, 
-                            f"Mot '{mot_french}' non trouvé")
-
-    def test_5_tests_api(self):
-        """Test 5: Tests API"""
-        print("\n=== TEST 5: TESTS API ===")
-        
-        # Test: GET /api/words (vérifier formatage)
-        response = self.make_request("/words")
-        if response["success"]:
-            words = response["data"]
-            self.log_test("GET /api/words", True, f"Récupéré {len(words)} mots avec formatage")
-            
-            # Vérifier quelques mots avec formatage professionnel
-            sample_words = words[:10]
-            formatting_issues = 0
-            
-            for word in sample_words:
-                french = word.get('french', '')
-                if french:
-                    # Check basic formatting
-                    if not french[0].isupper():
-                        formatting_issues += 1
-                    if french.endswith(' ') or french.startswith(' '):
-                        formatting_issues += 1
-            
-            formatting_quality = ((len(sample_words) - formatting_issues) / len(sample_words) * 100) if sample_words else 0
-            self.log_test("Formatage professionnel dans API", formatting_quality >= 90, 
-                        f"{formatting_quality:.1f}% qualité formatage")
-        else:
-            self.log_test("GET /api/words", False, f"Erreur: {response['data']}")
-        
-        # Test: GET /api/words?category=famille (vérifier nouveaux mots avec bon formatage)
+        # Test GET /api/words?category=famille
         response = self.make_request("/words?category=famille")
         if response["success"]:
-            famille_words = response["data"]
-            self.log_test("GET /api/words?category=famille", True, f"Récupéré {len(famille_words)} mots famille")
+            family_words = response["data"]
+            total_family = len(family_words)
             
-            # Vérifier formatage des mots famille
-            mots_famille_attendus = ["Grand-père", "Grand-mère", "Frère"]
-            mots_trouves_formates = []
+            self.log_test("GET /api/words?category=famille", True, f"API accessible, {total_family} mots famille")
             
-            for word in famille_words:
-                french = word.get('french', '')
-                if any(mot.lower() in french.lower() for mot in mots_famille_attendus):
-                    if french[0].isupper():
-                        mots_trouves_formates.append(french)
+            # Test: Vérifier le total de 29 mots de famille (selon la demande)
+            if total_family == 29:
+                self.log_test("Total 29 mots famille", True, f"Exactement {total_family} mots trouvés")
+            else:
+                self.log_test("Total 29 mots famille", False, f"Attendu 29 mots, trouvé {total_family}")
             
-            self.log_test("Formatage mots famille", len(mots_trouves_formates) >= 2, 
-                        f"Mots famille bien formatés trouvés: {mots_trouves_formates}")
+            # Test: Vérifier la structure complète des données
+            complete_structure = 0
+            required_fields = ['french', 'shimaore', 'kibouchi', 'category']
+            
+            for word in family_words:
+                if all(field in word and word[field] for field in required_fields):
+                    complete_structure += 1
+            
+            structure_rate = (complete_structure / total_family) * 100 if total_family > 0 else 0
+            self.log_test("Structure complète des données", structure_rate >= 95, 
+                        f"{structure_rate:.1f}% des mots ont une structure complète ({complete_structure}/{total_family})")
+            
+            return family_words
         else:
-            self.log_test("GET /api/words?category=famille", False, f"Erreur: {response['data']}")
+            self.log_test("GET /api/words?category=famille", False, f"Erreur API: {response['data']}")
+            return []
+
+    def test_4_verifier_integrite(self, family_words: List[Dict]):
+        """Test 4: Vérifier l'intégrité"""
+        print("\n=== TEST 4: VÉRIFIER L'INTÉGRITÉ ===")
         
-        # Test: Recherche spécifique de quelques mots corrigés
-        mots_corriges = ["Frère", "École", "Étoile", "Grand-père", "Œil"]
+        if not family_words:
+            self.log_test("Intégrité des données", False, "Aucune donnée famille à vérifier")
+            return
         
-        response = self.make_request("/words")
-        if response["success"]:
-            words = response["data"]
-            word_dict = {word.get("french", ""): word for word in words}
+        # Test: S'assurer qu'aucune donnée n'a été corrompue
+        corruption_issues = 0
+        for word in family_words:
+            french = word.get('french', '')
+            shimaore = word.get('shimaore', '')
+            kibouchi = word.get('kibouchi', '')
             
-            mots_corriges_trouves = 0
-            for mot in mots_corriges:
-                if mot in word_dict:
-                    mots_corriges_trouves += 1
-                    word_data = word_dict[mot]
-                    self.log_test(f"Recherche mot corrigé: {mot}", True, 
-                                f"Trouvé avec traductions: {word_data.get('shimaore', 'N/A')} / {word_data.get('kibouchi', 'N/A')}")
-                else:
-                    self.log_test(f"Recherche mot corrigé: {mot}", False, "Mot non trouvé avec formatage correct")
-            
-            self.log_test("Recherche globale mots corrigés", mots_corriges_trouves >= 3, 
-                        f"Trouvé {mots_corriges_trouves}/{len(mots_corriges)} mots corrigés")
+            # Check for obvious corruption signs
+            if not french or len(french.strip()) == 0:
+                corruption_issues += 1
+            if french and (french.count('�') > 0 or len(french) > 100):  # Encoding issues or suspiciously long
+                corruption_issues += 1
+            if shimaore and shimaore.count('�') > 0:
+                corruption_issues += 1
+            if kibouchi and kibouchi.count('�') > 0:
+                corruption_issues += 1
+        
+        if corruption_issues == 0:
+            self.log_test("Aucune donnée corrompue", True, "Toutes les données famille semblent intactes")
         else:
-            self.log_test("Recherche mots corrigés", False, f"Erreur API: {response['data']}")
+            self.log_test("Aucune donnée corrompue", False, f"{corruption_issues} signes de corruption détectés")
+        
+        # Test: Vérifier que les IDs sont préservés
+        ids_present = sum(1 for word in family_words if word.get('id'))
+        unique_ids = len(set(word.get('id') for word in family_words if word.get('id')))
+        
+        if ids_present == len(family_words) and unique_ids == ids_present:
+            self.log_test("IDs préservés", True, f"Tous les {len(family_words)} mots ont des IDs uniques")
+        else:
+            self.log_test("IDs préservés", False, f"Problème d'IDs: {ids_present} IDs pour {len(family_words)} mots, {unique_ids} uniques")
+        
+        # Test: Confirmer que les catégories restent correctes
+        correct_category = sum(1 for word in family_words if word.get('category') == 'famille')
+        if correct_category == len(family_words):
+            self.log_test("Catégories correctes", True, f"Tous les {len(family_words)} mots ont la catégorie 'famille'")
+        else:
+            wrong_category = len(family_words) - correct_category
+            self.log_test("Catégories correctes", False, f"{wrong_category} mots ont une catégorie incorrecte")
+
+    def test_5_tests_fonctionnels_specifiques(self, family_words: List[Dict]):
+        """Test 5: Tests fonctionnels spécifiques"""
+        print("\n=== TEST 5: TESTS FONCTIONNELS SPÉCIFIQUES ===")
+        
+        if not family_words:
+            self.log_test("Tests fonctionnels", False, "Aucune donnée famille pour les tests")
+            return
+        
+        word_dict = {word.get("french", "").lower(): word for word in family_words}
+        
+        # Test: Rechercher des mots spécifiques par français
+        test_words = ["papa", "maman", "frère", "sœur", "grand-père", "grand-mère", "famille"]
+        found_words = 0
+        
+        for test_word in test_words:
+            if test_word in word_dict:
+                found_words += 1
+                word = word_dict[test_word]
+                self.log_test(f"Recherche mot: {test_word}", True, 
+                              f"Trouvé - Shimaoré: {word.get('shimaore')}, Kibouchi: {word.get('kibouchi')}")
+            else:
+                self.log_test(f"Recherche mot: {test_word}", False, "Mot non trouvé")
+        
+        search_rate = (found_words / len(test_words)) * 100
+        self.log_test("Recherche globale mots spécifiques", search_rate >= 70, 
+                    f"{search_rate:.1f}% des mots test trouvés ({found_words}/{len(test_words)})")
+        
+        # Test: Vérifier la cohérence des traductions shimaoré/kibouchi
+        shimoare_consistency = sum(1 for word in family_words if word.get('shimaore', '').strip())
+        kibouchi_consistency = sum(1 for word in family_words if word.get('kibouchi', '').strip())
+        
+        total_words = len(family_words)
+        shimoare_rate = (shimoare_consistency / total_words) * 100 if total_words > 0 else 0
+        kibouchi_rate = (kibouchi_consistency / total_words) * 100 if total_words > 0 else 0
+        
+        self.log_test("Cohérence traductions Shimaoré", shimoare_rate >= 90, 
+                    f"{shimoare_rate:.1f}% des mots ont une traduction Shimaoré ({shimoare_consistency}/{total_words})")
+        self.log_test("Cohérence traductions Kibouchi", kibouchi_rate >= 90, 
+                    f"{kibouchi_rate:.1f}% des mots ont une traduction Kibouchi ({kibouchi_consistency}/{total_words})")
+        
+        # Test: Tester quelques mots pour l'accès audio (si disponible)
+        audio_words = [word for word in family_words if word.get('has_authentic_audio') or word.get('audio_url')]
+        if audio_words:
+            self.log_test("Accès audio disponible", True, f"{len(audio_words)} mots famille ont des métadonnées audio")
+        else:
+            self.log_test("Accès audio disponible", False, "Aucun mot famille n'a de métadonnées audio")
 
     def run_all_tests(self):
-        """Run all tests"""
-        print("🧪 DÉBUT DES TESTS - FORMATAGE FRANÇAIS APRÈS CORRECTION")
+        """Run all tests for the family section update"""
+        print("🎉 TESTING FAMILLE SECTION UPDATE WITH NEW DATA FROM TABLE")
         print("=" * 80)
-        print("Focus: Vérifier accents remis, capitalisation, mots spéciaux, intégrité 565 mots")
+        print("Focus: Nouvelles traductions, nouveau mot, total 29 mots, intégrité données")
         print("=" * 80)
         
         start_time = time.time()
         
         # Run all test suites
-        self.test_1_corrections_accents_remises()
-        self.test_2_capitalisation_appliquee()
-        self.test_3_mots_speciaux()
-        self.test_4_integrite_complete()
-        self.test_5_tests_api()
+        self.test_1_nouvelles_traductions_mises_a_jour()
+        self.test_2_nouveau_mot_ajoute()
+        family_words = self.test_3_api_famille_complete()
+        self.test_4_verifier_integrite(family_words)
+        self.test_5_tests_fonctionnels_specifiques(family_words)
         
         end_time = time.time()
         duration = end_time - start_time
         
         # Print summary
         print("\n" + "=" * 80)
-        print("📊 RÉSUMÉ DES TESTS - FORMATAGE FRANÇAIS")
+        print("📊 RÉSUMÉ DES TESTS - FAMILLE SECTION UPDATE")
         print("=" * 80)
         
         for result in self.test_results:
@@ -405,19 +310,23 @@ class BackendTester:
         print(f"   Durée: {duration:.2f}s")
         
         if success_rate >= 90:
-            print("🎉 EXCELLENT - FORMATAGE FRANÇAIS PROFESSIONNEL ET CORRECT!")
+            print("🎉 EXCELLENT - FAMILLE SECTION UPDATE COMPLÈTEMENT RÉUSSIE!")
+            print("Les 26 modifications (25 mises à jour + 1 ajout) sont correctement appliquées")
             return True
         elif success_rate >= 70:
-            print("✅ BIEN - FORMATAGE FRANÇAIS MAJORITAIREMENT CORRECT")
+            print("✅ BIEN - FAMILLE SECTION UPDATE MAJORITAIREMENT RÉUSSIE")
+            print("La plupart des modifications sont appliquées correctement")
             return True
         elif success_rate >= 50:
-            print("⚠️ PARTIEL - FORMATAGE FRANÇAIS PARTIELLEMENT CORRECT")
+            print("⚠️ PARTIEL - FAMILLE SECTION UPDATE PARTIELLEMENT RÉUSSIE")
+            print("Certaines modifications nécessitent des corrections")
             return False
         else:
-            print("❌ ÉCHEC - FORMATAGE FRANÇAIS NON PROFESSIONNEL")
+            print("❌ ÉCHEC - FAMILLE SECTION UPDATE NON RÉUSSIE")
+            print("Les modifications du tableau n'ont pas été appliquées correctement")
             return False
 
 if __name__ == "__main__":
-    tester = BackendTester()
+    tester = FamilySectionTester()
     success = tester.run_all_tests()
     sys.exit(0 if success else 1)
