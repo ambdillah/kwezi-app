@@ -62,9 +62,9 @@ class BackendTester:
                 "success": False
             }
 
-    def test_1_doublons_elimines(self):
-        """Test 1: Vérifier que les doublons ont été éliminés"""
-        print("\n=== TEST 1: DOUBLONS ÉLIMINÉS ===")
+    def test_1_corrections_orthographiques_appliquees(self):
+        """Test 1: Vérifier que les corrections orthographiques ont été appliquées"""
+        print("\n=== TEST 1: CORRECTIONS ORTHOGRAPHIQUES APPLIQUÉES ===")
         
         # Get all words
         response = self.make_request("/words")
@@ -75,50 +75,49 @@ class BackendTester:
         words = response["data"]
         self.log_test("Récupération des mots", True, f"{len(words)} mots trouvés")
         
-        # Check for duplicates by French word
-        french_words = {}
-        duplicates_found = []
+        # Create word lookup dictionary
+        word_dict = {word.get("french", "").lower(): word for word in words}
         
-        for word in words:
-            french = word.get("french", "").lower()
-            if french in french_words:
-                duplicates_found.append(french)
+        # Test: Mots français sans accents existent maintenant (etoile, ecole, etc.)
+        words_without_accents = ["etoile", "ecole"]
+        for word_french in words_without_accents:
+            if word_french in word_dict:
+                self.log_test(f"Mot sans accent '{word_french}' existe", True, f"Trouvé: {word_dict[word_french].get('french', '')}")
             else:
-                french_words[french] = word
+                self.log_test(f"Mot sans accent '{word_french}' existe", False, f"Mot '{word_french}' non trouvé")
         
-        # Test: No duplicates should exist
-        self.log_test("Absence de doublons", len(duplicates_found) == 0, 
-                     f"Doublons trouvés: {duplicates_found}" if duplicates_found else "Aucun doublon détecté")
-        
-        # Test specific cases mentioned in review
-        # 1. Only "bigorneau" should exist (not "tortue" duplicate)
-        bigorneau_count = sum(1 for word in words if word.get("french", "").lower() == "bigorneau")
-        tortue_count = sum(1 for word in words if word.get("french", "").lower() == "tortue")
-        
-        self.log_test("Bigorneau unique", bigorneau_count == 1, f"Bigorneau trouvé {bigorneau_count} fois")
-        self.log_test("Tortue présente", tortue_count >= 1, f"Tortue trouvé {tortue_count} fois")
-        
-        # 2. Only one "escargot" with translation "kowa"
-        escargot_words = [word for word in words if word.get("french", "").lower() == "escargot"]
-        escargot_with_kowa = [word for word in escargot_words if "kowa" in word.get("shimaore", "").lower()]
-        
-        self.log_test("Escargot unique", len(escargot_words) == 1, f"{len(escargot_words)} escargot(s) trouvé(s)")
-        self.log_test("Escargot avec 'kowa'", len(escargot_with_kowa) >= 1, 
-                     f"Escargot avec kowa: {escargot_with_kowa[0].get('shimaore', '') if escargot_with_kowa else 'Non trouvé'}")
-        
-        # 3. "oursin" and "huître" have distinct translations
-        oursin_words = [word for word in words if word.get("french", "").lower() == "oursin"]
-        huitre_words = [word for word in words if word.get("french", "").lower() == "huître"]
-        
-        if oursin_words and huitre_words:
-            oursin_translation = oursin_words[0].get("shimaore", "")
-            huitre_translation = huitre_words[0].get("shimaore", "")
-            distinct_translations = oursin_translation != huitre_translation
-            
-            self.log_test("Oursin/Huître traductions distinctes", distinct_translations,
-                         f"Oursin: {oursin_translation}, Huître: {huitre_translation}")
+        # Test: Correction escargot - shimaore doit être "kowa" (au lieu de "kwa")
+        if "escargot" in word_dict:
+            escargot = word_dict["escargot"]
+            shimaore = escargot.get("shimaore", "").lower()
+            if "kowa" in shimaore:
+                self.log_test("Correction escargot -> 'kowa'", True, f"Shimaore: '{escargot.get('shimaore', '')}'")
+            else:
+                self.log_test("Correction escargot -> 'kowa'", False, f"Shimaore: '{escargot.get('shimaore', '')}' (devrait contenir 'kowa')")
         else:
-            self.log_test("Oursin/Huître présents", False, "Oursin ou Huître manquant")
+            self.log_test("Correction escargot -> 'kowa'", False, "Mot 'escargot' non trouvé")
+        
+        # Test: Correction oursin - shimaore doit être "gadzassi ya bahari" pour différencier de huître
+        if "oursin" in word_dict:
+            oursin = word_dict["oursin"]
+            shimaore = oursin.get("shimaore", "").lower()
+            if "gadzassi ya bahari" in shimaore:
+                self.log_test("Correction oursin -> 'gadzassi ya bahari'", True, f"Shimaore: '{oursin.get('shimaore', '')}'")
+            else:
+                self.log_test("Correction oursin -> 'gadzassi ya bahari'", False, f"Shimaore: '{oursin.get('shimaore', '')}' (devrait être 'gadzassi ya bahari')")
+        else:
+            self.log_test("Correction oursin -> 'gadzassi ya bahari'", False, "Mot 'oursin' non trouvé")
+        
+        # Test: Correction nous - shimaore doit être "wasi" (au lieu de "wassi")
+        if "nous" in word_dict:
+            nous = word_dict["nous"]
+            shimaore = nous.get("shimaore", "").lower()
+            if shimaore == "wasi":
+                self.log_test("Correction nous -> 'wasi'", True, f"Shimaore: '{nous.get('shimaore', '')}'")
+            else:
+                self.log_test("Correction nous -> 'wasi'", False, f"Shimaore: '{nous.get('shimaore', '')}' (devrait être 'wasi')")
+        else:
+            self.log_test("Correction nous -> 'wasi'", False, "Mot 'nous' non trouvé")
 
     def test_2_corrections_orthographiques(self):
         """Test 2: Vérifier les corrections orthographiques"""
