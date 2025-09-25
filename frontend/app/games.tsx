@@ -1035,7 +1035,7 @@ export default function GamesScreen() {
             <Text style={styles.sentenceTargetLabel}>Phrase à traduire :</Text>
             <TouchableOpacity 
               style={styles.sentenceAudioButton}
-              onPress={() => speakConjugatedSentence(currentSentence.french, currentSentence.tense as any, 'fr')}
+              onPress={() => speakEducationalContent(currentSentence.french, 'fr')}
             >
               <Ionicons name="volume-high" size={20} color="#4ECDC4" />
             </TouchableOpacity>
