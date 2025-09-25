@@ -297,91 +297,101 @@ class BackendTester:
                 self.log_test(f"Correction préservée: {mot_french} -> {traduction_attendue}", False, 
                             f"Mot '{mot_french}' non trouvé")
 
-    def test_5_verification_corrections_specifiques(self):
-        """Test 5: Vérification détaillée des corrections spécifiques"""
-        print("\n=== TEST 5: VÉRIFICATION CORRECTIONS SPÉCIFIQUES ===")
+    def test_5_tests_api(self):
+        """Test 5: Tests API"""
+        print("\n=== TEST 5: TESTS API ===")
+        
+        # Test: GET /api/words (vérifier formatage)
+        response = self.make_request("/words")
+        if response["success"]:
+            words = response["data"]
+            self.log_test("GET /api/words", True, f"Récupéré {len(words)} mots avec formatage")
+            
+            # Vérifier quelques mots avec formatage professionnel
+            sample_words = words[:10]
+            formatting_issues = 0
+            
+            for word in sample_words:
+                french = word.get('french', '')
+                if french:
+                    # Check basic formatting
+                    if not french[0].isupper():
+                        formatting_issues += 1
+                    if french.endswith(' ') or french.startswith(' '):
+                        formatting_issues += 1
+            
+            formatting_quality = ((len(sample_words) - formatting_issues) / len(sample_words) * 100) if sample_words else 0
+            self.log_test("Formatage professionnel dans API", formatting_quality >= 90, 
+                        f"{formatting_quality:.1f}% qualité formatage")
+        else:
+            self.log_test("GET /api/words", False, f"Erreur: {response['data']}")
+        
+        # Test: GET /api/words?category=famille (vérifier nouveaux mots avec bon formatage)
+        response = self.make_request("/words?category=famille")
+        if response["success"]:
+            famille_words = response["data"]
+            self.log_test("GET /api/words?category=famille", True, f"Récupéré {len(famille_words)} mots famille")
+            
+            # Vérifier formatage des mots famille
+            mots_famille_attendus = ["Grand-père", "Grand-mère", "Frère"]
+            mots_trouves_formates = []
+            
+            for word in famille_words:
+                french = word.get('french', '')
+                if any(mot.lower() in french.lower() for mot in mots_famille_attendus):
+                    if french[0].isupper():
+                        mots_trouves_formates.append(french)
+            
+            self.log_test("Formatage mots famille", len(mots_trouves_formates) >= 2, 
+                        f"Mots famille bien formatés trouvés: {mots_trouves_formates}")
+        else:
+            self.log_test("GET /api/words?category=famille", False, f"Erreur: {response['data']}")
+        
+        # Test: Recherche spécifique de quelques mots corrigés
+        mots_corriges = ["Frère", "École", "Étoile", "Grand-père", "Œil"]
         
         response = self.make_request("/words")
-        if not response["success"]:
-            self.log_test("Récupération des mots", False, f"Erreur API: {response['data']}")
-            return
+        if response["success"]:
+            words = response["data"]
+            word_dict = {word.get("french", ""): word for word in words}
             
-        words = response["data"]
-        word_dict = {word.get("french", "").lower(): word for word in words}
-        
-        # Vérifications détaillées des corrections critiques
-        corrections_critiques = [
-            {
-                "mot": "escargot",
-                "shimaore_attendu": "kowa",
-                "description": "Correction escargot: 'kwa' -> 'kowa'"
-            },
-            {
-                "mot": "oursin", 
-                "shimaore_attendu": "gadzassi ya bahari",
-                "description": "Différenciation oursin/huître"
-            },
-            {
-                "mot": "nous",
-                "shimaore_attendu": "wasi", 
-                "description": "Correction nous: 'wassi' -> 'wasi'"
-            }
-        ]
-        
-        for correction in corrections_critiques:
-            mot = correction["mot"]
-            shimaore_attendu = correction["shimaore_attendu"]
-            description = correction["description"]
-            
-            if mot in word_dict:
-                word = word_dict[mot]
-                shimaore_actuel = word.get("shimaore", "").lower()
-                
-                if shimaore_attendu.lower() in shimaore_actuel or shimaore_actuel == shimaore_attendu.lower():
-                    self.log_test(description, True, f"'{mot}' -> shimaore: '{word.get('shimaore', '')}'")
+            mots_corriges_trouves = 0
+            for mot in mots_corriges:
+                if mot in word_dict:
+                    mots_corriges_trouves += 1
+                    word_data = word_dict[mot]
+                    self.log_test(f"Recherche mot corrigé: {mot}", True, 
+                                f"Trouvé avec traductions: {word_data.get('shimaore', 'N/A')} / {word_data.get('kibouchi', 'N/A')}")
                 else:
-                    self.log_test(description, False, f"'{mot}' -> shimaore: '{word.get('shimaore', '')}' (attendu: '{shimaore_attendu}')")
-            else:
-                self.log_test(description, False, f"Mot '{mot}' non trouvé")
-        
-        # Vérifier les mots sans accents
-        mots_sans_accents = ["etoile", "ecole"]
-        for mot in mots_sans_accents:
-            if mot in word_dict:
-                self.log_test(f"Mot sans accent '{mot}' présent", True, f"Trouvé: '{word_dict[mot].get('french', '')}'")
-            else:
-                self.log_test(f"Mot sans accent '{mot}' présent", False, f"Mot '{mot}' non trouvé")
-        
-        # Vérifier que les versions avec accents n'existent plus
-        mots_avec_accents = ["étoile", "école"]
-        for mot in mots_avec_accents:
-            if mot in word_dict:
-                self.log_test(f"Mot avec accent '{mot}' supprimé", False, f"Mot '{mot}' encore présent")
-            else:
-                self.log_test(f"Mot avec accent '{mot}' supprimé", True, f"Mot '{mot}' correctement supprimé")
+                    self.log_test(f"Recherche mot corrigé: {mot}", False, "Mot non trouvé avec formatage correct")
+            
+            self.log_test("Recherche globale mots corrigés", mots_corriges_trouves >= 3, 
+                        f"Trouvé {mots_corriges_trouves}/{len(mots_corriges)} mots corrigés")
+        else:
+            self.log_test("Recherche mots corrigés", False, f"Erreur API: {response['data']}")
 
     def run_all_tests(self):
         """Run all tests"""
-        print("🧪 DÉBUT DES TESTS - CORRECTIONS PDF VOCABULAIRE SHIMAORÉ-KIBOUCHI")
+        print("🧪 DÉBUT DES TESTS - FORMATAGE FRANÇAIS APRÈS CORRECTION")
         print("=" * 80)
-        print("Focus: Vérifier 565 mots total, corrections orthographiques, nouveaux mots ajoutés")
+        print("Focus: Vérifier accents remis, capitalisation, mots spéciaux, intégrité 565 mots")
         print("=" * 80)
         
         start_time = time.time()
         
         # Run all test suites
-        self.test_1_corrections_orthographiques_appliquees()
-        self.test_2_nouveaux_mots_ajoutes()
-        self.test_3_integrite_globale()
-        self.test_4_endpoints_api_fonctionnels()
-        self.test_5_verification_corrections_specifiques()
+        self.test_1_corrections_accents_remises()
+        self.test_2_capitalisation_appliquee()
+        self.test_3_mots_speciaux()
+        self.test_4_integrite_complete()
+        self.test_5_tests_api()
         
         end_time = time.time()
         duration = end_time - start_time
         
         # Print summary
         print("\n" + "=" * 80)
-        print("📊 RÉSUMÉ DES TESTS - CORRECTIONS PDF VOCABULAIRE")
+        print("📊 RÉSUMÉ DES TESTS - FORMATAGE FRANÇAIS")
         print("=" * 80)
         
         for result in self.test_results:
@@ -395,16 +405,16 @@ class BackendTester:
         print(f"   Durée: {duration:.2f}s")
         
         if success_rate >= 90:
-            print("🎉 EXCELLENT - CORRECTIONS PDF APPLIQUÉES AVEC SUCCÈS!")
+            print("🎉 EXCELLENT - FORMATAGE FRANÇAIS PROFESSIONNEL ET CORRECT!")
             return True
         elif success_rate >= 70:
-            print("✅ BIEN - CORRECTIONS PDF MAJORITAIREMENT APPLIQUÉES")
+            print("✅ BIEN - FORMATAGE FRANÇAIS MAJORITAIREMENT CORRECT")
             return True
         elif success_rate >= 50:
-            print("⚠️ PARTIEL - CORRECTIONS PDF PARTIELLEMENT APPLIQUÉES")
+            print("⚠️ PARTIEL - FORMATAGE FRANÇAIS PARTIELLEMENT CORRECT")
             return False
         else:
-            print("❌ ÉCHEC - CORRECTIONS PDF NON APPLIQUÉES")
+            print("❌ ÉCHEC - FORMATAGE FRANÇAIS NON PROFESSIONNEL")
             return False
 
 if __name__ == "__main__":
