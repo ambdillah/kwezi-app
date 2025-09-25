@@ -361,24 +361,11 @@ def main():
     # Analyser les différences
     results = analyze_database_vs_pdf()
     
-    # Demander confirmation pour appliquer
-    print(f"\nVoulez-vous appliquer ces corrections ? (simulation d'abord)")
-    
     # Faire une simulation d'abord
+    print(f"\n=== SIMULATION DES CORRECTIONS ===")
     apply_corrections(results, dry_run=True)
     
-    # Demander confirmation pour les vraies modifications
-    response = input("\nAppliquer réellement ces modifications ? (oui/non): ")
-    if response.lower() in ['oui', 'o', 'yes', 'y']:
-        apply_corrections(results, dry_run=False)
-        
-        # Vérification finale
-        collection = connect_to_database()
-        final_count = collection.count_documents({})
-        print(f"\nVÉRIFICATION FINALE:")
-        print(f"Nombre total de mots après correction: {final_count}")
-    else:
-        print("Modifications annulées.")
+    print(f"\n⚠️  ANALYSE TERMINÉE - Pour appliquer les corrections, modifiez le script et relancez")
 
 if __name__ == "__main__":
     main()
