@@ -72,7 +72,7 @@ ANIMAUX_DATA = [
     {"french": "corbeau", "shimaoré": "gawa/kwayi", "kibouchi": "gouaka"},
     {"french": "civette", "shimaoré": "founga", "kibouchi": "angava"},
     {"french": "dauphin", "shimaoré": "moungoumé", "kibouchi": "fésoutrou"},
-    {"french": "baleine", "shimaoré": "ndroujou", "kibouchi": ""},
+    {"french": "baleine", "shimaoré": "ndroujou", "kibouchi": "balaine"},
     {"french": "crevette", "shimaoré": "camba", "kibouchi": "ancamba"},
     {"french": "frelon", "shimaoré": "chonga", "kibouchi": "faraka"},
     {"french": "guêpe", "shimaoré": "movou", "kibouchi": "fanintri"},
