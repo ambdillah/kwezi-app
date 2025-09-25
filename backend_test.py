@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Backend Testing Suite for Mayotte Language Learning API
-Testing PDF vocabulary corrections after shimaoré-kibouchi updates
-Focus: Verify 565 words total, orthographic corrections, and new words added
+Testing French formatting corrections after database restoration
+Focus: Verify proper French accents, capitalization, and professional formatting
 """
 
 import requests
