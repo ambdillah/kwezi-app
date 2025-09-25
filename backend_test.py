@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """
-Test complet du backend après la mise à jour de la section "nombres"
-Comprehensive backend testing after numbers section update
+Test complet du backend après la mise à jour des prononciations audio pour toutes les sections
+Comprehensive backend testing after audio pronunciation updates for all sections
 
-Tests:
-1. API vocabulary - vérifier que les mots de la section "nombres" sont correctement retournés
-2. Test de l'endpoint `/api/words` pour la section "nombres" 
-3. Vérifier que tous les 28 nouveaux nombres sont présents (1-100)
-4. Test de la structure des données - chaque nombre a les champs requis
-5. Test de différents types de nombres (1-10, 11-19, dizaines, 100)
-6. Test de robustesse - pas de doublons, remplacement complet, autres sections non affectées
+Test Requirements from French review request:
+1. Vérification des sections complètes (4 sections: animaux, nombres, corps, salutations)
+2. Test des références audio authentiques
+3. Test spécifique par section avec nombres de mots attendus:
+   - Nombres: 28 mots avec audio (Moja.m4a, Mbili.m4a, etc.)
+   - Animaux: 66+ mots avec audio (Pouroukou.m4a, Kasangwe.m4a, etc.)
+   - Corps: 20 mots avec audio (Matso.m4a, Cha.m4a, etc.)
+   - Salutations: 9 mots avec audio (Marahaba.m4a, Kwaheri.m4a, etc.)
+4. Test de l'intégrité des données (traductions shimaoré/kibouchi cohérentes, emojis appropriés)
+5. Test de performance (temps de réponse pour récupérer chaque section)
 """
 
 import requests
