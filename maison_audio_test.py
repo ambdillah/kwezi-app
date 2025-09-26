@@ -26,7 +26,7 @@ import os
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://shimao-game.preview.emergentagent.com')
+BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://kwezi-vocab-fix.preview.emergentagent.com')
 API_BASE = f"{BACKEND_URL}/api"
 
 class MaisonAudioTester:

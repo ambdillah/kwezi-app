@@ -21,7 +21,7 @@ from typing import Dict, List, Any
 import os
 
 # Configuration
-BACKEND_URL = "https://shimao-game.preview.emergentagent.com"
+BACKEND_URL = "https://kwezi-vocab-fix.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class DatabaseTestSuite:

@@ -1,58 +1,51 @@
 <analysis>
-The AI engineer's work spanned multiple critical areas. Initially, a PDF-based vocabulary correction was attempted but deprecated due to data unreliability. Focus then shifted to refining the Construire des phrases game, implementing conjugation coloring for verbs (fixing wassi to wasi) and restoring the feminine text-to-speech voice. The famille vocabulary was updated, first with textual corrections and later with new audio pronunciations from a user-provided ZIP. A major new feature, the Découverte de Mayotte game, saw an initial SVG map, a failed integration of MapLibre GL due to Expo Go incompatibility, and a subsequent reversion to a simplified SVG map to resolve an uncaught error. The immediate next step is to update the database with new family audio references.
+The AI engineer's work primarily focused on expanding and correcting the Kwezi app's vocabulary and audio pronunciations across multiple language sections. Initially, the process involved updating animaux and nombres sections using user-provided images, creating new backend scripts for data extraction and database insertion. A significant effort was made to integrate new audio pronunciations for corps humain, nombres, animaux, and salutations sections, requiring the creation of missing database sections.
+
+Subsequently, the nourriture and maison sections were introduced and populated with orthographically corrected data from images, followed by audio integration. The vêtement and nature sections underwent similar creation and update processes, including both text and audio. User concerns about verb pronunciations led to a comprehensive database verification, creating verbes and transport sections. A full database reconstruction from a PDF was executed to establish an authentic vocabulary baseline. The work culminated in repeated attempts to fix verb audio correspondences, addressing user-reported mismatches by diagnosing missing audio files and preparing a final mapping script. The current task is to execute this last mapping.
 </analysis>
 
 <product_requirements>
-The Kwezi app is an educational mobile application for children to learn Shimaoré and Kibouchi, emphasizing engaging games, illustrations, and authentic audio.
-1.  **Dual-Language Audio Restructure & Integration:** Completed, fixing the  typo.
-2.  **Construire des phrases Game Fix:** Initial bug (only abimer verbs) resolved.
-3.  **PDF Analysis & Correction:** An attempt to verify orthography and pronunciations using a provided PDF was halted as the user deemed the PDF unreliable.
-4.  **Conjugation Coloring in Game:** Implemented visual coloring of conjugation prefixes (Orange for past, Green for future) *only for verbs* in the Construire des phrases game. This included fixing wassi to wasi and correcting French conjugations and accents, with a subsequent fix to ensure the rule did not apply to pronouns.
-5.  **Family Vocabulary Update:** New family-related words were added, and Tante was corrected to tante maternelle. A further update was implemented based on image-provided data, and new audio pronunciations are currently being integrated.
-6.  **Restore Feminine Voice-Off:** Text-to-speech voice changed from male to female for non-authentic audio. This was re-verified and corrected in the Construire des phrases game after a regression.
-7.  **New Game - Découverte de Mayotte:** Create an interactive map game. Initial prototype involved an SVG map, then an attempt with MapLibre GL for realism, which was reverted to a simplified SVG due to Expo Go incompatibility and an uncaught error bug.
+The Kwezi app is an educational mobile application designed for children to learn Shimaoré and Kibouchi through engaging games and authentic audio. The previous development cycle addressed:
+1.  **Construire des phrases Game Refinement:** Fixed abimer verb bug, implemented conjugation coloring (Orange for past, Green for future) for verbs, corrected wassi to wasi, and restored the feminine text-to-speech voice.
+2.  **Vocabulary & Audio Updates (Initial):** Updated famille vocabulary with new words, text corrections, and integrating new audio from a ZIP file.
+3.  **Découverte de Mayotte Game:** Prototype developed using a simplified SVG map, after MapLibre GL integration failed due to Expo Go incompatibility.
+The current focus in the trajectory has been on expanding the app's content by adding and updating multiple vocabulary sections (Animaux, Nombres, Corps Humain, Salutations, Nourriture, Maison, Vêtement, Nature, Adjectifs, Verbes, Transport) with correct orthography and authentic audio pronunciations, often requiring section creation where they didn't exist, and resolving persistent audio-to-word mapping inconsistencies, especially for verbs.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-stack:** Expo (React Native), FastAPI, MongoDB.
--   **Routing:** Expo Router (file-based).
--   **Data:** Python scripts for database ops; AsyncStorage.
--   **Audio/Speech:** , custom feminine TTS utility.
+-   **Full-stack:** Expo (React Native) frontend, FastAPI backend, MongoDB database.
+-   **Routing:** Expo Router for file-based navigation ( directory).
+-   **Data Management:** Python scripts for image/PDF data extraction, database updates (insertion, orthography correction, audio reference mapping).
+-   **Audio/Speech:** , custom feminine TTS utility,  for archive handling.
 -   **UI:**  for maps,  for animations.
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a full-stack architecture with an Expo (React Native) frontend, a FastAPI backend, and a MongoDB database. Routing is managed using Expo Router for file-based navigation. Backend scripts handle data management, while frontend components focus on UI, animations, and interactive elements.
+The application uses a full-stack architecture with an Expo frontend, FastAPI backend, and MongoDB. Expo Router handles file-based navigation in the frontend.
 
-Detailed Directory structure:
+**Detailed Directory structure:**
 /app
 ├── backend/
-│   ├── .env
-│   ├── requirements.txt
-│   ├── server.py
-│   ├── conjugation_engine.py
-│   ├── restructure_audio_database.py
-│   ├── extend_dual_audio_corps.py
-│   ├── extend_dual_audio_4_sections.py
-│   ├── update_nourriture_audio_extended.py
-│   ├── extend_dual_audio_verbes.py
-│   ├── extend_dual_audio_expressions.py
-│   ├── extend_dual_audio_adjectifs.py
-│   ├── extend_dual_audio_4_nouvelles_sections.py
-│   ├── analyze_pdf_errors.py
-│   ├── analyse_et_corriger_pdf_vocabulary.py
-│   ├── complete_pdf_integration.py
-│   ├── fix_pdf_corrections.py
-│   ├── compare_database_with_pdf.py
-│   ├── fix_wassi_and_conjugation.py
-│   ├── conjugation_engine_fixed.py
-│   ├── fix_french_conjugation_complete.py
-│   ├── update_famille_vocabulary.py
-│   ├── analyze_and_update_from_pdf.py
-│   ├── apply_pdf_corrections.py
-│   ├── fix_french_words_formatting.py
-│   ├── update_famille_section_complete.py
-│   └── update_famille_audio_mappings.py
+│   ├── ... (existing files)
+│   ├── update_animaux_section_complete.py
+│   ├── update_nombres_section_complete.py
+│   ├── update_audio_pronunciations_complete.py
+│   ├── create_missing_sections.py
+│   ├── update_nourriture_orthography.py
+│   ├── update_maison_section_complete.py
+│   ├── update_maison_audio_references.py
+│   ├── update_vetement_section_complete.py
+│   ├── update_vetement_audio_references.py
+│   ├── update_nature_section_complete.py
+│   ├── update_nature_audio_references.py
+│   ├── verify_and_fix_database_structure.py
+│   ├── reconstruct_database_from_pdf.py
+│   ├── fix_audio_correspondances_exact.py
+│   ├── fix_specific_verb_audio.py
+│   ├── list_words_without_audio.py
+│   ├── create_adjectifs_section_complete.py
+│   ├── fix_verb_audio_correspondences_complete.py
+│   └── fix_verb_mappings_final.py
 ├── frontend/
 │   ├── .env
 │   ├── app/
@@ -70,7 +63,16 @@ Detailed Directory structure:
 │   │   │   └── mayotte-world.json
 │   │   └── audio/
 │   │       ├── famille/
-│   │       └── ...
+│   │       ├── corps_humain/
+│   │       ├── nombres/
+│   │       ├── animaux/
+│   │       ├── salutations/
+│   │       ├── nourriture/
+│   │       ├── maison/
+│   │       ├── vetement/
+│   │       ├── nature/
+│   │       ├── verbes/
+│   │       └── adjectifs/
 │   ├── components/
 │   │   ├── YlangYlangFlower.tsx
 │   │   ├── MakiMayotte.tsx
@@ -98,20 +100,27 @@ Detailed Directory structure:
 ├── test_result.md
 └── tests/
 
--   : **NEW.** Compares PDF vocabulary with the database to identify and log corrections.
--   : **NEW.** Applies identified vocabulary corrections (orthography, additions) to the database, including fixing JSON serialization errors.
--   : **NEW.** Corrects French word formatting by re-adding accents and capitalizing first letters.
--   : **NEW.** Updates famille vocabulary in the database based on data extracted from a user-provided image.
--   : **NEW.** Script to update database references for new family audio files; currently pending execution.
--   : **MODIFIED.** The game menu. Corrected speech utility import and function calls to  to ensure the female voice is used consistently in Construire des phrases.
--   : **MODIFIED.** Main screen for Découverte de Mayotte. Initially a simple SVG map, an attempt to use MapLibre GL was reverted to a simplified SVG version due to Expo Go incompatibility and an uncaught error.
--   : **NEW.** Stores structured data (villages, paths) for the Découverte de Mayotte game.
--   : **MODIFIED.** Displays the conjugation color legend. Corrected the typo wassi to wasi in the legend text.
--   : **NEW.** Component to render the animated Maki character in the Mayotte game.
--   : **NEW.** Component for displaying detailed information about discovered villages.
--   : **NEW.** Component introduced to provide a more realistic SVG map, designed to be compatible with Expo Go after MapLibre GL issues.
--   : Defines conjugation logic. The wasi pronoun correction was already present within this file.
--   : **NEW.** Utility file created to hold geographical data points for Mayotte.
+**Key Files & Changes:**
+-   : **NEW.** Script to extract animaux data from an image and update the database, including adding missing Kibouchi translations.
+-   : **NEW.** Script to extract nombres data from an image and update the database.
+-   : **NEW.** Script to update audio references for multiple sections (corps humain, nombres, animaux, salutations).
+-   : **NEW.** Script to create database sections that do not yet exist (e.g., corps, salutations, nourriture).
+-   : **NEW.** Script to extract nourriture orthography from an image and create/update the section.
+-   : **NEW.** Script to extract maison orthography from an image and create/update the section.
+-   : **NEW.** Script to update audio references for the maison section.
+-   : **NEW.** Script to extract vêtement orthography from an image and create/update the section.
+-   : **NEW.** Script to update audio references for the vêtement section.
+-   : **NEW.** Script to extract nature orthography from an image and create/update the section.
+-   : **NEW.** Script to update audio references for the nature section.
+-   : **NEW.** Script to verify database structure, create missing verbes and transport sections, and fix inconsistencies.
+-   : **NEW.** Script for comprehensive database reconstruction using data extracted from a reference PDF.
+-   : **NEW.** Script to attempt exact audio mapping for verbs based on orthography.
+-   : **NEW.** Script for targeted corrections of specific verb audio mappings.
+-   : **NEW.** Script to identify words missing audio references.
+-   : **NEW.** Script to create the adjectifs section and integrate audio.
+-   : **NEW.** Script for a more complete attempt at correcting verb audio correspondences.
+-   : **NEW.** The latest script to correct verb audio mappings based on *actually available* audio files, addressing specific mismatches.
+-   : **MODIFIED.** New subdirectories created (, , , , , , , , , ) to store the growing collection of authentic audio files.
 </code_architecture>
 
 <pending_tasks>
@@ -122,12 +131,22 @@ Detailed Directory structure:
 -   Identify the root cause of the recurring database duplication problem (2316 words).
 -   Clarify the user's mentioned fork date (October 19, 2025).
 -   Add zoom and pan controls (buttons) to the Mayotte map.
+-   Integrate new verb audio files provided via Google Drive (user needs to re-upload as ZIP).
+-   Address the remaining 77 words across nourriture (44), famille (25), and couleurs (8) sections that are currently missing authentic audio.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was working on updating the audio pronunciations for the famille section. The user provided a ZIP file containing new audio files (). The AI successfully extracted these files after installing the  utility, locating new audio in both  and . The current task involves integrating these new audio files into the database. A Python script, , has been created to perform this update, and the AI is positioned to execute it. This will ensure that the application references the most up-to-date pronunciations for family-related vocabulary.
+Immediately prior to this summary, the AI engineer was engaged in a critical task to resolve persistent pronunciation errors for verbs. The user explicitly highlighted issues like oumengna having the same pronunciation as mandroubaka, indicating severe audio-to-word mapping inconsistencies.
+
+The AI engineer performed the following actions:
+1.  **Analyzed Existing Correspondences**: Inspected the current verb entries in the database to confirm the mismatches.
+2.  **Listed Available Audio Files**: Examined the  directory to identify all actual audio files.
+3.  **Diagnosed the Root Cause**: Discovered that the expected audio file Oumengna.m4a was entirely missing, while Mandroubaka.m4a existed. This clarified why the previous attempts at mapping were failing; the system was trying to map to a non-existent file.
+4.  **Created a Targeted Fix Script**: A new Python script, , was created. This script is designed to establish correct audio mappings for verbs by directly referencing the *actually available* audio files, thereby resolving the oumengna / mandroubaka confusion and other similar mismatches.
+
+The AI is currently at the stage of executing this newly created script to apply the corrected verb audio mappings.
 </current_work>
 
 <optional_next_step>
-Execute the script  to update the database with references to the newly extracted family audio files.
+Execute the  script to correct verb audio references.
 </optional_next_step>
