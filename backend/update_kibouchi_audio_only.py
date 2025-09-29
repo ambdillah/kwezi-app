@@ -180,7 +180,10 @@ def update_kibouchi_audio_mappings():
             
             # Affichage
             change_indicator = "🆕" if old_kibouchi_audio != new_kibouchi_audio else "✅"
-            logger.info(f"{french:20} | {kibouchi:25} | {change_indicator} {new_kibouchi_audio:28} | {old_kibouchi_audio:25}")
+            old_audio_display = old_kibouchi_audio if old_kibouchi_audio else 'Aucun'
+            new_audio_display = new_kibouchi_audio if new_kibouchi_audio else 'Aucun'
+            kibouchi_display = kibouchi if kibouchi else 'N/A'
+            logger.info(f"{french:20} | {kibouchi_display:25} | {change_indicator} {new_audio_display:28} | {old_audio_display:25}")
         else:
             # Pas de nouveau fichier trouvé
             old_audio_display = old_kibouchi_audio if old_kibouchi_audio else 'Aucun'
