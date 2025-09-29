@@ -26,7 +26,7 @@ interface VoiceConfig {
  */
 const getVoiceConfig = (
   language: SupportedLanguage, 
-  voiceType: VoiceType = 'masculine',
+  voiceType: VoiceType = 'feminine',
   charisma: VoiceCharisma = 'energetic'
 ): VoiceConfig => {
   
@@ -206,7 +206,7 @@ export const selectBestMasculineVoice = async (language: SupportedLanguage): Pro
 export const speakWithEnhancedVoice = async (
   text: string, 
   language: SupportedLanguage = 'fr',
-  voiceType: VoiceType = 'masculine',
+  voiceType: VoiceType = 'feminine',
   charisma: VoiceCharisma = 'energetic',
   onStart?: () => void,
   onDone?: () => void
