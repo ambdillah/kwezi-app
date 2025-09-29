@@ -183,7 +183,9 @@ def update_shimaore_audio_mappings():
             logger.info(f"{french:20} | {shimaore:25} | {change_indicator} {new_shimaore_audio:28} | {old_shimaore_audio:25}")
         else:
             # Pas de nouveau fichier trouvé
-            logger.info(f"{french:20} | {shimaore:25} | ❌ Aucun nouveau fichier trouvé | {old_shimaore_audio:25}")
+            old_audio_display = old_shimaore_audio if old_shimaore_audio else 'Aucun'
+            shimaore_display = shimaore if shimaore else 'N/A'
+            logger.info(f"{french:20} | {shimaore_display:25} | ❌ Aucun nouveau fichier trouvé | {old_audio_display:25}")
     
     # Statistiques
     new_matches = sum(1 for m in mappings if m['new_shimaore_audio'] != m['old_shimaore_audio'])
