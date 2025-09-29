@@ -1516,14 +1516,14 @@ async def get_word_audio_info(word_id: str):
             "dual_audio_system": word_doc.get("dual_audio_system", False),
             "audio": {
                 "shimaore": {
-                    "has_audio": word_doc.get("shimoare_has_audio", False),
-                    "filename": word_doc.get("shimoare_audio_filename"),
-                    "url": f"/api/words/{word_id}/audio/shimaore" if word_doc.get("shimoare_has_audio") else None
+                    "has_audio": word_doc.get("has_shimaoré_audio", False),
+                    "filename": word_doc.get("audio_shimaoré_filename"),
+                    "url": f"/api/words/{word_id}/audio/shimaore" if word_doc.get("has_shimaoré_audio") else None
                 },
                 "kibouchi": {
-                    "has_audio": word_doc.get("kibouchi_has_audio", False),
-                    "filename": word_doc.get("kibouchi_audio_filename"),
-                    "url": f"/api/words/{word_id}/audio/kibouchi" if word_doc.get("kibouchi_has_audio") else None
+                    "has_audio": word_doc.get("has_kibouchi_audio", False),
+                    "filename": word_doc.get("audio_kibouchi_filename"),
+                    "url": f"/api/words/{word_id}/audio/kibouchi" if word_doc.get("has_kibouchi_audio") else None
                 }
             },
             "legacy_audio": {
