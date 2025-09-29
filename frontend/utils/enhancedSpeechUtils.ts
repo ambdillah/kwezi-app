@@ -59,6 +59,14 @@ const getVoiceConfig = (
   let baseConfig: VoiceConfig;
   
   switch (voiceType) {
+    case 'feminine':
+      baseConfig = {
+        lang: baseConfigs[language].lang,
+        pitch: language === 'fr' ? 1.2 : 1.1, // Plus aigu pour féminin
+        rate: 0.8,
+        volume: 1.0
+      };
+      break;
     case 'masculine':
       baseConfig = {
         lang: baseConfigs[language].lang,
