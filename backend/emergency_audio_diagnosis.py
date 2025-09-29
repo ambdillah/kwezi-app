@@ -51,6 +51,12 @@ def check_current_audio_state():
         shimaore_audio = verb.get('audio_shimaoré_filename', 'Aucun')
         kibouchi_audio = verb.get('audio_kibouchi_filename', 'Aucun')
         
+        # Sécuriser contre None
+        if shimaore_audio is None:
+            shimaore_audio = 'Aucun'
+        if kibouchi_audio is None:
+            kibouchi_audio = 'Aucun'
+        
         has_shimaore = shimaore_audio != 'Aucun' and shimaore_audio is not None
         has_kibouchi = kibouchi_audio != 'Aucun' and kibouchi_audio is not None
         
