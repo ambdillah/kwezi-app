@@ -1,7 +1,7 @@
 /**
- * SYSTÈME DE PRONONCIATION AMÉLIORÉ - VOIX MASCULINE ET CHARISMATIQUE
- * ==================================================================
- * Version améliorée avec options de voix masculine, tonalités plus attractives
+ * SYSTÈME DE PRONONCIATION AMÉLIORÉ - VOIX FÉMININE ET DOUCE
+ * ==========================================================
+ * Version améliorée avec options de voix féminine, tonalités douces
  * et configurations optimisées pour l'engagement des enfants
  */
 
