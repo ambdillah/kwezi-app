@@ -20,14 +20,14 @@ export const runVoiceDemo = async () => {
   console.log('🎙️ === DÉMONSTRATION DES VOIX ===');
   
   try {
-    // Test 1: Voix masculine énergique (recommandée)
-    console.log('\n🎯 Test 1: Voix masculine énergique (RECOMMANDÉE)');
+    // Test 1: Voix féminine énergique (recommandée)
+    console.log('\n🎯 Test 1: Voix féminine énergique (RECOMMANDÉE)');
     for (let i = 0; i < testSentences.length; i++) {
       console.log(`🗣️ Phrase ${i + 1}: "${testSentences[i]}"`);
       await speakWithEnhancedVoice(
         testSentences[i], 
         i < 2 ? 'fr' : (i === 2 ? 'shimaore' : 'kibouchi'), 
-        'masculine', 
+        'feminine', 
         'energetic'
       );
       await new Promise(resolve => setTimeout(resolve, 2000)); // Pause entre les phrases
