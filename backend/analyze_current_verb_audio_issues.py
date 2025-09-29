@@ -56,7 +56,12 @@ def analyze_current_database_structure():
         kibouchi_audio = verb.get('audio_kibouchi_filename', 'Aucun')
         
         # Afficher la ligne du tableau
-        logger.info(f"{french:15} | {shimaore:20} | {shimaore_audio:25} | {kibouchi:20} | {kibouchi_audio:25}")
+        shimaore_display = shimaore if shimaore != 'N/A' else 'N/A'
+        kibouchi_display = kibouchi if kibouchi != 'N/A' else 'N/A'
+        shimaore_audio_display = shimaore_audio if shimaore_audio != 'Aucun' else 'Aucun'
+        kibouchi_audio_display = kibouchi_audio if kibouchi_audio != 'Aucun' else 'Aucun'
+        
+        logger.info(f"{french:15} | {shimaore_display:20} | {shimaore_audio_display:25} | {kibouchi_display:20} | {kibouchi_audio_display:25}")
         
         # Détecter les problèmes
         
