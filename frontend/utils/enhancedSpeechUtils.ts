@@ -34,7 +34,7 @@ const getVoiceConfig = (
     'fr': {
       lang: 'fr-FR',
       baseVoices: Platform.select({
-        ios: ['Thomas', 'Daniel-compact'], // Voix masculines iOS
+        ios: ['Amelie', 'Thomas'], // Voix féminines iOS en priorité
         android: ['fr-fr-x-frc-network', 'fr-fr-x-frb-network'],
         default: 'fr-FR'
       })
