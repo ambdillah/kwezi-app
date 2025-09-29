@@ -1444,11 +1444,11 @@ async def get_word_audio_by_language(word_id: str, lang: str):
         
         # Récupérer le nom du fichier selon la langue
         if lang == "shimaore":
-            filename = word_doc.get("shimoare_audio_filename")
-            has_audio = word_doc.get("shimoare_has_audio", False)
+            filename = word_doc.get("audio_shimaoré_filename")
+            has_audio = word_doc.get("has_shimaoré_audio", False)
         else:  # kibouchi
-            filename = word_doc.get("kibouchi_audio_filename")
-            has_audio = word_doc.get("kibouchi_has_audio", False)
+            filename = word_doc.get("audio_kibouchi_filename")
+            has_audio = word_doc.get("has_kibouchi_audio", False)
         
         if not has_audio or not filename:
             raise HTTPException(status_code=404, detail=f"Pas d'audio disponible en {lang} pour ce mot")
