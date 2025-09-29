@@ -217,6 +217,9 @@ def find_audio_for_translation(translation_text, audio_files_dict, language_hint
     best_score = 0
     
     for audio_clean, audio_info in audio_files_dict.items():
+        # Vérifier que audio_info est un dictionnaire
+        if not isinstance(audio_info, dict):
+            continue
         if len(audio_clean) < 3:
             continue
             
