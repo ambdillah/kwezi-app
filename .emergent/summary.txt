@@ -1,68 +1,65 @@
 <analysis>
-The trajectory chronicles a comprehensive and intense effort to repair and reconstruct the Kwezi app's backend and database. The work began with the user's panicked report of total data loss, which the AI engineer quickly disproved by running a diagnostic script, revealing it was a false alarm. This triggered a deep-dive debugging session into the FastAPI backend. The engineer systematically resolved a cascade of issues in  and , including incorrect database names, missing API routes, and critical data model mismatches between the Pydantic schema and the MongoDB structure.
+The trajectory details a comprehensive restoration and enhancement of the Kwezi language learning application. The work began with a user-reported data loss crisis, which was quickly identified as a backend configuration error. The AI engineer corrected the  file to point to the correct MongoDB database () and then fixed data model mismatches in  (collection name, field names) to restore API functionality.
 
-Frustrated with lingering data inaccuracies, the user demanded a complete database reconstruction from a provided PDF. The engineer executed this by writing a series of Python scripts to parse the PDF, wipe the old data, and rebuild the vocabulary collection from scratch. Following this, the user provided ZIP files with authentic audio for animaux and adjectifs, which the engineer successfully mapped and integrated.
+The primary focus then shifted to data authenticity. Responding to the user's core requirement, the engineer executed a massive data enrichment project. This involved ingesting 17 user-provided ZIP archives containing authentic audio files. Through a series of custom Python scripts, the AI extracted, cleaned, and meticulously mapped 977 audio files to the 566 vocabulary words in the database, achieving 100% authentic audio coverage after several rounds of user-provided corrections.
 
-The final phase involved addressing a user report that the app's frontend showed no data. This was traced back to the frontend calling an old, incompatible API endpoint. The engineer patched the endpoint to work with the new database schema, successfully restoring frontend functionality. The work concluded with the discovery that the PDF-based reconstruction was still incomplete, and the engineer was in the process of running a final script to import the remaining ~190 missing words.
+Subsequent work focused on the frontend. The engineer debugged and fixed a mobile preview timeout issue by correcting a faulty audio API endpoint. A significant portion of the effort was then dedicated to optimizing the in-app games. This included correcting French grammar and verb conjugations in the Construire des phrases game, improving its UX to auto-advance, and adding sentence variety. The engineer also built the Découverte de Mayotte game from a conceptual stage to a functional feature, including creating a custom SVG map. The trajectory concludes with the engineer actively implementing a user request to change the app's default text-to-speech voice to a female one.
 </analysis>
 
 <product_requirements>
-The Kwezi app is an educational tool for learning the Shimaoré and Kibouchi languages. The primary goal is to ensure the application's data is a perfect and complete representation of the content provided by the user in a definitive PDF document.
+The Kwezi application is an educational tool for learning the Shimaoré and Kibouchi languages. The central product goal is to create a high-quality, engaging, and authentic learning experience.
 
 **Core Requirements:**
-1.  **Data Source of Truth:** The MongoDB  collection must be an exact mirror of the user-provided PDF, including all words, phrases, and their corresponding French, Shimaoré, and Kibouchi translations. The current target word count is approximately 696.
-2.  **Authentic Audio Integration:** The system must allow for the meticulous mapping of authentic audio pronunciations, provided by the user in ZIP archives, to their respective words in the database.
-3.  **API Reliability:** The FastAPI backend must have stable, functional API endpoints (, , ) that correctly serve the vocabulary data and audio files to the frontend without errors.
-4.  **Frontend Functionality:** The Expo frontend application must successfully fetch and display all vocabulary sections and words, reflecting the accurate state of the backend database. The user experience should be seamless, with no apparent data loss or loading failures.
+1.  **Data Integrity:** The application's database must be a perfect mirror of the vocabulary and phrases provided by the user. All 566 words and associated sentences must be present and grammatically correct.
+2.  **Audio Authenticity:** Every word and expression must have an authentic, user-provided audio pronunciation. The use of synthetic text-to-speech should be a fallback, not the primary source.
+3.  **Functional Frontend:** The Expo mobile application must be stable, load correctly on mobile devices, and provide a seamless user experience without crashes or prolonged loading times.
+4.  **Engaging Gamification:** The in-app games, such as Construire des phrases and Découverte de Mayotte, must be fully functional, grammatically accurate, and provide a smooth, enjoyable user flow to encourage learning. The game logic should be varied (e.g., include multiple tenses and both languages) and intuitive.
 </product_requirements>
 
 <key_technical_concepts>
-- **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI backend, and MongoDB database.
-- **Data ETL (Extract, Transform, Load):** Extensive use of single-run Python scripts with  to perform complex database operations, including data wiping, schema correction, and complete reconstruction from a PDF source.
-- **API Debugging & Repair:** Diagnosed and fixed critical backend bugs in  related to incorrect environment variables (), Pydantic data model mismatches, and incorrect database/collection/field names.
-- **Asset Management:** Process for downloading, unzipping, and mapping user-provided audio files to database entries.
+- **Full-Stack Architecture:** Monorepo with a FastAPI (Python) backend, MongoDB database, and an Expo (React Native) frontend.
+- **Data ETL:** Heavy reliance on single-use Python scripts using  and  for database restoration, audio file ingestion, data cleaning, and mapping authentic audio files from user-provided ZIPs.
+- **API and Database Debugging:** Resolved critical bugs by correcting database/collection names in  and fixing field name mismatches ( vs. ) in .
+- **Frontend Game Logic:** All game logic is consolidated within a single large component (), managing state with React Hooks (, ).
 </key_technical_concepts>
 
 <code_architecture>
-The application uses a standard monorepo structure with separate directories for the frontend and backend.
+The application follows a monorepo structure with distinct frontend and backend directories.
 
 
 
 -   ****
-    -   **Importance:** This is the core FastAPI application file. It defines all API endpoints that serve data to the frontend.
-    -   **Changes:** This file underwent significant modifications. The engineer restored missing routes, created a new compatible  endpoint to resolve a data model mismatch with the frontend, and ensured all database queries used the correct field names (, ) instead of legacy ones (, ).
+    -   **Importance:** The core FastAPI application. It defines all API endpoints serving vocabulary, sentences, and audio streams to the frontend.
+    -   **Summary of Changes:** This file was heavily modified to restore functionality. Key changes included pointing database queries to the correct collection ( instead of ), updating query parameters to use the correct field names ( instead of ), and fixing a critical bug in the audio-serving endpoint by correcting mismatched field names (). An endpoint () was also added to serve a temporary HTML page for audio testing.
 
 -   ****
-    -   **Importance:** Contains critical environment variables for the backend, including the database connection details.
-    -   **Changes:** The  variable was corrected from  to . This was a crucial fix that resolved a major API failure where no data was being found.
+    -   **Importance:** A massive, monolithic component containing the logic for multiple in-app games, including Construire des phrases. It manages game state, fetches data, and renders the UI.
+    -   **Summary of Changes:** This file was significantly refactored to improve the Construire des phrases game. The -based feedback was replaced with a more fluid, non-blocking visual feedback system. A  was added to automatically advance to the next sentence upon a correct answer, improving game flow.
 
 -   ****
-    -   **Importance:** This is the most recent script created to perform the final and complete data import from the user's PDF.
-    -   **Changes:** This file was created to rectify an incomplete data extraction, with the goal of adding all ~696 words from the PDF to the database.
+    -   **Importance:** The screen containing the newly developed Découverte de Mayotte game.
+    -   **Summary of Changes:** This file was created from scratch to implement the game logic, including state management for unlocked villages, quiz questions, and user progress.
 
 -   ****
-    -   **Importance:** This script handles the complex task of mapping audio filenames from user-provided ZIPs to the correct Shimaoré or Kibouchi words in the database.
-    -   **Changes:** It was created and executed successfully for the animaux and adjectifs sections, updating over 100 words with authentic audio links.
+    -   **Importance:** A reusable component that renders an interactive SVG map of Mayotte.
+    -   **Summary of Changes:** The SVG path data within this component was updated to render a more geographically accurate and recognizable hippocampus shape for the island of Mayotte, based on user feedback.
 
--   ****
-    -   **Importance:** This directory stores all the authentic audio files that are served to the user.
-    -   **Changes:** It was populated with audio files for the animaux and adjectifs sections by the  script.
+-   ** (Numerous Scripts)**
+    -   **Importance:** A series of transient, single-use Python scripts were created to perform complex data operations, such as applying user corrections from spreadsheets, mapping audio files, and fixing verb conjugations in the database.
 </code_architecture>
 
 <pending_tasks>
-- **Complete Audio Mapping:** The user intends to provide more ZIP files for the remaining 14 vocabulary sections. A process will be needed to map them.
-- **Fix Audio API Endpoint:** The audio serving endpoint was returning a  error. This issue was deferred and needs to be resolved so users can hear the authentic pronunciations.
-- **Full User Validation:** Once the database is complete and all features are working, the user must perform a thorough review and confirm the application meets their expectations.
+- **Complete the Voice Change:** Finish the task of changing the default text-to-speech voice from male to female across all instances where  is used in the frontend, ensuring authentic audio files remain unaffected.
 </pending_tasks>
 
 <current_work>
-The most recent task was a critical data integrity check initiated by the user. After the AI engineer had rebuilt the database from a PDF and fixed the frontend's display issues, the user correctly pointed out that the word count was too low (507 instead of an expected 565+).
+The immediate last task was a user request to improve the application's accessibility and user experience by changing the default text-to-speech (TTS) voice from a male voice to a female one. The user explicitly stated that this change must not overwrite or interfere with the authentic audio pronunciations that were meticulously integrated in the previous steps.
 
-The engineer re-analyzed the source PDF and confirmed a significant number of words (~189) had been missed during the initial data extraction, primarily compound words and multi-word expressions.
+The AI engineer acknowledged this request and began the implementation. The first step was to identify all parts of the frontend codebase that utilize the  library for TTS generation. The engineer successfully located all instances of  calls across the relevant files (primarily within the game components).
 
-In response, the engineer performed a more thorough data extraction from the PDF. The immediate last action was creating a new, comprehensive script, , designed to add all the newly identified missing words to the  collection in MongoDB. The trajectory ends precisely at the point where this final import script is ready to be executed to bring the database to 100% completion according to the PDF source of truth.
+The trajectory concludes at the very beginning of the modification phase. The engineer had started editing the files, adding comments and preparing to change the  parameter within the  options object to a female voice identifier. The work is mid-flight, with the analysis complete and the code modification process just underway. The core challenge is to apply this change consistently across the app while respecting the logic that prioritizes authentic audio playback.
 </current_work>
 
 <optional_next_step>
-Execute the script  to add all missing words from the PDF to the database and achieve a complete vocabulary set.
+Continue the process of modifying all  calls within the frontend to use a female voice, completing the work that was just started.
 </optional_next_step>
