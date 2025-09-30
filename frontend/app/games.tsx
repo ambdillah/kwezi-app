@@ -944,15 +944,22 @@ export default function GamesScreen() {
       
       if (isCorrect) {
         setSentenceScore(sentenceScore + 10);
-        Alert.alert('Bravo! 🎉', 'Phrase correcte!', [
-          { text: 'Continuer', onPress: nextSentence }
-        ]);
         
         // Prononcer la phrase correcte
         const correctSentence = selectedLanguage === 'shimaore' 
           ? currentSentence.shimaore 
           : currentSentence.kibouchi;
         Speech.speak(correctSentence, { language: 'sw-KE', rate: 0.7 });
+        
+        // Afficher brièvement la réussite puis passer automatiquement à la suivante
+        Alert.alert('Bravo! 🎉', 'Phrase correcte!', [
+          { text: 'Continuer', onPress: nextSentence }
+        ]);
+        
+        // Passer automatiquement à la phrase suivante après 1.5 secondes
+        setTimeout(() => {
+          nextSentence();
+        }, 1500);
       } else {
         Alert.alert('Essaie encore! 🤔', 'L\'ordre des mots n\'est pas correct.');
       }
