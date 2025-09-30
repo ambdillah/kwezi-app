@@ -1,66 +1,68 @@
 <analysis>
-The trajectory details an intensive data correction and backend repair process for the Kwezi educational app. The initial request was a specific, case-sensitive audio mapping fix for the verbes section. This evolved into a major database schema refactoring to support separate audio tracks for Shimaoré and Kibouchi languages, driven by user feedback. The core of the work involved multiple iterative updates where the user provided new data via ZIP files and a PDF, requiring the AI engineer to create and execute numerous Python scripts to download, extract, and map audio files, as well as correct vocabulary orthography.
+The trajectory chronicles a comprehensive and intense effort to repair and reconstruct the Kwezi app's backend and database. The work began with the user's panicked report of total data loss, which the AI engineer quickly disproved by running a diagnostic script, revealing it was a false alarm. This triggered a deep-dive debugging session into the FastAPI backend. The engineer systematically resolved a cascade of issues in  and , including incorrect database names, missing API routes, and critical data model mismatches between the Pydantic schema and the MongoDB structure.
 
-A critical phase involved debugging a persistent issue where authentic audio was not playing. Initially mistaken for data loss by the user, the AI engineer correctly diagnosed it as a series of cascading backend API bugs. The root causes were identified in : the API was referencing incorrect database field names (e.g.,  vs. ), an incorrect collection name ( vs. ), and legacy data fields that conflicted with the new schema. The engineer systematically debugged and patched the API, ultimately restoring functionality. The trajectory concludes at a high-tension moment, with the user reporting a total data loss, and the AI engineer initiating an emergency diagnostic script to verify the database's state.
+Frustrated with lingering data inaccuracies, the user demanded a complete database reconstruction from a provided PDF. The engineer executed this by writing a series of Python scripts to parse the PDF, wipe the old data, and rebuild the vocabulary collection from scratch. Following this, the user provided ZIP files with authentic audio for animaux and adjectifs, which the engineer successfully mapped and integrated.
+
+The final phase involved addressing a user report that the app's frontend showed no data. This was traced back to the frontend calling an old, incompatible API endpoint. The engineer patched the endpoint to work with the new database schema, successfully restoring frontend functionality. The work concluded with the discovery that the PDF-based reconstruction was still incomplete, and the engineer was in the process of running a final script to import the remaining ~190 missing words.
 </analysis>
 
 <product_requirements>
-The Kwezi app is an educational tool for learning Shimaoré and Kibouchi. The primary focus of the work was to ensure the data integrity and functionality of the verbes vocabulary section.
+The Kwezi app is an educational tool for learning the Shimaoré and Kibouchi languages. The primary goal is to ensure the application's data is a perfect and complete representation of the content provided by the user in a definitive PDF document.
 
-Key requirements were:
-1.  **Correct Audio-to-Word Mapping:** Ensure authentic audio pronunciations from user-provided files are correctly associated with their corresponding words, including handling case-sensitivity in filenames.
-2.  **Dual Language Audio System:** Implement a clear database structure that separates Shimaoré and Kibouchi translations and their respective audio files, eliminating the ambiguity of a single audio field serving both languages.
-3.  **Data Accuracy from Source:** Repeatedly update the database using data provided by the user through ZIP files (containing audio) and a PDF (containing correct orthography for all vocabulary sections). This required a complete re-mapping of verb pronunciations multiple times.
-4.  **Backend API Functionality:** The backend must reliably serve the correct, separate audio files for both languages when requested by the frontend.
-5.  **Frontend Polish:** Minor requests included changing the Text-to-Speech voice from masculine to feminine and investigating issues with the app loading in Expo Go.
+**Core Requirements:**
+1.  **Data Source of Truth:** The MongoDB  collection must be an exact mirror of the user-provided PDF, including all words, phrases, and their corresponding French, Shimaoré, and Kibouchi translations. The current target word count is approximately 696.
+2.  **Authentic Audio Integration:** The system must allow for the meticulous mapping of authentic audio pronunciations, provided by the user in ZIP archives, to their respective words in the database.
+3.  **API Reliability:** The FastAPI backend must have stable, functional API endpoints (, , ) that correctly serve the vocabulary data and audio files to the frontend without errors.
+4.  **Frontend Functionality:** The Expo frontend application must successfully fetch and display all vocabulary sections and words, reflecting the accurate state of the backend database. The user experience should be seamless, with no apparent data loss or loading failures.
 </product_requirements>
 
 <key_technical_concepts>
-- **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI backend, and a MongoDB database.
-- **Data Migration & ETL:** Extensive use of single-run Python scripts with  to perform complex data transformations, including schema changes (adding new fields for dual audio), data correction (orthography), and mapping new audio files to database entries.
-- **API Debugging:** Use of  and custom diagnostic scripts to identify and resolve critical backend bugs, including 404s, 405s, and 500 Internal Server Errors in the FastAPI application.
-- **File & Asset Management:** Downloading, extracting (), and managing user-provided ZIP archives containing audio assets.
+- **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI backend, and MongoDB database.
+- **Data ETL (Extract, Transform, Load):** Extensive use of single-run Python scripts with  to perform complex database operations, including data wiping, schema correction, and complete reconstruction from a PDF source.
+- **API Debugging & Repair:** Diagnosed and fixed critical backend bugs in  related to incorrect environment variables (), Pydantic data model mismatches, and incorrect database/collection/field names.
+- **Asset Management:** Process for downloading, unzipping, and mapping user-provided audio files to database entries.
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a standard full-stack monorepo structure with distinct frontend and backend directories.
+The application uses a standard monorepo structure with separate directories for the frontend and backend.
 
-**/app**
-├── **backend/**
-│   ├── **server.py**: The main FastAPI application file. This was the most critical file modified, with multiple edits to its audio-serving API endpoints to correct bugs related to wrong collection names, incorrect field lookups ( vs ), and outdated schema references.
-│   ├── **(Numerous Scripts)**: A large number of single-use Python scripts were created for data manipulation. Key examples include:
-│   │   - : Altered the MongoDB schema for verbs to support separate audio tracks.
-│   │   - : Parsed user-provided data to perform a mass update of verb translations and audio links.
-│   │   - : Removed legacy database fields that were causing conflicts in the API.
-│   │   - : A script that patched  to resolve the final API bugs.
-│   │   - : The last script created, intended to perform an urgent check on the database's status.
-│   └── ...
-├── **frontend/**
-│   ├── **app/**: Contains the Expo Router screens.
-│   ├── **assets/audio/**: Directory where all the authentic audio  files are stored, organized by category (e.g., ).
-│   ├── **utils/**
-│   │   - **enhancedSpeechUtils.ts**: This utility manages the Text-to-Speech (TTS) functionality. It was edited to change the default voice from 'masculine' to 'feminine'.
-│   │   - **voiceTestUtils.ts**: A related testing utility that was also updated to reflect the change to a feminine voice.
-│   └── ...
-└── ...
 
-The workflow heavily relied on creating temporary Python scripts within the  directory to perform targeted, irreversible data operations on the live MongoDB database.
+
+-   ****
+    -   **Importance:** This is the core FastAPI application file. It defines all API endpoints that serve data to the frontend.
+    -   **Changes:** This file underwent significant modifications. The engineer restored missing routes, created a new compatible  endpoint to resolve a data model mismatch with the frontend, and ensured all database queries used the correct field names (, ) instead of legacy ones (, ).
+
+-   ****
+    -   **Importance:** Contains critical environment variables for the backend, including the database connection details.
+    -   **Changes:** The  variable was corrected from  to . This was a crucial fix that resolved a major API failure where no data was being found.
+
+-   ****
+    -   **Importance:** This is the most recent script created to perform the final and complete data import from the user's PDF.
+    -   **Changes:** This file was created to rectify an incomplete data extraction, with the goal of adding all ~696 words from the PDF to the database.
+
+-   ****
+    -   **Importance:** This script handles the complex task of mapping audio filenames from user-provided ZIPs to the correct Shimaoré or Kibouchi words in the database.
+    -   **Changes:** It was created and executed successfully for the animaux and adjectifs sections, updating over 100 words with authentic audio links.
+
+-   ****
+    -   **Importance:** This directory stores all the authentic audio files that are served to the user.
+    -   **Changes:** It was populated with audio files for the animaux and adjectifs sections by the  script.
 </code_architecture>
 
 <pending_tasks>
-- **Complete Orthography Correction:** The task of correcting vocabulary spelling based on the user's PDF is incomplete. Only the Nature section was corrected, and the Corps humain section was added as new. All other sections from the PDF still need to be processed.
-- **Resolve Expo Go Loading Issues:** The user reported that the application has trouble opening with Expo Go. This issue was acknowledged, but debugging was preempted by the more critical data loss emergency.
-- **Confirm Data Integrity with User:** The most urgent pending task is to address the user's concern about total data loss.
+- **Complete Audio Mapping:** The user intends to provide more ZIP files for the remaining 14 vocabulary sections. A process will be needed to map them.
+- **Fix Audio API Endpoint:** The audio serving endpoint was returning a  error. This issue was deferred and needs to be resolved so users can hear the authentic pronunciations.
+- **Full User Validation:** Once the database is complete and all features are working, the user must perform a thorough review and confirm the application meets their expectations.
 </pending_tasks>
 
 <current_work>
-The AI engineer had just completed a critical and complex debugging session to fix the backend's audio API. After multiple failed attempts by the user to hear the correct authentic pronunciations, the engineer discovered the problem was not lost data, but a series of bugs in . The API was referencing an incorrect database collection ( instead of ) and using outdated/incorrect field names ( instead of ).
+The most recent task was a critical data integrity check initiated by the user. After the AI engineer had rebuilt the database from a PDF and fixed the frontend's display issues, the user correctly pointed out that the word count was too low (507 instead of an expected 565+).
 
-The engineer successfully patched the API, confirmed with  that audio files were being served correctly, and concluded that the problem was fully resolved. However, the user, likely experiencing caching issues or misinterpreting the fallback TTS behavior, reported in distress: **toute la base de données est perdu comment explique cela ?** (the whole database is lost how do you explain that?).
+The engineer re-analyzed the source PDF and confirmed a significant number of words (~189) had been missed during the initial data extraction, primarily compound words and multi-word expressions.
 
-In response to this emergency, the AI engineer's immediate last action was to create the script  to perform a live check of the database's state and prove that the data is, in fact, intact. The trajectory ends at this cliffhanger, with the script created but not yet executed.
+In response, the engineer performed a more thorough data extraction from the PDF. The immediate last action was creating a new, comprehensive script, , designed to add all the newly identified missing words to the  collection in MongoDB. The trajectory ends precisely at the point where this final import script is ready to be executed to bring the database to 100% completion according to the PDF source of truth.
 </current_work>
 
 <optional_next_step>
-Execute the  script to get an immediate count of documents in the  collection and other relevant stats to definitively confirm the database's integrity.
+Execute the script  to add all missing words from the PDF to the database and achieve a complete vocabulary set.
 </optional_next_step>

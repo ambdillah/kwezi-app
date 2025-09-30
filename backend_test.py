@@ -14,7 +14,7 @@ import time
 from typing import Dict, List, Optional
 
 # Configuration
-BACKEND_URL = "https://shimakib-repair.preview.emergentagent.com"
+BACKEND_URL = "https://kwezi-db-rescue.preview.emergentagent.com"
 API_URL = f"{BACKEND_URL}/api"
 
 class AdjectifsComprehensiveTester:
