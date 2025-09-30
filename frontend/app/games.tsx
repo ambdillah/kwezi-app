@@ -113,6 +113,14 @@ export default function GamesScreen() {
   const [showSentenceFeedback, setShowSentenceFeedback] = useState(false);
   const [sentenceFeedbackType, setSentenceFeedbackType] = useState<'success' | 'error'>('success');
 
+  const speakText = (text: string, lang: 'shimaore' | 'kibouchi') => {
+    const language = lang === 'shimaore' ? 'sw-KE' : 'sw-TZ';
+    Speech.speak(text, {
+      language,
+      pitch: 1.0,
+      rate: 0.75,
+    });
+  };
   useEffect(() => {
     fetchWords();
   }, []);
