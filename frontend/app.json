@@ -37,6 +37,13 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "corsOrigins": [
+        "https://app.emergent.sh",
+        "https://emergent.sh",
+        "https://language-kwezi.preview.emergentagent.com"
+      ]
     }
   }
 }
