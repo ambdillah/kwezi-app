@@ -1601,4 +1601,64 @@ async def debug_audio_route(word_id: str, lang: str):
         import traceback
         return {"error": f"Exception: {e}", "traceback": traceback.format_exc()}
 
+
+@app.get("/api/audio/{word_id}/{lang}")
+async def get_audio_file(word_id: str, lang: str):
+    """Route audio simplifiée et fonctionnelle"""
+    try:
+        from pymongo import MongoClient
+        from bson import ObjectId
+        from fastapi.responses import FileResponse
+        from fastapi import HTTPException
+        import os
+        
+        # Validation langue
+        if lang not in ["shimaore", "kibouchi"]:
+            raise HTTPException(status_code=400, detail="Langue non supportée")
+        
+        # Connexion DB
+        mongo_url = os.getenv('MONGO_URL', 'mongodb://localhost:27017/')
+        client = MongoClient(mongo_url)
+        db = client['shimaoré_app']
+        collection = db['vocabulary']
+        
+        # Récupérer le mot
+        try:
+            obj_id = ObjectId(word_id)
+        except:
+            raise HTTPException(status_code=400, detail="ID invalide")
+            
+        word_doc = collection.find_one({"_id": obj_id})
+        if not word_doc:
+            raise HTTPException(status_code=404, detail="Mot non trouvé")
+        
+        # Récupérer le fichier audio
+        if lang == "shimaore":
+            filename = word_doc.get("audio_shimaoré_filename")
+            has_audio = word_doc.get("has_shimaoré_audio", False)
+        else:
+            filename = word_doc.get("audio_kibouchi_filename")
+            has_audio = word_doc.get("has_kibouchi_audio", False)
+        
+        if not filename or not has_audio:
+            raise HTTPException(status_code=404, detail=f"Pas d\'audio {lang}")
+        
+        # Chemin du fichier
+        section = word_doc.get("section", "verbes")
+        file_path = f"/app/frontend/assets/audio/{section}/{filename}"
+        
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="Fichier non trouvé")
+        
+        return FileResponse(
+            file_path,
+            media_type="audio/mp4",
+            headers={"Content-Disposition": f"inline; filename={filename}"}
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur serveur: {str(e)}")
+
     uvicorn.run(app, host="0.0.0.0", port=8001)
