@@ -185,10 +185,8 @@ export default function GamesScreen() {
       }
     }
     
-    Speech.speak("C'est parti pour le jeu! Bonne chance!", {
-      language: 'fr-FR',
-      pitch: 1.2, // Voix féminine
-    });
+    // Utiliser la voix féminine pour l'encouragement
+    speakEducationalContent("C'est parti pour le jeu! Bonne chance!", 'fr');
   };
 
   // États pour le nouveau jeu de traduction
