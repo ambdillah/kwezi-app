@@ -1584,7 +1584,7 @@ async def get_word_audio_by_language(word_id: str, lang: str):
             "adjectifs": "/app/frontend/assets/audio/adjectifs",
             "vetements": "/app/frontend/assets/audio/vetements",
             "maison": "/app/frontend/assets/audio/maison",
-            "tradition": "/app/frontend/assets/audio/tradition",
+            "tradition": "/app/frontend/assets/audio/traditions",
             "transport": "/app/frontend/assets/audio/transport"
         }
         
