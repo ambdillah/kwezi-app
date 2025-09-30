@@ -41,6 +41,15 @@ exercises_collection = db.exercises
 user_progress_collection = db.user_progress
 sentences_collection = db.sentences
 
+# Debug: Test database connection
+try:
+    print(f"Connected to database: {DB_NAME}")
+    print(f"Collections: {db.list_collection_names()}")
+    count = words_collection.count_documents({})
+    print(f"Total words in collection: {count}")
+except Exception as e:
+    print(f"Database connection error: {e}")
+
 # Pydantic models
 class Word(BaseModel):
     id: Optional[str] = None
