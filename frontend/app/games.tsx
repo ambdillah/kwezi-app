@@ -927,7 +927,7 @@ export default function GamesScreen() {
       setAvailableWords([...availableWords, word]);
     };
 
-    const checkSentence = () => {
+    const checkSentence = async () => {
       if (!currentSentence) return;
       
       const correctWords = selectedLanguage === 'shimaore' 
