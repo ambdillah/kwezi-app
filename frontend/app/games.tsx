@@ -113,15 +113,9 @@ export default function GamesScreen() {
   const [showSentenceFeedback, setShowSentenceFeedback] = useState(false);
   const [sentenceFeedbackType, setSentenceFeedbackType] = useState<'success' | 'error'>('success');
 
-  const speakText = (text: string, lang: 'shimaore' | 'kibouchi') => {
-    const language = lang === 'shimaore' ? 'sw-KE' : 'sw-TZ';
-    Speech.speak(text, {
-      language,
-      pitch: 1.2,
-      rate: 0.75,
-      // Voix féminine par défaut
-      voice: undefined, // Laisse le système choisir la voix féminine par défaut
-    });
+  const speakTextLocal = async (text: string, lang: 'shimaore' | 'kibouchi') => {
+    // Utiliser le système de voix féminine
+    await speakText(text, lang);
   };
   useEffect(() => {
     fetchWords();
