@@ -168,21 +168,70 @@ const MayotteDiscoveryGame: React.FC = () => {
     return (
       <View style={styles.mapContainer}>
         <Svg width="100%" height="100%" viewBox="0 0 100 100">
-          {/* Forme simplifiée de Mayotte */}
+          {/* Océan de fond */}
           <Path
-            d="M 40,20 Q 50,15 60,20 L 65,30 Q 70,40 65,50 L 60,65 Q 55,75 45,77 L 35,75 Q 25,70 22,60 L 20,50 Q 18,40 20,30 L 25,22 Q 30,18 40,20 Z"
+            d="M 0,0 L 100,0 L 100,100 L 0,100 Z"
+            fill="#81D4FA"
+            opacity="0.3"
+          />
+          
+          {/* Grande-Terre - Forme réaliste d'hippocampe */}
+          <Path
+            d="M 36,20 
+               C 38,19 42,18 46,19
+               L 52,20
+               C 58,21 62,23 64,26
+               C 66,29 67,32 68,36
+               L 69,40
+               C 70,44 71,48 70,52
+               C 69,56 67,59 64,61
+               L 60,63
+               C 56,65 53,67 52,70
+               C 51,74 50,78 48,81
+               C 46,84 43,85 40,84
+               C 37,83 35,81 34,78
+               C 33,75 32,72 31,69
+               C 30,66 29,63 28,60
+               C 27,56 26,52 27,48
+               C 28,44 29,40 30,36
+               C 31,32 32,28 33,24
+               C 34,22 35,21 36,20 Z"
             fill="#4CAF50"
             stroke="#2E7D32"
             strokeWidth="0.5"
           />
           
-          {/* Petite-Terre */}
+          {/* Baie de Bouéni (ouest) */}
           <Path
-            d="M 85,60 Q 88,58 91,60 L 93,65 Q 93,70 91,72 L 88,73 Q 85,73 83,72 L 81,67 Q 81,62 83,60 L 85,60 Z"
+            d="M 24,48 Q 22,50 25,52 Q 28,50 24,48"
+            fill="#1976D2"
+            opacity="0.5"
+          />
+          
+          {/* Baie de Mamoudzou (est) */}
+          <Path
+            d="M 56,42 Q 59,40 62,42 Q 60,44 56,42"
+            fill="#1976D2"
+            opacity="0.5"
+          />
+          
+          {/* Petite-Terre - Forme plus réaliste */}
+          <Path
+            d="M 75,64 
+               C 77,62 80,62 82,63
+               C 84,64 85,66 84,68
+               C 83,70 81,71 78,70
+               C 76,69 75,67 74,66
+               C 73,65 74,64 75,64 Z"
             fill="#66BB6A"
             stroke="#388E3C"
             strokeWidth="0.3"
           />
+          
+          {/* Montagnes principales */}
+          <Path d="M 46,36 L 44,40 L 48,40 Z" fill="#2E7D32" opacity="0.4" />
+          <Path d="M 40,70 L 38,74 L 42,74 Z" fill="#2E7D32" opacity="0.4" />
+          <Path d="M 52,32 L 50,36 L 54,36 Z" fill="#2E7D32" opacity="0.4" />
 
           {/* Villages */}
           {villages.map((village) => {
