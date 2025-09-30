@@ -495,10 +495,7 @@ export default function GamesScreen() {
               const bonus = moves <= 8 ? 50 : 0;
               setMemoryScore(finalScore + bonus);
               
-              Speech.speak(`Bravo! Jeu terminé avec ${finalScore + bonus} points!`, { 
-                language: 'fr-FR', 
-                pitch: 1.3 
-              });
+              speakEducationalContent(`Bravo! Jeu terminé avec ${finalScore + bonus} points!`, 'fr');
               
               Alert.alert(
                 '🌺 Félicitations!', 
