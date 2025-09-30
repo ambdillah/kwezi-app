@@ -24,11 +24,8 @@ export default function WelcomeScreen() {
   }, []);
 
   const playWelcomeSound = () => {
-    Speech.speak("Kwezi! Bienvenue dans votre application pour apprendre le Shimaoré et le Kibouchi!", {
-      language: 'fr-FR',
-      pitch: 1.2,
-      rate: 0.9,
-    });
+    // Utiliser la voix féminine pour le message de bienvenue
+    speakEducationalContent("Kwezi! Bienvenue dans votre application pour apprendre le Shimaoré et le Kibouchi!", 'fr');
   };
 
   if (isLoading) {
