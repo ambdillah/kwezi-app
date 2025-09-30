@@ -110,6 +110,8 @@ export default function GamesScreen() {
   const [availableWords, setAvailableWords] = useState<string[]>([]);
   const [builtSentence, setBuiltSentence] = useState<string[]>([]);
   const [sentenceScore, setSentenceScore] = useState(0);
+  const [showSentenceFeedback, setShowSentenceFeedback] = useState(false);
+  const [sentenceFeedbackType, setSentenceFeedbackType] = useState<'success' | 'error'>('success');
 
   useEffect(() => {
     fetchWords();
