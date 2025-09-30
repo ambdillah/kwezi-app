@@ -799,7 +799,7 @@ export default function GamesScreen() {
             message = `Continue à apprendre! Tu as ${finalScore} points. N'abandonne pas!`;
           }
           
-          Speech.speak(message, { language: 'fr-FR', pitch: 1.2 });
+          speakEducationalContent(message, 'fr');
           Alert.alert(
             '🏝️ Quiz Mayotte terminé!',
             message,
