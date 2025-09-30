@@ -117,8 +117,10 @@ export default function GamesScreen() {
     const language = lang === 'shimaore' ? 'sw-KE' : 'sw-TZ';
     Speech.speak(text, {
       language,
-      pitch: 1.0,
+      pitch: 1.2,
       rate: 0.75,
+      // Voix féminine par défaut
+      voice: undefined, // Laisse le système choisir la voix féminine par défaut
     });
   };
   useEffect(() => {
