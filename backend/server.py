@@ -1458,7 +1458,7 @@ async def get_word_audio_by_language(word_id: str, lang: str):
         from fastapi.responses import FileResponse
         
         # Détecter automatiquement la catégorie du mot pour utiliser le bon dossier
-        word_category = word_doc.get("category", "famille")
+        word_category = word_doc.get("section") or word_doc.get("category", "famille")
         audio_dirs = {
             "famille": "/app/frontend/assets/audio/famille",
             "nature": "/app/frontend/assets/audio/nature", 
