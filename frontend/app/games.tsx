@@ -1106,9 +1106,9 @@ export default function GamesScreen() {
           {builtSentence.length > 0 && (
             <TouchableOpacity 
               style={styles.listenButton}
-              onPress={() => {
+              onPress={async () => {
                 const builtSentenceText = builtSentence.join(' ');
-                speakText(builtSentenceText, selectedLanguage);
+                await speakTextLocal(builtSentenceText, selectedLanguage);
               }}
             >
               <Ionicons name="headset" size={18} color="#fff" />
