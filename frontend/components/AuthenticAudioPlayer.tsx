@@ -76,15 +76,12 @@ export const AuthenticAudioPlayer: React.FC<AuthenticAudioPlayerProps> = ({
         console.log('⚠️ Fichier audio non trouvé, utilisation de la synthèse vocale');
         console.log('Erreur audio:', audioError);
         
-        // Fallback vers la synthèse vocale
-        const Speech = require('expo-speech');
+        // Fallback vers la synthèse vocale féminine
+        const { speakText } = require('../utils/feminineSpeechUtils');
         const textToSpeak = word.audio_pronunciation_lang === 'kibouchi' ? word.kibouchi : word.shimaore;
+        const language = word.audio_pronunciation_lang === 'kibouchi' ? 'kibouchi' : 'shimaore';
         
-        Speech.speak(textToSpeak, {
-          language: 'fr-FR',
-          pitch: 1.0,
-          rate: 0.8,
-        });
+        await speakText(textToSpeak, language);
         
         setTimeout(() => setIsPlaying(false), 2000);
       }
