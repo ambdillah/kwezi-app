@@ -1,107 +1,66 @@
 <analysis>
-The AI engineer's work in this trajectory segment began by addressing the user's request for a data loss diagnostic. This involved reviewing backup files and existing database scripts. During this diagnostic, the AI engineer executed a previously prepared script, , which successfully corrected audio mappings for 26 verbs, resolving the oumengna / mandroubaka issue by using available audio files. A comprehensive data diagnostic was then provided, confirming robust backups and outlining the current state (566 words, 17 sections, 33.3% verb audio coverage). The user then requested a re-analysis of audio files, specifically considering case sensitivity in file names (e.g., Oumengna vs oumengna). The AI engineer created , which initially failed due to a schema mismatch (looking for  instead of ). After diagnosing this, a corrected script, , was created and executed, successfully identifying 771 audio matches (85.5% coverage). The AI engineer is now awaiting user confirmation to apply these new mappings using a proposed  script.
+The trajectory details an intensive data correction and backend repair process for the Kwezi educational app. The initial request was a specific, case-sensitive audio mapping fix for the verbes section. This evolved into a major database schema refactoring to support separate audio tracks for Shimaoré and Kibouchi languages, driven by user feedback. The core of the work involved multiple iterative updates where the user provided new data via ZIP files and a PDF, requiring the AI engineer to create and execute numerous Python scripts to download, extract, and map audio files, as well as correct vocabulary orthography.
+
+A critical phase involved debugging a persistent issue where authentic audio was not playing. Initially mistaken for data loss by the user, the AI engineer correctly diagnosed it as a series of cascading backend API bugs. The root causes were identified in : the API was referencing incorrect database field names (e.g.,  vs. ), an incorrect collection name ( vs. ), and legacy data fields that conflicted with the new schema. The engineer systematically debugged and patched the API, ultimately restoring functionality. The trajectory concludes at a high-tension moment, with the user reporting a total data loss, and the AI engineer initiating an emergency diagnostic script to verify the database's state.
 </analysis>
 
 <product_requirements>
-The Kwezi app is an educational mobile application for children to learn Shimaoré and Kibouchi through games and authentic audio. Past work involved refining the Construire des phrases game (fixing abimer verb, conjugation coloring, wassi correction, feminine TTS), updating famille vocabulary and audio, and prototyping the Découverte de Mayotte game. The current focus is expanding and rectifying the app's vocabulary content across numerous sections (Animaux, Nombres, Corps Humain, Salutations, Nourriture, Maison, Vêtement, Nature, Adjectifs, Verbes, Transport). This involves ensuring correct orthography, integrating authentic audio pronunciations, creating missing database sections, and critically, resolving persistent audio-to-word mapping inconsistencies, especially for verbs and addressing case-sensitivity issues in audio file names.
+The Kwezi app is an educational tool for learning Shimaoré and Kibouchi. The primary focus of the work was to ensure the data integrity and functionality of the verbes vocabulary section.
+
+Key requirements were:
+1.  **Correct Audio-to-Word Mapping:** Ensure authentic audio pronunciations from user-provided files are correctly associated with their corresponding words, including handling case-sensitivity in filenames.
+2.  **Dual Language Audio System:** Implement a clear database structure that separates Shimaoré and Kibouchi translations and their respective audio files, eliminating the ambiguity of a single audio field serving both languages.
+3.  **Data Accuracy from Source:** Repeatedly update the database using data provided by the user through ZIP files (containing audio) and a PDF (containing correct orthography for all vocabulary sections). This required a complete re-mapping of verb pronunciations multiple times.
+4.  **Backend API Functionality:** The backend must reliably serve the correct, separate audio files for both languages when requested by the frontend.
+5.  **Frontend Polish:** Minor requests included changing the Text-to-Speech voice from masculine to feminine and investigating issues with the app loading in Expo Go.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-stack Architecture:** Expo (React Native) frontend, FastAPI backend, MongoDB database.
--   **Data Processing:** Python scripts for database updates (insertion, orthography correction, audio reference mapping, data diagnostics, case-insensitive audio matching).
--   **Database Interaction:** Direct MongoDB queries for diagnostics.
--   **Backup & Recovery:** Automated timestamped backups for data integrity.
--   **Case-Insensitive Matching:** A critical technique applied to resolve audio-to-word mapping discrepancies.
+- **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI backend, and a MongoDB database.
+- **Data Migration & ETL:** Extensive use of single-run Python scripts with  to perform complex data transformations, including schema changes (adding new fields for dual audio), data correction (orthography), and mapping new audio files to database entries.
+- **API Debugging:** Use of  and custom diagnostic scripts to identify and resolve critical backend bugs, including 404s, 405s, and 500 Internal Server Errors in the FastAPI application.
+- **File & Asset Management:** Downloading, extracting (), and managing user-provided ZIP archives containing audio assets.
 </key_technical_concepts>
 
 <code_architecture>
-The application employs a full-stack architecture featuring an Expo (React Native) frontend, a FastAPI backend, and a MongoDB database. Frontend routing is managed by Expo Router through file-based navigation within the  directory.
+The application follows a standard full-stack monorepo structure with distinct frontend and backend directories.
 
-**Detailed Directory structure:**
-/app
-├── backend/
-│   ├── ...
-│   ├── fix_verb_mappings_final.py
-│   ├── analyze_all_audio_correspondences.py
-│   ├── analyze_audio_with_correct_structure.py
-│   ├── backup_before_recovery_20250917_084334.json
-│   └── backup_words_20250925_051143.json
-├── frontend/
-│   ├── .env
-│   ├── app/
-│   │   ├── _layout.tsx
-│   │   ├── admin.tsx
-│   │   ├── games.tsx
-│   │   ├── home.tsx
-│   │   ├── index.tsx
-│   │   ├── learn.tsx
-│   │   └── mayotte-discovery.tsx
-│   ├── assets/
-│   │   ├── ylang-ylang.png
-│   │   ├── maki-mayotte.png
-│   │   ├── data/
-│   │   │   └── mayotte-world.json
-│   │   └── audio/
-│   │       ├── famille/
-│   │       ├── corps_humain/
-│   │       ├── nombres/
-│   │       ├── animaux/
-│   │       ├── salutations/
-│   │       ├── nourriture/
-│   │       ├── maison/
-│   │       ├── vetement/
-│   │       ├── nature/
-│   │       ├── verbes/
-│   │       └── adjectifs/
-│   ├── components/
-│   │   ├── YlangYlangFlower.tsx
-│   │   ├── MakiMayotte.tsx
-│   │   ├── AuthenticAudioPlayer.tsx
-│   │   ├── ColoredConjugationWord.tsx
-│   │   ├── ConjugationColorLegend.tsx
-│   │   ├── MayotteMap.tsx
-│   │   ├── AnimatedMaki.tsx
-│   │   ├── VillageDiscoveryPanel.tsx
-│   │   └── HybridRealisticMayotteMap.tsx
-│   ├── utils/
-│   │   ├── speechUtils.ts
-│   │   ├── realAuthenticAudioSystem.ts
-│   │   ├── dualAuthenticAudioSystem.ts
-│   │   ├── conjugationColorSystem.ts
-│   │   ├── feminineSpeechUtils.ts
-│   │   ├── enhancedSpeechUtils.ts
-│   │   ├── voiceTestUtils.ts
-│   │   └── mayotteGeoData.ts
-│   ├── app.json
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── qr_code_expo.png
-├── test_conjugation_colors.js
-├── test_result.md
-└── tests/
+**/app**
+├── **backend/**
+│   ├── **server.py**: The main FastAPI application file. This was the most critical file modified, with multiple edits to its audio-serving API endpoints to correct bugs related to wrong collection names, incorrect field lookups ( vs ), and outdated schema references.
+│   ├── **(Numerous Scripts)**: A large number of single-use Python scripts were created for data manipulation. Key examples include:
+│   │   - : Altered the MongoDB schema for verbs to support separate audio tracks.
+│   │   - : Parsed user-provided data to perform a mass update of verb translations and audio links.
+│   │   - : Removed legacy database fields that were causing conflicts in the API.
+│   │   - : A script that patched  to resolve the final API bugs.
+│   │   - : The last script created, intended to perform an urgent check on the database's status.
+│   └── ...
+├── **frontend/**
+│   ├── **app/**: Contains the Expo Router screens.
+│   ├── **assets/audio/**: Directory where all the authentic audio  files are stored, organized by category (e.g., ).
+│   ├── **utils/**
+│   │   - **enhancedSpeechUtils.ts**: This utility manages the Text-to-Speech (TTS) functionality. It was edited to change the default voice from 'masculine' to 'feminine'.
+│   │   - **voiceTestUtils.ts**: A related testing utility that was also updated to reflect the change to a feminine voice.
+│   └── ...
+└── ...
 
-**Key Files & Changes:**
--   : **Executed.** This script corrected 26 verb audio references, resolving specific mismatches by using existing audio files and updating  and  fields in the  collection, including case-insensitive matching.
--   : **NEW.** Created for initial case-insensitive audio analysis, but failed due to a database schema mismatch.
--   : **NEW.** Created to fix the previous analysis script, correctly identifying the  field in MongoDB for successful case-insensitive audio-to-word matching, identifying 771 potential correspondences.
--   : **Examined.** Multiple timestamped JSON files were reviewed as part of the data diagnostic, confirming robust data protection.
+The workflow heavily relied on creating temporary Python scripts within the  directory to perform targeted, irreversible data operations on the live MongoDB database.
 </code_architecture>
 
 <pending_tasks>
--   Implement frontend UI for audio playback in games other than Commencer à apprendre.
--   Develop and integrate a personal word mastery system.
--   Conduct comprehensive frontend mobile UI testing on Expo Go for all implemented features.
--   Investigate and resolve remaining incorrect emoji associations.
--   Clarify the user's mentioned fork date (October 19, 2025).
--   Add zoom and pan controls (buttons) to the Mayotte map.
--   Integrate new verb audio files provided via Google Drive (user needs to re-upload as ZIP).
--   Address the remaining 77 words across nourriture (44), famille (25), and couleurs (8) sections that are currently missing authentic audio.
+- **Complete Orthography Correction:** The task of correcting vocabulary spelling based on the user's PDF is incomplete. Only the Nature section was corrected, and the Corps humain section was added as new. All other sections from the PDF still need to be processed.
+- **Resolve Expo Go Loading Issues:** The user reported that the application has trouble opening with Expo Go. This issue was acknowledged, but debugging was preempted by the more critical data loss emergency.
+- **Confirm Data Integrity with User:** The most urgent pending task is to address the user's concern about total data loss.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was addressing a user-identified issue regarding audio-to-word mapping, specifically related to case sensitivity in audio file names. Following a data integrity diagnostic, the AI engineer executed , successfully updating 26 verb audio correspondences and resolving a key reported mismatch (oumengna / mandroubaka). Subsequently, the user explicitly requested a thorough re-analysis of *all* audio files, emphasizing case sensitivity. The AI engineer first created and ran , which failed due to a database schema mismatch ( field expected vs.  present). This was diagnosed by inspecting MongoDB. A corrected script, , was then developed and executed successfully, identifying 771 potential audio matches across various categories by correctly referencing the  field and performing case-insensitive matching. The system is now prepared to apply these newly found correspondences.
+The AI engineer had just completed a critical and complex debugging session to fix the backend's audio API. After multiple failed attempts by the user to hear the correct authentic pronunciations, the engineer discovered the problem was not lost data, but a series of bugs in . The API was referencing an incorrect database collection ( instead of ) and using outdated/incorrect field names ( instead of ).
+
+The engineer successfully patched the API, confirmed with  that audio files were being served correctly, and concluded that the problem was fully resolved. However, the user, likely experiencing caching issues or misinterpreting the fallback TTS behavior, reported in distress: **toute la base de données est perdu comment explique cela ?** (the whole database is lost how do you explain that?).
+
+In response to this emergency, the AI engineer's immediate last action was to create the script  to perform a live check of the database's state and prove that the data is, in fact, intact. The trajectory ends at this cliffhanger, with the script created but not yet executed.
 </current_work>
 
 <optional_next_step>
-Apply the identified 771 audio correspondences using a script (), pending user confirmation.
+Execute the  script to get an immediate count of documents in the  collection and other relevant stats to definitively confirm the database's integrity.
 </optional_next_step>
