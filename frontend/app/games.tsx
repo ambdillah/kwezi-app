@@ -193,7 +193,7 @@ export default function GamesScreen() {
     
     Speech.speak("C'est parti pour le jeu! Bonne chance!", {
       language: 'fr-FR',
-      pitch: 1.2,
+      pitch: 1.2, // Voix féminine
     });
   };
 
