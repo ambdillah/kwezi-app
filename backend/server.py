@@ -175,26 +175,20 @@ async def get_word(word_id: str):
 async def get_words(category: str = Query(None, description="Filter by category")):
     """Get words (compatible with frontend expectations)"""
     try:
-        # Build query based on category parameter (map to section)
+        # Build query based on category parameter
         query = {}
         if category:
-            query["section"] = category
+            query["category"] = category
         
         # Execute query
         cursor = words_collection.find(query)
         words = []
         for word_doc in cursor:
-            # Convert MongoDB document to dictionary and map field names
+            # Convert MongoDB document to dictionary
             word_dict = dict(word_doc)
             if '_id' in word_dict:
                 word_dict['id'] = str(word_dict['_id'])
                 del word_dict['_id']
-            
-            # Map field names to what frontend expects
-            if 'section' in word_dict:
-                word_dict['category'] = word_dict['section']
-            if 'shimaoré' in word_dict:
-                word_dict['shimaore'] = word_dict['shimaoré']
             
             words.append(word_dict)
         
