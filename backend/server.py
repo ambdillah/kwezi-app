@@ -119,6 +119,12 @@ def dict_to_exercise(exercise_dict):
 async def root():
     return {"message": "Mayotte Language Learning API", "status": "running"}
 
+@app.get("/test-audio")
+async def test_audio_page():
+    """Page de test des audios authentiques"""
+    from fastapi.responses import FileResponse
+    return FileResponse("/app/backend/test_audio.html")
+
 @app.get("/api/vocabulary")
 async def get_vocabulary(section: str = Query(None, description="Filter by section")):
     """Get vocabulary by section"""
