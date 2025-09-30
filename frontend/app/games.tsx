@@ -1124,6 +1124,23 @@ export default function GamesScreen() {
           )}
         </View>
 
+        {/* Feedback visuel */}
+        {showSentenceFeedback && (
+          <View style={[
+            styles.sentenceFeedback,
+            sentenceFeedbackType === 'success' ? styles.sentenceFeedbackSuccess : styles.sentenceFeedbackError
+          ]}>
+            <Ionicons 
+              name={sentenceFeedbackType === 'success' ? 'checkmark-circle' : 'close-circle'} 
+              size={32} 
+              color="#fff" 
+            />
+            <Text style={styles.sentenceFeedbackText}>
+              {sentenceFeedbackType === 'success' ? 'Bravo! Phrase correcte! 🎉' : 'Essaie encore! L\'ordre n\'est pas correct. 🤔'}
+            </Text>
+          </View>
+        )}
+
         {/* Bouton d'aide */}
         <TouchableOpacity 
           onPress={() => {
