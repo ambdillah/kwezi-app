@@ -485,11 +485,8 @@ export default function GamesScreen() {
           setCanFlip(true);
           setMemoryScore(prev => prev + (moves === 0 ? 30 : 20));
           
-          // Prononcer les deux mots
-          Speech.speak(`${firstCard.text}. ${secondCard.text}`, { 
-            language: 'fr-FR', 
-            pitch: 1.2 
-          });
+          // Prononcer les deux mots avec voix féminine
+          speakEducationalContent(`${firstCard.text}. ${secondCard.text}`, 'fr');
           
           // Vérifier si le jeu est terminé
           if (matchedPairs.length + 2 === memoryCards.length) {
