@@ -280,9 +280,9 @@ export default function GamesScreen() {
     
     if (selectedOption.isCorrect) {
       setScore(prev => prev + 10);
-      Speech.speak('Bravo! Très bien!', { language: 'fr-FR', pitch: 1.3 });
+      speakEducationalContent('Bravo! Très bien!', 'fr');
     } else {
-      Speech.speak('Oups! Ce n\'est pas la bonne réponse.', { language: 'fr-FR' });
+      speakEducationalContent('Oups! Ce n\'est pas la bonne réponse.', 'fr');
     }
     
     // Passer à la question suivante après 2 secondes
