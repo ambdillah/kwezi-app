@@ -2036,4 +2036,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  
+  // Styles pour le feedback visuel
+  sentenceFeedback: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 16,
+    gap: 12,
+  },
+  sentenceFeedbackSuccess: {
+    backgroundColor: '#28A745',
+  },
+  sentenceFeedbackError: {
+    backgroundColor: '#DC3545',
+  },
+  sentenceFeedbackText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+  },
 });
