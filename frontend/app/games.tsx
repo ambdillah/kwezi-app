@@ -511,7 +511,7 @@ export default function GamesScreen() {
         setTimeout(() => {
           setFlippedCards([]);
           setCanFlip(true);
-          Speech.speak('Oups, essaie encore!', { language: 'fr-FR' });
+          speakEducationalContent('Oups, essaie encore!', 'fr');
         }, 1500);
       }
     }
