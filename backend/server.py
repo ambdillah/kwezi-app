@@ -36,7 +36,7 @@ DB_NAME = os.getenv("DB_NAME", "mayotte_app")
 db = client[DB_NAME]
 
 # Collections
-words_collection = db.words
+words_collection = db.vocabulary
 exercises_collection = db.exercises
 user_progress_collection = db.user_progress
 sentences_collection = db.sentences
