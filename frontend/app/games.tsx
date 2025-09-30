@@ -942,11 +942,11 @@ export default function GamesScreen() {
         setSentenceFeedbackType('success');
         setShowSentenceFeedback(true);
         
-        // Prononcer la phrase correcte
+        // Prononcer la phrase correcte avec voix féminine
         const correctSentence = selectedLanguage === 'shimaore' 
           ? currentSentence.shimaore 
           : currentSentence.kibouchi;
-        Speech.speak(correctSentence, { language: 'sw-KE', rate: 0.7 });
+        await speakText(correctSentence, selectedLanguage);
         
         // Passer automatiquement à la phrase suivante après 2 secondes
         setTimeout(() => {
