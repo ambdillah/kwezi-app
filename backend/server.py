@@ -1540,4 +1540,65 @@ async def get_word_audio_info(word_id: str):
 
 if __name__ == "__main__":
     import uvicorn
+
+@app.get("/api/debug/audio/{word_id}/{lang}")
+async def debug_audio_route(word_id: str, lang: str):
+    """Route de debug pour l'audio"""
+    try:
+        from bson import ObjectId
+        import os
+        
+        # Log de debug
+        print(f"DEBUG: word_id={word_id}, lang={lang}")
+        
+        # Connexion DB
+        mongo_url = os.getenv('MONGO_URL', 'mongodb://localhost:27017/')
+        client = MongoClient(mongo_url)
+        db = client['shimaoré_app']
+        collection = db['vocabulary']
+        
+        # Récupérer document
+        try:
+            obj_id = ObjectId(word_id)
+        except Exception as e:
+            return {"error": f"Invalid ObjectId: {e}"}
+            
+        word_doc = collection.find_one({"_id": obj_id})
+        if not word_doc:
+            return {"error": "Document not found"}
+        
+        # Récupérer filename
+        if lang == "shimaore":
+            filename = word_doc.get("audio_shimaoré_filename")
+            has_audio = word_doc.get("has_shimaoré_audio", False)
+        else:
+            filename = word_doc.get("audio_kibouchi_filename") 
+            has_audio = word_doc.get("has_kibouchi_audio", False)
+        
+        if not filename or not has_audio:
+            return {"error": "No audio configured", "filename": filename, "has_audio": has_audio}
+        
+        # Vérifier fichier
+        file_path = f"/app/frontend/assets/audio/verbes/{filename}"
+        file_exists = os.path.exists(file_path)
+        file_size = os.path.getsize(file_path) if file_exists else 0
+        
+        return {
+            "word_id": word_id,
+            "lang": lang,
+            "filename": filename,
+            "has_audio": has_audio,
+            "file_path": file_path,
+            "file_exists": file_exists,
+            "file_size": file_size,
+            "word_doc": {
+                "french": word_doc.get("french"),
+                "section": word_doc.get("section")
+            }
+        }
+        
+    except Exception as e:
+        import traceback
+        return {"error": f"Exception: {e}", "traceback": traceback.format_exc()}
+
     uvicorn.run(app, host="0.0.0.0", port=8001)
