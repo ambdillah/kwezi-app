@@ -110,6 +110,81 @@ def dict_to_exercise(exercise_dict):
 async def root():
     return {"message": "Mayotte Language Learning API", "status": "running"}
 
+@app.get("/api/vocabulary")
+async def get_vocabulary(section: str = Query(None, description="Filter by section")):
+    """Get vocabulary by section"""
+    try:
+        # Build query based on section parameter
+        query = {}
+        if section:
+            query["section"] = section
+        
+        # Execute query
+        cursor = words_collection.find(query)
+        words = []
+        for word_doc in cursor:
+            # Convert MongoDB document to dictionary
+            word_dict = dict(word_doc)
+            if '_id' in word_dict:
+                word_dict['id'] = str(word_dict['_id'])
+                del word_dict['_id']
+            words.append(word_dict)
+        
+        return words
+    except Exception as e:
+        print(f"Error in get_vocabulary: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/vocabulary/sections")
+async def get_vocabulary_sections():
+    """Get all available vocabulary sections"""
+    try:
+        # Get distinct sections from the vocabulary collection
+        sections = words_collection.distinct("section")
+        return {"sections": sections}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/vocabulary/{word_id}")
+async def get_word(word_id: str):
+    """Get a specific word by ID"""
+    try:
+        word_doc = words_collection.find_one({"_id": ObjectId(word_id)})
+        if not word_doc:
+            raise HTTPException(status_code=404, detail="Word not found")
+        
+        # Convert to dict and replace _id
+        word_dict = dict(word_doc)
+        word_dict['id'] = str(word_dict['_id'])
+        del word_dict['_id']
+        
+        return word_dict
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/audio/{section}/{filename}")
+async def get_audio(section: str, filename: str):
+    """Serve audio files from assets/audio directory"""
+    try:
+        from fastapi.responses import FileResponse
+        import os
+        
+        # Construct the file path
+        audio_path = f"/app/frontend/assets/audio/{section}/{filename}"
+        
+        # Check if file exists
+        if not os.path.exists(audio_path):
+            raise HTTPException(status_code=404, detail=f"Audio file not found: {filename}")
+        
+        # Return the file
+        return FileResponse(
+            path=audio_path,
+            media_type="audio/m4a",
+            filename=filename
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/init-base-content")
 async def init_base_content():
     """Initialize the database with base vocabulary and exercises"""
