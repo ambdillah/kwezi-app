@@ -775,9 +775,9 @@ export default function GamesScreen() {
     const isCorrect = selectedAnswer === currentQuestion.correct;
     if (isCorrect) {
       setQuizScore(prev => prev + 10);
-      Speech.speak('Bravo! Bonne réponse!', { language: 'fr-FR', pitch: 1.3 });
+      speakEducationalContent('Bravo! Bonne réponse!', 'fr');
     } else {
-      Speech.speak('Oups! Mauvaise réponse.', { language: 'fr-FR' });
+      speakEducationalContent('Oups! Mauvaise réponse.', 'fr');
     }
 
     // Passer à la question suivante après 3 secondes
