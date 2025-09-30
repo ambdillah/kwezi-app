@@ -302,10 +302,7 @@ export default function GamesScreen() {
     } else {
       // Fin du jeu
       setTimeout(() => {
-        Speech.speak(`Félicitations! Tu as terminé avec ${score} points!`, { 
-          language: 'fr-FR', 
-          pitch: 1.2 
-        });
+        speakEducationalContent(`Félicitations! Tu as terminé avec ${score} points!`, 'fr');
         Alert.alert('🎉 Jeu terminé!', `Tu as obtenu ${score} points sur ${questionsGenerated.length * 10} possibles!`);
         setGameStarted(false);
       }, 500);
