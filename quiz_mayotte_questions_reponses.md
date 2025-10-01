@@ -17,12 +17,12 @@
 
 ### Question 2 (Shimaoré)
 **Q:** Comment dit-on "Bonjour" en Shimaoré?
-- A) Kwezi k ✅ **BONNE RÉPONSE**
+- A) Kwezi ✅ **BONNE RÉPONSE**
 - B) Salama
 - C) Mbou marahaba
 - D) Bariza
 
-**Explication:** On dit "Kwezi k" pour dire bonjour en Shimaoré!
+**Explication:** On dit "Kwezi" pour dire bonjour en Shimaoré!
 
 ---
 
