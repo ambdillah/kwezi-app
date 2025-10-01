@@ -108,7 +108,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   // Passer à Premium
-  const upgradeToP remium = async (subscriptionType: string = 'monthly'): Promise<boolean> => {
+  const upgradeToPremium = async (subscriptionType: string = 'monthly'): Promise<boolean> => {
     try {
       const userId = await AsyncStorage.getItem('user_id');
       if (!userId) return false;
