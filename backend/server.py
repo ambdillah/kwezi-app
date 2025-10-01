@@ -1777,6 +1777,92 @@ async def get_audio_file(word_id: str, lang: str):
             filename = word_doc.get("audio_shimaoré_filename")
             has_audio = word_doc.get("has_shimaoré_audio", False)
         else:
+
+
+# ============================================
+# SYSTÈME PREMIUM - Endpoints Utilisateurs
+# ============================================
+
+from premium_system import (
+    create_user, get_user, upgrade_to_premium,
+    get_words_for_user, update_user_activity, get_user_stats
+)
+
+@app.post("/api/users/register")
+async def register_user(user_data: UserCreate):
+    """Créer un nouvel utilisateur gratuit"""
+    try:
+        user = create_user(user_data.user_id, user_data.email)
+        # Convertir ObjectId en string
+        user["id"] = str(user["_id"])
+        del user["_id"]
+        return {"success": True, "user": user}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/users/{user_id}")
+async def get_user_info(user_id: str):
+    """Récupérer les informations d'un utilisateur"""
+    try:
+        user = get_user(user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+        
+        # Convertir ObjectId en string
+        user["id"] = str(user["_id"])
+        del user["_id"]
+        return user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/users/{user_id}/upgrade")
+async def upgrade_user_premium(user_id: str, upgrade_data: UpgradeRequest):
+    """Simuler l'achat Premium (POUR TESTS - À remplacer par Stripe en production)"""
+    try:
+        user = upgrade_to_premium(user_id, upgrade_data.subscription_type)
+        # Convertir ObjectId en string
+        user["id"] = str(user["_id"])
+        del user["_id"]
+        
+        return {
+            "success": True,
+            "message": "Upgrade Premium réussi! Bienvenue dans la communauté Premium Kwezi 🎉",
+            "user": user
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/users/{user_id}/stats")
+async def get_user_statistics(user_id: str):
+    """Récupérer les statistiques d'un utilisateur"""
+    try:
+        stats = get_user_stats(user_id)
+        return stats
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/users/{user_id}/activity")
+async def update_activity(user_id: str, words_learned: int = 0, score: int = 0):
+    """Mettre à jour l'activité d'un utilisateur"""
+    try:
+        user = update_user_activity(user_id, words_learned, score)
+        # Convertir ObjectId en string
+        user["id"] = str(user["_id"])
+        del user["_id"]
+        return user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Modifier l'endpoint /api/words pour supporter le système premium
+@app.get("/api/words/premium")
+async def get_words_premium(user_id: Optional[str] = None, category: Optional[str] = None):
+    """Récupérer les mots avec limitation selon le statut premium"""
+    try:
+        result = get_words_for_user(user_id, category)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
             filename = word_doc.get("audio_kibouchi_filename")
             has_audio = word_doc.get("has_kibouchi_audio", False)
         
