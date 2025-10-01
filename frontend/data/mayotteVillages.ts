@@ -45,9 +45,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
       },
       {
         question: 'Comment dit-on "Bonjour" en Shimaoré?',
-        options: ['Kwezi k', 'Salama', 'Mbou marahaba', 'Bariza'],
+        options: ['Kwezi', 'Salama', 'Mbou marahaba', 'Bariza'],
         correct: 0,
-        explanation: 'On dit "Kwezi k" pour dire bonjour en Shimaoré!',
+        explanation: 'On dit "Kwezi" pour dire bonjour en Shimaoré!',
         language: 'shimaore',
       },
       {
