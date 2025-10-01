@@ -210,9 +210,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
       },
       {
         question: 'Comment dit-on "Poisson" en Kibouchi?',
-        options: ['Samaki', 'Pwesa', 'Dagaa', 'Kamba'],
+        options: ['Samaki', 'Lokou', 'Dagaa', 'Kamba'],
         correct: 1,
-        explanation: '"Pwesa" signifie poisson en Kibouchi.',
+        explanation: '"Lokou" signifie poisson en Kibouchi.',
         language: 'kibouchi',
       },
       {
