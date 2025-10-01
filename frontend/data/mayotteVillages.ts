@@ -243,9 +243,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
       },
       {
         question: 'Comment dit-on "Histoire" en Shimaoré?',
-        options: ['Haba', 'Hadithi', 'Mwezi', 'Wakati'],
+        options: ['Haba', 'Taréhi', 'Mwezi', 'Wakati'],
         correct: 1,
-        explanation: '"Hadithi" signifie histoire en Shimaoré.',
+        explanation: '"Taréhi" signifie histoire en Shimaoré.',
         language: 'shimaore',
       },
       {
