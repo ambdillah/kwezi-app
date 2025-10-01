@@ -1777,7 +1777,20 @@ async def get_audio_file(word_id: str, lang: str):
             filename = word_doc.get("audio_shimaoré_filename")
             has_audio = word_doc.get("has_shimaoré_audio", False)
         else:
-
+            filename = word_doc.get("audio_kibouchi_filename")
+            has_audio = word_doc.get("has_kibouchi_audio", False)
+        
+        if not filename or not has_audio:
+            raise HTTPException(status_code=404, detail=f"Pas d'audio {lang}")
+        
+        # Retourner le fichier
+        file_path = os.path.join("/app/frontend/assets/audio", filename)
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="Fichier audio introuvable")
+        
+        return FileResponse(file_path, media_type="audio/m4a")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ============================================
 # SYSTÈME PREMIUM - Endpoints Utilisateurs
