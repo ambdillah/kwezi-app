@@ -66,8 +66,10 @@ export default function LearnScreen() {
   const [words, setWords] = useState<Word[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [showAllWords, setShowAllWords] = useState(false);
+  const [totalWordsCount, setTotalWordsCount] = useState(0);
 
-  const fetchWords = async (category?: string) => {
+  const fetchWords = async (category?: string, loadAll: boolean = false) => {
     setLoading(true);
     try {
       const baseUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:3000';
@@ -78,7 +80,16 @@ export default function LearnScreen() {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setWords(data);
+        setTotalWordsCount(data.length);
+        
+        // Si on ne charge pas tout et qu'il n'y a pas de catégorie, limiter à 50 mots
+        if (!loadAll && !category && data.length > 50) {
+          setWords(data.slice(0, 50));
+          setShowAllWords(false);
+        } else {
+          setWords(data);
+          setShowAllWords(true);
+        }
       } else {
         Alert.alert('Erreur', 'Problème lors du chargement des mots');
       }
@@ -90,7 +101,8 @@ export default function LearnScreen() {
   };
 
   useEffect(() => {
-    fetchWords();
+    // Charger seulement 50 mots au démarrage pour un chargement rapide
+    fetchWords('', false);
   }, []);
 
   const speakWord = async (text: string, language: 'fr' | 'shimaore' | 'kibouchi' = 'fr', word?: Word) => {
