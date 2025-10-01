@@ -111,9 +111,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
       },
       {
         question: 'Comment dit-on "Tortue" en Kibouchi?',
-        options: ['Fara', 'Nyamba', 'Vouli', 'Mamba'],
+        options: ['Fara', 'Fanou', 'Vouli', 'Mamba'],
         correct: 1,
-        explanation: '"Nyamba" signifie tortue en Kibouchi.',
+        explanation: '"Fanou" signifie tortue en Kibouchi.',
         language: 'kibouchi',
       },
       {
