@@ -342,9 +342,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
       },
       {
         question: 'Comment dit-on "Avion" en Shimaoré?',
-        options: ['Ndege', 'Gari', 'Boti', 'Pikipiki'],
+        options: ['Ndrégué', 'Gari', 'Boti', 'Pikipiki'],
         correct: 0,
-        explanation: '"Ndege" signifie avion en Shimaoré.',
+        explanation: '"Ndrégué" signifie avion en Shimaoré.',
         language: 'shimaore',
       },
       {
