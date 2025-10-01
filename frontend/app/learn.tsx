@@ -144,12 +144,16 @@ export default function LearnScreen() {
 
   const selectCategory = (category: string) => {
     setSelectedCategory(category);
-    fetchWords(category);
+    fetchWords(category, false);
   };
 
   const clearCategory = () => {
     setSelectedCategory('');
-    fetchWords();
+    fetchWords('', false);
+  };
+
+  const loadAllWords = () => {
+    fetchWords('', true);
   };
 
   return (
