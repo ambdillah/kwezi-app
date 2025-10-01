@@ -1866,8 +1866,8 @@ async def update_activity(user_id: str, words_learned: int = 0, score: int = 0):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Modifier l'endpoint /api/words pour supporter le système premium
-@app.get("/api/words/premium")
+# Endpoint pour récupérer les mots avec le système premium
+@app.get("/api/premium/words")
 async def get_words_premium(user_id: Optional[str] = None, category: Optional[str] = None):
     """Récupérer les mots avec limitation selon le statut premium"""
     try:
