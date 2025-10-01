@@ -457,11 +457,22 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     alignItems: 'center',
-    padding: 30,
+    justifyContent: 'center',
+    padding: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 20,
+    marginVertical: 20,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   loadingText: {
     fontSize: 18,
+    fontWeight: '600',
     color: '#333',
+    marginTop: 15,
   },
   wordCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
