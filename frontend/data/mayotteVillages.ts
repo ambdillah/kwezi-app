@@ -316,9 +316,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
       },
       {
         question: 'Quelle activité pratiquer à Acoua?',
-        options: ['Ski nautique', 'Snorkeling', 'Alpinisme', 'Parapente'],
+        options: ['Ski nautique', 'Randonnée du nord', 'Alpinisme', 'Parapente'],
         correct: 1,
-        explanation: 'Le snorkeling (palmes-masque-tuba) est idéal pour découvrir les fonds marins.',
+        explanation: 'La randonnée du nord est une activité populaire pour découvrir la région d\'Acoua.',
       },
     ],
   },
