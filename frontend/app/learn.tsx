@@ -63,6 +63,57 @@ const CATEGORIES = [
   { key: 'tradition', name: 'Tradition', icon: 'musical-notes', color: '#D63384' },
 ];
 
+// Composant d'animation de chargement avec le maki
+const LoadingAnimation = () => {
+  const bounceAnim = useRef(new Animated.Value(0)).current;
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Animation de rebond
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(bounceAnim, {
+          toValue: -20,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bounceAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Animation de rotation
+    Animated.loop(
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
+
+  const rotate = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  return (
+    <View style={styles.loadingContainer}>
+      <Animated.View style={{ transform: [{ translateY: bounceAnim }] }}>
+        <Text style={styles.makiEmoji}>🐒</Text>
+      </Animated.View>
+      <Animated.View style={{ transform: [{ rotate }] }}>
+        <Ionicons name="flower" size={24} color="#FFD700" />
+      </Animated.View>
+      <Text style={styles.loadingText}>Chargement des mots...</Text>
+      <Text style={styles.loadingSubText}>Le maki prépare ta leçon 📚</Text>
+    </View>
+  );
+};
+
 export default function LearnScreen() {
   const [words, setWords] = useState<Word[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
