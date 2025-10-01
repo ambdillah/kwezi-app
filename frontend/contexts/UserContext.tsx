@@ -173,7 +173,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isLoading,
     isPremium: user?.is_premium || false,
     initializeUser,
-    upgradeToP remium,
+    upgradeToPremium,
     updateUserActivity,
     refreshUser,
     logout,
