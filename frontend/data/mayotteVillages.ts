@@ -79,8 +79,8 @@ export const MAYOTTE_VILLAGES: Village[] = [
       {
         question: 'Comment dit-on "Merci" en Shimaoré?',
         options: ['Bariza', 'Asante', 'Marahaba', 'Kwezi'],
-        correct: 0,
-        explanation: '"Bariza" signifie merci en Shimaoré.',
+        correct: 2,
+        explanation: '"Marahaba" signifie merci en Shimaoré.',
         language: 'shimaore',
       },
       {
