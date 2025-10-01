@@ -270,9 +270,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
     quiz: [
       {
         question: 'Près de M\'Tsangamouji se trouve:',
-        options: ['Le Mont Choungui', 'L\'îlot M\'Tzamboro', 'Le lac Dziani', 'Le Rocher'],
+        options: ['Le Mont Choungui', 'L\'usine sucrière de Soulou', 'Le lac Dziani', 'Le Rocher'],
         correct: 1,
-        explanation: 'L\'îlot M\'Tzamboro est un site naturel protégé proche de M\'Tsangamouji.',
+        explanation: 'L\'usine sucrière de Soulou est un site historique proche de M\'Tsangamouji.',
       },
       {
         question: 'Comment dit-on "Île" en Shimaoré?',
