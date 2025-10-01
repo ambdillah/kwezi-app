@@ -102,6 +102,29 @@ class UserProgress(BaseModel):
     score: int
     completed_at: datetime = Field(default_factory=datetime.utcnow)
 
+# Modèles pour le système premium
+class User(BaseModel):
+    id: Optional[str] = None
+    user_id: str  # Identifiant unique généré côté client
+    email: Optional[str] = None
+    is_premium: bool = False
+    premium_expires_at: Optional[datetime] = None
+    subscription_type: Optional[str] = None  # "monthly", "yearly"
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_login: Optional[datetime] = None
+    words_learned: int = 0
+    total_score: int = 0
+    streak_days: int = 0
+    last_activity_date: Optional[datetime] = None
+
+class UserCreate(BaseModel):
+    user_id: str
+    email: Optional[str] = None
+
+class UpgradeRequest(BaseModel):
+    user_id: str
+    subscription_type: str = "monthly"  # "monthly" ou "yearly"
+
 def dict_to_word(word_dict):
     """Convert MongoDB document to Word model"""
     if '_id' in word_dict:
