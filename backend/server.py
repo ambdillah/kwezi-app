@@ -1875,29 +1875,6 @@ async def get_words_premium(user_id: Optional[str] = None, category: Optional[st
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-            filename = word_doc.get("audio_kibouchi_filename")
-            has_audio = word_doc.get("has_kibouchi_audio", False)
-        
-        if not filename or not has_audio:
-            raise HTTPException(status_code=404, detail=f"Pas d\'audio {lang}")
-        
-        # Chemin du fichier
-        section = word_doc.get("section", "verbes")
-        file_path = f"/app/frontend/assets/audio/{section}/{filename}"
-        
-        if not os.path.exists(file_path):
-            raise HTTPException(status_code=404, detail="Fichier non trouvé")
-        
-        return FileResponse(
-            file_path,
-            media_type="audio/mp4",
-            headers={"Content-Disposition": f"inline; filename={filename}"}
-        )
-        
-    except HTTPException:
-        raise
-    except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur serveur: {str(e)}")
 
     uvicorn.run(app, host="0.0.0.0", port=8001)
