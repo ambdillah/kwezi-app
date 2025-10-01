@@ -21,7 +21,7 @@ interface UserContextType {
   isLoading: boolean;
   isPremium: boolean;
   initializeUser: () => Promise<void>;
-  upgradeToP remium: (subscriptionType: string) => Promise<boolean>;
+  upgradeToPremium: (subscriptionType: string) => Promise<boolean>;
   updateUserActivity: (wordsLearned: number, score: number) => Promise<void>;
   refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
