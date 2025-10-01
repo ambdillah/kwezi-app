@@ -253,16 +253,23 @@ export default function LearnScreen() {
 
           {/* Words List */}
           <View style={styles.wordsContainer}>
-            <Text style={styles.sectionTitle}>
-              {selectedCategory 
-                ? `Mots de ${CATEGORIES.find(c => c.key === selectedCategory)?.name}` 
-                : 'Tous les mots'} ({words.length})
-            </Text>
+            <View style={styles.wordsHeaderContainer}>
+              <Text style={styles.sectionTitle}>
+                {selectedCategory 
+                  ? `Mots de ${CATEGORIES.find(c => c.key === selectedCategory)?.name}` 
+                  : 'Tous les mots'} ({words.length}{!showAllWords && totalWordsCount > 50 && !selectedCategory ? `/${totalWordsCount}` : ''})
+              </Text>
+              
+              {!showAllWords && !selectedCategory && totalWordsCount > 50 && (
+                <TouchableOpacity onPress={loadAllWords} style={styles.loadAllButton}>
+                  <Ionicons name="download" size={16} color="#fff" />
+                  <Text style={styles.loadAllButtonText}>Voir tout ({totalWordsCount})</Text>
+                </TouchableOpacity>
+              )}
+            </View>
             
             {loading ? (
-              <View style={styles.loadingContainer}>
-                <Text style={styles.loadingText}>Chargement... 🐒</Text>
-              </View>
+              <LoadingAnimation />
             ) : (
               words.map((word) => (
                 <View key={word.id} style={styles.wordCard}>
