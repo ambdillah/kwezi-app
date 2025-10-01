@@ -309,9 +309,9 @@ export const MAYOTTE_VILLAGES: Village[] = [
       },
       {
         question: 'Comment dit-on "Corail" en Kibouchi?',
-        options: ['Matumbawe', 'Pweza', 'Kasa', 'Nyota'],
+        options: ['Haragna', 'Pweza', 'Kasa', 'Nyota'],
         correct: 0,
-        explanation: '"Matumbawe" désigne le corail en Kibouchi.',
+        explanation: '"Haragna" désigne le corail en Kibouchi.',
         language: 'kibouchi',
       },
       {
