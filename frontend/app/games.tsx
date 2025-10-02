@@ -174,7 +174,7 @@ export default function GamesScreen() {
       setSentenceScore(0);
       setCurrentSentenceIndex(0);
       setBuiltSentence([]);
-      fetchSentences(1); // Commencer par difficulté 1
+      fetchSentences(); // Charger un mélange de tous les temps
     } else {
       // Pour les autres jeux
       const shuffled = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
