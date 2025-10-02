@@ -132,10 +132,11 @@ export default function GamesScreen() {
     }
   };
 
-  const fetchSentences = async (difficulty: number = 1) => {
+  const fetchSentences = async () => {
     try {
+      // Charger un mélange de tous les temps (présent, passé, futur)
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/sentences?difficulty=${difficulty}&limit=5`
+        `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/sentences?limit=10`
       );
       if (response.ok) {
         const data = await response.json();
