@@ -2,18 +2,21 @@
 
 ## 🎯 Vue d'ensemble
 
-Le jeu "Construire des phrases" utilise des phrases préenregistrées dans la base de données MongoDB (collection `sentences`) qui sont générées avec un moteur de conjugaison française.
+Le jeu "Construire des phrases" utilise des phrases générées automatiquement avec un moteur de conjugaison pour **3 langues** : Français, Shimaoré et Kibouchi.
+
+Les phrases sont stockées dans la base de données MongoDB (collection `sentences`).
 
 ---
 
-## 🔧 Moteur de Conjugaison Français
+## 🔧 Moteur de Conjugaison - 3 Langues
 
 ### Temps Implémentés
 
-Le moteur de conjugaison supporte **2 temps** :
+Le moteur de conjugaison supporte **3 temps** :
 
 1. **Présent** (present)
-2. **Passé Composé** (passé_composé)
+2. **Passé** (past)
+3. **Futur** (future)
 
 ---
 
