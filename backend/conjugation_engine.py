@@ -21,6 +21,7 @@ def get_database():
 class ConjugationEngine:
     def __init__(self):
         # Conjugaisons shimaoré (préfixes selon pronoms et temps)
+        # Règles: supprimer "ou" ou "w" de l'infinitif et ajouter le préfixe
         self.shimaore_conjugation = {
             'present': {
                 'je': 'nis',      # nisrenga = je parle
@@ -38,7 +39,7 @@ class ConjugationEngine:
                 'il': 'aco',      # acorenga = il a parlé
                 'elle': 'aco',    # acorenga = elle a parlé
                 'nous': 'raco',   # racorenga = nous avons parlé
-                'vous': 'mwaco',  # mwacorenga = vous avez parlé
+                'vous': 'moico',  # moicorenga = vous avez parlé (CORRIGÉ)
                 'ils': 'waco',    # wacorenga = ils ont parlé
                 'elles': 'waco'   # wacorenga = elles ont parlé
             },
