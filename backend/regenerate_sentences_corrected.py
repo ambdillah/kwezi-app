@@ -630,25 +630,26 @@ def get_complete_french_conjugations():
 FRENCH_CONJUGATIONS = get_complete_french_conjugations()
 
 def conjugate_french(verb, pronoun, tense='present'):
-    """Conjugue un verbe français"""
+    """Conjugue un verbe français correctement"""
     verb_lower = verb.lower()
     
-    # Chercher dans le dictionnaire
-    if tense in FRENCH_CONJUGATIONS:
-        if pronoun in FRENCH_CONJUGATIONS[tense]:
-            if verb_lower in FRENCH_CONJUGATIONS[tense][pronoun]:
-                return FRENCH_CONJUGATIONS[tense][pronoun][verb_lower]
+    # Utiliser le dictionnaire de conjugaisons complet
+    if tense in FRENCH_CONJUGATIONS and pronoun in FRENCH_CONJUGATIONS[tense]:
+        if verb_lower in FRENCH_CONJUGATIONS[tense][pronoun]:
+            return FRENCH_CONJUGATIONS[tense][pronoun][verb_lower]
     
-    # Conjugaison automatique pour verbes réguliers en -er
+    # Fallback pour verbes du 1er groupe non répertoriés
     if verb_lower.endswith('er') and tense == 'present':
         radical = verb_lower[:-2]
         endings = {'je': 'e', 'tu': 'es', 'il': 'e', 'nous': 'ons', 'vous': 'ez', 'ils': 'ent'}
         if pronoun in endings:
-            # Gestion de l'élision avec 'je'
-            if pronoun == 'je' and radical[0] in 'aeiouhéè':
+            # Gestion de l'élision
+            if pronoun == 'je' and radical and radical[0] in 'aeiouhéè':
                 return f"j'{radical}{endings[pronoun]}"
             return f"{pronoun} {radical}{endings[pronoun]}"
     
+    # Dernier fallback
+    print(f"⚠️  Conjugaison manquante: {verb} ({pronoun}, {tense})")
     return f"{pronoun} {verb_lower}"
 
 def regenerate_all_sentences():
