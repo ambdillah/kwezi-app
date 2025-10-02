@@ -62,7 +62,7 @@ const getFeminineVoiceConfig = (
     case 'feminine':
       baseConfig = {
         lang: baseConfigs[language].lang,
-        pitch: language === 'fr' ? 1.1 : 1.15, // Plus aigu pour féminin
+        pitch: language === 'fr' ? 1.1 : 1.3, // Pitch plus élevé pour Shimaoré/Kibouchi (plus féminin)
         rate: 0.75, // Rythme confortable
         volume: 1.0
       };
@@ -71,7 +71,7 @@ const getFeminineVoiceConfig = (
     case 'child-friendly':
       baseConfig = {
         lang: baseConfigs[language].lang,
-        pitch: 1.2, // Voix joyeuse pour enfants
+        pitch: 1.3, // Voix joyeuse pour enfants
         rate: 0.65, // Plus lent pour enfants
         volume: 1.0
       };
