@@ -1888,4 +1888,38 @@ async def get_words_premium(user_id: Optional[str] = None, category: Optional[st
         raise HTTPException(status_code=500, detail=str(e))
         raise HTTPException(status_code=500, detail=f"Erreur serveur: {str(e)}")
 
+
+# Route pour servir le document de vérification HTML
+@app.get("/api/verification-document")
+async def get_verification_document():
+    """Servir le document HTML de vérification du vocabulaire"""
+    from fastapi.responses import HTMLResponse
+    
+    html_file = "/app/VERIFICATION_VOCABULAIRE_COMPLET.html"
+    
+    if not os.path.exists(html_file):
+        raise HTTPException(status_code=404, detail="Document de vérification non trouvé")
+    
+    with open(html_file, 'r', encoding='utf-8') as f:
+        html_content = f.read()
+    
+    return HTMLResponse(content=html_content)
+
+# Route pour télécharger le fichier CSV
+@app.get("/api/verification-csv")
+async def download_verification_csv():
+    """Télécharger le fichier CSV de vérification"""
+    from fastapi.responses import FileResponse
+    
+    csv_file = "/app/VERIFICATION_VOCABULAIRE_COMPLET.csv"
+    
+    if not os.path.exists(csv_file):
+        raise HTTPException(status_code=404, detail="Fichier CSV non trouvé")
+    
+    return FileResponse(
+        path=csv_file,
+        media_type='text/csv',
+        filename='VERIFICATION_VOCABULAIRE_COMPLET.csv'
+    )
+
     uvicorn.run(app, host="0.0.0.0", port=8001)
