@@ -20,7 +20,77 @@ Le moteur de conjugaison supporte **3 temps** :
 
 ---
 
-## 📋 Règles de Conjugaison - PRÉSENT
+## 📋 Règles de Conjugaison - SHIMAORÉ
+
+### Pronoms Personnels
+- je = **wami**
+- tu = **wawé**  
+- il/elle = **wayé**
+- nous = **wasi**
+- vous = **wagnou**
+- ils/elles = **wawo**
+
+### Règle de Base
+Pour conjuguer un verbe shimaoré, on **supprime "ou" ou "w"** de l'infinitif, puis on ajoute un préfixe selon le pronom et le temps.
+
+**Exemple** : "ourenga" (parler) → radical = "renga"
+
+### Préfixes selon Pronom et Temps
+
+**PRÉSENT** :
+- je → **nis**renga (wami nisrenga)
+- tu → **ous**renga (wawé ousrenga)
+- il/elle → **as**renga (wayé asrenga)
+- nous → **ris**renga (wasi risrenga)
+- vous → **mous**renga (wagnou mousrenga)
+- ils/elles → **was**renga (wawo wasrenga)
+
+**PASSÉ** :
+- je → **naco**renga (wami nacorenga)
+- tu → **waco**renga (wawé wacorenga)
+- il/elle → **aco**renga (wayé acorenga)
+- nous → **raco**renga (wasi racorenga)
+- vous → **moico**renga (wagnou moicorenga)
+- ils/elles → **waco**renga (wawo wacorenga)
+
+**FUTUR** :
+- je → **nitso**renga (wami nitsorenga)
+- tu → **outso**renga (wawé outsorenga)
+- il/elle → **atso**renga (wayé atsorenga)
+- nous → **ritso**renga (wasi ritsorenga)
+- vous → **moutso**renga (wagnou moutsorenga)
+- ils/elles → **watso**renga (wawo watsorenga)
+
+---
+
+## 📋 Règles de Conjugaison - KIBOUCHI
+
+### Pronoms Personnels
+- je = **zahou**
+- tu = **anaou**
+- il/elle = **izi**
+- nous = **zéhèyi**
+- vous = **anaréou**
+- ils/elles = **réou**
+
+### Règles selon le Temps
+
+**PRÉSENT** : Supprimer le **"m"** du verbe
+- Exemple : "mihinagna" (manger) → "ihinagna"
+- **zahou ihinagna** (je mange)
+- **zéhèyi ihinagna** (nous mangeons)
+
+**PASSÉ** : Remplacer le **"m" par "n"**
+- Exemple : "mihinagna" → "nihinagna"
+- **zahou nihinagna** (j'ai mangé)
+- **zéhèyi nihinagna** (nous avons mangé)
+
+**FUTUR** : Remplacer le **"m" par "Mbou"**
+- Exemple : "mihinagna" → "Mbouihinagna"
+- **zahou Mbouihinagna** (je mangerai)
+- **zéhèyi Mbouihinagna** (nous mangerons)
+
+---
 
 ### Pronoms Personnels Supportés
 - je
