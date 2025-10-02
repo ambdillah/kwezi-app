@@ -942,7 +942,11 @@ export default function GamesScreen() {
         setSentenceFeedbackType('success');
         setShowSentenceFeedback(true);
         
-        // Prononcer la phrase correcte avec voix féminine
+        // Prononcer d'abord le français avec voix féminine
+        await speakEducationalContent(currentSentence.french, 'fr');
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Puis prononcer la phrase correcte en langue locale avec voix féminine
         const correctSentence = selectedLanguage === 'shimaore' 
           ? currentSentence.shimaore 
           : currentSentence.kibouchi;
@@ -956,6 +960,9 @@ export default function GamesScreen() {
       } else {
         setSentenceFeedbackType('error');
         setShowSentenceFeedback(true);
+        
+        // Prononcer le français pour rappeler la phrase à traduire
+        await speakEducationalContent(currentSentence.french, 'fr');
         
         // Cacher le feedback d'erreur après 2 secondes
         setTimeout(() => {
