@@ -72,10 +72,10 @@ class ConjugationEngine:
         self.pronouns = {
             'shimaore': {
                 'je': 'wami',
-                'tu': 'wawe',
-                'il': 'waye',
-                'elle': 'waye',
-                'nous': 'wasi',  # CORRIGÉ: wasi au lieu de wassi
+                'tu': 'wawé',      # CORRIGÉ: avec accent
+                'il': 'wayé',      # CORRIGÉ: avec accent
+                'elle': 'wayé',
+                'nous': 'wasi',    # CORRIGÉ: wasi (pas wassi)
                 'vous': 'wagnou',
                 'ils': 'wawo',
                 'elles': 'wawo'
@@ -85,7 +85,7 @@ class ConjugationEngine:
                 'tu': 'anaou',
                 'il': 'izi', 
                 'elle': 'izi',
-                'nous': 'atsika',
+                'nous': 'zéhèyi',  # CORRIGÉ: zéhèyi (pas atsika)
                 'vous': 'anaréou',
                 'ils': 'réou',
                 'elles': 'réou'
