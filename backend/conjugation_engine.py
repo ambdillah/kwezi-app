@@ -55,18 +55,17 @@ class ConjugationEngine:
             }
         }
         
-        # Conjugaisons kibouchi (préfixes selon pronoms)
-        self.kibouchi_conjugation = {
-            'present': {
-                'je': 'za',       # za mihinagna = je mange
-                'tu': 'ana',      # ana misoma = tu joues
-                'il': 'izi',      # izi mihinagna = il mange
-                'elle': 'izi',    # izi mihinagna = elle mange
-                'nous': 'zéheyi', # zéheyi mihinagna = nous mangeons
-                'vous': 'anaréou',# anaréou misoma = vous jouez
-                'ils': 'réou',    # réou mihinagna = ils mangent
-                'elles': 'réou'   # réou mihinagna = elles mangent
-            }
+        # Conjugaisons kibouchi
+        # Règles: Présent = supprimer "m", Passé = remplacer "m" par "n", Futur = remplacer "m" par "Mbou"
+        self.kibouchi_pronouns = {
+            'je': 'zahou',
+            'tu': 'anaou', 
+            'il': 'izi',
+            'elle': 'izi',
+            'nous': 'zéhèyi',   # CORRIGÉ: zéhèyi au lieu de atsika
+            'vous': 'anaréou',
+            'ils': 'réou',
+            'elles': 'réou'
         }
         
         # Pronoms personnels en shimaoré et kibouchi
