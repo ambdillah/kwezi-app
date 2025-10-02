@@ -260,6 +260,7 @@ export const speakWithFeminineVoice = async (
 
 /**
  * Prononce un mot avec voix féminine (fonction de compatibilité)
+ * GARANTIT une voix féminine pour TOUTES les langues
  */
 export const speakText = async (
   text: string, 
@@ -267,7 +268,9 @@ export const speakText = async (
   onStart?: () => void,
   onDone?: () => void
 ): Promise<void> => {
-  // Utiliser la voix féminine par défaut
+  console.log(`🎤 speakText appelé: "${text}" (${language})`);
+  
+  // Force l'utilisation de la voix féminine avec pitch élevé
   return speakWithFeminineVoice(text, language, 'feminine', 'gentle', onStart, onDone);
 };
 
