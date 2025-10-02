@@ -249,9 +249,30 @@ class ConjugationEngine:
         }
     
     def get_shimaore_radical(self, infinitive):
-        """Extrait le radical d'un verbe shimaoré (enlève 'ou' ou 'Ou')"""
-        if infinitive.lower().startswith('ou'):
-            return infinitive[2:]  # Enlever 'ou' ou 'Ou'
+        """
+        Extrait le radical d'un verbe shimaoré
+        Règle: Supprimer 'ou' ou 'w' au début de l'infinitif
+        """
+        infinitive_lower = infinitive.lower()
+        
+        # Enlever 'ou' au début
+        if infinitive_lower.startswith('ou'):
+            return infinitive[2:]
+        
+        # Enlever 'w' au début si pas de 'ou'
+        if infinitive_lower.startswith('w'):
+            return infinitive[1:]
+        
+        return infinitive
+    
+    def get_kibouchi_radical(self, infinitive):
+        """
+        Extrait le radical d'un verbe kibouchi
+        Règle: Supprimer uniquement le 'm' au début de l'infinitif
+        """
+        if infinitive.lower().startswith('m'):
+            return infinitive[1:]
+        
         return infinitive
     
     def conjugate_shimaore(self, infinitive, pronoun, tense='present'):
