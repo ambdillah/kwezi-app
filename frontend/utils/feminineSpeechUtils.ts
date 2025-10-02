@@ -114,51 +114,60 @@ const getFeminineVoiceConfig = (
  * Sélectionne la meilleure voix féminine disponible
  */
 export const selectBestFeminineVoice = async (language: SupportedLanguage): Promise<string | undefined> => {
-  if (language !== 'fr') return undefined; // Seulement pour le français pour l'instant
-  
   try {
     const voices = await Speech.getAvailableVoicesAsync();
     
-    // Filtrer les voix françaises
-    const frenchVoices = voices.filter(voice => 
-      voice.language.startsWith('fr') || voice.language.startsWith('fr-FR')
+    // Configuration par langue
+    const languageConfig = {
+      'fr': {
+        codes: ['fr', 'fr-FR'],
+        preferredNames: ['Amelie', 'amelie', 'Audrey', 'audrey', 'Marie', 'marie', 'Virginie', 'virginie', 'Celine', 'celine']
+      },
+      'shimaore': {
+        codes: ['sw', 'sw-KE', 'sw-TZ'], // Swahili
+        preferredNames: ['female', 'woman', 'lady']
+      },
+      'kibouchi': {
+        codes: ['mg', 'mg-MG', 'fr'], // Malgache ou français comme fallback
+        preferredNames: ['female', 'woman', 'lady', 'Amelie', 'amelie']
+      }
+    };
+    
+    const config = languageConfig[language];
+    
+    // Filtrer les voix selon la langue
+    const languageVoices = voices.filter(voice => 
+      config.codes.some(code => voice.language.startsWith(code))
     );
     
-    // Ordre de préférence pour les voix féminines
-    const preferredFeminineVoices = [
-      'Amelie', 'amelie',
-      'Audrey', 'audrey', 
-      'Marie', 'marie',
-      'Virginie', 'virginie',
-      'Celine', 'celine'
-    ];
-    
-    for (const preferred of preferredFeminineVoices) {
-      const voice = frenchVoices.find(v => 
+    // Chercher les voix féminines préférées
+    for (const preferred of config.preferredNames) {
+      const voice = languageVoices.find(v => 
         v.name.toLowerCase().includes(preferred.toLowerCase())
       );
       if (voice) {
-        console.log(`👩 Voix féminine sélectionnée: ${voice.name}`);
+        console.log(`👩 Voix féminine sélectionnée (${language}): ${voice.name}`);
         return voice.identifier || voice.name;
       }
     }
     
-    // Fallback: première voix féminine trouvée
-    const feminineVoice = frenchVoices.find(v => 
+    // Fallback: chercher toute voix féminine
+    const feminineVoice = languageVoices.find(v => 
       v.gender === 'female' || 
       v.name.toLowerCase().includes('female') ||
+      v.name.toLowerCase().includes('woman') ||
       !v.name.toLowerCase().includes('male')  // Éviter les voix explicitement masculines
     );
     
     if (feminineVoice) {
-      console.log(`👩 Voix féminine fallback: ${feminineVoice.name}`);
+      console.log(`👩 Voix féminine fallback (${language}): ${feminineVoice.name}`);
       return feminineVoice.identifier || feminineVoice.name;
     }
     
-    // Si aucune voix spécifiquement féminine, utiliser la première voix française
-    if (frenchVoices.length > 0) {
-      console.log(`👩 Voix française générique: ${frenchVoices[0].name}`);
-      return frenchVoices[0].identifier || frenchVoices[0].name;
+    // Dernier fallback: première voix disponible avec pitch élevé
+    if (languageVoices.length > 0) {
+      console.log(`👩 Voix générique avec pitch féminin (${language}): ${languageVoices[0].name}`);
+      return languageVoices[0].identifier || languageVoices[0].name;
     }
     
   } catch (error) {
