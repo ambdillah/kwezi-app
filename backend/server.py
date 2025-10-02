@@ -817,25 +817,36 @@ async def get_word(word_id: str):
 
 @app.get("/api/sentences")
 async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 20):
-    """Récupère les phrases pour le jeu 'construire des phrases'"""
+    """
+    Récupère les phrases pour le jeu 'construire des phrases'
+    Par défaut, retourne un MIX de tous les temps (présent, passé, futur)
+    """
     try:
         import random
         
-        # Construire le filtre
-        filter_query = {}
-        if difficulty:
-            filter_query["difficulty"] = difficulty
-        if tense:
-            filter_query["tense"] = tense
-        
-        # Récupérer toutes les phrases correspondantes puis mélanger
-        all_sentences = list(sentences_collection.find(filter_query))
-        
-        # Mélanger les phrases pour plus de variété
-        random.shuffle(all_sentences)
-        
-        # Appliquer la limite après le mélange
-        sentences = all_sentences[:limit]
+        # Si aucun filtre spécifique, charger un MIX équilibré de tous les temps
+        if not difficulty and not tense:
+            # Charger un mélange équilibré de présent, passé et futur
+            present_sentences = list(sentences_collection.find({"tense": "present"}).limit(limit // 3 + 1))
+            past_sentences = list(sentences_collection.find({"tense": "past"}).limit(limit // 3 + 1))
+            future_sentences = list(sentences_collection.find({"tense": "future"}).limit(limit // 3 + 1))
+            
+            # Mélanger tous ensemble
+            all_sentences = present_sentences + past_sentences + future_sentences
+            random.shuffle(all_sentences)
+            sentences = all_sentences[:limit]
+        else:
+            # Construire le filtre si spécifié
+            filter_query = {}
+            if difficulty:
+                filter_query["difficulty"] = difficulty
+            if tense:
+                filter_query["tense"] = tense
+            
+            # Récupérer toutes les phrases correspondantes puis mélanger
+            all_sentences = list(sentences_collection.find(filter_query))
+            random.shuffle(all_sentences)
+            sentences = all_sentences[:limit]
         
         # Convertir ObjectId en string
         for sentence in sentences:
