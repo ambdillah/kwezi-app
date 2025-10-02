@@ -286,36 +286,49 @@ class ConjugationEngine:
         return infinitive  # Retour par défaut
     
     def conjugate_kibouchi_past(self, verb):
-        """Règle spéciale pour le passé kibouchi: m→n et préfixe 'ni' si pas de 'm' initial"""
-        if verb.startswith('m'):
+        """
+        Règle kibouchi PASSÉ: remplacer le 'm' initial par 'n'
+        Si pas de 'm' initial, ajouter 'n' devant
+        """
+        if verb.startswith('m') or verb.startswith('M'):
             return 'n' + verb[1:]
         else:
-            return 'ni' + verb
+            return 'n' + verb
     
     def conjugate_kibouchi_future(self, verb):
-        """Règle spéciale pour le futur kibouchi: m→i"""
-        return verb.replace('m', 'i')
+        """
+        Règle kibouchi FUTUR: remplacer le 'm' initial par 'Mbou'
+        """
+        if verb.startswith('m') or verb.startswith('M'):
+            return 'Mbou' + verb[1:]
+        else:
+            return 'Mbou' + verb
     
     def conjugate_kibouchi(self, infinitive, pronoun, tense='present'):
-        """Conjugue un verbe kibouchi"""
+        """
+        Conjugue un verbe kibouchi selon les règles:
+        - PRÉSENT: supprimer le 'm' du verbe
+        - PASSÉ: remplacer 'm' par 'n'
+        - FUTUR: remplacer 'm' par 'Mbou'
+        """
+        pronoun_kibouchi = self.kibouchi_pronouns.get(pronoun, pronoun)
+        
         if tense == 'present':
-            if pronoun in self.kibouchi_conjugation['present']:
-                prefix = self.kibouchi_conjugation['present'][pronoun]
-                return f"{prefix} {infinitive}"
+            # Supprimer le 'm' initial
+            verb_conjugated = self.get_kibouchi_radical(infinitive)
+            return f"{pronoun_kibouchi} {verb_conjugated}"
         
         elif tense == 'past':
-            if pronoun in self.kibouchi_conjugation['present']:
-                prefix = self.kibouchi_conjugation['present'][pronoun]
-                past_verb = self.conjugate_kibouchi_past(infinitive)
-                return f"{prefix} {past_verb}"
+            # Remplacer 'm' par 'n'
+            past_verb = self.conjugate_kibouchi_past(infinitive)
+            return f"{pronoun_kibouchi} {past_verb}"
         
         elif tense == 'future':
-            if pronoun in self.kibouchi_conjugation['present']:
-                prefix = self.kibouchi_conjugation['present'][pronoun]
-                future_verb = self.conjugate_kibouchi_future(infinitive)
-                return f"{prefix} bou {future_verb}"
+            # Remplacer 'm' par 'Mbou'
+            future_verb = self.conjugate_kibouchi_future(infinitive)
+            return f"{pronoun_kibouchi} {future_verb}"
         
-        return infinitive  # Retour par défaut
+        return f"{pronoun_kibouchi} {infinitive}"  # Retour par défaut
     
     def conjugate_french(self, verb_fr, pronoun, tense='present'):
         """Conjugue un verbe français correctement"""
