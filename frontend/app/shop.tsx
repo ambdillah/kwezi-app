@@ -166,7 +166,7 @@ const ShopScreen = () => {
           >
             <Ionicons
               name={cat.icon as any}
-              size={20}
+              size={16}
               color={selectedCategory === cat.id ? 'white' : '#4ECDC4'}
             />
             <Text
