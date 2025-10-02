@@ -51,8 +51,8 @@ for root, dirs, files in os.walk(extract_path):
 
 print(f"\n📊 Total: {len(audio_files)} fichiers audio trouvés")
 
-# Récupérer tous les mots de la catégorie "traditions"
-traditions_words = list(words_collection.find({"category": "traditions"}))
+# Récupérer tous les mots de la catégorie "tradition" (SINGULIER)
+traditions_words = list(words_collection.find({"category": "tradition"}))
 print(f"\n📚 {len(traditions_words)} mots dans la catégorie 'traditions'")
 
 # Fonction pour nettoyer et normaliser les noms
