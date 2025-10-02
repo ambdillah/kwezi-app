@@ -344,9 +344,9 @@ const styles = StyleSheet.create({
   categoryButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
     backgroundColor: '#F8F9FA',
     marginRight: 8,
     borderWidth: 1,
@@ -357,8 +357,8 @@ const styles = StyleSheet.create({
     borderColor: '#4ECDC4',
   },
   categoryText: {
-    marginLeft: 6,
-    fontSize: 14,
+    marginLeft: 4,
+    fontSize: 12,
     fontWeight: '600',
     color: '#666',
   },
