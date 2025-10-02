@@ -16,7 +16,7 @@ import { speakText, speakEducationalContent } from '../utils/feminineSpeechUtils
 import YlangYlangFlower from '../components/YlangYlangFlower';
 import MakiMayotte from '../components/MakiMayotte';
 import ColoredConjugationWord from '../components/ColoredConjugationWord';
-import ConjugationColorLegend from '../components/ConjugationColorLegend';
+import ConjugationRules from '../components/ConjugationRules';
 
 const { width } = Dimensions.get('window');
 
