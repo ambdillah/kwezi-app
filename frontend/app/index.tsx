@@ -108,6 +108,16 @@ export default function WelcomeScreen() {
                 <Text style={[styles.buttonText, styles.whiteText]}>Mes badges</Text>
               </LinearGradient>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.mainButton} onPress={() => router.push('/shop')}>
+              <LinearGradient
+                colors={['#4ECDC4', '#44A08D']}
+                style={styles.buttonGradient}
+              >
+                <Ionicons name="cart" size={32} color="#fff" />
+                <Text style={[styles.buttonText, styles.whiteText]}>Boutique</Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </View>
 
           {/* Footer avec éléments culturels */}
