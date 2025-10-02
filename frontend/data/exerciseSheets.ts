@@ -130,7 +130,7 @@ export const EXERCISE_SHEETS: ExerciseSheet[] = [
     description: 'Suite de l\'alphabet avec les animaux',
     category: 'animaux',
     language: 'mixte',
-    imageUrl: 'https://customer-assets.emergentagent.com/job_mayotte-vocab/artifacts/b5n0gz5o_L%27alphabet%20des%20animaux%20%283%29.zip#3.png',
+    imageUrl: 'https://customer-assets.emergentagent.com/job_mayotte-vocab/artifacts/b5n0gz5o_L%27alphabet%20des%20animaux%20%283%29.zip#4.png',
     pdfUrl: 'https://customer-assets.emergentagent.com/job_mayotte-vocab/artifacts/b5n0gz5o_L%27alphabet%20des%20animaux%20%283%29.zip',
     price: 0.99,
     difficulty: 'facile',
