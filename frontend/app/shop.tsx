@@ -384,8 +384,9 @@ const styles = StyleSheet.create({
   },
   sheetImage: {
     width: '100%',
-    height: 200,
-    resizeMode: 'cover',
+    height: 250,
+    resizeMode: 'contain',
+    backgroundColor: '#F8F9FA',
   },
   sheetInfo: {
     padding: 16,
