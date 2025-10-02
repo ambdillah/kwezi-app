@@ -14,7 +14,7 @@ import time
 from typing import Dict, List, Optional
 
 # Configuration
-BACKEND_URL = "https://language-kwezi.preview.emergentagent.com"
+BACKEND_URL = "https://mayotte-vocab.preview.emergentagent.com"
 API_URL = f"{BACKEND_URL}/api"
 
 class VerbAudioCorrespondencesTester:

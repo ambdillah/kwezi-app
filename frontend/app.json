@@ -42,7 +42,7 @@
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
-        "https://language-kwezi.preview.emergentagent.com"
+        "https://mayotte-vocab.preview.emergentagent.com"
       ]
     }
   }

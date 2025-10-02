@@ -10,7 +10,7 @@ import sys
 from typing import List, Dict, Any
 
 # Configuration
-BASE_URL = "https://language-kwezi.preview.emergentagent.com"
+BASE_URL = "https://mayotte-vocab.preview.emergentagent.com"
 API_BASE = f"{BASE_URL}/api"
 
 class TestResults:

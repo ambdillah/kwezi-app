@@ -1,65 +1,81 @@
 <analysis>
-The trajectory details a comprehensive restoration and enhancement of the Kwezi language learning application. The work began with a user-reported data loss crisis, which was quickly identified as a backend configuration error. The AI engineer corrected the  file to point to the correct MongoDB database () and then fixed data model mismatches in  (collection name, field names) to restore API functionality.
+The trajectory chronicles an extensive series of updates to the Kwezi language learning app, moving from bug-fixing and data enrichment to implementing new features. The initial task was to change the Text-to-Speech (TTS) voice to female, which involved refactoring all  calls across the frontend. This led to debugging a significant preview issue caused by a JavaScript syntax error () and Metro bundler caching problems.
 
-The primary focus then shifted to data authenticity. Responding to the user's core requirement, the engineer executed a massive data enrichment project. This involved ingesting 17 user-provided ZIP archives containing authentic audio files. Through a series of custom Python scripts, the AI extracted, cleaned, and meticulously mapped 977 audio files to the 566 vocabulary words in the database, achieving 100% authentic audio coverage after several rounds of user-provided corrections.
+A major portion of the work involved intensive data integrity operations. The AI engineer processed numerous user-provided images and ZIP archives to correct translations, update quiz answers in the Découverte de Mayotte game, and, most critically, restore and ensure 100% authentic audio pronunciation coverage for multiple vocabulary sections (expressions, traditions, nature, vêtements, salutations). This was accomplished using a series of purpose-built Python scripts for data extraction, mapping, and database updates via .
 
-Subsequent work focused on the frontend. The engineer debugged and fixed a mobile preview timeout issue by correcting a faulty audio API endpoint. A significant portion of the effort was then dedicated to optimizing the in-app games. This included correcting French grammar and verb conjugations in the Construire des phrases game, improving its UX to auto-advance, and adding sentence variety. The engineer also built the Découverte de Mayotte game from a conceptual stage to a functional feature, including creating a custom SVG map. The trajectory concludes with the engineer actively implementing a user request to change the app's default text-to-speech voice to a female one.
+Following data corrections, the focus shifted to UX improvements, specifically optimizing the slow loading of the Commencer à apprendre screen by implementing paginated loading by category and adding an animated loading indicator.
+
+The final and most substantial initiative was beginning the implementation of a freemium monetization model. The engineer successfully built the entire backend foundation for this, including user creation, premium status tracking, and API endpoints that limit content for free users (250 words). The frontend work began with setting up a global  to manage user state. The trajectory concludes with the user interrupting the monetization work to ask for a summary of the implemented French conjugation rules, indicating a bug in the Construire des phrases game.
 </analysis>
 
 <product_requirements>
-The Kwezi application is an educational tool for learning the Shimaoré and Kibouchi languages. The central product goal is to create a high-quality, engaging, and authentic learning experience.
+The Kwezi application is an educational tool for learning the Shimaoré and Kibouchi languages, with a core focus on authenticity and user engagement.
 
 **Core Requirements:**
-1.  **Data Integrity:** The application's database must be a perfect mirror of the vocabulary and phrases provided by the user. All 566 words and associated sentences must be present and grammatically correct.
-2.  **Audio Authenticity:** Every word and expression must have an authentic, user-provided audio pronunciation. The use of synthetic text-to-speech should be a fallback, not the primary source.
-3.  **Functional Frontend:** The Expo mobile application must be stable, load correctly on mobile devices, and provide a seamless user experience without crashes or prolonged loading times.
-4.  **Engaging Gamification:** The in-app games, such as Construire des phrases and Découverte de Mayotte, must be fully functional, grammatically accurate, and provide a smooth, enjoyable user flow to encourage learning. The game logic should be varied (e.g., include multiple tenses and both languages) and intuitive.
+1.  **Audio Authenticity:** Every word and expression must feature an authentic, user-provided audio file. Synthetic TTS is only a fallback. The goal is to maintain 100% authentic audio coverage across all vocabulary.
+2.  **Data Integrity:** All vocabulary, expressions, and quiz questions must be accurate and grammatically correct, reflecting the user's corrections.
+3.  **User Experience:** The application must be performant and intuitive. This includes fast load times (addressed in the  screen) and smooth, engaging game mechanics.
+4.  **Monetization (Freemium Model):** The app will be monetized through a premium subscription.
+    *   **Free Tier:** Users can access a limited set of 250 words.
+    *   **Premium Tier:** A monthly subscription (€2.90/month) unlocks all content (~569+ words) and future exclusive features.
+    *   **Implementation:** The initial development uses a simulated payment system, with plans to integrate Stripe for production. The app must clearly distinguish between free and premium content and provide an attractive upgrade path.
 </product_requirements>
 
 <key_technical_concepts>
 - **Full-Stack Architecture:** Monorepo with a FastAPI (Python) backend, MongoDB database, and an Expo (React Native) frontend.
-- **Data ETL:** Heavy reliance on single-use Python scripts using  and  for database restoration, audio file ingestion, data cleaning, and mapping authentic audio files from user-provided ZIPs.
-- **API and Database Debugging:** Resolved critical bugs by correcting database/collection names in  and fixing field name mismatches ( vs. ) in .
-- **Frontend Game Logic:** All game logic is consolidated within a single large component (), managing state with React Hooks (, ).
+- **Data ETL:** Extensive use of temporary Python scripts using  to parse user-provided data (from images and ZIPs), clean it, and perform bulk updates to the MongoDB database to ensure data and audio authenticity.
+- **Backend API Development:** Addition of a complete user management and monetization system in , with endpoints for user creation, status checks, and premium upgrades. API logic was modified to serve limited content to free users.
+- **Frontend State Management:** Introduction of the React Context API () and  to manage global user state, including user ID and premium status, across the application.
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a monorepo structure with distinct frontend and backend directories.
+The application uses a monorepo structure with separate  and  directories.
 
 
 
 -   ****
-    -   **Importance:** The core FastAPI application. It defines all API endpoints serving vocabulary, sentences, and audio streams to the frontend.
-    -   **Summary of Changes:** This file was heavily modified to restore functionality. Key changes included pointing database queries to the correct collection ( instead of ), updating query parameters to use the correct field names ( instead of ), and fixing a critical bug in the audio-serving endpoint by correcting mismatched field names (). An endpoint () was also added to serve a temporary HTML page for audio testing.
+    -   **Importance:** The core FastAPI application serving all data to the frontend.
+    -   **Summary of Changes:** This file was heavily modified to implement the freemium model. New Pydantic models (, ) and a new MongoDB collection () were added. Key endpoints were created:  (create/get user),  (set user to premium), and  (fetches words, limiting to 250 for free users). It was the target of numerous data updates performed by external scripts.
 
 -   ****
-    -   **Importance:** A massive, monolithic component containing the logic for multiple in-app games, including Construire des phrases. It manages game state, fetches data, and renders the UI.
-    -   **Summary of Changes:** This file was significantly refactored to improve the Construire des phrases game. The -based feedback was replaced with a more fluid, non-blocking visual feedback system. A  was added to automatically advance to the next sentence upon a correct answer, improving game flow.
+    -   **Importance:** The main vocabulary learning screen.
+    -   **Summary of Changes:** This screen was refactored to address performance issues. Instead of fetching all 566+ words on load, it now fetches words for one category by default. A Voir tout (See All) button was added to load the complete list on demand. A new animated loading component was created and implemented to improve the user experience during data fetching.
 
 -   ****
-    -   **Importance:** The screen containing the newly developed Découverte de Mayotte game.
-    -   **Summary of Changes:** This file was created from scratch to implement the game logic, including state management for unlocked villages, quiz questions, and user progress.
+    -   **Importance:** A new file that establishes a global state for the current user.
+    -   **Summary of Changes:** Created from scratch, this file uses React's Context API to provide user data (user ID, premium status) to any component in the app. It handles fetching user data from the backend, creating a new user if one doesn't exist, and persisting the user ID using .
 
 -   ****
-    -   **Importance:** A reusable component that renders an interactive SVG map of Mayotte.
-    -   **Summary of Changes:** The SVG path data within this component was updated to render a more geographically accurate and recognizable hippocampus shape for the island of Mayotte, based on user feedback.
+    -   **Importance:** The root layout of the Expo Router application.
+    -   **Summary of Changes:** This file was modified to wrap the entire application with the  from , making the global user state accessible everywhere.
 
--   ** (Numerous Scripts)**
-    -   **Importance:** A series of transient, single-use Python scripts were created to perform complex data operations, such as applying user corrections from spreadsheets, mapping audio files, and fixing verb conjugations in the database.
+-   ****
+    -   **Importance:** Contains the logic for multiple in-app games.
+    -   **Summary of Changes:** All  calls were replaced with a centralized function to use a female TTS voice. A critical bug was fixed by adding the  keyword to the  function.
+
+-   ****
+    -   **Importance:** A static data file containing the questions and answers for the Découverte de Mayotte game.
+    -   **Summary of Changes:** The file was edited multiple times to apply user-provided corrections to quiz answers, ensuring the game's factual accuracy.
 </code_architecture>
 
 <pending_tasks>
-- **Complete the Voice Change:** Finish the task of changing the default text-to-speech voice from male to female across all instances where  is used in the frontend, ensuring authentic audio files remain unaffected.
+- **Implement Frontend Monetization UI:**
+    - Integrate the  into  to conditionally display a paywall/upgrade message.
+    - Build the Boutique (Shop) page UI.
+    - Implement the simulated payment flow to upgrade a user's status.
+    - Add visual indicators (e.g., Premium badge) for premium users.
+- **Fix Conjugation Error:** Investigate and fix the conjugation error in the Construire des phrases game reported by the user.
 </pending_tasks>
 
 <current_work>
-The immediate last task was a user request to improve the application's accessibility and user experience by changing the default text-to-speech (TTS) voice from a male voice to a female one. The user explicitly stated that this change must not overwrite or interfere with the authentic audio pronunciations that were meticulously integrated in the previous steps.
+Immediately before this summary request, the development of the premium feature was paused due to a user-reported issue. The user noted an error in the Construire des phrases game and asked for a reminder of the conjugation rules that had been implemented.
 
-The AI engineer acknowledged this request and began the implementation. The first step was to identify all parts of the frontend codebase that utilize the  library for TTS generation. The engineer successfully located all instances of  calls across the relevant files (primarily within the game components).
-
-The trajectory concludes at the very beginning of the modification phase. The engineer had started editing the files, adding comments and preparing to change the  parameter within the  options object to a female voice identifier. The work is mid-flight, with the analysis complete and the code modification process just underway. The core challenge is to apply this change consistently across the app while respecting the logic that prioritizes authentic audio playback.
+The AI engineer's last actions were focused on fulfilling this request. The work involved:
+1.  **Code Investigation:** Searching the codebase to locate where and how sentence conjugation logic is handled.
+2.  **Identifying the Source:** The investigation revealed that conjugation rules were not applied dynamically in the frontend. Instead, a one-time Python script, , was previously run to correct verb conjugations directly in the MongoDB database. This script contains dictionaries mapping verbs to their correct forms (e.g., ).
+3.  **Preparing the Summary:** The engineer was in the process of creating a summary document () based on the logic found in that Python script to present to the user. The work concluded just after successfully creating this markdown file, before presenting the summary.
 </current_work>
 
 <optional_next_step>
-Continue the process of modifying all  calls within the frontend to use a female voice, completing the work that was just started.
+Present the summary of the conjugation rules from the  file. Then, ask the user to describe the specific error they encountered in the Construire des phrases game so I can investigate and fix it.
 </optional_next_step>

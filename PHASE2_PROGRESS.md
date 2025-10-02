@@ -123,7 +123,7 @@
 
 **Backend URL** (déjà configuré) :
 ```
-EXPO_PUBLIC_BACKEND_URL=https://language-kwezi.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://mayotte-vocab.preview.emergentagent.com
 ```
 
 ---
