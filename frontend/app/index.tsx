@@ -74,7 +74,7 @@ export default function WelcomeScreen() {
                 colors={['#FFD700', '#FFA500']}
                 style={styles.buttonGradient}
               >
-                <Ionicons name="school" size={32} color="#000" />
+                <Ionicons name="school" size={24} color="#000" />
                 <Text style={styles.buttonText}>Commencer à apprendre</Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -84,7 +84,7 @@ export default function WelcomeScreen() {
                 colors={['#32CD32', '#228B22']}
                 style={styles.buttonGradient}
               >
-                <Ionicons name="game-controller" size={32} color="#fff" />
+                <Ionicons name="game-controller" size={24} color="#fff" />
                 <Text style={[styles.buttonText, styles.whiteText]}>Jouer et s'amuser</Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -94,7 +94,7 @@ export default function WelcomeScreen() {
                 colors={['#FF6B6B', '#FF4757']}
                 style={styles.buttonGradient}
               >
-                <Ionicons name="bar-chart" size={32} color="#fff" />
+                <Ionicons name="bar-chart" size={24} color="#fff" />
                 <Text style={[styles.buttonText, styles.whiteText]}>Mes progrès</Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -104,7 +104,7 @@ export default function WelcomeScreen() {
                 colors={['#9B59B6', '#8E44AD']}
                 style={styles.buttonGradient}
               >
-                <Ionicons name="trophy" size={32} color="#fff" />
+                <Ionicons name="trophy" size={24} color="#fff" />
                 <Text style={[styles.buttonText, styles.whiteText]}>Mes badges</Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -114,7 +114,7 @@ export default function WelcomeScreen() {
                 colors={['#4ECDC4', '#44A08D']}
                 style={styles.buttonGradient}
               >
-                <Ionicons name="cart" size={32} color="#fff" />
+                <Ionicons name="cart" size={24} color="#fff" />
                 <Text style={[styles.buttonText, styles.whiteText]}>Boutique</Text>
               </LinearGradient>
             </TouchableOpacity>
