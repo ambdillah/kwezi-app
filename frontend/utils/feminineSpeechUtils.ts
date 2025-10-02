@@ -62,7 +62,7 @@ const getFeminineVoiceConfig = (
     case 'feminine':
       baseConfig = {
         lang: baseConfigs[language].lang,
-        pitch: language === 'fr' ? 1.1 : 1.3, // Pitch plus élevé pour Shimaoré/Kibouchi (plus féminin)
+        pitch: language === 'fr' ? 1.1 : 1.4, // Pitch TRÈS élevé pour Shimaoré/Kibouchi (voix clairement féminine)
         rate: 0.75, // Rythme confortable
         volume: 1.0
       };
