@@ -336,10 +336,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderBottomColor: '#E9ECEF',
+    maxHeight: 50,
   },
   categoriesContent: {
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   categoryButton: {
     flexDirection: 'row',
