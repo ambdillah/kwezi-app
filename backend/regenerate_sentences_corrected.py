@@ -50,38 +50,120 @@ PRONOUNS = {
     }
 }
 
-# Conjugaisons françaises complètes
+# Conjugaisons françaises complètes - TOUS LES TEMPS
 FRENCH_CONJUGATIONS = {
     'present': {
         'je': {
             'parler': 'je parle', 'manger': 'je mange', 'jouer': 'je joue',
             'avoir': "j'ai", 'être': 'je suis', 'aller': 'je vais', 'faire': 'je fais',
-            'abîmer': "j'abîme", 'acheter': "j'achète", 'aider': "j'aide", 'aimer': "j'aime"
+            'abîmer': "j'abîme", 'acheter': "j'achète", 'aider': "j'aide", 'aimer': "j'aime",
+            'apporter': "j'apporte", 'amener': "j'amène"
         },
         'tu': {
             'parler': 'tu parles', 'manger': 'tu manges', 'jouer': 'tu joues',
             'avoir': 'tu as', 'être': 'tu es', 'aller': 'tu vas', 'faire': 'tu fais',
-            'abîmer': 'tu abîmes', 'acheter': 'tu achètes', 'aider': 'tu aides', 'aimer': 'tu aimes'
+            'abîmer': 'tu abîmes', 'acheter': 'tu achètes', 'aider': 'tu aides', 'aimer': 'tu aimes',
+            'apporter': 'tu apportes', 'amener': 'tu amènes'
         },
         'il': {
             'parler': 'il parle', 'manger': 'il mange', 'jouer': 'il joue',
             'avoir': 'il a', 'être': 'il est', 'aller': 'il va', 'faire': 'il fait',
-            'abîmer': 'il abîme', 'acheter': 'il achète', 'aider': 'il aide', 'aimer': 'il aime'
+            'abîmer': 'il abîme', 'acheter': 'il achète', 'aider': 'il aide', 'aimer': 'il aime',
+            'apporter': 'il apporte', 'amener': 'il amène'
         },
         'nous': {
             'parler': 'nous parlons', 'manger': 'nous mangeons', 'jouer': 'nous jouons',
             'avoir': 'nous avons', 'être': 'nous sommes', 'aller': 'nous allons', 'faire': 'nous faisons',
-            'abîmer': 'nous abîmons', 'acheter': 'nous achetons', 'aider': 'nous aidons', 'aimer': 'nous aimons'
+            'abîmer': 'nous abîmons', 'acheter': 'nous achetons', 'aider': 'nous aidons', 'aimer': 'nous aimons',
+            'apporter': 'nous apportons', 'amener': 'nous amenons'
         },
         'vous': {
             'parler': 'vous parlez', 'manger': 'vous mangez', 'jouer': 'vous jouez',
             'avoir': 'vous avez', 'être': 'vous êtes', 'aller': 'vous allez', 'faire': 'vous faites',
-            'abîmer': 'vous abîmez', 'acheter': 'vous achetez', 'aider': 'vous aidez', 'aimer': 'vous aimez'
+            'abîmer': 'vous abîmez', 'acheter': 'vous achetez', 'aider': 'vous aidez', 'aimer': 'vous aimez',
+            'apporter': 'vous apportez', 'amener': 'vous amenez'
         },
         'ils': {
             'parler': 'ils parlent', 'manger': 'ils mangent', 'jouer': 'ils jouent',
             'avoir': 'ils ont', 'être': 'ils sont', 'aller': 'ils vont', 'faire': 'ils font',
-            'abîmer': 'ils abîment', 'acheter': 'ils achètent', 'aider': 'ils aident', 'aimer': 'ils aiment'
+            'abîmer': 'ils abîment', 'acheter': 'ils achètent', 'aider': 'ils aident', 'aimer': 'ils aiment',
+            'apporter': 'ils apportent', 'amener': 'ils amènent'
+        }
+    },
+    'past': {
+        'je': {
+            'parler': "j'ai parlé", 'manger': "j'ai mangé", 'jouer': "j'ai joué",
+            'avoir': "j'ai eu", 'être': "j'ai été", 'aller': 'je suis allé', 'faire': "j'ai fait",
+            'abîmer': "j'ai abîmé", 'acheter': "j'ai acheté", 'aider': "j'ai aidé", 'aimer': "j'ai aimé",
+            'apporter': "j'ai apporté", 'amener': "j'ai amené"
+        },
+        'tu': {
+            'parler': 'tu as parlé', 'manger': 'tu as mangé', 'jouer': 'tu as joué',
+            'avoir': 'tu as eu', 'être': 'tu as été', 'aller': 'tu es allé', 'faire': 'tu as fait',
+            'abîmer': 'tu as abîmé', 'acheter': 'tu as acheté', 'aider': 'tu as aidé', 'aimer': 'tu as aimé',
+            'apporter': 'tu as apporté', 'amener': 'tu as amené'
+        },
+        'il': {
+            'parler': 'il a parlé', 'manger': 'il a mangé', 'jouer': 'il a joué',
+            'avoir': 'il a eu', 'être': 'il a été', 'aller': 'il est allé', 'faire': 'il a fait',
+            'abîmer': 'il a abîmé', 'acheter': 'il a acheté', 'aider': 'il a aidé', 'aimer': 'il a aimé',
+            'apporter': 'il a apporté', 'amener': 'il a amené'
+        },
+        'nous': {
+            'parler': 'nous avons parlé', 'manger': 'nous avons mangé', 'jouer': 'nous avons joué',
+            'avoir': 'nous avons eu', 'être': 'nous avons été', 'aller': 'nous sommes allés', 'faire': 'nous avons fait',
+            'abîmer': 'nous avons abîmé', 'acheter': 'nous avons acheté', 'aider': 'nous avons aidé', 'aimer': 'nous avons aimé',
+            'apporter': 'nous avons apporté', 'amener': 'nous avons amené'
+        },
+        'vous': {
+            'parler': 'vous avez parlé', 'manger': 'vous avez mangé', 'jouer': 'vous avez joué',
+            'avoir': 'vous avez eu', 'être': 'vous avez été', 'aller': 'vous êtes allés', 'faire': 'vous avez fait',
+            'abîmer': 'vous avez abîmé', 'acheter': 'vous avez acheté', 'aider': 'vous avez aidé', 'aimer': 'vous avez aimé',
+            'apporter': 'vous avez apporté', 'amener': 'vous avez amené'
+        },
+        'ils': {
+            'parler': 'ils ont parlé', 'manger': 'ils ont mangé', 'jouer': 'ils ont joué',
+            'avoir': 'ils ont eu', 'être': 'ils ont été', 'aller': 'ils sont allés', 'faire': 'ils ont fait',
+            'abîmer': 'ils ont abîmé', 'acheter': 'ils ont acheté', 'aider': 'ils ont aidé', 'aimer': 'ils ont aimé',
+            'apporter': 'ils ont apporté', 'amener': 'ils ont amené'
+        }
+    },
+    'future': {
+        'je': {
+            'parler': 'je parlerai', 'manger': 'je mangerai', 'jouer': 'je jouerai',
+            'avoir': "j'aurai", 'être': 'je serai', 'aller': "j'irai", 'faire': 'je ferai',
+            'abîmer': "j'abîmerai", 'acheter': "j'achèterai", 'aider': "j'aiderai", 'aimer': "j'aimerai",
+            'apporter': "j'apporterai", 'amener': "j'amènerai"
+        },
+        'tu': {
+            'parler': 'tu parleras', 'manger': 'tu mangeras', 'jouer': 'tu joueras',
+            'avoir': 'tu auras', 'être': 'tu seras', 'aller': 'tu iras', 'faire': 'tu feras',
+            'abîmer': 'tu abîmeras', 'acheter': 'tu achèteras', 'aider': 'tu aideras', 'aimer': 'tu aimeras',
+            'apporter': 'tu apporteras', 'amener': 'tu amèneras'
+        },
+        'il': {
+            'parler': 'il parlera', 'manger': 'il mangera', 'jouer': 'il jouera',
+            'avoir': 'il aura', 'être': 'il sera', 'aller': 'il ira', 'faire': 'il fera',
+            'abîmer': 'il abîmera', 'acheter': 'il achètera', 'aider': 'il aidera', 'aimer': 'il aimera',
+            'apporter': 'il apportera', 'amener': 'il amènera'
+        },
+        'nous': {
+            'parler': 'nous parlerons', 'manger': 'nous mangerons', 'jouer': 'nous jouerons',
+            'avoir': 'nous aurons', 'être': 'nous serons', 'aller': 'nous irons', 'faire': 'nous ferons',
+            'abîmer': 'nous abîmerons', 'acheter': 'nous achèterons', 'aider': 'nous aiderons', 'aimer': 'nous aimerons',
+            'apporter': 'nous apporterons', 'amener': 'nous amènerons'
+        },
+        'vous': {
+            'parler': 'vous parlerez', 'manger': 'vous mangerez', 'jouer': 'vous jouerez',
+            'avoir': 'vous aurez', 'être': 'vous serez', 'aller': 'vous irez', 'faire': 'vous ferez',
+            'abîmer': 'vous abîmerez', 'acheter': 'vous achèterez', 'aider': 'vous aiderez', 'aimer': 'vous aimerez',
+            'apporter': 'vous apporterez', 'amener': 'vous amènerez'
+        },
+        'ils': {
+            'parler': 'ils parleront', 'manger': 'ils mangeront', 'jouer': 'ils joueront',
+            'avoir': 'ils auront', 'être': 'ils seront', 'aller': 'ils iront', 'faire': 'ils feront',
+            'abîmer': 'ils abîmeront', 'acheter': 'ils achèteront', 'aider': 'ils aideront', 'aimer': 'ils aimeront',
+            'apporter': 'ils apporteront', 'amener': 'ils amèneront'
         }
     }
 }
