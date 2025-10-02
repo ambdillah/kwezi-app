@@ -342,7 +342,7 @@ export default function GamesScreen() {
           <View style={styles.questionCard}>
             <TouchableOpacity 
               style={styles.frenchCard}
-              onPress={() => Speech.speak(currentQuestion.french, { language: 'fr-FR' })}
+              onPress={() => speakEducationalContent(currentQuestion.french, 'fr')}
             >
               <Text style={styles.frenchText}>{currentQuestion.french}</Text>
               <Ionicons name="volume-high" size={20} color="#4ECDC4" />
