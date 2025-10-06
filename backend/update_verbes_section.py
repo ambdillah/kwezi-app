@@ -135,6 +135,12 @@ def mettre_a_jour_verbes():
         else:
             # Ajouter le nouveau verbe
             words_collection.insert_one(document)
+            verbes_ajoutes += 1
+            print(f"➕ Ajouté: {french}")
+            audio_shim = f"✅ {verbe['audio_shimaore']}" if verbe['audio_shimaore'] else "❌ pas d'audio"
+            audio_kib = f"✅ {verbe['audio_kibouchi']}" if verbe['audio_kibouchi'] else "❌ pas d'audio"
+            print(f"   Shimaoré: {verbe['shimaore']} {audio_shim}")
+            print(f"   Kibouchi: {verbe['kibouchi']} {audio_kib}")
         
         print()
     
