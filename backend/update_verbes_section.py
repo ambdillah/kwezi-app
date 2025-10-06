@@ -128,15 +128,13 @@ def mettre_a_jour_verbes():
             )
             verbes_mis_a_jour += 1
             print(f"🔄 Mis à jour: {french}")
-            print(f"   Shimaoré: {verbe['shimaore']} {'✅ ' + verbe['audio_shimaore'] if verbe['audio_shimaore'] else '❌ pas d\'audio'}")
-            print(f"   Kibouchi: {verbe['kibouchi']} {'✅ ' + verbe['audio_kibouchi'] if verbe['audio_kibouchi'] else '❌ pas d\'audio'}")
+            audio_shim = f"✅ {verbe['audio_shimaore']}" if verbe['audio_shimaore'] else "❌ pas d'audio"
+            audio_kib = f"✅ {verbe['audio_kibouchi']}" if verbe['audio_kibouchi'] else "❌ pas d'audio"
+            print(f"   Shimaoré: {verbe['shimaore']} {audio_shim}")
+            print(f"   Kibouchi: {verbe['kibouchi']} {audio_kib}")
         else:
             # Ajouter le nouveau verbe
             words_collection.insert_one(document)
-            verbes_ajoutes += 1
-            print(f"➕ Ajouté: {french}")
-            print(f"   Shimaoré: {verbe['shimaore']} {'✅ ' + verbe['audio_shimaore'] if verbe['audio_shimaore'] else '❌ pas d\'audio'}")
-            print(f"   Kibouchi: {verbe['kibouchi']} {'✅ ' + verbe['audio_kibouchi'] if verbe['audio_kibouchi'] else '❌ pas d\'audio'}")
         
         print()
     
