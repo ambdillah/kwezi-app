@@ -242,9 +242,10 @@ export const hasDualAudioForLanguage = (
   language: 'shimaore' | 'kibouchi'
 ): boolean => {
   if (word.dual_audio_system) {
+    // CORRECTION: Utiliser les bons noms de champs
     return language === 'shimaore' 
-      ? !!(word.shimoare_has_audio) 
-      : !!(word.kibouchi_has_audio);
+      ? !!(word.audio_filename_shimaore) 
+      : !!(word.audio_filename_kibouchi);
   }
   
   // Fallback vers l'ancien système
@@ -266,7 +267,8 @@ export const hasDualAudioForLanguage = (
  */
 export const hasDualAudio = (word: WordWithDualAudio): boolean => {
   if (word.dual_audio_system) {
-    return !!(word.shimoare_has_audio || word.kibouchi_has_audio);
+    // CORRECTION: Utiliser les bons noms de champs
+    return !!(word.audio_filename_shimaore || word.audio_filename_kibouchi);
   }
   
   // Fallback vers l'ancien système
@@ -285,12 +287,14 @@ export const getDualAudioInfo = (word: WordWithDualAudio): {
   return {
     isDualSystem: !!(word.dual_audio_system),
     shimaore: {
-      hasAudio: !!(word.shimoare_has_audio),
-      filename: word.shimoare_audio_filename
+      // CORRECTION: Utiliser les bons noms de champs
+      hasAudio: !!(word.audio_filename_shimaore),
+      filename: word.audio_filename_shimaore
     },
     kibouchi: {
-      hasAudio: !!(word.kibouchi_has_audio),
-      filename: word.kibouchi_audio_filename
+      // CORRECTION: Utiliser les bons noms de champs
+      hasAudio: !!(word.audio_filename_kibouchi),
+      filename: word.audio_filename_kibouchi
     },
     legacy: {
       hasAudio: !!(word.has_authentic_audio),
