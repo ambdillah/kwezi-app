@@ -126,12 +126,14 @@ export const playWordWithDualAudio = async (
   try {
     // Vérifier si le mot utilise le nouveau système dual
     if (word.dual_audio_system && word.id) {
+      // CORRECTION: Utiliser les bons noms de champs
       const hasAudioForLanguage = language === 'shimaore' 
-        ? word.shimoare_has_audio 
-        : word.kibouchi_has_audio;
+        ? !!word.audio_filename_shimaore 
+        : !!word.audio_filename_kibouchi;
       
       if (hasAudioForLanguage) {
         console.log(`🎯 UTILISATION SYSTÈME DUAL pour "${word.french}" en ${language}`);
+        console.log(`   Fichier audio: ${language === 'shimaore' ? word.audio_filename_shimaore : word.audio_filename_kibouchi}`);
         
         const success = await playDualAudioFromAPI(
           word.id,
