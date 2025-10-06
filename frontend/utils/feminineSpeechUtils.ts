@@ -40,18 +40,12 @@ const getFeminineVoiceConfig = (
       })
     },
     'shimaore': {
-      lang: Platform.select({
-        ios: 'sw-KE', // Swahili comme approximation
-        android: 'sw-KE',
-        default: 'sw-KE'
-      })
+      // Utiliser le français pour éviter les voix Swahili avec contenu pré-enregistré
+      lang: 'fr-FR'
     },
     'kibouchi': {
-      lang: Platform.select({
-        ios: 'mg-MG', // Malgache comme approximation
-        android: 'mg-MG', 
-        default: 'mg-MG'
-      })
+      // Utiliser le français pour une lecture phonétique correcte
+      lang: 'fr-FR'
     }
   };
 
