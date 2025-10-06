@@ -118,12 +118,14 @@ export const selectBestFeminineVoice = async (language: SupportedLanguage): Prom
         preferredNames: ['Amelie', 'amelie', 'Audrey', 'audrey', 'Marie', 'marie', 'Virginie', 'virginie', 'Celine', 'celine']
       },
       'shimaore': {
-        codes: ['sw', 'sw-KE', 'sw-TZ'], // Swahili
-        preferredNames: ['female', 'woman', 'lady']
+        // Utiliser la voix française pour éviter le contenu pré-enregistré Swahili
+        codes: ['fr', 'fr-FR'],
+        preferredNames: ['Amelie', 'amelie', 'Audrey', 'audrey', 'Marie', 'marie', 'Virginie', 'virginie', 'Celine', 'celine']
       },
       'kibouchi': {
-        codes: ['mg', 'mg-MG', 'fr'], // Malgache ou français comme fallback
-        preferredNames: ['female', 'woman', 'lady', 'Amelie', 'amelie']
+        // Utiliser la voix française pour une lecture phonétique correcte
+        codes: ['fr', 'fr-FR'],
+        preferredNames: ['Amelie', 'amelie', 'Audrey', 'audrey', 'Marie', 'marie', 'Virginie', 'virginie', 'Celine', 'celine']
       }
     };
     
