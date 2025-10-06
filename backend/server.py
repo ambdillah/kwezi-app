@@ -203,15 +203,15 @@ async def get_word(word_id: str):
 
 @app.get("/api/words")
 async def get_words(category: str = Query(None, description="Filter by category")):
-    """Get words (compatible with frontend expectations)"""
+    """Get words (compatible with frontend expectations) - SORTED ALPHABETICALLY"""
     try:
         # Build query based on category parameter
         query = {}
         if category:
             query["category"] = category
         
-        # Execute query
-        cursor = words_collection.find(query)
+        # Execute query with alphabetical sorting by french word
+        cursor = words_collection.find(query).sort("french", 1)  # 1 = ascending order
         words = []
         for word_doc in cursor:
             # Convert MongoDB document to dictionary
