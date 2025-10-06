@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
@@ -22,4 +23,13 @@ for verbe in nouveaux_verbes:
         print(f"\n{verbe}")
         print(f"  Shimaore: {word.get('shimaore', 'N/A')}")
         print(f"  Kibouchi: {word.get('kibouchi', 'N/A')}")
-        print(f"  Audio
+        print(f"  Audio Shimaore: {word.get('audio_filename_shimaore', 'NON DEFINI')}")
+        print(f"  Audio Kibouchi: {word.get('audio_filename_kibouchi', 'NON DEFINI')}")
+        print(f"  has_authentic_audio: {word.get('has_authentic_audio', False)}")
+        print(f"  Emoji: {word.get('emoji', 'NON DEFINI')}")
+    else:
+        print(f"\nERREUR: {verbe} - NON TROUVE dans la base")
+
+print("\n" + "="*80)
+print(f"Total verbes: {words_collection.count_documents({'category': 'verbes'})}")
+print(f"Verbes avec audio: {words_collection.count_documents({'category': 'verbes', 'has_authentic_audio': True})}")
