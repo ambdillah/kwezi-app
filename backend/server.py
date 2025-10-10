@@ -1629,12 +1629,18 @@ async def get_word_audio_by_language(word_id: str, lang: str):
             "transport": "/app/frontend/assets/audio/transport"
         }
         
-        # Utiliser le dossier correspondant à la catégorie, famille par défaut
+        # Chercher d'abord à la racine (nouveaux fichiers), puis dans le sous-dossier
+        file_path_root = os.path.join("/app/frontend/assets/audio", filename)
         audio_dir = audio_dirs.get(word_category, audio_dirs["famille"])
-        file_path = os.path.join(audio_dir, filename)
+        file_path_category = os.path.join(audio_dir, filename)
         
-        if not os.path.exists(file_path):
-            raise HTTPException(status_code=404, detail=f"Fichier audio non trouvé: {filename}")
+        # Essayer les deux emplacements
+        if os.path.exists(file_path_root):
+            file_path = file_path_root
+        elif os.path.exists(file_path_category):
+            file_path = file_path_category
+        else:
+            raise HTTPException(status_code=404, detail=f"Fichier audio non trouvé: {filename} (cherché à la racine et dans {word_category})")
         
         return FileResponse(
             file_path,
