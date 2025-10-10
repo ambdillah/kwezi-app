@@ -130,11 +130,12 @@ export const playWordWithDualAudio = async (
   onComplete?: () => void
 ): Promise<void> => {
   try {
-    // PRIORITÉ 1: Vérifier le nouveau système dual (audio_filename_shimaore/kibouchi)
+    // PRIORITÉ 1: Vérifier le système dual (DEUX formats possibles)
     if (word.dual_audio_system && word.id) {
+      // Vérifier les DEUX formats de nommage possibles
       const hasAudioForLanguage = language === 'shimaore' 
-        ? !!word.audio_filename_shimaore 
-        : !!word.audio_filename_kibouchi;
+        ? !!(word.audio_filename_shimaore || word.shimoare_audio_filename)
+        : !!(word.audio_filename_kibouchi || word.kibouchi_audio_filename);
       
       if (hasAudioForLanguage) {
         console.log(`🎯 SYSTÈME DUAL pour "${word.french}" en ${language}`);
