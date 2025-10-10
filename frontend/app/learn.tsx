@@ -324,7 +324,7 @@ export default function LearnScreen() {
             {loading ? (
               <LoadingAnimation />
             ) : (
-              words.map((word) => (
+              displayWords.map((word) => (
                 <View key={word.id} style={styles.wordCard}>
                   <View style={styles.wordHeader}>
                     <View style={styles.frenchWordContainer}>
