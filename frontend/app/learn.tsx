@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { TextInput, Keyboard } from 'react-native';
 import { router } from 'expo-router';
 import * as Speech from 'expo-speech';
 import { speakEducationalContent } from '../utils/feminineSpeechUtils';
