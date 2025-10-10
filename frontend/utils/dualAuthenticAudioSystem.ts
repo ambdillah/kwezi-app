@@ -161,61 +161,50 @@ export const playWordWithDualAudio = async (
         (word.audio_pronunciation_lang === 'shimaore' && language === 'shimaore');
 
       if (shouldUseAuthentic) {
-      
-      // Vérifier l'ancien système audio
-      if (word.has_authentic_audio && word.audio_filename) {
-        const shouldUseAuthentic = 
-          word.audio_pronunciation_lang === 'both' ||
-          word.audio_pronunciation_lang === language ||
-          (word.audio_pronunciation_lang === 'shimaoré' && language === 'shimaore') ||
-          (word.audio_pronunciation_lang === 'shimaore' && language === 'shimaore');
-
-        if (shouldUseAuthentic) {
-          console.log(`🎯 UTILISATION ANCIEN SYSTÈME pour "${word.french}" (${word.audio_filename})`);
+        console.log(`   URL: /api/audio/${word.category}/${word.audio_filename}`);
+        
+        // Utiliser l'ancien système via l'API catégorie
+        const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+        const audioUrl = `${backendUrl}/api/audio/${word.category}/${word.audio_filename}`;
+        
+        try {
+          await stopCurrentAudio();
           
-          // Utiliser l'ancien système via l'API famille/nature
-          const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
-          const audioUrl = `${backendUrl}/api/audio/${word.category}/${word.audio_filename}`;
+          await Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            playsInSilentModeIOS: true,
+            staysActiveInBackground: false,
+            shouldDuckAndroid: true,
+          });
           
-          try {
-            await stopCurrentAudio();
-            
-            await Audio.setAudioModeAsync({
-              allowsRecordingIOS: false,
-              playsInSilentModeIOS: true,
-              staysActiveInBackground: false,
-              shouldDuckAndroid: true,
-            });
-            
-            const { sound } = await Audio.Sound.createAsync(
-              { uri: audioUrl },
-              { 
-                shouldPlay: true,
-                volume: 1.0,
-                isLooping: false 
-              }
-            );
-            
-            currentAudio.sound = sound;
-            currentAudio.isPlaying = true;
-            
-            onStart?.();
-            
-            sound.setOnPlaybackStatusUpdate((status) => {
-              if (status.isLoaded && status.didJustFinish) {
-                currentAudio.isPlaying = false;
-                sound.unloadAsync();
-                currentAudio.sound = null;
-                onComplete?.();
-                console.log('✅ Audio ancien système terminé');
-              }
-            });
-            
-            return; // Audio ancien système joué avec succès
-            
-          } catch (error) {
-            console.log('❌ Ancien système audio échoué:', error);
-          }
+          const { sound } = await Audio.Sound.createAsync(
+            { uri: audioUrl },
+            { 
+              shouldPlay: true,
+              volume: 1.0,
+              isLooping: false 
+            }
+          );
+          
+          currentAudio.sound = sound;
+          currentAudio.isPlaying = true;
+          
+          onStart?.();
+          
+          sound.setOnPlaybackStatusUpdate((status) => {
+            if (status.isLoaded && status.didJustFinish) {
+              currentAudio.isPlaying = false;
+              sound.unloadAsync();
+              currentAudio.sound = null;
+              onComplete?.();
+              console.log('✅ Audio ancien système terminé');
+            }
+          });
+          
+          return; // Audio ancien système joué avec succès
+          
+        } catch (error) {
+          console.log('❌ Ancien système audio échoué:', error);
         }
       }
     }
