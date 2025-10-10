@@ -160,7 +160,8 @@ export default function LearnScreen() {
         // Utiliser le nouveau système audio DUAL en priorité
         console.log(`🎯 Tentative prononciation ${language} pour "${word.french}"`);
         console.log(`   Système dual: ${word.dual_audio_system}`);
-        console.log(`   Audio ${language}: ${language === 'shimaore' ? word.shimoare_has_audio : word.kibouchi_has_audio}`);
+        console.log(`   Audio filename ${language}: ${language === 'shimaore' ? word.audio_filename_shimaore : word.audio_filename_kibouchi}`);
+        console.log(`   Audio ancien système: ${word.audio_filename}`);
         
         await playWordWithDualAudio(word, language);
       } else {
