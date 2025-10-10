@@ -248,10 +248,10 @@ export const hasDualAudioForLanguage = (
   language: 'shimaore' | 'kibouchi'
 ): boolean => {
   if (word.dual_audio_system) {
-    // CORRECTION: Utiliser les bons noms de champs
+    // Gérer les DEUX formats de nommage
     return language === 'shimaore' 
-      ? !!(word.audio_filename_shimaore) 
-      : !!(word.audio_filename_kibouchi);
+      ? !!(word.audio_filename_shimaore || word.shimoare_audio_filename)
+      : !!(word.audio_filename_kibouchi || word.kibouchi_audio_filename);
   }
   
   // Fallback vers l'ancien système
