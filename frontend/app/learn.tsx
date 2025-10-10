@@ -310,7 +310,7 @@ export default function LearnScreen() {
               <Text style={styles.sectionTitle}>
                 {selectedCategory 
                   ? `Mots de ${CATEGORIES.find(c => c.key === selectedCategory)?.name}` 
-                  : 'Tous les mots'} ({words.length}{!showAllWords && totalWordsCount > 50 && !selectedCategory ? `/${totalWordsCount}` : ''})
+                  : 'Tous les mots'} ({displayWords.length}{!showAllWords && totalWordsCount > 50 && !selectedCategory ? `/${totalWordsCount}` : ''})
               </Text>
               
               {!showAllWords && !selectedCategory && totalWordsCount > 50 && (
