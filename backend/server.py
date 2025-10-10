@@ -1593,15 +1593,19 @@ async def get_word_audio_by_language(word_id: str, lang: str):
         if not word_doc.get("dual_audio_system", False):
             raise HTTPException(status_code=400, detail="Ce mot n'utilise pas le système audio dual")
         
-        # Récupérer le nom du fichier selon la langue
+        # Récupérer le nom du fichier selon la langue - GÉRER LES DEUX FORMATS
         if lang == "shimaore":
-            filename = word_doc.get("shimoare_audio_filename")
-            has_audio = word_doc.get("shimoare_has_audio", False)
+            # Format 1: shimoare_audio_filename (anciennes catégories)
+            # Format 2: audio_filename_shimaore (nouveaux mots)
+            filename = word_doc.get("shimoare_audio_filename") or word_doc.get("audio_filename_shimaore")
+            has_audio = word_doc.get("shimoare_has_audio", False) or bool(filename)
         else:  # kibouchi
-            filename = word_doc.get("kibouchi_audio_filename")
-            has_audio = word_doc.get("kibouchi_has_audio", False)
+            # Format 1: kibouchi_audio_filename (anciennes catégories)
+            # Format 2: audio_filename_kibouchi (nouveaux mots)
+            filename = word_doc.get("kibouchi_audio_filename") or word_doc.get("audio_filename_kibouchi")
+            has_audio = word_doc.get("kibouchi_has_audio", False) or bool(filename)
         
-        if not has_audio or not filename:
+        if not filename:
             raise HTTPException(status_code=404, detail=f"Pas d'audio disponible en {lang} pour ce mot")
         
         # Servir le fichier
