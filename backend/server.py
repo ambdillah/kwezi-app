@@ -16,8 +16,12 @@ from conjugation_engine import create_sentence_database
 
 # Import database protection system
 from database_protection import protect_database, db_protector, check_database_integrity
+from stripe_routes import router as stripe_router
 
 app = FastAPI(title="Mayotte Language Learning API")
+
+# Inclure les routes Stripe
+app.include_router(stripe_router)
 
 # Add CORS middleware
 app.add_middleware(
