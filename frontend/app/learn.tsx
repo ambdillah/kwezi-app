@@ -305,6 +305,35 @@ export default function LearnScreen() {
             )}
           </View>
 
+          {/* Search Bar */}
+          <View style={styles.searchContainer}>
+            <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+              <Ionicons name="search" size={24} color="#FFD700" />
+            </TouchableOpacity>
+            
+            {searchVisible && (
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Rechercher un mot..."
+                placeholderTextColor="#999"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                autoFocus
+                returnKeyType="search"
+                onSubmitEditing={() => Keyboard.dismiss()}
+              />
+            )}
+            
+            {searchVisible && searchQuery !== '' && (
+              <TouchableOpacity 
+                onPress={() => { setSearchQuery(''); setSearchVisible(false); }} 
+                style={styles.searchClearButton}
+              >
+                <Ionicons name="close-circle" size={20} color="#999" />
+              </TouchableOpacity>
+            )}
+          </View>
+
           {/* Words List */}
           <View style={styles.wordsContainer}>
             <View style={styles.wordsHeaderContainer}>
