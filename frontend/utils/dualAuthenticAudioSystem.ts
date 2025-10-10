@@ -16,10 +16,16 @@ interface WordWithDualAudio {
   shimaore: string;
   kibouchi: string;
   category: string;
-  // Nouveau système dual - NOMS DE CHAMPS CORRECTS
+  // Système dual - DEUX formats possibles
   dual_audio_system?: boolean;
-  audio_filename_shimaore?: string;  // Nom correct dans la base
-  audio_filename_kibouchi?: string;  // Nom correct dans la base
+  // Format 1 (nouveaux verbes/expressions)
+  audio_filename_shimaore?: string;
+  audio_filename_kibouchi?: string;
+  // Format 2 (anciennes catégories)
+  shimoare_audio_filename?: string;
+  kibouchi_audio_filename?: string;
+  shimoare_has_audio?: boolean;
+  kibouchi_has_audio?: boolean;
   // Anciens champs pour compatibilité
   has_authentic_audio?: boolean;
   audio_filename?: string;
