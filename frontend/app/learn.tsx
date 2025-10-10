@@ -35,10 +35,16 @@ interface Word {
   audio_pronunciation_lang?: string;
   audio_source?: string;
   audio_updated_at?: string;
-  // Nouveaux champs audio dual - NOMS EXACTS DE LA BASE DE DONNÉES
+  // Champs audio - TOUS les formats possibles dans la base
   dual_audio_system?: boolean;
+  // Nouveau format (verbes, nouvelles expressions)
   audio_filename_shimaore?: string;
   audio_filename_kibouchi?: string;
+  // Ancien format (famille, animaux, nature, etc.)
+  shimoare_audio_filename?: string;
+  kibouchi_audio_filename?: string;
+  shimoare_has_audio?: boolean;
+  kibouchi_has_audio?: boolean;
 }
 
 const CATEGORIES = [
