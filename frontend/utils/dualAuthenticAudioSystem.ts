@@ -153,9 +153,12 @@ export const playWordWithDualAudio = async (
     // PRIORITÉ 2: Essayer l'ancien système audio (audio_filename)
     if (word.has_authentic_audio && word.audio_filename) {
       console.log(`🎯 ANCIEN SYSTÈME pour "${word.french}" (${word.audio_filename})`);
+      console.log(`   audio_pronunciation_lang: ${word.audio_pronunciation_lang}`);
       
+      // CORRECTION: Accepter "dual_system" pour les anciens audios
       const shouldUseAuthentic = 
         word.audio_pronunciation_lang === 'both' ||
+        word.audio_pronunciation_lang === 'dual_system' ||
         word.audio_pronunciation_lang === language ||
         (word.audio_pronunciation_lang === 'shimaoré' && language === 'shimaore') ||
         (word.audio_pronunciation_lang === 'shimaore' && language === 'shimaore');
