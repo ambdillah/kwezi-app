@@ -124,16 +124,15 @@ export const playWordWithDualAudio = async (
   onComplete?: () => void
 ): Promise<void> => {
   try {
-    // Vérifier si le mot utilise le nouveau système dual
+    // PRIORITÉ 1: Vérifier le nouveau système dual (audio_filename_shimaore/kibouchi)
     if (word.dual_audio_system && word.id) {
-      // CORRECTION: Utiliser les bons noms de champs
       const hasAudioForLanguage = language === 'shimaore' 
         ? !!word.audio_filename_shimaore 
         : !!word.audio_filename_kibouchi;
       
       if (hasAudioForLanguage) {
-        console.log(`🎯 UTILISATION SYSTÈME DUAL pour "${word.french}" en ${language}`);
-        console.log(`   Fichier audio: ${language === 'shimaore' ? word.audio_filename_shimaore : word.audio_filename_kibouchi}`);
+        console.log(`🎯 SYSTÈME DUAL pour "${word.french}" en ${language}`);
+        console.log(`   Fichier: ${language === 'shimaore' ? word.audio_filename_shimaore : word.audio_filename_kibouchi}`);
         
         const success = await playDualAudioFromAPI(
           word.id,
@@ -143,17 +142,25 @@ export const playWordWithDualAudio = async (
         );
         
         if (success) {
-          console.log(`✅ AUDIO DUAL joué avec succès: ${word.french} (${language})`);
-          return; // Audio dual joué avec succès
+          console.log(`✅ AUDIO DUAL joué: ${word.french} (${language})`);
+          return;
         }
         
-        console.log(`⚠️ Audio dual ${language} échoué, utilisation de la synthèse vocale`);
-      } else {
-        console.log(`⚠️ Pas d'audio ${language} disponible pour ${word.french} dans le système dual`);
+        console.log(`⚠️ Audio dual échoué, essai ancien système...`);
       }
-    } else {
-      // Fallback vers l'ancien système pour compatibilité
-      console.log(`⚠️ Mot "${word.french}" n'utilise pas le système dual, utilisation de l'ancien système`);
+    }
+    
+    // PRIORITÉ 2: Essayer l'ancien système audio (audio_filename)
+    if (word.has_authentic_audio && word.audio_filename) {
+      console.log(`🎯 ANCIEN SYSTÈME pour "${word.french}" (${word.audio_filename})`);
+      
+      const shouldUseAuthentic = 
+        word.audio_pronunciation_lang === 'both' ||
+        word.audio_pronunciation_lang === language ||
+        (word.audio_pronunciation_lang === 'shimaoré' && language === 'shimaore') ||
+        (word.audio_pronunciation_lang === 'shimaore' && language === 'shimaore');
+
+      if (shouldUseAuthentic) {
       
       // Vérifier l'ancien système audio
       if (word.has_authentic_audio && word.audio_filename) {
