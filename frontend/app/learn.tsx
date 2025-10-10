@@ -122,7 +122,13 @@ export default function LearnScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [showAllWords, setShowAllWords] = useState(false);
+  const [loadingAllWords, setLoadingAllWords] = useState(false);
   const [totalWordsCount, setTotalWordsCount] = useState(0);
+  
+  // États pour la recherche
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [allWordsForSearch, setAllWordsForSearch] = useState<Word[]>([]);
 
   const fetchWords = async (category?: string, loadAll: boolean = false) => {
     setLoading(true);
