@@ -298,14 +298,12 @@ export const getDualAudioInfo = (word: WordWithDualAudio): {
   return {
     isDualSystem: !!(word.dual_audio_system),
     shimaore: {
-      // CORRECTION: Utiliser les bons noms de champs
-      hasAudio: !!(word.audio_filename_shimaore),
-      filename: word.audio_filename_shimaore
+      hasAudio: !!(word.audio_filename_shimaore || word.shimoare_audio_filename),
+      filename: word.audio_filename_shimaore || word.shimoare_audio_filename
     },
     kibouchi: {
-      // CORRECTION: Utiliser les bons noms de champs
-      hasAudio: !!(word.audio_filename_kibouchi),
-      filename: word.audio_filename_kibouchi
+      hasAudio: !!(word.audio_filename_kibouchi || word.kibouchi_audio_filename),
+      filename: word.audio_filename_kibouchi || word.kibouchi_audio_filename
     },
     legacy: {
       hasAudio: !!(word.has_authentic_audio),
