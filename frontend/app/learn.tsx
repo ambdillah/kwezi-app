@@ -214,9 +214,52 @@ export default function LearnScreen() {
     fetchWords('', false);
   };
 
-  const loadAllWords = () => {
-    fetchWords('', true);
+  const loadAllWords = async () => {
+    setLoadingAllWords(true);
+    await fetchWords(selectedCategory, true);
+    setShowAllWords(true);
+    setLoadingAllWords(false);
   };
+
+  // Fonction de recherche
+  const handleSearch = async () => {
+    if (!searchVisible) {
+      // Ouvrir la barre de recherche
+      setSearchVisible(true);
+      
+      // Charger tous les mots si pas encore chargé
+      if (allWordsForSearch.length === 0) {
+        try {
+          const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+          const response = await fetch(`${backendUrl}/api/words`);
+          const data = await response.json();
+          setAllWordsForSearch(data);
+        } catch (error) {
+          console.error('Erreur chargement mots pour recherche:', error);
+        }
+      }
+    } else if (searchQuery.trim() === '') {
+      // Fermer la recherche si vide
+      setSearchVisible(false);
+      setSearchQuery('');
+    }
+  };
+
+  // Filtrer les mots selon la recherche
+  const getFilteredWords = () => {
+    if (!searchVisible || searchQuery.trim() === '') {
+      return words;
+    }
+
+    const query = searchQuery.toLowerCase();
+    return allWordsForSearch.filter(word =>
+      word.french.toLowerCase().includes(query) ||
+      word.shimaore.toLowerCase().includes(query) ||
+      word.kibouchi.toLowerCase().includes(query)
+    );
+  };
+
+  const displayWords = getFilteredWords();
 
   return (
     <LinearGradient colors={['#FFD700', '#FFA500', '#000000']} style={styles.container}>
