@@ -76,18 +76,37 @@ async def stripe_webhook(request: Request):
     """
     Webhook pour recevoir les événements Stripe
     """
+    from pymongo import MongoClient
+    from datetime import datetime
+    from bson import ObjectId
+    
     payload = await request.body()
     sig_header = request.headers.get('stripe-signature')
     
-    # TODO: Configurer le webhook secret
-    # webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET')
+    # Configuration webhook secret (optionnel en développement, OBLIGATOIRE en production)
+    webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET')
     
     try:
-        # Pour l'instant, on parse l'événement sans vérifier la signature
-        # En production, il faut ajouter la vérification
-        event = stripe.Event.construct_from(
-            await request.json(), stripe.api_key
-        )
+        # Connexion MongoDB
+        mongo_url = os.getenv('MONGO_URL', 'mongodb://localhost:27017')
+        db_name = os.getenv('DB_NAME', 'mayotte_app')
+        client = MongoClient(mongo_url)
+        db = client[db_name]
+        users_collection = db['users']
+        
+        # Vérifier la signature si le secret est configuré
+        if webhook_secret and sig_header:
+            try:
+                event = stripe.Webhook.construct_event(
+                    payload, sig_header, webhook_secret
+                )
+            except stripe.error.SignatureVerificationError:
+                raise HTTPException(status_code=400, detail="Invalid signature")
+        else:
+            # En développement : parser sans vérification
+            event = stripe.Event.construct_from(
+                await request.json(), stripe.api_key
+            )
         
         # Gérer les différents types d'événements
         if event.type == 'checkout.session.completed':
@@ -96,22 +115,86 @@ async def stripe_webhook(request: Request):
             customer_id = session.get('customer')
             subscription_id = session.get('subscription')
             
-            # TODO: Mettre à jour l'utilisateur dans MongoDB
-            # Marquer comme premium, sauvegarder customer_id et subscription_id
+            # Mettre à jour l'utilisateur dans MongoDB
+            if user_id:
+                result = users_collection.update_one(
+                    {'user_id': user_id},
+                    {
+                        '$set': {
+                            'is_premium': True,
+                            'stripe_customer_id': customer_id,
+                            'stripe_subscription_id': subscription_id,
+                            'premium_since': datetime.utcnow(),
+                            'updated_at': datetime.utcnow()
+                        }
+                    }
+                )
+                
+                print(f"✅ Utilisateur {user_id} mis à jour: Premium activé")
+                print(f"   Customer ID: {customer_id}")
+                print(f"   Subscription ID: {subscription_id}")
+                print(f"   Documents modifiés: {result.modified_count}")
             
             return {"status": "success", "user_id": user_id}
         
         elif event.type == 'customer.subscription.updated':
             subscription = event.data.object
-            # Gérer mise à jour abonnement
-            return {"status": "updated"}
+            customer_id = subscription.get('customer')
+            subscription_status = subscription.get('status')
+            
+            # Trouver l'utilisateur par customer_id
+            user = users_collection.find_one({'stripe_customer_id': customer_id})
+            
+            if user:
+                # Mettre à jour le statut selon l'état de l'abonnement
+                is_premium = subscription_status in ['active', 'trialing']
+                
+                users_collection.update_one(
+                    {'_id': user['_id']},
+                    {
+                        '$set': {
+                            'is_premium': is_premium,
+                            'subscription_status': subscription_status,
+                            'updated_at': datetime.utcnow()
+                        }
+                    }
+                )
+                
+                print(f"✅ Abonnement mis à jour pour {user.get('user_id')}")
+                print(f"   Status: {subscription_status}")
+                print(f"   Premium: {is_premium}")
+            
+            return {"status": "updated", "subscription_status": subscription_status}
         
         elif event.type == 'customer.subscription.deleted':
             subscription = event.data.object
-            # Gérer annulation abonnement
+            customer_id = subscription.get('customer')
+            
+            # Trouver l'utilisateur par customer_id
+            user = users_collection.find_one({'stripe_customer_id': customer_id})
+            
+            if user:
+                # Retirer le statut premium
+                users_collection.update_one(
+                    {'_id': user['_id']},
+                    {
+                        '$set': {
+                            'is_premium': False,
+                            'subscription_status': 'cancelled',
+                            'premium_cancelled_at': datetime.utcnow(),
+                            'updated_at': datetime.utcnow()
+                        }
+                    }
+                )
+                
+                print(f"❌ Abonnement annulé pour {user.get('user_id')}")
+            
             return {"status": "cancelled"}
         
-        return {"status": "unhandled"}
+        # Autres événements non gérés
+        print(f"⚠️ Événement non géré: {event.type}")
+        return {"status": "unhandled", "type": event.type}
     
     except Exception as e:
+        print(f"❌ Erreur webhook Stripe: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
