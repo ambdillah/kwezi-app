@@ -9,6 +9,8 @@ interface User {
   is_premium: boolean;
   premium_expires_at?: string;
   subscription_type?: string;
+  stripe_customer_id?: string;      // ID client Stripe
+  stripe_subscription_id?: string;  // ID abonnement Stripe
   words_learned: number;
   total_score: number;
   streak_days: number;
