@@ -120,6 +120,7 @@ const LoadingAnimation = () => {
 };
 
 export default function LearnScreen() {
+  const { user, isPremium } = useUser();
   const [words, setWords] = useState<Word[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -131,6 +132,9 @@ export default function LearnScreen() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [allWordsForSearch, setAllWordsForSearch] = useState<Word[]>([]);
+  
+  // Limite de mots pour utilisateurs gratuits
+  const FREE_WORDS_LIMIT = 250;
 
   const fetchWords = async (category?: string, loadAll: boolean = false) => {
     setLoading(true);
