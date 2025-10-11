@@ -344,6 +344,26 @@ export default function LearnScreen() {
             )}
           </View>
 
+          {/* Paywall Banner */}
+          {!isPremium && totalWordsCount > FREE_WORDS_LIMIT && (
+            <View style={styles.paywallBanner}>
+              <Ionicons name="lock-closed" size={30} color="#FFD700" />
+              <View style={styles.paywallTextContainer}>
+                <Text style={styles.paywallTitle}>Limite gratuite atteinte !</Text>
+                <Text style={styles.paywallText}>
+                  {FREE_WORDS_LIMIT}/{totalWordsCount} mots accessibles
+                </Text>
+              </View>
+              <TouchableOpacity 
+                style={styles.upgradeButton}
+                onPress={() => router.push('/premium')}
+              >
+                <Ionicons name="star" size={16} color="#000" />
+                <Text style={styles.upgradeButtonText}>Débloquer</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
           {/* Words List */}
           <View style={styles.wordsContainer}>
             <View style={styles.wordsHeaderContainer}>
