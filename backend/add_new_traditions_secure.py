@@ -268,7 +268,7 @@ def main():
     print(f"\n📊 Total traditions dans la base: {total_traditions}")
     
     # Résultat final
-    print("\n" * 80)
+    print("\n" + "=" * 80)
     if errors:
         print("❌ SCRIPT TERMINÉ AVEC ERREURS")
         print("=" * 80)
