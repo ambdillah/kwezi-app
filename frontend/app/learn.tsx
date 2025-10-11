@@ -146,8 +146,13 @@ export default function LearnScreen() {
       
       const response = await fetch(url);
       if (response.ok) {
-        const data = await response.json();
+        let data = await response.json();
         setTotalWordsCount(data.length);
+        
+        // Appliquer le paywall si l'utilisateur n'est pas Premium
+        if (!isPremium && data.length > FREE_WORDS_LIMIT) {
+          data = data.slice(0, FREE_WORDS_LIMIT);
+        }
         
         // Si on ne charge pas tout et qu'il n'y a pas de catégorie, limiter à 50 mots
         if (!loadAll && !category && data.length > 50) {
