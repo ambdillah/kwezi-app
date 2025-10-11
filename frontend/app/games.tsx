@@ -942,15 +942,16 @@ export default function GamesScreen() {
         setSentenceFeedbackType('success');
         setShowSentenceFeedback(true);
         
-        // Prononcer d'abord le français avec voix féminine
+        // Prononcer seulement le français avec voix féminine
         await speakEducationalContent(currentSentence.french, 'fr');
         await new Promise(resolve => setTimeout(resolve, 800));
         
-        // Puis prononcer la phrase correcte en langue locale avec voix féminine
-        const correctSentence = selectedLanguage === 'shimaore' 
-          ? currentSentence.shimaore 
-          : currentSentence.kibouchi;
-        await speakText(correctSentence, selectedLanguage);
+        // NOTE: Lecture en shimaoré/kibouchi désactivée car la synthèse vocale
+        // prononce mal certains mots (ex: "wami" → "organisation de l'unité africaine")
+        // const correctSentence = selectedLanguage === 'shimaore' 
+        //   ? currentSentence.shimaore 
+        //   : currentSentence.kibouchi;
+        // await speakText(correctSentence, selectedLanguage);
         
         // Passer automatiquement à la phrase suivante après 2 secondes
         setTimeout(() => {
