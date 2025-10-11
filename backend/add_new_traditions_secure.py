@@ -162,4 +162,124 @@ AUDIO_FILES = [
 
 def main():
     print("=" * 80)
-    print("
+    print("🔄 AJOUT SÉCURISÉ DE 8 NOUVELLES TRADITIONS")
+    print("=" * 80)
+    
+    errors = []
+    
+    # ÉTAPE 1: Vérifier que les fichiers audio existent
+    print("\n📂 ÉTAPE 1: Vérification des fichiers audio...")
+    for audio_file in AUDIO_FILES:
+        source_path = os.path.join(AUDIO_SOURCE_DIR, audio_file)
+        if os.path.exists(source_path):
+            size = os.path.getsize(source_path) / 1024
+            print(f"   ✅ {audio_file} ({size:.1f} KB)")
+        else:
+            error_msg = f"❌ Fichier manquant: {audio_file}"
+            print(f"   {error_msg}")
+            errors.append(error_msg)
+    
+    if errors:
+        print(f"\n❌ ERREUR: {len(errors)} fichier(s) audio manquant(s)")
+        return
+    
+    # ÉTAPE 2: Créer le répertoire de destination si nécessaire
+    print(f"\n📁 ÉTAPE 2: Vérification du répertoire de destination...")
+    os.makedirs(AUDIO_DEST_DIR, exist_ok=True)
+    print(f"   ✅ Répertoire: {AUDIO_DEST_DIR}")
+    
+    # ÉTAPE 3: Vérifier les doublons
+    print(f"\n🔍 ÉTAPE 3: Vérification des doublons...")
+    for trad in NEW_TRADITIONS:
+        existing = words_collection.find_one({
+            'french': trad['french'],
+            'category': 'tradition'
+        })
+        if existing:
+            error_msg = f"❌ Tradition '{trad['french']}' existe déjà (ID: {existing['_id']})"
+            print(f"   {error_msg}")
+            errors.append(error_msg)
+        else:
+            print(f"   ✅ '{trad['french']}' - Nouveau")
+    
+    if errors:
+        print(f"\n❌ ERREUR: Doublons détectés. Arrêt du script.")
+        return
+    
+    # ÉTAPE 4: Copier les fichiers audio
+    print(f"\n📋 ÉTAPE 4: Copie des fichiers audio...")
+    for audio_file in AUDIO_FILES:
+        source_path = os.path.join(AUDIO_SOURCE_DIR, audio_file)
+        dest_path = os.path.join(AUDIO_DEST_DIR, audio_file)
+        
+        try:
+            shutil.copy2(source_path, dest_path)
+            print(f"   ✅ Copié: {audio_file}")
+        except Exception as e:
+            error_msg = f"❌ Erreur copie {audio_file}: {str(e)}"
+            print(f"   {error_msg}")
+            errors.append(error_msg)
+    
+    if errors:
+        print(f"\n❌ ERREUR lors de la copie des fichiers")
+        return
+    
+    # ÉTAPE 5: Insérer les traditions dans MongoDB
+    print(f"\n💾 ÉTAPE 5: Insertion dans MongoDB...")
+    inserted_ids = []
+    
+    for trad in NEW_TRADITIONS:
+        try:
+            result = words_collection.insert_one(trad)
+            inserted_ids.append(result.inserted_id)
+            print(f"   ✅ '{trad['french']}' ajouté (ID: {result.inserted_id})")
+        except Exception as e:
+            error_msg = f"❌ Erreur insertion '{trad['french']}': {str(e)}"
+            print(f"   {error_msg}")
+            errors.append(error_msg)
+    
+    if errors:
+        print(f"\n❌ ERREUR lors de l'insertion en base")
+        return
+    
+    # ÉTAPE 6: Vérification finale
+    print(f"\n✅ ÉTAPE 6: Vérification finale...")
+    
+    for trad_id in inserted_ids:
+        word = words_collection.find_one({'_id': trad_id})
+        if word:
+            print(f"   ✅ {word['french']}")
+            print(f"      - Shimaoré: {word['shimaore']} → {word['audio_filename_shimaore']}")
+            print(f"      - Kibouchi: {word['kibouchi']} → {word['audio_filename_kibouchi']}")
+            
+            # Vérifier fichiers physiques
+            shimaore_path = os.path.join(AUDIO_DEST_DIR, word['audio_filename_shimaore'])
+            kibouchi_path = os.path.join(AUDIO_DEST_DIR, word['audio_filename_kibouchi'])
+            
+            if os.path.exists(shimaore_path) and os.path.exists(kibouchi_path):
+                print(f"      - Fichiers audio: ✅ Présents")
+            else:
+                error_msg = f"❌ Fichiers audio manquants pour {word['french']}"
+                print(f"      - {error_msg}")
+                errors.append(error_msg)
+    
+    # Total traditions
+    total_traditions = words_collection.count_documents({'category': 'tradition'})
+    print(f"\n📊 Total traditions dans la base: {total_traditions}")
+    
+    # Résultat final
+    print("\n" * 80)
+    if errors:
+        print("❌ SCRIPT TERMINÉ AVEC ERREURS")
+        print("=" * 80)
+        for error in errors:
+            print(f"   • {error}")
+    else:
+        print("✅ AUCUNE ERREUR - Tout s'est bien passé!")
+        print("=" * 80)
+        print(f"✅ 8 nouvelles traditions ajoutées")
+        print(f"✅ 13 fichiers audio copiés")
+        print(f"✅ Total traditions: {total_traditions}")
+
+if __name__ == "__main__":
+    main()
