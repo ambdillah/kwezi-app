@@ -90,11 +90,63 @@ export default function PremiumScreen() {
   };
 
   const handleManageSubscription = async () => {
-    // TODO: Implémenter le portail client Stripe pour gérer l'abonnement
-    Alert.alert(
-      'Gestion de l\'abonnement',
-      'Cette fonctionnalité sera bientôt disponible. Contactez-nous à support@kwezi.com pour gérer votre abonnement.'
-    );
+    if (!user) {
+      Alert.alert('Erreur', 'Utilisateur non identifié');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Appeler l'API pour créer une session du portail client Stripe
+      const response = await fetch(`${backendUrl}/api/stripe/create-portal-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customer_id: user.stripe_customer_id, // Le customer_id Stripe de l'utilisateur
+          return_url: `${backendUrl}/app`, // URL de retour après gestion
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session du portail client');
+      }
+
+      const data = await response.json();
+
+      // Ouvrir le portail client Stripe dans le navigateur
+      const supported = await Linking.canOpenURL(data.url);
+
+      if (supported) {
+        await Linking.openURL(data.url);
+        
+        Alert.alert(
+          'Portail Client Stripe',
+          'Vous allez être redirigé vers le portail de gestion de votre abonnement. Vous pourrez y annuler votre abonnement, mettre à jour votre carte ou voir votre historique de facturation.',
+          [
+            {
+              text: 'OK',
+              onPress: async () => {
+                // Rafraîchir les données utilisateur au retour
+                await refreshUser();
+              },
+            },
+          ]
+        );
+      } else {
+        Alert.alert('Erreur', 'Impossible d\'ouvrir le portail de gestion');
+      }
+    } catch (error) {
+      console.error('Erreur gestion abonnement:', error);
+      Alert.alert(
+        'Erreur',
+        'Une erreur est survenue. Si vous souhaitez annuler votre abonnement, contactez-nous à support@kwezi.com'
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Si l'utilisateur est déjà Premium
