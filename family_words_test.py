@@ -10,7 +10,7 @@ import sys
 from typing import Dict, List, Any
 
 # Configuration
-BACKEND_URL = "https://learn-kwezi.preview.emergentagent.com/api"
+BACKEND_URL = "https://kwezi-app.preview.emergentagent.com/api"
 
 class FamilyWordsTestSuite:
     def __init__(self):

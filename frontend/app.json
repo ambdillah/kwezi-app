@@ -42,7 +42,7 @@
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
-        "https://learn-kwezi.preview.emergentagent.com"
+        "https://kwezi-app.preview.emergentagent.com"
       ]
     }
   }
