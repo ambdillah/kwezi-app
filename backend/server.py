@@ -79,6 +79,9 @@ class Word(BaseModel):
     kibouchi_audio_filename: Optional[str] = None
     shimoare_has_audio: Optional[bool] = False
     kibouchi_has_audio: Optional[bool] = False
+    # Nouveau format (verbes récents, expressions récentes, traditions récentes)
+    audio_filename_shimaore: Optional[str] = None
+    audio_filename_kibouchi: Optional[str] = None
     dual_audio_system: Optional[bool] = False
     audio_restructured_at: Optional[datetime] = None
 
