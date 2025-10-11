@@ -21,6 +21,7 @@ import { playWordAudio, playWordAllLanguages, hasAuthenticAudio } from '../utils
 import { playWordWithRealAudio, hasRealAuthenticAudio, getRealAudioInfo } from '../utils/realAuthenticAudioSystem';
 import { playWordWithDualAudio, hasDualAudio, hasDualAudioForLanguage, getDualAudioInfo } from '../utils/dualAuthenticAudioSystem';
 import YlangYlangFlower from '../components/YlangYlangFlower';
+import { useUser } from '../contexts/UserContext';
 
 interface Word {
   id: string;
