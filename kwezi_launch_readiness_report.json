@@ -1,0 +1,160 @@
+{
+  "launch_ready": false,
+  "success_rate": 75.0,
+  "critical_blockers": [
+    "\ud83d\udcb3 Stripe not operational: checkout, webhook, portal"
+  ],
+  "test_duration": 3.450697422027588,
+  "detailed_results": {
+    "games": {
+      "Construire Phrases - Count": {
+        "status": "\u2705 PASS",
+        "details": "Retrieved exactly 10 sentences",
+        "timestamp": "2025-10-14T12:29:09.887501",
+        "response_data": null
+      },
+      "Construire Phrases - Structure": {
+        "status": "\u2705 PASS",
+        "details": "Sentences have all required fields",
+        "timestamp": "2025-10-14T12:29:09.887546",
+        "response_data": null
+      },
+      "Construire Phrases - Word Arrays": {
+        "status": "\u2705 PASS",
+        "details": "Word arrays properly formatted",
+        "timestamp": "2025-10-14T12:29:09.887553",
+        "response_data": null
+      },
+      "Construire Phrases - Verb Variety": {
+        "status": "\u26a0\ufe0f WARNING",
+        "details": "Limited verb variety: 0 verbs",
+        "timestamp": "2025-10-14T12:29:09.887572",
+        "response_data": null
+      },
+      "Quiz Mayotte - Word Base": {
+        "status": "\u2705 PASS",
+        "details": "Sufficient words (636) for 26 quiz questions",
+        "timestamp": "2025-10-14T12:29:10.001689",
+        "response_data": null
+      },
+      "Quiz Mayotte - Categories": {
+        "status": "\u2705 PASS",
+        "details": "Good category diversity: 16 categories",
+        "timestamp": "2025-10-14T12:29:10.001893",
+        "response_data": null
+      },
+      "Quiz Mayotte - Word Completeness": {
+        "status": "\u2705 PASS",
+        "details": "Word completeness: 100.0%",
+        "timestamp": "2025-10-14T12:29:10.002043",
+        "response_data": null
+      },
+      "Vocabulary Quiz - Category Filter": {
+        "status": "\u2705 PASS",
+        "details": "Category 'tradition' filtering works (24 words)",
+        "timestamp": "2025-10-14T12:29:10.169698",
+        "response_data": null
+      },
+      "Vocabulary Quiz - Translations": {
+        "status": "\u2705 PASS",
+        "details": "All words have shimaor\u00e9 and kibouchi translations",
+        "timestamp": "2025-10-14T12:29:10.169736",
+        "response_data": null
+      },
+      "Conjugation Game - Sentences Available": {
+        "status": "\u2705 PASS",
+        "details": "Found 20 sentences for conjugation practice",
+        "timestamp": "2025-10-14T12:29:10.226433",
+        "response_data": null
+      },
+      "Conjugation Game - Structure": {
+        "status": "\u2705 PASS",
+        "details": "Sentences have required conjugation fields",
+        "timestamp": "2025-10-14T12:29:10.226471",
+        "response_data": null
+      }
+    },
+    "stripe": {
+      "Checkout Session Creation": {
+        "status": "\u274c FAIL",
+        "details": "HTTP 404: {\"detail\":\"Not Found\"}",
+        "timestamp": "2025-10-14T12:29:10.282805",
+        "response_data": null
+      },
+      "Webhook Endpoint": {
+        "status": "\u274c FAIL",
+        "details": "Webhook endpoint not accessible: HTTP 404",
+        "timestamp": "2025-10-14T12:29:10.339982",
+        "response_data": null
+      },
+      "Customer Portal": {
+        "status": "\u274c FAIL",
+        "details": "HTTP 404: {\"detail\":\"Not Found\"}",
+        "timestamp": "2025-10-14T12:29:10.390250",
+        "response_data": null
+      }
+    },
+    "legal_docs": {
+      "Privacy Policy Accessibility": {
+        "status": "\u2705 PASS",
+        "details": "Document accessible (51254 characters)",
+        "timestamp": "2025-10-14T12:29:10.953391",
+        "response_data": null
+      },
+      "Terms of Sale Accessibility": {
+        "status": "\u2705 PASS",
+        "details": "Document accessible (54171 characters)",
+        "timestamp": "2025-10-14T12:29:11.613277",
+        "response_data": null
+      },
+      "Mentions L\u00e9gales Accessibility": {
+        "status": "\u2705 PASS",
+        "details": "Document accessible (48595 characters)",
+        "timestamp": "2025-10-14T12:29:12.268186",
+        "response_data": null
+      }
+    },
+    "general": {
+      "Backend Health Check": {
+        "status": "\u274c FAIL",
+        "details": "Connection error: Expecting value: line 1 column 1 (char 0)",
+        "timestamp": "2025-10-14T12:29:09.675770",
+        "response_data": null
+      },
+      "Vocabulary Word Count": {
+        "status": "\u2705 PASS",
+        "details": "Found 636 words (\u2265636 expected)",
+        "timestamp": "2025-10-14T12:29:09.827550",
+        "response_data": null
+      },
+      "Word Structure Validation": {
+        "status": "\u2705 PASS",
+        "details": "All required fields present",
+        "timestamp": "2025-10-14T12:29:09.827588",
+        "response_data": null
+      }
+    },
+    "summary": {
+      "total_tests": 20,
+      "passed": 15,
+      "failed": 4,
+      "warnings": 1,
+      "critical_failures": [
+        "stripe: Checkout Session Creation",
+        "stripe: Webhook Endpoint",
+        "stripe: Customer Portal"
+      ]
+    }
+  },
+  "summary": {
+    "total_tests": 20,
+    "passed": 15,
+    "failed": 4,
+    "warnings": 1,
+    "critical_failures": [
+      "stripe: Checkout Session Creation",
+      "stripe: Webhook Endpoint",
+      "stripe: Customer Portal"
+    ]
+  }
+}
