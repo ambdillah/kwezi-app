@@ -50,8 +50,8 @@ export default function PremiumScreen() {
         },
         body: JSON.stringify({
           user_id: user.user_id,
-          success_url: `${backendUrl}/api/payment/success?user_id=${user.user_id}`,
-          cancel_url: `${backendUrl}/api/payment/cancel`,
+          success_url: `${backendUrl.replace('/api', '')}/payment-success`,
+          cancel_url: `${backendUrl.replace('/api', '')}/payment-cancel`,
         }),
       });
 
