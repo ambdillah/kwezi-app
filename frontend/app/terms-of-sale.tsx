@@ -207,7 +207,7 @@ export default function TermsOfSaleScreen() {
           usage personnel et privé.
         </Text>
 
-        <Text style={styles.sectionTitle}>Article 11 - Données Personnelles</Text>
+        <Text style={styles.sectionTitle}>Article 12 - Données Personnelles</Text>
         <Text style={styles.paragraph}>
           Le traitement de vos données personnelles est régi par notre Politique de Confidentialité, 
           accessible dans l'application.
