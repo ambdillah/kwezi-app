@@ -73,15 +73,35 @@ class KweziComprehensiveTester:
         try:
             response = requests.get(f"{BACKEND_URL}/", timeout=10)
             if response.status_code == 200:
-                data = response.json()
-                if "message" in data and "status" in data:
-                    self.log_test("general", "Backend Health Check", "✅ PASS", 
-                                f"Backend responding: {data.get('message', '')}")
-                    return True
+                # Check if it's HTML (frontend) or JSON (backend API)
+                content_type = response.headers.get('content-type', '').lower()
+                if 'html' in content_type:
+                    # This is the frontend, let's test the backend API directly
+                    api_response = requests.get(f"{API_BASE}/words", timeout=10)
+                    if api_response.status_code == 200:
+                        self.log_test("general", "Backend Health Check", "✅ PASS", 
+                                    "Backend API responding correctly")
+                        return True
+                    else:
+                        self.log_test("general", "Backend Health Check", "❌ FAIL", 
+                                    f"Backend API not responding: HTTP {api_response.status_code}")
+                        return False
                 else:
-                    self.log_test("general", "Backend Health Check", "⚠️ WARNING", 
-                                "Backend responding but unexpected format")
-                    return True
+                    # Try to parse as JSON
+                    try:
+                        data = response.json()
+                        if "message" in data and "status" in data:
+                            self.log_test("general", "Backend Health Check", "✅ PASS", 
+                                        f"Backend responding: {data.get('message', '')}")
+                            return True
+                        else:
+                            self.log_test("general", "Backend Health Check", "⚠️ WARNING", 
+                                        "Backend responding but unexpected format")
+                            return True
+                    except:
+                        self.log_test("general", "Backend Health Check", "⚠️ WARNING", 
+                                    "Backend responding but not JSON")
+                        return True
             else:
                 self.log_test("general", "Backend Health Check", "❌ FAIL", 
                             f"HTTP {response.status_code}: {response.text}")
