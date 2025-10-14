@@ -167,7 +167,35 @@ export default function TermsOfSaleScreen() {
           l'abonnement payé par l'utilisateur au cours des 12 derniers mois.
         </Text>
 
-        <Text style={styles.sectionTitle}>Article 10 - Propriété Intellectuelle</Text>
+        <Text style={styles.sectionTitle}>Article 10 - Utilisation par les Enfants et Responsabilité Parentale</Text>
+        <Text style={styles.warningBox}>
+          ⚠️ AVERTISSEMENT IMPORTANT
+        </Text>
+        <Text style={styles.paragraph}>
+          L'application Kwezi est un <Text style={styles.bold}>outil éducatif mis à disposition du public</Text>. 
+          L'éditeur ne peut être tenu responsable des conséquences liées à l'utilisation de cet outil 
+          par le public, notamment les enfants.
+        </Text>
+        <Text style={styles.paragraph}>
+          <Text style={styles.bold}>Âge recommandé :</Text> Cette application est recommandée pour les 
+          enfants ayant l'âge de lire et de s'éduquer (généralement à partir de 6 ans), sous la 
+          supervision d'un adulte.
+        </Text>
+        <Text style={styles.paragraph}>
+          <Text style={styles.bold}>Responsabilité parentale :</Text> Il appartient aux parents ou 
+          responsables légaux de :
+        </Text>
+        <Text style={styles.bulletPoint}>• Superviser l'utilisation de l'application par les enfants</Text>
+        <Text style={styles.bulletPoint}>• S'assurer que le contenu est adapté à l'âge et au niveau de l'enfant</Text>
+        <Text style={styles.bulletPoint}>• Contrôler le temps d'écran et l'utilisation du service</Text>
+        <Text style={styles.bulletPoint}>• Gérer les achats et abonnements effectués depuis l'appareil</Text>
+        <Text style={styles.paragraph}>
+          L'éditeur décline toute responsabilité en cas d'utilisation inappropriée ou non supervisée 
+          de l'application par des mineurs. Les parents sont seuls responsables de l'encadrement de 
+          leurs enfants dans l'utilisation de cette application éducative.
+        </Text>
+
+        <Text style={styles.sectionTitle}>Article 11 - Propriété Intellectuelle</Text>
         <Text style={styles.paragraph}>
           Tous les contenus présents dans l'application Kwezi (textes, images, audios, 
           vidéos, marques, logos, etc.) sont la propriété exclusive d'Ambdillah BACAR ou 
