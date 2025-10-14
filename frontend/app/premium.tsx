@@ -332,6 +332,34 @@ export default function PremiumScreen() {
           </View>
         </View>
 
+        {/* Case à cocher CGU OBLIGATOIRE */}
+        <View style={styles.termsContainer}>
+          <TouchableOpacity 
+            style={styles.checkboxContainer} 
+            onPress={() => setAcceptedTerms(!acceptedTerms)}
+          >
+            <View style={[styles.checkbox, acceptedTerms && styles.checkboxChecked]}>
+              {acceptedTerms && <Ionicons name="checkmark" size={18} color="#FFF" />}
+            </View>
+            <Text style={styles.termsText}>
+              J'accepte les{' '}
+              <Text 
+                style={styles.termsLink}
+                onPress={() => router.push('/terms-of-sale')}
+              >
+                Conditions Générales de Vente
+              </Text>
+              {' '}et la{' '}
+              <Text 
+                style={styles.termsLink}
+                onPress={() => router.push('/privacy-policy')}
+              >
+                Politique de Confidentialité
+              </Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         {/* CTA Button */}
         <TouchableOpacity
           style={[styles.subscribeButton, isLoading && styles.subscribeButtonDisabled]}
