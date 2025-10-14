@@ -826,22 +826,36 @@ async def get_word(word_id: str):
 async def get_sentences(difficulty: int = None, tense: str = None, limit: int = 20):
     """
     Récupère les phrases pour le jeu 'construire des phrases'
-    Par défaut, retourne un MIX de tous les temps (présent, passé, futur)
+    Par défaut, retourne un MIX VARIÉ de tous les temps et de TOUS les verbes
     """
     try:
         import random
         
-        # Si aucun filtre spécifique, charger un MIX équilibré de tous les temps
+        # Si aucun filtre spécifique, charger un MIX VRAIMENT VARIÉ
         if not difficulty and not tense:
-            # Charger un mélange équilibré de présent, passé et futur
-            present_sentences = list(sentences_collection.find({"tense": "present"}).limit(limit // 3 + 1))
-            past_sentences = list(sentences_collection.find({"tense": "past"}).limit(limit // 3 + 1))
-            future_sentences = list(sentences_collection.find({"tense": "future"}).limit(limit // 3 + 1))
+            # Charger TOUTES les phrases disponibles
+            all_sentences_cursor = sentences_collection.find({})
+            all_sentences = list(all_sentences_cursor)
             
-            # Mélanger tous ensemble
-            all_sentences = present_sentences + past_sentences + future_sentences
+            # Mélanger COMPLÈTEMENT pour avoir des verbes variés
             random.shuffle(all_sentences)
+            
+            # Prendre seulement le nombre demandé
             sentences = all_sentences[:limit]
+            
+            # Vérifier qu'on a bien de la variété (différents verbes français)
+            # Si on a beaucoup de phrases du même verbe, remélanger
+            french_words = [s.get('french', '').split()[0] for s in sentences]
+            unique_verbs = len(set(french_words))
+            
+            # Si moins de 50% de verbes uniques, remélanger jusqu'à avoir de la variété
+            attempts = 0
+            while unique_verbs < limit * 0.5 and attempts < 5:
+                random.shuffle(all_sentences)
+                sentences = all_sentences[:limit]
+                french_words = [s.get('french', '').split()[0] for s in sentences]
+                unique_verbs = len(set(french_words))
+                attempts += 1
         else:
             # Construire le filtre si spécifié
             filter_query = {}
