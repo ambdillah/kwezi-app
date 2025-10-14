@@ -348,12 +348,16 @@ class KweziComprehensiveTester:
             return False
 
     def test_stripe_checkout(self) -> bool:
-        """Test POST /api/create-checkout-session"""
+        """Test POST /api/stripe/create-checkout-session"""
         print("\n💰 Testing Stripe Checkout Session Creation...")
         
         try:
-            payload = {"user_id": self.test_user_id}
-            response = requests.post(f"{API_BASE}/create-checkout-session", 
+            payload = {
+                "user_id": self.test_user_id,
+                "success_url": "https://test.com/success",
+                "cancel_url": "https://test.com/cancel"
+            }
+            response = requests.post(f"{API_BASE}/stripe/create-checkout-session", 
                                    json=payload, timeout=10)
             
             if response.status_code == 200:
