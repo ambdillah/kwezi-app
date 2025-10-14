@@ -1,143 +1,106 @@
 <analysis>
-The trajectory chronicles the AI engineer's work on the Kwezi language learning app, primarily focusing on data integrity and new feature integration. Initial work addressed a critical TTS bug where Shimaoré phrases were misread as organisation de lunité africaine" due to an erroneous Swahili fallback in `feminineSpeechUtils.ts`, which was resolved by enforcing French TTS. A substantial portion involved iterative updates to various vocabulary sections (verbs, expressions, animals, adjectives, human body, nature, grammar, food, house) from user-provided images and audio ZIPs. A persistent challenge was managing two distinct database schema conventions for audio filenames (`shimoare_audio_filename` vs `audio_filename_shimaore`), requiring extensive refactoring in `learn.tsx`, `dualAuthenticAudioSystem.ts`, and `server.py` to ensure all authentic audios played correctly. New features included implementing a search bar in `learn.tsx` and initiating the backend integration of Stripe for subscription payments. The trajectory ends mid-update on the "verbes" section.
+The trajectory details the AI engineer's extensive work on the Kwezi language learning app, following a forked task. Initial efforts centered on a meticulous database and file system verification post-fork, revealing a critical issue with missing audios for newly added verbs and the database being in an unexpected name (). This was resolved, confirming 615 words were intact. Subsequent user requests led to iterative updates: adding new verbs, expressions, and traditions, including their authentic audios. Critical audio playback issues were diagnosed and fixed, stemming from inconsistent directory naming ( vs ) and an incomplete Pydantic  model in  lacking new audio filename fields and not correctly returning . The engineer also disabled problematic Shimaoré TTS in the construire des phrases game and corrected specific audio attribution errors. The latter half focused on implementing the freemium monetization model, involving a new  screen, a paywall in , and completing Stripe webhooks. Finally, the AI engineer addressed user queries on PayPal integration (managed by Stripe) and EU compliance, concluding with the generation of legal documents (, , and ) based on user-provided information. The task ends mid-creation of these legal documents.
 </analysis>
 
 <product_requirements>
-The Kwezi application is an educational tool for learning Shimaoré and Kibouchi.
+The Kwezi application is an educational platform for Shimaoré and Kibouchi. Its core mission is to provide an authentic and comprehensive language learning experience.
 **Core Requirements:**
-1.  **Audio Authenticity:** Every word and expression must feature authentic, user-provided audio; synthetic TTS is a fallback. This requires 100% authentic audio coverage across all vocabulary sections (expressions, traditions, nature, vêtements, salutations, famille, nombres, animaux, verbes, adjectifs, corps humain, nourriture, maison, grammaire).
-2.  **Data Integrity:** All vocabulary, expressions, and quiz questions must be accurate, grammatically correct, and alphabetized, reflecting precise user-provided conjugation rules and translations.
-3.  **User Experience:** The app must be performant (e.g., paginated loading), intuitive, and use a consistent female synthetic voice for game-generated sentences.
-4.  **Monetization (Freemium Model):** A premium subscription (€2.90/month) unlocks all content (currently ~614+ words) and features. Free users are limited to 250 words. A "Boutique" allows users to purchase PDF exercise sheets, with premium users gaining free access.
+1.  **Audio Authenticity:** Provide 100% authentic, user-recorded audio for all vocabulary and expressions. Synthetic TTS is a fallback.
+2.  **Data Integrity:** Maintain accurate, grammatically correct, and alphabetized vocabulary, expressions, and quiz data, aligned with user-provided rules and translations.
+3.  **User Experience:** Ensure a performant (e.g., paginated loading), intuitive application with a consistent female synthetic voice for system-generated sentences.
+4.  **Monetization (Freemium Model):** Offer a premium subscription (€2.90/month) to unlock all content (currently 626+ words) and features, limiting free users to 250 words. A Boutique allows purchasing PDF exercise sheets, free for premium users.
 **Implementation Done So Far:**
--   Refactored TTS for a consistent female voice, resolving a Shimaoré reading bug.
+-   Refactored TTS for consistent French female voice, resolving a Shimaoré reading bug.
 -   Fixed numerous data integrity issues, including quiz answers and translations.
--   Ensured authentic audio coverage for many categories.
--   Implemented paginated loading for the "Commencer à apprendre" screen.
--   Developed backend for freemium model and frontend `UserContext`.
--   Implemented "Boutique" with freemium logic.
+-   Ensured authentic audio coverage for many categories, including iterative updates for 'verbes', 'expressions', and 'traditions'.
+-   Implemented paginated loading for the Commencer à apprendre screen.
+-   Developed backend for freemium model and frontend .
+-   Implemented Boutique with freemium logic.
 -   Corrected and implemented detailed Shimaoré/Kibouchi conjugation rules.
 -   Generated comprehensive vocabulary verification documents.
--   Implemented a word search feature in `learn.tsx`.
+-   Implemented a word search feature in .
 -   Integrated Stripe payment gateway on the backend.
--   Updated verbes, expressions, animaux, adjectifs, corps humain, nature, grammaire, nourriture, maison sections with new words and audios.
+-   Implemented frontend  screen and paywall logic in  with a 250-word limit.
+-   Integrated Stripe webhooks for subscription lifecycle management.
+-   Added subscription management via Stripe Customer Portal.
+-   Addressed PayPal payment method support (natively via Stripe, requiring dashboard configuration).
+-   Commenced creation of legal documents: , .
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-Stack Architecture:** FastAPI (Python) backend, MongoDB, Expo (React Native) frontend.
--   **Data ETL & Automation:** Python scripts (`pymongo`) for database updates, audio copying, and data verification.
--   **Dual Audio System:** Custom frontend (`dualAuthenticAudioSystem.ts`) and backend (`server.py`) logic to manage two distinct database field naming conventions and physical storage paths for authentic audio files.
--   **Speech Synthesis:** `expo-speech` with `feminineSpeechUtils.ts` configured for consistent French female TTS.
--   **Payment Gateway:** Stripe for subscription and product management (backend integrated).
--   **Debugging & Root Cause Analysis:** Frequent utilization of `troubleshoot_agent` for complex and recurring issues.
+-   **Data ETL & Automation:** Python scripts () for database updates, audio copying, data verification, and error correction.
+-   **Dual Audio System:** Custom frontend () and backend () logic for handling varied audio filename conventions and physical storage paths.
+-   **Speech Synthesis:**  and  for consistent French female TTS.
+-   **Payment Gateway:** Stripe for subscription, product management, and handling webhooks (backend integrated), and customer portal for subscription management.
+-   **Data Modeling:** Pydantic models in FastAPI for request/response validation and database interaction.
 </key_technical_concepts>
 
 <code_architecture>
-```
-/app
-├── backend/
-│   ├── .env
-│   ├── server.py
-│   ├── premium_system.py
-│   ├── conjugation_engine.py
-│   ├── regenerate_sentences_corrected.py
-│   ├── update_traditions_audio.py
-│   ├── update_multiple_categories_audio.py
-│   ├── fix_nombres_translations.py
-│   ├── generate_verification_document.py
-│   ├── apply_user_corrections.py
-│   ├── integrate_missing_audios.py
-│   ├── update_verbes_section.py            
-│   ├── check_verbes_audio.py               
-│   ├── fix_dual_audio_system.py            
-│   ├── fix_medire_spelling.py              
-│   ├── check_verbes_structure.py           
-│   ├── STRUCTURE_BASE_DONNEES.md           
-│   ├── update_expressions_section.py       
-│   ├── fix_expressions_orthography.py      
-│   ├── verifier_et_corriger_audios.py      
-│   ├── update_expressions_audios_final.py  
-│   ├── add_new_adjectifs.py                
-│   ├── create_stripe_product.py            
-│   ├── stripe_routes.py                    
-│   ├── add_nature_materials.py             
-│   ├── add_new_verbes_secure.py            
-│   └── add_new_adjectifs.py                
-├── frontend/
-│   ├── .env
-│   ├── app/
-│   │   ├── _layout.tsx
-│   │   ├── games.tsx
-│   │   ├── learn.tsx
-│   │   ├── mayotte-discovery.tsx
-│   │   ├── index.tsx
-│   │   └── shop.tsx
-│   ├── assets/
-│   │   ├── audio/
-│   │   │   ├── adjectifs/
-│   │   │   ├── animaux/
-│   │   │   ├── corps_humain/
-│   │   │   ├── expressions/
-│   │   │   ├── famille/
-│   │   │   ├── grammaire/
-│   │   │   ├── maison/
-│   │   │   ├── nature/
-│   │   │   ├── nourriture/
-│   │   │   ├── verbes/
-│   │   │   └── vetements/
-│   │   └── audio_backup_20250930/  (Older structured audios)
-│   ├── components/
-│   │   └── ConjugationRules.tsx
-│   ├── contexts/
-│   │   └── UserContext.tsx
-│   ├── data/
-│   │   ├── mayotteVillages.ts
-│   │   └── exerciseSheets.ts
-│   └── utils/
-│       ├── feminineSpeechUtils.ts
-│       ├── authenticAudioSystem.ts
-│       └── dualAuthenticAudioSystem.ts     
-├── REGLES_CONJUGAISON_JEU.md
-├── DATABASE_SENTENCES.md
-├── VERIFICATION_VOCABULAIRE_COMPLET.html
-└── VERIFICATION_VOCABULAIRE_COMPLET.csv
-```
--   **`backend/.env`**
-    -   **Importance:** Configuration for database and external services like Stripe.
-    -   **Summary of Changes:** Added `STRIPE_SECRET_KEY` and corrected newline formatting issues.
--   **`backend/server.py`**
-    -   **Importance:** Main FastAPI server, handles all API logic and data serving.
-    -   **Summary of Changes:** Modified `/api/words` endpoint to sort results alphabetically. Included `stripe_routes.py`. Critically updated `/api/words/{word_id}/audio/{lang}` to correctly handle two distinct audio field naming conventions (`audio_filename_shimaore` / `audio_filename_kibouchi` and `shimoare_audio_filename` / `kibouchi_audio_filename`) and to search for audio files in the root `/assets/audio/` directory before category-specific subdirectories.
--   **`backend/update_verbes_section.py` (New File)**
-    -   **Importance:** Temporary script for adding new verbs and their audios.
-    -   **Summary of Changes:** Created to automate the insertion of verb data and audio file links into MongoDB, with corrections for f-string syntax.
--   **`backend/stripe_routes.py` (New File)**
-    -   **Importance:** Contains FastAPI routes specific to Stripe integration.
-    -   **Summary of Changes:** Created to manage Stripe-related API calls, including checkout sessions and webhooks for subscription management.
--   **`frontend/app/learn.tsx`**
-    -   **Importance:** The primary screen for vocabulary learning and interaction.
-    -   **Summary of Changes:** The `Word` interface was updated to include both legacy (`shimoare_audio_filename`, `kibouchi_audio_filename`) and new (`audio_filename_shimaore`, `audio_filename_kibouchi`) audio filename fields to accommodate database schema variations. A new search functionality was implemented, including `searchText` state, `handleSearch` logic, a visible `SearchBar` UI component with `TextInput` and an icon, and associated styles to filter displayed words. Debug console logs were corrected to use the right field names.
--   **`frontend/utils/feminineSpeechUtils.ts`**
-    -   **Importance:** Manages Text-to-Speech configurations across the application.
-    -   **Summary of Changes:** Modified to explicitly remove `sw-KE` (Swahili) and Malagasy as fallback languages for Shimaoré and Kibouchi, ensuring that all synthetic speech consistently uses a French female voice with adjusted pitch.
--   **`frontend/utils/dualAuthenticAudioSystem.ts`**
-    -   **Importance:** Handles the logic for playing authentic audio files based on word data.
-    -   **Summary of Changes:** This file underwent significant refactoring. Functions like `playWordWithDualAudio`, `hasDualAudioForLanguage`, and `getDualAudioInfo` were updated to robustly check for and prioritize *either* the new (`audio_filename_shimaore`/`kibouchi`) or the old (`shimoare_audio_filename`/`kibouchi_audio_filename`) audio filename fields in the word objects. A critical bug was fixed where words marked with `dual_audio_system: True` but only possessing old-style audio fields were failing to play, by correcting the conditional logic that determined whether to use authentic audio or fall back to TTS.
+
+-   ****
+    -   **Importance:** Contains environment variables for backend, including MongoDB connection and Stripe keys.
+    -   **Summary of Changes:** Verified  and  are configured correctly.
+-   ****
+    -   **Importance:** Main FastAPI server, serving API endpoints.
+    -   **Summary of Changes:**
+        -    was corrected to search for audio files in  (with 's') instead of  (without 's') for the tradition category, aligning with actual file placement.
+        -   The  Pydantic model was updated to include new audio filename fields (, ) alongside the legacy ones, ensuring correct serialization of word data including  as uid=0(root) gid=0(root) groups=0(root).
+        -    endpoint implicitly improved by  model update.
+-   ****
+    -   **Importance:** FastAPI routes for Stripe integration, handling checkout and webhooks.
+    -   **Summary of Changes:** Expanded to include comprehensive webhook event handling (, , ) for managing user premium status in the MongoDB database, including functionality to create Stripe customer portal sessions.
+-   ** (New File)**
+    -   **Importance:** Script for securely adding new verbs and their associated audio files to MongoDB and the filesystem.
+    -   **Summary of Changes:** Created and executed to add 4 new verbs and 8 audio files to the database and .
+-   ** (New File)**
+    -   **Importance:** Script for securely adding new expressions and their associated audio files.
+    -   **Summary of Changes:** Created and executed to add 3 new expressions and 4 audio files to the database and .
+-   ** (New File)**
+    -   **Importance:** Script for securely adding new tradition entries and their associated audio files.
+    -   **Summary of Changes:** Created and executed to add 8 new traditions and 13 audio files to the database and .
+-   ** (New File)**
+    -   **Importance:** Script to correct specific audio filename attributions in the database.
+    -   **Summary of Changes:** Created and executed to correct audio links for Ail, Ciboulette, and Mangue in the database.
+-   ****
+    -   **Importance:** Main learning screen, displaying words and categories.
+    -   **Summary of Changes:**
+        -   The  interface was implicitly updated (via backend changes) to handle both old and new audio filename fields.
+        -   Implemented paywall logic: imports , limits displayed words to 250 for non-premium users.
+        -   A  component was added to the UI, appearing when the word limit is reached, prompting users to upgrade.
+-   ****
+    -   **Importance:** Contains the logic for various language learning games.
+    -   **Summary of Changes:** The automatic Text-to-Speech playback for Shimaoré sentences after validation in the construire des phrases game was commented out to prevent mispronunciations.
+-   ** (New File)**
+    -   **Importance:** Dedicated screen for managing premium subscriptions.
+    -   **Summary of Changes:** Created to display premium features, an upgrade button, and a Manage Subscription button that redirects to the Stripe Customer Portal.
+-   ** (New File)**
+    -   **Importance:** Legal document for data privacy.
+    -   **Summary of Changes:** Created based on user-provided information.
+-   ** (New File)**
+    -   **Importance:** Legal document outlining terms and conditions for purchases.
+    -   **Summary of Changes:** Created based on user-provided information.
+-   ****
+    -   **Importance:** Manages global user state and authentication.
+    -   **Summary of Changes:** The  interface was updated to include  to link users with their Stripe customer records.
+-   ****
+    -   **Importance:** Handles playing authentic audio files.
+    -   **Summary of Changes:** Refactored for robustly checking and prioritizing both new and old audio filename conventions in word objects, fixing issues where authentic audios were not playing.
+-   ** (New Directory)**
+    -   **Importance:** Centralized location for tradition audio files.
+    -   **Summary of Changes:** Files from  were copied into this directory to resolve a backend path mismatch.
 
 </code_architecture>
 
 <pending_tasks>
--   **Implement Frontend Monetization UI:**
-    -   Integrate the Stripe payment flow into the "Boutique" (Shop) and other relevant frontend screens to allow users to upgrade to premium.
-    -   Implement conditional display of content (paywall/upgrade message) for free users trying to access restricted content.
-    -   Add visual indicators (e.g., "Premium" badge) for premium users throughout the application.
--   **Final Verification of Verbs Section:** Complete the final verification step (`ÉTAPE 7`) for the recently added verbs in the "verbes" section.
+-   Complete the creation of legal documents, specifically .
+-   Perform comprehensive end-to-end testing of the newly implemented monetization flow, including premium content access, Stripe checkout, webhook processing, and subscription management.
 </pending_tasks>
 
 <current_work>
-The immediate work prior to this summary involved a meticulous update to the "verbes" section of the application. The user requested the addition of 4 new verbs: "Entérer", "Masser", "Pêcher", and "Voyager," along with their Shimaoré and Kibouchi translations and corresponding authentic audio files. The AI engineer successfully downloaded the necessary audio files from a provided ZIP and extracted verb data from an image. A dedicated, secure Python script, `add_new_verbes_secure.py`, was created and executed to integrate these 4 verbs into the MongoDB database and copy their 8 associated audio files into the `/app/frontend/assets/audio/verbes/` directory. This script execution was confirmed as successful ("✅ AUCUNE ERREUR - Tout sest bien passé!). The trajectory concludes precisely at this point, with the addition of these verbs completed, and the AI engineer preparing to perform the Vérification finale COMPLÈTE for these newly added entries.
+Immediately before this summary request, the AI engineer was actively working on generating legal documents for the application based on detailed information provided by the user. Specifically, the  and  files had been successfully created and populated with the necessary legal text tailored to the user's business and operational details. The last action recorded was the initiation of the creation for the  document. This task is crucial for the application's legal compliance, especially with European standards like GDPR and SCA, as previously discussed. The completion of these documents will finalize a significant part of the application's overall completeness from a legal and user trust perspective, complementing the recently finished monetization features.
 </current_work>
 
 <optional_next_step>
-Complete ÉTAPE 7: Vérification finale COMPLÈTE for the newly added verbs in the verbes section.
+Complete the creation of the  document ().
 </optional_next_step>
