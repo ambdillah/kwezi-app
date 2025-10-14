@@ -1106,10 +1106,11 @@ export default function GamesScreen() {
           </View>
           <View style={styles.progressItem}>
             <Text style={styles.progressLabel}>Langue</Text>
-            <TouchableOpacity onPress={switchLanguage}>
-              <Text style={[styles.progressValue, styles.languageButton]}>
-                {selectedLanguage === 'shimaore' ? 'SH' : 'KI'}
+            <TouchableOpacity onPress={switchLanguage} style={styles.languageSwitchButton}>
+              <Text style={styles.languageSwitchText}>
+                {selectedLanguage === 'shimaore' ? '🇰🇲 Shimaoré' : '🇰🇲 Kibouchi'}
               </Text>
+              <Ionicons name="swap-horizontal" size={16} color="#fff" style={{marginLeft: 4}} />
             </TouchableOpacity>
           </View>
         </View>
