@@ -383,8 +383,11 @@ class KweziComprehensiveTester:
             if response.status_code == 200:
                 data = response.json()
                 
-                if "session_url" in data and "session_id" in data:
-                    session_url = data["session_url"]
+                # Check for both possible field names
+                session_url = data.get("session_url") or data.get("url")
+                session_id = data.get("session_id") or data.get("sessionId")
+                
+                if session_url and session_id:
                     if "stripe.com" in session_url or "checkout.stripe.com" in session_url:
                         self.log_test("stripe", "Checkout Session Creation", "✅ PASS", 
                                     "Valid Stripe checkout session created")
@@ -395,7 +398,7 @@ class KweziComprehensiveTester:
                         return False
                 else:
                     self.log_test("stripe", "Checkout Session Creation", "❌ FAIL", 
-                                f"Missing session_url or session_id in response")
+                                f"Missing session URL or ID in response: {data}")
                     return False
             else:
                 self.log_test("stripe", "Checkout Session Creation", "❌ FAIL", 
