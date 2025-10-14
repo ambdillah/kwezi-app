@@ -410,12 +410,15 @@ class KweziComprehensiveTester:
             return False
 
     def test_stripe_portal(self) -> bool:
-        """Test POST /api/create-portal-session"""
+        """Test POST /api/stripe/create-portal-session"""
         print("\n🏪 Testing Stripe Customer Portal...")
         
         try:
-            payload = {"user_id": self.test_user_id}
-            response = requests.post(f"{API_BASE}/create-portal-session", 
+            payload = {
+                "customer_id": "cus_test_customer",
+                "return_url": "https://test.com/return"
+            }
+            response = requests.post(f"{API_BASE}/stripe/create-portal-session", 
                                    json=payload, timeout=10)
             
             if response.status_code == 200:
