@@ -19,12 +19,23 @@ export default function PremiumScreen() {
   const router = useRouter();
   const { user, isPremium, refreshUser } = useUser();
   const [isLoading, setIsLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const backendUrl = Constants.expoConfig?.extra?.backendUrl || process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
 
   const handleSubscribe = async () => {
     if (!user) {
       Alert.alert('Erreur', 'Utilisateur non identifié. Veuillez redémarrer l\'application.');
+      return;
+    }
+
+    // Vérifier que l'utilisateur a accepté les CGU
+    if (!acceptedTerms) {
+      Alert.alert(
+        'Conditions Générales',
+        'Vous devez accepter les Conditions Générales de Vente et la Politique de Confidentialité avant de procéder au paiement.',
+        [{ text: 'OK' }]
+      );
       return;
     }
 
