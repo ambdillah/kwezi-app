@@ -583,23 +583,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
+  checkboxTouchable: {
+    padding: 4,
+    marginRight: 6,
+  },
   checkbox: {
     width: 24,
     height: 24,
     borderWidth: 2,
     borderColor: '#2C3E50',
     borderRadius: 4,
-    marginRight: 10,
-    marginTop: 2,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FFF',
   },
   checkboxChecked: {
     backgroundColor: '#27AE60',
     borderColor: '#27AE60',
   },
-  termsText: {
+  termsTextContainer: {
     flex: 1,
+    marginTop: 2,
+  },
+  termsText: {
     fontSize: 14,
     color: '#2C3E50',
     lineHeight: 20,
