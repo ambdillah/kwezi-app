@@ -1049,7 +1049,11 @@ export default function GamesScreen() {
         setCurrentSentenceIndex(nextIndex);
         setCurrentSentence(nextSent);
         
-        const wordsToShuffle = selectedLanguage === 'shimaore' 
+        // ALTERNER AUTOMATIQUEMENT entre shimaoré et kibouchi à chaque phrase
+        const newLanguage = selectedLanguage === 'shimaore' ? 'kibouchi' : 'shimaore';
+        setSelectedLanguage(newLanguage);
+        
+        const wordsToShuffle = newLanguage === 'shimaore' 
           ? nextSent.shimaore_words 
           : nextSent.kibouchi_words;
         setAvailableWords([...wordsToShuffle].sort(() => Math.random() - 0.5));
