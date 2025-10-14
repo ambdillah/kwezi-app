@@ -217,7 +217,7 @@ export default function TermsOfSaleScreen() {
           de portabilité et d'opposition sur vos données personnelles.
         </Text>
 
-        <Text style={styles.sectionTitle}>Article 12 - Modification des CGV</Text>
+        <Text style={styles.sectionTitle}>Article 13 - Modification des CGV</Text>
         <Text style={styles.paragraph}>
           L'éditeur se réserve le droit de modifier les présentes CGV à tout moment. Les 
           modifications entrent en vigueur dès leur publication dans l'application.
@@ -227,7 +227,7 @@ export default function TermsOfSaleScreen() {
           dans l'application ou par email.
         </Text>
 
-        <Text style={styles.sectionTitle}>Article 13 - Droit Applicable et Juridiction</Text>
+        <Text style={styles.sectionTitle}>Article 14 - Droit Applicable et Juridiction</Text>
         <Text style={styles.paragraph}>
           Les présentes CGV sont régies par le <Text style={styles.bold}>droit français</Text>.
         </Text>
@@ -248,7 +248,7 @@ export default function TermsOfSaleScreen() {
           🌐 www.cnmh-conso.fr
         </Text>
 
-        <Text style={styles.sectionTitle}>Article 14 - Réclamation</Text>
+        <Text style={styles.sectionTitle}>Article 15 - Réclamation</Text>
         <Text style={styles.paragraph}>
           Pour toute réclamation, contactez le service client :
         </Text>
@@ -258,7 +258,7 @@ export default function TermsOfSaleScreen() {
           Réponse sous 48 heures ouvrées
         </Text>
 
-        <Text style={styles.sectionTitle}>Article 15 - Acceptation des CGV</Text>
+        <Text style={styles.sectionTitle}>Article 16 - Acceptation des CGV</Text>
         <Text style={styles.paragraph}>
           La souscription à l'abonnement Premium implique l'acceptation pleine et entière des 
           présentes Conditions Générales de Vente, que l'utilisateur reconnaît avoir lues et comprises.
