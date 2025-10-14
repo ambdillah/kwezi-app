@@ -2139,4 +2139,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flex: 1,
   },
+  languageSwitchButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#2563EB',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    marginTop: 4,
+  },
+  languageSwitchText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
 });
