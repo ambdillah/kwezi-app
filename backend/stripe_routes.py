@@ -115,7 +115,7 @@ async def stripe_webhook(request: Request):
             customer_id = session.get('customer')
             subscription_id = session.get('subscription')
             
-            # Mettre à jour l'utilisateur dans MongoDB
+            # Mettre à jour ou créer l'utilisateur dans MongoDB
             if user_id:
                 result = users_collection.update_one(
                     {'user_id': user_id},
@@ -126,14 +126,22 @@ async def stripe_webhook(request: Request):
                             'stripe_subscription_id': subscription_id,
                             'premium_since': datetime.utcnow(),
                             'updated_at': datetime.utcnow()
+                        },
+                        '$setOnInsert': {
+                            'user_id': user_id,
+                            'created_at': datetime.utcnow(),
+                            'words_learned': 0,
+                            'total_score': 0
                         }
-                    }
+                    },
+                    upsert=True  # CRITIQUE: Créer l'utilisateur s'il n'existe pas
                 )
                 
-                print(f"✅ Utilisateur {user_id} mis à jour: Premium activé")
+                action = "créé et" if result.upserted_id else "mis à jour:"
+                print(f"✅ Utilisateur {user_id} {action} Premium activé")
                 print(f"   Customer ID: {customer_id}")
                 print(f"   Subscription ID: {subscription_id}")
-                print(f"   Documents modifiés: {result.modified_count}")
+                print(f"   Documents modifiés/créés: {result.modified_count or 1}")
             
             return {"status": "success", "user_id": user_id}
         
