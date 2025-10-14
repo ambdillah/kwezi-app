@@ -1,96 +1,96 @@
 {
   "launch_ready": false,
-  "success_rate": 75.0,
+  "success_rate": 85.0,
   "critical_blockers": [
-    "\ud83d\udcb3 Stripe not operational: checkout, webhook, portal"
+    "\ud83d\udcb3 Stripe not operational: checkout, portal"
   ],
-  "test_duration": 3.450697422027588,
+  "test_duration": 4.231417179107666,
   "detailed_results": {
     "games": {
       "Construire Phrases - Count": {
         "status": "\u2705 PASS",
         "details": "Retrieved exactly 10 sentences",
-        "timestamp": "2025-10-14T12:29:09.887501",
+        "timestamp": "2025-10-14T12:30:45.657266",
         "response_data": null
       },
       "Construire Phrases - Structure": {
         "status": "\u2705 PASS",
         "details": "Sentences have all required fields",
-        "timestamp": "2025-10-14T12:29:09.887546",
+        "timestamp": "2025-10-14T12:30:45.657305",
         "response_data": null
       },
       "Construire Phrases - Word Arrays": {
         "status": "\u2705 PASS",
         "details": "Word arrays properly formatted",
-        "timestamp": "2025-10-14T12:29:09.887553",
+        "timestamp": "2025-10-14T12:30:45.657313",
         "response_data": null
       },
       "Construire Phrases - Verb Variety": {
         "status": "\u26a0\ufe0f WARNING",
         "details": "Limited verb variety: 0 verbs",
-        "timestamp": "2025-10-14T12:29:09.887572",
+        "timestamp": "2025-10-14T12:30:45.657332",
         "response_data": null
       },
       "Quiz Mayotte - Word Base": {
         "status": "\u2705 PASS",
         "details": "Sufficient words (636) for 26 quiz questions",
-        "timestamp": "2025-10-14T12:29:10.001689",
+        "timestamp": "2025-10-14T12:30:45.766810",
         "response_data": null
       },
       "Quiz Mayotte - Categories": {
         "status": "\u2705 PASS",
         "details": "Good category diversity: 16 categories",
-        "timestamp": "2025-10-14T12:29:10.001893",
+        "timestamp": "2025-10-14T12:30:45.766995",
         "response_data": null
       },
       "Quiz Mayotte - Word Completeness": {
         "status": "\u2705 PASS",
         "details": "Word completeness: 100.0%",
-        "timestamp": "2025-10-14T12:29:10.002043",
+        "timestamp": "2025-10-14T12:30:45.767144",
         "response_data": null
       },
       "Vocabulary Quiz - Category Filter": {
         "status": "\u2705 PASS",
-        "details": "Category 'tradition' filtering works (24 words)",
-        "timestamp": "2025-10-14T12:29:10.169698",
+        "details": "Category 'grammaire' filtering works (22 words)",
+        "timestamp": "2025-10-14T12:30:45.945179",
         "response_data": null
       },
       "Vocabulary Quiz - Translations": {
         "status": "\u2705 PASS",
         "details": "All words have shimaor\u00e9 and kibouchi translations",
-        "timestamp": "2025-10-14T12:29:10.169736",
+        "timestamp": "2025-10-14T12:30:45.945224",
         "response_data": null
       },
       "Conjugation Game - Sentences Available": {
         "status": "\u2705 PASS",
         "details": "Found 20 sentences for conjugation practice",
-        "timestamp": "2025-10-14T12:29:10.226433",
+        "timestamp": "2025-10-14T12:30:46.013409",
         "response_data": null
       },
       "Conjugation Game - Structure": {
         "status": "\u2705 PASS",
         "details": "Sentences have required conjugation fields",
-        "timestamp": "2025-10-14T12:29:10.226471",
+        "timestamp": "2025-10-14T12:30:46.013451",
         "response_data": null
       }
     },
     "stripe": {
       "Checkout Session Creation": {
         "status": "\u274c FAIL",
-        "details": "HTTP 404: {\"detail\":\"Not Found\"}",
-        "timestamp": "2025-10-14T12:29:10.282805",
+        "details": "Missing session_url or session_id in response",
+        "timestamp": "2025-10-14T12:30:46.430540",
         "response_data": null
       },
       "Webhook Endpoint": {
-        "status": "\u274c FAIL",
-        "details": "Webhook endpoint not accessible: HTTP 404",
-        "timestamp": "2025-10-14T12:29:10.339982",
+        "status": "\u2705 PASS",
+        "details": "Webhook endpoint accessible (HTTP 200)",
+        "timestamp": "2025-10-14T12:30:46.509996",
         "response_data": null
       },
       "Customer Portal": {
         "status": "\u274c FAIL",
-        "details": "HTTP 404: {\"detail\":\"Not Found\"}",
-        "timestamp": "2025-10-14T12:29:10.390250",
+        "details": "HTTP 400: {\"detail\":\"Request req_Mqt5mtHnAF8rkk: No such customer: 'cus_test_customer'\"}",
+        "timestamp": "2025-10-14T12:30:46.749831",
         "response_data": null
       }
     },
@@ -98,62 +98,60 @@
       "Privacy Policy Accessibility": {
         "status": "\u2705 PASS",
         "details": "Document accessible (51254 characters)",
-        "timestamp": "2025-10-14T12:29:10.953391",
+        "timestamp": "2025-10-14T12:30:47.388451",
         "response_data": null
       },
       "Terms of Sale Accessibility": {
         "status": "\u2705 PASS",
         "details": "Document accessible (54171 characters)",
-        "timestamp": "2025-10-14T12:29:11.613277",
+        "timestamp": "2025-10-14T12:30:48.139402",
         "response_data": null
       },
       "Mentions L\u00e9gales Accessibility": {
         "status": "\u2705 PASS",
         "details": "Document accessible (48595 characters)",
-        "timestamp": "2025-10-14T12:29:12.268186",
+        "timestamp": "2025-10-14T12:30:48.793633",
         "response_data": null
       }
     },
     "general": {
       "Backend Health Check": {
-        "status": "\u274c FAIL",
-        "details": "Connection error: Expecting value: line 1 column 1 (char 0)",
-        "timestamp": "2025-10-14T12:29:09.675770",
+        "status": "\u2705 PASS",
+        "details": "Backend API responding correctly",
+        "timestamp": "2025-10-14T12:30:45.445327",
         "response_data": null
       },
       "Vocabulary Word Count": {
         "status": "\u2705 PASS",
         "details": "Found 636 words (\u2265636 expected)",
-        "timestamp": "2025-10-14T12:29:09.827550",
+        "timestamp": "2025-10-14T12:30:45.598360",
         "response_data": null
       },
       "Word Structure Validation": {
         "status": "\u2705 PASS",
         "details": "All required fields present",
-        "timestamp": "2025-10-14T12:29:09.827588",
+        "timestamp": "2025-10-14T12:30:45.598403",
         "response_data": null
       }
     },
     "summary": {
       "total_tests": 20,
-      "passed": 15,
-      "failed": 4,
+      "passed": 17,
+      "failed": 2,
       "warnings": 1,
       "critical_failures": [
         "stripe: Checkout Session Creation",
-        "stripe: Webhook Endpoint",
         "stripe: Customer Portal"
       ]
     }
   },
   "summary": {
     "total_tests": 20,
-    "passed": 15,
-    "failed": 4,
+    "passed": 17,
+    "failed": 2,
     "warnings": 1,
     "critical_failures": [
       "stripe: Checkout Session Creation",
-      "stripe: Webhook Endpoint",
       "stripe: Customer Portal"
     ]
   }
