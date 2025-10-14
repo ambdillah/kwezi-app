@@ -707,10 +707,80 @@ export default function GamesScreen() {
         category: "cuisine"
       },
       {
-        question: "Quelle boisson locale se prépare avec du sucre de canne et des fruits ?",
-        options: ["Le punch mahorais", "Le café glacé", "Le thé vert", "Le bissap"],
-        correct: "Le punch mahorais",
-        explanation: "Le punch mahorais est une boisson festive préparée avec du rhum ou sans alcool pour les enfants, aromatisée aux fruits tropicaux.",
+        question: "Quel est le point culminant de Mayotte ?",
+        options: ["Mont Choungui", "Mont Bénara", "Mont Mtsapéré", "Mont Combani"],
+        correct: "Mont Bénara",
+        explanation: "Le Mont Bénara est le point culminant de Mayotte avec 660 mètres d'altitude.",
+        category: "géographie"
+      },
+      {
+        question: "Quel verbe a été inventé à Mayotte pour prendre la barge ?",
+        options: ["Barger", "Barquer", "Traverser", "Naviguer"],
+        correct: "Barger",
+        explanation: "Le verbe 'barger' est une création locale mahoraise pour désigner l'action de prendre la barge.",
+        category: "langue"
+      },
+      {
+        question: "Quels sont les principaux fleuves et cours d'eau de Mayotte ?",
+        options: ["Rivière de Dzoumoğné et Soulou", "Seine et Loire", "Amazone et Congo", "Rhône et Garonne"],
+        correct: "Rivière de Dzoumoğné et Soulou",
+        explanation: "La rivière de Dzoumoğné et Soulou sont les principaux cours d'eau de Mayotte.",
+        category: "géographie"
+      },
+      {
+        question: "Quelles espèces marines sont endémiques de Mayotte ?",
+        options: ["Dugong et tortue verte", "Baleine bleue et requin blanc", "Dauphin et orque", "Poisson-clown et raie manta"],
+        correct: "Dugong et tortue verte",
+        explanation: "Le dugong et la tortue verte sont des espèces marines endémiques que l'on peut observer à Mayotte.",
+        category: "nature"
+      },
+      {
+        question: "Combien de communes y a-t-il à Mayotte ?",
+        options: ["15", "17", "19", "21"],
+        correct: "17",
+        explanation: "Mayotte compte 17 communes réparties sur Grande-Terre et Petite-Terre.",
+        category: "géographie"
+      },
+      {
+        question: "Quels sont les plats traditionnels de Mayotte ?",
+        options: ["Mataba, bata et kakamkou", "Couscous, tajine et méchoui", "Pizza, pâtes et risotto", "Sushi, ramen et tempura"],
+        correct: "Mataba, bata et kakamkou",
+        explanation: "Le mataba, le bata et le kakamkou sont des plats traditionnels emblématiques de la cuisine mahoraise.",
+        category: "cuisine"
+      },
+      {
+        question: "En quelle année Mayotte est-elle devenue française ?",
+        options: ["1841", "1871", "1901", "1945"],
+        correct: "1841",
+        explanation: "Mayotte est devenue française en 1841 par un traité avec le sultan Andriantsouli.",
+        category: "histoire"
+      },
+      {
+        question: "En quelle année Mayotte a-t-elle eu le statut de département ?",
+        options: ["2001", "2008", "2011", "2015"],
+        correct: "2011",
+        explanation: "Mayotte est devenue le 101ème département français le 31 mars 2011.",
+        category: "politique"
+      },
+      {
+        question: "Quelle est la superficie de Mayotte ?",
+        options: ["274 km²", "374 km²", "474 km²", "574 km²"],
+        correct: "374 km²",
+        explanation: "Mayotte a une superficie de 374 km², ce qui en fait une des plus petites collectivités françaises.",
+        category: "géographie"
+      },
+      {
+        question: "Où se situe le site de l'ancienne usine sucrière du nord ?",
+        options: ["Mamoudzou", "Dzaoudzi", "Soulou", "Koungou"],
+        correct: "Soulou",
+        explanation: "L'ancienne usine sucrière du nord se trouve à Soulou, près de M'Tsangamouji.",
+        category: "histoire"
+      },
+      {
+        question: "Quelle boisson locale s'obtient à partir de la fleur de coco ?",
+        options: ["Trémbo tamou", "Punch coco", "Jus de coco", "Lait de coco"],
+        correct: "Trémbo tamou",
+        explanation: "Le trémbo tamou est une boisson traditionnelle mahoraise obtenue à partir de la sève de la fleur de cocotier.",
         category: "cuisine"
       },
       {
