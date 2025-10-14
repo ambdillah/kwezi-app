@@ -342,6 +342,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingLeft: 10,
   },
+  warningBox: {
+    backgroundColor: '#FFF3CD',
+    borderLeftWidth: 4,
+    borderLeftColor: '#FFC107',
+    padding: 12,
+    marginVertical: 12,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#856404',
+  },
   bold: {
     fontWeight: 'bold',
   },
