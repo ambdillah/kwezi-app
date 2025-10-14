@@ -49,10 +49,10 @@
 ##
 test_plan:
   current_focus:
-    - "Test complet après création de la section adjectifs avec 100% audio"
+    - "Tests complets avant lancement - Application Kwezi"
   stuck_tasks: []
   test_all: false
-  test_priority: "high_first"  # or "sequential" or "stuck_first"
+  test_priority: "critical_first"  # or "sequential" or "stuck_first"
 ##
 ## agent_communication:
     -agent: "main"
