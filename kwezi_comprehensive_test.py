@@ -386,14 +386,14 @@ class KweziComprehensiveTester:
             return False
 
     def test_stripe_webhook(self) -> bool:
-        """Test POST /api/stripe-webhook"""
+        """Test POST /api/stripe/webhook"""
         print("\n🔗 Testing Stripe Webhook...")
         
         try:
             headers = {"stripe-signature": "test"}
             payload = {"type": "test_event"}
             
-            response = requests.post(f"{API_BASE}/stripe-webhook", 
+            response = requests.post(f"{API_BASE}/stripe/webhook", 
                                    json=payload, headers=headers, timeout=10)
             
             # Webhook should be accessible (may return error due to invalid signature, but that's expected)
