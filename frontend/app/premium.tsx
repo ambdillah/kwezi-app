@@ -334,30 +334,41 @@ export default function PremiumScreen() {
 
         {/* Case à cocher CGU OBLIGATOIRE */}
         <View style={styles.termsContainer}>
-          <TouchableOpacity 
-            style={styles.checkboxContainer} 
-            onPress={() => setAcceptedTerms(!acceptedTerms)}
-          >
-            <View style={[styles.checkbox, acceptedTerms && styles.checkboxChecked]}>
-              {acceptedTerms && <Ionicons name="checkmark" size={18} color="#FFF" />}
+          <View style={styles.checkboxContainer}>
+            <TouchableOpacity 
+              style={styles.checkboxTouchable}
+              onPress={() => setAcceptedTerms(!acceptedTerms)}
+              activeOpacity={0.7}
+            >
+              <View style={[styles.checkbox, acceptedTerms && styles.checkboxChecked]}>
+                {acceptedTerms && <Ionicons name="checkmark" size={18} color="#FFF" />}
+              </View>
+            </TouchableOpacity>
+            <View style={styles.termsTextContainer}>
+              <Text style={styles.termsText}>
+                J'accepte les{' '}
+                <Text 
+                  style={styles.termsLink}
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    router.push('/terms-of-sale');
+                  }}
+                >
+                  Conditions Générales de Vente
+                </Text>
+                {' '}et la{' '}
+                <Text 
+                  style={styles.termsLink}
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    router.push('/privacy-policy');
+                  }}
+                >
+                  Politique de Confidentialité
+                </Text>
+              </Text>
             </View>
-            <Text style={styles.termsText}>
-              J'accepte les{' '}
-              <Text 
-                style={styles.termsLink}
-                onPress={() => router.push('/terms-of-sale')}
-              >
-                Conditions Générales de Vente
-              </Text>
-              {' '}et la{' '}
-              <Text 
-                style={styles.termsLink}
-                onPress={() => router.push('/privacy-policy')}
-              >
-                Politique de Confidentialité
-              </Text>
-            </Text>
-          </TouchableOpacity>
+          </View>
         </View>
 
         {/* CTA Button */}
