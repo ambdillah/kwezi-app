@@ -564,4 +564,38 @@ const styles = StyleSheet.create({
     color: '#FFF',
     marginLeft: 10,
   },
+  termsContainer: {
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderWidth: 2,
+    borderColor: '#2C3E50',
+    borderRadius: 4,
+    marginRight: 10,
+    marginTop: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxChecked: {
+    backgroundColor: '#27AE60',
+    borderColor: '#27AE60',
+  },
+  termsText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#2C3E50',
+    lineHeight: 20,
+  },
+  termsLink: {
+    color: '#4A90E2',
+    textDecorationLine: 'underline',
+    fontWeight: '600',
+  },
 });
