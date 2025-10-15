@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Enregistrement Audios - Kwezi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .section {
+            padding: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .priority-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.6em;
+            color: white;
+        }
+        
+        .priority-high { background: #dc3545; }
+        .priority-medium { background: #fd7e14; }
+        .priority-low { background: #ffc107; color: #333; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .filename {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            background: #e9ecef;
+            color: #495057;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+        
+        .instructions li {
+            margin: 5px 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .header {
+                background: #667eea;
+            }
+        }
+    </style>
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checkbox');
+            const checked = document.querySelectorAll('.checkbox:checked').length;
+            const total = checkboxes.length;
+            const percentage = (checked / total * 100).toFixed(1);
+            
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = `${checked}/${total} fichiers (${percentage}%)`;
+            document.getElementById('remaining').textContent = total - checked;
+        }
+        
+        window.onload = function() {
+            const checkboxes = document.querySelectorAll('.checkbox');
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', updateProgress);
+            });
+            updateProgress();
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎙️ Checklist Enregistrement Audios</h1>
+            <p>Application Kwezi - Shimaoré & Kibouchi</p>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">66</div>
+                <div class="stat-label">Fichiers Total</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">30</div>
+                <div class="stat-label">Shimaoré</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">36</div>
+                <div class="stat-label">Kibouchi</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="remaining">66</div>
+                <div class="stat-label">Restants</div>
+            </div>
+        </div>
+        
+        <!-- Progress -->
+        <div class="section">
+            <h3>Progression Globale</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar">
+                    <span id="progress-text">0/66 fichiers (0%)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="section">
+            <div class="instructions">
+                <h3>⚠️ Instructions Importantes</h3>
+                <ul>
+                    <li><strong>Format :</strong> Tous les fichiers doivent être en .m4a</li>
+                    <li><strong>Nommage :</strong> Respecter EXACTEMENT les noms indiqués (majuscules, accents, espaces)</li>
+                    <li><strong>Qualité :</strong> Audio clair, minimum 128 kbps</li>
+                    <li><strong>Durée :</strong> 1-3 secondes par mot/expression</li>
+                    <li><strong>Organisation :</strong> Placer chaque fichier dans son dossier (expressions, nature, verbes, maison)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Section 1: Expressions -->
+        <div class="section">
+            <div class="section-title">
+                <span>📅 1. Jours de la Semaine (14 fichiers)</span>
+                <span class="priority-badge priority-high">PRIORITÉ HAUTE</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="50">✓</th>
+                        <th>Français</th>
+                        <th>Shimaoré</th>
+                        <th>Fichier Shimaoré</th>
+                        <th>Kibouchi</th>
+                        <th>Fichier Kibouchi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Lundi</td>
+                        <td>mfoumo rarou</td>
+                        <td><span class="filename">Mfoumo rarou.m4a</span></td>
+                        <td>tinayini</td>
+                        <td><span class="filename">Tinayini.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Mardi</td>
+                        <td>mfoumo nhé</td>
+                        <td><span class="filename">Mfoumo nhé.m4a</span></td>
+                        <td>talata</td>
+                        <td><span class="filename">Talata.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Mercredi</td>
+                        <td>mfoumo tsano</td>
+                        <td><span class="filename">Mfoumo tsano.m4a</span></td>
+                        <td>roubiya</td>
+                        <td><span class="filename">Roubiya.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Jeudi</td>
+                        <td>yahowa</td>
+                        <td><span class="filename">Yahowa.m4a</span></td>
+                        <td>lahamissi</td>
+                        <td><span class="filename">Lahamissi.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Vendredi</td>
+                        <td>idjimoi</td>
+                        <td><span class="filename">Idjimoi.m4a</span></td>
+                        <td>djouma</td>
+                        <td><span class="filename">Djouma.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Samedi</td>
+                        <td>mfoumo tsi</td>
+                        <td><span class="filename">Mfoumo tsi.m4a</span></td>
+                        <td>boutsi</td>
+                        <td><span class="filename">Boutsi.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Dimanche</td>
+                        <td>mfoumo vili</td>
+                        <td><span class="filename">Mfoumo vili.m4a</span></td>
+                        <td>dimassi</td>
+                        <td><span class="filename">Dimassi.m4a</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><span class="category-badge">📁 Dossier: /frontend/assets/audio/expressions/</span></p>
+        </div>
+        
+        <!-- Section 2: Temps -->
+        <div class="section">
+            <div class="section-title">
+                <span>📆 2. Expressions Temporelles (6 fichiers)</span>
+                <span class="priority-badge priority-high">PRIORITÉ HAUTE</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="50">✓</th>
+                        <th>Français</th>
+                        <th>Shimaoré</th>
+                        <th>Fichier Shimaoré</th>
+                        <th>Kibouchi</th>
+                        <th>Fichier Kibouchi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Semaine</td>
+                        <td>mfoumo</td>
+                        <td><span class="filename">Mfoumo.m4a</span></td>
+                        <td>hérignandra</td>
+                        <td><span class="filename">Hérignandra.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Mois</td>
+                        <td>mwézi</td>
+                        <td><span class="filename">Mwézi.m4a</span></td>
+                        <td>fandzava</td>
+                        <td><span class="filename">Fandzava.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Année</td>
+                        <td>mwaha</td>
+                        <td><span class="filename">Mwaha.m4a</span></td>
+                        <td>moika</td>
+                        <td><span class="filename">Moika.m4a</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><span class="category-badge">📁 Dossier: /frontend/assets/audio/expressions/</span></p>
+        </div>
+        
+        <!-- Section 3: Lieu -->
+        <div class="section">
+            <div class="section-title">
+                <span>🧭 3. Expressions de Lieu (10 fichiers)</span>
+                <span class="priority-badge priority-high">PRIORITÉ HAUTE</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="50">✓</th>
+                        <th>Français</th>
+                        <th>Shimaoré</th>
+                        <th>Fichier Shimaoré</th>
+                        <th>Kibouchi</th>
+                        <th>Fichier Kibouchi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>En haut</td>
+                        <td>oujou</td>
+                        <td><span class="filename">Oujou.m4a</span></td>
+                        <td>agnabou</td>
+                        <td><span class="filename">Agnabou.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>En bas</td>
+                        <td>outsini</td>
+                        <td><span class="filename">Outsini.m4a</span></td>
+                        <td>ambani</td>
+                        <td><span class="filename">Ambani.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Devant</td>
+                        <td>mbéli</td>
+                        <td><span class="filename">Mbéli.m4a</span></td>
+                        <td>alouha</td>
+                        <td><span class="filename">Alouha.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Derrière</td>
+                        <td>nyouma</td>
+                        <td><span class="filename">Nyouma.m4a</span></td>
+                        <td>anfara</td>
+                        <td><span class="filename">Anfara.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Loin</td>
+                        <td>mbali</td>
+                        <td><span class="filename">Mbali.m4a</span></td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Tout prêt</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>marini</td>
+                        <td><span class="filename">Marini.m4a</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><span class="category-badge">📁 Dossier: /frontend/assets/audio/expressions/</span></p>
+        </div>
+        
+        <!-- Section 4: Autres expressions -->
+        <div class="section">
+            <div class="section-title">
+                <span>💬 4. Autres Expressions (12 fichiers)</span>
+                <span class="priority-badge priority-high">PRIORITÉ HAUTE</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="50">✓</th>
+                        <th>Français</th>
+                        <th>Shimaoré</th>
+                        <th>Fichier Shimaoré</th>
+                        <th>Kibouchi</th>
+                        <th>Fichier Kibouchi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Enceinte</td>
+                        <td>oumira</td>
+                        <td><span class="filename">Oumira.m4a</span></td>
+                        <td>ankibou</td>
+                        <td><span class="filename">Ankibou.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Demander un service</td>
+                        <td>oumiya hadja</td>
+                        <td><span class="filename">Oumiya hadja.m4a</span></td>
+                        <td>mangataka hadja</td>
+                        <td><span class="filename">Mangataka hadja.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>Épreuve</td>
+                        <td>mtihano</td>
+                        <td><span class="filename">Mtihano.m4a</span></td>
+                        <td>machidranou</td>
+                        <td><span class="filename">Machindranou.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>C'est amer</td>
+                        <td>ina nyongo</td>
+                        <td><span class="filename">Ina nyongo.m4a</span></td>
+                        <td>mafèki</td>
+                        <td><span class="filename">Mafèki.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>C'est sucré</td>
+                        <td>ina nguizi</td>
+                        <td><span class="filename">Ina nguizi.m4a</span></td>
+                        <td>mami</td>
+                        <td><span class="filename">Mami.m4a</span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td>C'est acide</td>
+                        <td>ina kali</td>
+                        <td><span class="filename">Ina kali.m4a</span></td>
+                        <td>matsikou</td>
+                        <td><span class="filename">Matsikou.m4a</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><span class="category-badge">📁 Dossier: /frontend/assets/audio/expressions/</span></p>
+        </div>
+        
+        <!-- Résumé nature + verbes + maison en tableau condensé -->
+        <div class="section">
+            <div class="section-title">
+                <span>🌳 5. Nature + 🎯 Verbes + 🏠 Maison (24 fichiers)</span>
+                <span class="priority-badge priority-medium">PRIORITÉ MOYENNE</span>
+            </div>
+            <p style="margin-bottom: 15px; color: #666;">Voir la liste complète dans les fichiers de référence fournis (PDF, CSV, TXT)</p>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h4>Répartition :</h4>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Nature</strong> : 14 fichiers (4 shimaoré + 10 kibouchi)</li>
+                    <li><strong>Verbes</strong> : 9 fichiers (4 shimaoré + 5 kibouchi)</li>
+                    <li><strong>Maison</strong> : 1 fichier (1 shimaoré)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #343a40; color: white; padding: 30px; text-align: center;">
+            <p><strong>📝 Documents de Référence</strong></p>
+            <p>Consultez les fichiers suivants pour la liste détaillée complète :</p>
+            <p style="margin-top: 10px;">
+                LISTE_AUDIOS_A_ENREGISTRER.md | LISTE_COMPLETE_AUDIOS_MANQUANTS.txt | LISTE_COMPLETE_AUDIOS_MANQUANTS.csv
+            </p>
+        </div>
+    </div>
+</body>
+</html>
