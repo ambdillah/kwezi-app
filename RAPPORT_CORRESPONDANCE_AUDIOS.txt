@@ -1,0 +1,270 @@
+================================================================================
+RAPPORT COMPLET - CORRESPONDANCE MOTS <-> AUDIOS
+================================================================================
+
+Audios corrects : 1163
+
+
+❌ AUDIOS MANQUANTS SHIMAORÉ (30):
+  • En haut (expressions) - oujou
+    Référencé : Oujou.m4a
+  • En bas (expressions) - outsini
+    Référencé : Outsini.m4a
+  • Devant (expressions) - mbéli
+    Référencé : Mbéli.m4a
+  • Derrière (expressions) - nyouma
+    Référencé : Nyouma.m4a
+  • Loin (expressions) - mbali
+    Référencé : Mbali.m4a
+  • Lundi (expressions) - mfoumo rarou
+    Référencé : Mfoumo rarou.m4a
+  • Mardi (expressions) - mfoumo nhé
+    Référencé : Mfoumo nhé.m4a
+  • Mercredi (expressions) - mfoumo tsano
+    Référencé : Mfoumo tsano.m4a
+  • Jeudi (expressions) - yahowa
+    Référencé : Yahowa.m4a
+  • Vendredi (expressions) - idjimoi
+    Référencé : Idjimoi.m4a
+  • Samedi (expressions) - mfoumo tsi
+    Référencé : Mfoumo tsi.m4a
+  • Dimanche (expressions) - mfoumo vili
+    Référencé : Mfoumo vili.m4a
+  • Semaine (expressions) - mfoumo
+    Référencé : Mfoumo.m4a
+  • Mois (expressions) - mwézi
+    Référencé : Mwézi.m4a
+  • Année (expressions) - mwaha
+    Référencé : Mwaha.m4a
+  • Enceinte (expressions) - oumira
+    Référencé : Oumira.m4a
+  • Demander un service (expressions) - oumiya hadja
+    Référencé : Oumiya hadja.m4a
+  • Épreuve (expressions) - mtihano
+    Référencé : Mtihano.m4a
+  • C'est amer (expressions) - ina nyongo
+    Référencé : Ina nyongo.m4a
+  • C'est sucré (expressions) - ina nguizi
+    Référencé : Ina nguizi.m4a
+  • C'est acide (expressions) - ina kali
+    Référencé : Ina kali.m4a
+  • Louche (maison) - paou
+  • bananier (nature) - trindri
+    Référencé : Trindari.m4a
+  • feuille (nature) - mawloini
+    Référencé : Mawloini.m4a
+  • jacquier (nature) - m'fénéssi
+    Référencé : M_fénissi.m4a
+  • terre (nature) - trotro
+    Référencé : Trotto.m4a
+  • Ventiler (verbes) - oupépeya
+    Référencé : Oupépéya.m4a
+  • Couper les ongles (verbes) - oukatra kofou
+    Référencé : Oukatra kofou.m4a
+  • Soulever (verbes) - oudzoua
+    Référencé : Oudzoua.m4a
+  • Médire (verbes) - outséma
+    Référencé : Outséma.m4a
+
+❌ AUDIOS MANQUANTS KIBOUCHI (36):
+  • En haut (expressions) - agnabou
+    Référencé : Agnabou.m4a
+  • En bas (expressions) - ambani
+    Référencé : Ambani.m4a
+  • Devant (expressions) - alouha
+    Référencé : Alouha.m4a
+  • Derrière (expressions) - anfara
+    Référencé : Anfara.m4a
+  • Tout prêt (expressions) - marini
+    Référencé : Marini.m4a
+  • Lundi (expressions) - tinayini
+    Référencé : Tinayini.m4a
+  • Mardi (expressions) - talata
+    Référencé : Talata.m4a
+  • Mercredi (expressions) - roubiya
+    Référencé : Roubiya.m4a
+  • Jeudi (expressions) - lahamissi
+    Référencé : Lahamissi.m4a
+  • Vendredi (expressions) - djouma
+    Référencé : Djouma.m4a
+  • Samedi (expressions) - boutsi
+    Référencé : Boutsi.m4a
+  • Dimanche (expressions) - dimassi
+    Référencé : Dimassi.m4a
+  • Semaine (expressions) - hérignandra
+    Référencé : Hérignandra.m4a
+  • Mois (expressions) - fandzava
+    Référencé : Fandzava.m4a
+  • Année (expressions) - moika
+    Référencé : Moika.m4a
+  • Enceinte (expressions) - ankibou
+    Référencé : Ankibou.m4a
+  • Demander un service (expressions) - mangataka hadja
+    Référencé : Mangataka hadja.m4a
+  • Épreuve (expressions) - machidranou
+    Référencé : Machindranou.m4a
+  • C'est amer (expressions) - mafèki
+    Référencé : Mafèki.m4a
+  • C'est sucré (expressions) - mami
+    Référencé : Mami.m4a
+  • C'est acide (expressions) - matsikou
+    Référencé : Matsikou.m4a
+  • arbre à pain (nature) - youdi ni frapé
+    Référencé : Youdi ni frapé.m4a
+  • baobab (nature) - vudi ni bouyou
+    Référencé : Youdi ni bouyou.m4a
+  • cocotier (nature) - vudi ni vwaniou
+    Référencé : Youdi ni vwoniou.m4a
+  • feuille (nature) - hayïtri
+    Référencé : Hayïtri.m4a
+  • herbe (nature) - haïtri
+    Référencé : Haïtri.m4a
+  • jacquier (nature) - vudi ni finéssi
+    Référencé : Youdi ni finéssi.m4a
+  • manguier (nature) - vudi ni manga
+    Référencé : Youdi ni manga.m4a
+  • sable (nature) - fasi
+    Référencé : Fasi.m4a
+  • vague (nature) - hou
+    Référencé : Hou.m4a
+  • vedette (nature) - videti
+    Référencé : Videti.m4a
+  • Ventiler (verbes) - micoupoucoupoukou
+    Référencé : Micoupoucoupoukou.m4a
+  • Couper les ongles (verbes) - manapaka angofou
+    Référencé : Manapaka angofou.m4a
+  • Éplucher (verbes) - magnofi
+    Référencé : Magnofi.m4a
+  • Soulever (verbes) - magnoundzougou
+    Référencé : Magnoundzougnou.m4a
+  • Médire (verbes) - mtsikou
+    Référencé : Mtsikou.m4a
+
+⚠️  AUDIOS MAL NOMMÉS SHIMAORÉ (15):
+  • Huître (animaux)
+    Mot : gadzassi
+    Audio : Gadzassi ya bahari.m4a (similarité: 0.62)
+  • Lion (animaux)
+    Mot : simba
+    Audio : Outsimba.m4a (similarité: 0.77)
+  • Pou (animaux)
+    Mot : ndra
+    Audio : Strandrabwibwi.m4a (similarité: 0.44)
+  • Cils (corps)
+    Mot : kove
+    Audio : Kové.m4a (similarité: 0.75)
+  • Frère (famille)
+    Mot : mwanagna
+    Audio : Moinagna mtroubaba.m4a (similarité: 0.46)
+  • Papa (famille)
+    Mot : baba
+    Audio : Baba héli-bé.m4a (similarité: 0.50)
+  • Sœur (famille)
+    Mot : mwanagna
+    Audio : Moinagna mtroumama.m4a (similarité: 0.46)
+  • Épouse oncle maternel (famille)
+    Mot : zena
+    Audio : Zéna.m4a (similarité: 0.75)
+  • Toiture (maison)
+    Mot : outro
+    Audio : Gandilé_poutroumax.m4a (similarité: 0.43)
+  • Torche locale (maison)
+    Mot : gandilé/poutroupmax
+    Audio : Outro.m4a (similarité: 0.42)
+  • Dessin animé (maison)
+    Mot : tokotokou
+    Audio : Tokoutokou.m4a (similarité: 0.53)
+  • caillou/pierre/rocher (nature)
+    Mot : bwe
+    Audio : Bwé.m4a (similarité: 0.67)
+  • Riz non décortiqué (nourriture)
+    Mot : melé
+    Audio : Mélé.m4a (similarité: 0.75)
+  • Couper du bois (verbes)
+    Mot : oupasouha kuni
+    Audio : Manapaka.m4a (similarité: 0.27)
+  • Donner (verbes)
+    Mot : ouva
+    Audio : Angouvavi.m4a (similarité: 0.62)
+
+⚠️  AUDIOS MAL NOMMÉS KIBOUCHI (16):
+  • Chaud (adjectifs)
+    Mot : méyi
+    Audio : Mèyi.m4a (similarité: 0.75)
+  • Content (adjectifs)
+    Mot : ravou
+    Audio : Aravouagna.m4a (similarité: 0.67)
+  • Oursin (animaux)
+    Mot : vouli vavi
+    Audio : Vouli.m4a (similarité: 0.67)
+  • Langue (corps)
+    Mot : lela
+    Audio : Lèla.m4a (similarité: 0.75)
+  • Main (corps)
+    Mot : tanagna
+    Audio : Tagnana.m4a (similarité: 0.71)
+  • Tête (corps)
+    Mot : louha
+    Audio : Tsara louha.m4a (similarité: 0.62)
+  • Fille/femme (famille)
+    Mot : viavi
+    Audio : Zandri viavi.m4a (similarité: 0.59)
+  • Dessin animé (maison)
+    Mot : tokotokou
+    Audio : Tokoutokou.m4a (similarité: 0.53)
+  • arc en ciel (nature)
+    Mot : mcacamba
+    Audio : Bahari.m4a (similarité: 0.29)
+  • Un (nombres)
+    Mot : areki
+    Audio : Hotri inou haligni areki.m4a (similarité: 0.34)
+  • Neuf (nombres)
+    Mot : Civi
+    Audio : Foulou civi ambi.m4a (similarité: 0.40)
+  • Dix-neuf (nombres)
+    Mot : foulou civi ambi
+    Audio : Civi.m4a (similarité: 0.40)
+  • Ciboulette (nourriture)
+    Mot : doungoulou ravigni
+    Audio : Ou ravi.m4a (similarité: 0.56)
+  • Mordre (verbes)
+    Mot : mangnékitri
+    Audio : Mamadiki.m4a (similarité: 0.42)
+  • Parler (verbes)
+    Mot : mivoulangna
+    Audio : Mangala.m4a (similarité: 0.56)
+  • Suivre (verbes)
+    Mot : mangnaraka
+    Audio : Havi.m4a (similarité: 0.14)
+
+💡 AUDIOS NON RÉFÉRENCÉS (10):
+  • Fâché (adjectifs) - kibouchi
+    Mot : méloukou
+    Fichier : Méloukou.m4a (similarité: 1.00)
+  • Fourmis (animaux) - shimaoré
+    Mot : tsoussou
+    Fichier : Tsoussou.m4a (similarité: 1.00)
+  • Tante maternelle (famille) - kibouchi
+    Mot : nindri heli bé
+    Fichier : Ninfndri héli_bé.m4a (similarité: 0.80)
+  • Torche locale (maison) - kibouchi
+    Mot : gandili/poutroupmax
+    Fichier : Gandili-poutroumax.m4a (similarité: 0.92)
+  • Quatre-vingt-dix (nombres) - kibouchi
+    Mot : civiampulou
+    Fichier : Civiampoulou.m4a (similarité: 0.96)
+  • S'asseoir (verbes) - shimaoré
+    Mot : ouketsi
+    Fichier : Ouketsi.m4a (similarité: 1.00)
+  • Sembler (verbes) - kibouchi
+    Mot : mamhiragna
+    Fichier : Mampihiragna.m4a (similarité: 0.91)
+  • Vomir (verbes) - shimaoré
+    Mot : ou raviha
+    Fichier : Ouraviha.m4a (similarité: 0.94)
+  • Écouter (verbes) - kibouchi
+    Mot : mitangréngni
+    Fichier : Mitandréngni.m4a (similarité: 0.92)
+  • Éplucher (verbes) - shimaoré
+    Mot : oukouwa
+    Fichier : Oukouwa.m4a (similarité: 1.00)
