@@ -86,33 +86,48 @@ const playDualAudioFromAPI = async (
       shouldDuckAndroid: true,
     });
     
-    // Charger et jouer l'audio via l'API dual
-    const { sound } = await Audio.Sound.createAsync(
-      { uri: audioUrl },
-      { 
-        shouldPlay: true,
-        volume: 1.0,
-        isLooping: false 
-      }
-    );
-    
-    currentAudio.sound = sound;
-    currentAudio.isPlaying = true;
-    
-    onStart?.();
-    
-    // Écouter la fin de la lecture
-    sound.setOnPlaybackStatusUpdate((status) => {
-      if (status.isLoaded && status.didJustFinish) {
-        currentAudio.isPlaying = false;
-        sound.unloadAsync();
-        currentAudio.sound = null;
-        onComplete?.();
-        console.log(`✅ Audio dual ${language} terminé`);
-      }
+    // CORRECTION CRITIQUE: Attendre la fin de l'audio avec une Promise
+    return new Promise<boolean>((resolve) => {
+      // Charger et jouer l'audio via l'API dual
+      Audio.Sound.createAsync(
+        { uri: audioUrl },
+        { 
+          shouldPlay: true,
+          volume: 1.0,
+          isLooping: false 
+        }
+      ).then(({ sound }) => {
+        currentAudio.sound = sound;
+        currentAudio.isPlaying = true;
+        
+        onStart?.();
+        
+        // Écouter la fin de la lecture
+        sound.setOnPlaybackStatusUpdate((status) => {
+          if (status.isLoaded && status.didJustFinish) {
+            currentAudio.isPlaying = false;
+            sound.unloadAsync();
+            currentAudio.sound = null;
+            onComplete?.();
+            console.log(`✅ Audio dual ${language} terminé`);
+            resolve(true); // ATTENDRE la fin avant de résoudre
+          }
+        });
+        
+        // Timeout de sécurité (10 secondes max)
+        setTimeout(() => {
+          if (currentAudio.isPlaying) {
+            console.log(`⚠️ Timeout audio ${language}, arrêt forcé`);
+            stopCurrentAudio();
+            resolve(true);
+          }
+        }, 10000);
+        
+      }).catch((error) => {
+        console.log(`❌ Erreur lors du chargement audio dual ${language}:`, error);
+        resolve(false);
+      });
     });
-    
-    return true;
     
   } catch (error) {
     console.log(`❌ Erreur lors de la lecture audio dual ${language}:`, error);
