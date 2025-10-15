@@ -1,0 +1,18 @@
+================================================================================
+RAPPORT DES CORRECTIONS ORTHOGRAPHE NATURE - KIBOUCHI
+================================================================================
+
+Date : 15/10/2025 13:16:24
+
+1. ✅ arbre à pain : 'youdi ni frapé' → 'voudi ni frapé'
+2.    Audio : 'Youdi ni frapé.m4a' → 'Voudi ni frapé.m4a'
+3. ✅ jacquier : 'vudi ni finéssi' → 'voudi ni finéssi'
+4.    Audio : 'Youdi ni finéssi.m4a' → 'Voudi ni finéssi.m4a'
+5. ✅ manguier : 'vudi ni manga' → 'voudi ni manga'
+6.    Audio : 'Youdi ni manga.m4a' → 'Voudi ni manga.m4a'
+7. ✅ sable : 'fasi' → 'fasigni'
+8.    Audio : 'Fasi.m4a' → 'Fasigni.m4a'
+9. ✅ vague : 'hou' → 'houndza/riaka'
+10.    Audio : 'Hou.m4a' → 'Houndza.m4a'
+
+✅ Total : 10 corrections appliquées
