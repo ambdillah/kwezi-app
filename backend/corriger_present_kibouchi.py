@@ -57,21 +57,30 @@ def main():
     corrections_needed = []
     
     for sent in sentences_present:
-        verb_fr = sent.get('verb', '').lower()
+        french_sentence = sent.get('french', '').lower()
         current_kib_words = sent.get('kibouchi_words', [])
         
-        if verb_fr in verbe_mapping and len(current_kib_words) >= 2:
-            correct_infinitif = verbe_mapping[verb_fr]
-            current_verb_kib = current_kib_words[1] if len(current_kib_words) > 1 else ""
+        if len(current_kib_words) >= 2:
+            current_verb_kib = current_kib_words[1]
             
-            # Vérifier si le verbe actuel est différent de l'infinitif
-            if current_verb_kib != correct_infinitif:
+            # Chercher le verbe français correspondant
+            # On cherche dans le mapping si le verbe actuel correspond à un infinitif sans "m"
+            found_infinitif = None
+            for verb_fr, infinitif in verbe_mapping.items():
+                # Si l'infinitif commence par "m" et qu'en enlevant le "m" ça correspond au verbe actuel
+                if infinitif.lower().startswith('m'):
+                    infinitif_sans_m = infinitif[1:].lower()
+                    if current_verb_kib.lower() == infinitif_sans_m:
+                        found_infinitif = infinitif
+                        break
+            
+            # Vérifier aussi si le verbe actuel est déjà l'infinitif correct
+            if found_infinitif and current_verb_kib != found_infinitif:
                 corrections_needed.append({
                     'sentence_id': sent['_id'],
                     'french': sent.get('french'),
-                    'verb': verb_fr,
                     'current_verb': current_verb_kib,
-                    'correct_verb': correct_infinitif,
+                    'correct_verb': found_infinitif,
                     'current_words': current_kib_words,
                     'current_sentence': sent.get('kibouchi')
                 })
