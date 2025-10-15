@@ -155,7 +155,7 @@ réou Mbouihinagna      (ils/elles mangeront)
 
 | Temps | Règle | Exemple (mihinagna) | Préfixes |
 |-------|-------|---------------------|----------|
-| **PRÉSENT** | Supprimer "m" | ihinagna | i-, and-, an-, it-, am- |
+| **PRÉSENT** | Garder l'infinitif (avec "m") | mihinagna | mi-, m-, man-, miv-, mit-, etc. |
 | **PASSÉ** | Remplacer "m" par "n" | nihinagna | ni-, nan-, nam- |
 | **FUTUR** | Remplacer "m" par "Mbou" | Mbouihinagna | mbou-, bou- |
 
