@@ -1,106 +1,101 @@
 <analysis>
-The trajectory details the AI engineer's extensive work on the Kwezi language learning app, following a forked task. Initial efforts centered on a meticulous database and file system verification post-fork, revealing a critical issue with missing audios for newly added verbs and the database being in an unexpected name (). This was resolved, confirming 615 words were intact. Subsequent user requests led to iterative updates: adding new verbs, expressions, and traditions, including their authentic audios. Critical audio playback issues were diagnosed and fixed, stemming from inconsistent directory naming ( vs ) and an incomplete Pydantic  model in  lacking new audio filename fields and not correctly returning . The engineer also disabled problematic Shimaoré TTS in the construire des phrases game and corrected specific audio attribution errors. The latter half focused on implementing the freemium monetization model, involving a new  screen, a paywall in , and completing Stripe webhooks. Finally, the AI engineer addressed user queries on PayPal integration (managed by Stripe) and EU compliance, concluding with the generation of legal documents (, , and ) based on user-provided information. The task ends mid-creation of these legal documents.
+The AI engineer's work on the Kwezi app involved extensive feature development and critical bug fixes. Initially, a thorough post-fork verification confirmed system stability, database integrity, and significant content additions, while identifying minor discrepancies. Subsequent tasks included creating legal documents and implementing a freemium model with Stripe integration. Crucially, the engineer corrected a major error in pronoun updates, restoring original translations. Audio system issues were frequently addressed, including fixing misconfigured dual audio fields for expressions and ensuring  functionality correctly awaited audio completion. The construire des phrases game was enhanced for language variety and correct conjugation. The engineer also addressed payment system reliability, implementing  logic in Stripe webhooks to handle new user registrations, and refined the premium screen's CGU checkbox. The current work focuses on fixing a French verb conjugation error in the sentence-building game.
 </analysis>
 
 <product_requirements>
-The Kwezi application is an educational platform for Shimaoré and Kibouchi. Its core mission is to provide an authentic and comprehensive language learning experience.
-**Core Requirements:**
-1.  **Audio Authenticity:** Provide 100% authentic, user-recorded audio for all vocabulary and expressions. Synthetic TTS is a fallback.
-2.  **Data Integrity:** Maintain accurate, grammatically correct, and alphabetized vocabulary, expressions, and quiz data, aligned with user-provided rules and translations.
-3.  **User Experience:** Ensure a performant (e.g., paginated loading), intuitive application with a consistent female synthetic voice for system-generated sentences.
-4.  **Monetization (Freemium Model):** Offer a premium subscription (€2.90/month) to unlock all content (currently 626+ words) and features, limiting free users to 250 words. A Boutique allows purchasing PDF exercise sheets, free for premium users.
-**Implementation Done So Far:**
--   Refactored TTS for consistent French female voice, resolving a Shimaoré reading bug.
--   Fixed numerous data integrity issues, including quiz answers and translations.
--   Ensured authentic audio coverage for many categories, including iterative updates for 'verbes', 'expressions', and 'traditions'.
--   Implemented paginated loading for the Commencer à apprendre screen.
--   Developed backend for freemium model and frontend .
--   Implemented Boutique with freemium logic.
--   Corrected and implemented detailed Shimaoré/Kibouchi conjugation rules.
--   Generated comprehensive vocabulary verification documents.
--   Implemented a word search feature in .
--   Integrated Stripe payment gateway on the backend.
--   Implemented frontend  screen and paywall logic in  with a 250-word limit.
--   Integrated Stripe webhooks for subscription lifecycle management.
--   Added subscription management via Stripe Customer Portal.
--   Addressed PayPal payment method support (natively via Stripe, requiring dashboard configuration).
--   Commenced creation of legal documents: , .
+The Kwezi application is an educational platform for Shimaoré and Kibouchi, prioritizing authentic, user-recorded audio and robust data integrity. Key features include a freemium monetization model (€2.90/month for full content access, limiting free users to 250 words), a Boutique for PDF exercise sheets, and language learning games. So far, the implementation has included a refactored TTS for consistency, data integrity fixes, authentic audio coverage, paginated loading, a functional freemium backend and frontend (Premium screen, paywall, Stripe integration with webhooks, customer portal), comprehensive vocabulary verification, and a word search feature. Legal documents (, , ) are also in place, with recent updates to include disclaimers for children and a mandatory CGU checkbox during payment. The app is nearing readiness for deployment.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-Stack Architecture:** FastAPI (Python) backend, MongoDB, Expo (React Native) frontend.
--   **Data ETL & Automation:** Python scripts () for database updates, audio copying, data verification, and error correction.
--   **Dual Audio System:** Custom frontend () and backend () logic for handling varied audio filename conventions and physical storage paths.
--   **Speech Synthesis:**  and  for consistent French female TTS.
--   **Payment Gateway:** Stripe for subscription, product management, and handling webhooks (backend integrated), and customer portal for subscription management.
--   **Data Modeling:** Pydantic models in FastAPI for request/response validation and database interaction.
+-   **Data ETL & Automation:** Python scripts for database updates, audio management, and data verification.
+-   **Dual Audio System:** Custom frontend/backend logic for handling varied audio filename conventions and paths.
+-   **Payment Gateway:** Stripe for subscriptions, webhooks, and customer portal.
+-   **Pydantic Models:** Used in FastAPI for data validation.
+-   **State Management:**  for global user state.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   ****
-    -   **Importance:** Contains environment variables for backend, including MongoDB connection and Stripe keys.
-    -   **Summary of Changes:** Verified  and  are configured correctly.
+    -   **Importance:** Stores backend environment variables.
+    -   **Summary of Changes:** Updated with , , and  for production.
 -   ****
-    -   **Importance:** Main FastAPI server, serving API endpoints.
+    -   **Importance:** Main FastAPI server, handles word/sentence retrieval.
+    -   **Summary of Changes:** Improved sentence mixing logic for the construire des phrases game (line 825-865).
+-   ****
+    -   **Importance:** Manages Stripe checkout sessions and webhook events.
+    -   **Summary of Changes:** Modified webhook handlers to include  in  operations, ensuring users are created if they don't exist before updating premium status (line 112-145).
+-   ** (New File)**
+    -   **Importance:** Script for initial pronoun updates.
+    -   **Summary of Changes:** Created and executed, then superseded by  due to user feedback.
+-   ** (New File)**
+    -   **Importance:** Critical script to revert incorrect pronoun translations.
+    -   **Summary of Changes:** Created and executed to restore original, correct French pronoun translations in the database based on user feedback.
+-   ** (New File)**
+    -   **Importance:** Script for comprehensive database verification.
+    -   **Summary of Changes:** Created and executed to check for data integrity across categories, specifically after pronoun corrections.
+-   ** (New File)**
+    -   **Importance:** Script for securely adding new expressions.
+    -   **Summary of Changes:** Created and executed to add 7 new expressions and their audios to the database and filesystem.
+-   ** (New File)**
+    -   **Importance:** Corrects audio field names for expressions in the database.
+    -   **Summary of Changes:** Created and executed to fix a critical bug where Shimaoré audio fields were misnamed, preventing them from playing.
+-   ** (New File)**
+    -   **Importance:** Script for adding new words to the maison category.
+    -   **Summary of Changes:** Created and executed to add 3 new words and their audios, ensuring correct dual audio field usage.
+-   ** (New File)**
+    -   **Importance:** Script to correct French conjugation errors in sentences.
+    -   **Summary of Changes:** Created and executed to correct 17 problematic French sentences for verbs like amener/apporter to ensure correct conjugation.
+-   ****
+    -   **Importance:** Main learning screen with word display and audio playback.
+    -   **Summary of Changes:**  function logic was implicitly affected by changes in  to ensure full audio playback without interruptions.
+-   ****
+    -   **Importance:** Hosts language learning games, including the Mayotte quiz and sentence builder.
     -   **Summary of Changes:**
-        -    was corrected to search for audio files in  (with 's') instead of  (without 's') for the tradition category, aligning with actual file placement.
-        -   The  Pydantic model was updated to include new audio filename fields (, ) alongside the legacy ones, ensuring correct serialization of word data including  as uid=0(root) gid=0(root) groups=0(root).
-        -    endpoint implicitly improved by  model update.
+        -   Quiz Mayotte: Deleted one question and added 11 new ones (line 620-736).
+        -   Construire des phrases game: Modified to alternate automatically between Shimaoré and Kibouchi, and UI improved for language selection button visibility and styling (line 1065, 1103-1110, 1520-1560, 2130-2142).
 -   ****
-    -   **Importance:** FastAPI routes for Stripe integration, handling checkout and webhooks.
-    -   **Summary of Changes:** Expanded to include comprehensive webhook event handling (, , ) for managing user premium status in the MongoDB database, including functionality to create Stripe customer portal sessions.
--   ** (New File)**
-    -   **Importance:** Script for securely adding new verbs and their associated audio files to MongoDB and the filesystem.
-    -   **Summary of Changes:** Created and executed to add 4 new verbs and 8 audio files to the database and .
--   ** (New File)**
-    -   **Importance:** Script for securely adding new expressions and their associated audio files.
-    -   **Summary of Changes:** Created and executed to add 3 new expressions and 4 audio files to the database and .
--   ** (New File)**
-    -   **Importance:** Script for securely adding new tradition entries and their associated audio files.
-    -   **Summary of Changes:** Created and executed to add 8 new traditions and 13 audio files to the database and .
--   ** (New File)**
-    -   **Importance:** Script to correct specific audio filename attributions in the database.
-    -   **Summary of Changes:** Created and executed to correct audio links for Ail, Ciboulette, and Mangue in the database.
--   ****
-    -   **Importance:** Main learning screen, displaying words and categories.
+    -   **Importance:** Handles premium subscription display and purchase flow.
     -   **Summary of Changes:**
-        -   The  interface was implicitly updated (via backend changes) to handle both old and new audio filename fields.
-        -   Implemented paywall logic: imports , limits displayed words to 250 for non-premium users.
-        -   A  component was added to the UI, appearing when the word limit is reached, prompting users to upgrade.
+        -   Added a mandatory CGU checkbox with validation before payment button (lines 150, 335-340, and associated styles).
+        -   Restructured checkbox component for improved clickability (separating  for  and ).
+        -   Updated Stripe redirection URLs to  and .
 -   ****
-    -   **Importance:** Contains the logic for various language learning games.
-    -   **Summary of Changes:** The automatic Text-to-Speech playback for Shimaoré sentences after validation in the construire des phrases game was commented out to prevent mispronunciations.
--   ** (New File)**
-    -   **Importance:** Dedicated screen for managing premium subscriptions.
-    -   **Summary of Changes:** Created to display premium features, an upgrade button, and a Manage Subscription button that redirects to the Stripe Customer Portal.
--   ** (New File)**
     -   **Importance:** Legal document for data privacy.
-    -   **Summary of Changes:** Created based on user-provided information.
+    -   **Summary of Changes:** Updated to include a specific clause regarding responsibility for children's use.
+-   ****
+    -   **Importance:** Legal document for terms and conditions.
+    -   **Summary of Changes:** Updated to include a new Article 10: Responsabilité et Âge Recommandé section with the user's disclaimer, and added a  style for this section (lines 156-185, 279-340).
 -   ** (New File)**
-    -   **Importance:** Legal document outlining terms and conditions for purchases.
-    -   **Summary of Changes:** Created based on user-provided information.
+    -   **Importance:** Legal document for legal notices.
+    -   **Summary of Changes:** Created based on user requirements and updated to include the children's responsibility clause.
+-   ** (New File)**
+    -   **Importance:** Page displayed after a successful Stripe payment.
+    -   **Summary of Changes:** Created to provide confirmation to the user.
+-   ** (New File)**
+    -   **Importance:** Page displayed if a Stripe payment is cancelled.
+    -   **Summary of Changes:** Created to inform the user of cancellation.
 -   ****
-    -   **Importance:** Manages global user state and authentication.
-    -   **Summary of Changes:** The  interface was updated to include  to link users with their Stripe customer records.
+    -   **Importance:** Handles synthetic speech.
+    -   **Summary of Changes:** No direct changes, but its interaction with  was clarified.
 -   ****
-    -   **Importance:** Handles playing authentic audio files.
-    -   **Summary of Changes:** Refactored for robustly checking and prioritizing both new and old audio filename conventions in word objects, fixing issues where authentic audios were not playing.
--   ** (New Directory)**
-    -   **Importance:** Centralized location for tradition audio files.
-    -   **Summary of Changes:** Files from  were copied into this directory to resolve a backend path mismatch.
-
+    -   **Importance:** Core logic for playing authentic audio.
+    -   **Summary of Changes:** Modified  and  functions to ensure they wait for audio playback to complete before resolving, fixing the audio cut bug (lines 65-125, 126-200).
+-   ** (New File)**
+    -   **Importance:** Detailed report comparing the application's state before and after the fork.
+    -   **Summary of Changes:** Generated at the user's request, summarizing database, file, and content status.
 </code_architecture>
 
 <pending_tasks>
--   Complete the creation of legal documents, specifically .
--   Perform comprehensive end-to-end testing of the newly implemented monetization flow, including premium content access, Stripe checkout, webhook processing, and subscription management.
+- Verify the correction of the conjugation error for verbs like amener/apporter in the construire des phrases game.
+- If the app is to be deployed on Google Play Store, the user needs to finish creating their Google Play Console account and provide the necessary details.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was actively working on generating legal documents for the application based on detailed information provided by the user. Specifically, the  and  files had been successfully created and populated with the necessary legal text tailored to the user's business and operational details. The last action recorded was the initiation of the creation for the  document. This task is crucial for the application's legal compliance, especially with European standards like GDPR and SCA, as previously discussed. The completion of these documents will finalize a significant part of the application's overall completeness from a legal and user trust perspective, complementing the recently finished monetization features.
+Immediately before this summary request, the AI engineer was actively addressing a reported bug in the construire des phrases game. The user noticed that certain verbs, like amener/apporter, were not correctly conjugated in French, remaining in the infinitive form. The AI engineer diagnosed the issue, identifying 17 specific sentences in the database ( collection) where this error occurred in the  field. To rectify this, a new Python script, , was created. This script is designed to be highly targeted, correcting only the  field of these specific sentences, ensuring that the Shimaoré and Kibouchi translations, as well as other data, remain unaffected. The script has just been executed, and the next step is to verify its successful application and the correct conjugation within the game. This fix is crucial for maintaining the grammatical accuracy and quality of the language learning experience, especially given the user's emphasis on meticulous implementation.
 </current_work>
 
 <optional_next_step>
-Complete the creation of the  document ().
+Verify the conjugation fix for verbs like amener/apporter in the database and restart the backend to apply changes.
 </optional_next_step>
