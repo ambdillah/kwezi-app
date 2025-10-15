@@ -26,16 +26,16 @@ export const KIBOUCHI_PRONOUNS = [
 
 // Préfixes de conjugaison Shimaoré (UNIQUEMENT pour les verbes)
 export const SHIMAORE_PREFIXES = {
-  present: ['nis', 'ous', 'as', 'ris', 'mous', 'was'],
-  past: ['naco', 'waco', 'aco', 'raco', 'mwaco'],
+  present: ['nis', 'ous', 'as', 'ris', 'mous', 'was', 'wawé', 'wayé'],
+  past: ['naco', 'waco', 'aco', 'raco', 'mwaco', 'moico'],
   future: ['nitso', 'outso', 'atso', 'ritso', 'moutso', 'watso']
 };
 
 // Préfixes de conjugaison Kibouchi (UNIQUEMENT pour les verbes)
 export const KIBOUCHI_PREFIXES = {
-  present: ['za', 'ana', 'izi', 'zéheyi', 'anaréou', 'réou'],
-  past: ['ni'], // Préfixe ajouté pour le passé
-  future: ['bou'] // Préfixe ajouté pour le futur
+  present: ['za', 'ana', 'izi', 'zéheyi', 'anaréou', 'réou', 'zéhèyi', 'and', 'an', 'it', 'am', 'i'],
+  past: ['ni', 'nan', 'nam'], // Ajout de 'nan' et 'nam' pour le passé
+  future: ['bou', 'mbou'] // Ajout de 'mbou' pour le futur (variante de 'bou')
 };
 
 /**
