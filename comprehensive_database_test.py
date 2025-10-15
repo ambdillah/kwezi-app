@@ -36,7 +36,7 @@ except:
     pass
 
 if not BACKEND_URL:
-    BACKEND_URL = "https://kwezi-edu.preview.emergentagent.com"
+    BACKEND_URL = "https://kwezi-linguist.preview.emergentagent.com"
 
 API_URL = f"{BACKEND_URL}/api"
 print(f"🔗 Using Backend URL: {BACKEND_URL}")

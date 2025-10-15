@@ -1,17 +1,17 @@
 <analysis>
-The AI engineer's work on the Kwezi app involved extensive feature development and critical bug fixes. Initially, a thorough post-fork verification confirmed system stability, database integrity, and significant content additions, while identifying minor discrepancies. Subsequent tasks included creating legal documents and implementing a freemium model with Stripe integration. Crucially, the engineer corrected a major error in pronoun updates, restoring original translations. Audio system issues were frequently addressed, including fixing misconfigured dual audio fields for expressions and ensuring  functionality correctly awaited audio completion. The construire des phrases game was enhanced for language variety and correct conjugation. The engineer also addressed payment system reliability, implementing  logic in Stripe webhooks to handle new user registrations, and refined the premium screen's CGU checkbox. The current work focuses on fixing a French verb conjugation error in the sentence-building game.
+The AI engineer's work on the Kwezi app involved extensive feature development and critical bug fixes, primarily focusing on preparing the application for Google Play Store deployment. The trajectory began with a thorough pre-deployment verification to confirm data integrity post-fork, ensuring the application's stability. Key tasks included fixing a spelling error for the French verb entérer to enterrer and resolving two significant issues in the construire des phrases game: inconsistent verb prefix coloring and the absence of automatic session restarts. A crucial linguistic correction for Kibouchi present tense verb conjugation was implemented, adjusting the rule to retain the m prefix in infinitives, which involved database updates and frontend rule adjustments. For Play Store registration, a dedicated landing page was created, and the app's configuration was updated for EAS builds, though automated build attempts failed. The engineer then facilitated local build by preparing code and audio archives, making them downloadable via FastAPI. The final, ongoing task is a systematic analysis to resolve pervasive audio-to-word mismatches and missing audio files, ensuring the highest quality for deployment.
 </analysis>
 
 <product_requirements>
-The Kwezi application is an educational platform for Shimaoré and Kibouchi, prioritizing authentic, user-recorded audio and robust data integrity. Key features include a freemium monetization model (€2.90/month for full content access, limiting free users to 250 words), a Boutique for PDF exercise sheets, and language learning games. So far, the implementation has included a refactored TTS for consistency, data integrity fixes, authentic audio coverage, paginated loading, a functional freemium backend and frontend (Premium screen, paywall, Stripe integration with webhooks, customer portal), comprehensive vocabulary verification, and a word search feature. Legal documents (, , ) are also in place, with recent updates to include disclaimers for children and a mandatory CGU checkbox during payment. The app is nearing readiness for deployment.
+The Kwezi application is an educational platform for Shimaoré and Kibouchi, focused on authentic, user-recorded audio and robust data integrity. Key features include a freemium monetization model (€2.90/month, limiting free users to 250 words), a Boutique for PDF exercise sheets, and language learning games like the Mayotte quiz and construire des phrases. Implemented functionality covers refactored Text-to-Speech, data integrity fixes, comprehensive authentic audio coverage, paginated loading, a fully functional freemium system (Premium screen, paywall, Stripe integration with webhooks for  logic, customer portal), and a word search feature. Legal documents (, , ) are established, with recent updates including a children's responsibility disclaimer and a mandatory CGU checkbox during payment. The app is nearing readiness for Google Play Store deployment, involving package name configuration, EAS build setup, and a dedicated landing page. Recent efforts focused on correcting French verb conjugation, enhancing game mechanics, and systematically resolving audio-to-word mismatches. The primary goal is a polished, native-feeling application ready for deployment.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-Stack Architecture:** FastAPI (Python) backend, MongoDB, Expo (React Native) frontend.
--   **Data ETL & Automation:** Python scripts for database updates, audio management, and data verification.
--   **Dual Audio System:** Custom frontend/backend logic for handling varied audio filename conventions and paths.
--   **Payment Gateway:** Stripe for subscriptions, webhooks, and customer portal.
--   **Pydantic Models:** Used in FastAPI for data validation.
+-   **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI (Python) backend, MongoDB database.
+-   **Data Management:** Python scripts for database operations (updates, corrections, analysis), Pydantic for data validation.
+-   **Audio System:** Custom dual authentic audio playback logic, handling varied filename conventions.
+-   **Monetization:** Stripe for freemium subscriptions, checkout sessions, and webhook processing with  logic.
+-   **Routing:** Expo Router for file-based navigation.
 -   **State Management:**  for global user state.
 </key_technical_concepts>
 
@@ -19,83 +19,63 @@ The Kwezi application is an educational platform for Shimaoré and Kibouchi, pri
 
 -   ****
     -   **Importance:** Stores backend environment variables.
-    -   **Summary of Changes:** Updated with , , and  for production.
+    -   **Summary of Changes:** Updated with Stripe keys (from Chat 1 system summary).
 -   ****
-    -   **Importance:** Main FastAPI server, handles word/sentence retrieval.
-    -   **Summary of Changes:** Improved sentence mixing logic for the construire des phrases game (line 825-865).
+    -   **Importance:** Main FastAPI server for API endpoints and content delivery.
+    -   **Summary of Changes:** Added  routes to serve frontend code and audio archives ( files) for local build download.
+-   ** (New File)**
+    -   **Importance:** Script for correcting the spelling of a specific verb in the database.
+    -   **Summary of Changes:** Created and executed to replace entérer with enterrer.
+-   ** (New File)**
+    -   **Importance:** Script for analyzing verb prefixes in sentences to ensure correct conjugation coloring.
+    -   **Summary of Changes:** Created and executed to identify missing prefixes in the game.
+-   ** (New File)**
+    -   **Importance:** Script for database-level correction of Kibouchi present tense conjugation rules.
+    -   **Summary of Changes:** Created and executed, correcting 90 sentences to retain the 'm' prefix and created a backup.
+-   ** (New File)**
+    -   **Importance:** Script for systematically identifying word-to-audio mismatches or missing audio files.
+    -   **Summary of Changes:** Created and initiated for a comprehensive audio analysis.
 -   ****
-    -   **Importance:** Manages Stripe checkout sessions and webhook events.
-    -   **Summary of Changes:** Modified webhook handlers to include  in  operations, ensuring users are created if they don't exist before updating premium status (line 112-145).
--   ** (New File)**
-    -   **Importance:** Script for initial pronoun updates.
-    -   **Summary of Changes:** Created and executed, then superseded by  due to user feedback.
--   ** (New File)**
-    -   **Importance:** Critical script to revert incorrect pronoun translations.
-    -   **Summary of Changes:** Created and executed to restore original, correct French pronoun translations in the database based on user feedback.
--   ** (New File)**
-    -   **Importance:** Script for comprehensive database verification.
-    -   **Summary of Changes:** Created and executed to check for data integrity across categories, specifically after pronoun corrections.
--   ** (New File)**
-    -   **Importance:** Script for securely adding new expressions.
-    -   **Summary of Changes:** Created and executed to add 7 new expressions and their audios to the database and filesystem.
--   ** (New File)**
-    -   **Importance:** Corrects audio field names for expressions in the database.
-    -   **Summary of Changes:** Created and executed to fix a critical bug where Shimaoré audio fields were misnamed, preventing them from playing.
--   ** (New File)**
-    -   **Importance:** Script for adding new words to the maison category.
-    -   **Summary of Changes:** Created and executed to add 3 new words and their audios, ensuring correct dual audio field usage.
--   ** (New File)**
-    -   **Importance:** Script to correct French conjugation errors in sentences.
-    -   **Summary of Changes:** Created and executed to correct 17 problematic French sentences for verbs like amener/apporter to ensure correct conjugation.
--   ****
-    -   **Importance:** Main learning screen with word display and audio playback.
-    -   **Summary of Changes:**  function logic was implicitly affected by changes in  to ensure full audio playback without interruptions.
--   ****
-    -   **Importance:** Hosts language learning games, including the Mayotte quiz and sentence builder.
-    -   **Summary of Changes:**
-        -   Quiz Mayotte: Deleted one question and added 11 new ones (line 620-736).
-        -   Construire des phrases game: Modified to alternate automatically between Shimaoré and Kibouchi, and UI improved for language selection button visibility and styling (line 1065, 1103-1110, 1520-1560, 2130-2142).
+    -   **Importance:** Contains the construire des phrases game logic.
+    -   **Summary of Changes:** Modified to consistently apply verb prefix coloring and automatically restart game sessions upon completion.
 -   ****
     -   **Importance:** Handles premium subscription display and purchase flow.
-    -   **Summary of Changes:**
-        -   Added a mandatory CGU checkbox with validation before payment button (lines 150, 335-340, and associated styles).
-        -   Restructured checkbox component for improved clickability (separating  for  and ).
-        -   Updated Stripe redirection URLs to  and .
+    -   **Summary of Changes:** Incorporated a mandatory CGU checkbox with validation prior to payment (from Chat 1 system summary).
 -   ****
-    -   **Importance:** Legal document for data privacy.
-    -   **Summary of Changes:** Updated to include a specific clause regarding responsibility for children's use.
+    -   **Importance:** Displays linguistic conjugation rules to the user.
+    -   **Summary of Changes:** Updated the Kibouchi present tense rule to state that the infinitive form (with 'm' prefix) is retained.
 -   ****
-    -   **Importance:** Legal document for terms and conditions.
-    -   **Summary of Changes:** Updated to include a new Article 10: Responsabilité et Âge Recommandé section with the user's disclaimer, and added a  style for this section (lines 156-185, 279-340).
--   ** (New File)**
-    -   **Importance:** Legal document for legal notices.
-    -   **Summary of Changes:** Created based on user requirements and updated to include the children's responsibility clause.
--   ** (New File)**
-    -   **Importance:** Page displayed after a successful Stripe payment.
-    -   **Summary of Changes:** Created to provide confirmation to the user.
--   ** (New File)**
-    -   **Importance:** Page displayed if a Stripe payment is cancelled.
-    -   **Summary of Changes:** Created to inform the user of cancellation.
+    -   **Importance:** Core logic for dynamic verb prefix detection and coloring.
+    -   **Summary of Changes:** Updated with additional prefixes for French and revised Kibouchi present tense prefixes to match the corrected conjugation rule.
 -   ****
-    -   **Importance:** Handles synthetic speech.
-    -   **Summary of Changes:** No direct changes, but its interaction with  was clarified.
--   ****
-    -   **Importance:** Core logic for playing authentic audio.
-    -   **Summary of Changes:** Modified  and  functions to ensure they wait for audio playback to complete before resolving, fixing the audio cut bug (lines 65-125, 126-200).
+    -   **Importance:** Expo application configuration manifest.
+    -   **Summary of Changes:** Updated  and  to , and incremented  and  for production build.
 -   ** (New File)**
-    -   **Importance:** Detailed report comparing the application's state before and after the fork.
-    -   **Summary of Changes:** Generated at the user's request, summarizing database, file, and content status.
+    -   **Importance:** Configuration file for Expo Application Services (EAS) builds.
+    -   **Summary of Changes:** Created with a basic production build profile for Android.
+-   ** (New Directory)**
+    -   **Importance:** Contains a set of static files (, , , ) forming a professional landing page for the application.
+    -   **Summary of Changes:** Created to serve as the long-term public website URL for Google Play Store.
+-   ** (New File)**
+    -   **Importance:** Documents the pre-deployment verification process and results.
+    -   **Summary of Changes:** Generated after checking database, audio files, and service status.
 </code_architecture>
 
 <pending_tasks>
-- Verify the correction of the conjugation error for verbs like amener/apporter in the construire des phrases game.
-- If the app is to be deployed on Google Play Store, the user needs to finish creating their Google Play Console account and provide the necessary details.
+-   Complete the systematic analysis of all words for audio mismatches or missing audio files.
+-   Implement corrections for all identified audio discrepancies.
+-   Recreate updated download links for the frontend code and audio archives after all corrections are applied.
+-   Guide the user through the local Android build process using the final archives.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was actively addressing a reported bug in the construire des phrases game. The user noticed that certain verbs, like amener/apporter, were not correctly conjugated in French, remaining in the infinitive form. The AI engineer diagnosed the issue, identifying 17 specific sentences in the database ( collection) where this error occurred in the  field. To rectify this, a new Python script, , was created. This script is designed to be highly targeted, correcting only the  field of these specific sentences, ensuring that the Shimaoré and Kibouchi translations, as well as other data, remain unaffected. The script has just been executed, and the next step is to verify its successful application and the correct conjugation within the game. This fix is crucial for maintaining the grammatical accuracy and quality of the language learning experience, especially given the user's emphasis on meticulous implementation.
+Immediately before this summary request, the AI engineer was actively engaged in a comprehensive effort to address a critical audio quality issue. The user reported multiple specific audio problems, including missing audio for baba (Kibouchi) and nindri héli/bé, incorrect audio for viavi, and a general observation of widespread mismatches between word orthography and their corresponding audio files across the application.
+
+To resolve this systemically, a new Python script, , was created. This script is designed to perform a thorough, word-by-word analysis of the entire database to pinpoint any instance where a word's text does not accurately correspond to its assigned audio file or where an audio file is entirely absent. The execution of this script has just been initiated, signifying a dedicated effort to ensure meticulous audio accuracy for the entire Kwezi vocabulary.
+
+Prior to launching this broad analysis, the AI engineer had already implemented several specific word and audio corrections as requested by the user: replacing chouroungou foudjé with chouroungou voudjé, replacing ouvendza with ouna gnandzo and integrating its new audio file (), and deleting the word garçon. These targeted corrections were verified, and updated archives of the frontend code and audio assets (, ) were generated and made available via new FastAPI download routes. The current task is to build upon these specific fixes by identifying and addressing all remaining general audio inconsistencies to ensure the application's readiness for deployment.
 </current_work>
 
 <optional_next_step>
-Verify the conjugation fix for verbs like amener/apporter in the database and restart the backend to apply changes.
+Continue the execution of  to complete the systematic audio correspondence analysis.
 </optional_next_step>

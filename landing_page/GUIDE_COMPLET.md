@@ -25,7 +25,7 @@ Une landing page professionnelle complète pour votre application Kwezi, compren
 
 **Utilisez l'URL actuelle pour commencer :**
 ```
-https://kwezi-edu.preview.emergentagent.com
+https://kwezi-linguist.preview.emergentagent.com
 ```
 
 ✅ **Avantages :**
@@ -167,13 +167,13 @@ Les liens vers vos documents légaux sont déjà configurés :
 
 ```html
 ✅ Politique de confidentialité
-   → https://kwezi-edu.preview.emergentagent.com/privacy-policy
+   → https://kwezi-linguist.preview.emergentagent.com/privacy-policy
 
 ✅ Conditions générales
-   → https://kwezi-edu.preview.emergentagent.com/terms-of-sale
+   → https://kwezi-linguist.preview.emergentagent.com/terms-of-sale
 
 ✅ Mentions légales
-   → https://kwezi-edu.preview.emergentagent.com/mentions-legales
+   → https://kwezi-linguist.preview.emergentagent.com/mentions-legales
 ```
 
 ---
@@ -248,7 +248,7 @@ Violet gradient : #667eea → #764ba2 (hero, download)
 
 **Option A : Rapide (5 min)**
 ```
-Utilisez : https://kwezi-edu.preview.emergentagent.com
+Utilisez : https://kwezi-linguist.preview.emergentagent.com
 ```
 
 **Option B : Professionnel (30 min)**

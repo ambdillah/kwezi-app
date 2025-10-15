@@ -123,7 +123,7 @@
 
 **Backend URL** (déjà configuré) :
 ```
-EXPO_PUBLIC_BACKEND_URL=https://kwezi-edu.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://kwezi-linguist.preview.emergentagent.com
 ```
 
 ---
