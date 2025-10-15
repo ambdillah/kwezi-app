@@ -30,27 +30,27 @@ Les verbes en kibouchi à l'infinitif commencent généralement par **"mi-"** ou
 
 ## ⏰ CONJUGAISON PAR TEMPS
 
-### 1️⃣ PRÉSENT : Supprimer le "m"
+### 1️⃣ PRÉSENT : Garder le verbe à l'infinitif
 
-**Règle :** Retirer le **"m"** du début du verbe
+**Règle :** Au présent, le verbe reste **à l'infinitif** (on garde le "m")
 
 **Exemple avec "mihinagna" (manger) :**
-- ❌ mi**hinagna** → ✅ **ihinagna**
+- ✅ **mihinagna** (on garde tel quel)
 
 **Conjugaison complète :**
 ```
-zahou ihinagna       (je mange)
-anaou ihinagna       (tu manges)
-izi ihinagna         (il/elle mange)
-zéhèyi ihinagna      (nous mangeons)
-anaréou ihinagna     (vous mangez)
-réou ihinagna        (ils/elles mangent)
+zahou mihinagna       (je mange)
+anaou mihinagna       (tu manges)
+izi mihinagna         (il/elle mange)
+zéhèyi mihinagna      (nous mangeons)
+anaréou mihinagna     (vous mangez)
+réou mihinagna        (ils/elles mangent)
 ```
 
 **Autres exemples :**
-- **misoma** (jouer) → **isoma**
-- **milawa** (pêcher) → **ilawa**
-- **mihondragna** (voyager) → **ihondragna**
+- **misoma** (jouer) → **misoma** (reste identique)
+- **milawa** (pêcher) → **milawa** (reste identique)
+- **mihondragna** (voyager) → **mihondragna** (reste identique)
 
 ---
 
