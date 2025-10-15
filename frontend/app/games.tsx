@@ -1059,10 +1059,39 @@ export default function GamesScreen() {
         setAvailableWords([...wordsToShuffle].sort(() => Math.random() - 0.5));
         setBuiltSentence([]);
       } else {
-        Alert.alert('Félicitations! 🎊', `Jeu terminé! Score final: ${sentenceScore + 10}`, [
-          { text: 'Recommencer', onPress: () => startGame('build-sentence') },
-          { text: 'Retour', onPress: () => { setGameStarted(false); setCurrentGame(null); } }
-        ]);
+        // Fin de session - proposer une nouvelle session automatiquement
+        const finalScore = sentenceScore + 10;
+        
+        Alert.alert(
+          'Félicitations! 🎊', 
+          `Session terminée!\n\nScore final: ${finalScore} points\n\nUne nouvelle session va démarrer automatiquement...`,
+          [
+            { 
+              text: 'Retour au menu', 
+              onPress: () => { 
+                setGameStarted(false); 
+                setCurrentGame(null); 
+              },
+              style: 'cancel'
+            },
+            { 
+              text: 'Nouvelle session maintenant', 
+              onPress: () => {
+                setSentenceScore(0);
+                startGame('build-sentence');
+              }
+            }
+          ]
+        );
+        
+        // Démarrage automatique après 3 secondes
+        setTimeout(() => {
+          // Vérifier si le jeu est toujours actif (l'utilisateur n'a pas quitté)
+          if (currentGame === 'build-sentence') {
+            setSentenceScore(0);
+            startGame('build-sentence');
+          }
+        }, 3000);
       }
     };
 
