@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Vérification - Kwezi App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-card.success .stat-number { color: #28a745; }
+        .stat-card.warning .stat-number { color: #ffc107; }
+        .stat-card.danger .stat-number { color: #dc3545; }
+        .stat-card.info .stat-number { color: #17a2b8; }
+        
+        .section {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 30px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 1s;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .category-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .category-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .category-card .count {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .alert {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            color: #155724;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .alert-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        
+        .problems-list {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .problem-item {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .problem-item:last-child {
+            border-bottom: none;
+        }
+        
+        .priority-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .priority-urgent { background: #dc3545; }
+        .priority-high { background: #fd7e14; }
+        .priority-medium { background: #ffc107; color: #333; }
+        
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📊 Rapport de Vérification d'Intégrité</h1>
+            <p>Application Kwezi - Analyse Post-Fork Complète</p>
+        </div>
+        
+        <!-- Statistiques Principales -->
+        <div class="stats-grid">
+            <div class="stat-card success">
+                <div class="stat-label">Total Mots</div>
+                <div class="stat-number">635</div>
+                <div class="stat-label">✅ Intacts</div>
+            </div>
+            
+            <div class="stat-card success">
+                <div class="stat-label">Audios Corrects</div>
+                <div class="stat-number">1163</div>
+                <div class="stat-label">91.6% OK</div>
+            </div>
+            
+            <div class="stat-card danger">
+                <div class="stat-label">Fichiers Manquants</div>
+                <div class="stat-number">66</div>
+                <div class="stat-label">30 shim + 36 kib</div>
+            </div>
+            
+            <div class="stat-card warning">
+                <div class="stat-label">Problèmes Nommage</div>
+                <div class="stat-number">31</div>
+                <div class="stat-label">À corriger</div>
+            </div>
+            
+            <div class="stat-card info">
+                <div class="stat-label">Catégories</div>
+                <div class="stat-number">16</div>
+                <div class="stat-label">Complètes</div>
+            </div>
+            
+            <div class="stat-card info">
+                <div class="stat-label">Intégrité BD</div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Parfaite</div>
+            </div>
+        </div>
+        
+        <!-- Barre de progression audio -->
+        <div class="section">
+            <h2 class="section-title">📈 Couverture Audio Globale</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 91.6%">
+                    91.6% - 1163/1270 références audio
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alertes -->
+        <div class="section">
+            <div class="alert alert-success">
+                <div class="alert-icon">✅</div>
+                <div>
+                    <strong>Aucune perte de données détectée !</strong><br>
+                    Les 635 mots sont intacts avec toutes leurs traductions (shimaoré et kibouchi). Structure de la base de données 100% cohérente.
+                </div>
+            </div>
+            
+            <div class="alert alert-warning">
+                <div class="alert-icon">⚠️</div>
+                <div>
+                    <strong>10 erreurs audio critiques identifiées</strong><br>
+                    Inversions de fichiers et mauvaises attributions nécessitant une correction immédiate (Toiture/Torche, Neuf/Dix-neuf, etc.)
+                </div>
+            </div>
+            
+            <div class="alert alert-danger">
+                <div class="alert-icon">❌</div>
+                <div>
+                    <strong>66 fichiers audio manquants</strong><br>
+                    Principalement dans la section Expressions (42 fichiers). Les jours de la semaine et expressions temporelles sont prioritaires.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Répartition par catégorie -->
+        <div class="section">
+            <h2 class="section-title">📁 Répartition par Catégorie</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <h3>Verbes</h3>
+                    <div class="count">114</div>
+                </div>
+                <div class="category-card">
+                    <h3>Expressions</h3>
+                    <div class="count">77</div>
+                </div>
+                <div class="category-card">
+                    <h3>Animaux</h3>
+                    <div class="count">68</div>
+                </div>
+                <div class="category-card">
+                    <h3>Nature</h3>
+                    <div class="count">59</div>
+                </div>
+                <div class="category-card">
+                    <h3>Adjectifs</h3>
+                    <div class="count">59</div>
+                </div>
+                <div class="category-card">
+                    <h3>Nourriture</h3>
+                    <div class="count">46</div>
+                </div>
+                <div class="category-card">
+                    <h3>Maison</h3>
+                    <div class="count">42</div>
+                </div>
+                <div class="category-card">
+                    <h3>Corps</h3>
+                    <div class="count">33</div>
+                </div>
+                <div class="category-card">
+                    <h3>Nombres</h3>
+                    <div class="count">28</div>
+                </div>
+                <div class="category-card">
+                    <h3>Famille</h3>
+                    <div class="count">24</div>
+                </div>
+                <div class="category-card">
+                    <h3>Tradition</h3>
+                    <div class="count">24</div>
+                </div>
+                <div class="category-card">
+                    <h3>Grammaire</h3>
+                    <div class="count">22</div>
+                </div>
+                <div class="category-card">
+                    <h3>Vêtements</h3>
+                    <div class="count">16</div>
+                </div>
+                <div class="category-card">
+                    <h3>Couleurs</h3>
+                    <div class="count">8</div>
+                </div>
+                <div class="category-card">
+                    <h3>Salutations</h3>
+                    <div class="count">8</div>
+                </div>
+                <div class="category-card">
+                    <h3>Transport</h3>
+                    <div class="count">7</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Problèmes prioritaires -->
+        <div class="section">
+            <h2 class="section-title">🚨 Top 10 Erreurs Critiques à Corriger</h2>
+            <div class="problems-list">
+                <div class="problem-item">
+                    <div>
+                        <strong>Inversion Toiture/Torche</strong><br>
+                        <small>Maison (Shimaoré) - Fichiers audio inversés</small>
+                    </div>
+                    <span class="priority-badge priority-urgent">URGENT</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>Arc-en-ciel = Mer</strong><br>
+                        <small>Nature (Kibouchi) - Utilise Bahari.m4a (mer)</small>
+                    </div>
+                    <span class="priority-badge priority-urgent">URGENT</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>Inversion Neuf/Dix-neuf</strong><br>
+                        <small>Nombres (Kibouchi) - Fichiers audio inversés</small>
+                    </div>
+                    <span class="priority-badge priority-urgent">URGENT</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>Couper du bois</strong><br>
+                        <small>Verbes (Shimaoré) - Mauvaise correspondance audio</small>
+                    </div>
+                    <span class="priority-badge priority-urgent">URGENT</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>Donner</strong><br>
+                        <small>Verbes (Shimaoré) - Audio incorrect</small>
+                    </div>
+                    <span class="priority-badge priority-urgent">URGENT</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>Suivre</strong><br>
+                        <small>Verbes (Kibouchi) - Similarité très faible (0.14)</small>
+                    </div>
+                    <span class="priority-badge priority-urgent">URGENT</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>42 audios Expression manquants</strong><br>
+                        <small>Jours, directions, expressions temporelles</small>
+                    </div>
+                    <span class="priority-badge priority-high">HAUTE</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>10 audios non référencés</strong><br>
+                        <small>Fichiers existants (Fâché, Fourmis, S'asseoir...)</small>
+                    </div>
+                    <span class="priority-badge priority-high">HAUTE</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>31 problèmes de nommage</strong><br>
+                        <small>Accents, orthographe, mots composés</small>
+                    </div>
+                    <span class="priority-badge priority-medium">MOYENNE</span>
+                </div>
+                
+                <div class="problem-item">
+                    <div>
+                        <strong>10 audios Nature manquants</strong><br>
+                        <small>Arbres, végétation (Kibouchi)</small>
+                    </div>
+                    <span class="priority-badge priority-high">HAUTE</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Verdict -->
+        <div class="section" style="background: #f8f9fa;">
+            <h2 class="section-title">✅ Verdict Final</h2>
+            <div style="font-size: 1.1em; line-height: 1.8;">
+                <p style="margin-bottom: 20px;">
+                    <strong>✅ Intégrité de la base de données : EXCELLENTE (100%)</strong><br>
+                    Aucune donnée n'a été perdue lors du fork. Les 635 mots sont complets avec leurs traductions en shimaoré et kibouchi. La structure est cohérente et sans doublons.
+                </p>
+                
+                <p style="margin-bottom: 20px;">
+                    <strong>⚠️ Système audio : BON avec corrections nécessaires (91.6%)</strong><br>
+                    Sur 1270 références audio possibles, 1163 sont correctes. Les 107 problèmes identifiés sont documentés et peuvent être corrigés de manière systématique en 3 phases prioritaires.
+                </p>
+                
+                <p style="margin-bottom: 20px;">
+                    <strong>🎯 Recommandation : L'application peut continuer son développement</strong><br>
+                    Les corrections audio peuvent être effectuées par phases sans bloquer le lancement. Priorité aux 10 erreurs critiques, puis aux fichiers manquants de la section Expressions.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Rapport généré automatiquement</strong></p>
+            <p>Script d'analyse : analyser_correspondance_audios.py</p>
+            <p>Application Kwezi - Apprentissage Shimaoré et Kibouchi</p>
+        </div>
+    </div>
+</body>
+</html>
