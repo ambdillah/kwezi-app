@@ -33,7 +33,7 @@ export const SHIMAORE_PREFIXES = {
 
 // Préfixes de conjugaison Kibouchi (UNIQUEMENT pour les verbes)
 export const KIBOUCHI_PREFIXES = {
-  present: ['za', 'ana', 'izi', 'zéheyi', 'anaréou', 'réou', 'zéhèyi', 'and', 'an', 'it', 'am', 'i'],
+  present: ['mi', 'm', 'man', 'miv', 'mit', 'mid', 'mik', 'mal', 'mar', 'mas', 'mat', 'maf', 'map', 'mag', 'mah', 'mam', 'maw'], // Au présent, les verbes gardent l'infinitif (commence par "m")
   past: ['ni', 'nan', 'nam'], // Ajout de 'nan' et 'nam' pour le passé
   future: ['bou', 'mbou'] // Ajout de 'mbou' pour le futur (variante de 'bou')
 };
