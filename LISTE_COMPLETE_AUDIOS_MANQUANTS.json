@@ -1,5 +1,5 @@
 {
-  "total": 66,
+  "total": 63,
   "shimaore": {
     "count": 30,
     "fichiers": [
@@ -186,7 +186,7 @@
     ]
   },
   "kibouchi": {
-    "count": 36,
+    "count": 33,
     "fichiers": [
       {
         "french": "Année",
@@ -316,9 +316,9 @@
       },
       {
         "french": "arbre à pain",
-        "mot": "youdi ni frapé",
+        "mot": "voudi ni frapé",
         "category": "nature",
-        "fichier": "Youdi ni frapé.m4a"
+        "fichier": "Voudi ni frapé.m4a"
       },
       {
         "french": "baobab",
@@ -345,28 +345,10 @@
         "fichier": "Haïtri.m4a"
       },
       {
-        "french": "jacquier",
-        "mot": "vudi ni finéssi",
-        "category": "nature",
-        "fichier": "Youdi ni finéssi.m4a"
-      },
-      {
-        "french": "manguier",
-        "mot": "vudi ni manga",
-        "category": "nature",
-        "fichier": "Youdi ni manga.m4a"
-      },
-      {
-        "french": "sable",
-        "mot": "fasi",
-        "category": "nature",
-        "fichier": "Fasi.m4a"
-      },
-      {
         "french": "vague",
-        "mot": "hou",
+        "mot": "houndza/riaka",
         "category": "nature",
-        "fichier": "Hou.m4a"
+        "fichier": "Houndza.m4a"
       },
       {
         "french": "vedette",

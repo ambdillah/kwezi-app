@@ -2,7 +2,7 @@
 LISTE COMPLÈTE DES AUDIOS MANQUANTS - APPLICATION KWEZI
 ====================================================================================================
 
-Total : 66 fichiers audio à créer
+Total : 63 fichiers audio à créer
 
 ====================================================================================================
 AUDIOS MANQUANTS SHIMAORÉ (30 fichiers)
@@ -173,7 +173,7 @@ Dossier      : /frontend/assets/audio/verbes/
 
 
 ====================================================================================================
-AUDIOS MANQUANTS KIBOUCHI (36 fichiers)
+AUDIOS MANQUANTS KIBOUCHI (33 fichiers)
 ====================================================================================================
 
 
@@ -285,12 +285,12 @@ Mot kibouchi : machidranou
 Fichier audio : Machindranou.m4a
 Dossier      : /frontend/assets/audio/expressions/
 
-📁 CATÉGORIE : NATURE (10 fichiers)
+📁 CATÉGORIE : NATURE (7 fichiers)
 ----------------------------------------------------------------------------------------------------
 
 Mot français : arbre à pain
-Mot kibouchi : youdi ni frapé
-Fichier audio : Youdi ni frapé.m4a
+Mot kibouchi : voudi ni frapé
+Fichier audio : Voudi ni frapé.m4a
 Dossier      : /frontend/assets/audio/nature/
 
 Mot français : baobab
@@ -313,24 +313,9 @@ Mot kibouchi : haïtri
 Fichier audio : Haïtri.m4a
 Dossier      : /frontend/assets/audio/nature/
 
-Mot français : jacquier
-Mot kibouchi : vudi ni finéssi
-Fichier audio : Youdi ni finéssi.m4a
-Dossier      : /frontend/assets/audio/nature/
-
-Mot français : manguier
-Mot kibouchi : vudi ni manga
-Fichier audio : Youdi ni manga.m4a
-Dossier      : /frontend/assets/audio/nature/
-
-Mot français : sable
-Mot kibouchi : fasi
-Fichier audio : Fasi.m4a
-Dossier      : /frontend/assets/audio/nature/
-
 Mot français : vague
-Mot kibouchi : hou
-Fichier audio : Hou.m4a
+Mot kibouchi : houndza/riaka
+Fichier audio : Houndza.m4a
 Dossier      : /frontend/assets/audio/nature/
 
 Mot français : vedette
