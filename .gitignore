@@ -758,3 +758,7 @@ android-sdk/ -e
 *.env
 *.env.*
 backend/kwezi-frontend-code-v2.tar.gz
+-e 
+# Environment files
+*.env
+*.env.*
