@@ -1,0 +1,409 @@
+{
+  "total": 66,
+  "shimaore": {
+    "count": 30,
+    "fichiers": [
+      {
+        "french": "Année",
+        "mot": "mwaha",
+        "category": "expressions",
+        "fichier": "Mwaha.m4a"
+      },
+      {
+        "french": "C'est acide",
+        "mot": "ina kali",
+        "category": "expressions",
+        "fichier": "Ina kali.m4a"
+      },
+      {
+        "french": "C'est amer",
+        "mot": "ina nyongo",
+        "category": "expressions",
+        "fichier": "Ina nyongo.m4a"
+      },
+      {
+        "french": "C'est sucré",
+        "mot": "ina nguizi",
+        "category": "expressions",
+        "fichier": "Ina nguizi.m4a"
+      },
+      {
+        "french": "Demander un service",
+        "mot": "oumiya hadja",
+        "category": "expressions",
+        "fichier": "Oumiya hadja.m4a"
+      },
+      {
+        "french": "Derrière",
+        "mot": "nyouma",
+        "category": "expressions",
+        "fichier": "Nyouma.m4a"
+      },
+      {
+        "french": "Devant",
+        "mot": "mbéli",
+        "category": "expressions",
+        "fichier": "Mbéli.m4a"
+      },
+      {
+        "french": "Dimanche",
+        "mot": "mfoumo vili",
+        "category": "expressions",
+        "fichier": "Mfoumo vili.m4a"
+      },
+      {
+        "french": "En bas",
+        "mot": "outsini",
+        "category": "expressions",
+        "fichier": "Outsini.m4a"
+      },
+      {
+        "french": "En haut",
+        "mot": "oujou",
+        "category": "expressions",
+        "fichier": "Oujou.m4a"
+      },
+      {
+        "french": "Enceinte",
+        "mot": "oumira",
+        "category": "expressions",
+        "fichier": "Oumira.m4a"
+      },
+      {
+        "french": "Jeudi",
+        "mot": "yahowa",
+        "category": "expressions",
+        "fichier": "Yahowa.m4a"
+      },
+      {
+        "french": "Loin",
+        "mot": "mbali",
+        "category": "expressions",
+        "fichier": "Mbali.m4a"
+      },
+      {
+        "french": "Lundi",
+        "mot": "mfoumo rarou",
+        "category": "expressions",
+        "fichier": "Mfoumo rarou.m4a"
+      },
+      {
+        "french": "Mardi",
+        "mot": "mfoumo nhé",
+        "category": "expressions",
+        "fichier": "Mfoumo nhé.m4a"
+      },
+      {
+        "french": "Mercredi",
+        "mot": "mfoumo tsano",
+        "category": "expressions",
+        "fichier": "Mfoumo tsano.m4a"
+      },
+      {
+        "french": "Mois",
+        "mot": "mwézi",
+        "category": "expressions",
+        "fichier": "Mwézi.m4a"
+      },
+      {
+        "french": "Samedi",
+        "mot": "mfoumo tsi",
+        "category": "expressions",
+        "fichier": "Mfoumo tsi.m4a"
+      },
+      {
+        "french": "Semaine",
+        "mot": "mfoumo",
+        "category": "expressions",
+        "fichier": "Mfoumo.m4a"
+      },
+      {
+        "french": "Vendredi",
+        "mot": "idjimoi",
+        "category": "expressions",
+        "fichier": "Idjimoi.m4a"
+      },
+      {
+        "french": "Épreuve",
+        "mot": "mtihano",
+        "category": "expressions",
+        "fichier": "Mtihano.m4a"
+      },
+      {
+        "french": "Louche",
+        "mot": "paou",
+        "category": "maison",
+        "fichier": "paou.m4a"
+      },
+      {
+        "french": "bananier",
+        "mot": "trindri",
+        "category": "nature",
+        "fichier": "Trindari.m4a"
+      },
+      {
+        "french": "feuille",
+        "mot": "mawloini",
+        "category": "nature",
+        "fichier": "Mawloini.m4a"
+      },
+      {
+        "french": "jacquier",
+        "mot": "m'fénéssi",
+        "category": "nature",
+        "fichier": "M_fénissi.m4a"
+      },
+      {
+        "french": "terre",
+        "mot": "trotro",
+        "category": "nature",
+        "fichier": "Trotto.m4a"
+      },
+      {
+        "french": "Couper les ongles",
+        "mot": "oukatra kofou",
+        "category": "verbes",
+        "fichier": "Oukatra kofou.m4a"
+      },
+      {
+        "french": "Médire",
+        "mot": "outséma",
+        "category": "verbes",
+        "fichier": "Outséma.m4a"
+      },
+      {
+        "french": "Soulever",
+        "mot": "oudzoua",
+        "category": "verbes",
+        "fichier": "Oudzoua.m4a"
+      },
+      {
+        "french": "Ventiler",
+        "mot": "oupépeya",
+        "category": "verbes",
+        "fichier": "Oupépéya.m4a"
+      }
+    ]
+  },
+  "kibouchi": {
+    "count": 36,
+    "fichiers": [
+      {
+        "french": "Année",
+        "mot": "moika",
+        "category": "expressions",
+        "fichier": "Moika.m4a"
+      },
+      {
+        "french": "C'est acide",
+        "mot": "matsikou",
+        "category": "expressions",
+        "fichier": "Matsikou.m4a"
+      },
+      {
+        "french": "C'est amer",
+        "mot": "mafèki",
+        "category": "expressions",
+        "fichier": "Mafèki.m4a"
+      },
+      {
+        "french": "C'est sucré",
+        "mot": "mami",
+        "category": "expressions",
+        "fichier": "Mami.m4a"
+      },
+      {
+        "french": "Demander un service",
+        "mot": "mangataka hadja",
+        "category": "expressions",
+        "fichier": "Mangataka hadja.m4a"
+      },
+      {
+        "french": "Derrière",
+        "mot": "anfara",
+        "category": "expressions",
+        "fichier": "Anfara.m4a"
+      },
+      {
+        "french": "Devant",
+        "mot": "alouha",
+        "category": "expressions",
+        "fichier": "Alouha.m4a"
+      },
+      {
+        "french": "Dimanche",
+        "mot": "dimassi",
+        "category": "expressions",
+        "fichier": "Dimassi.m4a"
+      },
+      {
+        "french": "En bas",
+        "mot": "ambani",
+        "category": "expressions",
+        "fichier": "Ambani.m4a"
+      },
+      {
+        "french": "En haut",
+        "mot": "agnabou",
+        "category": "expressions",
+        "fichier": "Agnabou.m4a"
+      },
+      {
+        "french": "Enceinte",
+        "mot": "ankibou",
+        "category": "expressions",
+        "fichier": "Ankibou.m4a"
+      },
+      {
+        "french": "Jeudi",
+        "mot": "lahamissi",
+        "category": "expressions",
+        "fichier": "Lahamissi.m4a"
+      },
+      {
+        "french": "Lundi",
+        "mot": "tinayini",
+        "category": "expressions",
+        "fichier": "Tinayini.m4a"
+      },
+      {
+        "french": "Mardi",
+        "mot": "talata",
+        "category": "expressions",
+        "fichier": "Talata.m4a"
+      },
+      {
+        "french": "Mercredi",
+        "mot": "roubiya",
+        "category": "expressions",
+        "fichier": "Roubiya.m4a"
+      },
+      {
+        "french": "Mois",
+        "mot": "fandzava",
+        "category": "expressions",
+        "fichier": "Fandzava.m4a"
+      },
+      {
+        "french": "Samedi",
+        "mot": "boutsi",
+        "category": "expressions",
+        "fichier": "Boutsi.m4a"
+      },
+      {
+        "french": "Semaine",
+        "mot": "hérignandra",
+        "category": "expressions",
+        "fichier": "Hérignandra.m4a"
+      },
+      {
+        "french": "Tout prêt",
+        "mot": "marini",
+        "category": "expressions",
+        "fichier": "Marini.m4a"
+      },
+      {
+        "french": "Vendredi",
+        "mot": "djouma",
+        "category": "expressions",
+        "fichier": "Djouma.m4a"
+      },
+      {
+        "french": "Épreuve",
+        "mot": "machidranou",
+        "category": "expressions",
+        "fichier": "Machindranou.m4a"
+      },
+      {
+        "french": "arbre à pain",
+        "mot": "youdi ni frapé",
+        "category": "nature",
+        "fichier": "Youdi ni frapé.m4a"
+      },
+      {
+        "french": "baobab",
+        "mot": "vudi ni bouyou",
+        "category": "nature",
+        "fichier": "Youdi ni bouyou.m4a"
+      },
+      {
+        "french": "cocotier",
+        "mot": "vudi ni vwaniou",
+        "category": "nature",
+        "fichier": "Youdi ni vwoniou.m4a"
+      },
+      {
+        "french": "feuille",
+        "mot": "hayïtri",
+        "category": "nature",
+        "fichier": "Hayïtri.m4a"
+      },
+      {
+        "french": "herbe",
+        "mot": "haïtri",
+        "category": "nature",
+        "fichier": "Haïtri.m4a"
+      },
+      {
+        "french": "jacquier",
+        "mot": "vudi ni finéssi",
+        "category": "nature",
+        "fichier": "Youdi ni finéssi.m4a"
+      },
+      {
+        "french": "manguier",
+        "mot": "vudi ni manga",
+        "category": "nature",
+        "fichier": "Youdi ni manga.m4a"
+      },
+      {
+        "french": "sable",
+        "mot": "fasi",
+        "category": "nature",
+        "fichier": "Fasi.m4a"
+      },
+      {
+        "french": "vague",
+        "mot": "hou",
+        "category": "nature",
+        "fichier": "Hou.m4a"
+      },
+      {
+        "french": "vedette",
+        "mot": "videti",
+        "category": "nature",
+        "fichier": "Videti.m4a"
+      },
+      {
+        "french": "Couper les ongles",
+        "mot": "manapaka angofou",
+        "category": "verbes",
+        "fichier": "Manapaka angofou.m4a"
+      },
+      {
+        "french": "Médire",
+        "mot": "mtsikou",
+        "category": "verbes",
+        "fichier": "Mtsikou.m4a"
+      },
+      {
+        "french": "Soulever",
+        "mot": "magnoundzougou",
+        "category": "verbes",
+        "fichier": "Magnoundzougnou.m4a"
+      },
+      {
+        "french": "Ventiler",
+        "mot": "micoupoucoupoukou",
+        "category": "verbes",
+        "fichier": "Micoupoucoupoukou.m4a"
+      },
+      {
+        "french": "Éplucher",
+        "mot": "magnofi",
+        "category": "verbes",
+        "fichier": "Magnofi.m4a"
+      }
+    ]
+  }
+}

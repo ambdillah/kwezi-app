@@ -1,0 +1,367 @@
+====================================================================================================
+LISTE COMPLÈTE DES AUDIOS MANQUANTS - APPLICATION KWEZI
+====================================================================================================
+
+Total : 66 fichiers audio à créer
+
+====================================================================================================
+AUDIOS MANQUANTS SHIMAORÉ (30 fichiers)
+====================================================================================================
+
+
+📁 CATÉGORIE : EXPRESSIONS (21 fichiers)
+----------------------------------------------------------------------------------------------------
+
+Mot français : Année
+Mot shimaoré : mwaha
+Fichier audio : Mwaha.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : C'est acide
+Mot shimaoré : ina kali
+Fichier audio : Ina kali.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : C'est amer
+Mot shimaoré : ina nyongo
+Fichier audio : Ina nyongo.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : C'est sucré
+Mot shimaoré : ina nguizi
+Fichier audio : Ina nguizi.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Demander un service
+Mot shimaoré : oumiya hadja
+Fichier audio : Oumiya hadja.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Derrière
+Mot shimaoré : nyouma
+Fichier audio : Nyouma.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Devant
+Mot shimaoré : mbéli
+Fichier audio : Mbéli.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Dimanche
+Mot shimaoré : mfoumo vili
+Fichier audio : Mfoumo vili.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : En bas
+Mot shimaoré : outsini
+Fichier audio : Outsini.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : En haut
+Mot shimaoré : oujou
+Fichier audio : Oujou.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Enceinte
+Mot shimaoré : oumira
+Fichier audio : Oumira.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Jeudi
+Mot shimaoré : yahowa
+Fichier audio : Yahowa.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Loin
+Mot shimaoré : mbali
+Fichier audio : Mbali.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Lundi
+Mot shimaoré : mfoumo rarou
+Fichier audio : Mfoumo rarou.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Mardi
+Mot shimaoré : mfoumo nhé
+Fichier audio : Mfoumo nhé.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Mercredi
+Mot shimaoré : mfoumo tsano
+Fichier audio : Mfoumo tsano.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Mois
+Mot shimaoré : mwézi
+Fichier audio : Mwézi.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Samedi
+Mot shimaoré : mfoumo tsi
+Fichier audio : Mfoumo tsi.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Semaine
+Mot shimaoré : mfoumo
+Fichier audio : Mfoumo.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Vendredi
+Mot shimaoré : idjimoi
+Fichier audio : Idjimoi.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Épreuve
+Mot shimaoré : mtihano
+Fichier audio : Mtihano.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+📁 CATÉGORIE : MAISON (1 fichiers)
+----------------------------------------------------------------------------------------------------
+
+Mot français : Louche
+Mot shimaoré : paou
+Fichier audio : paou.m4a
+Dossier      : /frontend/assets/audio/maison/
+
+📁 CATÉGORIE : NATURE (4 fichiers)
+----------------------------------------------------------------------------------------------------
+
+Mot français : bananier
+Mot shimaoré : trindri
+Fichier audio : Trindari.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : feuille
+Mot shimaoré : mawloini
+Fichier audio : Mawloini.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : jacquier
+Mot shimaoré : m'fénéssi
+Fichier audio : M_fénissi.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : terre
+Mot shimaoré : trotro
+Fichier audio : Trotto.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+📁 CATÉGORIE : VERBES (4 fichiers)
+----------------------------------------------------------------------------------------------------
+
+Mot français : Couper les ongles
+Mot shimaoré : oukatra kofou
+Fichier audio : Oukatra kofou.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+Mot français : Médire
+Mot shimaoré : outséma
+Fichier audio : Outséma.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+Mot français : Soulever
+Mot shimaoré : oudzoua
+Fichier audio : Oudzoua.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+Mot français : Ventiler
+Mot shimaoré : oupépeya
+Fichier audio : Oupépéya.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+
+====================================================================================================
+AUDIOS MANQUANTS KIBOUCHI (36 fichiers)
+====================================================================================================
+
+
+📁 CATÉGORIE : EXPRESSIONS (21 fichiers)
+----------------------------------------------------------------------------------------------------
+
+Mot français : Année
+Mot kibouchi : moika
+Fichier audio : Moika.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : C'est acide
+Mot kibouchi : matsikou
+Fichier audio : Matsikou.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : C'est amer
+Mot kibouchi : mafèki
+Fichier audio : Mafèki.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : C'est sucré
+Mot kibouchi : mami
+Fichier audio : Mami.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Demander un service
+Mot kibouchi : mangataka hadja
+Fichier audio : Mangataka hadja.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Derrière
+Mot kibouchi : anfara
+Fichier audio : Anfara.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Devant
+Mot kibouchi : alouha
+Fichier audio : Alouha.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Dimanche
+Mot kibouchi : dimassi
+Fichier audio : Dimassi.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : En bas
+Mot kibouchi : ambani
+Fichier audio : Ambani.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : En haut
+Mot kibouchi : agnabou
+Fichier audio : Agnabou.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Enceinte
+Mot kibouchi : ankibou
+Fichier audio : Ankibou.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Jeudi
+Mot kibouchi : lahamissi
+Fichier audio : Lahamissi.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Lundi
+Mot kibouchi : tinayini
+Fichier audio : Tinayini.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Mardi
+Mot kibouchi : talata
+Fichier audio : Talata.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Mercredi
+Mot kibouchi : roubiya
+Fichier audio : Roubiya.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Mois
+Mot kibouchi : fandzava
+Fichier audio : Fandzava.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Samedi
+Mot kibouchi : boutsi
+Fichier audio : Boutsi.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Semaine
+Mot kibouchi : hérignandra
+Fichier audio : Hérignandra.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Tout prêt
+Mot kibouchi : marini
+Fichier audio : Marini.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Vendredi
+Mot kibouchi : djouma
+Fichier audio : Djouma.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+Mot français : Épreuve
+Mot kibouchi : machidranou
+Fichier audio : Machindranou.m4a
+Dossier      : /frontend/assets/audio/expressions/
+
+📁 CATÉGORIE : NATURE (10 fichiers)
+----------------------------------------------------------------------------------------------------
+
+Mot français : arbre à pain
+Mot kibouchi : youdi ni frapé
+Fichier audio : Youdi ni frapé.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : baobab
+Mot kibouchi : vudi ni bouyou
+Fichier audio : Youdi ni bouyou.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : cocotier
+Mot kibouchi : vudi ni vwaniou
+Fichier audio : Youdi ni vwoniou.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : feuille
+Mot kibouchi : hayïtri
+Fichier audio : Hayïtri.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : herbe
+Mot kibouchi : haïtri
+Fichier audio : Haïtri.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : jacquier
+Mot kibouchi : vudi ni finéssi
+Fichier audio : Youdi ni finéssi.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : manguier
+Mot kibouchi : vudi ni manga
+Fichier audio : Youdi ni manga.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : sable
+Mot kibouchi : fasi
+Fichier audio : Fasi.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : vague
+Mot kibouchi : hou
+Fichier audio : Hou.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+Mot français : vedette
+Mot kibouchi : videti
+Fichier audio : Videti.m4a
+Dossier      : /frontend/assets/audio/nature/
+
+📁 CATÉGORIE : VERBES (5 fichiers)
+----------------------------------------------------------------------------------------------------
+
+Mot français : Couper les ongles
+Mot kibouchi : manapaka angofou
+Fichier audio : Manapaka angofou.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+Mot français : Médire
+Mot kibouchi : mtsikou
+Fichier audio : Mtsikou.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+Mot français : Soulever
+Mot kibouchi : magnoundzougou
+Fichier audio : Magnoundzougnou.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+Mot français : Ventiler
+Mot kibouchi : micoupoucoupoukou
+Fichier audio : Micoupoucoupoukou.m4a
+Dossier      : /frontend/assets/audio/verbes/
+
+Mot français : Éplucher
+Mot kibouchi : magnofi
+Fichier audio : Magnofi.m4a
+Dossier      : /frontend/assets/audio/verbes/
