@@ -16,7 +16,7 @@ const ConjugationRules: React.FC<ConjugationRulesProps> = ({ language, tense, co
   };
 
   const kibouchiRules = {
-    present: { label: 'Présent', example: 'Supprimer le "m" du verbe' },
+    present: { label: 'Présent', example: 'Garder le verbe à l\'infinitif (avec le "m")' },
     past: { label: 'Passé', example: 'Remplacer "m" par "n"' },
     future: { label: 'Futur', example: 'Remplacer "m" par "Mbou"' },
   };
