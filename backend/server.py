@@ -1721,6 +1721,31 @@ async def get_word_audio_info(word_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Routes de téléchargement pour le build
+@app.get("/api/download/code")
+async def download_code():
+    """Télécharger le code de l'application"""
+    file_path = "/app/backend/kwezi-frontend-code.tar.gz"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="application/gzip",
+            filename="kwezi-frontend-code.tar.gz"
+        )
+    raise HTTPException(status_code=404, detail="Fichier non trouvé")
+
+@app.get("/api/download/audio")
+async def download_audio():
+    """Télécharger les fichiers audio"""
+    file_path = "/app/backend/kwezi-audio.tar.gz"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="application/gzip",
+            filename="kwezi-audio.tar.gz"
+        )
+    raise HTTPException(status_code=404, detail="Fichier non trouvé")
+
 if __name__ == "__main__":
     import uvicorn
 
