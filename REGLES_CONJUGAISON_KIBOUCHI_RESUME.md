@@ -266,7 +266,7 @@ réou Mbouihinagna     (ils/elles mangeront)
 
 **Pour conjuguer un verbe kibouchi, retiens ces 3 règles :**
 
-1. **PRÉSENT** → Enlève le "m" : **m**ihinagna → **i**hinagna
+1. **PRÉSENT** → Garde l'infinitif (avec le "m") : **mihinagna** reste **mihinagna**
 2. **PASSÉ** → Change "m" en "n" : **m**ihinagna → **n**ihinagna  
 3. **FUTUR** → Change "m" en "Mbou" : **m**ihinagna → **Mbou**ihinagna
 
