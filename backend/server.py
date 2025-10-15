@@ -1724,8 +1724,8 @@ async def get_word_audio_info(word_id: str):
 # Routes de téléchargement pour le build
 @app.get("/api/download/code")
 async def download_code():
-    """Télécharger le code de l'application"""
-    file_path = "/app/backend/kwezi-frontend-code.tar.gz"
+    """Télécharger le code de l'application (version corrigée)"""
+    file_path = "/app/backend/kwezi-frontend-code-v2.tar.gz"
     if os.path.exists(file_path):
         return FileResponse(
             path=file_path,
@@ -1736,8 +1736,8 @@ async def download_code():
 
 @app.get("/api/download/audio")
 async def download_audio():
-    """Télécharger les fichiers audio"""
-    file_path = "/app/backend/kwezi-audio.tar.gz"
+    """Télécharger les fichiers audio (version corrigée avec nouveau fichier)"""
+    file_path = "/app/backend/kwezi-audio-v2.tar.gz"
     if os.path.exists(file_path):
         return FileResponse(
             path=file_path,
