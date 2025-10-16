@@ -1,18 +1,19 @@
 <analysis>
-The AI engineer's work on the Kwezi app involved extensive feature development and critical bug fixes, primarily focusing on preparing the application for Google Play Store deployment. The trajectory began with a thorough pre-deployment verification to confirm data integrity post-fork, ensuring the application's stability. Key tasks included fixing a spelling error for the French verb entérer to enterrer and resolving two significant issues in the construire des phrases game: inconsistent verb prefix coloring and the absence of automatic session restarts. A crucial linguistic correction for Kibouchi present tense verb conjugation was implemented, adjusting the rule to retain the m prefix in infinitives, which involved database updates and frontend rule adjustments. For Play Store registration, a dedicated landing page was created, and the app's configuration was updated for EAS builds, though automated build attempts failed. The engineer then facilitated local build by preparing code and audio archives, making them downloadable via FastAPI. The final, ongoing task is a systematic analysis to resolve pervasive audio-to-word mismatches and missing audio files, ensuring the highest quality for deployment.
+The AI engineer's trajectory focused on crucial pre-deployment tasks for the Kwezi app. The initial phase involved a comprehensive data integrity and audio correspondence audit, identifying 66 missing audio files. Subsequent corrections addressed spelling inconsistencies (entérer to enterrer), Kibouchi orthography (y to v, houndza), and the integration of specific new audio files like Hayitri.m4a, Moinagna.m4a, and Baba k.m4a. This reduced missing audios to 58. A critical audio playback bug, where users had to click multiple times, was traced to a missing  flag, an aggressive 10-second audio timeout, and problematic synthesis voice fallback logic in . These were systematically corrected. A large archive of 136 expressions audio files was integrated, further reducing missing audios to 16. Finally, deployment archives (frontend code and audio assets) were generated and made downloadable via FastAPI, necessitating file path corrections and server route updates. The current interaction is dedicated to guiding the user through setting up their local environment for an EAS build, troubleshooting common issues like incorrect directory navigation and missing Git, leading to the prompt to configure an existing EAS project.
 </analysis>
 
 <product_requirements>
-The Kwezi application is an educational platform for Shimaoré and Kibouchi, focused on authentic, user-recorded audio and robust data integrity. Key features include a freemium monetization model (€2.90/month, limiting free users to 250 words), a Boutique for PDF exercise sheets, and language learning games like the Mayotte quiz and construire des phrases. Implemented functionality covers refactored Text-to-Speech, data integrity fixes, comprehensive authentic audio coverage, paginated loading, a fully functional freemium system (Premium screen, paywall, Stripe integration with webhooks for  logic, customer portal), and a word search feature. Legal documents (, , ) are established, with recent updates including a children's responsibility disclaimer and a mandatory CGU checkbox during payment. The app is nearing readiness for Google Play Store deployment, involving package name configuration, EAS build setup, and a dedicated landing page. Recent efforts focused on correcting French verb conjugation, enhancing game mechanics, and systematically resolving audio-to-word mismatches. The primary goal is a polished, native-feeling application ready for deployment.
+The Kwezi application serves as an educational platform for Shimaoré and Kibouchi languages, emphasizing authentic, user-recorded audio and robust data integrity. It operates on a freemium model, limiting free users to 250 words and offering premium subscriptions (€2.90/month) with Stripe integration. Additional monetization comes from PDF exercise sheets sold in a Boutique. Learning games include a Mayotte quiz and construire des phrases (sentence building). Core functionalities encompass refactored Text-to-Speech, extensive authentic audio coverage, paginated content loading, a fully operational freemium system (paywall, Stripe webhooks with  logic, customer portal), and a word search feature. Legal documents (privacy policy, terms of sale, legal notices) are in place, with recent updates for a children's responsibility disclaimer and a mandatory CGU checkbox before payment. The app is being prepared for Google Play Store deployment, including package name configuration, EAS build setup, and a dedicated landing page. Recent development concentrated on refining French verb conjugations, enhancing game mechanics, and systematically resolving audio-to-word mismatches to ensure a polished, native-feeling application.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI (Python) backend, MongoDB database.
 -   **Data Management:** Python scripts for database operations (updates, corrections, analysis), Pydantic for data validation.
--   **Audio System:** Custom dual authentic audio playback logic, handling varied filename conventions.
+-   **Audio System:** Custom dual authentic audio playback logic, handling varied filename conventions, and synthesis fallback.
 -   **Monetization:** Stripe for freemium subscriptions, checkout sessions, and webhook processing with  logic.
 -   **Routing:** Expo Router for file-based navigation.
 -   **State Management:**  for global user state.
+-   **Build System**: Expo Application Services (EAS) for native builds.
 </key_technical_concepts>
 
 <code_architecture>
@@ -22,60 +23,114 @@ The Kwezi application is an educational platform for Shimaoré and Kibouchi, foc
     -   **Summary of Changes:** Updated with Stripe keys (from Chat 1 system summary).
 -   ****
     -   **Importance:** Main FastAPI server for API endpoints and content delivery.
-    -   **Summary of Changes:** Added  routes to serve frontend code and audio archives ( files) for local build download.
--   ** (New File)**
+    -   **Summary of Changes:** Added  routes to serve frontend code and audio archives ( files) for local build download. The paths for these download routes were updated multiple times to ensure they correctly point to the generated archive files. Modified audio serving logic to check for  flag. Added a route for the complete app archive.
+-   ****
     -   **Importance:** Script for correcting the spelling of a specific verb in the database.
-    -   **Summary of Changes:** Created and executed to replace entérer with enterrer.
--   ** (New File)**
-    -   **Importance:** Script for analyzing verb prefixes in sentences to ensure correct conjugation coloring.
-    -   **Summary of Changes:** Created and executed to identify missing prefixes in the game.
--   ** (New File)**
+    -   **Summary of Changes:** (Used and results analyzed in previous trajectory summary).
+-   ****
+    -   **Importance:** Script for analyzing verb prefixes in sentences for correct conjugation coloring.
+    -   **Summary of Changes:** (Used and results analyzed in previous trajectory summary).
+-   ****
     -   **Importance:** Script for database-level correction of Kibouchi present tense conjugation rules.
-    -   **Summary of Changes:** Created and executed, correcting 90 sentences to retain the 'm' prefix and created a backup.
--   ** (New File)**
+    -   **Summary of Changes:** (Used and results analyzed in previous trajectory summary).
+-   ****
     -   **Importance:** Script for systematically identifying word-to-audio mismatches or missing audio files.
-    -   **Summary of Changes:** Created and initiated for a comprehensive audio analysis.
+    -   **Summary of Changes:** Executed multiple times throughout the trajectory to assess audio integrity and re-evaluate missing audio counts after corrections.
+-   ** (New File)**
+    -   **Importance:** Script created to apply initial critical audio corrections identified during the analysis phase.
+    -   **Summary of Changes:** Created and executed during Phase 1 of audio corrections.
+-   ** (New File)**
+    -   **Importance:** Script to compile a comprehensive list of all words still missing associated audio files.
+    -   **Summary of Changes:** Created and executed to provide the user with a list of audios to record.
+-   ** (New File)**
+    -   **Importance:** Script to correct specific orthography errors (y instead of v, truncated words) in the nature category for Kibouchi words.
+    -   **Summary of Changes:** Created and executed following user feedback to fix spelling in the database.
+-   ** (New File)**
+    -   **Importance:** Script to ensure all words with audio files have the  flag enabled in the database, crucial for correct audio serving.
+    -   **Summary of Changes:** Created and executed to resolve a potential audio playback bug.
+-   ** (New File)**
+    -   **Importance:** Script to perform a comprehensive diagnostic of the audio system, verifying functionality and identifying physically missing files.
+    -   **Summary of Changes:** Created and executed to confirm backend audio serving functionality.
+-   ** (New File)**
+    -   **Importance:** Script to automatically integrate new audio files for expressions into the database by matching filenames to words.
+    -   **Summary of Changes:** Created and executed to process a large batch of new expression audio files, achieving 100% audio coverage for expressions.
+-   ** (New File)**
+    -   **Importance:** Script to update specific word orthography (mwanagna to moinagna) and integrate new audio files for moinagna and baba.
+    -   **Summary of Changes:** Created and executed following user request.
 -   ****
     -   **Importance:** Contains the construire des phrases game logic.
-    -   **Summary of Changes:** Modified to consistently apply verb prefix coloring and automatically restart game sessions upon completion.
+    -   **Summary of Changes:** Modified to consistently apply verb prefix coloring and automatically restart game sessions upon completion (from Chat 1 system summary).
 -   ****
     -   **Importance:** Handles premium subscription display and purchase flow.
     -   **Summary of Changes:** Incorporated a mandatory CGU checkbox with validation prior to payment (from Chat 1 system summary).
 -   ****
     -   **Importance:** Displays linguistic conjugation rules to the user.
-    -   **Summary of Changes:** Updated the Kibouchi present tense rule to state that the infinitive form (with 'm' prefix) is retained.
+    -   **Summary of Changes:** Updated the Kibouchi present tense rule to state that the infinitive form (with 'm' prefix) is retained (from Chat 1 system summary).
 -   ****
     -   **Importance:** Core logic for dynamic verb prefix detection and coloring.
-    -   **Summary of Changes:** Updated with additional prefixes for French and revised Kibouchi present tense prefixes to match the corrected conjugation rule.
+    -   **Summary of Changes:** Updated with additional prefixes for French and revised Kibouchi present tense prefixes to match the corrected conjugation rule (from Chat 1 system summary).
+-   ****
+    -   **Importance:** Core logic for playing authentic audio, including fallback to synthesis.
+    -   **Summary of Changes:** Significantly modified to remove a 10-second audio playback timeout and its associated forceful stop logic. Further modified to explicitly stop any ongoing speech synthesis before attempting to play authentic audio and to implement stricter conditions for falling back to synthesis to prevent interference.
 -   ****
     -   **Importance:** Expo application configuration manifest.
-    -   **Summary of Changes:** Updated  and  to , and incremented  and  for production build.
+    -   **Summary of Changes:** Updated  and  to , and incremented  and  for production build (from Chat 1 system summary).
 -   ** (New File)**
     -   **Importance:** Configuration file for Expo Application Services (EAS) builds.
-    -   **Summary of Changes:** Created with a basic production build profile for Android.
+    -   **Summary of Changes:** Created with a basic production build profile for Android (from Chat 1 system summary).
 -   ** (New Directory)**
-    -   **Importance:** Contains a set of static files (, , , ) forming a professional landing page for the application.
-    -   **Summary of Changes:** Created to serve as the long-term public website URL for Google Play Store.
+    -   **Importance:** Contains static files (, , , ) forming a professional landing page for the application.
+    -   **Summary of Changes:** Created to serve as the long-term public website URL for Google Play Store (from Chat 1 system summary).
+-   ** (New Directory)**
+    -   **Importance:** Directory for publicly accessible static assets within the frontend.
+    -   **Summary of Changes:** Created to host .
 -   ** (New File)**
-    -   **Importance:** Documents the pre-deployment verification process and results.
-    -   **Summary of Changes:** Generated after checking database, audio files, and service status.
+    -   **Importance:** A simple HTML page providing direct download links for the frontend code and audio archives.
+    -   **Summary of Changes:** Created to provide an alternative, functional method for users to download deployment files after initial automatic download attempts failed.
 </code_architecture>
 
 <pending_tasks>
--   Complete the systematic analysis of all words for audio mismatches or missing audio files.
--   Implement corrections for all identified audio discrepancies.
--   Recreate updated download links for the frontend code and audio archives after all corrections are applied.
--   Guide the user through the local Android build process using the final archives.
+-   Complete the local Android build process with the user.
+-   Guide the user through the EAS project configuration for .
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was actively engaged in a comprehensive effort to address a critical audio quality issue. The user reported multiple specific audio problems, including missing audio for baba (Kibouchi) and nindri héli/bé, incorrect audio for viavi, and a general observation of widespread mismatches between word orthography and their corresponding audio files across the application.
+Immediately before this summary request, the AI engineer was actively guiding the user through the process of performing a local Android build using Expo Application Services (EAS). The user had downloaded the application archives and extracted them. The primary challenge being addressed was the user's difficulty in correctly navigating to the project directory and executing EAS commands.
 
-To resolve this systemically, a new Python script, , was created. This script is designed to perform a thorough, word-by-word analysis of the entire database to pinpoint any instance where a word's text does not accurately correspond to its assigned audio file or where an audio file is entirely absent. The execution of this script has just been initiated, signifying a dedicated effort to ensure meticulous audio accuracy for the entire Kwezi vocabulary.
+The engineer provided step-by-step instructions to:
+1.  Verify the presence of Node.js and the installation of global Expo CLI and EAS CLI tools (
+added 5 packages, and changed 1757 packages in 4m
 
-Prior to launching this broad analysis, the AI engineer had already implemented several specific word and audio corrections as requested by the user: replacing chouroungou foudjé with chouroungou voudjé, replacing ouvendza with ouna gnandzo and integrating its new audio file (), and deleting the word garçon. These targeted corrections were verified, and updated archives of the frontend code and audio assets (, ) were generated and made available via new FastAPI download routes. The current task is to build upon these specific fixes by identifying and addressing all remaining general audio inconsistencies to ensure the application's readiness for deployment.
+209 packages are looking for funding
+  run `npm fund` for details).
+2.  Log in to Expo (Log in to EAS with email or username (exit and run eas login --help to see other login options)
+Input is required, but stdin is not readable. Failed to display prompt: Email or username).
+3.  Navigate to the correct project directory where the extracted application files (e.g., , , , ) reside. This involved several rounds of troubleshooting as the user struggled with  and Famille_   components	   eslint.config.js   node_modules	 qr_expo.html
+README.md  contexts	   expo-env.d.ts      package-lock.json  scripts
+app	   cors-config.js  expo_restart.log   package.json	 tsconfig.json
+app.json   data		   famille_audio.zip  public		 utils
+assets	   eas.json	   metro.config.js    qr_code_expo.png	 yarn.lock commands, and initially attempted to build from an empty or incorrect directory.
+4.  Execute yarn install v1.22.22
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved lockfile.
+Done in 18.66s. to install project dependencies.
+5.  Attempt to initiate the EAS build using An Expo user account is required to proceed.
+
+Log in to EAS with email or username (exit and run eas login --help to see other login options)
+Input is required, but stdin is not readable. Failed to display prompt: Email or username.
+
+The most recent interactions involved the user facing a git command not found error during the An Expo user account is required to proceed.
+
+Log in to EAS with email or username (exit and run eas login --help to see other login options)
+Input is required, but stdin is not readable. Failed to display prompt: Email or username attempt. The engineer instructed the user to bypass this by setting the environment variable . Upon executing An Expo user account is required to proceed.
+
+Log in to EAS with email or username (exit and run eas login --help to see other login options)
+Input is required, but stdin is not readable. Failed to display prompt: Email or username, the system detected an existing EAS project for  and prompted the user to confirm its configuration. The current state is that the user is poised to respond to this prompt, marking the next step in the build configuration.
 </current_work>
 
 <optional_next_step>
-Continue the execution of  to complete the systematic audio correspondence analysis.
+Instruct the user to confirm the configuration of the existing EAS project.
 </optional_next_step>
