@@ -1725,26 +1725,26 @@ async def get_word_audio_info(word_id: str):
 @app.get("/api/download/code")
 async def download_code():
     """Télécharger le code de l'application (version finale avec toutes corrections)"""
-    file_path = "/app/kwezi-frontend-code-final.tar.gz"
+    file_path = "/app/backend/kwezi-frontend-code-final.tar.gz"
     if os.path.exists(file_path):
         return FileResponse(
             path=file_path,
             media_type="application/gzip",
             filename="kwezi-frontend-code-final.tar.gz"
         )
-    raise HTTPException(status_code=404, detail="Fichier non trouvé")
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
 
 @app.get("/api/download/audio")
 async def download_audio():
     """Télécharger les fichiers audio (version finale - 98.7% couverture)"""
-    file_path = "/app/kwezi-audio-final.tar.gz"
+    file_path = "/app/backend/kwezi-audio-final.tar.gz"
     if os.path.exists(file_path):
         return FileResponse(
             path=file_path,
             media_type="application/gzip",
             filename="kwezi-audio-final.tar.gz"
         )
-    raise HTTPException(status_code=404, detail="Fichier non trouvé")
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
 
 if __name__ == "__main__":
     import uvicorn
