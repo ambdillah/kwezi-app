@@ -1,5 +1,5 @@
 {
-  "total": 63,
+  "total": 58,
   "shimaore": {
     "count": 30,
     "fichiers": [
@@ -186,7 +186,7 @@
     ]
   },
   "kibouchi": {
-    "count": 33,
+    "count": 28,
     "fichiers": [
       {
         "french": "Année",
@@ -319,36 +319,6 @@
         "mot": "voudi ni frapé",
         "category": "nature",
         "fichier": "Voudi ni frapé.m4a"
-      },
-      {
-        "french": "baobab",
-        "mot": "vudi ni bouyou",
-        "category": "nature",
-        "fichier": "Youdi ni bouyou.m4a"
-      },
-      {
-        "french": "cocotier",
-        "mot": "vudi ni vwaniou",
-        "category": "nature",
-        "fichier": "Youdi ni vwoniou.m4a"
-      },
-      {
-        "french": "feuille",
-        "mot": "hayïtri",
-        "category": "nature",
-        "fichier": "Hayïtri.m4a"
-      },
-      {
-        "french": "herbe",
-        "mot": "haïtri",
-        "category": "nature",
-        "fichier": "Haïtri.m4a"
-      },
-      {
-        "french": "vague",
-        "mot": "houndza/riaka",
-        "category": "nature",
-        "fichier": "Houndza.m4a"
       },
       {
         "french": "vedette",

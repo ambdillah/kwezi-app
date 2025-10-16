@@ -2,7 +2,7 @@
 LISTE COMPLÈTE DES AUDIOS MANQUANTS - APPLICATION KWEZI
 ====================================================================================================
 
-Total : 63 fichiers audio à créer
+Total : 58 fichiers audio à créer
 
 ====================================================================================================
 AUDIOS MANQUANTS SHIMAORÉ (30 fichiers)
@@ -173,7 +173,7 @@ Dossier      : /frontend/assets/audio/verbes/
 
 
 ====================================================================================================
-AUDIOS MANQUANTS KIBOUCHI (33 fichiers)
+AUDIOS MANQUANTS KIBOUCHI (28 fichiers)
 ====================================================================================================
 
 
@@ -285,37 +285,12 @@ Mot kibouchi : machidranou
 Fichier audio : Machindranou.m4a
 Dossier      : /frontend/assets/audio/expressions/
 
-📁 CATÉGORIE : NATURE (7 fichiers)
+📁 CATÉGORIE : NATURE (2 fichiers)
 ----------------------------------------------------------------------------------------------------
 
 Mot français : arbre à pain
 Mot kibouchi : voudi ni frapé
 Fichier audio : Voudi ni frapé.m4a
-Dossier      : /frontend/assets/audio/nature/
-
-Mot français : baobab
-Mot kibouchi : vudi ni bouyou
-Fichier audio : Youdi ni bouyou.m4a
-Dossier      : /frontend/assets/audio/nature/
-
-Mot français : cocotier
-Mot kibouchi : vudi ni vwaniou
-Fichier audio : Youdi ni vwoniou.m4a
-Dossier      : /frontend/assets/audio/nature/
-
-Mot français : feuille
-Mot kibouchi : hayïtri
-Fichier audio : Hayïtri.m4a
-Dossier      : /frontend/assets/audio/nature/
-
-Mot français : herbe
-Mot kibouchi : haïtri
-Fichier audio : Haïtri.m4a
-Dossier      : /frontend/assets/audio/nature/
-
-Mot français : vague
-Mot kibouchi : houndza/riaka
-Fichier audio : Houndza.m4a
 Dossier      : /frontend/assets/audio/nature/
 
 Mot français : vedette
