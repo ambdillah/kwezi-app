@@ -1,25 +1,4 @@
 Langue,Catégorie,Mot_Français,Mot_Local,Nom_Fichier_Audio,Dossier
-Shimaoré,expressions,Année,mwaha,Mwaha.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,C'est acide,ina kali,Ina kali.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,C'est amer,ina nyongo,Ina nyongo.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,C'est sucré,ina nguizi,Ina nguizi.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Demander un service,oumiya hadja,Oumiya hadja.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Derrière,nyouma,Nyouma.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Devant,mbéli,Mbéli.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Dimanche,mfoumo vili,Mfoumo vili.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,En bas,outsini,Outsini.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,En haut,oujou,Oujou.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Enceinte,oumira,Oumira.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Jeudi,yahowa,Yahowa.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Loin,mbali,Mbali.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Lundi,mfoumo rarou,Mfoumo rarou.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Mardi,mfoumo nhé,Mfoumo nhé.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Mercredi,mfoumo tsano,Mfoumo tsano.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Mois,mwézi,Mwézi.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Samedi,mfoumo tsi,Mfoumo tsi.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Semaine,mfoumo,Mfoumo.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Vendredi,idjimoi,Idjimoi.m4a,/frontend/assets/audio/expressions/
-Shimaoré,expressions,Épreuve,mtihano,Mtihano.m4a,/frontend/assets/audio/expressions/
 Shimaoré,maison,Louche,paou,paou.m4a,/frontend/assets/audio/maison/
 Shimaoré,nature,bananier,trindri,Trindari.m4a,/frontend/assets/audio/nature/
 Shimaoré,nature,feuille,mawloini,Mawloini.m4a,/frontend/assets/audio/nature/
@@ -29,27 +8,6 @@ Shimaoré,verbes,Couper les ongles,oukatra kofou,Oukatra kofou.m4a,/frontend/ass
 Shimaoré,verbes,Médire,outséma,Outséma.m4a,/frontend/assets/audio/verbes/
 Shimaoré,verbes,Soulever,oudzoua,Oudzoua.m4a,/frontend/assets/audio/verbes/
 Shimaoré,verbes,Ventiler,oupépeya,Oupépéya.m4a,/frontend/assets/audio/verbes/
-Kibouchi,expressions,Année,moika,Moika.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,C'est acide,matsikou,Matsikou.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,C'est amer,mafèki,Mafèki.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,C'est sucré,mami,Mami.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Demander un service,mangataka hadja,Mangataka hadja.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Derrière,anfara,Anfara.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Devant,alouha,Alouha.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Dimanche,dimassi,Dimassi.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,En bas,ambani,Ambani.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,En haut,agnabou,Agnabou.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Enceinte,ankibou,Ankibou.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Jeudi,lahamissi,Lahamissi.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Lundi,tinayini,Tinayini.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Mardi,talata,Talata.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Mercredi,roubiya,Roubiya.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Mois,fandzava,Fandzava.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Samedi,boutsi,Boutsi.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Semaine,hérignandra,Hérignandra.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Tout prêt,marini,Marini.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Vendredi,djouma,Djouma.m4a,/frontend/assets/audio/expressions/
-Kibouchi,expressions,Épreuve,machidranou,Machindranou.m4a,/frontend/assets/audio/expressions/
 Kibouchi,nature,arbre à pain,voudi ni frapé,Voudi ni frapé.m4a,/frontend/assets/audio/nature/
 Kibouchi,nature,vedette,videti,Videti.m4a,/frontend/assets/audio/nature/
 Kibouchi,verbes,Couper les ongles,manapaka angofou,Manapaka angofou.m4a,/frontend/assets/audio/verbes/
