@@ -154,6 +154,18 @@ export const playWordWithDualAudio = async (
   onComplete?: () => void
 ): Promise<void> => {
   try {
+    // CORRECTION CRITIQUE: Arrêter TOUTE synthèse vocale en cours AVANT de jouer un audio authentique
+    try {
+      const { Speech } = await import('expo-speech');
+      const isSpeaking = await Speech.isSpeakingAsync();
+      if (isSpeaking) {
+        console.log('🛑 Arrêt de la synthèse vocale en cours avant audio authentique');
+        await Speech.stop();
+      }
+    } catch (error) {
+      console.log('Note: Impossible de vérifier/arrêter la synthèse vocale:', error);
+    }
+    
     // PRIORITÉ 1: Vérifier le système dual (DEUX formats possibles)
     if (word.dual_audio_system && word.id) {
       // Vérifier les DEUX formats de nommage possibles
@@ -174,7 +186,7 @@ export const playWordWithDualAudio = async (
         
         if (success) {
           console.log(`✅ AUDIO DUAL joué: ${word.french} (${language})`);
-          return;
+          return; // RETOUR IMMÉDIAT - PAS DE SYNTHÈSE
         }
         
         console.log(`⚠️ Audio dual échoué, essai ancien système...`);
