@@ -1,0 +1,74 @@
+================================================================================
+DIAGNOSTIC COMPLET DU SYSTÈME AUDIO
+================================================================================
+
+STATISTIQUES:
+Total mots: 635
+Dual audio actif: 635
+Shimaoré OK: 605
+Shimaoré KO: 29
+Kibouchi OK: 605
+Kibouchi KO: 30
+
+FICHIERS MANQUANTS: 59
+  - arbre à pain (kibouchi): Voudi ni frapé.m4a
+  - bananier (shimaoré): Trindari.m4a
+  - feuille (shimaoré): Mawloini.m4a
+  - feuille (kibouchi): Hayïtri.m4a
+  - herbe (kibouchi): Haïtri.m4a
+  - jacquier (shimaoré): M_fénissi.m4a
+  - terre (shimaoré): Trotto.m4a
+  - vedette (kibouchi): Videti.m4a
+  - Ventiler (shimaoré): Oupépéya.m4a
+  - Ventiler (kibouchi): Micoupoucoupoukou.m4a
+  - Couper les ongles (shimaoré): Oukatra kofou.m4a
+  - Couper les ongles (kibouchi): Manapaka angofou.m4a
+  - Éplucher (kibouchi): Magnofi.m4a
+  - Soulever (shimaoré): Oudzoua.m4a
+  - Soulever (kibouchi): Magnoundzougnou.m4a
+  - Médire (shimaoré): Outséma.m4a
+  - Médire (kibouchi): Mtsikou.m4a
+  - En haut (shimaoré): Oujou.m4a
+  - En haut (kibouchi): Agnabou.m4a
+  - En bas (shimaoré): Outsini.m4a
+  - En bas (kibouchi): Ambani.m4a
+  - Devant (shimaoré): Mbéli.m4a
+  - Devant (kibouchi): Alouha.m4a
+  - Derrière (shimaoré): Nyouma.m4a
+  - Derrière (kibouchi): Anfara.m4a
+  - Loin (shimaoré): Mbali.m4a
+  - Tout prêt (kibouchi): Marini.m4a
+  - Lundi (shimaoré): Mfoumo rarou.m4a
+  - Lundi (kibouchi): Tinayini.m4a
+  - Mardi (shimaoré): Mfoumo nhé.m4a
+  - Mardi (kibouchi): Talata.m4a
+  - Mercredi (shimaoré): Mfoumo tsano.m4a
+  - Mercredi (kibouchi): Roubiya.m4a
+  - Jeudi (shimaoré): Yahowa.m4a
+  - Jeudi (kibouchi): Lahamissi.m4a
+  - Vendredi (shimaoré): Idjimoi.m4a
+  - Vendredi (kibouchi): Djouma.m4a
+  - Samedi (shimaoré): Mfoumo tsi.m4a
+  - Samedi (kibouchi): Boutsi.m4a
+  - Dimanche (shimaoré): Mfoumo vili.m4a
+  - Dimanche (kibouchi): Dimassi.m4a
+  - Semaine (shimaoré): Mfoumo.m4a
+  - Semaine (kibouchi): Hérignandra.m4a
+  - Mois (shimaoré): Mwézi.m4a
+  - Mois (kibouchi): Fandzava.m4a
+  - Année (shimaoré): Mwaha.m4a
+  - Année (kibouchi): Moika.m4a
+  - Enceinte (shimaoré): Oumira.m4a
+  - Enceinte (kibouchi): Ankibou.m4a
+  - Demander un service (shimaoré): Oumiya hadja.m4a
+  - Demander un service (kibouchi): Mangataka hadja.m4a
+  - Épreuve (shimaoré): Mtihano.m4a
+  - Épreuve (kibouchi): Machindranou.m4a
+  - C'est amer (shimaoré): Ina nyongo.m4a
+  - C'est amer (kibouchi): Mafèki.m4a
+  - C'est sucré (shimaoré): Ina nguizi.m4a
+  - C'est sucré (kibouchi): Mami.m4a
+  - C'est acide (shimaoré): Ina kali.m4a
+  - C'est acide (kibouchi): Matsikou.m4a
+
+RÉFÉRENCES INVALIDES: 0
