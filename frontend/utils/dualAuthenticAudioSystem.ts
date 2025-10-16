@@ -255,23 +255,51 @@ export const playWordWithDualAudio = async (
       }
     }
     
-    // Fallback vers la synthèse vocale
-    const textToSpeak = language === 'shimaore' ? word.shimaore : word.kibouchi;
-    console.log(`🔊 Utilisation de la synthèse vocale pour "${textToSpeak}" en ${language}`);
+    // Fallback vers la synthèse vocale UNIQUEMENT si AUCUN audio authentique n'existe
+    const hasAnyAudio = word.dual_audio_system && (
+      word.audio_filename_shimaore || 
+      word.shimoare_audio_filename || 
+      word.audio_filename_kibouchi || 
+      word.kibouchi_audio_filename ||
+      word.has_authentic_audio
+    );
     
-    onStart?.();
-    await speakText(textToSpeak, language);
-    onComplete?.();
+    if (!hasAnyAudio) {
+      // Seulement si vraiment AUCUN audio authentique n'existe
+      const textToSpeak = language === 'shimaore' ? word.shimaore : word.kibouchi;
+      console.log(`🔊 Pas d'audio authentique, synthèse vocale pour "${textToSpeak}" en ${language}`);
+      
+      onStart?.();
+      await speakText(textToSpeak, language);
+      onComplete?.();
+    } else {
+      // Audio authentique existe mais a échoué - NE PAS utiliser la synthèse
+      console.log(`⚠️ Audio authentique existe pour "${word.french}" mais échec de lecture - Pas de fallback synthèse`);
+      onComplete?.(); // Appeler onComplete quand même pour débloquer l'UI
+    }
     
   } catch (error) {
     console.log('Erreur générale dans playWordWithDualAudio:', error);
     
-    // Dernier fallback : synthèse vocale simple
-    try {
-      const textToSpeak = language === 'shimaore' ? word.shimaore : word.kibouchi;
-      await speakText(textToSpeak, language);
-    } catch (fallbackError) {
-      console.log('Erreur fallback:', fallbackError);
+    // PAS de dernier fallback automatique vers synthèse si audio authentique existe
+    const hasAnyAudio = word.dual_audio_system && (
+      word.audio_filename_shimaore || 
+      word.shimoare_audio_filename || 
+      word.audio_filename_kibouchi || 
+      word.kibouchi_audio_filename ||
+      word.has_authentic_audio
+    );
+    
+    if (!hasAnyAudio) {
+      // Seulement si vraiment AUCUN audio
+      try {
+        const textToSpeak = language === 'shimaore' ? word.shimaore : word.kibouchi;
+        await speakText(textToSpeak, language);
+      } catch (fallbackError) {
+        console.log('Erreur fallback synthèse:', fallbackError);
+      }
+    } else {
+      console.log(`⚠️ Échec lecture mais audio authentique existe - Pas de synthèse de remplacement`);
     }
   }
 };
