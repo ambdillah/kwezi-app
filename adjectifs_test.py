@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 
 # Configuration des URLs
-BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://kwezi-linguist.preview.emergentagent.com')
+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibouchi.preview.emergentagent.com')
 API_BASE = f"{BACKEND_URL}/api"
 
 class AdjectifsAudioTester:

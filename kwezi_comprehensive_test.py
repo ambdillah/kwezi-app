@@ -24,7 +24,7 @@ from typing import Dict, List, Any, Tuple
 import sys
 
 # Configuration
-BACKEND_URL = "https://kwezi-linguist.preview.emergentagent.com"
+BACKEND_URL = "https://shimakibouchi.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class KweziComprehensiveTester:
