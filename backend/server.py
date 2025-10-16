@@ -1746,6 +1746,18 @@ async def download_audio():
         )
     raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
 
+@app.get("/api/download/complete")
+async def download_complete():
+    """Télécharger l'application complète (code + audios en un seul fichier)"""
+    file_path = "/app/backend/kwezi-app-complete.tar.gz"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="application/gzip",
+            filename="kwezi-app-complete.tar.gz"
+        )
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
+
 if __name__ == "__main__":
     import uvicorn
 
