@@ -88,6 +88,8 @@ const playDualAudioFromAPI = async (
     
     // CORRECTION CRITIQUE: Attendre la fin de l'audio avec une Promise
     return new Promise<boolean>((resolve) => {
+      let timeoutId: NodeJS.Timeout;
+      
       // Charger et jouer l'audio via l'API dual
       Audio.Sound.createAsync(
         { uri: audioUrl },
@@ -105,23 +107,30 @@ const playDualAudioFromAPI = async (
         // Écouter la fin de la lecture
         sound.setOnPlaybackStatusUpdate((status) => {
           if (status.isLoaded && status.didJustFinish) {
+            // CORRECTION: Nettoyer le timeout avant de résoudre
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+            }
+            
             currentAudio.isPlaying = false;
             sound.unloadAsync();
             currentAudio.sound = null;
             onComplete?.();
-            console.log(`✅ Audio dual ${language} terminé`);
-            resolve(true); // ATTENDRE la fin avant de résoudre
+            console.log(`✅ Audio dual ${language} terminé naturellement`);
+            resolve(true);
           }
         });
         
-        // Timeout de sécurité (10 secondes max)
-        setTimeout(() => {
+        // Timeout de sécurité étendu (30 secondes au lieu de 10)
+        // Ne s'active QUE si l'audio ne se termine pas naturellement
+        timeoutId = setTimeout(() => {
           if (currentAudio.isPlaying) {
-            console.log(`⚠️ Timeout audio ${language}, arrêt forcé`);
-            stopCurrentAudio();
-            resolve(true);
+            console.log(`⚠️ Timeout audio ${language} après 30s, arrêt de sécurité`);
+            stopCurrentAudio().then(() => {
+              resolve(false); // false car timeout = problème
+            });
           }
-        }, 10000);
+        }, 30000);
         
       }).catch((error) => {
         console.log(`❌ Erreur lors du chargement audio dual ${language}:`, error);
