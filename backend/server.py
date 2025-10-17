@@ -1783,6 +1783,19 @@ async def download_package_json():
     raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
 
 
+@app.get("/download-config")
+async def download_config_page():
+    """Page de téléchargement des fichiers de configuration"""
+    file_path = "/app/backend/downloads/index.html"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="text/html"
+        )
+    raise HTTPException(status_code=404, detail=f"Page non trouvée: {file_path}")
+
+
+
 if __name__ == "__main__":
     import uvicorn
 
