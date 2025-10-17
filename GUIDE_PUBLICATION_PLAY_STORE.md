@@ -273,7 +273,7 @@ Téléphone : +262 XXX XXX XXX (optionnel)
 
 **OBLIGATOIRE**
 
-**URL :** `https://shimakibouchi.preview.emergentagent.com/privacy-policy`
+**URL :** `https://shimao-learn-1.preview.emergentagent.com/privacy-policy`
 
 (Ou votre URL Netlify une fois déployée)
 
@@ -447,7 +447,7 @@ Google générera automatiquement une clé de signature pour vous.
 **Obligatoire depuis 2022.**
 
 Vous avez déjà ce document :
-- URL actuelle : `https://shimakibouchi.preview.emergentagent.com/privacy-policy`
+- URL actuelle : `https://shimao-learn-1.preview.emergentagent.com/privacy-policy`
 - URL future : `https://kwezi-app.netlify.app/privacy-policy` (une fois déployée)
 
 ---

@@ -82,7 +82,7 @@ cat /app/backend/.env | grep STRIPE_SECRET_KEY | head -c 15
 
 **URL du webhook :**
 ```
-https://shimakibouchi.preview.emergentagent.com/api/stripe/webhook
+https://shimao-learn-1.preview.emergentagent.com/api/stripe/webhook
 ```
 
 **Événements à activer :**

@@ -184,7 +184,7 @@ STRIPE_WEBHOOK_SECRET=whsec_... (optionnel en dev, REQUIS en prod)
 
 **Frontend `.env`:**
 ```env
-EXPO_PUBLIC_BACKEND_URL=https://shimakibouchi.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://shimao-learn-1.preview.emergentagent.com
 ```
 
 ### Mode actuel : TEST

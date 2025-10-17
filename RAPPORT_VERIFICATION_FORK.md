@@ -151,8 +151,8 @@ STRIPE_PRICE_ID_PREMIUM=price_1SGdDX... ✅
 **Frontend `.env`:**
 ```
 EXPO_TUNNEL_SUBDOMAIN=kwezi-app
-EXPO_PACKAGER_HOSTNAME=https://shimakibouchi.preview.emergentagent.com
-EXPO_PUBLIC_BACKEND_URL=https://shimakibouchi.preview.emergentagent.com
+EXPO_PACKAGER_HOSTNAME=https://shimao-learn-1.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://shimao-learn-1.preview.emergentagent.com
 ```
 
 ### 6. SERVICES

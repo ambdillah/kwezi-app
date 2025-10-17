@@ -798,3 +798,11 @@ backend/kwezi-frontend-code-v2.tar.gz
 # Environment files
 *.env
 *.env.*
+-e 
+# Environment files
+*.env
+*.env.*
+-e 
+# Environment files
+*.env
+*.env.*

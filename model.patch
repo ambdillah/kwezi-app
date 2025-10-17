@@ -78,7 +78,7 @@ index 730b65f..e69de29 100644
 ----+import sys
 ----+
 ----+# Configuration
-----+BACKEND_URL = "https://shimakibouchi.preview.emergentagent.com"
+----+BACKEND_URL = "https://shimao-learn-1.preview.emergentagent.com"
 ----+API_BASE = f"{BACKEND_URL}/api"
 ----+
 ----+class KweziComprehensiveTester:
@@ -1223,7 +1223,7 @@ index 730b65f..e69de29 100644
 -----------------------+import os
 -----------------------+
 -----------------------+# Configuration
------------------------+BACKEND_URL = "https://shimakibouchi.preview.emergentagent.com"
+-----------------------+BACKEND_URL = "https://shimao-learn-1.preview.emergentagent.com"
 -----------------------+API_BASE = f"{BACKEND_URL}/api"
 -----------------------+
 -----------------------+class DatabaseTestSuite:
@@ -1699,7 +1699,7 @@ index 730b65f..e69de29 100644
 ------------------------+    pass
 ------------------------+
 ------------------------+if not BACKEND_URL:
-------------------------+    BACKEND_URL = "https://shimakibouchi.preview.emergentagent.com"
+------------------------+    BACKEND_URL = "https://shimao-learn-1.preview.emergentagent.com"
 ------------------------+
 ------------------------+API_URL = f"{BACKEND_URL}/api"
 ------------------------+print(f"🔗 Using Backend URL: {BACKEND_URL}")
@@ -2141,7 +2141,7 @@ index 730b65f..e69de29 100644
 ---------------------------+from typing import Dict, List, Any, Optional
 ---------------------------+
 ---------------------------+# Configuration
----------------------------+BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://shimakibouchi.preview.emergentagent.com')
+---------------------------+BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://shimao-learn-1.preview.emergentagent.com')
 ---------------------------+API_BASE = f"{BACKEND_URL}/api"
 ---------------------------+
 ---------------------------+class MaisonAudioTester:
@@ -2613,7 +2613,7 @@ index 730b65f..e69de29 100644
 ----------------------------------+from typing import List, Dict, Any
 ----------------------------------+
 ----------------------------------+# Configuration
-----------------------------------+BASE_URL = "https://shimakibouchi.preview.emergentagent.com"
+----------------------------------+BASE_URL = "https://shimao-learn-1.preview.emergentagent.com"
 ----------------------------------+API_BASE = f"{BASE_URL}/api"
 ----------------------------------+
 ----------------------------------+class TestResults:
@@ -4146,7 +4146,7 @@ index 730b65f..e69de29 100644
 ---------------------------------------------+from typing import Dict, List, Any
 ---------------------------------------------+
 ---------------------------------------------+# Configuration
----------------------------------------------+BACKEND_URL = "https://shimakibouchi.preview.emergentagent.com/api"
+---------------------------------------------+BACKEND_URL = "https://shimao-learn-1.preview.emergentagent.com/api"
 ---------------------------------------------+
 ---------------------------------------------+class FamilyWordsTestSuite:
 ---------------------------------------------+    def __init__(self):
@@ -4525,7 +4525,7 @@ index 730b65f..e69de29 100644
 --------------------------------------------------+from datetime import datetime
 --------------------------------------------------+
 --------------------------------------------------+# Configuration des URLs
---------------------------------------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibouchi.preview.emergentagent.com')
+--------------------------------------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimao-learn-1.preview.emergentagent.com')
 --------------------------------------------------+API_BASE = f"{BACKEND_URL}/api"
 --------------------------------------------------+
 --------------------------------------------------+class AdjectifsAudioTester:
@@ -5230,7 +5230,7 @@ index 730b65f..e69de29 100644
 ---------------------------------------------------+import time
 ---------------------------------------------------+
 ---------------------------------------------------+# Configuration des URLs
----------------------------------------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibouchi.preview.emergentagent.com')
+---------------------------------------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimao-learn-1.preview.emergentagent.com')
 ---------------------------------------------------+API_BASE = f"{BACKEND_URL}/api"
 ---------------------------------------------------+
 ---------------------------------------------------+class ExpressionsAudioTester:
@@ -5952,7 +5952,7 @@ index 730b65f..e69de29 100644
 ---------------------------------------------------+import time
 ---------------------------------------------------+
 ---------------------------------------------------+# Configuration des URLs
----------------------------------------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimakibouchi.preview.emergentagent.com')
+---------------------------------------------------+BACKEND_URL = os.getenv('REACT_APP_BACKEND_URL', 'https://shimao-learn-1.preview.emergentagent.com')
 ---------------------------------------------------+API_BASE = f"{BACKEND_URL}/api"
 ---------------------------------------------------+
 ---------------------------------------------------+class ExpressionsAudioTester:
@@ -29411,7 +29411,7 @@ index 730b65f..e69de29 100644
 --------------------+from typing import Dict, List, Optional
 --------------------+
 --------------------+# Configuration
---------------------+BACKEND_URL = "https://shimakibouchi.preview.emergentagent.com"
+--------------------+BACKEND_URL = "https://shimao-learn-1.preview.emergentagent.com"
 --------------------+API_URL = f"{BACKEND_URL}/api"
 --------------------+
 --------------------+class VerbAudioCorrespondencesTester:
