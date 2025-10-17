@@ -1758,6 +1758,31 @@ async def download_complete():
         )
     raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
 
+@app.get("/api/download/config/app.json")
+async def download_app_json():
+    """Télécharger le fichier app.json modifié (newArchEnabled: false)"""
+    file_path = "/app/backend/downloads/app.json"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="application/json",
+            filename="app.json"
+        )
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
+
+@app.get("/api/download/config/package.json")
+async def download_package_json():
+    """Télécharger le fichier package.json modifié (React Native 0.81.4)"""
+    file_path = "/app/backend/downloads/package.json"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="application/json",
+            filename="package.json"
+        )
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
+
+
 if __name__ == "__main__":
     import uvicorn
 
