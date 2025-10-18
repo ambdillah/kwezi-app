@@ -1828,6 +1828,20 @@ async def download_splash_icon():
         return FileResponse(
             path=file_path,
             media_type="image/png",
+
+
+@app.get("/api/download/images/favicon.png")
+async def download_favicon():
+    """Télécharger le favicon"""
+    file_path = "/app/backend/downloads/images/favicon.png"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="image/png",
+            filename="favicon.png"
+        )
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
+
             filename="splash-icon.png"
         )
     raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
