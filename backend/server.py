@@ -1820,6 +1820,20 @@ async def download_adaptive_icon():
     raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
 
 
+@app.get("/api/download/images/splash-icon.png")
+async def download_splash_icon():
+    """Télécharger l'icône de splash screen"""
+    file_path = "/app/backend/downloads/images/splash-icon.png"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="image/png",
+            filename="splash-icon.png"
+        )
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
+
+
+
 
 
 if __name__ == "__main__":
