@@ -1795,6 +1795,32 @@ async def download_config_page():
     raise HTTPException(status_code=404, detail=f"Page non trouvée: {file_path}")
 
 
+@app.get("/api/download/images/icon.png")
+async def download_icon():
+    """Télécharger l'icône de l'application"""
+    file_path = "/app/backend/downloads/images/icon.png"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="image/png",
+            filename="icon.png"
+        )
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
+
+@app.get("/api/download/images/adaptive-icon.png")
+async def download_adaptive_icon():
+    """Télécharger l'icône adaptative de l'application"""
+    file_path = "/app/backend/downloads/images/adaptive-icon.png"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="image/png",
+            filename="adaptive-icon.png"
+        )
+    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
+
+
+
 
 if __name__ == "__main__":
     import uvicorn
