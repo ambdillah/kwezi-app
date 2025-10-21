@@ -129,7 +129,15 @@ class KweziBackendTester:
         try:
             response = requests.get(f"{BACKEND_URL}/api/words?search=maman", timeout=TIMEOUT)
             if response.status_code == 200:
-                search_results = response.json()
+                data = response.json()
+                # Handle both direct array and wrapped response formats
+                if isinstance(data, dict) and "words" in data:
+                    search_results = data["words"]
+                elif isinstance(data, list):
+                    search_results = data
+                else:
+                    search_results = []
+                    
                 found_maman = any(word.get("french", "").lower() == "maman" for word in search_results)
                 if found_maman:
                     self.log_test("GET /api/words?search=maman", True, f"Recherche OK ({len(search_results)} résultats)")
