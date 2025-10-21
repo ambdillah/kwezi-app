@@ -259,18 +259,19 @@ export default function LearnScreen() {
   // Filtrer les mots selon la recherche
   const getFilteredWords = () => {
     if (!searchVisible || searchQuery.trim() === '') {
-      return words;
+      return Array.isArray(words) ? words : [];
     }
 
     const query = searchQuery.toLowerCase();
-    return allWordsForSearch.filter(word =>
-      word.french.toLowerCase().includes(query) ||
-      word.shimaore.toLowerCase().includes(query) ||
-      word.kibouchi.toLowerCase().includes(query)
+    const searchSource = Array.isArray(allWordsForSearch) ? allWordsForSearch : [];
+    return searchSource.filter(word =>
+      word.french?.toLowerCase().includes(query) ||
+      word.shimaore?.toLowerCase().includes(query) ||
+      word.kibouchi?.toLowerCase().includes(query)
     );
   };
 
-  const displayWords = getFilteredWords();
+  const displayWords = Array.isArray(getFilteredWords()) ? getFilteredWords() : [];
 
   return (
     <LinearGradient colors={['#FFD700', '#FFA500', '#000000']} style={styles.container}>
