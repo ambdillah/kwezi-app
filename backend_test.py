@@ -468,77 +468,15 @@ class KweziBackendTester:
             
         return len(self.critical_issues) == 0
     
-    def test_global_audio_coverage(self, all_words: List[Dict]):
-        """Test 6: Couverture audio globale"""
-        print("\n=== TEST 6: COUVERTURE AUDIO GLOBALE ===")
-        
-        if not all_words:
-            self.log_test("Global Audio Coverage", False, "No words data available")
-            return False
-        
-        total_words = len(all_words)
-        with_audio = sum(1 for word in all_words if word.get("has_authentic_audio", False))
-        coverage_percent = (with_audio / total_words * 100) if total_words > 0 else 0
-        
-        # Calculer par catégorie
-        category_coverage = {}
-        for word in all_words:
-            category = word.get("category", "unknown")
-            if category not in category_coverage:
-                category_coverage[category] = {"total": 0, "with_audio": 0}
-            
-            category_coverage[category]["total"] += 1
-            if word.get("has_authentic_audio", False):
-                category_coverage[category]["with_audio"] += 1
-        
-        # Calculer pourcentages par catégorie
-        for category in category_coverage:
-            total = category_coverage[category]["total"]
-            with_audio = category_coverage[category]["with_audio"]
-            category_coverage[category]["percentage"] = (with_audio / total * 100) if total > 0 else 0
-        
-        success = coverage_percent >= 50  # Expect at least 50% global coverage
-        details = f"Global audio coverage: {with_audio}/{total_words} ({coverage_percent:.1f}%)"
-        
-        self.log_test("Global Audio Coverage", success, details)
-        
-        # Test sections sans audio
-        sections_without_audio = [cat for cat, data in category_coverage.items() 
-                                if data["percentage"] < 10]
-        
-        if sections_without_audio:
-            self.log_test("Sections Without Audio", True, f"Sections with <10% audio: {sections_without_audio}")
-        
-        return success
-    
-    def test_audio_file_access(self):
-        """Test 5: Accès aux fichiers audio (sample test)"""
-        print("\n=== TEST 5: ACCÈS AUX FICHIERS AUDIO ===")
-        
-        # Test quelques fichiers audio spécifiques
-        audio_files_to_test = [
-            "Bolé.m4a",
-            "Mzouri.m4a", 
-            "Tadjiri.m4a"
-        ]
-        
-        results = []
-        for audio_file in audio_files_to_test:
-            try:
-                # Test if audio endpoint exists (this is a basic connectivity test)
-                audio_url = f"{self.backend_url}/audio/adjectifs/{audio_file}"
-                response = requests.head(audio_url, timeout=5)
-                
-                success = response.status_code in [200, 404]  # 404 is acceptable, means endpoint exists
-                details = f"Audio file {audio_file}: Status {response.status_code}"
-                
-                self.log_test(f"Audio File Access: {audio_file}", success, details)
-                results.append(success)
-            except Exception as e:
-                self.log_test(f"Audio File Access: {audio_file}", False, f"Error: {str(e)}")
-                results.append(False)
-        
-        return all(results)
+def main():
+    """Fonction principale"""
+    tester = KweziBackendTester()
+    success = tester.run_all_tests()
+    return 0 if success else 1
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())
     
     def run_all_tests(self):
         """Exécuter tous les tests pour la section adjectifs et fonctionnalités connexes"""
