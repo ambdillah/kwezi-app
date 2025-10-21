@@ -444,34 +444,29 @@ class KweziBackendTester:
             
         print("="*80)
     
-    def test_adjectifs_api_performance(self):
-        """Test 4: Performance API avec section adjectifs"""
-        print("\n=== TEST 4: PERFORMANCE API AVEC SECTION ADJECTIFS ===")
+    def run_all_tests(self):
+        """Exécuter tous les tests pour le déploiement APK"""
+        print("🎯 TESTS COMPLETS BACKEND AVANT DÉPLOIEMENT APK")
+        print(f"Backend testé: {BACKEND_URL}")
+        print("="*80)
         
         try:
-            start_time = time.time()
-            response = requests.get(f"{self.backend_url}/words?category=adjectifs", timeout=15)
-            end_time = time.time()
+            self.test_api_endpoints()
+            self.test_data_integrity()
+            self.test_audio_system()
+            self.test_games_sentences()
+            self.test_performance()
             
-            response_time = end_time - start_time
-            
-            if response.status_code != 200:
-                self.log_test("Adjectifs API Performance", False, f"API Error: {response.status_code}")
-                return False
-            
-            adjectifs = response.json()
-            word_count = len(adjectifs)
-            
-            # Test performance (should respond within 2 seconds)
-            performance_success = response_time < 2.0
-            performance_details = f"Response time: {response_time:.3f}s, returned {word_count} adjectifs"
-            
-            self.log_test("Adjectifs API Performance", performance_success, performance_details)
-            
-            return performance_success
+        except KeyboardInterrupt:
+            print("\n⚠️ Tests interrompus par l'utilisateur")
         except Exception as e:
-            self.log_test("Adjectifs API Performance", False, f"Error: {str(e)}")
-            return False
+            print(f"\n🚨 Erreur critique pendant les tests: {str(e)}")
+            self.log_issue(f"Erreur système: {str(e)}")
+        
+        finally:
+            self.generate_report()
+            
+        return len(self.critical_issues) == 0
     
     def test_global_audio_coverage(self, all_words: List[Dict]):
         """Test 6: Couverture audio globale"""
