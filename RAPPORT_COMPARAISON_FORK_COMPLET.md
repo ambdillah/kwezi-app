@@ -123,8 +123,8 @@ Distribution:
 - ✅ STRIPE_PRICE_ID_PREMIUM configuré
 
 **Frontend (.env):**
-- ✅ EXPO_PACKAGER_HOSTNAME: `https://shimao-learn-1.preview.emergentagent.com`
-- ✅ EXPO_PUBLIC_BACKEND_URL: `https://shimao-learn-1.preview.emergentagent.com`
+- ✅ EXPO_PACKAGER_HOSTNAME: `https://mahorais-learn.preview.emergentagent.com`
+- ✅ EXPO_PUBLIC_BACKEND_URL: `https://mahorais-learn.preview.emergentagent.com`
 
 #### Services
 ```

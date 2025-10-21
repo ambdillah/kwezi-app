@@ -15,7 +15,7 @@
 
 **URL de téléchargement :**
 ```
-https://shimao-learn-1.preview.emergentagent.com/api/download/code
+https://mahorais-learn.preview.emergentagent.com/api/download/code
 ```
 
 **Contenu :**
@@ -46,7 +46,7 @@ tsconfig.json          # Configuration TypeScript
 
 **URL de téléchargement :**
 ```
-https://shimao-learn-1.preview.emergentagent.com/api/download/audio
+https://mahorais-learn.preview.emergentagent.com/api/download/audio
 ```
 
 **Contenu :**
@@ -86,10 +86,10 @@ assets/audio/
 
 ```bash
 # Télécharger le code
-curl -L "https://shimao-learn-1.preview.emergentagent.com/api/download/code" -o kwezi-frontend-code-final.tar.gz
+curl -L "https://mahorais-learn.preview.emergentagent.com/api/download/code" -o kwezi-frontend-code-final.tar.gz
 
 # Télécharger les audios
-curl -L "https://shimao-learn-1.preview.emergentagent.com/api/download/audio" -o kwezi-audio-final.tar.gz
+curl -L "https://mahorais-learn.preview.emergentagent.com/api/download/audio" -o kwezi-audio-final.tar.gz
 
 # Vérifier les téléchargements
 ls -lh kwezi-*.tar.gz

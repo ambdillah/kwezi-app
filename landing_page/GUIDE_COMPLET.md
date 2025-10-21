@@ -25,7 +25,7 @@ Une landing page professionnelle complète pour votre application Kwezi, compren
 
 **Utilisez l'URL actuelle pour commencer :**
 ```
-https://shimao-learn-1.preview.emergentagent.com
+https://mahorais-learn.preview.emergentagent.com
 ```
 
 ✅ **Avantages :**
@@ -167,13 +167,13 @@ Les liens vers vos documents légaux sont déjà configurés :
 
 ```html
 ✅ Politique de confidentialité
-   → https://shimao-learn-1.preview.emergentagent.com/privacy-policy
+   → https://mahorais-learn.preview.emergentagent.com/privacy-policy
 
 ✅ Conditions générales
-   → https://shimao-learn-1.preview.emergentagent.com/terms-of-sale
+   → https://mahorais-learn.preview.emergentagent.com/terms-of-sale
 
 ✅ Mentions légales
-   → https://shimao-learn-1.preview.emergentagent.com/mentions-legales
+   → https://mahorais-learn.preview.emergentagent.com/mentions-legales
 ```
 
 ---
@@ -248,7 +248,7 @@ Violet gradient : #667eea → #764ba2 (hero, download)
 
 **Option A : Rapide (5 min)**
 ```
-Utilisez : https://shimao-learn-1.preview.emergentagent.com
+Utilisez : https://mahorais-learn.preview.emergentagent.com
 ```
 
 **Option B : Professionnel (30 min)**

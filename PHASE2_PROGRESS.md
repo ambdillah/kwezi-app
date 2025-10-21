@@ -123,7 +123,7 @@
 
 **Backend URL** (déjà configuré) :
 ```
-EXPO_PUBLIC_BACKEND_URL=https://shimao-learn-1.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://mahorais-learn.preview.emergentagent.com
 ```
 
 ---

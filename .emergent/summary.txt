@@ -1,77 +1,70 @@
 <analysis>
-The previous AI engineer's work centered on preparing the Kwezi app for deployment, initiating with comprehensive data and audio integrity checks. This involved fixing 66 missing audio files, correcting spelling inconsistencies (e.g., entérer to enterrer), Kibouchi orthography, and resolving a critical audio playback bug linked to the  flag and aggressive audio timeouts. A large batch of 136 expressions audio files was integrated, significantly reducing missing audios to 16. The engineer then generated deployable frontend code and audio archives, creating download routes via FastAPI. The primary challenge during this trajectory was guiding the user through the local EAS Android build process, encountering issues such as an overly large build archive (due to incorrect working directory and un-ignored ), persistent missing asset errors (, , ,  indicating improper project setup on the user's local machine), and finally, Node.js version incompatibility and Kotlin compilation failures related to  and , suggesting a need to align React Native versions or address new architecture configurations.
+The previous AI engineer's work primarily focused on resolving critical EAS Android build failures for the Kwezi application, following initial data integrity checks. Key challenges included correcting dependency mismatches between React Native and Expo SDK, disabling new architecture features (), addressing persistent missing asset errors (, , , ), and resolving various peer dependency issues (, , ). Multiple attempts to build locally failed due to environment-specific issues on the user's Windows machine, particularly Node.js TypeScript stripping problems. Eventually, the strategy shifted to building the application from the more stable Emergent environment, which successfully produced an Android APK. The trajectory concludes with the user reporting that the built app lacks data and is incompatible with their Expo Go version, indicating a new set of issues related to backend connectivity and local testing setup.
 </analysis>
 
 <product_requirements>
-The Kwezi application is an educational platform for Shimaoré and Kibouchi languages, emphasizing authentic audio and data integrity. It operates on a freemium model (250 free words, €2.90/month premium via Stripe) and offers PDF exercise sheets. Features include refactored Text-to-Speech, extensive authentic audio, paginated content, a word search, and learning games (Mayotte quiz, sentence building). Legal documents (privacy policy, terms of sale, legal notices) are implemented with recent updates for children's responsibility and a mandatory CGU checkbox before payment. The app is being prepared for Google Play Store deployment, which includes package name configuration, EAS build setup, and a dedicated landing page. Recent development focused on refining French verb conjugations, enhancing game mechanics, and resolving audio-to-word mismatches for a polished user experience.
+The Kwezi application is an educational platform for learning Shimaoré and Kibouchi languages, emphasizing authentic audio and data integrity. It features a freemium model (250 free words, €2.90/month premium via Stripe) and offers PDF exercise sheets. Core functionalities include refined Text-to-Speech, extensive authentic audio content, paginated content, a word search feature, and learning games (Mayotte quiz, sentence building). Legal documents (privacy policy, terms of sale, legal notices) are integrated, updated with children's responsibility clauses and a mandatory CGU checkbox before payment. The app is being prepared for Google Play Store deployment, necessitating proper package name configuration, EAS build setup, and a dedicated landing page. Recent development efforts focused on refining French verb conjugations, enhancing game mechanics, and resolving audio-to-word mismatches to provide a polished user experience.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI (Python) backend, MongoDB database.
--   **Data Management:** Python scripts for database operations, Pydantic.
--   **Audio System:** Custom dual authentic audio playback, synthesis fallback.
 -   **Monetization:** Stripe for freemium subscriptions, webhooks.
 -   **Routing:** Expo Router for file-based navigation.
--   **Build System:** Expo Application Services (EAS) for native builds.
+-   **Build System:** Expo Application Services (EAS) for native builds (Android/iOS).
+-   **Audio System:** Custom dual authentic audio playback, synthesis fallback.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   ****
-    -   **Importance:** Stores backend environment variables, including Stripe keys.
-    -   **Summary of Changes:** Updated with Stripe keys.
+    -   **Importance:** Stores backend environment variables, including MongoDB URL and Stripe keys.
+    -   **Summary of Changes:** Verified correct configuration,  confirmed.
 -   ****
-    -   **Importance:** Main FastAPI server for API endpoints and content delivery.
-    -   **Summary of Changes:** Added  routes for deployment archives; modified audio serving to use  flag.
--   ****
-    -   **Importance:** Identifies word-to-audio mismatches/missing audio files.
-    -   **Summary of Changes:** Executed multiple times for audio integrity checks.
+    -   **Importance:** Main FastAPI server for API endpoints.
+    -   **Summary of Changes:** Temporarily modified to add  routes for  and , and  routes for icon files to facilitate local user updates.
 -   ** (New File)**
-    -   **Importance:** Integrates new audio files for expressions.
-    -   **Summary of Changes:** Created and executed to process 136 new expression audio files.
+    -   **Importance:** Provides direct download links for configuration files.
+    -   **Summary of Changes:** Created to assist the user in obtaining locally modified  and  files and later image assets.
 -   ****
-    -   **Importance:** Contains construire des phrases game logic.
-    -   **Summary of Changes:** Verb prefix coloring, auto-restart on completion.
+    -   **Importance:** Expo application configuration for native builds.
+    -   **Summary of Changes:**
+        -    was changed to  to resolve Kotlin compilation errors.
+        -    was implicitly handled by EAS CLI.
+        -   Paths for , , , and  were updated and files created/copied to ensure correct asset resolution during EAS builds.
+        -    was noted as an invalid property by .
+    -   **Code Snippets:**
+        
 -   ****
-    -   **Importance:** Logic for authentic audio playback and synthesis fallback.
-    -   **Summary of Changes:** Removed 10-second timeout; explicitly stops synthesis before authentic audio; stricter fallback conditions.
+    -   **Importance:** Manages project dependencies and scripts.
+    -   **Summary of Changes:**
+        -   Initially,  was updated to  (and / to ) to match Expo SDK 54.
+        -   Later,  was downgraded to  from  due to new architecture requirements.
+        -    was removed to resolve new architecture conflicts.
+        -    and  were explicitly added to resolve peer dependency issues.
+        -   Finally, all Expo-related packages were explicitly downgraded and aligned to **Expo SDK 52** (e.g., , , , , , etc.).
 -   ****
-    -   **Importance:** Expo application configuration.
-    -   **Summary of Changes:** Updated , , , . Contains references to  and  that were critical for build failures.
--   ** (New File)**
-    -   **Importance:** Configuration for Expo Application Services (EAS) builds.
-    -   **Summary of Changes:** Created with a basic production build profile.
--   ** (New File)**
-    -   **Importance:** Provides direct download links for deployment files.
-    -   **Summary of Changes:** Created to offer a manual download option.
--   ****
-    -   **Importance:** A component displaying an image.
-    -   **Summary of Changes:** Contains , which caused build failures when the image was missing from the user's build directory.
--   ****
-    -   **Importance:** A component displaying an image.
-    -   **Summary of Changes:** Contains , which also caused build failures due to missing image.
+    -   **Importance:** TypeScript configuration for the frontend.
+    -   **Summary of Changes:** Discussed but not directly modified in the trajectory. A suggestion to change  to  was considered but not executed.
+-   ** (New Directory & Files)**
+    -   **Importance:** Stores image assets critical for application icons and splash screens.
+    -   **Summary of Changes:** , , , and  were created/copied to this directory and directly into  to satisfy build requirements.
 </code_architecture>
 
 <pending_tasks>
--   Resolve the Gradle build failure indicating  and  in . This likely requires synchronizing React Native versions or adjusting the new architecture configuration for the EAS build environment.
+-   Investigate why the successfully built Android APK does not display words from the database when run by the user.
+-   Address the incompatibility between the user's Expo Go 54 and the app's current SDK 52.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was deep into troubleshooting a series of EAS Android build failures for the Kwezi application. Initially, the user faced a  error (2.7 GB vs 2.0 GB limit) because they were attempting the build from their general  directory, which contained many unrelated files and a large  folder. The engineer guided the user to delete  and then, crucially, to move the project to a clean directory . This resolved the archive size issue, reducing it to 32.3 MB.
+Immediately before this summary request, the AI engineer successfully guided the user through a complex EAS Android build process for the Kwezi application. After numerous attempts and troubleshooting steps on the user's local Windows machine (including correcting dependency versions,  flags, Node.js environment variables, and missing asset files), the strategy shifted to performing the build directly within the Emergent environment using the provided EAS access token. This resulted in a successful Android APK build, which was made available for download.
 
-However, subsequent build attempts failed due to missing asset files referenced in  and various React Native components. Specifically, errors were reported for:
-1.   (from )
-2.   (from )
-3.   (from )
-4.   (from )
-
-These errors indicated that while the codebase might contain these references, the actual image files were not present in the user's  directory during the build archive creation, suggesting improper extraction or placement of the  subdirectory by the user.
-
-After these asset issues were seemingly bypassed (or the user implicitly fixed them, as the build progressed further), the build failed during the Install dependencies phase due to a Node.js version incompatibility on the EAS build server ( required Node , but  was present).
-
-Finally, the build progressed to the Run gradlew phase but failed with Kotlin compilation errors:  and  in . This suggests a deeper issue with React Native's new architecture ( in ) setup or a mismatch between the project's React Native version ( used vs  recommended) and the EAS build environment's expectations. The previous AI engineer determined this is the next critical problem to address.
+However, the user reported a critical issue: the newly built application, when run (presumably in the Emergent web preview as Expo Go was incompatible), showed no words from the database. The AI engineer promptly checked the MongoDB database, confirming that 635 words were present in the  collection. The current task is to diagnose why the deployed application is not connecting to or fetching data from the correct backend database. The conversation ended with the user confirming they are testing on the Emergent web preview and that their Expo Go app (v54) is incompatible with the SDK 52 version of the application.
 </current_work>
 
 <optional_next_step>
-Address the Kotlin compilation errors in  by updating React Native to the recommended version or configuring the new architecture.
+Diagnose why the deployed application in Emergent web preview shows no words from the database.
 </optional_next_step>
+<direct_quote>
+je test sur emergent pour le moment car sur expo go ça ne fonctionne pas peut parceque j ai expo go 54"
+"je nai plus aucun mots de la base de données est normal
+</direct_quote>
