@@ -49,16 +49,130 @@ class KweziBackendTester:
             self.minor_issues.append(issue)
             print(f"⚠️ MINEUR: {issue}")
         
-    def test_api_connectivity(self):
-        """Test basic API connectivity"""
+    def test_api_endpoints(self):
+        """Test des endpoints principaux de l'API"""
+        print("\n=== 1. API ENDPOINTS PRINCIPAUX ===")
+        
+        # 1. GET /api/health (vérifier connexion DB)
         try:
-            response = requests.get(f"{BACKEND_URL}/", timeout=10)
-            success = response.status_code == 200
-            self.log_test("API Connectivity", success, f"Status: {response.status_code}")
-            return success
+            start_time = time.time()
+            response = requests.get(f"{BACKEND_URL}/api/health", timeout=TIMEOUT)
+            response_time = time.time() - start_time
+            
+            if response.status_code == 200:
+                data = response.json()
+                if "database" in data and data.get("database") == "connected":
+                    self.log_test("GET /api/health", True, f"Connexion DB OK ({response_time:.3f}s)")
+                else:
+                    self.log_test("GET /api/health", False, "Connexion DB non confirmée")
+                    self.log_issue("Base de données non connectée")
+            else:
+                self.log_test("GET /api/health", False, f"Status {response.status_code}")
+                self.log_issue("Endpoint health non accessible")
         except Exception as e:
-            self.log_test("API Connectivity", False, f"Error: {str(e)}")
-            return False
+            self.log_test("GET /api/health", False, f"Erreur: {str(e)}")
+            self.log_issue("Endpoint health en erreur")
+
+        # 2. GET /api/words (vérifier les 635 mots)
+        try:
+            start_time = time.time()
+            response = requests.get(f"{BACKEND_URL}/api/words", timeout=TIMEOUT)
+            response_time = time.time() - start_time
+            
+            if response.status_code == 200:
+                words = response.json()
+                word_count = len(words)
+                
+                if word_count >= 635:
+                    self.log_test("GET /api/words", True, f"{word_count} mots trouvés ({response_time:.3f}s)")
+                else:
+                    self.log_test("GET /api/words", False, f"Seulement {word_count} mots (attendu: 635+)")
+                    self.log_issue(f"Nombre de mots insuffisant: {word_count}/635")
+                    
+                # Stocker les mots pour tests ultérieurs
+                self.words_data = words
+            else:
+                self.log_test("GET /api/words", False, f"Status {response.status_code}")
+                self.log_issue("Endpoint words non accessible")
+                self.words_data = []
+        except Exception as e:
+            self.log_test("GET /api/words", False, f"Erreur: {str(e)}")
+            self.log_issue("Endpoint words en erreur")
+            self.words_data = []
+
+        # 3. GET /api/words?category=famille
+        try:
+            response = requests.get(f"{BACKEND_URL}/api/words?category=famille", timeout=TIMEOUT)
+            if response.status_code == 200:
+                famille_words = response.json()
+                self.log_test("GET /api/words?category=famille", True, f"{len(famille_words)} mots famille")
+            else:
+                self.log_test("GET /api/words?category=famille", False, f"Status {response.status_code}")
+        except Exception as e:
+            self.log_test("GET /api/words?category=famille", False, f"Erreur: {str(e)}")
+
+        # 4. GET /api/words?search=maman
+        try:
+            response = requests.get(f"{BACKEND_URL}/api/words?search=maman", timeout=TIMEOUT)
+            if response.status_code == 200:
+                search_results = response.json()
+                found_maman = any(word.get("french", "").lower() == "maman" for word in search_results)
+                if found_maman:
+                    self.log_test("GET /api/words?search=maman", True, f"Recherche OK ({len(search_results)} résultats)")
+                else:
+                    self.log_test("GET /api/words?search=maman", False, "Mot 'maman' non trouvé")
+            else:
+                self.log_test("GET /api/words?search=maman", False, f"Status {response.status_code}")
+        except Exception as e:
+            self.log_test("GET /api/words?search=maman", False, f"Erreur: {str(e)}")
+
+        # 5. GET /api/sentences
+        try:
+            response = requests.get(f"{BACKEND_URL}/api/sentences", timeout=TIMEOUT)
+            if response.status_code == 200:
+                sentences = response.json()
+                sentence_count = len(sentences)
+                if sentence_count >= 270:
+                    self.log_test("GET /api/sentences", True, f"{sentence_count} phrases pour jeux")
+                    self.sentences_data = sentences
+                else:
+                    self.log_test("GET /api/sentences", False, f"Seulement {sentence_count} phrases (attendu: 270+)")
+                    self.log_issue(f"Nombre de phrases insuffisant: {sentence_count}/270")
+                    self.sentences_data = sentences
+            else:
+                self.log_test("GET /api/sentences", False, f"Status {response.status_code}")
+                self.sentences_data = []
+        except Exception as e:
+            self.log_test("GET /api/sentences", False, f"Erreur: {str(e)}")
+            self.sentences_data = []
+
+        # 6. GET /api/categories
+        try:
+            response = requests.get(f"{BACKEND_URL}/api/categories", timeout=TIMEOUT)
+            if response.status_code == 200:
+                categories = response.json()
+                if len(categories) >= 16:
+                    self.log_test("GET /api/categories", True, f"{len(categories)} catégories")
+                else:
+                    self.log_test("GET /api/categories", False, f"Seulement {len(categories)} catégories (attendu: 16+)")
+            else:
+                self.log_test("GET /api/categories", False, f"Status {response.status_code}")
+        except Exception as e:
+            self.log_test("GET /api/categories", False, f"Erreur: {str(e)}")
+
+        # 7. GET /api/exercises
+        try:
+            response = requests.get(f"{BACKEND_URL}/api/exercises", timeout=TIMEOUT)
+            if response.status_code == 200:
+                exercises = response.json()
+                if len(exercises) >= 10:
+                    self.log_test("GET /api/exercises", True, f"{len(exercises)} exercices")
+                else:
+                    self.log_test("GET /api/exercises", False, f"Seulement {len(exercises)} exercices (attendu: 10+)")
+            else:
+                self.log_test("GET /api/exercises", False, f"Status {response.status_code}")
+        except Exception as e:
+            self.log_test("GET /api/exercises", False, f"Erreur: {str(e)}")
     
     def test_adjectifs_section_exists(self):
         """Test 1: Vérification nouvelle section adjectifs - existence et nombre de mots"""
