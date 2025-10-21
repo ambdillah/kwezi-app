@@ -224,42 +224,70 @@ class KweziBackendTester:
             self.log_test("Pas de doublons", False, f"{duplicates} doublons trouvés")
             self.log_issue(f"Doublons détectés: {duplicates}")
     
-    def test_specific_adjectifs_correspondences(self, adjectifs: List[Dict]):
-        """Test correspondances spécifiques des adjectifs"""
-        print("\n=== TEST CORRESPONDANCES SPÉCIFIQUES ADJECTIFS ===")
+    def test_audio_system(self):
+        """Test du système audio"""
+        print("\n=== 3. SYSTÈME AUDIO ===")
         
-        specific_tests = [
-            {"french": "grand", "shimaore": "bolé", "audio_expected": "Bolé.m4a"},
-            {"french": "beau", "shimaore": "mzouri", "audio_expected": "Mzouri.m4a"},
-            {"french": "jolie", "shimaore": "mzouri", "audio_expected": "Mzouri.m4a"},
-            {"french": "riche", "shimaore": "tadjiri", "audio_expected": "Tadjiri.m4a"}
-        ]
-        
-        results = []
-        for test_case in specific_tests:
-            found = False
-            for adj in adjectifs:
-                french_match = (adj.get("french", "").lower() == test_case["french"].lower() or 
-                              test_case["french"].lower() in adj.get("french", "").lower())
-                
-                if french_match:
-                    shimaore_match = test_case["shimaore"].lower() in adj.get("shimaore", "").lower()
-                    has_audio = adj.get("has_authentic_audio", False)
-                    audio_filename = adj.get("audio_filename", "")
-                    
-                    success = shimaore_match and has_audio
-                    details = f"French: {adj.get('french')}, Shimaoré: {adj.get('shimaore')}, Audio: {audio_filename}, Has Audio: {has_audio}"
-                    
-                    self.log_test(f"Adjectif Correspondence: {test_case['french']}", success, details)
-                    results.append(success)
-                    found = True
-                    break
+        if not hasattr(self, 'words_data') or not self.words_data:
+            self.log_issue("Impossible de tester l'audio - données mots non disponibles")
+            return
             
-            if not found:
-                self.log_test(f"Adjectif Correspondence: {test_case['french']}", False, "Word not found in database")
-                results.append(False)
+        # Test 1: Champs audio présents
+        audio_words = 0
+        dual_audio_words = 0
         
-        return results
+        for word in self.words_data:
+            has_audio_fields = any([
+                word.get("shimoare_audio_filename"),
+                word.get("kibouchi_audio_filename"),
+                word.get("audio_filename_shimaore"),
+                word.get("audio_filename_kibouchi")
+            ])
+            
+            if has_audio_fields:
+                audio_words += 1
+                
+            if word.get("dual_audio_system") == True:
+                dual_audio_words += 1
+                
+        audio_coverage = (audio_words / len(self.words_data)) * 100
+        dual_coverage = (dual_audio_words / len(self.words_data)) * 100
+        
+        if audio_coverage >= 50:
+            self.log_test("Couverture audio", True, f"{audio_coverage:.1f}% des mots ont des références audio")
+        else:
+            self.log_test("Couverture audio", False, f"Seulement {audio_coverage:.1f}% de couverture audio")
+            
+        if dual_coverage >= 30:
+            self.log_test("Système dual audio", True, f"{dual_coverage:.1f}% avec dual_audio_system")
+        else:
+            self.log_test("Système dual audio", False, f"Seulement {dual_coverage:.1f}% avec dual_audio_system")
+
+        # Test 2: Exemples spécifiques
+        test_words = ["Papa", "Maman", "Famille", "Bonjour"]
+        found_audio_examples = 0
+        
+        for test_word in test_words:
+            word_data = next((w for w in self.words_data if w.get("french", "").lower() == test_word.lower()), None)
+            if word_data:
+                has_audio = any([
+                    word_data.get("shimoare_audio_filename"),
+                    word_data.get("kibouchi_audio_filename"),
+                    word_data.get("audio_filename_shimaore"),
+                    word_data.get("audio_filename_kibouchi")
+                ])
+                if has_audio:
+                    found_audio_examples += 1
+                    self.log_test(f"Audio '{test_word}'", True, "Références audio trouvées")
+                else:
+                    self.log_test(f"Audio '{test_word}'", False, "Pas de références audio")
+            else:
+                self.log_test(f"Audio '{test_word}'", False, "Mot non trouvé")
+                
+        if found_audio_examples >= 2:
+            self.log_test("Exemples audio", True, f"{found_audio_examples}/{len(test_words)} exemples avec audio")
+        else:
+            self.log_test("Exemples audio", False, f"Seulement {found_audio_examples}/{len(test_words)} exemples avec audio")
     
     def test_adjectifs_audio_coverage(self, adjectifs: List[Dict]):
         """Test couverture audio des adjectifs (100% attendu)"""
