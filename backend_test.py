@@ -182,7 +182,15 @@ class KweziBackendTester:
         try:
             response = requests.get(f"{BACKEND_URL}/api/categories", timeout=TIMEOUT)
             if response.status_code == 200:
-                categories = response.json()
+                data = response.json()
+                # Handle both direct array and wrapped response formats
+                if isinstance(data, dict) and "categories" in data:
+                    categories = data["categories"]
+                elif isinstance(data, list):
+                    categories = data
+                else:
+                    categories = []
+                    
                 if len(categories) >= 16:
                     self.log_test("GET /api/categories", True, f"{len(categories)} catégories")
                 else:
@@ -196,7 +204,15 @@ class KweziBackendTester:
         try:
             response = requests.get(f"{BACKEND_URL}/api/exercises", timeout=TIMEOUT)
             if response.status_code == 200:
-                exercises = response.json()
+                data = response.json()
+                # Handle both direct array and wrapped response formats
+                if isinstance(data, dict) and "exercises" in data:
+                    exercises = data["exercises"]
+                elif isinstance(data, list):
+                    exercises = data
+                else:
+                    exercises = []
+                    
                 if len(exercises) >= 10:
                     self.log_test("GET /api/exercises", True, f"{len(exercises)} exercices")
                 else:
