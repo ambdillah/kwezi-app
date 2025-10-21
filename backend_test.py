@@ -210,12 +210,17 @@ class KweziBackendTester:
             if all(key in word and word[key] for key in ["french", "shimaore", "kibouchi", "category"]):
                 complete_words += 1
                 
-        completion_rate = (complete_words / len(self.words_data)) * 100
-        if completion_rate >= 99:
-            self.log_test("Champs requis complets", True, f"{completion_rate:.1f}% des mots complets")
+        sample_size = len(self.words_data)
+        if sample_size > 0:
+            completion_rate = (complete_words / sample_size) * 100
+            if completion_rate >= 99:
+                self.log_test("Champs requis complets", True, f"{completion_rate:.1f}% des mots complets (échantillon de {sample_size})")
+            else:
+                self.log_test("Champs requis complets", False, f"Seulement {completion_rate:.1f}% des mots complets (échantillon de {sample_size})")
+                self.log_issue(f"Données incomplètes: {completion_rate:.1f}%")
         else:
-            self.log_test("Champs requis complets", False, f"Seulement {completion_rate:.1f}% des mots complets")
-            self.log_issue(f"Données incomplètes: {completion_rate:.1f}%")
+            self.log_test("Champs requis complets", False, "Aucun mot disponible pour test")
+            self.log_issue("Aucune donnée disponible")
 
         # Test 2: Orthographe française avec accents
         accent_words = ["Frère", "Sœur", "École", "Étoile", "Tête", "Grand-père"]
