@@ -1849,9 +1849,6 @@ async def download_favicon():
 
 
 
-if __name__ == "__main__":
-    import uvicorn
-
 @app.get("/api/debug/audio/{word_id}/{lang}")
 async def debug_audio_route(word_id: str, lang: str):
     """Route de debug pour l'audio"""
@@ -2082,4 +2079,6 @@ async def download_verification_csv():
         filename='VERIFICATION_VOCABULAIRE_COMPLET.csv'
     )
 
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="0.0.0.0", port=8001)if __name__ == "__main__":
+    import uvicorn
+
