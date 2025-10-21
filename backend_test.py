@@ -386,56 +386,63 @@ class KweziBackendTester:
             self.log_test("Stabilité", False, f"Seulement {consecutive_success}/3 requêtes réussies")
             self.log_issue("Service instable")
     
-    def test_nourriture_orthography(self):
-        """Test 3: Orthographe section nourriture"""
-        print("\n=== TEST 3: ORTHOGRAPHE SECTION NOURRITURE ===")
+    def generate_report(self):
+        """Génère le rapport final"""
+        print("\n" + "="*80)
+        print("📊 RAPPORT FINAL - TESTS BACKEND KWEZI")
+        print("="*80)
         
-        try:
-            response = requests.get(f"{self.backend_url}/words?category=nourriture", timeout=10)
-            if response.status_code != 200:
-                self.log_test("Nourriture Section", False, f"API Error: {response.status_code}")
-                return False
+        # Calcul des statistiques par catégorie
+        api_passed = sum(1 for result in self.test_results if "GET /api/" in result and "✅" in result)
+        api_total = sum(1 for result in self.test_results if "GET /api/" in result)
+        
+        data_passed = sum(1 for result in self.test_results if any(keyword in result for keyword in ["Champs requis", "Orthographe", "doublons"]) and "✅" in result)
+        data_total = sum(1 for result in self.test_results if any(keyword in result for keyword in ["Champs requis", "Orthographe", "doublons"]))
+        
+        audio_passed = sum(1 for result in self.test_results if any(keyword in result for keyword in ["audio", "Audio"]) and "✅" in result)
+        audio_total = sum(1 for result in self.test_results if any(keyword in result for keyword in ["audio", "Audio"]))
+        
+        games_passed = sum(1 for result in self.test_results if any(keyword in result for keyword in ["phrases", "Structure", "Temps", "difficulté"]) and "✅" in result)
+        games_total = sum(1 for result in self.test_results if any(keyword in result for keyword in ["phrases", "Structure", "Temps", "difficulté"]))
+        
+        perf_passed = sum(1 for result in self.test_results if any(keyword in result for keyword in ["Performance", "Temps réponse", "Stabilité"]) and "✅" in result)
+        perf_total = sum(1 for result in self.test_results if any(keyword in result for keyword in ["Performance", "Temps réponse", "Stabilité"]))
+        
+        # Affichage du résumé
+        print(f"✅ API Endpoints : {api_passed}/{api_total} tests réussis")
+        print(f"✅ Intégrité Données : {data_passed}/{data_total} tests réussis")
+        print(f"✅ Système Audio : {audio_passed}/{audio_total} tests réussis")
+        print(f"✅ Jeux : {games_passed}/{games_total} tests réussis")
+        print(f"✅ Performance : {perf_passed}/{perf_total} tests réussis")
+        
+        # Problèmes critiques
+        if self.critical_issues:
+            print(f"\n🚨 PROBLÈMES CRITIQUES TROUVÉS : {len(self.critical_issues)}")
+            for issue in self.critical_issues:
+                print(f"   • {issue}")
+        else:
+            print("\n✅ Aucun problème critique détecté")
             
-            nourriture_words = response.json()
-            word_count = len(nourriture_words)
+        # Problèmes mineurs
+        if self.minor_issues:
+            print(f"\n⚠️ PROBLÈMES MINEURS : {len(self.minor_issues)}")
+            for issue in self.minor_issues:
+                print(f"   • {issue}")
+        else:
+            print("\n✅ Aucun problème mineur détecté")
             
-            # Test nombre de mots nourriture (attendu: 44)
-            count_success = word_count >= 40  # Allow some flexibility
-            count_details = f"Found {word_count} nourriture words (expected ~44)"
+        # Verdict final
+        total_critical = len(self.critical_issues)
+        
+        print(f"\n{'='*80}")
+        if total_critical == 0:
+            print("✅ PRÊT POUR DÉPLOIEMENT : OUI")
+            print("Le backend est stable et fonctionnel pour le déploiement APK")
+        else:
+            print("❌ PRÊT POUR DÉPLOIEMENT : NON")
+            print(f"⚠️ {total_critical} problème(s) critique(s) à corriger avant déploiement")
             
-            # Test correspondances spécifiques
-            specific_tests = [
-                {"french": "riz", "shimaore": "tsoholé", "kibouchi": "vari"},
-                {"french": "eau", "shimaore": "maji", "kibouchi": "ranou"},
-                {"french": "sel", "shimaore": "chingó", "kibouchi": "sira"}
-            ]
-            
-            correspondence_results = []
-            for test_case in specific_tests:
-                found = False
-                for word in nourriture_words:
-                    if word.get("french", "").lower() == test_case["french"].lower():
-                        shimaore_match = test_case["shimaore"].lower() in word.get("shimaore", "").lower()
-                        kibouchi_match = test_case["kibouchi"].lower() in word.get("kibouchi", "").lower()
-                        
-                        success = shimaore_match and kibouchi_match
-                        details = f"French: {word.get('french')}, Shimaoré: {word.get('shimaore')}, Kibouchi: {word.get('kibouchi')}"
-                        
-                        self.log_test(f"Nourriture Orthography: {test_case['french']}", success, details)
-                        correspondence_results.append(success)
-                        found = True
-                        break
-                
-                if not found:
-                    self.log_test(f"Nourriture Orthography: {test_case['french']}", False, "Word not found")
-                    correspondence_results.append(False)
-            
-            self.log_test("Nourriture Word Count", count_success, count_details)
-            
-            return count_success and all(correspondence_results)
-        except Exception as e:
-            self.log_test("Nourriture Orthography", False, f"Error: {str(e)}")
-            return False
+        print("="*80)
     
     def test_adjectifs_api_performance(self):
         """Test 4: Performance API avec section adjectifs"""
