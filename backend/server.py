@@ -2079,6 +2079,7 @@ async def download_verification_csv():
         filename='VERIFICATION_VOCABULAIRE_COMPLET.csv'
     )
 
-    uvicorn.run(app, host="0.0.0.0", port=8001)if __name__ == "__main__":
+if __name__ == "__main__":
     import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
 
