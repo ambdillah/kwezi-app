@@ -289,24 +289,51 @@ class KweziBackendTester:
         else:
             self.log_test("Exemples audio", False, f"Seulement {found_audio_examples}/{len(test_words)} exemples avec audio")
     
-    def test_adjectifs_audio_coverage(self, adjectifs: List[Dict]):
-        """Test couverture audio des adjectifs (100% attendu)"""
-        print("\n=== TEST COUVERTURE AUDIO ADJECTIFS ===")
+    def test_games_sentences(self):
+        """Test du jeu Construire des Phrases"""
+        print("\n=== 4. JEUX - CONSTRUIRE DES PHRASES ===")
         
-        if not adjectifs:
-            self.log_test("Adjectifs Audio Coverage", False, "No adjectifs data available")
-            return False
+        if not hasattr(self, 'sentences_data') or not self.sentences_data:
+            self.log_issue("Impossible de tester les jeux - données phrases non disponibles")
+            return
+            
+        # Test 1: Structure des phrases
+        complete_sentences = 0
+        tenses_found = set()
+        difficulties_found = set()
         
-        total_adjectifs = len(adjectifs)
-        with_audio = sum(1 for adj in adjectifs if adj.get("has_authentic_audio", False))
-        coverage_percent = (with_audio / total_adjectifs * 100) if total_adjectifs > 0 else 0
+        for sentence in self.sentences_data:
+            if all(key in sentence for key in ["french", "shimaore", "kibouchi", "tense", "difficulty"]):
+                complete_sentences += 1
+                
+            if "tense" in sentence:
+                tenses_found.add(sentence["tense"])
+                
+            if "difficulty" in sentence:
+                difficulties_found.add(sentence["difficulty"])
+                
+        structure_rate = (complete_sentences / len(self.sentences_data)) * 100
         
-        success = coverage_percent >= 95  # Allow 95%+ for success
-        details = f"Audio coverage: {with_audio}/{total_adjectifs} ({coverage_percent:.1f}%)"
+        if structure_rate >= 95:
+            self.log_test("Structure phrases", True, f"{structure_rate:.1f}% phrases complètes")
+        else:
+            self.log_test("Structure phrases", False, f"Seulement {structure_rate:.1f}% phrases complètes")
+            self.log_issue(f"Structure phrases incomplète: {structure_rate:.1f}%")
+
+        # Test 2: Temps verbaux
+        expected_tenses = {"present", "past", "future"}
+        tenses_coverage = len(tenses_found.intersection(expected_tenses))
         
-        self.log_test("Adjectifs Audio Coverage", success, details)
-        
-        return success
+        if tenses_coverage >= 2:
+            self.log_test("Temps verbaux", True, f"{tenses_coverage}/3 temps trouvés: {list(tenses_found)}")
+        else:
+            self.log_test("Temps verbaux", False, f"Seulement {tenses_coverage}/3 temps: {list(tenses_found)}")
+
+        # Test 3: Niveaux de difficulté
+        if len(difficulties_found) >= 2:
+            self.log_test("Niveaux difficulté", True, f"Niveaux trouvés: {sorted(list(difficulties_found))}")
+        else:
+            self.log_test("Niveaux difficulté", False, f"Seulement {len(difficulties_found)} niveaux")
     
     def test_global_structure_update(self):
         """Test 2: Structure globale mise à jour"""
