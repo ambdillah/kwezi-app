@@ -1844,8 +1844,6 @@ async def download_favicon():
             filename="favicon.png"
         )
     raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
-        )
-    raise HTTPException(status_code=404, detail=f"Fichier non trouvé: {file_path}")
 
 
 
