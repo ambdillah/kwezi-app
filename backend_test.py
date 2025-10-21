@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """
-Test complet après création de la section "adjectifs" avec 100% audio
-Comprehensive testing after creating "adjectifs" section with 100% audio
-
-Focus: Vérifier la nouvelle section adjectifs, structure globale, orthographe nourriture,
-performance API, et couverture audio globale améliorée
+Tests complets backend avant déploiement APK - Application Kwezi
+Test du backend de production: https://kwezi-backend.onrender.com
 """
 
 import requests
@@ -14,8 +11,9 @@ import time
 from typing import Dict, List, Optional
 
 # Configuration
-BACKEND_URL = "https://mahorais-learn.preview.emergentagent.com"
+BACKEND_URL = "https://kwezi-backend.onrender.com"
 API_URL = f"{BACKEND_URL}/api"
+TIMEOUT = 10
 
 class AdjectifsComprehensiveTester:
     def __init__(self):
