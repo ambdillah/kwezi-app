@@ -15,12 +15,14 @@ BACKEND_URL = "https://kwezi-backend.onrender.com"
 API_URL = f"{BACKEND_URL}/api"
 TIMEOUT = 10
 
-class AdjectifsComprehensiveTester:
+class KweziBackendTester:
     def __init__(self):
         self.backend_url = API_URL
         self.test_results = []
         self.total_tests = 0
         self.passed_tests = 0
+        self.critical_issues = []
+        self.minor_issues = []
         
     def log_test(self, test_name: str, passed: bool, details: str = ""):
         """Log test result"""
