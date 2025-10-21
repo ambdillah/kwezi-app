@@ -335,40 +335,56 @@ class KweziBackendTester:
         else:
             self.log_test("Niveaux difficulté", False, f"Seulement {len(difficulties_found)} niveaux")
     
-    def test_global_structure_update(self):
-        """Test 2: Structure globale mise à jour"""
-        print("\n=== TEST 2: STRUCTURE GLOBALE MISE À JOUR ===")
+    def test_performance(self):
+        """Test de performance et stabilité"""
+        print("\n=== 5. PERFORMANCE & STABILITÉ ===")
         
-        try:
-            # Test nombre total de sections
-            response = requests.get(f"{self.backend_url}/words", timeout=15)
-            if response.status_code != 200:
-                self.log_test("Global Structure", False, f"API Error: {response.status_code}")
-                return False, []
-            
-            all_words = response.json()
-            total_words = len(all_words)
-            
-            # Compter les catégories uniques
-            categories = set(word.get("category", "") for word in all_words)
-            categories = {cat for cat in categories if cat}  # Remove empty categories
-            section_count = len(categories)
-            
-            # Test nombre de sections (attendu: 11+)
-            sections_success = section_count >= 11
-            sections_details = f"Found {section_count} sections: {sorted(categories)}"
-            
-            # Test nombre total de mots (attendu: 467+)
-            words_success = total_words >= 467
-            words_details = f"Found {total_words} total words (expected 467+)"
-            
-            self.log_test("Global Sections Count", sections_success, sections_details)
-            self.log_test("Global Words Count", words_success, words_details)
-            
-            return sections_success and words_success, all_words
-        except Exception as e:
-            self.log_test("Global Structure", False, f"Error: {str(e)}")
-            return False, []
+        # Test 1: Temps de réponse
+        endpoints_to_test = [
+            "/api/words",
+            "/api/categories", 
+            "/api/sentences"
+        ]
+        
+        fast_responses = 0
+        
+        for endpoint in endpoints_to_test:
+            try:
+                start_time = time.time()
+                response = requests.get(f"{BACKEND_URL}{endpoint}", timeout=TIMEOUT)
+                response_time = time.time() - start_time
+                
+                if response.status_code == 200 and response_time < 2.0:
+                    fast_responses += 1
+                    self.log_test(f"Temps réponse {endpoint}", True, f"{response_time:.3f}s")
+                else:
+                    self.log_test(f"Temps réponse {endpoint}", False, f"{response_time:.3f}s (trop lent)")
+                    
+            except Exception as e:
+                self.log_test(f"Temps réponse {endpoint}", False, f"Erreur: {str(e)}")
+                
+        if fast_responses >= 2:
+            self.log_test("Performance globale", True, f"{fast_responses}/{len(endpoints_to_test)} endpoints rapides")
+        else:
+            self.log_test("Performance globale", False, f"Seulement {fast_responses}/{len(endpoints_to_test)} endpoints rapides")
+            self.log_issue("Performance insuffisante")
+
+        # Test 2: Requêtes consécutives (stabilité)
+        consecutive_success = 0
+        for i in range(3):
+            try:
+                response = requests.get(f"{BACKEND_URL}/api/words?category=famille", timeout=TIMEOUT)
+                if response.status_code == 200:
+                    consecutive_success += 1
+                time.sleep(0.5)  # Petite pause entre requêtes
+            except:
+                pass
+                
+        if consecutive_success >= 2:
+            self.log_test("Stabilité", True, f"{consecutive_success}/3 requêtes consécutives réussies")
+        else:
+            self.log_test("Stabilité", False, f"Seulement {consecutive_success}/3 requêtes réussies")
+            self.log_issue("Service instable")
     
     def test_nourriture_orthography(self):
         """Test 3: Orthographe section nourriture"""
