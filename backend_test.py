@@ -152,14 +152,24 @@ class KweziBackendTester:
         try:
             response = requests.get(f"{BACKEND_URL}/api/sentences", timeout=TIMEOUT)
             if response.status_code == 200:
-                sentences = response.json()
-                sentence_count = len(sentences)
-                if sentence_count >= 270:
-                    self.log_test("GET /api/sentences", True, f"{sentence_count} phrases pour jeux")
+                data = response.json()
+                # Handle both direct array and wrapped response formats
+                if isinstance(data, dict) and "sentences" in data:
+                    sentences = data["sentences"]
+                    total_count = data.get("total", len(sentences))
+                elif isinstance(data, list):
+                    sentences = data
+                    total_count = len(sentences)
+                else:
+                    sentences = []
+                    total_count = 0
+                    
+                if total_count >= 270:
+                    self.log_test("GET /api/sentences", True, f"{total_count} phrases pour jeux")
                     self.sentences_data = sentences
                 else:
-                    self.log_test("GET /api/sentences", False, f"Seulement {sentence_count} phrases (attendu: 270+)")
-                    self.log_issue(f"Nombre de phrases insuffisant: {sentence_count}/270")
+                    self.log_test("GET /api/sentences", False, f"Seulement {total_count} phrases (attendu: 270+)")
+                    self.log_issue(f"Nombre de phrases insuffisant: {total_count}/270")
                     self.sentences_data = sentences
             else:
                 self.log_test("GET /api/sentences", False, f"Status {response.status_code}")
