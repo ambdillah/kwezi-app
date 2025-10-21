@@ -174,29 +174,55 @@ class KweziBackendTester:
         except Exception as e:
             self.log_test("GET /api/exercises", False, f"Erreur: {str(e)}")
     
-    def test_adjectifs_section_exists(self):
-        """Test 1: Vérification nouvelle section adjectifs - existence et nombre de mots"""
-        print("\n=== TEST 1: VÉRIFICATION NOUVELLE SECTION ADJECTIFS ===")
+    def test_data_integrity(self):
+        """Test de l'intégrité des données"""
+        print("\n=== 2. INTÉGRITÉ DES DONNÉES ===")
         
-        try:
-            response = requests.get(f"{self.backend_url}/words?category=adjectifs", timeout=10)
-            if response.status_code != 200:
-                self.log_test("Section Adjectifs Exists", False, f"API Error: {response.status_code}")
-                return False, []
+        if not hasattr(self, 'words_data') or not self.words_data:
+            self.log_issue("Impossible de tester l'intégrité - données mots non disponibles")
+            return
             
-            adjectifs = response.json()
-            word_count = len(adjectifs)
-            
-            # Test si la section existe avec 52 mots comme attendu
-            expected_count = 52
-            success = word_count >= 50  # Allow some flexibility
-            details = f"Found {word_count} adjectifs (expected ~{expected_count})"
-            
-            self.log_test("Section Adjectifs Exists", success, details)
-            return success, adjectifs
-        except Exception as e:
-            self.log_test("Section Adjectifs Exists", False, f"Error: {str(e)}")
-            return False, []
+        # Test 1: Tous les mots ont les champs requis
+        complete_words = 0
+        for word in self.words_data:
+            if all(key in word and word[key] for key in ["french", "shimaore", "kibouchi", "category"]):
+                complete_words += 1
+                
+        completion_rate = (complete_words / len(self.words_data)) * 100
+        if completion_rate >= 99:
+            self.log_test("Champs requis complets", True, f"{completion_rate:.1f}% des mots complets")
+        else:
+            self.log_test("Champs requis complets", False, f"Seulement {completion_rate:.1f}% des mots complets")
+            self.log_issue(f"Données incomplètes: {completion_rate:.1f}%")
+
+        # Test 2: Orthographe française avec accents
+        accent_words = ["Frère", "Sœur", "École", "Étoile", "Tête", "Grand-père"]
+        found_accents = 0
+        
+        for target_word in accent_words:
+            found = any(word.get("french", "") == target_word for word in self.words_data)
+            if found:
+                found_accents += 1
+                self.log_test(f"Mot avec accent '{target_word}'", True, "Trouvé")
+            else:
+                self.log_test(f"Mot avec accent '{target_word}'", False, "Non trouvé")
+                
+        if found_accents >= 4:
+            self.log_test("Orthographe française", True, f"{found_accents}/{len(accent_words)} mots avec accents corrects")
+        else:
+            self.log_test("Orthographe française", False, f"Seulement {found_accents}/{len(accent_words)} mots avec accents")
+            self.log_issue("Orthographe française incorrecte")
+
+        # Test 3: Pas de doublons
+        french_words = [word.get("french", "").lower() for word in self.words_data if word.get("french")]
+        unique_words = set(french_words)
+        duplicates = len(french_words) - len(unique_words)
+        
+        if duplicates == 0:
+            self.log_test("Pas de doublons", True, "Aucun doublon détecté")
+        else:
+            self.log_test("Pas de doublons", False, f"{duplicates} doublons trouvés")
+            self.log_issue(f"Doublons détectés: {duplicates}")
     
     def test_specific_adjectifs_correspondences(self, adjectifs: List[Dict]):
         """Test correspondances spécifiques des adjectifs"""
