@@ -249,7 +249,7 @@ class KweziBackendTester:
             self.log_issue("Aucune donnée disponible")
 
         # Test 2: Orthographe française avec accents (test via API search)
-        accent_words = ["Tête", "École", "Étoile"]  # Test specific words via search
+        accent_words = ["Tête", "Lèvre", "Côtes"]  # Test specific words via search
         found_accents = 0
         
         for target_word in accent_words:
