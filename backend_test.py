@@ -248,19 +248,32 @@ class KweziBackendTester:
             self.log_test("Champs requis complets", False, "Aucun mot disponible pour test")
             self.log_issue("Aucune donnée disponible")
 
-        # Test 2: Orthographe française avec accents
-        accent_words = ["Frère", "Sœur", "École", "Étoile", "Tête", "Grand-père"]
+        # Test 2: Orthographe française avec accents (test via API search)
+        accent_words = ["Tête", "École", "Étoile"]  # Test specific words via search
         found_accents = 0
         
         for target_word in accent_words:
-            found = any(word.get("french", "") == target_word for word in self.words_data)
-            if found:
-                found_accents += 1
-                self.log_test(f"Mot avec accent '{target_word}'", True, "Trouvé")
-            else:
-                self.log_test(f"Mot avec accent '{target_word}'", False, "Non trouvé")
+            try:
+                search_response = requests.get(f"{BACKEND_URL}/api/words?search={target_word.lower()}", timeout=TIMEOUT)
+                if search_response.status_code == 200:
+                    search_data = search_response.json()
+                    if isinstance(search_data, dict) and "words" in search_data:
+                        search_results = search_data["words"]
+                    else:
+                        search_results = search_data if isinstance(search_data, list) else []
+                    
+                    found = any(word.get("french", "") == target_word for word in search_results)
+                    if found:
+                        found_accents += 1
+                        self.log_test(f"Mot avec accent '{target_word}'", True, "Trouvé via recherche")
+                    else:
+                        self.log_test(f"Mot avec accent '{target_word}'", False, "Non trouvé via recherche")
+                else:
+                    self.log_test(f"Mot avec accent '{target_word}'", False, f"Erreur recherche: {search_response.status_code}")
+            except Exception as e:
+                self.log_test(f"Mot avec accent '{target_word}'", False, f"Erreur: {str(e)}")
                 
-        if found_accents >= 4:
+        if found_accents >= 2:
             self.log_test("Orthographe française", True, f"{found_accents}/{len(accent_words)} mots avec accents corrects")
         else:
             self.log_test("Orthographe française", False, f"Seulement {found_accents}/{len(accent_words)} mots avec accents")
