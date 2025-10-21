@@ -29,16 +29,25 @@ class KweziBackendTester:
         self.total_tests += 1
         if passed:
             self.passed_tests += 1
-            status = "✅ PASS"
+            status = "✅"
         else:
-            status = "❌ FAIL"
+            status = "❌"
         
-        result = f"{status}: {test_name}"
+        result = f"{status} {test_name}"
         if details:
-            result += f" - {details}"
+            result += f": {details}"
         
         self.test_results.append(result)
         print(result)
+        
+    def log_issue(self, issue: str, is_critical: bool = True):
+        """Log critical or minor issue"""
+        if is_critical:
+            self.critical_issues.append(issue)
+            print(f"🚨 CRITIQUE: {issue}")
+        else:
+            self.minor_issues.append(issue)
+            print(f"⚠️ MINEUR: {issue}")
         
     def test_api_connectivity(self):
         """Test basic API connectivity"""
