@@ -1847,6 +1847,19 @@ async def download_favicon():
 
 
 
+@app.get("/api/download-server-file")
+async def download_server_file():
+    """Télécharger le fichier server.py pour GitHub"""
+    file_path = "/app/kwezi-backend-deploy/server.py"
+    if os.path.exists(file_path):
+        return FileResponse(
+            path=file_path,
+            media_type="text/x-python",
+            filename="server.py"
+        )
+    raise HTTPException(status_code=404, detail="Fichier non trouvé")
+
+
 
 
 @app.get("/api/debug/audio/{word_id}/{lang}")
