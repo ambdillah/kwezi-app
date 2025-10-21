@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Télécharger Fichiers Backend Kwezi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .file-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-info {
+            flex: 1;
+        }
+        .file-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .file-desc {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .download-btn {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .download-btn:hover {
+            background: #38a169;
+            transform: scale(1.05);
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .instructions h3 {
+            margin-top: 0;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Fichiers Backend Kwezi</h1>
+        
+        <div class="file-card">
+            <div class="file-info">
+                <div class="file-name">server.py</div>
+                <div class="file-desc">API FastAPI complète (121 KB)</div>
+            </div>
+            <button class="download-btn" onclick="downloadFile('server.py')">Télécharger</button>
+        </div>
+
+        <div class="file-card">
+            <div class="file-info">
+                <div class="file-name">requirements.txt</div>
+                <div class="file-desc">Dépendances Python</div>
+            </div>
+            <button class="download-btn" onclick="downloadFile('requirements.txt')">Télécharger</button>
+        </div>
+
+        <div class="file-card">
+            <div class="file-info">
+                <div class="file-name">README.md</div>
+                <div class="file-desc">Documentation du projet</div>
+            </div>
+            <button class="download-btn" onclick="downloadFile('README.md')">Télécharger</button>
+        </div>
+
+        <div class="file-card">
+            <div class="file-info">
+                <div class="file-name">.gitignore</div>
+                <div class="file-desc">Fichiers à ignorer par Git</div>
+            </div>
+            <button class="download-btn" onclick="downloadFile('.gitignore')">Télécharger</button>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instructions</h3>
+            <ol>
+                <li><strong>Téléchargez les 4 fichiers</strong> ci-dessus sur votre ordinateur</li>
+                <li>Allez sur <a href="https://github.com/ambdillah/kwezi-backend" target="_blank" style="color: #48bb78;">GitHub - kwezi-backend</a></li>
+                <li>Cliquez sur <strong>"uploading an existing file"</strong></li>
+                <li><strong>Glissez-déposez</strong> les 4 fichiers dans la zone de dépôt</li>
+                <li>Cliquez sur <strong>"Commit changes"</strong> en bas</li>
+                <li><strong>C'est tout !</strong> Revenez me voir pour connecter à Render.com 🚀</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function downloadFile(filename) {
+            const baseUrl = '/kwezi-backend-deploy/';
+            const link = document.createElement('a');
+            link.href = baseUrl + filename;
+            link.download = filename;
+            link.click();
+        }
+    </script>
+</body>
+</html>
