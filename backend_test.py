@@ -80,25 +80,39 @@ class KweziBackendTester:
             response_time = time.time() - start_time
             
             if response.status_code == 200:
-                words = response.json()
+                data = response.json()
+                # Handle both direct array and wrapped response formats
+                if isinstance(data, dict) and "words" in data:
+                    words = data["words"]
+                    total_count = data.get("total", len(words))
+                elif isinstance(data, list):
+                    words = data
+                    total_count = len(words)
+                else:
+                    words = []
+                    total_count = 0
+                
                 word_count = len(words)
                 
-                if word_count >= 635:
-                    self.log_test("GET /api/words", True, f"{word_count} mots trouvés ({response_time:.3f}s)")
+                if total_count >= 635:
+                    self.log_test("GET /api/words", True, f"{total_count} mots trouvés ({word_count} retournés, {response_time:.3f}s)")
                 else:
-                    self.log_test("GET /api/words", False, f"Seulement {word_count} mots (attendu: 635+)")
-                    self.log_issue(f"Nombre de mots insuffisant: {word_count}/635")
+                    self.log_test("GET /api/words", False, f"Seulement {total_count} mots (attendu: 635+)")
+                    self.log_issue(f"Nombre de mots insuffisant: {total_count}/635")
                     
                 # Stocker les mots pour tests ultérieurs
                 self.words_data = words
+                self.total_words = total_count
             else:
                 self.log_test("GET /api/words", False, f"Status {response.status_code}")
                 self.log_issue("Endpoint words non accessible")
                 self.words_data = []
+                self.total_words = 0
         except Exception as e:
             self.log_test("GET /api/words", False, f"Erreur: {str(e)}")
             self.log_issue("Endpoint words en erreur")
             self.words_data = []
+            self.total_words = 0
 
         # 3. GET /api/words?category=famille
         try:
