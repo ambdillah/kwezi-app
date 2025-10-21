@@ -329,28 +329,42 @@ class KweziBackendTester:
         else:
             self.log_test("Système dual audio", False, f"Seulement {dual_coverage:.1f}% avec dual_audio_system")
 
-        # Test 2: Exemples spécifiques
+        # Test 2: Exemples spécifiques via recherche API
         test_words = ["Papa", "Maman", "Famille", "Bonjour"]
         found_audio_examples = 0
         
         for test_word in test_words:
-            word_data = next((w for w in self.words_data if w.get("french", "").lower() == test_word.lower()), None)
-            if word_data:
-                has_audio = any([
-                    word_data.get("shimoare_audio_filename"),
-                    word_data.get("kibouchi_audio_filename"),
-                    word_data.get("audio_filename_shimaore"),
-                    word_data.get("audio_filename_kibouchi")
-                ])
-                if has_audio:
-                    found_audio_examples += 1
-                    self.log_test(f"Audio '{test_word}'", True, "Références audio trouvées")
+            try:
+                search_response = requests.get(f"{BACKEND_URL}/api/words?search={test_word.lower()}", timeout=TIMEOUT)
+                if search_response.status_code == 200:
+                    search_data = search_response.json()
+                    if isinstance(search_data, dict) and "words" in search_data:
+                        search_results = search_data["words"]
+                    else:
+                        search_results = search_data if isinstance(search_data, list) else []
+                    
+                    word_data = next((w for w in search_results if w.get("french", "").lower() == test_word.lower()), None)
+                    if word_data:
+                        has_audio = any([
+                            word_data.get("shimoare_audio_filename"),
+                            word_data.get("kibouchi_audio_filename"),
+                            word_data.get("audio_filename_shimaore"),
+                            word_data.get("audio_filename_kibouchi"),
+                            word_data.get("has_authentic_audio")
+                        ])
+                        if has_audio:
+                            found_audio_examples += 1
+                            self.log_test(f"Audio '{test_word}'", True, "Références audio trouvées via recherche")
+                        else:
+                            self.log_test(f"Audio '{test_word}'", False, "Pas de références audio")
+                    else:
+                        self.log_test(f"Audio '{test_word}'", False, "Mot non trouvé via recherche")
                 else:
-                    self.log_test(f"Audio '{test_word}'", False, "Pas de références audio")
-            else:
-                self.log_test(f"Audio '{test_word}'", False, "Mot non trouvé")
+                    self.log_test(f"Audio '{test_word}'", False, f"Erreur recherche: {search_response.status_code}")
+            except Exception as e:
+                self.log_test(f"Audio '{test_word}'", False, f"Erreur: {str(e)}")
                 
-        if found_audio_examples >= 2:
+        if found_audio_examples >= 3:
             self.log_test("Exemples audio", True, f"{found_audio_examples}/{len(test_words)} exemples avec audio")
         else:
             self.log_test("Exemples audio", False, f"Seulement {found_audio_examples}/{len(test_words)} exemples avec audio")
