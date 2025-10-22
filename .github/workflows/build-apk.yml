@@ -35,12 +35,22 @@ jobs:
       run: yarn install
       
     - name: Build APK with EAS
-      working-directory: ./frontend
-      run: |
-        echo "🚀 Starting EAS Build..."
-        eas build --platform android --profile production --non-interactive --wait
-      env:
-        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+working-directory: ./frontend
+
+run: |
+
+echo "🚀 Starting EAS Build..."
+
+echo "EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com" > .env
+
+cat .env
+
+eas build --platform android --profile production --non-interactive --wait
+
+env:
+
+EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
     - name: Download APK from EAS
       working-directory: ./frontend
