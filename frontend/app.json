@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "kwezi",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
     "description": "Apprends le Shimaoré et le Kibouchi, les langues authentiques de Mayotte",
     "ios": {
       "supportsTablet": true,
@@ -20,7 +19,6 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#667eea"
       },
-      "edgeToEdgeEnabled": true,
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE"
