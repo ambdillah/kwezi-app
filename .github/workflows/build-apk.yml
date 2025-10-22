@@ -11,15 +11,15 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '18.x'
         
     - name: Setup Java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
@@ -34,44 +34,42 @@ jobs:
       working-directory: ./frontend
       run: yarn install
       
-   - name: Build APK with EAS
-
-working-directory: ./frontend
-
-run: |
-
-eas build --platform android --profile production --non-interactive --wait
-
-env:
-
-EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
-
-- name: Download APK from EAS
-
-working-directory: ./frontend
-
-run: |
-
-mkdir -p build-output
-
-eas build:list --platform=android --status=finished --limit=1 --json > builds.json
-
-BUILD_ID=$(cat builds.json | jq -r '.[0].id')
-
-eas build:download --id=$BUILD_ID --output=build-output/app-release.apk
-
-env:
-
-EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
-
-- name: Upload APK artifact
-
-uses: actions/upload-artifact@v4
-
-with:
-
-name: kwezi-app
-
-path: frontend/build-output/app-release.apk
+    - name: Build APK with EAS
+      working-directory: ./frontend
+      run: |
+        echo "🚀 Starting EAS Build..."
+        eas build --platform android --profile production --non-interactive --wait
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        
+    - name: Download APK from EAS
+      working-directory: ./frontend
+      run: |
+        echo "📥 Downloading APK from EAS..."
+        mkdir -p build-output
+        
+        # Get the most recent finished build ID
+        BUILD_ID=$(eas build:list --platform=android --status=finished --limit=1 --json --non-interactive | jq -r '.[0].id')
+        
+        echo "Build ID: $BUILD_ID"
+        
+        # Download the APK
+        eas build:download --id="$BUILD_ID" --output=build-output/app-release.apk
+        
+        # Verify the APK was downloaded
+        if [ -f "build-output/app-release.apk" ]; then
+          echo "✅ APK downloaded successfully!"
+          ls -lh build-output/app-release.apk
+        else
+          echo "❌ APK download failed!"
+          exit 1
+        fi
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: kwezi-app
+        path: frontend/build-output/app-release.apk
+        if-no-files-found: error
