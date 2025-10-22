@@ -54,7 +54,7 @@ jobs:
         echo "Build ID: $BUILD_ID"
         
         # Download the APK (without --output flag)
-        eas build:download --id "$BUILD_ID"
+        eas build:download $BUILD_ID
         
         # Move the downloaded APK to build-output
         mv *.apk build-output/app-release.apk
