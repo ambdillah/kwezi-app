@@ -123,7 +123,7 @@
 
 **Backend URL** (déjà configuré) :
 ```
-EXPO_PUBLIC_BACKEND_URL=https://mahorais-learn.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://mayotte-learn-4.preview.emergentagent.com
 ```
 
 ---

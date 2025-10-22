@@ -151,8 +151,8 @@ STRIPE_PRICE_ID_PREMIUM=price_1SGdDX... ✅
 **Frontend `.env`:**
 ```
 EXPO_TUNNEL_SUBDOMAIN=kwezi-app
-EXPO_PACKAGER_HOSTNAME=https://mahorais-learn.preview.emergentagent.com
-EXPO_PUBLIC_BACKEND_URL=https://mahorais-learn.preview.emergentagent.com
+EXPO_PACKAGER_HOSTNAME=https://mayotte-learn-4.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://mayotte-learn-4.preview.emergentagent.com
 ```
 
 ### 6. SERVICES

@@ -64,7 +64,7 @@
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
-        "https://mahorais-learn.preview.emergentagent.com"
+        "https://mayotte-learn-4.preview.emergentagent.com"
       ],
       "eas": {
         "projectId": "308793ab-c80f-403a-a8b3-7cbfac1b57c6"

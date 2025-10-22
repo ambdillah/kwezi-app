@@ -74,7 +74,7 @@ Serving HTTP on 0.0.0.0 port 9000 (http://0.0.0.0:9000/) ...
 
 Dans votre navigateur, allez sur :
 ```
-https://mahorais-learn.preview.emergentagent.com:9000
+https://mayotte-learn-4.preview.emergentagent.com:9000
 ```
 
 Vous verrez une liste de fichiers. Cliquez sur :
@@ -91,12 +91,12 @@ Cliquez directement sur ces liens :
 
 ### 📥 Code de l'application (50 MB)
 ```
-https://mahorais-learn.preview.emergentagent.com/api/download/code
+https://mayotte-learn-4.preview.emergentagent.com/api/download/code
 ```
 
 ### 📥 Fichiers audio (31 MB)
 ```
-https://mahorais-learn.preview.emergentagent.com/api/download/audio
+https://mayotte-learn-4.preview.emergentagent.com/api/download/audio
 ```
 
 **Ces liens fonctionnent dans n'importe quel navigateur !**
@@ -109,20 +109,20 @@ Si vous avez accès à un terminal sur votre ordinateur local :
 
 ```bash
 # Télécharger le code
-wget https://mahorais-learn.preview.emergentagent.com/api/download/code -O kwezi-frontend-code.tar.gz
+wget https://mayotte-learn-4.preview.emergentagent.com/api/download/code -O kwezi-frontend-code.tar.gz
 
 # Télécharger l'audio
-wget https://mahorais-learn.preview.emergentagent.com/api/download/audio -O kwezi-audio.tar.gz
+wget https://mayotte-learn-4.preview.emergentagent.com/api/download/audio -O kwezi-audio.tar.gz
 ```
 
 Ou avec curl :
 
 ```bash
 # Télécharger le code
-curl -L https://mahorais-learn.preview.emergentagent.com/api/download/code -o kwezi-frontend-code.tar.gz
+curl -L https://mayotte-learn-4.preview.emergentagent.com/api/download/code -o kwezi-frontend-code.tar.gz
 
 # Télécharger l'audio
-curl -L https://mahorais-learn.preview.emergentagent.com/api/download/audio -o kwezi-audio.tar.gz
+curl -L https://mayotte-learn-4.preview.emergentagent.com/api/download/audio -o kwezi-audio.tar.gz
 ```
 
 ---
@@ -166,12 +166,12 @@ Si les fichiers sont beaucoup plus petits (quelques Ko), c'est que le téléchar
 
 1. Cliquez ici pour télécharger le **CODE** :
    ```
-   https://mahorais-learn.preview.emergentagent.com/api/download/code
+   https://mayotte-learn-4.preview.emergentagent.com/api/download/code
    ```
 
 2. Cliquez ici pour télécharger l'**AUDIO** :
    ```
-   https://mahorais-learn.preview.emergentagent.com/api/download/audio
+   https://mayotte-learn-4.preview.emergentagent.com/api/download/audio
    ```
 
 **C'est tout ! Pas besoin d'explorer l'interface Emergent.**

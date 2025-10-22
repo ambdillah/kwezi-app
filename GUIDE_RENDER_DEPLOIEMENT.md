@@ -129,7 +129,7 @@ CORS_ORIGINS=*
 Ou mieux, listez uniquement les origines autorisées :
 
 ```
-CORS_ORIGINS=https://mahorais-learn.preview.emergentagent.com,https://app.emergent.sh
+CORS_ORIGINS=https://mayotte-learn-4.preview.emergentagent.com,https://app.emergent.sh
 ```
 
 ---
