@@ -42,7 +42,7 @@ jobs:
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
-   - name: Download APK from EAS
+    - name: Download APK from EAS
       working-directory: ./frontend
       run: |
         echo "📥 Downloading APK from EAS..."
