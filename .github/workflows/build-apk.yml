@@ -48,16 +48,17 @@ jobs:
         echo "📥 Downloading APK from EAS..."
         mkdir -p build-output
         
-        # Get the most recent finished build ID
-        BUILD_ID=$(eas build:list --platform=android --status=finished --limit=1 --json --non-interactive | jq -r '.[0].id')
+        # Get the most recent finished build details (including download URL)
+        BUILD_INFO=$(eas build:list --platform=android --status=finished --limit=1 --json --non-interactive)
+        
+        BUILD_ID=$(echo "$BUILD_INFO" | jq -r '.[0].id')
+        DOWNLOAD_URL=$(echo "$BUILD_INFO" | jq -r '.[0].artifacts.buildUrl')
         
         echo "Build ID: $BUILD_ID"
+        echo "Download URL: $DOWNLOAD_URL"
         
-        # Download the APK (without --output flag)
-        eas build:download $BUILD_ID
-        
-        # Move the downloaded APK to build-output
-        mv *.apk build-output/app-release.apk
+        # Download the APK using curl
+        curl -L -o build-output/app-release.apk "$DOWNLOAD_URL"
         
         # Verify the APK was downloaded
         if [ -f "build-output/app-release.apk" ]; then
