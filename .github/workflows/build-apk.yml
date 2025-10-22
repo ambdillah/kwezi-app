@@ -42,7 +42,7 @@ jobs:
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
-    - name: Download APK from EAS
+   - name: Download APK from EAS
       working-directory: ./frontend
       run: |
         echo "📥 Downloading APK from EAS..."
@@ -53,8 +53,11 @@ jobs:
         
         echo "Build ID: $BUILD_ID"
         
-        # Download the APK
-        eas build:download --id="$BUILD_ID" --output=build-output/app-release.apk
+        # Download the APK (without --output flag)
+        eas build:download --id "$BUILD_ID"
+        
+        # Move the downloaded APK to build-output
+        mv *.apk build-output/app-release.apk
         
         # Verify the APK was downloaded
         if [ -f "build-output/app-release.apk" ]; then
