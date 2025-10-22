@@ -36,7 +36,16 @@ jobs:
       
     - name: Build APK with EAS
       working-directory: ./frontend
-      run: eas build --platform android --profile production --non-interactive
+      run: |
+        eas build --platform android --profile production --non-interactive --wait --local-build-artifacts
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        
+    - name: Download APK from EAS
+      working-directory: ./frontend
+      run: |
+        mkdir -p build-output
+        eas build:download --platform android --profile production --output build-output/app-release.apk
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
@@ -44,4 +53,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: kwezi-app
-        path: frontend/android/app/build/outputs/apk/release/app-release.apk
+        path: frontend/build-output/app-release.apk
