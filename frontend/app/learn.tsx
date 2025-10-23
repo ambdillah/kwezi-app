@@ -364,6 +364,10 @@ export default function LearnScreen() {
           </View>
 
           {/* Paywall Banner */}
+          {(() => {
+            console.log(`🔍 Paywall check: isPremium=${isPremium}, totalWordsCount=${totalWordsCount}, FREE_WORDS_LIMIT=${FREE_WORDS_LIMIT}`);
+            return null;
+          })()}
           {!isPremium && totalWordsCount > FREE_WORDS_LIMIT && (
             <View style={styles.paywallBanner}>
               <Ionicons name="lock-closed" size={30} color="#FFD700" />
