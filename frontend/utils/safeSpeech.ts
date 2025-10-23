@@ -27,8 +27,6 @@ try {
 }
 
 export const speak = async (text: string, options?: any): Promise<void> => {
-  await initSpeech();
-  
   if (!speechAvailable || !Speech) {
     console.log('🔇 TTS not available, skipping speech');
     return;
@@ -36,7 +34,7 @@ export const speak = async (text: string, options?: any): Promise<void> => {
   
   try {
     if (Speech.speak) {
-      await Speech.speak(text, options);
+      Speech.speak(text, options);
     }
   } catch (error) {
     console.warn('⚠️ Speech.speak failed:', error);
@@ -44,13 +42,11 @@ export const speak = async (text: string, options?: any): Promise<void> => {
 };
 
 export const stop = async (): Promise<void> => {
-  await initSpeech();
-  
   if (!speechAvailable || !Speech) return;
   
   try {
     if (Speech.stop) {
-      await Speech.stop();
+      Speech.stop();
     }
   } catch (error) {
     console.warn('⚠️ Speech.stop failed:', error);
@@ -58,8 +54,6 @@ export const stop = async (): Promise<void> => {
 };
 
 export const isSpeakingAsync = async (): Promise<boolean> => {
-  await initSpeech();
-  
   if (!speechAvailable || !Speech) return false;
   
   try {
@@ -74,32 +68,26 @@ export const isSpeakingAsync = async (): Promise<boolean> => {
 };
 
 export const pause = async (): Promise<void> => {
-  await initSpeech();
-  
   if (!speechAvailable || !Speech || !Speech.pause) return;
   
   try {
-    await Speech.pause();
+    Speech.pause();
   } catch (error) {
     console.warn('⚠️ Speech.pause failed:', error);
   }
 };
 
 export const resume = async (): Promise<void> => {
-  await initSpeech();
-  
   if (!speechAvailable || !Speech || !Speech.resume) return;
   
   try {
-    await Speech.resume();
+    Speech.resume();
   } catch (error) {
     console.warn('⚠️ Speech.resume failed:', error);
   }
 };
 
 export const getAvailableVoicesAsync = async (): Promise<any[]> => {
-  await initSpeech();
-  
   if (!speechAvailable || !Speech || !Speech.getAvailableVoicesAsync) {
     return [];
   }
@@ -120,6 +108,6 @@ export default {
   resume,
   getAvailableVoicesAsync,
   get available() {
-    return speechAvailable === true;
+    return speechAvailable;
   }
 };
