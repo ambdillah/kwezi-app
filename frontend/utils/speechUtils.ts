@@ -4,7 +4,7 @@
  * Fonctions réutilisables pour la synthèse vocale avec corrections phonétiques
  */
 
-import * as Speech from 'expo-speech';
+import * as Speech from './safeSpeech';
 import { Alert } from 'react-native';
 import { applyPhoneticCorrections } from './phoneticCorrections';
 
