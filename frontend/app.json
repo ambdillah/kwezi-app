@@ -59,7 +59,12 @@
     "experiments": {
       "typedRoutes": true
     },
+     "cli": {
+      "appVersionSource": "remote",
+      "requireCommit": false
+    },
     "extra": {
+      "backendUrl": "https://kwezi-backend.onrender.com",
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
