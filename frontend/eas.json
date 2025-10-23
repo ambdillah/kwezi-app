@@ -4,13 +4,20 @@
   },
   "build": {
     "production": {
-      "node": "18.x",
+      "node": "18.18.0",
       "android": {
         "buildType": "apk"
       },
       "env": {
+<<<<<<< HEAD
         "NODE_ENV": "production",
         "EXPO_PUBLIC_BACKEND_URL": "https://kwezi-backend.onrender.com"
+=======
+
+"NODE_ENV": "production",
+
+"EXPO_PUBLIC_BACKEND_URL": "https://kwezi-backend.onrender.com"
+>>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
       }
     }
   },

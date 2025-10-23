@@ -1,6 +1,10 @@
 {
   "expo": {
     "name": "Kwezi",
+    "cli": {
+  "appVersionSource": "remote",
+  "requireCommit": false
+},
     "slug": "kwezi",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -55,11 +59,16 @@
     "experiments": {
       "typedRoutes": true
     },
+<<<<<<< HEAD
     "cli": {
+=======
+     "cli": {
+>>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
       "appVersionSource": "remote",
       "requireCommit": false
     },
     "extra": {
+      "backendUrl": "https://kwezi-backend.onrender.com",
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
