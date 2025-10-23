@@ -5,7 +5,7 @@
  * et configurations optimisées pour l'engagement des enfants
  */
 
-import * as Speech from 'expo-speech';
+import * as Speech from './safeSpeech';
 import { Alert, Platform } from 'react-native';
 import { applyPhoneticCorrections } from './phoneticCorrections';
 
