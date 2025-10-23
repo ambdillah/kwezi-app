@@ -14,7 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput, Keyboard } from 'react-native';
 import { router } from 'expo-router';
-import * as Speech from 'expo-speech';
+import * as Speech from '../utils/safeSpeech';
 import { speakEducationalContent } from '../utils/feminineSpeechUtils';
 import { speakWithMasculineVoice, testMasculineVoice } from '../utils/simpleMasculineVoice';
 import { playWordAudio, playWordAllLanguages, hasAuthenticAudio } from '../utils/authenticAudioSystem';
