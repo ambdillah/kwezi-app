@@ -125,12 +125,16 @@ export default function GamesScreen() {
   const fetchWords = async () => {
     try {
       const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
-      const response = await fetch(`${backendUrl}/api/words`);
+      const response = await fetch(`${backendUrl}/api/words?limit=1000`);
       if (response.ok) {
-        const data = await response.json();
-        setWords(data);
+        const responseData = await response.json();
+        // Le backend retourne {words: [...], total: 635}
+        const wordsArray = Array.isArray(responseData) ? responseData : responseData.words || [];
+        console.log(`✅ Jeux: ${wordsArray.length} mots chargés`);
+        setWords(wordsArray);
       }
     } catch (error) {
+      console.error('❌ Erreur fetchWords (games):', error);
       Alert.alert('Erreur', 'Impossible de charger les mots');
     }
   };
