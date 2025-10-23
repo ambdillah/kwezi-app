@@ -144,7 +144,15 @@ export default function LearnScreen() {
         ? `${baseUrl}/api/words?category=${category}`
         : `${baseUrl}/api/words`;
       
-      const response = await fetch(url);
+    // Augmenter le timeout pour gérer le cold start du backend (peut prendre jusqu'à 60-90 sec)
+
+const controller = new AbortController();
+
+const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondes
+
+const response = await fetch(url, { signal: controller.signal });
+
+clearTimeout(timeoutId);
       if (response.ok) {
         let data = await response.json();
         setTotalWordsCount(data.length);
