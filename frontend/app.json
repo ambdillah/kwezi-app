@@ -55,12 +55,17 @@
     "experiments": {
       "typedRoutes": true
     },
+    "cli": {
+      "appVersionSource": "remote",
+      "requireCommit": false
+    },
     "extra": {
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
         "https://kwezi-android.preview.emergentagent.com"
       ],
+      "backendUrl": "https://kwezi-backend.onrender.com",
       "eas": {
         "projectId": "308793ab-c80f-403a-a8b3-7cbfac1b57c6"
       }
