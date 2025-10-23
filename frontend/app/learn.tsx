@@ -140,7 +140,9 @@ export default function LearnScreen() {
   const fetchWords = async (category?: string, loadAll: boolean = false) => {
     setLoading(true);
     try {
-      const baseUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
+      // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
+      const baseUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
+      console.log('🌍 Backend URL (fetchWords):', baseUrl);
       const url = category 
         ? `${baseUrl}/api/words?category=${category}`
         : `${baseUrl}/api/words`;
