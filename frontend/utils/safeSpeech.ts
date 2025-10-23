@@ -45,7 +45,9 @@ export const stop = async (): Promise<void> => {
   if (!speechAvailable || !Speech) return;
   
   try {
-
+    if (Speech.stop) {
+      Speech.stop();
+    }
   } catch (error) {
     console.warn('⚠️ Speech.stop failed:', error);
   }
@@ -55,7 +57,10 @@ export const isSpeakingAsync = async (): Promise<boolean> => {
   if (!speechAvailable || !Speech) return false;
   
   try {
-
+    if (Speech.isSpeakingAsync) {
+      return await Speech.isSpeakingAsync();
+    }
+    return false;
   } catch (error) {
     console.warn('⚠️ Speech.isSpeakingAsync failed:', error);
     return false;
@@ -66,7 +71,7 @@ export const pause = async (): Promise<void> => {
   if (!speechAvailable || !Speech || !Speech.pause) return;
   
   try {
-
+    Speech.pause();
   } catch (error) {
     console.warn('⚠️ Speech.pause failed:', error);
   }
@@ -76,12 +81,24 @@ export const resume = async (): Promise<void> => {
   if (!speechAvailable || !Speech || !Speech.resume) return;
   
   try {
-
+    Speech.resume();
   } catch (error) {
     console.warn('⚠️ Speech.resume failed:', error);
   }
 };
 
+export const getAvailableVoicesAsync = async (): Promise<any[]> => {
+  if (!speechAvailable || !Speech || !Speech.getAvailableVoicesAsync) {
+    return [];
+  }
+  
+  try {
+    return await Speech.getAvailableVoicesAsync();
+  } catch (error) {
+    console.warn('⚠️ Speech.getAvailableVoicesAsync failed:', error);
+    return [];
+  }
+};
 
 export default {
   speak,
@@ -89,7 +106,7 @@ export default {
   isSpeakingAsync,
   pause,
   resume,
-
+  getAvailableVoicesAsync,
   get available() {
     return speechAvailable;
   }
