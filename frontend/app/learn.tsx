@@ -139,7 +139,7 @@ export default function LearnScreen() {
   const fetchWords = async (category?: string, loadAll: boolean = false) => {
     setLoading(true);
     try {
-      const baseUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+      const baseUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
       const url = category 
         ? `${baseUrl}/api/words?category=${category}`
         : `${baseUrl}/api/words`;
