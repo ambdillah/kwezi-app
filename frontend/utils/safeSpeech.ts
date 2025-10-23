@@ -1,32 +1,30 @@
 /**
  * Safe wrapper for expo-speech to handle APK compatibility issues
  * Prevents crashes when SyntheticPlatformEmitter is undefined in production builds
+ * SOLUTION: Import synchrone mais avec try-catch pour gérer les erreurs
  */
 
-let Speech: any = null;
-let speechAvailable: boolean | null = null;
-let initPromise: Promise<void> | null = null;
+import { Platform } from 'react-native';
 
-// Lazy initialization of expo-speech
-const initSpeech = async (): Promise<void> => {
-  if (speechAvailable !== null) return; // Already initialized
-  
-  if (initPromise) return initPromise; // Initialization in progress
-  
-  initPromise = (async () => {
-    try {
-      Speech = await import('expo-speech');
-      speechAvailable = true;
-      console.log('✅ expo-speech loaded successfully');
-    } catch (error) {
-      console.warn('⚠️ expo-speech not available (APK compatibility issue):', error);
-      speechAvailable = false;
-      Speech = null;
-    }
-  })();
-  
-  return initPromise;
-};
+let Speech: any = null;
+let speechAvailable = false;
+
+// Essayer d'importer expo-speech de manière synchrone
+try {
+  // Sur web, ne pas charger expo-speech du tout pour éviter l'erreur
+  if (Platform.OS !== 'web') {
+    Speech = require('expo-speech');
+    speechAvailable = true;
+    console.log('✅ expo-speech loaded successfully');
+  } else {
+    console.log('🌐 Web platform: expo-speech désactivé (pas nécessaire)');
+    speechAvailable = false;
+  }
+} catch (error) {
+  console.warn('⚠️ expo-speech not available (APK compatibility issue):', error);
+  speechAvailable = false;
+  Speech = null;
+}
 
 export const speak = async (text: string, options?: any): Promise<void> => {
   await initSpeech();
