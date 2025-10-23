@@ -160,9 +160,10 @@ export default function LearnScreen() {
         const responseData = await response.json();
         // Le backend retourne {words: [...], total: 635}
         let data = Array.isArray(responseData) ? responseData : responseData.words || [];
+        const actualTotal = responseData.total || data.length;
         
-        console.log(`✅ Mots reçus du backend: ${data.length} mots`);
-        setTotalWordsCount(data.length);
+        console.log(`✅ Mots reçus du backend: ${data.length} mots (total dans DB: ${actualTotal})`);
+        setTotalWordsCount(actualTotal);
         
         // Appliquer le paywall si l'utilisateur n'est pas Premium
         if (!isPremium && data.length > FREE_WORDS_LIMIT) {
