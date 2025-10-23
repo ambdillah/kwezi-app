@@ -147,24 +147,7 @@ export default function LearnScreen() {
         ? `${baseUrl}/api/words?category=${category}`
         : `${baseUrl}/api/words`;
       
-<<<<<<< HEAD
-      // Augmenter le timeout pour gérer le cold start du backend (peut prendre jusqu'à 60-90 sec)
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondes
-      
-      const response = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId);
-=======
-    // Augmenter le timeout pour gérer le cold start du backend (peut prendre jusqu'à 60-90 sec)
 
-const controller = new AbortController();
-
-const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondes
-
-const response = await fetch(url, { signal: controller.signal });
-
-clearTimeout(timeoutId);
->>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
       if (response.ok) {
         let data = await response.json();
         setTotalWordsCount(data.length);
@@ -261,12 +244,7 @@ clearTimeout(timeoutId);
       // Charger tous les mots si pas encore chargé
       if (allWordsForSearch.length === 0) {
         try {
-<<<<<<< HEAD
-          // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
-          const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
-=======
-          const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
->>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
+
           const response = await fetch(`${backendUrl}/api/words`);
           const data = await response.json();
           setAllWordsForSearch(data);
