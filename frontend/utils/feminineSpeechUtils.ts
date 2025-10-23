@@ -5,7 +5,7 @@
  * pour l'apprentissage des langues shimaoré et kibouchi
  */
 
-import * as Speech from 'expo-speech';
+import * as Speech from './safeSpeech';
 import { Alert, Platform } from 'react-native';
 import { applyPhoneticCorrections } from './phoneticCorrections';
 
