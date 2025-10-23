@@ -143,9 +143,10 @@ export default function LearnScreen() {
       // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
       const baseUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
       console.log('🌍 Backend URL (fetchWords):', baseUrl);
+      // Ajouter limit=1000 pour récupérer tous les mots (le backend pagine par défaut à 50)
       const url = category 
-        ? `${baseUrl}/api/words?category=${category}`
-        : `${baseUrl}/api/words`;
+        ? `${baseUrl}/api/words?category=${category}&limit=1000`
+        : `${baseUrl}/api/words?limit=1000`;
       
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondes timeout
