@@ -181,6 +181,7 @@ export default function LearnScreen() {
         Alert.alert('Erreur', 'Problème lors du chargement des mots');
       }
     } catch (error) {
+      console.error('❌ Erreur fetchWords:', error);
       Alert.alert('Erreur', 'Connexion impossible au serveur');
     } finally {
       setLoading(false);
@@ -189,6 +190,7 @@ export default function LearnScreen() {
 
   useEffect(() => {
     // Charger seulement 50 mots au démarrage pour un chargement rapide
+    console.log('🚀 useEffect: Démarrage chargement des mots...');
     fetchWords('', false);
   }, []);
 
