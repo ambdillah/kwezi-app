@@ -157,12 +157,15 @@ export const playWordWithDualAudio = async (
     // CORRECTION CRITIQUE: Arrêter TOUTE synthèse vocale en cours AVANT de jouer un audio authentique
     try {
       const { Speech } = await import('expo-speech');
-      const isSpeaking = await Speech.isSpeakingAsync();
-      if (isSpeaking) {
-        console.log('🛑 Arrêt de la synthèse vocale en cours avant audio authentique');
-        await Speech.stop();
+      if (Speech && Speech.isSpeakingAsync) {
+        const isSpeaking = await Speech.isSpeakingAsync();
+        if (isSpeaking) {
+          console.log('🛑 Arrêt de la synthèse vocale en cours avant audio authentique');
+          await Speech.stop();
+        }
       }
     } catch (error) {
+      // Ignorer les erreurs expo-speech (incompatibilité APK)
       console.log('Note: Impossible de vérifier/arrêter la synthèse vocale:', error);
     }
     
