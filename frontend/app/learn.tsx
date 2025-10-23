@@ -157,7 +157,10 @@ export default function LearnScreen() {
       clearTimeout(timeoutId);
 
       if (response.ok) {
-        let data = await response.json();
+        const responseData = await response.json();
+        // Le backend retourne {words: [...], total: 635}
+        let data = Array.isArray(responseData) ? responseData : responseData.words || [];
+        
         setTotalWordsCount(data.length);
         
         // Appliquer le paywall si l'utilisateur n'est pas Premium
