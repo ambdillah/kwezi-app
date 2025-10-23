@@ -147,6 +147,14 @@ export default function LearnScreen() {
         ? `${baseUrl}/api/words?category=${category}`
         : `${baseUrl}/api/words`;
       
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondes timeout
+      
+      const response = await fetch(url, {
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
 
       if (response.ok) {
         let data = await response.json();
