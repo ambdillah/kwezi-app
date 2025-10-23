@@ -246,7 +246,7 @@ export default function LearnScreen() {
       // Charger tous les mots si pas encore chargé
       if (allWordsForSearch.length === 0) {
         try {
-          const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+          const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
           const response = await fetch(`${backendUrl}/api/words`);
           const data = await response.json();
           setAllWordsForSearch(data);
