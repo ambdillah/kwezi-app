@@ -4,7 +4,7 @@
  * Version simplifiée qui force réellement la voix masculine
  */
 
-import * as Speech from 'expo-speech';
+import * as Speech from './safeSpeech';
 import { Platform } from 'react-native';
 import { applyPhoneticCorrections } from './phoneticCorrections';
 
