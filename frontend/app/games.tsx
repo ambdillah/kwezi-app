@@ -138,8 +138,9 @@ export default function GamesScreen() {
   const fetchSentences = async () => {
     try {
       // Charger un mélange de tous les temps (présent, passé, futur)
+      const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/sentences?limit=10`
+        `${backendUrl}/api/sentences?limit=10`
       );
       if (response.ok) {
         const data = await response.json();
