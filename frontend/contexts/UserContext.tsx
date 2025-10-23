@@ -35,7 +35,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:8001';
+ const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
 
   // Générer un ID utilisateur unique
   const generateUserId = () => {
