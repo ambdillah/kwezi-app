@@ -59,11 +59,7 @@
     "experiments": {
       "typedRoutes": true
     },
-<<<<<<< HEAD
     "cli": {
-=======
-     "cli": {
->>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
       "appVersionSource": "remote",
       "requireCommit": false
     },
