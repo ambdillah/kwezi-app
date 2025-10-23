@@ -11,20 +11,20 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '18.x'
+        node-version: '18.18.0'
         
     - name: Setup Java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
         
-    - name: Setup Expo
+    - name: Setup Expo and EAS
       uses: expo/expo-github-action@v8
       with:
         eas-version: latest
@@ -32,25 +32,34 @@ jobs:
         
     - name: Install dependencies
       working-directory: ./frontend
-      run: yarn install
+      run: npm install
       
+    - name: Create production .env
+      working-directory: ./frontend
+      run: |
+        echo "EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com" > .env
+        
     - name: Build APK with EAS
       working-directory: ./frontend
       run: |
-        eas build --platform android --profile production --non-interactive --wait --local-build-artifacts
+        eas build --platform android --profile production --non-interactive --wait
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
     - name: Download APK from EAS
       working-directory: ./frontend
       run: |
+        BUILD_ID=$(eas build:list --platform=android --limit=1 --json --non-interactive | jq -r '.[0].id')
+        BUILD_URL=$(eas build:list --platform=android --limit=1 --json --non-interactive | jq -r '.[0].artifacts.buildUrl')
+        echo "Build ID: $BUILD_ID"
+        echo "Build URL: $BUILD_URL"
         mkdir -p build-output
-        eas build:download --platform android --profile production --output build-output/app-release.apk
+        curl -L -o build-output/kwezi-app-release.apk "$BUILD_URL"
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
-        name: kwezi-app
-        path: frontend/build-output/app-release.apk
+        name: kwezi-app-release
+        path: frontend/build-output/kwezi-app-release.apk
