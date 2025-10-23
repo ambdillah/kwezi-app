@@ -147,8 +147,12 @@ export default function GamesScreen() {
         `${backendUrl}/api/sentences?limit=10`
       );
       if (response.ok) {
-        const data = await response.json();
-        setSentences(data);
+        const responseData = await response.json();
+        // Le backend retourne {sentences: [...], total: X}
+        const sentencesArray = Array.isArray(responseData) ? responseData : responseData.sentences || [];
+        console.log(`✅ Jeux: ${sentencesArray.length} phrases chargées`);
+        setSentences(sentencesArray);
+        const data = sentencesArray;
         if (data.length > 0) {
           setCurrentSentence(data[0]);
           setCurrentSentenceIndex(0);
