@@ -12,6 +12,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import * as Speech from '../utils/safeSpeech';
 import { speakText, speakEducationalContent } from '../utils/feminineSpeechUtils';
 import YlangYlangFlower from '../components/YlangYlangFlower';
 import MakiMayotte from '../components/MakiMayotte';
