@@ -33,7 +33,15 @@ jobs:
     - name: Install dependencies
       working-directory: ./frontend
       run: yarn install
-      
+    - name: Create production .env file
+      working-directory: ./frontend
+      run: |
+        echo "📝 Creating production .env file..."
+        cat > .env <<EOF
+        EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com
+        EOF
+        echo "✅ .env file created:"
+        cat .env  
     - name: Build APK with EAS
       working-directory: ./frontend
       run: |
