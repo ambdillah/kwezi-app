@@ -32,35 +32,20 @@ jobs:
         
     - name: Install dependencies
       working-directory: ./frontend
-<<<<<<< HEAD
       run: npm install
       
-    - name: Create production .env
-      working-directory: ./frontend
-      run: |
-        echo "EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com" > .env
-        
-    - name: Build APK with EAS
-      working-directory: ./frontend
-      run: |
-=======
-      run: yarn install
     - name: Create production .env file
       working-directory: ./frontend
       run: |
         echo "📝 Creating production .env file..."
-        cat > .env <<EOF
-        EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com
-        EOF
-        echo "✅ .env file created:"
-        cat .env  
+        echo "EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com" > .env
+        echo "✅ .env file created"
+        cat .env
+        
     - name: Build APK with EAS
       working-directory: ./frontend
       run: |
         echo "🚀 Starting EAS Build..."
-        echo 'EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com' > .env
-        cat .env
->>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
         eas build --platform android --profile production --non-interactive --wait
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -68,19 +53,11 @@ jobs:
     - name: Download APK from EAS
       working-directory: ./frontend
       run: |
-<<<<<<< HEAD
-        BUILD_ID=$(eas build:list --platform=android --limit=1 --json --non-interactive | jq -r '.[0].id')
-        BUILD_URL=$(eas build:list --platform=android --limit=1 --json --non-interactive | jq -r '.[0].artifacts.buildUrl')
-        echo "Build ID: $BUILD_ID"
-        echo "Build URL: $BUILD_URL"
-        mkdir -p build-output
-        curl -L -o build-output/kwezi-app-release.apk "$BUILD_URL"
-=======
         echo "📥 Downloading APK from EAS..."
         mkdir -p build-output
         
-        # Get the most recent finished build details (including download URL)
-        BUILD_INFO=$(eas build:list --platform=android --status=finished --limit=1 --json --non-interactive)
+        # Get the most recent build details
+        BUILD_INFO=$(eas build:list --platform=android --limit=1 --json --non-interactive)
         
         BUILD_ID=$(echo "$BUILD_INFO" | jq -r '.[0].id')
         DOWNLOAD_URL=$(echo "$BUILD_INFO" | jq -r '.[0].artifacts.buildUrl')
@@ -88,29 +65,23 @@ jobs:
         echo "Build ID: $BUILD_ID"
         echo "Download URL: $DOWNLOAD_URL"
         
-        # Download the APK using curl
-        curl -L -o build-output/app-release.apk "$DOWNLOAD_URL"
+        # Download the APK
+        curl -L -o build-output/kwezi-app-release.apk "$DOWNLOAD_URL"
         
-        # Verify the APK was downloaded
-        if [ -f "build-output/app-release.apk" ]; then
+        # Verify download
+        if [ -f "build-output/kwezi-app-release.apk" ]; then
           echo "✅ APK downloaded successfully!"
-          ls -lh build-output/app-release.apk
+          ls -lh build-output/kwezi-app-release.apk
         else
           echo "❌ APK download failed!"
           exit 1
         fi
->>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
-<<<<<<< HEAD
         name: kwezi-app-release
         path: frontend/build-output/kwezi-app-release.apk
-=======
-        name: kwezi-app
-        path: frontend/build-output/app-release.apk
         if-no-files-found: error
->>>>>>> b00cc3a19d9a27378afe7d74435dadbd4b2e0ad1
