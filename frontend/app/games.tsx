@@ -124,7 +124,8 @@ export default function GamesScreen() {
 
   const fetchWords = async () => {
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/api/words`);
+      const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
+      const response = await fetch(`${backendUrl}/api/words`);
       if (response.ok) {
         const data = await response.json();
         setWords(data);
