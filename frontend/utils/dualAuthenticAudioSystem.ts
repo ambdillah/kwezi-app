@@ -156,7 +156,7 @@ export const playWordWithDualAudio = async (
   try {
     // CORRECTION CRITIQUE: Arrêter TOUTE synthèse vocale en cours AVANT de jouer un audio authentique
     try {
-      const { Speech } = await import('expo-speech');
+      const Speech = await import('./safeSpeech');
       if (Speech && Speech.isSpeakingAsync) {
         const isSpeaking = await Speech.isSpeakingAsync();
         if (isSpeaking) {
