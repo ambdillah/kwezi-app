@@ -35,7 +35,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
+  // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
+  const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
+  
+  console.log('🌍 Backend URL utilisé:', backendUrl);
 
   // Générer un ID utilisateur unique
   const generateUserId = () => {
