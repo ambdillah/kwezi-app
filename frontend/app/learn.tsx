@@ -22,6 +22,7 @@ import { playWordWithRealAudio, hasRealAuthenticAudio, getRealAudioInfo } from '
 import { playWordWithDualAudio, hasDualAudio, hasDualAudioForLanguage, getDualAudioInfo } from '../utils/dualAuthenticAudioSystem';
 import YlangYlangFlower from '../components/YlangYlangFlower';
 import { useUser } from '../contexts/UserContext';
+import Constants from 'expo-constants';
 
 interface Word {
   id: string;
