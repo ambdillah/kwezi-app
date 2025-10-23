@@ -139,7 +139,7 @@ export default function LearnScreen() {
   const fetchWords = async (category?: string, loadAll: boolean = false) => {
     setLoading(true);
     try {
-      const baseUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+      const baseUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
       const url = category 
         ? `${baseUrl}/api/words?category=${category}`
         : `${baseUrl}/api/words`;
@@ -249,7 +249,7 @@ clearTimeout(timeoutId);
       // Charger tous les mots si pas encore chargé
       if (allWordsForSearch.length === 0) {
         try {
-          const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+          const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://kwezi-backend.onrender.com';
           const response = await fetch(`${backendUrl}/api/words`);
           const data = await response.json();
           setAllWordsForSearch(data);
