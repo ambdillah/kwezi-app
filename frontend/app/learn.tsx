@@ -252,7 +252,8 @@ export default function LearnScreen() {
       // Charger tous les mots si pas encore chargé
       if (allWordsForSearch.length === 0) {
         try {
-
+          // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
+          const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
           const response = await fetch(`${backendUrl}/api/words`);
           const data = await response.json();
           setAllWordsForSearch(data);
