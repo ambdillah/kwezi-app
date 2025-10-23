@@ -165,6 +165,7 @@ export default function GamesScreen() {
         }
       }
     } catch (error) {
+      console.error('❌ Erreur fetchSentences (games):', error);
       Alert.alert('Erreur', 'Impossible de charger les phrases');
     }
   };
