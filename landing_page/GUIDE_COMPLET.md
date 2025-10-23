@@ -25,7 +25,7 @@ Une landing page professionnelle complète pour votre application Kwezi, compren
 
 **Utilisez l'URL actuelle pour commencer :**
 ```
-https://mayotte-learn-4.preview.emergentagent.com
+https://kwezi-android.preview.emergentagent.com
 ```
 
 ✅ **Avantages :**
@@ -167,13 +167,13 @@ Les liens vers vos documents légaux sont déjà configurés :
 
 ```html
 ✅ Politique de confidentialité
-   → https://mayotte-learn-4.preview.emergentagent.com/privacy-policy
+   → https://kwezi-android.preview.emergentagent.com/privacy-policy
 
 ✅ Conditions générales
-   → https://mayotte-learn-4.preview.emergentagent.com/terms-of-sale
+   → https://kwezi-android.preview.emergentagent.com/terms-of-sale
 
 ✅ Mentions légales
-   → https://mayotte-learn-4.preview.emergentagent.com/mentions-legales
+   → https://kwezi-android.preview.emergentagent.com/mentions-legales
 ```
 
 ---
@@ -248,7 +248,7 @@ Violet gradient : #667eea → #764ba2 (hero, download)
 
 **Option A : Rapide (5 min)**
 ```
-Utilisez : https://mayotte-learn-4.preview.emergentagent.com
+Utilisez : https://kwezi-android.preview.emergentagent.com
 ```
 
 **Option B : Professionnel (30 min)**

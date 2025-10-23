@@ -1,70 +1,281 @@
 <analysis>
-The previous AI engineer's work primarily focused on resolving critical EAS Android build failures for the Kwezi application, following initial data integrity checks. Key challenges included correcting dependency mismatches between React Native and Expo SDK, disabling new architecture features (), addressing persistent missing asset errors (, , , ), and resolving various peer dependency issues (, , ). Multiple attempts to build locally failed due to environment-specific issues on the user's Windows machine, particularly Node.js TypeScript stripping problems. Eventually, the strategy shifted to building the application from the more stable Emergent environment, which successfully produced an Android APK. The trajectory concludes with the user reporting that the built app lacks data and is incompatible with their Expo Go version, indicating a new set of issues related to backend connectivity and local testing setup.
+The AI engineer's work has primarily focused on resolving persistent Android APK build failures for the Kwezi application, crucial for its Google Play Store deployment and offline premium features. Initial attempts involved several Expo SDK downgrades (from 54 to 50), Node.js version alignment, and backend URL corrections for a Render.com deployment. Despite numerous fixes, EAS builds continuously failed due to various issues like Expo login, Kotlin compilation errors, and underlying dependency conflicts. The strategy then shifted to GitHub Actions for more control, but this also faced hurdles with GitHub authentication (PATs), secret scanning, and workflow syntax errors. The  was repeatedly engaged, identifying issues like deprecated GitHub Actions versions, incorrect The following error occurred:
+  Missing required flag fingerprint
+See more help with --help syntax,  crashes, and problematic  fallbacks in the frontend. The current critical challenge revolves around a persistent dependency mismatch ( vs ) and ensuring environment variables are correctly consumed by EAS Build. The AI is now guiding the user through granular GitHub modifications.
 </analysis>
 
 <product_requirements>
-The Kwezi application is an educational platform for learning Shimaoré and Kibouchi languages, emphasizing authentic audio and data integrity. It features a freemium model (250 free words, €2.90/month premium via Stripe) and offers PDF exercise sheets. Core functionalities include refined Text-to-Speech, extensive authentic audio content, paginated content, a word search feature, and learning games (Mayotte quiz, sentence building). Legal documents (privacy policy, terms of sale, legal notices) are integrated, updated with children's responsibility clauses and a mandatory CGU checkbox before payment. The app is being prepared for Google Play Store deployment, necessitating proper package name configuration, EAS build setup, and a dedicated landing page. Recent development efforts focused on refining French verb conjugations, enhancing game mechanics, and resolving audio-to-word mismatches to provide a polished user experience.
+The Kwezi application is an educational platform for learning Shimaoré and Kibouchi, targeting Google Play Store deployment. It implements a freemium model offering 250 free words, with a premium subscription unlocking full access and PDF exercise sheets, crucially including *offline mode* functionality. Core features include refined Text-to-Speech, extensive authentic audio content, paginated learning content, a word search, and interactive learning games. Legal documents are integrated. The primary, critical goal is to produce a stable, functional Android APK that correctly connects to the Render.com backend and displays all data, supporting the offline premium features. Despite numerous efforts, the application is not yet fully functional as an APK, showing issues like being empty (no data), crashing, or failing to build, leading to user frustration and an explicit demand for a complete, perfect, and functional application, rejecting PWA as an alternative.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI (Python) backend, MongoDB database.
--   **Monetization:** Stripe for freemium subscriptions, webhooks.
+-   **Full-Stack Architecture:** Expo (React Native) frontend, FastAPI (Python) backend, MongoDB Atlas database.
+-   **Monetization:** Stripe for freemium subscriptions.
 -   **Routing:** Expo Router for file-based navigation.
--   **Build System:** Expo Application Services (EAS) for native builds (Android/iOS).
--   **Audio System:** Custom dual authentic audio playback, synthesis fallback.
+-   **Build & Deployment:** Expo Application Services (EAS) for native Android builds, Render.com for backend hosting, GitHub Actions for CI/CD.
+-   **Core Libraries:** React Native components,  (wrapped in ),  for JSON parsing.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   ****
-    -   **Importance:** Stores backend environment variables, including MongoDB URL and Stripe keys.
-    -   **Summary of Changes:** Verified correct configuration,  confirmed.
+    -   **Importance:** Stores backend environment variables.
+    -   **Summary of Changes:** Verified .
 -   ****
     -   **Importance:** Main FastAPI server for API endpoints.
-    -   **Summary of Changes:** Temporarily modified to add  routes for  and , and  routes for icon files to facilitate local user updates.
--   ** (New File)**
-    -   **Importance:** Provides direct download links for configuration files.
-    -   **Summary of Changes:** Created to assist the user in obtaining locally modified  and  files and later image assets.
+    -   **Summary of Changes:** Refactored to include minimal API routes (, , etc.) for Render.com deployment.
+-   ****
+    -   **Importance:** Stores frontend environment variables.
+    -   **Summary of Changes:** Updated  to  locally; however, this file is d and not directly used in EAS cloud builds.
 -   ****
     -   **Importance:** Expo application configuration for native builds.
     -   **Summary of Changes:**
-        -    was changed to  to resolve Kotlin compilation errors.
-        -    was implicitly handled by EAS CLI.
-        -   Paths for , , , and  were updated and files created/copied to ensure correct asset resolution during EAS builds.
-        -    was noted as an invalid property by .
-    -   **Code Snippets:**
-        
+        -    was added then removed/modified.
+        -   Custom Kwezi logo paths (, , , ) were updated.
+        -    plugin with  was added then removed/modified.
+        -   **Proposed Change**: Add  configuration:  within the 
+  Usage: expo [command] [options]
+
+  Options:
+  
+    -V, --version                     output the version number
+    --non-interactive                 Fail, if an interactive prompt would be required to continue.
+    -h, --help                        output usage information
+  
+  Commands:
+
+    init [name]                       Create a new Expo project
+    start [path]                      Start a local dev server for the app
+    start:web [path]                  Start a Webpack dev server for the web app
+    export [path]                     Export the static files of the app for hosting it on a web server
+    install [packages...]             Install a module or other package to a project
+    run:android [path]                Run the Android app binary locally
+    run:ios [path]                    Run the iOS app binary locally
+    send [path]                       Share the project's URL to an email address
+
+    login                             Login to an Expo account
+    logout                            Logout of an Expo account
+    register                          Sign up for a new Expo account
+    whoami                            Return the currently authenticated account
+
+    client:install:ios                Install Expo Go for iOS on the simulator
+    client:install:android            Install Expo Go for Android on a connected device or emulator
+
+    config [path]                     Show the project config
+    doctor [path]                     Diagnose issues with the project
+    upgrade [sdk-version]             Upgrade the project packages and config for the given SDK version
+
+    customize:web [path]              Eject the default web files for customization
+    prebuild [path]                   Create native iOS and Android project files before building natively.
+                                      Learn more: https://docs.expo.dev/workflow/customizing/
+
+    build:web [path]                  Build the web app for production
+
+    credentials:manager [path]        Superseded by eas credentials in eas-cli
+
+    url [path]                        Log a URL for opening the project in Expo Go
+    url:ipa [path]                    Log the download URL for the standalone iOS binary
+    url:apk [path]                    Log the download URL for the standalone Android binary
+
+    webhooks [path]                   List all webhooks for a project
+    webhooks:add [path]               Add a webhook to a project
+    webhooks:remove [path]            Delete a webhook
+    webhooks:update [path]            Update an existing webhook
+
+    build:ios [path]                  Superseded by eas build in eas-cli
+    build:android [path]              Superseded by eas build in eas-cli
+    build:status [path]               Superseded by eas build:list in eas-cli
+    eject [path]                      Superseded by expo prebuild
+    fetch:ios:certs [path]            Superseded by eas credentials in eas-cli
+    fetch:android:keystore [path]     Superseded by eas credentials in eas-cli
+    fetch:android:hashes [path]       Superseded by eas credentials in eas-cli
+    fetch:android:upload-cert [path]  Superseded by eas credentials in eas-cli
+    publish [path]                    Superseded by eas update in eas-cli
+    publish:set [path]                Superseded by eas update:republish in eas-cli
+    publish:rollback [path]           Superseded by eas update:republish in eas-cli
+    publish:history [path]            Superseded by eas update:list in eas-cli
+    publish:details [path]            Superseded by eas update:view in eas-cli
+    push:android:upload [path]        Superseded by eas credentials in eas-cli
+    push:android:show [path]          Superseded by eas credentials in eas-cli
+    push:android:clear [path]         Superseded by eas credentials in eas-cli
+    upload:android [path]             Superseded by eas submit in eas-cli
+    upload:ios [path]                 Superseded by eas submit in eas-cli
+    client:ios [path]                 Superseded by Expo Dev Clients
+
+[09:12:05]   Run a command with --help for more info 💡
+[09:12:05]     $ expo start --help
+[09:12:05] block.
+-   ****
+    -   **Importance:** Expo Application Services (EAS) build configuration.
+    -   **Summary of Changes:**
+        -   Changed to use the  profile.
+        -   Node.js version set to  for compatibility.
+        -   **Proposed Change**: Add  to the  block to ensure the correct backend URL is used during EAS builds.
 -   ****
     -   **Importance:** Manages project dependencies and scripts.
-    -   **Summary of Changes:**
-        -   Initially,  was updated to  (and / to ) to match Expo SDK 54.
-        -   Later,  was downgraded to  from  due to new architecture requirements.
-        -    was removed to resolve new architecture conflicts.
-        -    and  were explicitly added to resolve peer dependency issues.
-        -   Finally, all Expo-related packages were explicitly downgraded and aligned to **Expo SDK 52** (e.g., , , , , , etc.).
+    -   **Summary of Changes:** Repeatedly modified to align dependencies with Expo SDK versions (from 54 down to 50). Latest confirmed state by user is .
 -   ****
-    -   **Importance:** TypeScript configuration for the frontend.
-    -   **Summary of Changes:** Discussed but not directly modified in the trajectory. A suggestion to change  to  was considered but not executed.
--   ** (New Directory & Files)**
-    -   **Importance:** Stores image assets critical for application icons and splash screens.
-    -   **Summary of Changes:** , , , and  were created/copied to this directory and directly into  to satisfy build requirements.
+    -   **Importance:** Locks dependency versions.
+    -   **Summary of Changes:** Identified as a source of dependency conflict (containing older SDK versions). **Proposed Change**: To be deleted to force regeneration with clean dependencies for SDK 50.
+-   ****
+    -   **Importance:** Main application entry point/home screen.
+    -   **Summary of Changes:** Button styles and layout adjusted. **Proposed Change**: Replace  with .
+-   ****
+    -   **Importance:** Displays learning content.
+    -   **Summary of Changes:**
+        -   Added  check to prevent  error.
+        -   Increased API call timeout to 90 seconds to mitigate Render.com cold start issues.
+        -   Corrected  fallback from  to use .
+        -   **Proposed Change**: Replace  with .
+-   ****
+    -   **Importance:** Manages user session and provides API context.
+    -   **Summary of Changes:** Corrected backend URL fallback logic to consistently use  instead of  or .
+-   ** (New File)**
+    -   **Importance:** Provides a safe wrapper for  to prevent crashes in native builds (due to  being undefined in production).
+    -   **Summary of Changes:** Created to conditionally import  and provide no-op functions if it fails, thereby preventing app crashes related to TTS.
+-   ** (New File)**
+    -   **Importance:** GitHub Actions workflow for building Android APKs via EAS.
+    -   **Summary of Changes:**
+        -   Initial setup was repeatedly refined.
+        -   , ,  actions upgraded to .
+        -    upgraded from  to .
+        -   An Expo user account is required to proceed.
+
+Log in to EAS with email or username (exit and run eas login --help to see other login options)
+Input is required, but stdin is not readable. Failed to display prompt: Email or username command updated to include  and correct platform/profile.
+        -   Download APK from EAS step was extensively refactored, eventually using  to download the APK directly from the build URL ( is used to parse build info for the URL), as The following error occurred:
+  Missing required flag fingerprint
+See more help with --help commands were problematic.
+        -   An explicit step to create a production  file within the  directory before An Expo user account is required to proceed.
+
+Log in to EAS with email or username (exit and run eas login --help to see other login options)
+Input is required, but stdin is not readable. Failed to display prompt: Email or username was added.
+-   **Other Documentation/Scripts:** , , , , , , , , , , , , , , , . These files were created for internal debugging, user guidance, or temporary purposes throughout the process.
 </code_architecture>
 
 <pending_tasks>
--   Investigate why the successfully built Android APK does not display words from the database when run by the user.
--   Address the incompatibility between the user's Expo Go 54 and the app's current SDK 52.
+-   Successfully build a functional Android APK of the Kwezi application via GitHub Actions.
+-   Ensure the final APK correctly connects to the Render.com backend and displays all learning content.
+-   Apply  modifications on GitHub to add EAS CLI configuration.
+-   Apply  modifications on GitHub to include  in its KUBERNETES_SERVICE_PORT_HTTPS=443
+PYTHON_SHA256=8d3ed8ec5c88c1c95f5e558612a725450d2452813ddad5e58fdb1a53b1209b78
+KUBERNETES_SERVICE_PORT=443
+PYTHONUNBUFFERED=1
+PIP_NO_INPUT=1
+STRIPE_API_KEY=sk_test_emergent
+HOSTNAME=agent-env-59313dc8-fdfe-4c0c-810a-0394fc8faa56
+PYTHON_VERSION=3.11.14
+base_url=https://demobackend.emergentagent.com
+run_id=59313dc8-fdfe-4c0c-810a-0394fc8faa56
+UV_COMPILE_BYTECODE=1
+PLUGIN_VENV_PATH=/opt/plugins-venv
+PWD=/app/frontend
+code_server_password=af2c29fa
+HOME=/root
+LANG=C.UTF-8
+KUBERNETES_PORT_443_TCP=tcp://34.118.224.1:443
+VIRTUAL_ENV=/root/.venv
+GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D
+PLAYWRIGHT_BROWSERS_PATH=/pw-browsers
+integration_proxy_url=https://integrations.emergentagent.com
+preview_endpoint=https://kwezi-android.preview.emergentagent.com
+ENABLE_RELOAD=true
+SHLVL=0
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP_ADDR=34.118.224.1
+KUBERNETES_SERVICE_HOST=34.118.224.1
+KUBERNETES_PORT=tcp://34.118.224.1:443
+KUBERNETES_PORT_443_TCP_PORT=443
+PATH=/root/.venv/bin:/opt/plugins-venv/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+monitor_polling_interval=1
+NEXT_TELEMETRY_DISABLED=1
+NODE_VERSION=20
+DEBIAN_FRONTEND=noninteractive
+OLDPWD=/app
+_=/usr/bin/env configuration.
+-   Delete  on GitHub to resolve potential dependency conflicts.
+-   Replace all direct  imports with  in 6 frontend files (, , , , , ).
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer successfully guided the user through a complex EAS Android build process for the Kwezi application. After numerous attempts and troubleshooting steps on the user's local Windows machine (including correcting dependency versions,  flags, Node.js environment variables, and missing asset files), the strategy shifted to performing the build directly within the Emergent environment using the provided EAS access token. This resulted in a successful Android APK build, which was made available for download.
+Immediately before this summary request, the AI engineer was guiding the user through a comprehensive 6-step plan to address a critical dependency mismatch and build configuration issues for the Android APK using GitHub Actions. The  had identified a conflict between  (perceived as SDK 54) and  (containing SDK 50) as a key issue leading to Gradle build failures.
 
-However, the user reported a critical issue: the newly built application, when run (presumably in the Emergent web preview as Expo Go was incompatible), showed no words from the database. The AI engineer promptly checked the MongoDB database, confirming that 635 words were present in the  collection. The current task is to diagnose why the deployed application is not connecting to or fetching data from the correct backend database. The conversation ended with the user confirming they are testing on the Emergent web preview and that their Expo Go app (v54) is incompatible with the SDK 52 version of the application.
+The user's latest interaction confirmed that  already correctly specifies , meaning this specific step of the plan is complete. The AI is currently instructing the user to proceed with **Step 2 of the plan**, which is to modify  on GitHub. This modification involves adding a  configuration block with  and  within the 
+  Usage: expo [command] [options]
+
+  Options:
+  
+    -V, --version                     output the version number
+    --non-interactive                 Fail, if an interactive prompt would be required to continue.
+    -h, --help                        output usage information
+  
+  Commands:
+
+    init [name]                       Create a new Expo project
+    start [path]                      Start a local dev server for the app
+    start:web [path]                  Start a Webpack dev server for the web app
+    export [path]                     Export the static files of the app for hosting it on a web server
+    install [packages...]             Install a module or other package to a project
+    run:android [path]                Run the Android app binary locally
+    run:ios [path]                    Run the iOS app binary locally
+    send [path]                       Share the project's URL to an email address
+
+    login                             Login to an Expo account
+    logout                            Logout of an Expo account
+    register                          Sign up for a new Expo account
+    whoami                            Return the currently authenticated account
+
+    client:install:ios                Install Expo Go for iOS on the simulator
+    client:install:android            Install Expo Go for Android on a connected device or emulator
+
+    config [path]                     Show the project config
+    doctor [path]                     Diagnose issues with the project
+    upgrade [sdk-version]             Upgrade the project packages and config for the given SDK version
+
+    customize:web [path]              Eject the default web files for customization
+    prebuild [path]                   Create native iOS and Android project files before building natively.
+                                      Learn more: https://docs.expo.dev/workflow/customizing/
+
+    build:web [path]                  Build the web app for production
+
+    credentials:manager [path]        Superseded by eas credentials in eas-cli
+
+    url [path]                        Log a URL for opening the project in Expo Go
+    url:ipa [path]                    Log the download URL for the standalone iOS binary
+    url:apk [path]                    Log the download URL for the standalone Android binary
+
+    webhooks [path]                   List all webhooks for a project
+    webhooks:add [path]               Add a webhook to a project
+    webhooks:remove [path]            Delete a webhook
+    webhooks:update [path]            Update an existing webhook
+
+    build:ios [path]                  Superseded by eas build in eas-cli
+    build:android [path]              Superseded by eas build in eas-cli
+    build:status [path]               Superseded by eas build:list in eas-cli
+    eject [path]                      Superseded by expo prebuild
+    fetch:ios:certs [path]            Superseded by eas credentials in eas-cli
+    fetch:android:keystore [path]     Superseded by eas credentials in eas-cli
+    fetch:android:hashes [path]       Superseded by eas credentials in eas-cli
+    fetch:android:upload-cert [path]  Superseded by eas credentials in eas-cli
+    publish [path]                    Superseded by eas update in eas-cli
+    publish:set [path]                Superseded by eas update:republish in eas-cli
+    publish:rollback [path]           Superseded by eas update:republish in eas-cli
+    publish:history [path]            Superseded by eas update:list in eas-cli
+    publish:details [path]            Superseded by eas update:view in eas-cli
+    push:android:upload [path]        Superseded by eas credentials in eas-cli
+    push:android:show [path]          Superseded by eas credentials in eas-cli
+    push:android:clear [path]         Superseded by eas credentials in eas-cli
+    upload:android [path]             Superseded by eas submit in eas-cli
+    upload:ios [path]                 Superseded by eas submit in eas-cli
+    client:ios [path]                 Superseded by Expo Dev Clients
+
+[09:12:13]   Run a command with --help for more info 💡
+[09:12:13]     $ expo start --help
+[09:12:13] object of .
+
+Concurrently, numerous other issues have been addressed or prepared for implementation, including backend URL configuration in  and ,  crashes through the creation and intended integration of , and API timeout adjustments in . The primary goal remains to achieve a stable and functional Android APK build that correctly fetches data from the backend.
 </current_work>
 
 <optional_next_step>
-Diagnose why the deployed application in Emergent web preview shows no words from the database.
+Guide the user to modify  on GitHub, adding the specified EAS CLI configuration, as per the ongoing 6-step plan.
 </optional_next_step>
-<direct_quote>
-je test sur emergent pour le moment car sur expo go ça ne fonctionne pas peut parceque j ai expo go 54"
-"je nai plus aucun mots de la base de données est normal
-</direct_quote>

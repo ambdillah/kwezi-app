@@ -4,7 +4,7 @@
 
 L'APK est vide car il utilise l'**ancienne URL backend** :
 ```
-https://mayotte-learn-4.preview.emergentagent.com
+https://kwezi-android.preview.emergentagent.com
 ```
 
 Au lieu de la **nouvelle URL Render.com** :

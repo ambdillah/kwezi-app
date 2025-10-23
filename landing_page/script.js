@@ -100,4 +100,4 @@ window.addEventListener('scroll', () => {
 // Console message
 console.log('%cKwezi 🏝️', 'font-size: 24px; font-weight: bold; color: #2563eb;');
 console.log('%cApprends le Shimaoré et le Kibouchi', 'font-size: 14px; color: #6b7280;');
-console.log('https://mayotte-learn-4.preview.emergentagent.com');
+console.log('https://kwezi-android.preview.emergentagent.com');

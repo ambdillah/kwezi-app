@@ -59,7 +59,7 @@
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
-        "https://mayotte-learn-4.preview.emergentagent.com"
+        "https://kwezi-android.preview.emergentagent.com"
       ],
       "eas": {
         "projectId": "308793ab-c80f-403a-a8b3-7cbfac1b57c6"

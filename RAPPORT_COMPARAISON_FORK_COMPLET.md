@@ -123,8 +123,8 @@ Distribution:
 - ✅ STRIPE_PRICE_ID_PREMIUM configuré
 
 **Frontend (.env):**
-- ✅ EXPO_PACKAGER_HOSTNAME: `https://mayotte-learn-4.preview.emergentagent.com`
-- ✅ EXPO_PUBLIC_BACKEND_URL: `https://mayotte-learn-4.preview.emergentagent.com`
+- ✅ EXPO_PACKAGER_HOSTNAME: `https://kwezi-android.preview.emergentagent.com`
+- ✅ EXPO_PUBLIC_BACKEND_URL: `https://kwezi-android.preview.emergentagent.com`
 
 #### Services
 ```

@@ -184,7 +184,7 @@ STRIPE_WEBHOOK_SECRET=whsec_... (optionnel en dev, REQUIS en prod)
 
 **Frontend `.env`:**
 ```env
-EXPO_PUBLIC_BACKEND_URL=https://mayotte-learn-4.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://kwezi-android.preview.emergentagent.com
 ```
 
 ### Mode actuel : TEST
