@@ -2,7 +2,7 @@
   "expo": {
     "name": "Kwezi",
     "slug": "kwezi",
-    "version": "1.0.0",
+    "version": "1.2.0"
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "assetBundlePatterns": [
@@ -16,7 +16,7 @@
       "bundleIdentifier": "com.mahoraiseducation.kwezi"
     },
     "android": {
-      "versionCode": 1,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#667eea"
