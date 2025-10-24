@@ -9,6 +9,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "scheme": "kwezi",
     "userInterfaceStyle": "automatic",
     "description": "Apprends le Shimaoré et le Kibouchi, les langues authentiques de Mayotte",
