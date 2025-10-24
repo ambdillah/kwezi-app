@@ -206,9 +206,19 @@ export default function GamesScreen() {
       const shuffled = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
       setGameWords(shuffled);
       
-      if (gameId === 'match-words') {
-        generateAllQuestions(shuffled);
-      }
+     if (gameId === 'match-words') {
+  try {
+    console.log(`🎮 Génération de ${shuffled.length} questions pour le jeu`);
+    generateAllQuestions(shuffled);
+  } catch (error) {
+    console.error('❌ Erreur génération questions:', error);
+    Alert.alert(
+      'Erreur',
+      'Impossible de démarrer le jeu. Veuillez réessayer.',
+      [{ text: 'OK', onPress: () => { setGameStarted(false); setCurrentGame(null); } }]
+    );
+  }
+}
     }
     
     // Utiliser la voix féminine pour l'encouragement
