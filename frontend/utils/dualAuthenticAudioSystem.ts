@@ -111,8 +111,8 @@ const playDualAudioFromAPI = async (
     return new Promise<boolean>((resolve) => {
       let timeoutId: NodeJS.Timeout;
       
-      // Charger et jouer l'audio (depuis cache ou backend)
       console.log(`🔊 Tentative de création du son avec URI: ${audioUri}`);
+      // Charger et jouer l'audio (depuis cache ou backend)
       Audio.Sound.createAsync(
         { uri: audioUri },
         { 
@@ -155,10 +155,13 @@ const playDualAudioFromAPI = async (
           }
         }, 30000);
         
-      }).catch((error) => {
-        console.log(`❌ Erreur lors du chargement audio dual ${language}:`, error);
-        resolve(false);
-      });
+     }).catch((error) => {
+  console.log(`❌ Erreur lors du chargement audio dual ${language}:`, error);
+  console.log(`   Error name: ${error.name}`);
+  console.log(`   Error message: ${error.message}`);
+  console.log(`   URI tentée: ${audioUri}`);
+  resolve(false);
+});
     });
     
   } catch (error) {
