@@ -111,10 +111,9 @@ const playDualAudioFromAPI = async (
     return new Promise<boolean>((resolve) => {
       let timeoutId: NodeJS.Timeout;
       
-      // Charger et jouer l'audio depuis le backend
-      // TODO: Implémenter fallback vers assets locaux si offline
+      // Charger et jouer l'audio (depuis cache ou backend)
       Audio.Sound.createAsync(
-        { uri: audioUrl },
+        { uri: audioUri },
         { 
           shouldPlay: true,
           volume: 1.0,
