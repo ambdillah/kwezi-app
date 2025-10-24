@@ -282,10 +282,23 @@ export default function GamesScreen() {
       if (question) questions.push(question);
     }
     
-    setQuestionsGenerated(questions);
-    setCurrentQuestion(questions[0]);
-    setCurrentQuestionIndex(0);
-  };
+   setQuestionsGenerated(questions);
+
+if (questions.length > 0) {
+
+setCurrentQuestion(questions[0]);
+
+setCurrentQuestionIndex(0);
+
+} else {
+
+console.error('❌ Aucune question générée');
+
+Alert.alert('Erreur', 'Impossible de générer les questions.');
+
+}
+
+};
 
   const checkAnswer = (selectedOption: any) => {
     setSelectedAnswer(selectedOption.text);
