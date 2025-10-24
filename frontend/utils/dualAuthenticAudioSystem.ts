@@ -80,13 +80,21 @@ const playDualAudioFromAPI = async (
       return false;
     }
     
-    // STRATÉGIE HYBRIDE: Backend pour online, Assets bundlés pour offline
-    // Construire l'URL backend pour l'audio
-    const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
-    const audioUrl = `${backendUrl}/api/words/${word._id}/audio/${language}`;
+    // STRATÉGIE HYBRIDE: Cache offline → Backend → Fallback TTS
+    // 1. Vérifier si audio est en cache (mode offline premium)
+    let audioUri: string | null = await getCachedAudioUri(word._id, language);
     
-    console.log(`🎵 Chargement audio: ${language} - ${audioPath}`);
-    console.log(`🔗 URL backend: ${audioUrl}`);
+    if (audioUri) {
+      console.log(`📦 Audio trouvé en cache: ${audioPath}`);
+    } else {
+      // 2. Utiliser le backend si online
+      const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
+      audioUri = `${backendUrl}/api/words/${word._id}/audio/${language}`;
+      console.log(`🌐 Audio depuis backend: ${audioPath}`);
+    }
+    
+    console.log(`🎵 Chargement audio: ${language}`);
+    console.log(`🔗 URI: ${audioUri}`);
     
     // Arrêter l'audio précédent
     await stopCurrentAudio();
