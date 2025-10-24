@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "assetBundlePatterns": [
-      "**/*"
+      "assets/**/*"
     ],
     "scheme": "kwezi",
     "userInterfaceStyle": "automatic",
