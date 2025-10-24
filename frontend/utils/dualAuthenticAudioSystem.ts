@@ -1,11 +1,15 @@
 /**
- * SYSTÈME AUDIO AUTHENTIQUE DUAL
+ * SYSTÈME AUDIO AUTHENTIQUE DUAL - SHIMAORÉ ET KIBOUCHI
+ * Avec support mode offline premium
  * ==============================
  * Gère les prononciations authentiques séparées pour Shimaoré et Kibouchi
  * Utilise la nouvelle structure de base de données restructurée
  */
 
 import { Audio } from 'expo-av';
+import { Alert } from 'react-native';
+import Constants from 'expo-constants';
+import { getCachedAudioUri } from './audioOfflineManager';
 import { speakText } from './speechUtils';
 
 export type AudioLanguage = 'fr' | 'shimaore' | 'kibouchi';
