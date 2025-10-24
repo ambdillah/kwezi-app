@@ -69,8 +69,6 @@ const playDualAudioFromAPI = async (
   onComplete?: () => void
 ): Promise<boolean> => {
   try {
-    // CORRECTION CRITIQUE: Utiliser assets locaux au lieu de l'API backend
-    // Les fichiers audio sont bundlés dans /assets/audio/
     const audioPath = language === 'shimaore' ? word.audio_shimaore : word.audio_kibouchi;
     
     if (!audioPath) {
@@ -78,12 +76,13 @@ const playDualAudioFromAPI = async (
       return false;
     }
     
-    // Construire le chemin asset complet avec Asset.fromModule
-    // audioPath est comme "animaux/Papa.m4a"
-    const fullPath = `../../assets/audio/${audioPath}`;
+    // STRATÉGIE HYBRIDE: Backend pour online, Assets bundlés pour offline
+    // Construire l'URL backend pour l'audio
+    const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
+    const audioUrl = `${backendUrl}/api/words/${word._id}/audio/${language}`;
     
-    console.log(`🎵 Chargement audio local: ${language} - ${audioPath}`);
-    console.log(`🔗 Asset path: ${fullPath}`);
+    console.log(`🎵 Chargement audio: ${language} - ${audioPath}`);
+    console.log(`🔗 URL backend: ${audioUrl}`);
     
     // Arrêter l'audio précédent
     await stopCurrentAudio();
@@ -96,18 +95,14 @@ const playDualAudioFromAPI = async (
       shouldDuckAndroid: true,
     });
     
-    // CORRECTION CRITIQUE: Attendre la fin de l'audio avec une Promise
+    // Attendre la fin de l'audio avec une Promise
     return new Promise<boolean>((resolve) => {
       let timeoutId: NodeJS.Timeout;
       
-      // Charger et jouer l'audio depuis les assets locaux
-      // Utiliser Asset.fromModule pour charger dynamiquement
-      const { Asset } = require('expo-asset');
-      const asset = Asset.fromModule(require(fullPath));
-      await asset.downloadAsync();
-      
+      // Charger et jouer l'audio depuis le backend
+      // TODO: Implémenter fallback vers assets locaux si offline
       Audio.Sound.createAsync(
-        { uri: asset.localUri || asset.uri },
+        { uri: audioUrl },
         { 
           shouldPlay: true,
           volume: 1.0,
