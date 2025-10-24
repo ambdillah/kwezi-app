@@ -189,36 +189,14 @@ export default function GamesScreen() {
       setCurrentSentenceIndex(0);
       setBuiltSentence([]);
       fetchSentences(); // Charger un mélange de tous les temps
-   } else {
-      // CORRECTION CRITIQUE: Vérifier que les mots sont chargés avant de démarrer le jeu
-      if (words.length === 0) {
-        Alert.alert(
-          'Chargement en cours', 
-          'Les mots sont en cours de chargement. Veuillez patienter quelques secondes et réessayer.',
-          [{ text: 'OK' }]
-        );
-        setGameStarted(false);
-        setCurrentGame(null);
-        return;
-      }
-      
+  } else {
       // Pour les autres jeux
       const shuffled = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
       setGameWords(shuffled);
       
-     if (gameId === 'match-words') {
-  try {
-    console.log(`🎮 Génération de ${shuffled.length} questions pour le jeu`);
-    generateAllQuestions(shuffled);
-  } catch (error) {
-    console.error('❌ Erreur génération questions:', error);
-    Alert.alert(
-      'Erreur',
-      'Impossible de démarrer le jeu. Veuillez réessayer.',
-      [{ text: 'OK', onPress: () => { setGameStarted(false); setCurrentGame(null); } }]
-    );
-  }
-}
+      if (gameId === 'match-words') {
+        generateAllQuestions(shuffled);
+      }
     }
     
     // Utiliser la voix féminine pour l'encouragement
