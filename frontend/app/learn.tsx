@@ -145,8 +145,8 @@ export default function LearnScreen() {
       console.log('🌍 Backend URL (fetchWords):', baseUrl);
       // Ajouter limit=1000 pour récupérer tous les mots (le backend pagine par défaut à 50)
       const url = category 
-        ? `${baseUrl}/api/words?category=${category}&limit=1000`
-        : `${baseUrl}/api/words?limit=1000`;
+        ? `${baseUrl}/api/words?category=${category}&limit=50`
+        : `${baseUrl}/api/words?limit=50`;
       
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondes timeout
@@ -262,7 +262,7 @@ export default function LearnScreen() {
         try {
           // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
           const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
-          const response = await fetch(`${backendUrl}/api/words?limit=1000`);
+          const response = await fetch(`${backendUrl}/api/words?limit=50`);
           const responseData = await response.json();
           const wordsArray = Array.isArray(responseData) ? responseData : responseData.words || [];
           console.log(`✅ Recherche: ${wordsArray.length} mots chargés`);
