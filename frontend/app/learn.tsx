@@ -262,9 +262,11 @@ export default function LearnScreen() {
         try {
           // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
           const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
-          const response = await fetch(`${backendUrl}/api/words`);
-          const data = await response.json();
-          setAllWordsForSearch(data);
+          const response = await fetch(`${backendUrl}/api/words?limit=1000`);
+          const responseData = await response.json();
+          const wordsArray = Array.isArray(responseData) ? responseData : responseData.words || [];
+          console.log(`✅ Recherche: ${wordsArray.length} mots chargés`);
+          setAllWordsForSearch(wordsArray);
         } catch (error) {
           console.error('Erreur chargement mots pour recherche:', error);
         }
