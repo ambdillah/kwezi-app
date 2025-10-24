@@ -1,10 +1,6 @@
 {
   "expo": {
     "name": "Kwezi",
-    "cli": {
-  "appVersionSource": "remote",
-  "requireCommit": false
-},
     "slug": "kwezi",
     "version": "1.0.0",
     "orientation": "portrait",
