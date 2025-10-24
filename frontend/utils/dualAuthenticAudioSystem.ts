@@ -69,11 +69,20 @@ const playDualAudioFromAPI = async (
   onComplete?: () => void
 ): Promise<boolean> => {
   try {
-    const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
-    const audioUrl = `${backendUrl}/api/words/${wordId}/audio/${language}`;
+    // CORRECTION CRITIQUE: Utiliser assets locaux au lieu de l'API backend
+    // Les fichiers audio sont bundlés dans /assets/audio/
+    const audioPath = language === 'shimaore' ? word.audio_shimaore : word.audio_kibouchi;
     
-    console.log(`🎵 Chargement audio dual via nouvelle API: ${language} pour mot ${wordId}`);
-    console.log(`🔗 URL: ${audioUrl}`);
+    if (!audioPath) {
+      console.log(`⚠️ Pas de fichier audio pour ${language}`);
+      return false;
+    }
+    
+    // Charger l'asset local
+    const audioUrl = audioPath;
+    
+    console.log(`🎵 Chargement audio local: ${language} - ${audioPath}`);
+    console.log(`🔗 Asset: ${audioUrl}`);
     
     // Arrêter l'audio précédent
     await stopCurrentAudio();
