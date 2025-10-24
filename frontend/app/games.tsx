@@ -292,15 +292,6 @@ export default function GamesScreen() {
   }
 };
 
-} else {
-
-console.error('❌ Aucune question générée');
-
-Alert.alert('Erreur', 'Impossible de générer les questions.');
-
-}
-
-};
 
   const checkAnswer = (selectedOption: any) => {
     setSelectedAnswer(selectedOption.text);
