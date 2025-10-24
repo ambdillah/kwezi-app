@@ -100,9 +100,14 @@ const playDualAudioFromAPI = async (
     return new Promise<boolean>((resolve) => {
       let timeoutId: NodeJS.Timeout;
       
-      // Charger et jouer l'audio via l'API dual
+      // Charger et jouer l'audio depuis les assets locaux
+      // Utiliser Asset.fromModule pour charger dynamiquement
+      const { Asset } = require('expo-asset');
+      const asset = Asset.fromModule(require(fullPath));
+      await asset.downloadAsync();
+      
       Audio.Sound.createAsync(
-        { uri: audioUrl },
+        { uri: asset.localUri || asset.uri },
         { 
           shouldPlay: true,
           volume: 1.0,
