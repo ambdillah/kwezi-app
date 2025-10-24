@@ -95,7 +95,7 @@ const playDualAudioFromAPI = async (
     
     console.log(`🎵 Chargement audio: ${language}`);
     console.log(`🔗 URI: ${audioUri}`);
-    
+    console.log(`📱 Platform: ${require('react-native').Platform.OS}`);
     // Arrêter l'audio précédent
     await stopCurrentAudio();
     
@@ -112,6 +112,7 @@ const playDualAudioFromAPI = async (
       let timeoutId: NodeJS.Timeout;
       
       // Charger et jouer l'audio (depuis cache ou backend)
+      console.log(`🔊 Tentative de création du son avec URI: ${audioUri}`);
       Audio.Sound.createAsync(
         { uri: audioUri },
         { 
@@ -120,6 +121,7 @@ const playDualAudioFromAPI = async (
           isLooping: false 
         }
       ).then(({ sound }) => {
+        console.log(`✅ Son créé avec succès`);
         currentAudio.sound = sound;
         currentAudio.isPlaying = true;
         
