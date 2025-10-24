@@ -78,11 +78,12 @@ const playDualAudioFromAPI = async (
       return false;
     }
     
-    // Charger l'asset local
-    const audioUrl = audioPath;
+    // Construire le chemin asset complet avec Asset.fromModule
+    // audioPath est comme "animaux/Papa.m4a"
+    const fullPath = `../../assets/audio/${audioPath}`;
     
     console.log(`🎵 Chargement audio local: ${language} - ${audioPath}`);
-    console.log(`🔗 Asset: ${audioUrl}`);
+    console.log(`🔗 Asset path: ${fullPath}`);
     
     // Arrêter l'audio précédent
     await stopCurrentAudio();
