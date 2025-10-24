@@ -189,7 +189,19 @@ export default function GamesScreen() {
       setCurrentSentenceIndex(0);
       setBuiltSentence([]);
       fetchSentences(); // Charger un mélange de tous les temps
-    } else {
+   } else {
+      // CORRECTION CRITIQUE: Vérifier que les mots sont chargés avant de démarrer le jeu
+      if (words.length === 0) {
+        Alert.alert(
+          'Chargement en cours', 
+          'Les mots sont en cours de chargement. Veuillez patienter quelques secondes et réessayer.',
+          [{ text: 'OK' }]
+        );
+        setGameStarted(false);
+        setCurrentGame(null);
+        return;
+      }
+      
       // Pour les autres jeux
       const shuffled = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
       setGameWords(shuffled);
