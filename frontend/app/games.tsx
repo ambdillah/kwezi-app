@@ -217,19 +217,12 @@ export default function GamesScreen() {
     
     const currentWord = words[questionIndex];
     
-    // CORRECTION CRITIQUE: Vérifier que le mot a les propriétés requises
-    if (!currentWord.shimaore || !currentWord.kibouchi) {
-      console.warn(`⚠️ Mot invalide ignoré: ${currentWord.french} (manque shimaore ou kibouchi)`);
-      return null;
-    }
+   // STREAMING MODE: Faire confiance aux données backend
+    // Backend garantit que tous les mots ont shimaore ET kibouchi
+    const otherWords = words.filter(w => w.id !== currentWord.id);
     
-    const otherWords = words.filter(w => 
-      w.id !== currentWord.id && w.shimaore && w.kibouchi
-    );
-    
-    // Vérifier qu'on a assez de mots pour générer une question
     if (otherWords.length === 0) {
-      console.warn(`⚠️ Pas assez de mots valides pour générer une question`);
+      console.warn(`⚠️ Pas assez de mots pour générer une question`);
       return null;
     }
         // Choisir aléatoirement entre shimaoré et kibouchi
