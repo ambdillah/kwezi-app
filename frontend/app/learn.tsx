@@ -149,8 +149,7 @@ export default function LearnScreen() {
         : `${baseUrl}/api/words?limit=50`;
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondes timeout
-      
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 secondes timeout
       const response = await fetch(url, {
         signal: controller.signal,
       });
@@ -262,7 +261,7 @@ export default function LearnScreen() {
         try {
           // CORRECTION CRITIQUE: Utiliser Constants.expoConfig pour APK Android
           const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'https://kwezi-backend.onrender.com';
-          const response = await fetch(`${backendUrl}/api/words?limit=50`);
+         const response = await fetch(`${backendUrl}/api/words?limit=200`);
           const responseData = await response.json();
           const wordsArray = Array.isArray(responseData) ? responseData : responseData.words || [];
           console.log(`✅ Recherche: ${wordsArray.length} mots chargés`);
