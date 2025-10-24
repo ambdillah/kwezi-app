@@ -216,9 +216,23 @@ export default function GamesScreen() {
     if (questionIndex >= words.length) return null;
     
     const currentWord = words[questionIndex];
-    const otherWords = words.filter(w => w.id !== currentWord.id);
     
-    // Choisir aléatoirement entre shimaoré et kibouchi
+    // CORRECTION CRITIQUE: Vérifier que le mot a les propriétés requises
+    if (!currentWord.shimaore || !currentWord.kibouchi) {
+      console.warn(`⚠️ Mot invalide ignoré: ${currentWord.french} (manque shimaore ou kibouchi)`);
+      return null;
+    }
+    
+    const otherWords = words.filter(w => 
+      w.id !== currentWord.id && w.shimaore && w.kibouchi
+    );
+    
+    // Vérifier qu'on a assez de mots pour générer une question
+    if (otherWords.length === 0) {
+      console.warn(`⚠️ Pas assez de mots valides pour générer une question`);
+      return null;
+    }
+        // Choisir aléatoirement entre shimaoré et kibouchi
     const languages = ['shimaore', 'kibouchi'] as const;
     const selectedLanguage = languages[Math.floor(Math.random() * languages.length)];
     
