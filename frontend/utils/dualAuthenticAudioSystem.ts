@@ -11,7 +11,7 @@ import { Alert } from 'react-native';
 import Constants from 'expo-constants';
 import { getCachedAudioUri } from './audioOfflineManager';
 import { speakText } from './speechUtils';
-
+import { playAudioAPKCompatible } from './audioAPKFix';
 export type AudioLanguage = 'fr' | 'shimaore' | 'kibouchi';
 
 interface WordWithDualAudio {
@@ -96,64 +96,14 @@ const playDualAudioFromAPI = async (
     console.log(`🎵 Chargement audio: ${language}`);
     console.log(`🔗 URI: ${audioUri}`);
     console.log(`📱 Platform: ${require('react-native').Platform.OS}`);
-    // Arrêter l'audio précédent
-    await stopCurrentAudio();
+    onStart?.();
     
-    // Configurer l'audio
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
-      playsInSilentModeIOS: true,
-      staysActiveInBackground: false,
-      shouldDuckAndroid: true,
-    });
+    // CORRECTION CRITIQUE APK: Utiliser le système APK-compatible
+    const fallbackText = language === 'shimaore' ? word.shimaore : word.kibouchi;
+    const success = await playAudioAPKCompatible(audioUri, language, fallbackText);
     
-    // Attendre la fin de l'audio avec une Promise
-    return new Promise<boolean>((resolve) => {
-      let timeoutId: NodeJS.Timeout;
-      
-      console.log(`🔊 Tentative de création du son avec URI: ${audioUri}`);
-      // Charger et jouer l'audio (depuis cache ou backend)
-      Audio.Sound.createAsync(
-        { uri: audioUri },
-        { 
-          shouldPlay: true,
-          volume: 1.0,
-          isLooping: false 
-        }
-      ).then(({ sound }) => {
-        console.log(`✅ Son créé avec succès`);
-        currentAudio.sound = sound;
-        currentAudio.isPlaying = true;
-        
-        onStart?.();
-        
-        // Écouter la fin de la lecture
-        sound.setOnPlaybackStatusUpdate((status) => {
-          if (status.isLoaded && status.didJustFinish) {
-            // CORRECTION: Nettoyer le timeout avant de résoudre
-            if (timeoutId) {
-              clearTimeout(timeoutId);
-            }
-            
-            currentAudio.isPlaying = false;
-            sound.unloadAsync();
-            currentAudio.sound = null;
-            onComplete?.();
-            console.log(`✅ Audio dual ${language} terminé naturellement`);
-            resolve(true);
-          }
-        });
-        
-        // Timeout de sécurité étendu (30 secondes au lieu de 10)
-        // Ne s'active QUE si l'audio ne se termine pas naturellement
-        timeoutId = setTimeout(() => {
-          if (currentAudio.isPlaying) {
-            console.log(`⚠️ Timeout audio ${language} après 30s, arrêt de sécurité`);
-            stopCurrentAudio().then(() => {
-              resolve(false); // false car timeout = problème
-            });
-          }
-        }, 30000);
+    onComplete?.();
+    return success
         
      }).catch((error) => {
   console.log(`❌ Erreur lors du chargement audio dual ${language}:`, error);
