@@ -2,7 +2,7 @@
   "expo": {
     "name": "Kwezi",
     "slug": "kwezi",
-    "version": "1.7.0",
+    "version": "1.8.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "assetBundlePatterns": [
@@ -18,7 +18,7 @@
       "bundleIdentifier": "com.mahoraiseducation.kwezi"
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 9,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#667eea"
@@ -64,7 +64,7 @@
       "requireCommit": false
     },
     "extra": {
-      "backendUrl": "https://kwezi-backend.onrender.com",
+      "backendUrl": "kwezi-language.preview.emergentagent.com",
       "corsOrigins": [
         "https://app.emergent.sh",
         "https://emergent.sh",
