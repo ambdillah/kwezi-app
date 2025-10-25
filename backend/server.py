@@ -25,11 +25,17 @@ app = FastAPI(title="Mayotte Language Learning API")
 app.include_router(stripe_router)
 
 # Add CORS middleware
+# Add CORS middleware - CONFIGURATION PRODUCTION SÉCURISÉE
+ALLOWED_ORIGINS = os.getenv(
+    "ALLOWED_ORIGINS", 
+    "https://kwezi-backend.onrender.com,https://kwezi-language.preview.emergentagent.com,http://localhost:3000"
+).split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -1606,10 +1612,14 @@ async def get_word_audio_by_language(word_id: str, lang: str):
         raise HTTPException(status_code=400, detail="Langue doit être 'shimaore' ou 'kibouchi'")
     
     try:
-        # Récupérer le mot
-        word_doc = words_collection.find_one({"_id": ObjectId(word_id)})
+        # Récupérer le mot - accepter à la fois 'id' (string) et '_id' (ObjectId)
+        try:
+            word_doc = words_collection.find_one({"_id": ObjectId(word_id)})
+        except Exception as e:
+            word_doc = words_collection.find_one({"id": word_id})
+        
         if not word_doc:
-            raise HTTPException(status_code=404, detail="Mot non trouvé")
+            raise HTTPException(status_code=404, detail=f"Mot non trouvé avec id: {word_id}")
         
         # Vérifier si le système dual est activé
         if not word_doc.get("dual_audio_system", False):
@@ -1637,22 +1647,22 @@ async def get_word_audio_by_language(word_id: str, lang: str):
         # Détecter automatiquement la catégorie du mot pour utiliser le bon dossier
         word_category = word_doc.get("section") or word_doc.get("category", "famille")
         audio_dirs = {
-            "famille": "/app/frontend/assets/audio/famille",
-            "nature": "/app/frontend/assets/audio/nature", 
-            "nombres": "/app/frontend/assets/audio/nombres",
-            "animaux": "/app/frontend/assets/audio/animaux",
-            "corps": "/app/frontend/assets/audio/corps",
-            "salutations": "/app/frontend/assets/audio/salutations",
-            "couleurs": "/app/frontend/assets/audio/couleurs",
-            "grammaire": "/app/frontend/assets/audio/grammaire",
-            "nourriture": "/app/frontend/assets/audio/nourriture",
-            "verbes": "/app/frontend/assets/audio/verbes",
-            "expressions": "/app/frontend/assets/audio/expressions",
-            "adjectifs": "/app/frontend/assets/audio/adjectifs",
-            "vetements": "/app/frontend/assets/audio/vetements",
-            "maison": "/app/frontend/assets/audio/maison",
-            "tradition": "/app/frontend/assets/audio/traditions",
-            "transport": "/app/frontend/assets/audio/transport"
+            "famille": "/app/backend/audio_assets/famille",
+            "nature": "/app/backend/audio_assets/nature", 
+            "nombres": "/app/backend/audio_assets/nombres",
+            "animaux": "/app/backend/audio_assets/animaux",
+            "corps": "/app/backend/audio_assets/corps",
+            "salutations": "//app/backend/audio_assets/salutations",
+            "couleurs": "/app/backend/audio_assets/couleurs",
+            "grammaire": "/app/backend/audio_assets/grammaire",
+            "nourriture": "/app/backend/audio_assets/nourriture",
+            "verbes": "/app/backend/audio_assets/verbes",
+            "expressions": "/app/backend/audio_assets/expressions",
+            "adjectifs": "/app/backend/audio_assets/adjectifs",
+            "vetements": "/app/backend/audio_assets/vetements",
+            "maison": "/app/backend/audio_assets/maison",
+            "tradition": "/app/backend/audio_assets/traditions",
+            "transport": "/app/backend/audio_assets/transport"
         }
         
         # Chercher d'abord à la racine (nouveaux fichiers), puis dans le sous-dossier
