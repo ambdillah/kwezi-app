@@ -16,9 +16,18 @@ const ConjugationRules: React.FC<ConjugationRulesProps> = ({ language, tense, co
   };
 
   const kibouchiRules = {
-    present: { label: 'Présent', example: 'Garder le verbe à l\'infinitif (avec le "m")' },
-    past: { label: 'Passé', example: 'Remplacer "m" par "n"' },
-    future: { label: 'Futur', example: 'Remplacer "m" par "Mbou"' },
+    present: { 
+      label: 'Présent', 
+      example: 'Pronom + Verbe (préfixe "m" ou infinitif)\nEx: zahou mitiya (j\'aime), anaou mitiya (tu aimes)' 
+    },
+    past: { 
+      label: 'Passé', 
+      example: 'Pronom + Verbe (préfixe "m" → "n")\nEx: zahou nitiya (j\'ai aimé), anaou nitiya (tu as aimé)' 
+    },
+    future: { 
+      label: 'Futur', 
+      example: 'Pronom + Verbe (préfixe "m" → "mbou")\nEx: zahou mbouitiya (j\'aimerai), anaou mbouitiya (tu aimeras)' 
+    },
   };
 
   const rules = language === 'shimaore' ? shimoareRules : kibouchiRules;
