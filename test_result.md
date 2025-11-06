@@ -165,6 +165,17 @@ test_plan:
 user_problem_statement: "🔄 MIGRATION KWEZI APP - Migrer le code fonctionnel de /app/frontend/ vers le nouveau projet propre /app/kwezi-app/ avec toutes les dépendances installées. Objectif: Application web déployable sur Vercel avec toutes les fonctionnalités (635 mots, jeux, audio, premium, légal). Backend FastAPI + MongoDB fonctionnel. Code source complet dans /app/frontend/."
 
 backend:
+  - task: "Test backend après migration vers /app/kwezi-app/"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Migration complétée. Backend démarré avec 635 mots. Nécessite tests complets pour vérifier: 1) API endpoints (/api/words, /api/categories, /api/sentences, /api/exercises), 2) Système audio dual (Cloudflare R2), 3) Paiement Stripe, 4) Documents légaux. Backend URL: http://localhost:8001"
   - task: "Test complet après création de la section adjectifs avec 100% audio"
     implemented: true
     working: true
