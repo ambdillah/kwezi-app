@@ -1,0 +1,2162 @@
+[
+  {
+    "_id": "68de375f0fe3734a45d52388",
+    "id": "9f9ee450-4b01-4456-8152-33cca7b090f9",
+    "type": "conjugated_corrected",
+    "french": "j'abîme",
+    "shimaore": "wami nismengna",
+    "kibouchi": "zahou androubaka",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Abîmer",
+    "difficulty": 1,
+    "french_words": [
+      "j'abîme"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nismengna"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "androubaka"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5238b",
+    "id": "2505d8bc-9517-4b40-8f9b-3f8e474f14a1",
+    "type": "conjugated_corrected",
+    "french": "tu abîmes",
+    "shimaore": "wawé ousmengna",
+    "kibouchi": "anaou androubaka",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Abîmer",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "abîmes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousmengna"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "androubaka"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5238e",
+    "id": "803c089c-71bf-4885-a4a8-22330e2d64bb",
+    "type": "conjugated_corrected",
+    "french": "il abîme",
+    "shimaore": "wayé asmengna",
+    "kibouchi": "izi androubaka",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Abîmer",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "abîme"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asmengna"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "androubaka"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52391",
+    "id": "b90b5835-98e2-478a-8d7d-9716cfa8ef04",
+    "type": "conjugated_corrected",
+    "french": "nous abîmons",
+    "shimaore": "wasi rismengna",
+    "kibouchi": "zéhèyi androubaka",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Abîmer",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "abîmons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "rismengna"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "androubaka"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52394",
+    "id": "400e5b2e-d61d-448c-904a-ea9820d6d4a3",
+    "type": "conjugated_corrected",
+    "french": "vous abîmez",
+    "shimaore": "wagnou mousmengna",
+    "kibouchi": "anaréou androubaka",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Abîmer",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "abîmez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousmengna"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "androubaka"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52397",
+    "id": "e648dd19-0b04-4bbd-8a7f-8667b263008a",
+    "type": "conjugated_corrected",
+    "french": "ils abîment",
+    "shimaore": "wawo wasmengna",
+    "kibouchi": "réou androubaka",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Abîmer",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "abîment"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasmengna"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "androubaka"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5239a",
+    "id": "bf16e7d6-cdaf-46c3-88d2-eb9d7982f98c",
+    "type": "conjugated_corrected",
+    "french": "j'achète",
+    "shimaore": "wami nisnounoua",
+    "kibouchi": "zahou ivanga",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Acheter",
+    "difficulty": 1,
+    "french_words": [
+      "j'achète"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisnounoua"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "ivanga"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5239d",
+    "id": "50d4f283-b9d3-4693-8740-1c25b27e5ece",
+    "type": "conjugated_corrected",
+    "french": "tu achètes",
+    "shimaore": "wawé ousnounoua",
+    "kibouchi": "anaou ivanga",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Acheter",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "achètes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousnounoua"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "ivanga"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523a0",
+    "id": "f3315dc3-8532-41a1-b35b-9d253d6f1a46",
+    "type": "conjugated_corrected",
+    "french": "il achète",
+    "shimaore": "wayé asnounoua",
+    "kibouchi": "izi ivanga",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Acheter",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "achète"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asnounoua"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "ivanga"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523a3",
+    "id": "18e8435e-9832-4a70-bcff-b1c2b898c89b",
+    "type": "conjugated_corrected",
+    "french": "nous achetons",
+    "shimaore": "wasi risnounoua",
+    "kibouchi": "zéhèyi ivanga",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Acheter",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "achetons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risnounoua"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "ivanga"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523a6",
+    "id": "d28c1a29-71a9-4f9e-a17d-2358963e3bc5",
+    "type": "conjugated_corrected",
+    "french": "vous achetez",
+    "shimaore": "wagnou mousnounoua",
+    "kibouchi": "anaréou ivanga",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Acheter",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "achetez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousnounoua"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "ivanga"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523a9",
+    "id": "001d06e2-b3ae-4e54-a780-4990bfcb2a5b",
+    "type": "conjugated_corrected",
+    "french": "ils achètent",
+    "shimaore": "wawo wasnounoua",
+    "kibouchi": "réou ivanga",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Acheter",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "achètent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasnounoua"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "ivanga"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523ac",
+    "id": "c2dbb2f9-2a88-4125-8d4f-1a25357a97e1",
+    "type": "conjugated_corrected",
+    "french": "j'aime",
+    "shimaore": "wami nisvendza",
+    "kibouchi": "zahou itiya",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Aimer",
+    "difficulty": 1,
+    "french_words": [
+      "j'aime"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisvendza"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "itiya"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523af",
+    "id": "86df7024-5f2d-4849-8c24-d3592d6942ae",
+    "type": "conjugated_corrected",
+    "french": "tu aimes",
+    "shimaore": "wawé ousvendza",
+    "kibouchi": "anaou itiya",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Aimer",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "aimes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousvendza"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "itiya"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523b2",
+    "id": "3d9165b5-c2a4-4693-bdb9-c02636808a2a",
+    "type": "conjugated_corrected",
+    "french": "il aime",
+    "shimaore": "wayé asvendza",
+    "kibouchi": "izi itiya",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Aimer",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "aime"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asvendza"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "itiya"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523b5",
+    "id": "daf35282-95ca-4c9e-9718-059595827892",
+    "type": "conjugated_corrected",
+    "french": "nous aimons",
+    "shimaore": "wasi risvendza",
+    "kibouchi": "zéhèyi itiya",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Aimer",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "aimons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risvendza"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "itiya"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523b8",
+    "id": "33f8b370-5b88-4c83-82f7-78f0ab016563",
+    "type": "conjugated_corrected",
+    "french": "vous aimez",
+    "shimaore": "wagnou mousvendza",
+    "kibouchi": "anaréou itiya",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Aimer",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "aimez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousvendza"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "itiya"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523bb",
+    "id": "26c47a29-748f-46c5-a9dd-c810f1d294d2",
+    "type": "conjugated_corrected",
+    "french": "ils aiment",
+    "shimaore": "wawo wasvendza",
+    "kibouchi": "réou itiya",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Aimer",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "aiment"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasvendza"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "itiya"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523be",
+    "id": "4506a7d3-00d8-4978-a5cd-3fbb7c24daf9",
+    "type": "conjugated_corrected",
+    "french": "je vais",
+    "shimaore": "wami nisendra",
+    "kibouchi": "zahou andeha",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Aller",
+    "difficulty": 1,
+    "french_words": [
+      "je",
+      "vais"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisendra"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "andeha"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523c1",
+    "id": "92dcce4a-efcf-40f1-83f6-129739b7becd",
+    "type": "conjugated_corrected",
+    "french": "tu vas",
+    "shimaore": "wawé ousendra",
+    "kibouchi": "anaou andeha",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Aller",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "vas"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousendra"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "andeha"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523c4",
+    "id": "b4a5b359-6b98-48d4-abf1-ad4eef18271a",
+    "type": "conjugated_corrected",
+    "french": "il va",
+    "shimaore": "wayé asendra",
+    "kibouchi": "izi andeha",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Aller",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "va"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asendra"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "andeha"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523c7",
+    "id": "bf8c752a-e5b5-4f1b-b484-f745bc34d98f",
+    "type": "conjugated_corrected",
+    "french": "nous allons",
+    "shimaore": "wasi risendra",
+    "kibouchi": "zéhèyi andeha",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Aller",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "allons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risendra"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "andeha"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523ca",
+    "id": "44a60d35-795a-4432-be0d-c7a4a455268c",
+    "type": "conjugated_corrected",
+    "french": "vous allez",
+    "shimaore": "wagnou mousendra",
+    "kibouchi": "anaréou andeha",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Aller",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "allez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousendra"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "andeha"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523cd",
+    "id": "a4f99e7c-a811-470a-aadf-fb54037854e1",
+    "type": "conjugated_corrected",
+    "french": "ils vont",
+    "shimaore": "wawo wasendra",
+    "kibouchi": "réou andeha",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Aller",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "vont"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasendra"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "andeha"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523d0",
+    "id": "985e8e41-47f4-4d60-92f3-96cf2716d887",
+    "type": "conjugated_corrected",
+    "french": "j'allume",
+    "shimaore": "wami nispatsa",
+    "kibouchi": "zahou ikoupatsa",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Allumer",
+    "difficulty": 1,
+    "french_words": [
+      "j'allume"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nispatsa"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "ikoupatsa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523d3",
+    "id": "4b600618-f963-4e08-a5ac-d78a11daf896",
+    "type": "conjugated_corrected",
+    "french": "tu allumes",
+    "shimaore": "wawé ouspatsa",
+    "kibouchi": "anaou ikoupatsa",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Allumer",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "allumes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ouspatsa"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "ikoupatsa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523d6",
+    "id": "1f3e3bcb-2f05-44ae-990a-756c8e7e1e76",
+    "type": "conjugated_corrected",
+    "french": "il allume",
+    "shimaore": "wayé aspatsa",
+    "kibouchi": "izi ikoupatsa",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Allumer",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "allume"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "aspatsa"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "ikoupatsa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523d9",
+    "id": "077b9e1e-e8be-47a5-94c2-9412868f98b1",
+    "type": "conjugated_corrected",
+    "french": "nous allumons",
+    "shimaore": "wasi rispatsa",
+    "kibouchi": "zéhèyi ikoupatsa",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Allumer",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "allumons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "rispatsa"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "ikoupatsa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523dc",
+    "id": "8dda5d50-32d6-44e4-8a70-7112c253ce70",
+    "type": "conjugated_corrected",
+    "french": "vous allumez",
+    "shimaore": "wagnou mouspatsa",
+    "kibouchi": "anaréou ikoupatsa",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Allumer",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "allumez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mouspatsa"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "ikoupatsa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523df",
+    "id": "913d7c52-33d3-49a0-a83c-79845bbde8be",
+    "type": "conjugated_corrected",
+    "french": "ils allument",
+    "shimaore": "wawo waspatsa",
+    "kibouchi": "réou ikoupatsa",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Allumer",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "allument"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "waspatsa"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "ikoupatsa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523e2",
+    "id": "8dc1a92a-90c8-44cf-9cb1-6d4271d149e7",
+    "type": "conjugated_corrected",
+    "french": "j'amener/apporte",
+    "shimaore": "wami nisvinga",
+    "kibouchi": "zahou andèyi",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Amener/apporter",
+    "difficulty": 1,
+    "french_words": [
+      "j'amener/apporte"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisvinga"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "andèyi"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523e5",
+    "id": "35d7e38a-b6e5-4239-8214-3bf396cc13d1",
+    "type": "conjugated_corrected",
+    "french": "tu amènes/apportes",
+    "shimaore": "wawé ousvinga",
+    "kibouchi": "anaou andèyi",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Amener/apporter",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "amener/apportes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousvinga"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "andèyi"
+    ],
+    "updated_at": "2025-10-15 07:59:17.215000"
+  },
+  {
+    "_id": "68de375f0fe3734a45d523e8",
+    "id": "6e2b8a01-478c-42d2-b2fc-1eca88a1b090",
+    "type": "conjugated_corrected",
+    "french": "il amène/apporte",
+    "shimaore": "wayé asvinga",
+    "kibouchi": "izi andèyi",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Amener/apporter",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "amener/apporte"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asvinga"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "andèyi"
+    ],
+    "updated_at": "2025-10-15 07:59:17.219000"
+  },
+  {
+    "_id": "68de375f0fe3734a45d523eb",
+    "id": "d8c87acb-f8f0-4428-acc8-b6292d80a8b2",
+    "type": "conjugated_corrected",
+    "french": "nous amenons/apportons",
+    "shimaore": "wasi risvinga",
+    "kibouchi": "zéhèyi andèyi",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Amener/apporter",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "amener/apportons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risvinga"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "andèyi"
+    ],
+    "updated_at": "2025-10-15 07:59:17.222000"
+  },
+  {
+    "_id": "68de375f0fe3734a45d523ee",
+    "id": "ceb5b485-4007-4681-a3f4-ba2fb0102284",
+    "type": "conjugated_corrected",
+    "french": "vous amenez/apportez",
+    "shimaore": "wagnou mousvinga",
+    "kibouchi": "anaréou andèyi",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Amener/apporter",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "amener/apportez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousvinga"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "andèyi"
+    ],
+    "updated_at": "2025-10-15 07:59:17.225000"
+  },
+  {
+    "_id": "68de375f0fe3734a45d523f1",
+    "id": "8870ce89-53bc-43f3-b9cd-c1d61cded7d7",
+    "type": "conjugated_corrected",
+    "french": "ils amènent/apportent",
+    "shimaore": "wawo wasvinga",
+    "kibouchi": "réou andèyi",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Amener/apporter",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "amener/apportent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasvinga"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "andèyi"
+    ],
+    "updated_at": "2025-10-15 07:59:17.228000"
+  },
+  {
+    "_id": "68de375f0fe3734a45d523f4",
+    "id": "10605997-9bec-4f73-b54d-6647d8e02465",
+    "type": "conjugated_corrected",
+    "french": "j'apprends",
+    "shimaore": "wami nisfoundriha",
+    "kibouchi": "zahou idzorou",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Apprendre",
+    "difficulty": 1,
+    "french_words": [
+      "j'apprends"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisfoundriha"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "idzorou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523f7",
+    "id": "f8f10fc3-32ee-4a25-993c-025c494f8a50",
+    "type": "conjugated_corrected",
+    "french": "tu apprends",
+    "shimaore": "wawé ousfoundriha",
+    "kibouchi": "anaou idzorou",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Apprendre",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "apprends"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousfoundriha"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "idzorou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523fa",
+    "id": "6010492f-4566-470b-9d9c-6a4fa055c83c",
+    "type": "conjugated_corrected",
+    "french": "il apprend",
+    "shimaore": "wayé asfoundriha",
+    "kibouchi": "izi idzorou",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Apprendre",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "apprend"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asfoundriha"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "idzorou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d523fd",
+    "id": "09a482a4-d567-40a3-bd96-97973002b385",
+    "type": "conjugated_corrected",
+    "french": "nous apprenons",
+    "shimaore": "wasi risfoundriha",
+    "kibouchi": "zéhèyi idzorou",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Apprendre",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "apprenons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risfoundriha"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "idzorou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52400",
+    "id": "67b69b7b-7381-466b-b1a5-2e3667082d2a",
+    "type": "conjugated_corrected",
+    "french": "vous apprenez",
+    "shimaore": "wagnou mousfoundriha",
+    "kibouchi": "anaréou idzorou",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Apprendre",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "apprenez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousfoundriha"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "idzorou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52403",
+    "id": "f5cd8c24-adb3-454e-bfdb-2fcff876dc8d",
+    "type": "conjugated_corrected",
+    "french": "ils apprennent",
+    "shimaore": "wawo wasfoundriha",
+    "kibouchi": "réou idzorou",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Apprendre",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "apprennent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasfoundriha"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "idzorou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52406",
+    "id": "58871cc8-be2a-4d0e-96e1-ccbd7f7b344b",
+    "type": "conjugated_corrected",
+    "french": "j'arnaque",
+    "shimaore": "wami nis ravi",
+    "kibouchi": "zahou angalatra",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Arnaquer",
+    "difficulty": 1,
+    "french_words": [
+      "j'arnaque"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nis",
+      "ravi"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "angalatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52409",
+    "id": "b127711e-ba2c-4fc1-8fac-3f3b703b9389",
+    "type": "conjugated_corrected",
+    "french": "tu arnaques",
+    "shimaore": "wawé ous ravi",
+    "kibouchi": "anaou angalatra",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Arnaquer",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "arnaques"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ous",
+      "ravi"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "angalatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5240c",
+    "id": "d7489989-f45f-4c88-81c1-377d132f059a",
+    "type": "conjugated_corrected",
+    "french": "il arnaque",
+    "shimaore": "wayé as ravi",
+    "kibouchi": "izi angalatra",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Arnaquer",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "arnaque"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "as",
+      "ravi"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "angalatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5240f",
+    "id": "5c1fcd09-d263-4c9f-bc3c-80346a43b0f4",
+    "type": "conjugated_corrected",
+    "french": "nous arnaquons",
+    "shimaore": "wasi ris ravi",
+    "kibouchi": "zéhèyi angalatra",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Arnaquer",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "arnaquons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "ris",
+      "ravi"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "angalatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52412",
+    "id": "1e7a6fc1-90e3-419b-aa97-04f9c8fdd8e9",
+    "type": "conjugated_corrected",
+    "french": "vous arnaquez",
+    "shimaore": "wagnou mous ravi",
+    "kibouchi": "anaréou angalatra",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Arnaquer",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "arnaquez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mous",
+      "ravi"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "angalatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52415",
+    "id": "6ccfcc19-196c-40d6-afeb-fdd40ba28c06",
+    "type": "conjugated_corrected",
+    "french": "ils arnaquent",
+    "shimaore": "wawo was ravi",
+    "kibouchi": "réou angalatra",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Arnaquer",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "arnaquent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "was",
+      "ravi"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "angalatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52418",
+    "id": "13e2118d-5d37-4ce2-a564-ecd1e0fce15d",
+    "type": "conjugated_corrected",
+    "french": "j'arrête",
+    "shimaore": "wami nisziya",
+    "kibouchi": "zahou itsahatra",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Arrêter",
+    "difficulty": 1,
+    "french_words": [
+      "j'arrête"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisziya"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "itsahatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5241b",
+    "id": "903e8d2a-6f5a-45c7-b0a1-ffd4cb95ed5d",
+    "type": "conjugated_corrected",
+    "french": "tu arrêtes",
+    "shimaore": "wawé ousziya",
+    "kibouchi": "anaou itsahatra",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Arrêter",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "arrêtes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousziya"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "itsahatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5241e",
+    "id": "7422e94b-2331-4e06-b3cf-7009abffe4c1",
+    "type": "conjugated_corrected",
+    "french": "il arrête",
+    "shimaore": "wayé asziya",
+    "kibouchi": "izi itsahatra",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Arrêter",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "arrête"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asziya"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "itsahatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52421",
+    "id": "f025e2ac-1230-4f5c-b634-8c6de6260868",
+    "type": "conjugated_corrected",
+    "french": "nous arrêtons",
+    "shimaore": "wasi risziya",
+    "kibouchi": "zéhèyi itsahatra",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Arrêter",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "arrêtons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risziya"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "itsahatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52424",
+    "id": "c651510d-5689-4f4d-8f04-57f8e57f7221",
+    "type": "conjugated_corrected",
+    "french": "vous arrêtez",
+    "shimaore": "wagnou mousziya",
+    "kibouchi": "anaréou itsahatra",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Arrêter",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "arrêtez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousziya"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "itsahatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52427",
+    "id": "3eea8082-946e-404c-a4b3-926d16306412",
+    "type": "conjugated_corrected",
+    "french": "ils arrêtent",
+    "shimaore": "wawo wasziya",
+    "kibouchi": "réou itsahatra",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Arrêter",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "arrêtent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasziya"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "itsahatra"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5242a",
+    "id": "8e6be7ed-4896-4146-9016-22867f11a718",
+    "type": "conjugated_corrected",
+    "french": "j'attends",
+    "shimaore": "wami nislindra",
+    "kibouchi": "zahou andigni",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Attendre",
+    "difficulty": 1,
+    "french_words": [
+      "j'attends"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nislindra"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "andigni"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5242d",
+    "id": "fbfb21fd-e171-4ba7-8d7b-2f73fce64d0a",
+    "type": "conjugated_corrected",
+    "french": "tu attends",
+    "shimaore": "wawé ouslindra",
+    "kibouchi": "anaou andigni",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Attendre",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "attends"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ouslindra"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "andigni"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52430",
+    "id": "a5a53954-592b-466f-9b4a-423a00062a08",
+    "type": "conjugated_corrected",
+    "french": "il attend",
+    "shimaore": "wayé aslindra",
+    "kibouchi": "izi andigni",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Attendre",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "attend"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "aslindra"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "andigni"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52433",
+    "id": "39f3add4-79f1-47cc-a14e-d6ed1d2131c3",
+    "type": "conjugated_corrected",
+    "french": "nous attendons",
+    "shimaore": "wasi rislindra",
+    "kibouchi": "zéhèyi andigni",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Attendre",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "attendons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "rislindra"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "andigni"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52436",
+    "id": "7378b1b2-e1f4-4891-be7b-c048fb13ccbe",
+    "type": "conjugated_corrected",
+    "french": "vous attendez",
+    "shimaore": "wagnou mouslindra",
+    "kibouchi": "anaréou andigni",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Attendre",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "attendez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mouslindra"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "andigni"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52439",
+    "id": "d1e636d8-dfd7-4b24-8886-a4915dd5d485",
+    "type": "conjugated_corrected",
+    "french": "ils attendent",
+    "shimaore": "wawo waslindra",
+    "kibouchi": "réou andigni",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Attendre",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "attendent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "waslindra"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "andigni"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5243c",
+    "id": "8458a670-0fb6-4bd4-9584-53e0acc2ada3",
+    "type": "conjugated_corrected",
+    "french": "j'attrape",
+    "shimaore": "wami nisbara",
+    "kibouchi": "zahou issamboutrou",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Attraper",
+    "difficulty": 1,
+    "french_words": [
+      "j'attrape"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisbara"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "issamboutrou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5243f",
+    "id": "d47e1ba2-629c-43a5-a543-0c71c46a7961",
+    "type": "conjugated_corrected",
+    "french": "tu attrapes",
+    "shimaore": "wawé ousbara",
+    "kibouchi": "anaou issamboutrou",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Attraper",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "attrapes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousbara"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "issamboutrou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52442",
+    "id": "50f988c2-d0ac-44a5-9231-1eb58a799197",
+    "type": "conjugated_corrected",
+    "french": "il attrape",
+    "shimaore": "wayé asbara",
+    "kibouchi": "izi issamboutrou",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Attraper",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "attrape"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asbara"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "issamboutrou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52445",
+    "id": "7562057c-3343-4999-b969-e2193b92ac88",
+    "type": "conjugated_corrected",
+    "french": "nous attrapons",
+    "shimaore": "wasi risbara",
+    "kibouchi": "zéhèyi issamboutrou",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Attraper",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "attrapons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risbara"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "issamboutrou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52448",
+    "id": "29a11ba6-cba8-4629-a1bb-a6869b9a9d3f",
+    "type": "conjugated_corrected",
+    "french": "vous attrapez",
+    "shimaore": "wagnou mousbara",
+    "kibouchi": "anaréou issamboutrou",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Attraper",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "attrapez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousbara"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "issamboutrou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5244b",
+    "id": "04c40121-b999-4d28-9d53-b07139f08408",
+    "type": "conjugated_corrected",
+    "french": "ils attrapent",
+    "shimaore": "wawo wasbara",
+    "kibouchi": "réou issamboutrou",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Attraper",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "attrapent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasbara"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "issamboutrou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5244e",
+    "id": "ab5f6d74-1cf7-4fb5-9784-9feea66f70b3",
+    "type": "conjugated_corrected",
+    "french": "j'avertis",
+    "shimaore": "wami nistahadaricha",
+    "kibouchi": "zahou ampahéyi",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Avertir",
+    "difficulty": 1,
+    "french_words": [
+      "j'avertis"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nistahadaricha"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "ampahéyi"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52451",
+    "id": "68ec5527-6687-49ee-bfcc-946b9ce35e63",
+    "type": "conjugated_corrected",
+    "french": "tu avertis",
+    "shimaore": "wawé oustahadaricha",
+    "kibouchi": "anaou ampahéyi",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Avertir",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "avertis"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "oustahadaricha"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "ampahéyi"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52454",
+    "id": "4a8cd89b-e083-4a6f-9f10-d069b722f084",
+    "type": "conjugated_corrected",
+    "french": "il avertit",
+    "shimaore": "wayé astahadaricha",
+    "kibouchi": "izi ampahéyi",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Avertir",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "avertit"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "astahadaricha"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "ampahéyi"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52457",
+    "id": "246148d0-70ce-48d1-86b7-43a9e14b60e6",
+    "type": "conjugated_corrected",
+    "french": "nous avertissons",
+    "shimaore": "wasi ristahadaricha",
+    "kibouchi": "zéhèyi ampahéyi",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Avertir",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "avertissons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "ristahadaricha"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "ampahéyi"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5245a",
+    "id": "2ceea8b1-008c-414e-accb-efe7cb24c537",
+    "type": "conjugated_corrected",
+    "french": "vous avertissez",
+    "shimaore": "wagnou moustahadaricha",
+    "kibouchi": "anaréou ampahéyi",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Avertir",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "avertissez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "moustahadaricha"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "ampahéyi"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5245d",
+    "id": "23cba468-b96a-403b-9987-7cfd2fc0611c",
+    "type": "conjugated_corrected",
+    "french": "ils avertissent",
+    "shimaore": "wawo wastahadaricha",
+    "kibouchi": "réou ampahéyi",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Avertir",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "avertissent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wastahadaricha"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "ampahéyi"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52460",
+    "id": "4e5a33a4-9f33-4f2e-84fe-8feae3b07390",
+    "type": "conjugated_corrected",
+    "french": "je balaye",
+    "shimaore": "wami nishoundza",
+    "kibouchi": "zahou amafa",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Balayer",
+    "difficulty": 1,
+    "french_words": [
+      "je",
+      "balaye"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nishoundza"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "amafa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52463",
+    "id": "2cb6aaeb-a6ba-4730-8683-f70a5fe6800b",
+    "type": "conjugated_corrected",
+    "french": "tu balayes",
+    "shimaore": "wawé oushoundza",
+    "kibouchi": "anaou amafa",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Balayer",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "balayes"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "oushoundza"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "amafa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52466",
+    "id": "7543acb8-62fe-4903-a0f6-ec76b3708d90",
+    "type": "conjugated_corrected",
+    "french": "il balaye",
+    "shimaore": "wayé ashoundza",
+    "kibouchi": "izi amafa",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Balayer",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "balaye"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "ashoundza"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "amafa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52469",
+    "id": "23107d8b-185d-4294-8415-4fecd4e2163c",
+    "type": "conjugated_corrected",
+    "french": "nous balayons",
+    "shimaore": "wasi rishoundza",
+    "kibouchi": "zéhèyi amafa",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Balayer",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "balayons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "rishoundza"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "amafa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5246c",
+    "id": "07b853d3-825e-494e-b092-8ad70e13f426",
+    "type": "conjugated_corrected",
+    "french": "vous balayez",
+    "shimaore": "wagnou moushoundza",
+    "kibouchi": "anaréou amafa",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Balayer",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "balayez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "moushoundza"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "amafa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5246f",
+    "id": "d08b1549-a702-427e-87c5-64759ca2579d",
+    "type": "conjugated_corrected",
+    "french": "ils balayent",
+    "shimaore": "wawo washoundza",
+    "kibouchi": "réou amafa",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Balayer",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "balayent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "washoundza"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "amafa"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52472",
+    "id": "c3b87438-2da7-409b-90f8-1772e51f94d4",
+    "type": "conjugated_corrected",
+    "french": "je bois",
+    "shimaore": "wami nisnoua",
+    "kibouchi": "zahou indranou",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Boire",
+    "difficulty": 1,
+    "french_words": [
+      "je",
+      "bois"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nisnoua"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "indranou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52475",
+    "id": "6fa5a630-d7b1-4d62-92a8-730ed14287d4",
+    "type": "conjugated_corrected",
+    "french": "tu bois",
+    "shimaore": "wawé ousnoua",
+    "kibouchi": "anaou indranou",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Boire",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "bois"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "ousnoua"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "indranou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52478",
+    "id": "2f060ffb-02bb-4be2-a254-dea6c43741ff",
+    "type": "conjugated_corrected",
+    "french": "il boit",
+    "shimaore": "wayé asnoua",
+    "kibouchi": "izi indranou",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Boire",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "boit"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "asnoua"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "indranou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5247b",
+    "id": "2ba1259c-51a4-4685-afe3-508c13e573a4",
+    "type": "conjugated_corrected",
+    "french": "nous buvons",
+    "shimaore": "wasi risnoua",
+    "kibouchi": "zéhèyi indranou",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Boire",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "buvons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "risnoua"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "indranou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5247e",
+    "id": "64245135-066c-4a04-8c2d-9364d9e51fd3",
+    "type": "conjugated_corrected",
+    "french": "vous buvez",
+    "shimaore": "wagnou mousnoua",
+    "kibouchi": "anaréou indranou",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Boire",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "buvez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "mousnoua"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "indranou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52481",
+    "id": "8213d59f-0cf5-41fe-af52-ed18ced7c980",
+    "type": "conjugated_corrected",
+    "french": "ils boivent",
+    "shimaore": "wawo wasnoua",
+    "kibouchi": "réou indranou",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Boire",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "boivent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wasnoua"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "indranou"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52484",
+    "id": "c7530e19-7ec1-4abd-8ca1-f42a6398b8e0",
+    "type": "conjugated_corrected",
+    "french": "je bouge",
+    "shimaore": "wami nistsenguéléya",
+    "kibouchi": "zahou itéki",
+    "tense": "present",
+    "subject": "je",
+    "verb_infinitive_fr": "Bouger",
+    "difficulty": 1,
+    "french_words": [
+      "je",
+      "bouge"
+    ],
+    "shimaore_words": [
+      "wami",
+      "nistsenguéléya"
+    ],
+    "kibouchi_words": [
+      "zahou",
+      "itéki"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52487",
+    "id": "730693c3-3624-420a-9285-c0ee4440dd72",
+    "type": "conjugated_corrected",
+    "french": "tu bouges",
+    "shimaore": "wawé oustsenguéléya",
+    "kibouchi": "anaou itéki",
+    "tense": "present",
+    "subject": "tu",
+    "verb_infinitive_fr": "Bouger",
+    "difficulty": 1,
+    "french_words": [
+      "tu",
+      "bouges"
+    ],
+    "shimaore_words": [
+      "wawé",
+      "oustsenguéléya"
+    ],
+    "kibouchi_words": [
+      "anaou",
+      "itéki"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5248a",
+    "id": "b17ad9f9-c405-450d-9a74-e2798e9d7336",
+    "type": "conjugated_corrected",
+    "french": "il bouge",
+    "shimaore": "wayé astsenguéléya",
+    "kibouchi": "izi itéki",
+    "tense": "present",
+    "subject": "il",
+    "verb_infinitive_fr": "Bouger",
+    "difficulty": 1,
+    "french_words": [
+      "il",
+      "bouge"
+    ],
+    "shimaore_words": [
+      "wayé",
+      "astsenguéléya"
+    ],
+    "kibouchi_words": [
+      "izi",
+      "itéki"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d5248d",
+    "id": "ecf5fcdf-bb19-4a17-b98a-68915f968dd4",
+    "type": "conjugated_corrected",
+    "french": "nous bougeons",
+    "shimaore": "wasi ristsenguéléya",
+    "kibouchi": "zéhèyi itéki",
+    "tense": "present",
+    "subject": "nous",
+    "verb_infinitive_fr": "Bouger",
+    "difficulty": 1,
+    "french_words": [
+      "nous",
+      "bougeons"
+    ],
+    "shimaore_words": [
+      "wasi",
+      "ristsenguéléya"
+    ],
+    "kibouchi_words": [
+      "zéhèyi",
+      "itéki"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52490",
+    "id": "269ffedb-76f6-416d-929a-b666f368aaf1",
+    "type": "conjugated_corrected",
+    "french": "vous bougez",
+    "shimaore": "wagnou moustsenguéléya",
+    "kibouchi": "anaréou itéki",
+    "tense": "present",
+    "subject": "vous",
+    "verb_infinitive_fr": "Bouger",
+    "difficulty": 1,
+    "french_words": [
+      "vous",
+      "bougez"
+    ],
+    "shimaore_words": [
+      "wagnou",
+      "moustsenguéléya"
+    ],
+    "kibouchi_words": [
+      "anaréou",
+      "itéki"
+    ]
+  },
+  {
+    "_id": "68de375f0fe3734a45d52493",
+    "id": "717e65cf-9e57-4b2c-bcfe-56b2787a0915",
+    "type": "conjugated_corrected",
+    "french": "ils bougent",
+    "shimaore": "wawo wastsenguéléya",
+    "kibouchi": "réou itéki",
+    "tense": "present",
+    "subject": "ils",
+    "verb_infinitive_fr": "Bouger",
+    "difficulty": 1,
+    "french_words": [
+      "ils",
+      "bougent"
+    ],
+    "shimaore_words": [
+      "wawo",
+      "wastsenguéléya"
+    ],
+    "kibouchi_words": [
+      "réou",
+      "itéki"
+    ]
+  }
+]
