@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "name": "kwezi",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "EXPO_PUBLIC_BACKEND_URL": "https://langapp-debug.preview.emergentagent.com"
+  }
+}
