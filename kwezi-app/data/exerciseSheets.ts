@@ -185,7 +185,7 @@ export const EXERCISE_SHEETS: ExerciseSheet[] = [
     ageRange: '4-7 ans',
   },
   {
-    id: 'sheet_8',
+    id: 'sheet_15',
     title: 'Alphabet Animaux - Série Complète 1',
     description: 'Collection complète de l\'alphabet des animaux - Partie 1',
     category: 'animaux',
@@ -197,7 +197,7 @@ export const EXERCISE_SHEETS: ExerciseSheet[] = [
     ageRange: '4-7 ans',
   },
   {
-    id: 'sheet_9',
+    id: 'sheet_16',
     title: 'Alphabet Animaux - Série Complète 2',
     description: 'Collection complète de l\'alphabet des animaux - Partie 2',
     category: 'animaux',
