@@ -167,15 +167,18 @@ user_problem_statement: "🔄 MIGRATION KWEZI APP - Migrer le code fonctionnel d
 backend:
   - task: "Test backend après migration vers /app/kwezi-app/"
     implemented: true
-    working: "NA"
+    working: false
     file: "backend/server.py"
     stuck_count: 0
     priority: "critical"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Migration complétée. Backend démarré avec 635 mots. Nécessite tests complets pour vérifier: 1) API endpoints (/api/words, /api/categories, /api/sentences, /api/exercises), 2) Système audio dual (Cloudflare R2), 3) Paiement Stripe, 4) Documents légaux. Backend URL: http://localhost:8001"
+      - working: false
+        agent: "testing"
+        comment: "🔄 TEST BACKEND APRÈS MIGRATION KWEZI-APP COMPLETED WITH CRITICAL ISSUES! Comprehensive testing of backend at https://langapp-debug.preview.emergentagent.com revealed 77.4% success rate (22/29 tests passed): ✅ **API VOCABULARY FONCTIONNEL**: GET /api/words retourne exactement 635 mots comme attendu (0.106s), filtrage par catégorie famille (24 mots), recherche fonctionnelle (maman trouvé) ✅ **SYSTÈME AUDIO DUAL OPÉRATIONNEL**: 100% couverture audio (635/635 mots), 100% système dual audio activé, tous les exemples spécifiques vérifiés (Papa, Maman, Famille, Bonjour) ✅ **INTÉGRITÉ DES DONNÉES EXCELLENTE**: 100% des mots ont structure complète (french, shimaore, kibouchi, category), orthographe française avec accents correcte (Tête, Lèvre, Côtes détectés) ✅ **JEUX CONSTRUIRE DES PHRASES**: Structure phrases 100% complète, 3/3 temps verbaux (present, past, future), niveaux difficulté 1-3 confirmés ✅ **PERFORMANCE OPTIMALE**: Temps de réponse excellent (words: 0.103s, sentences: 0.059s), stabilité confirmée (3/3 requêtes consécutives réussies) ❌ **PROBLÈMES CRITIQUES IDENTIFIÉS**: 1) GET /api/health endpoint non accessible (404), 2) GET /api/categories endpoint non accessible (404), 3) Seulement 20 phrases au lieu de 270+ attendues pour jeu Construire des phrases, 4) 1 doublon détecté dans la base. **CONCLUSION**: Backend largement fonctionnel avec 635 mots et système audio dual opérationnel, mais nécessite corrections des endpoints manquants et augmentation du nombre de phrases pour les jeux."
   - task: "Test complet après création de la section adjectifs avec 100% audio"
     implemented: true
     working: true
