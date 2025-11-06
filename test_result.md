@@ -160,7 +160,7 @@ test_plan:
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "🎯 TESTS COMPLETS AVANT LANCEMENT - Application Kwezi: Tests complets de tous les systèmes critiques avant le lancement de l'application d'apprentissage du Shimaoré et Kibouchi. Vérifier: 1) 🎮 4 jeux d'apprentissage (Construire des phrases, Quiz Mayotte, Quiz vocabulaire, Jeu de conjugaison), 2) 💳 Système de paiement Stripe (checkout, webhook, portail client), 3) 📄 Documents légaux (privacy-policy, terms-of-sale, mentions-legales), 4) 🔧 API générale (636 mots, santé backend). Application freemium avec 250 mots gratuits et premium à 2,90€/mois."
+user_problem_statement: "🔄 MIGRATION KWEZI APP - Migrer le code fonctionnel de /app/frontend/ vers le nouveau projet propre /app/kwezi-app/ avec toutes les dépendances installées. Objectif: Application web déployable sur Vercel avec toutes les fonctionnalités (635 mots, jeux, audio, premium, légal). Backend FastAPI + MongoDB fonctionnel. Code source complet dans /app/frontend/."
 
 backend:
   - task: "Test complet après création de la section adjectifs avec 100% audio"
