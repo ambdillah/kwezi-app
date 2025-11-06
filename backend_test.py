@@ -10,8 +10,8 @@ import sys
 import time
 from typing import Dict, List, Optional
 
-# Configuration
-BACKEND_URL = "https://kwezi-backend.onrender.com"
+# Configuration - Updated for migration testing
+BACKEND_URL = "https://langapp-debug.preview.emergentagent.com"
 API_URL = f"{BACKEND_URL}/api"
 TIMEOUT = 10
 
