@@ -50,7 +50,7 @@ echo "💾 Taille totale de l'archive :"
 du -h /app/deploiement_kwezi.tar.gz
 echo ""
 echo "📥 Pour télécharger :"
-echo "  1. Allez sur https://mayotte-learn-4.preview.emergentagent.com/"
+echo "  1. Allez sur https://langapp-debug.preview.emergentagent.com/"
 echo "  2. Ouvrez la console développeur (F12)"
 echo "  3. Entrez cette commande :"
 echo "     fetch('/app/deploiement_kwezi.tar.gz').then(r => r.blob()).then(b => {"

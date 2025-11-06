@@ -4,7 +4,7 @@ module.exports = {
   allowedOrigins: [
     'https://app.emergent.sh',
     'https://emergent.sh',
-    'https://mayotte-learn-4.preview.emergentagent.com',
+    'https://langapp-debug.preview.emergentagent.com',
     'http://localhost:3000',
     'http://localhost:19006',
   ],

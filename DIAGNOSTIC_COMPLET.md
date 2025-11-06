@@ -26,7 +26,7 @@
 ```bash
 # frontend/.env
 EXPO_PUBLIC_BACKEND_URL=https://kwezi-backend.onrender.com
-# ✅ Avant: https://mayotte-learn-4.preview.emergentagent.com
+# ✅ Avant: https://langapp-debug.preview.emergentagent.com
 ```
 **Test**: 
 ```bash

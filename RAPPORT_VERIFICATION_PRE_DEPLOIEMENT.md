@@ -256,8 +256,8 @@ Tous les fichiers audio des verbes critiques sont **présents et accessibles** :
 
 ```bash
 ✅ EXPO_TUNNEL_SUBDOMAIN=kwezi-edu
-✅ EXPO_PACKAGER_HOSTNAME=https://mayotte-learn-4.preview.emergentagent.com
-✅ EXPO_PUBLIC_BACKEND_URL=https://mayotte-learn-4.preview.emergentagent.com
+✅ EXPO_PACKAGER_HOSTNAME=https://langapp-debug.preview.emergentagent.com
+✅ EXPO_PUBLIC_BACKEND_URL=https://langapp-debug.preview.emergentagent.com
 ```
 
 **URLs correctement configurées** ✅

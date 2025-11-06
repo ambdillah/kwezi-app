@@ -123,8 +123,8 @@ Distribution:
 - ✅ STRIPE_PRICE_ID_PREMIUM configuré
 
 **Frontend (.env):**
-- ✅ EXPO_PACKAGER_HOSTNAME: `https://mayotte-learn-4.preview.emergentagent.com`
-- ✅ EXPO_PUBLIC_BACKEND_URL: `https://mayotte-learn-4.preview.emergentagent.com`
+- ✅ EXPO_PACKAGER_HOSTNAME: `https://langapp-debug.preview.emergentagent.com`
+- ✅ EXPO_PUBLIC_BACKEND_URL: `https://langapp-debug.preview.emergentagent.com`
 
 #### Services
 ```
